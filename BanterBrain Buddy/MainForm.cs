@@ -1,12 +1,11 @@
-﻿using System;
+﻿using NAudio.CoreAudioApi;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Speech.Recognition;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using NAudio.CoreAudioApi;
 
 namespace BanterBrain_Buddy
 {
@@ -23,7 +22,7 @@ namespace BanterBrain_Buddy
 
             //default mic
             var defaultInputDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Multimedia);
-            
+
             //Show the list of possible inputs, with * is the currently default/active one
             var devices = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active);
             foreach (var device in devices)
@@ -31,7 +30,8 @@ namespace BanterBrain_Buddy
                 {
                     SoundInputDevices.Items.Add(device.FriendlyName + "*");
                     SoundInputDevices.Text = device.FriendlyName;
-                } else
+                }
+                else
                     SoundInputDevices.Items.Add(device.FriendlyName);
         }
 
@@ -84,7 +84,7 @@ namespace BanterBrain_Buddy
                 STTTestButton.Text = "Recording";
                 String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
                 Console.WriteLine(SelectedProvider);
-            
+
                 if (SelectedProvider == "Native")
                 {
                     Console.WriteLine("Native STT calling");
@@ -111,16 +111,18 @@ namespace BanterBrain_Buddy
                 STTAPIKeyEditbox.Enabled = false;
                 STTRegionEditbox.Enabled = false;
                 //grey out region and api key
-            } else if (SelectedProvider == "Azure")
+            }
+            else if (SelectedProvider == "Azure")
             {
                 Console.WriteLine("Azure");
-            } else if (SelectedProvider == "Google")
+            }
+            else if (SelectedProvider == "Google")
             {
                 Console.WriteLine("Google");
             }
         }
 
-        async void STTNative()
+        private async void STTNative()
         {
             Console.WriteLine("STTNative called");
             // Create an in-process speech recognizer for the en-US locale.  
@@ -132,7 +134,7 @@ namespace BanterBrain_Buddy
             recognizer.SpeechRecognized +=
               new EventHandler<SpeechRecognizedEventArgs>(SpeechRecognized);
 
-            recognizer.SpeechDetected += 
+            recognizer.SpeechDetected +=
                 new EventHandler<SpeechDetectedEventArgs>(SpeechDetectedHandler);
 
             recognizer.SpeechHypothesized +=
@@ -144,6 +146,7 @@ namespace BanterBrain_Buddy
             // Configure input to the speech recognizer.  
             //TODO: use the selected audio device, not default
             recognizer.SetInputToDefaultAudioDevice();
+
 
             // Modify the initial silence time-out value.  
             // Start synchronous speech recognition.
@@ -160,7 +163,7 @@ namespace BanterBrain_Buddy
         }
 
         // Handle the SpeechHypothesized event.  
-        static void SpeechHypothesizedHandler(
+        private static void SpeechHypothesizedHandler(
           object sender, SpeechHypothesizedEventArgs e)
         {
             Console.WriteLine(" In SpeechHypothesizedHandler:");
@@ -180,53 +183,28 @@ namespace BanterBrain_Buddy
               grammarName, resultText);
         }
 
-        static void RecognizeCompletedHandler(object sender, RecognizeCompletedEventArgs e)
+        private  static void RecognizeCompletedHandler(object sender, RecognizeCompletedEventArgs e)
         {
             Console.WriteLine("Recognize Completed");
         }
 
-            static void SpeechDetectedHandler(object sender, SpeechDetectedEventArgs e)
+        private static void SpeechDetectedHandler(object sender, SpeechDetectedEventArgs e)
         {
             Console.WriteLine(" In SpeechDetectedHa ndler:");
             Console.WriteLine(" - AudioPosition = {0}", e.AudioPosition);
         }
-        
+
         // Handle the SpeechRecognized event.  
-        void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             Console.WriteLine("Recognized text: " + e.Result.Text);
             STTTestOutput.AppendText(e.Result.Text);
         }
 
-    }
-        public class DirectSoundDevices
-    {
-        [DllImport("dsound.dll", CharSet = CharSet.Ansi)]
-        static extern void DirectSoundCaptureEnumerate(DSEnumCallback callback, IntPtr context);
-        delegate bool DSEnumCallback([MarshalAs(UnmanagedType.LPStruct)] Guid guid,
-            string description, string module, IntPtr lpContext);
-        static bool EnumCallback(Guid guid, string description, string module, IntPtr context)
+        private void label3_Click(object sender, EventArgs e)
         {
-            if (guid != Guid.Empty)
-                captureDevices.Add(new DirectSoundDeviceInfo(guid, description, module));
-            return true;
-        }
-        private static List<DirectSoundDeviceInfo> captureDevices;
-        public static IEnumerable<DirectSoundDeviceInfo> GetCaptureDevices()
-        {
-            captureDevices = new List<DirectSoundDeviceInfo>();
-            DirectSoundCaptureEnumerate(new DSEnumCallback(EnumCallback), IntPtr.Zero);
-            return captureDevices;
-        }
-    }
-    public class DirectSoundDeviceInfo
-    {
-        public DirectSoundDeviceInfo(Guid guid, string description, string module)
-        { Guid = guid; Description = description; Module = module; }
-        public Guid Guid { get; }
-        public string Description { get; }
-        public string Module { get; }
-    }
 
+        }
+    }
 
 }

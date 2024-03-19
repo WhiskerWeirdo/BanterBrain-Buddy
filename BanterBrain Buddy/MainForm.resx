@@ -526,7 +526,7 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;textBox2.Parent" xml:space="preserve">
-    <value>GPTTab</value>
+    <value>LLMTab</value>
   </data>
   <data name="&gt;&gt;textBox2.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -553,7 +553,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>GPTTab</value>
+    <value>LLMTab</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -577,7 +577,7 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;textBox1.Parent" xml:space="preserve">
-    <value>GPTTab</value>
+    <value>LLMTab</value>
   </data>
   <data name="&gt;&gt;textBox1.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -601,7 +601,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;GPTTestButton.Parent" xml:space="preserve">
-    <value>GPTTab</value>
+    <value>LLMTab</value>
   </data>
   <data name="&gt;&gt;GPTTestButton.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -625,7 +625,7 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;GPTAPIKeyTextBox.Parent" xml:space="preserve">
-    <value>GPTTab</value>
+    <value>LLMTab</value>
   </data>
   <data name="&gt;&gt;GPTAPIKeyTextBox.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -652,16 +652,16 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;GPTAPIKeyLabel.Parent" xml:space="preserve">
-    <value>GPTTab</value>
+    <value>LLMTab</value>
   </data>
   <data name="&gt;&gt;GPTAPIKeyLabel.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
   <data name="GPTProviderComboBox.Items" xml:space="preserve">
-    <value>GPT4All (Local)</value>
+    <value>OpenAI ChatGPT</value>
   </data>
   <data name="GPTProviderComboBox.Items1" xml:space="preserve">
-    <value>OpenAI ChatGPT</value>
+    <value>GPT4All (Local)</value>
   </data>
   <data name="GPTProviderComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>133, 16</value>
@@ -672,6 +672,9 @@
   <data name="GPTProviderComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
+  <data name="GPTProviderComboBox.Text" xml:space="preserve">
+    <value>OpenAI ChatGPT</value>
+  </data>
   <data name="&gt;&gt;GPTProviderComboBox.Name" xml:space="preserve">
     <value>GPTProviderComboBox</value>
   </data>
@@ -679,7 +682,7 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;GPTProviderComboBox.Parent" xml:space="preserve">
-    <value>GPTTab</value>
+    <value>LLMTab</value>
   </data>
   <data name="&gt;&gt;GPTProviderComboBox.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -691,13 +694,13 @@
     <value>8, 19</value>
   </data>
   <data name="GPTProviderLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 13</value>
+    <value>70, 13</value>
   </data>
   <data name="GPTProviderLabel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="GPTProviderLabel.Text" xml:space="preserve">
-    <value>GPT Provider</value>
+    <value>LLM Provider</value>
   </data>
   <data name="&gt;&gt;GPTProviderLabel.Name" xml:space="preserve">
     <value>GPTProviderLabel</value>
@@ -706,37 +709,184 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;GPTProviderLabel.Parent" xml:space="preserve">
-    <value>GPTTab</value>
+    <value>LLMTab</value>
   </data>
   <data name="&gt;&gt;GPTProviderLabel.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="GPTTab.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="LLMTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
   </data>
-  <data name="GPTTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="LLMTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
-  <data name="GPTTab.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="LLMTab.Size" type="System.Drawing.Size, System.Drawing">
     <value>563, 167</value>
   </data>
-  <data name="GPTTab.TabIndex" type="System.Int32, mscorlib">
+  <data name="LLMTab.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="GPTTab.Text" xml:space="preserve">
-    <value>GPT</value>
+  <data name="LLMTab.Text" xml:space="preserve">
+    <value>LLM</value>
   </data>
-  <data name="&gt;&gt;GPTTab.Name" xml:space="preserve">
-    <value>GPTTab</value>
+  <data name="&gt;&gt;LLMTab.Name" xml:space="preserve">
+    <value>LLMTab</value>
   </data>
-  <data name="&gt;&gt;GPTTab.Type" xml:space="preserve">
+  <data name="&gt;&gt;LLMTab.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GPTTab.Parent" xml:space="preserve">
+  <data name="&gt;&gt;LLMTab.Parent" xml:space="preserve">
     <value>SettingsTabs</value>
   </data>
-  <data name="&gt;&gt;GPTTab.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;LLMTab.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="comboBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>141, 112</value>
+  </data>
+  <data name="comboBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 21</value>
+  </data>
+  <data name="comboBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;comboBox2.Name" xml:space="preserve">
+    <value>comboBox2</value>
+  </data>
+  <data name="&gt;&gt;comboBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox2.Parent" xml:space="preserve">
+    <value>TTSTab</value>
+  </data>
+  <data name="&gt;&gt;comboBox2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 115</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Output Voice Options</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>TTSTab</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="comboBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>141, 79</value>
+  </data>
+  <data name="comboBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 21</value>
+  </data>
+  <data name="comboBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.Name" xml:space="preserve">
+    <value>comboBox1</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.Parent" xml:space="preserve">
+    <value>TTSTab</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 79</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Output Voice</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>TTSTab</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="TTSTestTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>362, 61</value>
+  </data>
+  <data name="TTSTestTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TTSTestTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>184, 103</value>
+  </data>
+  <data name="TTSTestTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="TTSTestTextBox.Text" xml:space="preserve">
+    <value>This is a test 123</value>
+  </data>
+  <data name="&gt;&gt;TTSTestTextBox.Name" xml:space="preserve">
+    <value>TTSTestTextBox</value>
+  </data>
+  <data name="&gt;&gt;TTSTestTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TTSTestTextBox.Parent" xml:space="preserve">
+    <value>TTSTab</value>
+  </data>
+  <data name="&gt;&gt;TTSTestTextBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>362, 17</value>
+  </data>
+  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="button1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>TTSTestButton</value>
+  </data>
+  <data name="&gt;&gt;button1.Name" xml:space="preserve">
+    <value>button1</value>
+  </data>
+  <data name="&gt;&gt;button1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
+    <value>TTSTab</value>
+  </data>
+  <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="TTSAudioOutputComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>141, 47</value>
@@ -757,7 +907,16 @@
     <value>TTSTab</value>
   </data>
   <data name="&gt;&gt;TTSAudioOutputComboBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>6</value>
+  </data>
+  <data name="TTSProviderComboBox.Items" xml:space="preserve">
+    <value>Native</value>
+  </data>
+  <data name="TTSProviderComboBox.Items1" xml:space="preserve">
+    <value>Azure</value>
+  </data>
+  <data name="TTSProviderComboBox.Items2" xml:space="preserve">
+    <value>Google</value>
   </data>
   <data name="TTSProviderComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>141, 14</value>
@@ -778,7 +937,7 @@
     <value>TTSTab</value>
   </data>
   <data name="&gt;&gt;TTSProviderComboBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>7</value>
   </data>
   <data name="TTSAudioOutputLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -805,7 +964,7 @@
     <value>TTSTab</value>
   </data>
   <data name="&gt;&gt;TTSAudioOutputLabel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>8</value>
   </data>
   <data name="TTSProviderLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -832,7 +991,7 @@
     <value>TTSTab</value>
   </data>
   <data name="&gt;&gt;TTSProviderLabel.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>9</value>
   </data>
   <data name="TTSTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>

@@ -47,7 +47,7 @@ namespace BanterBrain_Buddy
             this.STTTestButton = new System.Windows.Forms.Button();
             this.STTProviderLabel = new System.Windows.Forms.Label();
             this.STTProviderBox = new System.Windows.Forms.ComboBox();
-            this.GPTTab = new System.Windows.Forms.TabPage();
+            this.LLMTab = new System.Windows.Forms.TabPage();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -72,10 +72,16 @@ namespace BanterBrain_Buddy
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.TTSTestTextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.SettingsTabs.SuspendLayout();
             this.VoiceTab.SuspendLayout();
             this.SSTTab.SuspendLayout();
-            this.GPTTab.SuspendLayout();
+            this.LLMTab.SuspendLayout();
             this.TTSTab.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -86,7 +92,7 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.SettingsTabs, "SettingsTabs");
             this.SettingsTabs.Controls.Add(this.VoiceTab);
             this.SettingsTabs.Controls.Add(this.SSTTab);
-            this.SettingsTabs.Controls.Add(this.GPTTab);
+            this.SettingsTabs.Controls.Add(this.LLMTab);
             this.SettingsTabs.Controls.Add(this.TTSTab);
             this.SettingsTabs.Controls.Add(this.TwitchTab);
             this.SettingsTabs.Controls.Add(this.YoutubeTab);
@@ -201,20 +207,20 @@ namespace BanterBrain_Buddy
             this.STTProviderBox.Name = "STTProviderBox";
             this.STTProviderBox.SelectedIndexChanged += new System.EventHandler(this.SSTProviderBox_SelectedIndexChanged);
             // 
-            // GPTTab
+            // LLMTab
             // 
-            this.GPTTab.Controls.Add(this.textBox2);
-            this.GPTTab.Controls.Add(this.label1);
-            this.GPTTab.Controls.Add(this.textBox1);
-            this.GPTTab.Controls.Add(this.GPTTestButton);
-            this.GPTTab.Controls.Add(this.GPTAPIKeyTextBox);
-            this.GPTTab.Controls.Add(this.GPTAPIKeyLabel);
-            this.GPTTab.Controls.Add(this.GPTProviderComboBox);
-            this.GPTTab.Controls.Add(this.GPTProviderLabel);
-            resources.ApplyResources(this.GPTTab, "GPTTab");
-            this.GPTTab.Name = "GPTTab";
-            this.GPTTab.UseVisualStyleBackColor = true;
-            this.GPTTab.Click += new System.EventHandler(this.tabPage3_Click);
+            this.LLMTab.Controls.Add(this.textBox2);
+            this.LLMTab.Controls.Add(this.label1);
+            this.LLMTab.Controls.Add(this.textBox1);
+            this.LLMTab.Controls.Add(this.GPTTestButton);
+            this.LLMTab.Controls.Add(this.GPTAPIKeyTextBox);
+            this.LLMTab.Controls.Add(this.GPTAPIKeyLabel);
+            this.LLMTab.Controls.Add(this.GPTProviderComboBox);
+            this.LLMTab.Controls.Add(this.GPTProviderLabel);
+            resources.ApplyResources(this.LLMTab, "LLMTab");
+            this.LLMTab.Name = "LLMTab";
+            this.LLMTab.UseVisualStyleBackColor = true;
+            this.LLMTab.Click += new System.EventHandler(this.tabPage3_Click);
             // 
             // textBox2
             // 
@@ -264,6 +270,12 @@ namespace BanterBrain_Buddy
             // 
             // TTSTab
             // 
+            this.TTSTab.Controls.Add(this.comboBox2);
+            this.TTSTab.Controls.Add(this.label3);
+            this.TTSTab.Controls.Add(this.comboBox1);
+            this.TTSTab.Controls.Add(this.label2);
+            this.TTSTab.Controls.Add(this.TTSTestTextBox);
+            this.TTSTab.Controls.Add(this.button1);
             this.TTSTab.Controls.Add(this.TTSAudioOutputComboBox);
             this.TTSTab.Controls.Add(this.TTSProviderComboBox);
             this.TTSTab.Controls.Add(this.TTSAudioOutputLabel);
@@ -281,6 +293,10 @@ namespace BanterBrain_Buddy
             // TTSProviderComboBox
             // 
             this.TTSProviderComboBox.FormattingEnabled = true;
+            this.TTSProviderComboBox.Items.AddRange(new object[] {
+            resources.GetString("TTSProviderComboBox.Items"),
+            resources.GetString("TTSProviderComboBox.Items1"),
+            resources.GetString("TTSProviderComboBox.Items2")});
             resources.ApplyResources(this.TTSProviderComboBox, "TTSProviderComboBox");
             this.TTSProviderComboBox.Name = "TTSProviderComboBox";
             // 
@@ -364,6 +380,41 @@ namespace BanterBrain_Buddy
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             // 
+            // button1
+            // 
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // TTSTestTextBox
+            // 
+            resources.ApplyResources(this.TTSTestTextBox, "TTSTestTextBox");
+            this.TTSTestTextBox.Name = "TTSTestTextBox";
+            this.TTSTestTextBox.ReadOnly = true;
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            resources.ApplyResources(this.comboBox1, "comboBox1");
+            this.comboBox1.Name = "comboBox1";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            resources.ApplyResources(this.comboBox2, "comboBox2");
+            this.comboBox2.Name = "comboBox2";
+            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -381,8 +432,8 @@ namespace BanterBrain_Buddy
             this.VoiceTab.PerformLayout();
             this.SSTTab.ResumeLayout(false);
             this.SSTTab.PerformLayout();
-            this.GPTTab.ResumeLayout(false);
-            this.GPTTab.PerformLayout();
+            this.LLMTab.ResumeLayout(false);
+            this.LLMTab.PerformLayout();
             this.TTSTab.ResumeLayout(false);
             this.TTSTab.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -405,7 +456,7 @@ namespace BanterBrain_Buddy
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private TabPage GPTTab;
+        private TabPage LLMTab;
         private TabPage TTSTab;
         private TabPage TwitchTab;
         private Label MicroPhoneHotkeyLabel;
@@ -437,6 +488,12 @@ namespace BanterBrain_Buddy
         private TextBox textBox2;
         private Label label1;
         private TextBox textBox1;
+        private TextBox TTSTestTextBox;
+        private Button button1;
+        private Label label3;
+        private ComboBox comboBox1;
+        private Label label2;
+        private ComboBox comboBox2;
     }
 }
 

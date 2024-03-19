@@ -9,6 +9,8 @@
 *.user
 *.userosscache
 *.sln.docstates
+#we will store our various API keys here
+settings.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
