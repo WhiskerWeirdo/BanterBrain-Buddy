@@ -29,19 +29,19 @@ For the streaming side of things, integration with Twitch to respond to chat com
 - [x] Show example of Native STT
 
 ### LLM
-- [ ] Enable use of ChatGPT with API key
-- [ ] Show example of text based ChatGPT response
-- [ ] Show example of STT to ChatGPT
-- [ ] Set mood (prefix text) for LLM
+- [X] Enable use of ChatGPT with API key
+- [X] Show example of text based ChatGPT response
+- [X] Show example of STT to ChatGPT
+- [X] Set mood (prefix text) for LLM
 
 ### Text-to-Speech
-- [ ] Enable Native TTS
-- [ ] Show example of Native TTS
-- [ ] Audio example of ChatGPT to TTS
+- [X] Enable Native TTS
+- [X] Audio example of Native TTS
+- [X] Audio example of ChatGPT to TTS
 
 ### Main program
 
-- [ ] Full run from Native STT to ChatGPT to Native TTS
+- [X] Full run from Native STT to ChatGPT to Native TTS
  
 ## Broad roadmap items
 - [ ] Store and read setings file & API keys
@@ -53,6 +53,7 @@ For the streaming side of things, integration with Twitch to respond to chat com
 - [ ] Deepgram STT API
 - [ ] Azure API for STT and TTS
 - [ ] Google API for STT and TTS
+- [ ] OpenAI Whisper for STT and TTS
 - [ ] Link to Twitch to respond to chat
 - [ ] Link to Youtube to respond to chat
 - [ ] Link to OBS

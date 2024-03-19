@@ -11,6 +11,7 @@
 *.sln.docstates
 #we will store our various API keys here
 settings.json
+BanterBrain Buddy_3_TemporaryKey.pfx
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

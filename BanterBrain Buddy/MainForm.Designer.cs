@@ -31,39 +31,6 @@ namespace BanterBrain_Buddy
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BBB));
-            this.SettingsTabs = new System.Windows.Forms.TabControl();
-            this.VoiceTab = new System.Windows.Forms.TabPage();
-            this.MicroPhoneHotkeyLabel = new System.Windows.Forms.Label();
-            this.MicrophoneHotkeyEditbox = new System.Windows.Forms.TextBox();
-            this.VoiceInputLabel = new System.Windows.Forms.Label();
-            this.SoundInputDevices = new System.Windows.Forms.ComboBox();
-            this.MicrophoneHotkeySet = new System.Windows.Forms.Button();
-            this.SSTTab = new System.Windows.Forms.TabPage();
-            this.STTTestOutput = new System.Windows.Forms.TextBox();
-            this.STTRegionEditbox = new System.Windows.Forms.TextBox();
-            this.STTRegionLabel = new System.Windows.Forms.Label();
-            this.STTAPIKeyLabel = new System.Windows.Forms.Label();
-            this.STTAPIKeyEditbox = new System.Windows.Forms.TextBox();
-            this.STTTestButton = new System.Windows.Forms.Button();
-            this.STTProviderLabel = new System.Windows.Forms.Label();
-            this.STTProviderBox = new System.Windows.Forms.ComboBox();
-            this.LLMTab = new System.Windows.Forms.TabPage();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.GPTTestButton = new System.Windows.Forms.Button();
-            this.GPTAPIKeyTextBox = new System.Windows.Forms.TextBox();
-            this.GPTAPIKeyLabel = new System.Windows.Forms.Label();
-            this.GPTProviderComboBox = new System.Windows.Forms.ComboBox();
-            this.GPTProviderLabel = new System.Windows.Forms.Label();
-            this.TTSTab = new System.Windows.Forms.TabPage();
-            this.TTSAudioOutputComboBox = new System.Windows.Forms.ComboBox();
-            this.TTSProviderComboBox = new System.Windows.Forms.ComboBox();
-            this.TTSAudioOutputLabel = new System.Windows.Forms.Label();
-            this.TTSProviderLabel = new System.Windows.Forms.Label();
-            this.TwitchTab = new System.Windows.Forms.TabPage();
-            this.YoutubeTab = new System.Windows.Forms.TabPage();
-            this.Live2DTab = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,262 +39,59 @@ namespace BanterBrain_Buddy
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.TTSTestTextBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.SettingsTab = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.MicroPhoneHotkeyLabel = new System.Windows.Forms.Label();
+            this.MicrophoneHotkeyEditbox = new System.Windows.Forms.TextBox();
+            this.VoiceInputLabel = new System.Windows.Forms.Label();
+            this.SoundInputDevices = new System.Windows.Forms.ComboBox();
+            this.MicrophoneHotkeySet = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.SettingsTabs.SuspendLayout();
-            this.VoiceTab.SuspendLayout();
-            this.SSTTab.SuspendLayout();
-            this.LLMTab.SuspendLayout();
-            this.TTSTab.SuspendLayout();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.TTSTestTextBox = new System.Windows.Forms.TextBox();
+            this.TTSTestButton = new System.Windows.Forms.Button();
+            this.TTSAudioOutputComboBox = new System.Windows.Forms.ComboBox();
+            this.TTSProviderComboBox = new System.Windows.Forms.ComboBox();
+            this.TTSAudioOutputLabel = new System.Windows.Forms.Label();
+            this.TTSProviderLabel = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.LLMModelComboBox = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.LLMTestOutputbox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.LLMRoleTextBox = new System.Windows.Forms.TextBox();
+            this.GPTTestButton = new System.Windows.Forms.Button();
+            this.GPTAPIKeyTextBox = new System.Windows.Forms.TextBox();
+            this.GPTAPIKeyLabel = new System.Windows.Forms.Label();
+            this.GPTProviderComboBox = new System.Windows.Forms.ComboBox();
+            this.GPTProviderLabel = new System.Windows.Forms.Label();
+            this.STTGroupBox = new System.Windows.Forms.GroupBox();
+            this.STTRegionEditbox = new System.Windows.Forms.TextBox();
+            this.STTRegionLabel = new System.Windows.Forms.Label();
+            this.STTAPIKeyLabel = new System.Windows.Forms.Label();
+            this.STTAPIKeyEditbox = new System.Windows.Forms.TextBox();
+            this.STTTestButton = new System.Windows.Forms.Button();
+            this.STTProviderLabel = new System.Windows.Forms.Label();
+            this.STTProviderBox = new System.Windows.Forms.ComboBox();
+            this.STTTestOutput = new System.Windows.Forms.TextBox();
+            this.MainTab = new System.Windows.Forms.TabPage();
+            this.TextLog = new System.Windows.Forms.TextBox();
+            this.ProgramFlowTest = new System.Windows.Forms.Button();
+            this.BBBTabs = new System.Windows.Forms.TabControl();
+            this.STTHintText = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.SettingsTab.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.STTGroupBox.SuspendLayout();
+            this.MainTab.SuspendLayout();
+            this.BBBTabs.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // SettingsTabs
-            // 
-            resources.ApplyResources(this.SettingsTabs, "SettingsTabs");
-            this.SettingsTabs.Controls.Add(this.VoiceTab);
-            this.SettingsTabs.Controls.Add(this.SSTTab);
-            this.SettingsTabs.Controls.Add(this.LLMTab);
-            this.SettingsTabs.Controls.Add(this.TTSTab);
-            this.SettingsTabs.Controls.Add(this.TwitchTab);
-            this.SettingsTabs.Controls.Add(this.YoutubeTab);
-            this.SettingsTabs.Controls.Add(this.Live2DTab);
-            this.SettingsTabs.Name = "SettingsTabs";
-            this.SettingsTabs.SelectedIndex = 0;
-            // 
-            // VoiceTab
-            // 
-            this.VoiceTab.Controls.Add(this.MicroPhoneHotkeyLabel);
-            this.VoiceTab.Controls.Add(this.MicrophoneHotkeyEditbox);
-            this.VoiceTab.Controls.Add(this.VoiceInputLabel);
-            this.VoiceTab.Controls.Add(this.SoundInputDevices);
-            this.VoiceTab.Controls.Add(this.MicrophoneHotkeySet);
-            resources.ApplyResources(this.VoiceTab, "VoiceTab");
-            this.VoiceTab.Name = "VoiceTab";
-            this.VoiceTab.UseVisualStyleBackColor = true;
-            this.VoiceTab.Click += new System.EventHandler(this.tabPage1_Click);
-            // 
-            // MicroPhoneHotkeyLabel
-            // 
-            resources.ApplyResources(this.MicroPhoneHotkeyLabel, "MicroPhoneHotkeyLabel");
-            this.MicroPhoneHotkeyLabel.Name = "MicroPhoneHotkeyLabel";
-            this.MicroPhoneHotkeyLabel.Click += new System.EventHandler(this.label2_Click);
-            // 
-            // MicrophoneHotkeyEditbox
-            // 
-            resources.ApplyResources(this.MicrophoneHotkeyEditbox, "MicrophoneHotkeyEditbox");
-            this.MicrophoneHotkeyEditbox.Name = "MicrophoneHotkeyEditbox";
-            this.MicrophoneHotkeyEditbox.ReadOnly = true;
-            // 
-            // VoiceInputLabel
-            // 
-            resources.ApplyResources(this.VoiceInputLabel, "VoiceInputLabel");
-            this.VoiceInputLabel.Name = "VoiceInputLabel";
-            this.VoiceInputLabel.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // SoundInputDevices
-            // 
-            this.SoundInputDevices.FormattingEnabled = true;
-            resources.ApplyResources(this.SoundInputDevices, "SoundInputDevices");
-            this.SoundInputDevices.Name = "SoundInputDevices";
-            // 
-            // MicrophoneHotkeySet
-            // 
-            resources.ApplyResources(this.MicrophoneHotkeySet, "MicrophoneHotkeySet");
-            this.MicrophoneHotkeySet.Name = "MicrophoneHotkeySet";
-            this.MicrophoneHotkeySet.UseVisualStyleBackColor = true;
-            this.MicrophoneHotkeySet.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // SSTTab
-            // 
-            this.SSTTab.Controls.Add(this.STTTestOutput);
-            this.SSTTab.Controls.Add(this.STTRegionEditbox);
-            this.SSTTab.Controls.Add(this.STTRegionLabel);
-            this.SSTTab.Controls.Add(this.STTAPIKeyLabel);
-            this.SSTTab.Controls.Add(this.STTAPIKeyEditbox);
-            this.SSTTab.Controls.Add(this.STTTestButton);
-            this.SSTTab.Controls.Add(this.STTProviderLabel);
-            this.SSTTab.Controls.Add(this.STTProviderBox);
-            resources.ApplyResources(this.SSTTab, "SSTTab");
-            this.SSTTab.Name = "SSTTab";
-            this.SSTTab.UseVisualStyleBackColor = true;
-            // 
-            // STTTestOutput
-            // 
-            resources.ApplyResources(this.STTTestOutput, "STTTestOutput");
-            this.STTTestOutput.Name = "STTTestOutput";
-            this.STTTestOutput.ReadOnly = true;
-            // 
-            // STTRegionEditbox
-            // 
-            resources.ApplyResources(this.STTRegionEditbox, "STTRegionEditbox");
-            this.STTRegionEditbox.Name = "STTRegionEditbox";
-            // 
-            // STTRegionLabel
-            // 
-            resources.ApplyResources(this.STTRegionLabel, "STTRegionLabel");
-            this.STTRegionLabel.Name = "STTRegionLabel";
-            // 
-            // STTAPIKeyLabel
-            // 
-            resources.ApplyResources(this.STTAPIKeyLabel, "STTAPIKeyLabel");
-            this.STTAPIKeyLabel.Name = "STTAPIKeyLabel";
-            // 
-            // STTAPIKeyEditbox
-            // 
-            resources.ApplyResources(this.STTAPIKeyEditbox, "STTAPIKeyEditbox");
-            this.STTAPIKeyEditbox.Name = "STTAPIKeyEditbox";
-            // 
-            // STTTestButton
-            // 
-            resources.ApplyResources(this.STTTestButton, "STTTestButton");
-            this.STTTestButton.Name = "STTTestButton";
-            this.STTTestButton.UseVisualStyleBackColor = true;
-            this.STTTestButton.Click += new System.EventHandler(this.STTTestButton_Click);
-            // 
-            // STTProviderLabel
-            // 
-            resources.ApplyResources(this.STTProviderLabel, "STTProviderLabel");
-            this.STTProviderLabel.Name = "STTProviderLabel";
-            // 
-            // STTProviderBox
-            // 
-            this.STTProviderBox.FormattingEnabled = true;
-            this.STTProviderBox.Items.AddRange(new object[] {
-            resources.GetString("STTProviderBox.Items"),
-            resources.GetString("STTProviderBox.Items1"),
-            resources.GetString("STTProviderBox.Items2"),
-            resources.GetString("STTProviderBox.Items3")});
-            resources.ApplyResources(this.STTProviderBox, "STTProviderBox");
-            this.STTProviderBox.Name = "STTProviderBox";
-            this.STTProviderBox.SelectedIndexChanged += new System.EventHandler(this.SSTProviderBox_SelectedIndexChanged);
-            // 
-            // LLMTab
-            // 
-            this.LLMTab.Controls.Add(this.textBox2);
-            this.LLMTab.Controls.Add(this.label1);
-            this.LLMTab.Controls.Add(this.textBox1);
-            this.LLMTab.Controls.Add(this.GPTTestButton);
-            this.LLMTab.Controls.Add(this.GPTAPIKeyTextBox);
-            this.LLMTab.Controls.Add(this.GPTAPIKeyLabel);
-            this.LLMTab.Controls.Add(this.GPTProviderComboBox);
-            this.LLMTab.Controls.Add(this.GPTProviderLabel);
-            resources.ApplyResources(this.LLMTab, "LLMTab");
-            this.LLMTab.Name = "LLMTab";
-            this.LLMTab.UseVisualStyleBackColor = true;
-            this.LLMTab.Click += new System.EventHandler(this.tabPage3_Click);
-            // 
-            // textBox2
-            // 
-            resources.ApplyResources(this.textBox2, "textBox2");
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // textBox1
-            // 
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
-            // 
-            // GPTTestButton
-            // 
-            resources.ApplyResources(this.GPTTestButton, "GPTTestButton");
-            this.GPTTestButton.Name = "GPTTestButton";
-            this.GPTTestButton.UseVisualStyleBackColor = true;
-            // 
-            // GPTAPIKeyTextBox
-            // 
-            resources.ApplyResources(this.GPTAPIKeyTextBox, "GPTAPIKeyTextBox");
-            this.GPTAPIKeyTextBox.Name = "GPTAPIKeyTextBox";
-            // 
-            // GPTAPIKeyLabel
-            // 
-            resources.ApplyResources(this.GPTAPIKeyLabel, "GPTAPIKeyLabel");
-            this.GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
-            // 
-            // GPTProviderComboBox
-            // 
-            this.GPTProviderComboBox.FormattingEnabled = true;
-            this.GPTProviderComboBox.Items.AddRange(new object[] {
-            resources.GetString("GPTProviderComboBox.Items"),
-            resources.GetString("GPTProviderComboBox.Items1")});
-            resources.ApplyResources(this.GPTProviderComboBox, "GPTProviderComboBox");
-            this.GPTProviderComboBox.Name = "GPTProviderComboBox";
-            // 
-            // GPTProviderLabel
-            // 
-            resources.ApplyResources(this.GPTProviderLabel, "GPTProviderLabel");
-            this.GPTProviderLabel.Name = "GPTProviderLabel";
-            // 
-            // TTSTab
-            // 
-            this.TTSTab.Controls.Add(this.comboBox2);
-            this.TTSTab.Controls.Add(this.label3);
-            this.TTSTab.Controls.Add(this.comboBox1);
-            this.TTSTab.Controls.Add(this.label2);
-            this.TTSTab.Controls.Add(this.TTSTestTextBox);
-            this.TTSTab.Controls.Add(this.button1);
-            this.TTSTab.Controls.Add(this.TTSAudioOutputComboBox);
-            this.TTSTab.Controls.Add(this.TTSProviderComboBox);
-            this.TTSTab.Controls.Add(this.TTSAudioOutputLabel);
-            this.TTSTab.Controls.Add(this.TTSProviderLabel);
-            resources.ApplyResources(this.TTSTab, "TTSTab");
-            this.TTSTab.Name = "TTSTab";
-            this.TTSTab.UseVisualStyleBackColor = true;
-            // 
-            // TTSAudioOutputComboBox
-            // 
-            this.TTSAudioOutputComboBox.FormattingEnabled = true;
-            resources.ApplyResources(this.TTSAudioOutputComboBox, "TTSAudioOutputComboBox");
-            this.TTSAudioOutputComboBox.Name = "TTSAudioOutputComboBox";
-            // 
-            // TTSProviderComboBox
-            // 
-            this.TTSProviderComboBox.FormattingEnabled = true;
-            this.TTSProviderComboBox.Items.AddRange(new object[] {
-            resources.GetString("TTSProviderComboBox.Items"),
-            resources.GetString("TTSProviderComboBox.Items1"),
-            resources.GetString("TTSProviderComboBox.Items2")});
-            resources.ApplyResources(this.TTSProviderComboBox, "TTSProviderComboBox");
-            this.TTSProviderComboBox.Name = "TTSProviderComboBox";
-            // 
-            // TTSAudioOutputLabel
-            // 
-            resources.ApplyResources(this.TTSAudioOutputLabel, "TTSAudioOutputLabel");
-            this.TTSAudioOutputLabel.Name = "TTSAudioOutputLabel";
-            // 
-            // TTSProviderLabel
-            // 
-            resources.ApplyResources(this.TTSProviderLabel, "TTSProviderLabel");
-            this.TTSProviderLabel.Name = "TTSProviderLabel";
-            this.TTSProviderLabel.Click += new System.EventHandler(this.label8_Click);
-            // 
-            // TwitchTab
-            // 
-            resources.ApplyResources(this.TwitchTab, "TwitchTab");
-            this.TwitchTab.Name = "TwitchTab";
-            this.TwitchTab.UseVisualStyleBackColor = true;
-            // 
-            // YoutubeTab
-            // 
-            resources.ApplyResources(this.YoutubeTab, "YoutubeTab");
-            this.YoutubeTab.Name = "YoutubeTab";
-            this.YoutubeTab.UseVisualStyleBackColor = true;
-            // 
-            // Live2DTab
-            // 
-            resources.ApplyResources(this.Live2DTab, "Live2DTab");
-            this.Live2DTab.Name = "Live2DTab";
-            this.Live2DTab.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
             // 
@@ -380,34 +144,70 @@ namespace BanterBrain_Buddy
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             // 
-            // button1
+            // SettingsTab
             // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.SettingsTab, "SettingsTab");
+            this.SettingsTab.Controls.Add(this.groupBox3);
+            this.SettingsTab.Controls.Add(this.groupBox2);
+            this.SettingsTab.Controls.Add(this.groupBox1);
+            this.SettingsTab.Controls.Add(this.STTGroupBox);
+            this.SettingsTab.Name = "SettingsTab";
+            this.SettingsTab.UseVisualStyleBackColor = true;
             // 
-            // TTSTestTextBox
+            // groupBox3
             // 
-            resources.ApplyResources(this.TTSTestTextBox, "TTSTestTextBox");
-            this.TTSTestTextBox.Name = "TTSTestTextBox";
-            this.TTSTestTextBox.ReadOnly = true;
+            this.groupBox3.Controls.Add(this.MicroPhoneHotkeyLabel);
+            this.groupBox3.Controls.Add(this.MicrophoneHotkeyEditbox);
+            this.groupBox3.Controls.Add(this.VoiceInputLabel);
+            this.groupBox3.Controls.Add(this.SoundInputDevices);
+            this.groupBox3.Controls.Add(this.MicrophoneHotkeySet);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
             // 
-            // label2
+            // MicroPhoneHotkeyLabel
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            resources.ApplyResources(this.MicroPhoneHotkeyLabel, "MicroPhoneHotkeyLabel");
+            this.MicroPhoneHotkeyLabel.Name = "MicroPhoneHotkeyLabel";
             // 
-            // comboBox1
+            // MicrophoneHotkeyEditbox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBox1, "comboBox1");
-            this.comboBox1.Name = "comboBox1";
+            resources.ApplyResources(this.MicrophoneHotkeyEditbox, "MicrophoneHotkeyEditbox");
+            this.MicrophoneHotkeyEditbox.Name = "MicrophoneHotkeyEditbox";
+            this.MicrophoneHotkeyEditbox.ReadOnly = true;
             // 
-            // label3
+            // VoiceInputLabel
             // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            resources.ApplyResources(this.VoiceInputLabel, "VoiceInputLabel");
+            this.VoiceInputLabel.Name = "VoiceInputLabel";
+            // 
+            // SoundInputDevices
+            // 
+            this.SoundInputDevices.FormattingEnabled = true;
+            resources.ApplyResources(this.SoundInputDevices, "SoundInputDevices");
+            this.SoundInputDevices.Name = "SoundInputDevices";
+            // 
+            // MicrophoneHotkeySet
+            // 
+            resources.ApplyResources(this.MicrophoneHotkeySet, "MicrophoneHotkeySet");
+            this.MicrophoneHotkeySet.Name = "MicrophoneHotkeySet";
+            this.MicrophoneHotkeySet.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.comboBox2);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.comboBox1);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.TTSTestTextBox);
+            this.groupBox2.Controls.Add(this.TTSTestButton);
+            this.groupBox2.Controls.Add(this.TTSAudioOutputComboBox);
+            this.groupBox2.Controls.Add(this.TTSProviderComboBox);
+            this.groupBox2.Controls.Add(this.TTSAudioOutputLabel);
+            this.groupBox2.Controls.Add(this.TTSProviderLabel);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
             // 
             // comboBox2
             // 
@@ -415,85 +215,324 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.comboBox2, "comboBox2");
             this.comboBox2.Name = "comboBox2";
             // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            resources.ApplyResources(this.comboBox1, "comboBox1");
+            this.comboBox1.Name = "comboBox1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // TTSTestTextBox
+            // 
+            resources.ApplyResources(this.TTSTestTextBox, "TTSTestTextBox");
+            this.TTSTestTextBox.Name = "TTSTestTextBox";
+            this.TTSTestTextBox.ReadOnly = true;
+            // 
+            // TTSTestButton
+            // 
+            resources.ApplyResources(this.TTSTestButton, "TTSTestButton");
+            this.TTSTestButton.Name = "TTSTestButton";
+            this.TTSTestButton.UseVisualStyleBackColor = true;
+            this.TTSTestButton.Click += new System.EventHandler(this.TTSTestButton_Click);
+            // 
+            // TTSAudioOutputComboBox
+            // 
+            this.TTSAudioOutputComboBox.FormattingEnabled = true;
+            resources.ApplyResources(this.TTSAudioOutputComboBox, "TTSAudioOutputComboBox");
+            this.TTSAudioOutputComboBox.Name = "TTSAudioOutputComboBox";
+            // 
+            // TTSProviderComboBox
+            // 
+            this.TTSProviderComboBox.FormattingEnabled = true;
+            this.TTSProviderComboBox.Items.AddRange(new object[] {
+            resources.GetString("TTSProviderComboBox.Items"),
+            resources.GetString("TTSProviderComboBox.Items1"),
+            resources.GetString("TTSProviderComboBox.Items2")});
+            resources.ApplyResources(this.TTSProviderComboBox, "TTSProviderComboBox");
+            this.TTSProviderComboBox.Name = "TTSProviderComboBox";
+            // 
+            // TTSAudioOutputLabel
+            // 
+            resources.ApplyResources(this.TTSAudioOutputLabel, "TTSAudioOutputLabel");
+            this.TTSAudioOutputLabel.Name = "TTSAudioOutputLabel";
+            // 
+            // TTSProviderLabel
+            // 
+            resources.ApplyResources(this.TTSProviderLabel, "TTSProviderLabel");
+            this.TTSProviderLabel.Name = "TTSProviderLabel";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.LLMModelComboBox);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.LLMTestOutputbox);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.LLMRoleTextBox);
+            this.groupBox1.Controls.Add(this.GPTTestButton);
+            this.groupBox1.Controls.Add(this.GPTAPIKeyTextBox);
+            this.groupBox1.Controls.Add(this.GPTAPIKeyLabel);
+            this.groupBox1.Controls.Add(this.GPTProviderComboBox);
+            this.groupBox1.Controls.Add(this.GPTProviderLabel);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // LLMModelComboBox
+            // 
+            this.LLMModelComboBox.FormattingEnabled = true;
+            this.LLMModelComboBox.Items.AddRange(new object[] {
+            resources.GetString("LLMModelComboBox.Items"),
+            resources.GetString("LLMModelComboBox.Items1")});
+            resources.ApplyResources(this.LLMModelComboBox, "LLMModelComboBox");
+            this.LLMModelComboBox.Name = "LLMModelComboBox";
+            this.LLMModelComboBox.UseWaitCursor = true;
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // LLMTestOutputbox
+            // 
+            resources.ApplyResources(this.LLMTestOutputbox, "LLMTestOutputbox");
+            this.LLMTestOutputbox.Name = "LLMTestOutputbox";
+            this.LLMTestOutputbox.ReadOnly = true;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // LLMRoleTextBox
+            // 
+            resources.ApplyResources(this.LLMRoleTextBox, "LLMRoleTextBox");
+            this.LLMRoleTextBox.Name = "LLMRoleTextBox";
+            this.LLMRoleTextBox.TabStop = false;
+            // 
+            // GPTTestButton
+            // 
+            resources.ApplyResources(this.GPTTestButton, "GPTTestButton");
+            this.GPTTestButton.Name = "GPTTestButton";
+            this.GPTTestButton.UseVisualStyleBackColor = true;
+            this.GPTTestButton.Click += new System.EventHandler(this.GPTTestButton_Click);
+            // 
+            // GPTAPIKeyTextBox
+            // 
+            resources.ApplyResources(this.GPTAPIKeyTextBox, "GPTAPIKeyTextBox");
+            this.GPTAPIKeyTextBox.Name = "GPTAPIKeyTextBox";
+            // 
+            // GPTAPIKeyLabel
+            // 
+            resources.ApplyResources(this.GPTAPIKeyLabel, "GPTAPIKeyLabel");
+            this.GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
+            // 
+            // GPTProviderComboBox
+            // 
+            this.GPTProviderComboBox.FormattingEnabled = true;
+            this.GPTProviderComboBox.Items.AddRange(new object[] {
+            resources.GetString("GPTProviderComboBox.Items"),
+            resources.GetString("GPTProviderComboBox.Items1")});
+            resources.ApplyResources(this.GPTProviderComboBox, "GPTProviderComboBox");
+            this.GPTProviderComboBox.Name = "GPTProviderComboBox";
+            // 
+            // GPTProviderLabel
+            // 
+            resources.ApplyResources(this.GPTProviderLabel, "GPTProviderLabel");
+            this.GPTProviderLabel.Name = "GPTProviderLabel";
+            // 
+            // STTGroupBox
+            // 
+            resources.ApplyResources(this.STTGroupBox, "STTGroupBox");
+            this.STTGroupBox.Controls.Add(this.STTHintText);
+            this.STTGroupBox.Controls.Add(this.STTRegionEditbox);
+            this.STTGroupBox.Controls.Add(this.STTRegionLabel);
+            this.STTGroupBox.Controls.Add(this.STTAPIKeyLabel);
+            this.STTGroupBox.Controls.Add(this.STTAPIKeyEditbox);
+            this.STTGroupBox.Controls.Add(this.STTTestButton);
+            this.STTGroupBox.Controls.Add(this.STTProviderLabel);
+            this.STTGroupBox.Controls.Add(this.STTProviderBox);
+            this.STTGroupBox.Controls.Add(this.STTTestOutput);
+            this.STTGroupBox.Name = "STTGroupBox";
+            this.STTGroupBox.TabStop = false;
+            // 
+            // STTRegionEditbox
+            // 
+            resources.ApplyResources(this.STTRegionEditbox, "STTRegionEditbox");
+            this.STTRegionEditbox.Name = "STTRegionEditbox";
+            // 
+            // STTRegionLabel
+            // 
+            resources.ApplyResources(this.STTRegionLabel, "STTRegionLabel");
+            this.STTRegionLabel.Name = "STTRegionLabel";
+            // 
+            // STTAPIKeyLabel
+            // 
+            resources.ApplyResources(this.STTAPIKeyLabel, "STTAPIKeyLabel");
+            this.STTAPIKeyLabel.Name = "STTAPIKeyLabel";
+            // 
+            // STTAPIKeyEditbox
+            // 
+            resources.ApplyResources(this.STTAPIKeyEditbox, "STTAPIKeyEditbox");
+            this.STTAPIKeyEditbox.Name = "STTAPIKeyEditbox";
+            // 
+            // STTTestButton
+            // 
+            resources.ApplyResources(this.STTTestButton, "STTTestButton");
+            this.STTTestButton.Name = "STTTestButton";
+            this.STTTestButton.UseVisualStyleBackColor = true;
+            this.STTTestButton.Click += new System.EventHandler(this.STTTestButton_Click);
+            // 
+            // STTProviderLabel
+            // 
+            resources.ApplyResources(this.STTProviderLabel, "STTProviderLabel");
+            this.STTProviderLabel.Name = "STTProviderLabel";
+            // 
+            // STTProviderBox
+            // 
+            this.STTProviderBox.FormattingEnabled = true;
+            this.STTProviderBox.Items.AddRange(new object[] {
+            resources.GetString("STTProviderBox.Items"),
+            resources.GetString("STTProviderBox.Items1"),
+            resources.GetString("STTProviderBox.Items2"),
+            resources.GetString("STTProviderBox.Items3"),
+            resources.GetString("STTProviderBox.Items4")});
+            resources.ApplyResources(this.STTProviderBox, "STTProviderBox");
+            this.STTProviderBox.Name = "STTProviderBox";
+            this.STTProviderBox.SelectedIndexChanged += new System.EventHandler(this.STTProviderBox_SelectedIndexChanged);
+            // 
+            // STTTestOutput
+            // 
+            resources.ApplyResources(this.STTTestOutput, "STTTestOutput");
+            this.STTTestOutput.Name = "STTTestOutput";
+            this.STTTestOutput.ReadOnly = true;
+            // 
+            // MainTab
+            // 
+            this.MainTab.Controls.Add(this.TextLog);
+            this.MainTab.Controls.Add(this.ProgramFlowTest);
+            resources.ApplyResources(this.MainTab, "MainTab");
+            this.MainTab.Name = "MainTab";
+            this.MainTab.UseVisualStyleBackColor = true;
+            // 
+            // TextLog
+            // 
+            this.TextLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.TextLog, "TextLog");
+            this.TextLog.Name = "TextLog";
+            // 
+            // ProgramFlowTest
+            // 
+            resources.ApplyResources(this.ProgramFlowTest, "ProgramFlowTest");
+            this.ProgramFlowTest.Name = "ProgramFlowTest";
+            this.ProgramFlowTest.UseVisualStyleBackColor = true;
+            this.ProgramFlowTest.Click += new System.EventHandler(this.ProgramFlowTest_Click);
+            // 
+            // BBBTabs
+            // 
+            resources.ApplyResources(this.BBBTabs, "BBBTabs");
+            this.BBBTabs.Controls.Add(this.MainTab);
+            this.BBBTabs.Controls.Add(this.SettingsTab);
+            this.BBBTabs.Name = "BBBTabs";
+            this.BBBTabs.SelectedIndex = 0;
+            // 
+            // STTHintText
+            // 
+            resources.ApplyResources(this.STTHintText, "STTHintText");
+            this.STTHintText.Name = "STTHintText";
+            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.SettingsTabs);
+            this.Controls.Add(this.BBBTabs);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "BBB";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.SettingsTabs.ResumeLayout(false);
-            this.VoiceTab.ResumeLayout(false);
-            this.VoiceTab.PerformLayout();
-            this.SSTTab.ResumeLayout(false);
-            this.SSTTab.PerformLayout();
-            this.LLMTab.ResumeLayout(false);
-            this.LLMTab.PerformLayout();
-            this.TTSTab.ResumeLayout(false);
-            this.TTSTab.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.SettingsTab.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.STTGroupBox.ResumeLayout(false);
+            this.STTGroupBox.PerformLayout();
+            this.MainTab.ResumeLayout(false);
+            this.MainTab.PerformLayout();
+            this.BBBTabs.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TabControl SettingsTabs;
-        private System.Windows.Forms.TabPage VoiceTab;
-        private System.Windows.Forms.TabPage SSTTab;
-        private System.Windows.Forms.Button MicrophoneHotkeySet;
-        private System.Windows.Forms.Label VoiceInputLabel;
-        private System.Windows.Forms.ComboBox SoundInputDevices;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private TabPage LLMTab;
-        private TabPage TTSTab;
-        private TabPage TwitchTab;
-        private Label MicroPhoneHotkeyLabel;
-        private TextBox MicrophoneHotkeyEditbox;
-        private Label STTProviderLabel;
-        private ComboBox STTProviderBox;
-        private TabPage YoutubeTab;
-        private TabPage Live2DTab;
-        private Button STTTestButton;
-        private Label STTAPIKeyLabel;
-        private TextBox STTAPIKeyEditbox;
-        private TextBox STTRegionEditbox;
-        private Label STTRegionLabel;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem githubToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
+        private TabPage SettingsTab;
+        private GroupBox groupBox2;
+        private GroupBox groupBox1;
+        private ComboBox LLMModelComboBox;
+        private Label label4;
+        private TextBox LLMTestOutputbox;
+        private Label label1;
+        private TextBox LLMRoleTextBox;
         private Button GPTTestButton;
         private TextBox GPTAPIKeyTextBox;
         private Label GPTAPIKeyLabel;
         private ComboBox GPTProviderComboBox;
         private Label GPTProviderLabel;
-        private Label TTSProviderLabel;
-        private Label TTSAudioOutputLabel;
-        private ComboBox TTSProviderComboBox;
-        private ComboBox TTSAudioOutputComboBox;
+        private GroupBox STTGroupBox;
+        private TextBox STTRegionEditbox;
+        private Label STTRegionLabel;
+        private Label STTAPIKeyLabel;
+        private TextBox STTAPIKeyEditbox;
+        private Button STTTestButton;
+        private Label STTProviderLabel;
+        private ComboBox STTProviderBox;
         private TextBox STTTestOutput;
-        private StatusStrip statusStrip1;
-        private ToolStripStatusLabel toolStripStatusLabel1;
-        private TextBox textBox2;
-        private Label label1;
-        private TextBox textBox1;
-        private TextBox TTSTestTextBox;
-        private Button button1;
+        private TabPage MainTab;
+        private Button ProgramFlowTest;
+        private TabControl BBBTabs;
+        private ComboBox comboBox2;
         private Label label3;
         private ComboBox comboBox1;
         private Label label2;
-        private ComboBox comboBox2;
+        private TextBox TTSTestTextBox;
+        private Button TTSTestButton;
+        private ComboBox TTSAudioOutputComboBox;
+        private ComboBox TTSProviderComboBox;
+        private Label TTSAudioOutputLabel;
+        private Label TTSProviderLabel;
+        private GroupBox groupBox3;
+        private Label MicroPhoneHotkeyLabel;
+        private TextBox MicrophoneHotkeyEditbox;
+        private Label VoiceInputLabel;
+        private ComboBox SoundInputDevices;
+        private Button MicrophoneHotkeySet;
+        private TextBox TextLog;
+        private Label STTHintText;
     }
 }
 
