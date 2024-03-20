@@ -44,10 +44,6 @@ namespace BanterBrain_Buddy
 
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
         private void STTTestButton_Click(object sender, EventArgs e)
         {
@@ -333,6 +329,11 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.STTAPIRegionEnabled = STTRegionEditbox.Enabled;
             Properties.Settings.Default.Save();
 
+        }
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
         }
     }
 

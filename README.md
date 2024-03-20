@@ -12,6 +12,11 @@ BanterBrain Buddy is a Windows .Net based Speech-To-Text to LLM to Text-To-Speec
 The goal is to provide local PC or streaming entertainment by talking to an AI and hearing the responses back, based on a role you can set for the AI. The goa is to support both local only-resources or API services.
 For the streaming side of things, integration with Twitch to respond to chat commands and stream events is planned.
 
+## Build instructions
+[todo]
+tldr: use Visual studio 2022 with .net 4.7.2 and pray. Also install NAudio and OpenAI by OkGoDolt.
+
+
 ## Resources for local and API
 - for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
 - local based LLM's like GPT4All take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
