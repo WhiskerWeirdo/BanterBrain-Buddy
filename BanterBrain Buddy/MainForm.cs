@@ -2,15 +2,11 @@
 using OpenAI_API;
 using OpenAI_API.Models;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace BanterBrain_Buddy
 {

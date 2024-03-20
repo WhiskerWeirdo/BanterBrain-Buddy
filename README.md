@@ -7,7 +7,7 @@ This project uses the GNU General Public License v3.0 as you can read [here](./L
 >You may copy, distribute and modify the software as long as you track changes/dates in source files. Any modifications to or software including (via compiler) GPL-licensed code must also be made available under the GPL along with build & install instructions.
 
 ## About
-BanterBrain Buddy is a Windows based Speech-To-Text to LLM to Text-To-Speech program for general entertainment or as a streaming companion.
+BanterBrain Buddy is a Windows .Net based Speech-To-Text to LLM to Text-To-Speech program for general entertainment or as a streaming companion.
 
 The goal is to provide local PC or streaming entertainment by talking to an AI and hearing the responses back, based on a role you can set for the AI. The goa is to support both local only-resources or API services.
 For the streaming side of things, integration with Twitch to respond to chat commands and stream events is planned.
@@ -40,26 +40,25 @@ For the streaming side of things, integration with Twitch to respond to chat com
 - [X] Audio example of ChatGPT to TTS
 
 ### Main program
-
 - [X] Full run from Native STT to ChatGPT to Native TTS
- 
-## Broad roadmap items
 - [ ] Store and read setings file & API keys
+
+## Broad roadmap items in no particular order
 - [ ] Enable Azure STT
-- [ ] Show example of Azure STT
 - [ ] Use selected Voice Input device instead of default
 - [ ] 0.1 release with basic functionality
 - [ ] Enable use of GPT4All
 - [ ] Deepgram STT API
 - [ ] Azure API for STT and TTS
 - [ ] Google API for STT and TTS
-- [ ] OpenAI Whisper for STT and TTS
-- [ ] Link to Twitch to respond to chat
+- [ ] OpenAI Whisper for STT
+- [ ] Link to Twitch to respond to chat and notifications
 - [ ] Link to Youtube to respond to chat
-- [ ] Link to OBS
+- [ ] Link to OBS/
 - [ ] Link to Live2d
 - [ ] link to VOSK & Kaldi (Local STT)
 - [ ] Add more languages to program
 - [ ] Add more languages to STT/TTS
-
+- [ ] integration with SAMMI
+- [ ] Link to KICK to respond to chat and notifications
  
