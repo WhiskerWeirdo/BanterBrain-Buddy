@@ -1,7 +1,57 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BanterBrain_Buddy.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="VoiceInput" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="PTTHotkey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="STTProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="LLMProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="LLMModel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="LLMRoleText" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="TTSProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="TTSAudioOutput" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="TTSAudioVoice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="TTSAudioVoiceOptions" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="STTAPIKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="STTAPIRegion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="LLMAPIKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="TTSAudioVoiceEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TTSAudioVoiceOptionsEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="STTAPIKeyEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="STTAPIRegionEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

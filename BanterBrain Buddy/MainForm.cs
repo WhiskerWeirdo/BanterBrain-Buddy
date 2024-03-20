@@ -8,13 +8,17 @@ using System.Speech.Synthesis;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace BanterBrain_Buddy
 {
     public partial class BBB : Form
     {
         public BBB()
         {
+            
             InitializeComponent();
+            LoadSettings();
+            //Save on exit event
             //TODO: load settings into forms
             //TODO: grey out items that are not required for specific settings
 
@@ -33,7 +37,6 @@ namespace BanterBrain_Buddy
                 if (device.FriendlyName == defaultInputDevice.FriendlyName)
                 {
                     SoundInputDevices.Items.Add(device.FriendlyName + "*");
-                    SoundInputDevices.Text = device.FriendlyName;
                 }
                 else
                     SoundInputDevices.Items.Add(device.FriendlyName);
@@ -65,8 +68,6 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                toolStripStatusLabel1.Text = "Microphone off";
-                statusStrip1.Refresh();
                 STTTestButton.Text = "Test";
                 TextLog.AppendText("Stopped recording\r\n");
                 STTTestOutput.BackColor = SystemColors.Control;
@@ -86,10 +87,14 @@ namespace BanterBrain_Buddy
             else if (SelectedProvider == "Azure")
             {
                 TextLog.AppendText("Azure\r\n");
+                STTAPIKeyEditbox.Enabled = true;
+                STTRegionEditbox.Enabled = true;
             }
             else if (SelectedProvider == "Google")
             {
                 TextLog.AppendText("Google\r\n");
+                STTAPIKeyEditbox.Enabled = true;
+                STTRegionEditbox.Enabled = true;
             }
         }
         bool STTDone = false;
@@ -180,7 +185,7 @@ namespace BanterBrain_Buddy
         {
             TextLog.AppendText("Sending to GPT\r\n");
             GPTDone = false;
-            OpenAIAPI api = new OpenAIAPI(GPTAPIKeyTextBox.Text);
+            OpenAIAPI api = new OpenAIAPI(LLMAPIKeyTextBox.Text);
             var chat = api.Chat.CreateConversation();
             chat.Model = Model.ChatGPTTurbo;
             chat.RequestParameters.Temperature = 0;
@@ -214,7 +219,7 @@ namespace BanterBrain_Buddy
             LLMTestOutputbox.Text = "";
             GPTTestButton.Enabled = false;
             GPTTestButton.Text = "Wait...";
-            if (GPTProviderComboBox.Text == "OpenAI ChatGPT")
+            if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
             {
                 STTTestOutput.AppendText("Using ChatGPT\r\n");
                 TalkToOpenAIGPT("How are you?");
@@ -259,7 +264,7 @@ namespace BanterBrain_Buddy
 
                 //now the STT text is in STTTestOutput.Text, lets pass that to ChatGPT
                 LLMTestOutputbox.Text = "";
-                if (GPTProviderComboBox.Text == "OpenAI ChatGPT")
+                if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
                 {
                     STTTestOutput.AppendText("Using ChatGPT\r\n");
                     TalkToOpenAIGPT(STTTestOutput.Text);
@@ -285,6 +290,50 @@ namespace BanterBrain_Buddy
 
         }
 
+        private void LoadSettings()
+        {
+             SoundInputDevices.Text = Properties.Settings.Default.VoiceInput;
+             MicrophoneHotkeyEditbox.Text = Properties.Settings.Default.PTTHotkey;
+             STTProviderBox.Text = Properties.Settings.Default.STTProvider;
+             LLMProviderComboBox.Text = Properties.Settings.Default.LLMProvider;
+             LLMModelComboBox.Text = Properties.Settings.Default.LLMModel;
+             LLMRoleTextBox.Text = Properties.Settings.Default.LLMRoleText;
+             TTSProviderComboBox.Text = Properties.Settings.Default.TTSProvider;
+             TTSAudioOutputComboBox.Text = Properties.Settings.Default.TTSAudioOutput;
+             TTSOutputVoice.Text = Properties.Settings.Default.TTSAudioVoice;
+             TTSOutputVoiceOptions.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
+             STTAPIKeyEditbox.Text = Properties.Settings.Default.STTAPIKey;
+             STTRegionEditbox.Text = Properties.Settings.Default.STTAPIRegion;
+             LLMAPIKeyTextBox.Text= Properties.Settings.Default.LLMAPIKey;
+             TTSOutputVoice.Enabled = Properties.Settings.Default.TTSAudioVoiceEnabled;
+             TTSOutputVoiceOptions.Enabled = Properties.Settings.Default.TTSAudioVoiceOptionsEnabled;
+             STTAPIKeyEditbox.Enabled = Properties.Settings.Default.STTAPIKeyEnabled;
+             STTRegionEditbox.Enabled = Properties.Settings.Default.STTAPIRegionEnabled;
+        }
+
+
+        private void BBB_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.VoiceInput = this.SoundInputDevices.Text;
+            Properties.Settings.Default.PTTHotkey = this.MicrophoneHotkeyEditbox.Text;
+            Properties.Settings.Default.STTProvider = STTProviderBox.Text;
+            Properties.Settings.Default.LLMProvider = LLMProviderComboBox.Text;
+            Properties.Settings.Default.LLMModel = LLMModelComboBox.Text;
+            Properties.Settings.Default.LLMRoleText = LLMRoleTextBox.Text;
+            Properties.Settings.Default.TTSProvider = TTSProviderComboBox.Text;
+            Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
+            Properties.Settings.Default.TTSAudioVoice = TTSOutputVoice.Text;
+            Properties.Settings.Default.TTSAudioVoiceOptions = TTSOutputVoiceOptions.Text;
+            Properties.Settings.Default.STTAPIKey = STTAPIKeyEditbox.Text;
+            Properties.Settings.Default.STTAPIRegion = STTRegionEditbox.Text;
+            Properties.Settings.Default.LLMAPIKey = LLMAPIKeyTextBox.Text;
+            Properties.Settings.Default.TTSAudioVoiceEnabled = TTSOutputVoice.Enabled;
+            Properties.Settings.Default.TTSAudioVoiceOptionsEnabled = TTSOutputVoiceOptions.Enabled;
+            Properties.Settings.Default.STTAPIKeyEnabled = STTAPIKeyEditbox.Enabled;
+            Properties.Settings.Default.STTAPIRegionEnabled = STTRegionEditbox.Enabled;
+            Properties.Settings.Default.Save();
+
+        }
     }
 
 }

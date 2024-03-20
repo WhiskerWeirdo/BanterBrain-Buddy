@@ -121,6 +121,36 @@
     <value>132, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 22</value>
+  </data>
+  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="githubToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 22</value>
+  </data>
+  <data name="githubToolStripMenuItem.Text" xml:space="preserve">
+    <value>Github</value>
+  </data>
+  <data name="aboutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 22</value>
+  </data>
+  <data name="aboutToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;About</value>
+  </data>
+  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
   <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -144,73 +174,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 22</value>
-  </data>
-  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
-  </data>
-  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
-  <data name="githubToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 22</value>
-  </data>
-  <data name="githubToolStripMenuItem.Text" xml:space="preserve">
-    <value>Github</value>
-  </data>
-  <data name="aboutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 22</value>
-  </data>
-  <data name="aboutToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;About</value>
-  </data>
-  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>247, 17</value>
-  </metadata>
-  <metadata name="statusStrip1.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 444</value>
-  </data>
-  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>595, 22</value>
-  </data>
-  <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="statusStrip1.Text" xml:space="preserve">
-    <value>statusStrip</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Name" xml:space="preserve">
-    <value>statusStrip1</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="toolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 17</value>
-  </data>
-  <data name="toolStripStatusLabel1.Text" xml:space="preserve">
-    <value>toolStripStatusLabel1</value>
+    <value>1</value>
   </data>
   <data name="SettingsTab.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -369,25 +333,25 @@
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="comboBox2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="TTSOutputVoiceOptions.Location" type="System.Drawing.Point, System.Drawing">
     <value>144, 117</value>
   </data>
-  <data name="comboBox2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="TTSOutputVoiceOptions.Size" type="System.Drawing.Size, System.Drawing">
     <value>176, 21</value>
   </data>
-  <data name="comboBox2.TabIndex" type="System.Int32, mscorlib">
+  <data name="TTSOutputVoiceOptions.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
   </data>
-  <data name="&gt;&gt;comboBox2.Name" xml:space="preserve">
-    <value>comboBox2</value>
+  <data name="&gt;&gt;TTSOutputVoiceOptions.Name" xml:space="preserve">
+    <value>TTSOutputVoiceOptions</value>
   </data>
-  <data name="&gt;&gt;comboBox2.Type" xml:space="preserve">
+  <data name="&gt;&gt;TTSOutputVoiceOptions.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;comboBox2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TTSOutputVoiceOptions.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="&gt;&gt;comboBox2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TTSOutputVoiceOptions.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
@@ -420,25 +384,25 @@
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="comboBox1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="TTSOutputVoice.Location" type="System.Drawing.Point, System.Drawing">
     <value>144, 84</value>
   </data>
-  <data name="comboBox1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="TTSOutputVoice.Size" type="System.Drawing.Size, System.Drawing">
     <value>176, 21</value>
   </data>
-  <data name="comboBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="TTSOutputVoice.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
   </data>
-  <data name="&gt;&gt;comboBox1.Name" xml:space="preserve">
-    <value>comboBox1</value>
+  <data name="&gt;&gt;TTSOutputVoice.Name" xml:space="preserve">
+    <value>TTSOutputVoice</value>
   </data>
-  <data name="&gt;&gt;comboBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;TTSOutputVoice.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;comboBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TTSOutputVoice.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="&gt;&gt;comboBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TTSOutputVoice.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
@@ -831,28 +795,28 @@
   <data name="&gt;&gt;GPTTestButton.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="GPTAPIKeyTextBox.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="LLMAPIKeyTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>134, 53</value>
   </data>
-  <data name="GPTAPIKeyTextBox.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+  <data name="LLMAPIKeyTextBox.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
     <value>*</value>
   </data>
-  <data name="GPTAPIKeyTextBox.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="LLMAPIKeyTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>193, 20</value>
   </data>
-  <data name="GPTAPIKeyTextBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="LLMAPIKeyTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
-  <data name="&gt;&gt;GPTAPIKeyTextBox.Name" xml:space="preserve">
-    <value>GPTAPIKeyTextBox</value>
+  <data name="&gt;&gt;LLMAPIKeyTextBox.Name" xml:space="preserve">
+    <value>LLMAPIKeyTextBox</value>
   </data>
-  <data name="&gt;&gt;GPTAPIKeyTextBox.Type" xml:space="preserve">
+  <data name="&gt;&gt;LLMAPIKeyTextBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GPTAPIKeyTextBox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;LLMAPIKeyTextBox.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;GPTAPIKeyTextBox.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;LLMAPIKeyTextBox.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
   <data name="GPTAPIKeyLabel.AutoSize" type="System.Boolean, mscorlib">
@@ -885,34 +849,34 @@
   <data name="&gt;&gt;GPTAPIKeyLabel.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="GPTProviderComboBox.Items" xml:space="preserve">
+  <data name="LLMProviderComboBox.Items" xml:space="preserve">
     <value>OpenAI ChatGPT</value>
   </data>
-  <data name="GPTProviderComboBox.Items1" xml:space="preserve">
+  <data name="LLMProviderComboBox.Items1" xml:space="preserve">
     <value>GPT4All (Local)</value>
   </data>
-  <data name="GPTProviderComboBox.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="LLMProviderComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>134, 23</value>
   </data>
-  <data name="GPTProviderComboBox.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="LLMProviderComboBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>193, 21</value>
   </data>
-  <data name="GPTProviderComboBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="LLMProviderComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="GPTProviderComboBox.Text" xml:space="preserve">
+  <data name="LLMProviderComboBox.Text" xml:space="preserve">
     <value>OpenAI ChatGPT</value>
   </data>
-  <data name="&gt;&gt;GPTProviderComboBox.Name" xml:space="preserve">
-    <value>GPTProviderComboBox</value>
+  <data name="&gt;&gt;LLMProviderComboBox.Name" xml:space="preserve">
+    <value>LLMProviderComboBox</value>
   </data>
-  <data name="&gt;&gt;GPTProviderComboBox.Type" xml:space="preserve">
+  <data name="&gt;&gt;LLMProviderComboBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GPTProviderComboBox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;LLMProviderComboBox.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;GPTProviderComboBox.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;LLMProviderComboBox.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
   <data name="GPTProviderLabel.AutoSize" type="System.Boolean, mscorlib">
@@ -1258,7 +1222,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="SettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>587, 388</value>
+    <value>587, 412</value>
   </data>
   <data name="SettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1336,7 +1300,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="MainTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>587, 388</value>
+    <value>587, 412</value>
   </data>
   <data name="MainTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1363,7 +1327,7 @@
     <value>0, 27</value>
   </data>
   <data name="BBBTabs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>595, 414</value>
+    <value>595, 438</value>
   </data>
   <data name="BBBTabs.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1378,7 +1342,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BBBTabs.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -2553,12 +2517,6 @@
   </data>
   <data name="&gt;&gt;aboutToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel1.Name" xml:space="preserve">
-    <value>toolStripStatusLabel1</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>BBB</value>

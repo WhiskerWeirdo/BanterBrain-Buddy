@@ -37,8 +37,6 @@ namespace BanterBrain_Buddy
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.SettingsTab = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.MicroPhoneHotkeyLabel = new System.Windows.Forms.Label();
@@ -47,9 +45,9 @@ namespace BanterBrain_Buddy
             this.SoundInputDevices = new System.Windows.Forms.ComboBox();
             this.MicrophoneHotkeySet = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.TTSOutputVoiceOptions = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.TTSOutputVoice = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.TTSTestTextBox = new System.Windows.Forms.TextBox();
             this.TTSTestButton = new System.Windows.Forms.Button();
@@ -64,11 +62,12 @@ namespace BanterBrain_Buddy
             this.label1 = new System.Windows.Forms.Label();
             this.LLMRoleTextBox = new System.Windows.Forms.TextBox();
             this.GPTTestButton = new System.Windows.Forms.Button();
-            this.GPTAPIKeyTextBox = new System.Windows.Forms.TextBox();
+            this.LLMAPIKeyTextBox = new System.Windows.Forms.TextBox();
             this.GPTAPIKeyLabel = new System.Windows.Forms.Label();
-            this.GPTProviderComboBox = new System.Windows.Forms.ComboBox();
+            this.LLMProviderComboBox = new System.Windows.Forms.ComboBox();
             this.GPTProviderLabel = new System.Windows.Forms.Label();
             this.STTGroupBox = new System.Windows.Forms.GroupBox();
+            this.STTHintText = new System.Windows.Forms.Label();
             this.STTRegionEditbox = new System.Windows.Forms.TextBox();
             this.STTRegionLabel = new System.Windows.Forms.Label();
             this.STTAPIKeyLabel = new System.Windows.Forms.Label();
@@ -81,9 +80,7 @@ namespace BanterBrain_Buddy
             this.TextLog = new System.Windows.Forms.TextBox();
             this.ProgramFlowTest = new System.Windows.Forms.Button();
             this.BBBTabs = new System.Windows.Forms.TabControl();
-            this.STTHintText = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.SettingsTab.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -131,18 +128,6 @@ namespace BanterBrain_Buddy
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            resources.ApplyResources(this.statusStrip1, "statusStrip1");
-            this.statusStrip1.Name = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             // 
             // SettingsTab
             // 
@@ -195,9 +180,9 @@ namespace BanterBrain_Buddy
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.comboBox2);
+            this.groupBox2.Controls.Add(this.TTSOutputVoiceOptions);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.comboBox1);
+            this.groupBox2.Controls.Add(this.TTSOutputVoice);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.TTSTestTextBox);
             this.groupBox2.Controls.Add(this.TTSTestButton);
@@ -209,22 +194,22 @@ namespace BanterBrain_Buddy
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
-            // comboBox2
+            // TTSOutputVoiceOptions
             // 
-            this.comboBox2.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBox2, "comboBox2");
-            this.comboBox2.Name = "comboBox2";
+            this.TTSOutputVoiceOptions.FormattingEnabled = true;
+            resources.ApplyResources(this.TTSOutputVoiceOptions, "TTSOutputVoiceOptions");
+            this.TTSOutputVoiceOptions.Name = "TTSOutputVoiceOptions";
             // 
             // label3
             // 
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
             // 
-            // comboBox1
+            // TTSOutputVoice
             // 
-            this.comboBox1.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBox1, "comboBox1");
-            this.comboBox1.Name = "comboBox1";
+            this.TTSOutputVoice.FormattingEnabled = true;
+            resources.ApplyResources(this.TTSOutputVoice, "TTSOutputVoice");
+            this.TTSOutputVoice.Name = "TTSOutputVoice";
             // 
             // label2
             // 
@@ -278,9 +263,9 @@ namespace BanterBrain_Buddy
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.LLMRoleTextBox);
             this.groupBox1.Controls.Add(this.GPTTestButton);
-            this.groupBox1.Controls.Add(this.GPTAPIKeyTextBox);
+            this.groupBox1.Controls.Add(this.LLMAPIKeyTextBox);
             this.groupBox1.Controls.Add(this.GPTAPIKeyLabel);
-            this.groupBox1.Controls.Add(this.GPTProviderComboBox);
+            this.groupBox1.Controls.Add(this.LLMProviderComboBox);
             this.groupBox1.Controls.Add(this.GPTProviderLabel);
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
@@ -325,24 +310,24 @@ namespace BanterBrain_Buddy
             this.GPTTestButton.UseVisualStyleBackColor = true;
             this.GPTTestButton.Click += new System.EventHandler(this.GPTTestButton_Click);
             // 
-            // GPTAPIKeyTextBox
+            // LLMAPIKeyTextBox
             // 
-            resources.ApplyResources(this.GPTAPIKeyTextBox, "GPTAPIKeyTextBox");
-            this.GPTAPIKeyTextBox.Name = "GPTAPIKeyTextBox";
+            resources.ApplyResources(this.LLMAPIKeyTextBox, "LLMAPIKeyTextBox");
+            this.LLMAPIKeyTextBox.Name = "LLMAPIKeyTextBox";
             // 
             // GPTAPIKeyLabel
             // 
             resources.ApplyResources(this.GPTAPIKeyLabel, "GPTAPIKeyLabel");
             this.GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
             // 
-            // GPTProviderComboBox
+            // LLMProviderComboBox
             // 
-            this.GPTProviderComboBox.FormattingEnabled = true;
-            this.GPTProviderComboBox.Items.AddRange(new object[] {
-            resources.GetString("GPTProviderComboBox.Items"),
-            resources.GetString("GPTProviderComboBox.Items1")});
-            resources.ApplyResources(this.GPTProviderComboBox, "GPTProviderComboBox");
-            this.GPTProviderComboBox.Name = "GPTProviderComboBox";
+            this.LLMProviderComboBox.FormattingEnabled = true;
+            this.LLMProviderComboBox.Items.AddRange(new object[] {
+            resources.GetString("LLMProviderComboBox.Items"),
+            resources.GetString("LLMProviderComboBox.Items1")});
+            resources.ApplyResources(this.LLMProviderComboBox, "LLMProviderComboBox");
+            this.LLMProviderComboBox.Name = "LLMProviderComboBox";
             // 
             // GPTProviderLabel
             // 
@@ -363,6 +348,11 @@ namespace BanterBrain_Buddy
             this.STTGroupBox.Controls.Add(this.STTTestOutput);
             this.STTGroupBox.Name = "STTGroupBox";
             this.STTGroupBox.TabStop = false;
+            // 
+            // STTHintText
+            // 
+            resources.ApplyResources(this.STTHintText, "STTHintText");
+            this.STTHintText.Name = "STTHintText";
             // 
             // STTRegionEditbox
             // 
@@ -444,26 +434,19 @@ namespace BanterBrain_Buddy
             this.BBBTabs.Name = "BBBTabs";
             this.BBBTabs.SelectedIndex = 0;
             // 
-            // STTHintText
-            // 
-            resources.ApplyResources(this.STTHintText, "STTHintText");
-            this.STTHintText.Name = "STTHintText";
-            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.BBBTabs);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "BBB";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BBB_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.SettingsTab.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -488,8 +471,6 @@ namespace BanterBrain_Buddy
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem githubToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
-        private StatusStrip statusStrip1;
-        private ToolStripStatusLabel toolStripStatusLabel1;
         private TabPage SettingsTab;
         private GroupBox groupBox2;
         private GroupBox groupBox1;
@@ -499,9 +480,9 @@ namespace BanterBrain_Buddy
         private Label label1;
         private TextBox LLMRoleTextBox;
         private Button GPTTestButton;
-        private TextBox GPTAPIKeyTextBox;
+        private TextBox LLMAPIKeyTextBox;
         private Label GPTAPIKeyLabel;
-        private ComboBox GPTProviderComboBox;
+        private ComboBox LLMProviderComboBox;
         private Label GPTProviderLabel;
         private GroupBox STTGroupBox;
         private TextBox STTRegionEditbox;
@@ -515,9 +496,9 @@ namespace BanterBrain_Buddy
         private TabPage MainTab;
         private Button ProgramFlowTest;
         private TabControl BBBTabs;
-        private ComboBox comboBox2;
+        private ComboBox TTSOutputVoiceOptions;
         private Label label3;
-        private ComboBox comboBox1;
+        private ComboBox TTSOutputVoice;
         private Label label2;
         private TextBox TTSTestTextBox;
         private Button TTSTestButton;

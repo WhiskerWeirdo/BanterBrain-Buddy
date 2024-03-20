@@ -41,6 +41,6 @@ For the streaming side of things, integration with Twitch to respond to chat com
 
 ### Main program
 - [X] Full run from Native STT to ChatGPT to Native TTS
-- [ ] Store and read setings file & API keys
+- [X] Store and read setings file & API keys
 - [ ] Use selected Voice Input device instead of default
 - [ ] 0.0.1 release!
