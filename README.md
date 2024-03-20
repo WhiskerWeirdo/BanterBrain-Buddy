@@ -42,23 +42,5 @@ For the streaming side of things, integration with Twitch to respond to chat com
 ### Main program
 - [X] Full run from Native STT to ChatGPT to Native TTS
 - [ ] Store and read setings file & API keys
-
-## Broad roadmap items in no particular order
-- [ ] Enable Azure STT
 - [ ] Use selected Voice Input device instead of default
-- [ ] 0.1 release with basic functionality
-- [ ] Enable use of GPT4All
-- [ ] Deepgram STT API
-- [ ] Azure API for STT and TTS
-- [ ] Google API for STT and TTS
-- [ ] OpenAI Whisper for STT
-- [ ] Link to Twitch to respond to chat and notifications
-- [ ] Link to Youtube to respond to chat
-- [ ] Link to OBS/
-- [ ] Link to Live2d
-- [ ] link to VOSK & Kaldi (Local STT)
-- [ ] Add more languages to program
-- [ ] Add more languages to STT/TTS
-- [ ] integration with SAMMI
-- [ ] Link to KICK to respond to chat and notifications
- 
+- [ ] 0.0.1 release!
