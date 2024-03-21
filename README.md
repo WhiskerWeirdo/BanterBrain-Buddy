@@ -24,15 +24,24 @@ tldr: use Visual studio 2022 with .net 4.7.2 and pray. Also install NAudio and O
 - for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
 - local based LLM's like GPT4All take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
 
-## ToDo before public release
-### Voice input
-- [ ] Set input device
-- [ ] Set Push-To-Talk
-- [ ] Global hooking for PTT
+## Roadmap
 
-
-### Main program
+### 0.0.1 TODO
 - [X] Full run from Native STT to ChatGPT to Native TTS
 - [X] Store and read setings file & API keys
 - [ ] Use selected Voice Input device instead of default
-- [ ] 0.0.1 release!
+- [ ] Use selected Audio Output device instead of default
+- [ ] 0.0.1 release -> repo public
+ 
+### Short term roadmap
+- [ ] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
+- [ ] 0.0.2 MVP ability to read Twitch chat and react to specifyable chat command
+- [ ] 0.0.3 MVP Azure TTS/STT support
+- [ ] 0.0.4 MVP Google & OpenAI Whisper TTS support
+- [ ] 0.0.5 MVP Error handling & Code documentation
+- [ ] 0.0.6 MVP ability to read Twitch chat and react to alerts (read out alert and give reaction)
+- [ ] 0.0.7 - reserved -
+- [ ] 0.0.8 - reserved -
+- [ ] 0.0.9 - reserved -
+- [ ] 0.1.0 Installable Beta build release
+
