@@ -2,7 +2,9 @@
 using OpenAI_API;
 using OpenAI_API.Models;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Security.Cryptography;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;
@@ -18,9 +20,6 @@ namespace BanterBrain_Buddy
             
             InitializeComponent();
             LoadSettings();
-            //Save on exit event
-            //TODO: load settings into forms
-            //TODO: grey out items that are not required for specific settings
 
             //Get Sound devices
             MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
@@ -78,6 +77,7 @@ namespace BanterBrain_Buddy
                 TextLog.AppendText("Native STT\r\n");
                 STTAPIKeyEditbox.Enabled = false;
                 STTRegionEditbox.Enabled = false;
+                STTTestOutput.Text = "Hint: For better native Speech-To-Text always train your voice at least once in Control Panel\\Ease of Access\\Speech Recognition";
                 //grey out region and api key
             }
             else if (SelectedProvider == "Azure")
@@ -334,6 +334,44 @@ namespace BanterBrain_Buddy
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.Application.Exit();
+        }
+
+        public void ShowHotkeyDialogBox()
+        {
+            HotkeyForm HotkeyDialog = new HotkeyForm();
+            var result = HotkeyDialog.ShowDialog(this);
+            // Show testDialog as a modal dialog and determine if DialogResult = OK.
+            if ( result == DialogResult.OK)
+            {
+                this.MicrophoneHotkeyEditbox.Text = "";
+
+                List<int> Keys = HotkeyDialog.ReturnValue1;
+                //ok now we got the keys, parse them and put them in the index box
+                foreach ( var key in Keys )
+                {
+                    switch ( key )
+                    {
+                        case 164:
+                            this.MicrophoneHotkeyEditbox.Text += " ALT + ";
+                            break;
+                        case 162:
+                            this.MicrophoneHotkeyEditbox.Text += " CTRL + ";
+                            break;
+                        case 160:
+                            this.MicrophoneHotkeyEditbox.Text += " SHIFT + ";
+                            break;
+                        default:
+                            this.MicrophoneHotkeyEditbox.Text += (char)key;
+                            break;
+                    }
+                }
+            }
+            TextLog.AppendText("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
+            HotkeyDialog.Dispose();
+        }
+        private void MicrophoneHotkeySet_Click(object sender, EventArgs e)
+        {
+            ShowHotkeyDialogBox();
         }
     }
 

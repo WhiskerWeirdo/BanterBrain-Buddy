@@ -17,8 +17,7 @@ Come talk or chat at https://discord.gg/2EEhKpEMMT
 
 ## Build instructions
 [todo]
-tldr: use Visual studio 2022 with .net 4.7.2 and pray. Also install NAudio and OpenAI by OkGoDolt.
-
+tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate called BanterBrain Buddy_TemporaryKey.pfx. Also install NAudio, MouseKeyHook and OpenAI by OkGoDolt. 
 
 ## Resources for local and API
 - for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
@@ -29,6 +28,7 @@ tldr: use Visual studio 2022 with .net 4.7.2 and pray. Also install NAudio and O
 ### 0.0.1 TODO
 - [X] Full run from Native STT to ChatGPT to Native TTS
 - [X] Store and read setings file & API keys
+- [ ] Push-To-Talk Hotkey with global binding
 - [ ] Use selected Voice Input device instead of default
 - [ ] Use selected Audio Output device instead of default
 - [ ] 0.0.1 release -> repo public
