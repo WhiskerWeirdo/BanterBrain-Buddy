@@ -346,19 +346,23 @@ namespace BanterBrain_Buddy
                 this.MicrophoneHotkeyEditbox.Text = "";
 
                 List<int> Keys = HotkeyDialog.ReturnValue1;
+                //we need to store this in its ascii formats also for the hotkey binding
+                //lets used saved User settings for that
+                //TODO
+
                 //ok now we got the keys, parse them and put them in the index box
                 foreach ( var key in Keys )
                 {
                     switch ( key )
                     {
                         case 164:
-                            this.MicrophoneHotkeyEditbox.Text += " ALT + ";
+                            this.MicrophoneHotkeyEditbox.Text += "ALT+";
                             break;
                         case 162:
-                            this.MicrophoneHotkeyEditbox.Text += " CTRL + ";
+                            this.MicrophoneHotkeyEditbox.Text += "CTRL+";
                             break;
                         case 160:
-                            this.MicrophoneHotkeyEditbox.Text += " SHIFT + ";
+                            this.MicrophoneHotkeyEditbox.Text += "SHIFT+";
                             break;
                         default:
                             this.MicrophoneHotkeyEditbox.Text += (char)key;

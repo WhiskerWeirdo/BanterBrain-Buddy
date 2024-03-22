@@ -13,14 +13,14 @@ The goal is to provide local PC or streaming entertainment by talking to an AI a
 For the streaming side of things, integration with Twitch to respond to chat commands and stream events is planned.
 
 ## Social
-Come talk or chat at https://discord.gg/2EEhKpEMMT
+Come talk or chat at https://discord.banterbrain.tv
 
 ## Build instructions
 [todo]
 tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate called BanterBrain Buddy_TemporaryKey.pfx. Also install NAudio, MouseKeyHook and OpenAI by OkGoDolt. 
 
 ## Resources for local and API
-- for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
+- for most API-services you need a **paid** account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
 - local based LLM's like GPT4All take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
 
 ## Roadmap
@@ -37,11 +37,12 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 - [ ] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
 - [ ] 0.0.2 MVP ability to read Twitch chat and react to specifyable chat command
 - [ ] 0.0.3 MVP Azure TTS/STT support
-- [ ] 0.0.4 MVP Google & OpenAI Whisper TTS support
-- [ ] 0.0.5 MVP Error handling & Code documentation
-- [ ] 0.0.6 MVP ability to read Twitch chat and react to alerts (read out alert and give reaction)
+- [ ] Installable Alpha build release
+- [ ] 0.0.4 ALPHA Google & OpenAI Whisper TTS support
+- [ ] 0.0.5 ALPHA Error handling & Code documentation
+- [ ] 0.0.6 ALPHA ability to read Twitch chat and react to alerts (read out alert and give reaction)
 - [ ] 0.0.7 - reserved -
 - [ ] 0.0.8 - reserved -
 - [ ] 0.0.9 - reserved -
-- [ ] 0.1.0 Installable Beta build release
+- [ ] 0.1.0 BETA Installable Beta build release
 

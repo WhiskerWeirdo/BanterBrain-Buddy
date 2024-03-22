@@ -35,7 +35,7 @@
             // HotkeyPressed
             // 
             this.HotkeyPressed.AutoSize = true;
-            this.HotkeyPressed.Location = new System.Drawing.Point(25, 25);
+            this.HotkeyPressed.Location = new System.Drawing.Point(40, 24);
             this.HotkeyPressed.Name = "HotkeyPressed";
             this.HotkeyPressed.Size = new System.Drawing.Size(216, 13);
             this.HotkeyPressed.TabIndex = 0;
@@ -53,7 +53,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(293, 47);
+            this.ClientSize = new System.Drawing.Size(293, 57);
             this.Controls.Add(this.CombiText);
             this.Controls.Add(this.HotkeyPressed);
             this.Name = "HotkeyForm";
