@@ -29,18 +29,16 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 - [X] Full run from Native STT to ChatGPT to Native TTS
 - [X] Store and read setings file & API keys
 - [ ] Push-To-Talk Hotkey with global binding
-- [ ] Use selected Voice Input device instead of default
-- [ ] Use selected Audio Output device instead of default
 - [ ] 0.0.1 release -> repo public
  
 ### Short term roadmap
 - [ ] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
-- [ ] 0.0.2 MVP ability to read Twitch chat and react to specifyable chat command
-- [ ] 0.0.3 MVP Azure TTS/STT support
-- [ ] 0.0.4 MVP Google & OpenAI Whisper TTS support
-- [ ] 0.0.5 MVP Error handling & Code documentation
-- [ ] 0.0.6 MVP ability to read Twitch chat and react to alerts (read out alert and give reaction)
-- [ ] 0.0.7 - reserved -
+- [ ] 0.0.2 MVP use non-default audio devices for input/output
+- [ ] 0.0.3 MVP ability to read Twitch chat and react to specifyable chat command
+- [ ] 0.0.4 MVP Azure TTS/STT support
+- [ ] 0.0.5 MVP Google & OpenAI Whisper TTS support
+- [ ] 0.0.6 MVP Error handling & Code documentation
+- [ ] 0.0.7 MVP ability to read Twitch chat and react to alerts (read out alert and give reaction)
 - [ ] 0.0.8 - reserved -
 - [ ] 0.0.9 - reserved -
 - [ ] 0.1.0 Installable Beta build release
