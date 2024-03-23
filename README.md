@@ -13,7 +13,7 @@ The goal is to provide local PC or streaming entertainment by talking to an AI a
 For the streaming side of things, integration with Twitch to respond to chat commands and stream events is planned.
 
 ## Social
-Come talk or chat at https://discord.gg/2EEhKpEMMT
+Come talk or chat at https://discord.banterbrain.tv
 
 ## Build instructions
 [todo]

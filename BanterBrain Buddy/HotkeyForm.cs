@@ -24,7 +24,8 @@ namespace BanterBrain_Buddy
         public List<Keys> ReturnValue1 { get; set; }
         private void GlobalHookKeyDown(object sender, KeyEventArgs e)
         {
-            //TODO: ALT is a bad idea
+            //TODO: ALT is a bad idea, so capture this better
+            //TODO: shouldnt we also allow for mouse keys instead?
             
             //only allow 1 ascii char
             if (e.KeyValue < 128 && !KeyCombo.Contains(e.KeyCode))
