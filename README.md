@@ -29,7 +29,7 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 - [X] Full run from Native STT to ChatGPT to Native TTS
 - [X] Store and read setings file & API keys
 - [X] Push-To-Talk Hotkey with global binding
-- [ ] 0.0.1 release -> repo public
+- [X] 0.0.1 release -> repo public
  
 ### Short term roadmap
 - [ ] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
