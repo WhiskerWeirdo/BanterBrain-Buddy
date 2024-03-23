@@ -1,10 +1,10 @@
-﻿using NAudio.CoreAudioApi;
+﻿using Gma.System.MouseKeyHook;
+using NAudio.CoreAudioApi;
 using OpenAI_API;
 using OpenAI_API.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Security.Cryptography;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;
@@ -15,11 +15,15 @@ namespace BanterBrain_Buddy
 {
     public partial class BBB : Form
     {
+        //PTT hotkey hook
+        private IKeyboardMouseEvents m_GlobalHook;
+
         public BBB()
         {
-            
+
             InitializeComponent();
             LoadSettings();
+            Subscribe();
 
             //Get Sound devices
             MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
@@ -40,9 +44,8 @@ namespace BanterBrain_Buddy
                 else
                     SoundInputDevices.Items.Add(device.FriendlyName);
             TextLog.AppendText("Program Starting...\r\n");
-
+            TextLog.AppendText("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
         }
-
 
         private void STTTestButton_Click(object sender, EventArgs e)
         {
@@ -93,8 +96,9 @@ namespace BanterBrain_Buddy
                 STTRegionEditbox.Enabled = true;
             }
         }
+        
+        // check if SST is finished yet
         bool STTDone = false;
-
         private async void STTNative(System.Windows.Forms.Button ButtonPressed)
         {
             STTDone = false;
@@ -109,26 +113,16 @@ namespace BanterBrain_Buddy
             recognizer.SpeechRecognized +=
               new EventHandler<SpeechRecognizedEventArgs>(SpeechRecognized);
 
-           // recognizer.SpeechDetected +=
-              //  new EventHandler<SpeechDetectedEventArgs>(SpeechDetectedHandler);
-
-           // recognizer.SpeechHypothesized +=
-              //  new EventHandler<SpeechHypothesizedEventArgs>(SpeechHypothesizedHandler);
-
             recognizer.RecognizeCompleted +=
                 new EventHandler<RecognizeCompletedEventArgs>(RecognizeCompletedHandler);
-
-            // Configure input to the speech recognizer.  
+  
             //TODO: use the selected audio device, not default
             recognizer.SetInputToDefaultAudioDevice();
 
-            // Modify the initial silence time-out value.  
-            // Start synchronous speech recognition.
             TextLog.AppendText("STT microphone start. -- SPEAK NOW -- \r\n");
 
             recognizer.RecognizeAsync(RecognizeMode.Multiple);
             while (ButtonPressed.Text == "Recording")
-           // while (STTTestButton.Text == "Recording")
             {
                 await Task.Delay(500);
             }
@@ -137,8 +131,7 @@ namespace BanterBrain_Buddy
         }
 
         // Handle the SpeechHypothesized event.  
-        private void SpeechHypothesizedHandler(
-          object sender, SpeechHypothesizedEventArgs e)
+        private void SpeechHypothesizedHandler(object sender, SpeechHypothesizedEventArgs e)
         {
             TextLog.AppendText(" In SpeechHypothesizedHandler:+\r\n");
 
@@ -172,14 +165,14 @@ namespace BanterBrain_Buddy
         // Handle the SpeechRecognized event.  
         private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
-            TextLog.AppendText("Recognized text: " + e.Result.Text+ "\r\n");
-            STTTestOutput.AppendText(e.Result.Text+ "\r\n");
+            TextLog.AppendText("Recognized text: " + e.Result.Text + "\r\n");
+            STTTestOutput.AppendText(e.Result.Text + "\r\n");
         }
 
         bool GPTDone = false;
         private async void TalkToOpenAIGPT(String UserInput)
         {
-            TextLog.AppendText("Sending to GPT\r\n");
+            TextLog.AppendText("Sending to GPT: " +UserInput+ "\r\n");
             GPTDone = false;
             OpenAIAPI api = new OpenAIAPI(LLMAPIKeyTextBox.Text);
             var chat = api.Chat.CreateConversation();
@@ -194,20 +187,20 @@ namespace BanterBrain_Buddy
             chat.AppendUserInput(UserInput);
             try
             {
-               TextLog.AppendText("ChatGPT response: ");
-               await chat.StreamResponseFromChatbotAsync(res =>
-                {
-                    TextLog.AppendText(res);
-                    LLMTestOutputbox.AppendText(res);
-                });
+                TextLog.AppendText("ChatGPT response: ");
+                await chat.StreamResponseFromChatbotAsync(res =>
+                 {
+                     TextLog.AppendText(res);
+                     LLMTestOutputbox.AppendText(res);
+                 });
                 TextLog.AppendText("\r\nGPT Response done\r\n");
                 GPTDone = true;
             }
             catch (System.Security.Authentication.AuthenticationException ex)
             {
-                MessageBox.Show( ex.Message,"GPT API Auth error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "GPT API Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-      
+
         }
 
         private void GPTTestButton_Click(object sender, EventArgs e)
@@ -238,7 +231,7 @@ namespace BanterBrain_Buddy
                 TTSNative(TTSTestTextBox.Text);
             }
         }
-      
+
         private async void ProgramFlowTest_Click(object sender, EventArgs e)
         {
             //first, lets call STT
@@ -251,7 +244,7 @@ namespace BanterBrain_Buddy
                 if (SelectedProvider == "Native")
                 {
                     TextLog.AppendText("Native STT calling\r\n");
-                    STTNative(ProgramFlowTest); 
+                    STTNative(ProgramFlowTest);
                     while (!STTDone)
                     {
                         await Task.Delay(500);
@@ -259,54 +252,61 @@ namespace BanterBrain_Buddy
                 }
 
                 //now the STT text is in STTTestOutput.Text, lets pass that to ChatGPT
-                LLMTestOutputbox.Text = "";
-                if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
+                if (STTTestOutput.Text.Length > 1)
                 {
-                    STTTestOutput.AppendText("Using ChatGPT\r\n");
-                    TalkToOpenAIGPT(STTTestOutput.Text);
-                }
-                //lets wait for GPT to be done
-                while (!GPTDone)
-                {
-                    await Task.Delay(500);
-                }
+                    LLMTestOutputbox.Text = "";
+                    if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
+                    {
+                        STTTestOutput.AppendText("Using ChatGPT\r\n");
+                        TalkToOpenAIGPT(STTTestOutput.Text);
+                    }
+                    //lets wait for GPT to be done
+                    while (!GPTDone)
+                    {
+                        await Task.Delay(500);
+                    }
 
-                //result text is in LLMTestOutputbox.Text, lets pass that to TTS
-                if (TTSProviderComboBox.Text == "Native")
-                 {
-                     TTSNative(LLMTestOutputbox.Text);
-                 }
+                    //result text is in LLMTestOutputbox.Text, lets pass that to TTS
+                    if (TTSProviderComboBox.Text == "Native")
+                    {
+                        TTSNative(LLMTestOutputbox.Text);
+                    }
+                }
+                else
+                    TextLog.AppendText("No audio recorded");
             }
             else
             {
                 ProgramFlowTest.Text = "Start";
             }
-
-
-
         }
 
         private void LoadSettings()
         {
-             SoundInputDevices.Text = Properties.Settings.Default.VoiceInput;
-             MicrophoneHotkeyEditbox.Text = Properties.Settings.Default.PTTHotkey;
-             STTProviderBox.Text = Properties.Settings.Default.STTProvider;
-             LLMProviderComboBox.Text = Properties.Settings.Default.LLMProvider;
-             LLMModelComboBox.Text = Properties.Settings.Default.LLMModel;
-             LLMRoleTextBox.Text = Properties.Settings.Default.LLMRoleText;
-             TTSProviderComboBox.Text = Properties.Settings.Default.TTSProvider;
-             TTSAudioOutputComboBox.Text = Properties.Settings.Default.TTSAudioOutput;
-             TTSOutputVoice.Text = Properties.Settings.Default.TTSAudioVoice;
-             TTSOutputVoiceOptions.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
-             STTAPIKeyEditbox.Text = Properties.Settings.Default.STTAPIKey;
-             STTRegionEditbox.Text = Properties.Settings.Default.STTAPIRegion;
-             LLMAPIKeyTextBox.Text= Properties.Settings.Default.LLMAPIKey;
-             TTSOutputVoice.Enabled = Properties.Settings.Default.TTSAudioVoiceEnabled;
-             TTSOutputVoiceOptions.Enabled = Properties.Settings.Default.TTSAudioVoiceOptionsEnabled;
-             STTAPIKeyEditbox.Enabled = Properties.Settings.Default.STTAPIKeyEnabled;
-             STTRegionEditbox.Enabled = Properties.Settings.Default.STTAPIRegionEnabled;
+            SoundInputDevices.Text = Properties.Settings.Default.VoiceInput;
+            MicrophoneHotkeyEditbox.Text = Properties.Settings.Default.PTTHotkey;
+            STTProviderBox.Text = Properties.Settings.Default.STTProvider;
+            LLMProviderComboBox.Text = Properties.Settings.Default.LLMProvider;
+            LLMModelComboBox.Text = Properties.Settings.Default.LLMModel;
+            LLMRoleTextBox.Text = Properties.Settings.Default.LLMRoleText;
+            TTSProviderComboBox.Text = Properties.Settings.Default.TTSProvider;
+            TTSAudioOutputComboBox.Text = Properties.Settings.Default.TTSAudioOutput;
+            TTSOutputVoice.Text = Properties.Settings.Default.TTSAudioVoice;
+            TTSOutputVoiceOptions.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
+            STTAPIKeyEditbox.Text = Properties.Settings.Default.STTAPIKey;
+            STTRegionEditbox.Text = Properties.Settings.Default.STTAPIRegion;
+            LLMAPIKeyTextBox.Text = Properties.Settings.Default.LLMAPIKey;
+            TTSOutputVoice.Enabled = Properties.Settings.Default.TTSAudioVoiceEnabled;
+            TTSOutputVoiceOptions.Enabled = Properties.Settings.Default.TTSAudioVoiceOptionsEnabled;
+            STTAPIKeyEditbox.Enabled = Properties.Settings.Default.STTAPIKeyEnabled;
+            STTRegionEditbox.Enabled = Properties.Settings.Default.STTAPIRegionEnabled;
+            //load HotkeyList into SetHotKeys
+            foreach (String key in Properties.Settings.Default.HotkeyList)
+            {
+                Keys tmpKey = (Keys)Enum.Parse(typeof(Keys), key, true);
+                SetHotkeys.Add(tmpKey);
+             }
         }
-
 
         private void BBB_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -327,56 +327,125 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TTSAudioVoiceOptionsEnabled = TTSOutputVoiceOptions.Enabled;
             Properties.Settings.Default.STTAPIKeyEnabled = STTAPIKeyEditbox.Enabled;
             Properties.Settings.Default.STTAPIRegionEnabled = STTRegionEditbox.Enabled;
+            //add the hotkeys in settings list, not in text
+            Properties.Settings.Default.HotkeyList.Clear();
+            foreach (Keys key in SetHotkeys)
+            {
+                Properties.Settings.Default.HotkeyList.Add(key.ToString());
+            }
             Properties.Settings.Default.Save();
-
+            //remove hotkey hooks
+            Unsubscribe();
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.Application.Exit();
         }
-
+ 
+        //Get new hotkeys
+        List<Keys> SetHotkeys = new List<Keys>();
         public void ShowHotkeyDialogBox()
         {
+            
             HotkeyForm HotkeyDialog = new HotkeyForm();
             var result = HotkeyDialog.ShowDialog(this);
             // Show testDialog as a modal dialog and determine if DialogResult = OK.
-            if ( result == DialogResult.OK)
+            if (result == DialogResult.OK && HotkeyDialog.ReturnValue1 != null)
             {
+                SetHotkeys.Clear();
                 this.MicrophoneHotkeyEditbox.Text = "";
-
-                List<int> Keys = HotkeyDialog.ReturnValue1;
-                //we need to store this in its ascii formats also for the hotkey binding
-                //lets used saved User settings for that
-                //TODO
-
+                List<Keys> HotKeys = HotkeyDialog.ReturnValue1;
                 //ok now we got the keys, parse them and put them in the index box
-                foreach ( var key in Keys )
+                // and the global list for hotkeys
+
+                for (var i=0; i< HotKeys.Count; i++)
                 {
-                    switch ( key )
-                    {
-                        case 164:
-                            this.MicrophoneHotkeyEditbox.Text += "ALT+";
-                            break;
-                        case 162:
-                            this.MicrophoneHotkeyEditbox.Text += "CTRL+";
-                            break;
-                        case 160:
-                            this.MicrophoneHotkeyEditbox.Text += "SHIFT+";
-                            break;
-                        default:
-                            this.MicrophoneHotkeyEditbox.Text += (char)key;
-                            break;
-                    }
+                    //add to the current hotkey list for keyup event checks
+                    SetHotkeys.Add(HotKeys[i]);
+
+                    //add to the text box
+                    if (i < HotKeys.Count - 1)
+                        this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString() + " + ";
+                    else
+                        this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString();
                 }
             }
             TextLog.AppendText("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
             HotkeyDialog.Dispose();
+            //bind the new value 
+            Subscribe();
         }
+
         private void MicrophoneHotkeySet_Click(object sender, EventArgs e)
         {
+            Unsubscribe();
             ShowHotkeyDialogBox();
         }
-    }
 
+        //Keyboard hooks
+        public void Unsubscribe()
+        {
+            m_GlobalHook.KeyDown -= GlobalHookKeyDown;
+            m_GlobalHook.KeyUp -= GlobalHookKeyUp;
+            //It is recommened to dispose it
+            m_GlobalHook.Dispose();
+            Console.WriteLine("keyboard hook OFF");
+        }
+        public void Subscribe()
+        {
+            Console.WriteLine("keyboard hook ON");
+            m_GlobalHook = Hook.GlobalEvents();
+            m_GlobalHook.KeyDown += GlobalHookKeyDown;
+            m_GlobalHook.KeyUp  += GlobalHookKeyUp;
+        }
+
+        //here we handle the hotkey being pressed.
+        //This is a bit jank because as long as the hotkey is pressed
+        //the event map from GlobalHookKeyDown will keep triggering this
+        //so we gotta make sure we call it only once by setting a global bool
+        bool HotkeyCalled = false;
+        private async void HandleHotkeyButton()
+        {
+            if (!HotkeyCalled)
+            {
+                if (ProgramFlowTest.Text == "Start")
+                {
+                    ProgramFlowTest_Click(null,null);
+                    HotkeyCalled = true;
+                    //ok lets wait 1 sec before checking shit again
+                    await Task.Delay(1000);
+                }
+            }
+        }
+
+        private async void GlobalHookKeyUp(object sender, KeyEventArgs e)
+        {
+            //if microphone is on (hotkeycalled = true) and of the hotkeys are in the keyup event turn off the microphone
+            //current hotkeys are in SetHotkeys
+            if (HotkeyCalled)
+            {
+                //if one of the keys in teh sethotkeys is detected as UP, give it a second then stop recording
+                //foreach (Keys key in SetHotkeys)
+                if (SetHotkeys.Contains(e.KeyCode))
+                {
+                    ProgramFlowTest_Click(null, null);
+                    await Task.Delay(1000);
+                    HotkeyCalled = false;
+                }
+            }
+
+        }
+
+        //handle the current hotkey setting
+        private void GlobalHookKeyDown(object sender, KeyEventArgs e)
+        {
+            var map = new Dictionary<Combination, Action>
+            {
+               {Combination.FromString(MicrophoneHotkeyEditbox.Text),  () => HandleHotkeyButton() }
+            };
+
+            m_GlobalHook.OnCombination(map);
+        }
+    }
 }
