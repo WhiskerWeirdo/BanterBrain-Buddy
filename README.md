@@ -1,5 +1,5 @@
 # BanterBrain Buddy
-v0.0.1
+v0.0.2
 
 ## License
 This project uses the GNU General Public License v3.0 as you can read [here](./LICENSE.txt). The TLDR is:
@@ -27,8 +27,8 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 
 ### 0.0.2 TODO
 - [X] Audio output to selected device
-- [ ] audio input to selected device
-nb: Input works to wav (2nd play button) but recognition using that has bad quality.
+- [X] audio input to selected device
+- [ ] fix audio device names in dropdown boxes
  
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
@@ -38,7 +38,7 @@ nb: Input works to wav (2nd play button) but recognition using that has bad qual
 - [ ] 0.0.5 MVP Google & OpenAI Whisper TTS support
 - [ ] 0.0.6 MVP Error handling & Code documentation
 - [ ] 0.0.7 MVP ability to read Twitch chat and react to alerts (read out alert and give reaction)
-- [ ] 0.0.8 - reserved -
+- [ ] 0.0.8 MVP clean up code, make TTS/STT native in their own class(es)
 - [ ] 0.0.9 - reserved -
 - [ ] 0.1.0 Installable Beta build release
 
