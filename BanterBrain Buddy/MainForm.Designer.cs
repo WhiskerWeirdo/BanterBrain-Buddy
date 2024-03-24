@@ -71,7 +71,6 @@ namespace BanterBrain_Buddy
             this.STTProviderBox = new System.Windows.Forms.ComboBox();
             this.STTTestOutput = new System.Windows.Forms.TextBox();
             this.MainTab = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
             this.TextLog = new System.Windows.Forms.TextBox();
             this.ProgramFlowTest = new System.Windows.Forms.Button();
             this.BBBTabs = new System.Windows.Forms.TabControl();
@@ -370,19 +369,11 @@ namespace BanterBrain_Buddy
             // 
             // MainTab
             // 
-            this.MainTab.Controls.Add(this.button2);
             this.MainTab.Controls.Add(this.TextLog);
             this.MainTab.Controls.Add(this.ProgramFlowTest);
             resources.ApplyResources(this.MainTab, "MainTab");
             this.MainTab.Name = "MainTab";
             this.MainTab.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            resources.ApplyResources(this.button2, "button2");
-            this.button2.Name = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // TextLog
             // 
@@ -524,7 +515,6 @@ namespace BanterBrain_Buddy
         private ToolStripMenuItem aboutToolStripMenuItem;
         private MenuStrip menuStrip1;
         private ComboBox TTSAudioOutputComboBox;
-        private Button button2;
     }
 }
 

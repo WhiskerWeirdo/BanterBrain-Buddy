@@ -34,7 +34,7 @@ namespace BanterBrain_Buddy
         private bool STTDone = false;
         //Hotkey Storage
         private List<Keys> SetHotkeys = new List<Keys>();
-        //check if the GPT LLM is done
+        //check if the GPT LLM is donestop audio capture
         private bool GPTDone = false;
 
         public BBB()
@@ -65,28 +65,32 @@ namespace BanterBrain_Buddy
             }
         }
 
-        private void STTTestButton_Click(object sender, EventArgs e)
+        private async void STTTestButton_Click(object sender, EventArgs e)
         {
             if (STTTestButton.Text == "Test")
             {
                 STTTestOutput.Text = "";
-                TextLog.AppendText("Microphone on\r\n");
+                TextLog.AppendText("Test Microphone on\r\n");
                 STTTestButton.Text = "Recording";
                 String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
-                TextLog.AppendText(SelectedProvider);
-
+                TextLog.AppendText(SelectedProvider + "\r\n");
+                STTDone = false;
                 if (SelectedProvider == "Native")
                 {
-                    TextLog.AppendText("Native STT calling\r\n");
-                    STTTestOutput.BackColor = Color.Orange;
-                    STTNative(STTTestButton);
+                    TextLog.AppendText("Test Native STT calling\r\n");
+                    InputStreamtoWav();
+                    while (!STTDone)
+                    {
+                        await Task.Delay(500);
+                    }
                 }
             }
             else
             {
                 STTTestButton.Text = "Test";
-                TextLog.AppendText("Stopped recording\r\n");
+                TextLog.AppendText("Test stopped recording\r\n");
                 STTTestOutput.BackColor = SystemColors.Control;
+                StopWavCapture();
             }
         }
 
@@ -99,7 +103,6 @@ namespace BanterBrain_Buddy
                 STTAPIKeyEditbox.Enabled = false;
                 STTRegionEditbox.Enabled = false;
                 STTTestOutput.Text = "Hint: For better native Speech-To-Text always train your voice at least once in Control Panel\\Ease of Access\\Speech Recognition";
-                //grey out region and api key
             }
             else if (SelectedProvider == "Azure")
             {
@@ -117,8 +120,6 @@ namespace BanterBrain_Buddy
 
         //help with selected inputdevice
         private IWaveSource _finalSource;
-        //help with conversion
-        IWaveSource convertedSource;
         public MMDevice SelectedDevice
         {
             get { return _selectedDevice; }
@@ -132,11 +133,10 @@ namespace BanterBrain_Buddy
         private MMDevice _selectedDevice;
         private WasapiCapture _soundIn;
         private IWriteable _writer;
-        private string tmpWavFile = System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
+        private string tmpWavFile = Path.GetDirectoryName(Application.ExecutablePath) + "\\tmp.wav";
         private void InputStreamtoWav()
         {
 
-            Console.WriteLine("in inputstream recording the wav");
             var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Capture, DeviceState.Active);
             foreach (var device in devices)
             {
@@ -153,7 +153,7 @@ namespace BanterBrain_Buddy
 
             //speech recognition is painful, like life
             //this has to be this setting or Native TTS function will throw an error
-            _finalSource = singleBlockNotificationStream.ToMono().ChangeSampleRate(16000).ToWaveSource(16);
+            _finalSource = singleBlockNotificationStream.ToMono().ChangeSampleRate(16000).ToWaveSource(16); 
             _writer = new WaveWriter(tmpWavFile, _finalSource.WaveFormat);
             soundInSource.DataAvailable += (s, e) =>
             {
@@ -168,7 +168,7 @@ namespace BanterBrain_Buddy
 
         private void StopWavCapture()
         {
-            TextLog.AppendText("stop capture to file");
+            TextLog.AppendText("Stopping capture to WAV file\r\n");
             if (_soundIn != null)
             {
                 _soundIn.Stop();
@@ -192,7 +192,6 @@ namespace BanterBrain_Buddy
             SpeechRecognitionEngine recognizer2 = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-US"));
             // Create and load a dictation grammar.  
             recognizer2.LoadGrammar(new DictationGrammar());
-            tmpWavFile = System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
             recognizer2.SetInputToWaveFile(tmpWavFile);
             // Attach event handlers for the results of recognition.  
             recognizer2.SpeechRecognized +=
@@ -212,38 +211,6 @@ namespace BanterBrain_Buddy
         }
 
 
-        private async void STTNative(System.Windows.Forms.Button ButtonPressed)
-        {
-
-            STTDone = false;
-           // return;
-            TextLog.AppendText("STT Native called\r\n");
-            // Create an in-process speech recognizer for the en-US locale.  
-            SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-US"));
-            // Create and load a dictation grammar.  
-            recognizer.LoadGrammarAsync(new DictationGrammar());
-
-            // Add a handler for the speech recognized event.  
-            recognizer.SpeechRecognized +=
-              new EventHandler<SpeechRecognizedEventArgs>(SpeechRecognized);
-
-            recognizer.RecognizeCompleted +=
-                new EventHandler<RecognizeCompletedEventArgs>(RecognizeCompletedHandler);
-
-            //TODO: use the selected audio device, not default
-            recognizer.SetInputToDefaultAudioDevice();
-          
-            TextLog.AppendText("STT microphone start. -- SPEAK NOW -- \r\n");
-
-            recognizer.RecognizeAsync(RecognizeMode.Multiple);
-            while (ButtonPressed.Text == "Recording")
-            {
-                await Task.Delay(500);
-            }
-            recognizer.RecognizeAsyncStop();
-            TextLog.AppendText("STT microphone stop.\r\n");
-            recognizer.Dispose();
-        }
 
         // Handle the SpeechHypothesized event.  
         private void SpeechHypothesizedHandler(object sender, SpeechHypothesizedEventArgs e)
@@ -277,7 +244,6 @@ namespace BanterBrain_Buddy
             }
             if (e.InputStreamEnded)
             {
-                TextLog.AppendText("  End of stream encountered.\r\n");
                 TextLog.AppendText("STT recognize Stopped.\r\n");
             }
             
@@ -372,21 +338,41 @@ namespace BanterBrain_Buddy
             }
         }
  
-        private void TTSNative(String TTSText)
+        private void TTSNativeSpeakToOutput(String TTSText)
         {
             TextLog.AppendText("Saying text with Native TTS\r\n");
             SpeechSynthesizer synthesizer = new SpeechSynthesizer();
             var stream = new MemoryStream();
             synthesizer.SetOutputToWaveStream(stream);
             synthesizer.Speak(TTSText);
-            OutputStream(stream);
+            //OutputStream(stream);
+            var Devices = WaveOutDevice.EnumerateDevices();
+            int deviceID = 0;
+            foreach (var device in WaveOutDevice.EnumerateDevices())
+            {
+                if (device.Name == TTSAudioOutputComboBox.Text)
+                {
+                    deviceID = device.DeviceId;
+                }
+            }
+            var waveOut = new WaveOut { Device = new WaveOutDevice(deviceID) };
+            using (var waveSource = new MediaFoundationDecoder(stream))
+            {
+                waveOut.Initialize(waveSource);
+                waveOut.Play();
+               // while (waveOut.PlaybackState != PlaybackState.Stopped)
+               // {
+               //     Thread.Sleep(500);
+               // }
+                waveOut.WaitForStopped();
+            }
         }
 
         private void TTSTestButton_Click(object sender, EventArgs e)
         {
             if (TTSProviderComboBox.Text == "Native")
             {
-                TTSNative(TTSTestTextBox.Text);
+                TTSNativeSpeakToOutput(TTSTestTextBox.Text);
             }
         }
 
@@ -409,6 +395,7 @@ namespace BanterBrain_Buddy
                     }
                 }
                 
+                Thread.Sleep(500); 
                 //now the STT text is in STTTestOutput.Text, lets pass that to ChatGPT
                 if (STTTestOutput.Text.Length > 1)
                 {
@@ -427,7 +414,7 @@ namespace BanterBrain_Buddy
                     //result text is in LLMTestOutputbox.Text, lets pass that to TTS
                     if (TTSProviderComboBox.Text == "Native")
                     {
-                        TTSNative(LLMTestOutputbox.Text);
+                        TTSNativeSpeakToOutput(LLMTestOutputbox.Text);
                     }
                 }
                 else
@@ -548,11 +535,9 @@ namespace BanterBrain_Buddy
             m_GlobalHook.KeyUp -= GlobalHookKeyUp;
             //It is recommened to dispose it
             m_GlobalHook.Dispose();
-            Console.WriteLine("keyboard hook OFF");
         }
         public void Subscribe()
         {
-            Console.WriteLine("keyboard hook ON");
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyDown += GlobalHookKeyDown;
             m_GlobalHook.KeyUp  += GlobalHookKeyUp;
@@ -578,7 +563,7 @@ namespace BanterBrain_Buddy
             //current hotkeys are in SetHotkeys
             if (HotkeyCalled)
             {
-                //if one of the keys in teh sethotkeys is detected as UP, give it a second then stop recording
+                //if one of the keys in the sethotkeys is detected as UP, give it a second then stop recording
                 //foreach (Keys key in SetHotkeys)
                 if (SetHotkeys.Contains(e.KeyCode))
                 {
@@ -599,11 +584,6 @@ namespace BanterBrain_Buddy
             };
 
             m_GlobalHook.OnCombination(map);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            NativeSTTfromWAV();
         }
     }
 }

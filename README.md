@@ -25,10 +25,15 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 
 ## Roadmap
 
+### KNOWN ISSUES
+- [ ] Wav file in use error sometimes on TTS
+
 ### 0.0.2 TODO
 - [X] Audio output to selected device
 - [X] audio input to selected device
-- [ ] fix audio device names in dropdown boxes
+- [X] fix STT test button to use .wav files too so its all 1 function.
+- [ ] speak in async
+
  
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
