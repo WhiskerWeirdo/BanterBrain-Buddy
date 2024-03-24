@@ -1,5 +1,4 @@
 ﻿using Gma.System.MouseKeyHook;
-using NAudio.CoreAudioApi;
 using OpenAI_API;
 using OpenAI_API.Models;
 using System;
@@ -9,7 +8,17 @@ using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO;
+using CSCore.MediaFoundation;
+using CSCore.SoundOut;
+using CSCore.SoundIn;
+using CSCore;
+using CSCore.DMO;
+using CSCore.CoreAudioAPI;
+using CSCore.Streams;
+using CSCore.Codecs.WAV;
+using System.Speech.AudioFormat;
+using OpenAI_API.Moderation;
 
 namespace BanterBrain_Buddy
 {
@@ -18,33 +27,41 @@ namespace BanterBrain_Buddy
         //PTT hotkey hook
         private IKeyboardMouseEvents m_GlobalHook;
 
+        //used for PTT checking
+        private bool HotkeyCalled = false;
+        // check if SST is finished yet
+        private bool STTDone = false;
+        //Hotkey Storage
+        private List<Keys> SetHotkeys = new List<Keys>();
+        //check if the GPT LLM is done
+        private bool GPTDone = false;
+
         public BBB()
         {
 
             InitializeComponent();
             LoadSettings();
             Subscribe();
+            GetAudioDevices();
 
-            //Get Sound devices
-            MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
-            //default speaker
-            var defaultOutputDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Console);
-            TTSAudioOutputComboBox.Text = defaultOutputDevice.FriendlyName;
-
-            //default mic
-            var defaultInputDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Multimedia);
-
-            //Show the list of possible inputs, with * is the currently default/active one
-            var devices = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active);
-            foreach (var device in devices)
-                if (device.FriendlyName == defaultInputDevice.FriendlyName)
-                {
-                    SoundInputDevices.Items.Add(device.FriendlyName + "*");
-                }
-                else
-                    SoundInputDevices.Items.Add(device.FriendlyName);
             TextLog.AppendText("Program Starting...\r\n");
             TextLog.AppendText("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
+        }
+
+        public void GetAudioDevices()
+        {
+            var CaptureDevices = WaveInDevice.EnumerateDevices();
+            foreach (var device in CaptureDevices)
+            {
+                SoundInputDevices.Items.Add(device.Name);
+            }
+            //output devices
+            var OutputDevices = WaveOutDevice.EnumerateDevices();
+
+            foreach (var device in WaveOutDevice.EnumerateDevices())
+            {
+                TTSAudioOutputComboBox.Items.Add(device.Name);
+            }
         }
 
         private void STTTestButton_Click(object sender, EventArgs e)
@@ -96,14 +113,118 @@ namespace BanterBrain_Buddy
                 STTRegionEditbox.Enabled = true;
             }
         }
-        
-        // check if SST is finished yet
-        bool STTDone = false;
+
+        private void TestSTTNative()
+        {
+            Console.WriteLine("STTNative:" + SoundInputDevices.Text + ":" + SoundInputDevices.Items.Count);
+            //get id from selected device
+            foreach (var device in WaveInDevice.EnumerateDevices())
+            {
+                if (SoundInputDevices.Text == device.Name)
+                {
+                    InputStream();
+                }
+            }
+
+        }
+
+        //help with selected inputdevice
+        private IWaveSource _finalSource;
+        public MMDevice SelectedDevice
+        {
+            get { return _selectedDevice; }
+            set
+            {
+                _selectedDevice = value;
+            }
+        }
+
+        private MMDevice _selectedDevice;
+        private WasapiCapture _soundIn;
+        private IWriteable _writer;
+        private string tmpWavFile = System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
+        private void InputStream()
+        {
+            Console.WriteLine("in inputstream");
+            var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Capture, DeviceState.Active);
+            foreach (var device in devices)
+            {
+                if (device.FriendlyName == SoundInputDevices.Text)
+                {
+                    SelectedDevice = device;
+                }
+            }
+            _soundIn = new WasapiCapture();
+            Console.WriteLine("><>" + SelectedDevice.FriendlyName);
+            _soundIn.Device = SelectedDevice;
+            _soundIn.Initialize();
+            var soundInSource = new SoundInSource(_soundIn);
+            var singleBlockNotificationStream = new SingleBlockNotificationStream(soundInSource.ToSampleSource());
+            _finalSource = singleBlockNotificationStream.ToWaveSource();
+
+            _writer = new WaveWriter(tmpWavFile, _finalSource.WaveFormat);
+            byte[] buffer = new byte[_finalSource.WaveFormat.BytesPerSecond / 2];
+            soundInSource.DataAvailable += (s, e) =>
+            {
+                int read;
+                while ((read = _finalSource.Read(buffer, 0, buffer.Length)) > 0)
+                    _writer.Write(buffer, 0, read);
+            };
+            _soundIn.Start();
+            TextLog.AppendText("STT microphone start. -- SPEAK NOW -- \r\n");
+        }
+
+        private void StopCapture()
+        {
+            TextLog.AppendText("stop capture to file");
+            if (_soundIn != null)
+            {
+                _soundIn.Stop();
+                _soundIn.Dispose();
+                _soundIn = null;
+                _finalSource.Dispose();
+
+                if (_writer is IDisposable)
+                    ((IDisposable)_writer).Dispose();
+
+            }
+            STTDone = false;
+            System.Threading.Thread.Sleep(3000);
+            //ok now that we have an MP3, lets push it to TTS
+            NativeSTT();
+            //now lets delete it
+        }
+
+        private void NativeSTT()
+        {
+
+            TextLog.AppendText(STTDone.ToString()+" STT Native from file called: "+ tmpWavFile + "\r\n");
+            // Create an in-process speech recognizer for the en-US locale.  
+            SpeechRecognitionEngine recognizer2 = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-US"));
+            // Create and load a dictation grammar.  
+            recognizer2.LoadGrammarAsync(new DictationGrammar());
+
+            //TODO: use the selected audio device, not default
+            STTDone = false;
+            
+            using (FileStream stream = new FileStream(tmpWavFile, FileMode.Open))
+            {
+                recognizer2.SetInputToAudioStream(stream, new SpeechAudioFormatInfo(9000, AudioBitsPerSample.Sixteen, AudioChannel.Stereo));
+                RecognitionResult result = recognizer2.Recognize();
+                TextLog.AppendText("Recognized text: " + result.Text + "\r\n");
+                STTTestOutput.AppendText(result.Text + "\r\n");
+                stream.Close();
+            }
+
+            TextLog.AppendText("STT done.\r\n");
+        }
+
         private async void STTNative(System.Windows.Forms.Button ButtonPressed)
         {
-            STTDone = false;
 
-            TextLog.AppendText("STTNative called\r\n");
+            STTDone = false;
+           // return;
+            TextLog.AppendText("STT Native called\r\n");
             // Create an in-process speech recognizer for the en-US locale.  
             SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-US"));
             // Create and load a dictation grammar.  
@@ -115,10 +236,10 @@ namespace BanterBrain_Buddy
 
             recognizer.RecognizeCompleted +=
                 new EventHandler<RecognizeCompletedEventArgs>(RecognizeCompletedHandler);
-  
+
             //TODO: use the selected audio device, not default
             recognizer.SetInputToDefaultAudioDevice();
-
+          
             TextLog.AppendText("STT microphone start. -- SPEAK NOW -- \r\n");
 
             recognizer.RecognizeAsync(RecognizeMode.Multiple);
@@ -134,7 +255,7 @@ namespace BanterBrain_Buddy
         private void SpeechHypothesizedHandler(object sender, SpeechHypothesizedEventArgs e)
         {
             TextLog.AppendText(" In SpeechHypothesizedHandler:+\r\n");
-
+            Console.WriteLine("in hypothesishandler");
             string grammarName = "<not available>";
             string resultText = "<not available>";
             if (e.Result != null)
@@ -156,20 +277,21 @@ namespace BanterBrain_Buddy
             STTDone = true;
         }
 
+        // Handle the SpeechRecognized event.  
+        private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            //   Console.WriteLine("recognizing text\r\n");
+            TextLog.AppendText("Recognized text: " + e.Result.Text + "\r\n");
+            STTTestOutput.AppendText(e.Result.Text + "\r\n");
+
+        }
         private void SpeechDetectedHandler(object sender, SpeechDetectedEventArgs e)
         {
             TextLog.AppendText(" In SpeechDetectedHandler:\r\n");
             TextLog.AppendText(" - AudioPosition = " + e.AudioPosition + "\r\n");
         }
 
-        // Handle the SpeechRecognized event.  
-        private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-        {
-            TextLog.AppendText("Recognized text: " + e.Result.Text + "\r\n");
-            STTTestOutput.AppendText(e.Result.Text + "\r\n");
-        }
 
-        bool GPTDone = false;
         private async void TalkToOpenAIGPT(String UserInput)
         {
             TextLog.AppendText("Sending to GPT: " +UserInput+ "\r\n");
@@ -217,11 +339,37 @@ namespace BanterBrain_Buddy
             GPTTestButton.Enabled = true;
         }
 
+        //output to the selected audio device
+        private void OutputStream(MemoryStream stream)
+        {
+            //find the id of the correct output device
+            var Devices = WaveOutDevice.EnumerateDevices();
+            int deviceID = 0;
+            foreach (var device in WaveOutDevice.EnumerateDevices())
+            {
+                Console.WriteLine("{0}: {1}", device.DeviceId, device.Name);
+                if (device.Name == TTSAudioOutputComboBox.Text)
+                {
+                    deviceID = device.DeviceId;
+                }
+            }   
+            var waveOut = new WaveOut { Device = new WaveOutDevice(deviceID) };
+            using (var waveSource = new MediaFoundationDecoder(stream))
+            {
+                waveOut.Initialize(waveSource);
+                waveOut.Play();
+                waveOut.WaitForStopped();
+            }
+        }
+ 
         private void TTSNative(String TTSText)
         {
             TextLog.AppendText("Saying text with Native TTS\r\n");
             SpeechSynthesizer synthesizer = new SpeechSynthesizer();
-            synthesizer.SpeakAsync(TTSText);
+            var stream = new MemoryStream();
+            synthesizer.SetOutputToWaveStream(stream);
+            synthesizer.Speak(TTSText);
+            OutputStream(stream);
         }
 
         private void TTSTestButton_Click(object sender, EventArgs e)
@@ -243,14 +391,14 @@ namespace BanterBrain_Buddy
 
                 if (SelectedProvider == "Native")
                 {
-                    TextLog.AppendText("Native STT calling\r\n");
+                    TextLog.AppendText("ProframFlow Native STT calling\r\n");
                     STTNative(ProgramFlowTest);
                     while (!STTDone)
                     {
                         await Task.Delay(500);
                     }
                 }
-
+                Console.WriteLine("dadad");
                 //now the STT text is in STTTestOutput.Text, lets pass that to ChatGPT
                 if (STTTestOutput.Text.Length > 1)
                 {
@@ -342,9 +490,7 @@ namespace BanterBrain_Buddy
         {
             System.Windows.Forms.Application.Exit();
         }
- 
-        //Get new hotkeys
-        List<Keys> SetHotkeys = new List<Keys>();
+
         public void ShowHotkeyDialogBox()
         {
             
@@ -400,11 +546,6 @@ namespace BanterBrain_Buddy
             m_GlobalHook.KeyUp  += GlobalHookKeyUp;
         }
 
-        //here we handle the hotkey being pressed.
-        //This is a bit jank because as long as the hotkey is pressed
-        //the event map from GlobalHookKeyDown will keep triggering this
-        //so we gotta make sure we call it only once by setting a global bool
-        bool HotkeyCalled = false;
         private async void HandleHotkeyButton()
         {
             if (!HotkeyCalled)
@@ -446,6 +587,22 @@ namespace BanterBrain_Buddy
             };
 
             m_GlobalHook.OnCombination(map);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            NativeSTT();
+            /*
+            if (button1.Text == "Start")
+            {
+                button1.Text = "Recording";
+                TestSTTNative();
+            }
+            else
+            {
+                button1.Text = "Start";
+                StopCapture();
+            } */
         }
     }
 }
