@@ -338,7 +338,7 @@ namespace BanterBrain_Buddy
             }
         }
  
-        private void TTSNativeSpeakToOutput(String TTSText)
+        private async void TTSNativeSpeakToOutput(String TTSText)
         {
             TextLog.AppendText("Saying text with Native TTS\r\n");
             SpeechSynthesizer synthesizer = new SpeechSynthesizer();
@@ -360,11 +360,10 @@ namespace BanterBrain_Buddy
             {
                 waveOut.Initialize(waveSource);
                 waveOut.Play();
-               // while (waveOut.PlaybackState != PlaybackState.Stopped)
-               // {
-               //     Thread.Sleep(500);
-               // }
-                waveOut.WaitForStopped();
+                while (waveOut.PlaybackState != PlaybackState.Stopped)
+                {
+                    await Task.Delay(500);
+                }
             }
         }
 

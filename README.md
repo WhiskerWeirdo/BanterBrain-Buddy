@@ -32,7 +32,7 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 - [X] Audio output to selected device
 - [X] audio input to selected device
 - [X] fix STT test button to use .wav files too so its all 1 function.
-- [ ] speak in async
+- [X] speak in async
 
  
 ### Short term roadmap
