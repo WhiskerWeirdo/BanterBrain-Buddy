@@ -37,7 +37,7 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
  
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
-- [ ] 0.0.2 MVP use non-default audio devices for input/output
+- [X] 0.0.2 MVP use non-default audio devices for input/output
 - [ ] 0.0.3 MVP ability to read Twitch chat and react to specifyable chat command
 - [ ] 0.0.4 MVP Azure TTS/STT support
 - [ ] 0.0.5 MVP Google & OpenAI Whisper TTS support
