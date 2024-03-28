@@ -240,5 +240,53 @@ namespace BanterBrain_Buddy.Properties {
                 this["HotkeyList"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        public string TwitchUsername {
+            get {
+                return ((string)(this["TwitchUsername"]));
+            }
+            set {
+                this["TwitchUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        public string TwitchAccessToken {
+            get {
+                return ((string)(this["TwitchAccessToken"]));
+            }
+            set {
+                this["TwitchAccessToken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        public string TwitchChannel {
+            get {
+                return ((string)(this["TwitchChannel"]));
+            }
+            set {
+                this["TwitchChannel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        public string TwitchCommandTrigger {
+            get {
+                return ((string)(this["TwitchCommandTrigger"]));
+            }
+            set {
+                this["TwitchCommandTrigger"] = value;
+            }
+        }
     }
 }

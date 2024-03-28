@@ -60,5 +60,17 @@
   &lt;string&gt;Z&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
+    <Setting Name="TwitchUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="TwitchAccessToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="TwitchChannel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="TwitchCommandTrigger" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

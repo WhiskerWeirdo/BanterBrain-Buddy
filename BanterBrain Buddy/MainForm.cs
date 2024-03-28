@@ -20,6 +20,22 @@ using CSCore.Codecs.WAV;
 using System.Speech.AudioFormat;
 using OpenAI_API.Moderation;
 using System.Threading;
+using TwitchLib.Client;
+using TwitchLib.Client.Models;
+using TwitchLib.Communication.Models;
+using TwitchLib.Communication.Clients;
+using TwitchLib.Client.Events;
+using TwitchLib.Communication.Interfaces;
+using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using TwitchLib.Api.Helix.Models.Soundtrack;
+using TwitchLib.Api.Auth;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using System.Reflection;
+using static System.Net.WebRequestMethods;
 
 namespace BanterBrain_Buddy
 {
@@ -446,6 +462,10 @@ namespace BanterBrain_Buddy
             TTSOutputVoiceOptions.Enabled = Properties.Settings.Default.TTSAudioVoiceOptionsEnabled;
             STTAPIKeyEditbox.Enabled = Properties.Settings.Default.STTAPIKeyEnabled;
             STTRegionEditbox.Enabled = Properties.Settings.Default.STTAPIRegionEnabled;
+            TwitchUsername.Text= Properties.Settings.Default.TwitchUsername;
+            TwitchAccessToken.Text = Properties.Settings.Default.TwitchAccessToken;
+            TwitchChannel.Text = Properties.Settings.Default.TwitchChannel;
+            TwitchCommandTrigger.Text = Properties.Settings.Default.TwitchCommandTrigger;
             //load HotkeyList into SetHotKeys
             foreach (String key in Properties.Settings.Default.HotkeyList)
             {
@@ -473,6 +493,10 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TTSAudioVoiceOptionsEnabled = TTSOutputVoiceOptions.Enabled;
             Properties.Settings.Default.STTAPIKeyEnabled = STTAPIKeyEditbox.Enabled;
             Properties.Settings.Default.STTAPIRegionEnabled = STTRegionEditbox.Enabled;
+            Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
+            Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
+            Properties.Settings.Default.TwitchChannel  = TwitchChannel.Text;
+            Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
             //add the hotkeys in settings list, not in text
             Properties.Settings.Default.HotkeyList.Clear();
             foreach (Keys key in SetHotkeys)
@@ -583,6 +607,87 @@ namespace BanterBrain_Buddy
             };
 
             m_GlobalHook.OnCombination(map);
+        }
+
+        private async void TwitchTestButton_Click(object sender, EventArgs e)
+        {
+
+        }
+   
+
+        private async void TwitchAuthorizeButton_Click(object sender, EventArgs e)
+        {
+            //lets not block everything.
+            await GetTwitchAuthToken();
+        }
+
+        //authorizations te token has to have for what we want to do
+        private static List<string> scopes = new List<string> { "chat:read", "whispers:read", "whispers:edit", "chat:edit", "channel:moderate" };
+        private async Task GetTwitchAuthToken()
+        {
+
+            //read the api secret from secret.json cos we dont want to have it in the github
+            //even if its not really all that secret
+            string SecretsJson = null;
+            using (StreamReader r = new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
+            {
+                string json = r.ReadToEnd();
+                Console.WriteLine($"{json}");
+                dynamic data = JObject.Parse(json);
+                SecretsJson = data.TwitchAPISecret;
+            }
+           
+            string TwitchAuthRedirect = "http://localhost:8080/redirect/";
+            string TwitchAuthClientId = "osrlyqidmp7hea761h146r0h5ggkq2";
+            // create twitch api instance
+            var api = new TwitchLib.Api.TwitchAPI();
+            api.Settings.ClientId = TwitchAuthClientId;
+
+            // start local web server
+            var server = new TwitchAuthWebserver(TwitchAuthRedirect);
+
+             //spawn browser for authing
+             var t = new Thread(() => Process.Start($"{getAuthorizationCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}"));
+             t.Start();
+
+            // listen for incoming requests
+            var auth = await server.Listen();
+
+            // exchange auth code for oauth access/refresh uses "secret"
+            var resp = await api.Auth.GetAccessTokenFromCodeAsync(auth.Code, SecretsJson, TwitchAuthRedirect);
+
+            // update TwitchLib's api with the recently acquired access token
+            api.Settings.AccessToken = resp.AccessToken;
+
+            // get the auth'd user
+            var user = (await api.Helix.Users.GetUsersAsync()).Users[0];
+
+            // print out all the data we've got
+            Console.WriteLine($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {resp.AccessToken}\nRefresh token: {resp.RefreshToken}\nExpires in: {resp.ExpiresIn}\nScopes: {string.Join(", ", resp.Scopes)}");
+
+            // refresh token
+            var refresh = await api.Auth.RefreshAuthTokenAsync(resp.RefreshToken, SecretsJson);
+            api.Settings.AccessToken = refresh.AccessToken;
+
+            // confirm new token works
+            user = (await api.Helix.Users.GetUsersAsync()).Users[0];
+
+            // print out all the data we've got
+            Console.WriteLine($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {refresh.AccessToken}\nRefresh token: {refresh.RefreshToken}\nExpires in: {refresh.ExpiresIn}\nScopes: {string.Join(", ", refresh.Scopes)}");
+            
+            //we should clean up the browser thread
+            t.Abort();
+        }
+
+        private static string getAuthorizationCodeUrl(string clientId, string redirectUri, List<string> scopes)
+        {
+            var scopesStr = String.Join("+", scopes);
+
+            return "https://id.twitch.tv/oauth2/authorize?" +
+                   $"client_id={clientId}&" +
+                   $"redirect_uri={redirectUri}&" +
+                   "response_type=code&" +
+                   $"scope={scopesStr}";
         }
     }
 }

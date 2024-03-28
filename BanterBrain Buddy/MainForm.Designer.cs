@@ -71,15 +71,43 @@ namespace BanterBrain_Buddy
             this.STTProviderBox = new System.Windows.Forms.ComboBox();
             this.STTTestOutput = new System.Windows.Forms.TextBox();
             this.MainTab = new System.Windows.Forms.TabPage();
+            this.TwitchStatusTextBox = new System.Windows.Forms.TextBox();
+            this.TwitchStatusLabel = new System.Windows.Forms.Label();
             this.TextLog = new System.Windows.Forms.TextBox();
             this.ProgramFlowTest = new System.Windows.Forms.Button();
             this.BBBTabs = new System.Windows.Forms.TabControl();
+            this.LLMTab = new System.Windows.Forms.TabPage();
+            this.StreaminSettingsTab = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.TwitchTriggerSettings = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.TwitchNeedsSubscriber = new System.Windows.Forms.CheckBox();
+            this.TwitchNeedsFollower = new System.Windows.Forms.CheckBox();
+            this.TwitchCommandTrigger = new System.Windows.Forms.TextBox();
+            this.TwitchCommandTriggerLabel = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.TwitchTestButton = new System.Windows.Forms.Button();
+            this.TwitchChannel = new System.Windows.Forms.TextBox();
+            this.TwitchAccessToken = new System.Windows.Forms.TextBox();
+            this.TwitchUsername = new System.Windows.Forms.TextBox();
+            this.TwitchChannelNameLabel = new System.Windows.Forms.Label();
+            this.TwitchAccesstokenLabel = new System.Windows.Forms.Label();
+            this.TwitchUsernameLabel = new System.Windows.Forms.Label();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.TwitchAuthorizeButton = new System.Windows.Forms.Button();
             this.SettingsTab.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -87,6 +115,11 @@ namespace BanterBrain_Buddy
             this.STTGroupBox.SuspendLayout();
             this.MainTab.SuspendLayout();
             this.BBBTabs.SuspendLayout();
+            this.StreaminSettingsTab.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.TwitchTriggerSettings.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -369,11 +402,24 @@ namespace BanterBrain_Buddy
             // 
             // MainTab
             // 
+            this.MainTab.Controls.Add(this.TwitchStatusTextBox);
+            this.MainTab.Controls.Add(this.TwitchStatusLabel);
             this.MainTab.Controls.Add(this.TextLog);
             this.MainTab.Controls.Add(this.ProgramFlowTest);
             resources.ApplyResources(this.MainTab, "MainTab");
             this.MainTab.Name = "MainTab";
             this.MainTab.UseVisualStyleBackColor = true;
+            // 
+            // TwitchStatusTextBox
+            // 
+            resources.ApplyResources(this.TwitchStatusTextBox, "TwitchStatusTextBox");
+            this.TwitchStatusTextBox.Name = "TwitchStatusTextBox";
+            this.TwitchStatusTextBox.ReadOnly = true;
+            // 
+            // TwitchStatusLabel
+            // 
+            resources.ApplyResources(this.TwitchStatusLabel, "TwitchStatusLabel");
+            this.TwitchStatusLabel.Name = "TwitchStatusLabel";
             // 
             // TextLog
             // 
@@ -393,8 +439,173 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.BBBTabs, "BBBTabs");
             this.BBBTabs.Controls.Add(this.MainTab);
             this.BBBTabs.Controls.Add(this.SettingsTab);
+            this.BBBTabs.Controls.Add(this.LLMTab);
+            this.BBBTabs.Controls.Add(this.StreaminSettingsTab);
             this.BBBTabs.Name = "BBBTabs";
             this.BBBTabs.SelectedIndex = 0;
+            // 
+            // LLMTab
+            // 
+            resources.ApplyResources(this.LLMTab, "LLMTab");
+            this.LLMTab.Name = "LLMTab";
+            this.LLMTab.UseVisualStyleBackColor = true;
+            // 
+            // StreaminSettingsTab
+            // 
+            this.StreaminSettingsTab.Controls.Add(this.groupBox4);
+            resources.ApplyResources(this.StreaminSettingsTab, "StreaminSettingsTab");
+            this.StreaminSettingsTab.Name = "StreaminSettingsTab";
+            this.StreaminSettingsTab.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.TwitchAuthorizeButton);
+            this.groupBox4.Controls.Add(this.groupBox6);
+            this.groupBox4.Controls.Add(this.groupBox5);
+            this.groupBox4.Controls.Add(this.TwitchTriggerSettings);
+            this.groupBox4.Controls.Add(this.checkBox1);
+            this.groupBox4.Controls.Add(this.TwitchTestButton);
+            this.groupBox4.Controls.Add(this.TwitchChannel);
+            this.groupBox4.Controls.Add(this.TwitchAccessToken);
+            this.groupBox4.Controls.Add(this.TwitchUsername);
+            this.groupBox4.Controls.Add(this.TwitchChannelNameLabel);
+            this.groupBox4.Controls.Add(this.TwitchAccesstokenLabel);
+            this.groupBox4.Controls.Add(this.TwitchUsernameLabel);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.checkBox4);
+            this.groupBox6.Controls.Add(this.checkBox3);
+            this.groupBox6.Controls.Add(this.checkBox2);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.TabStop = false;
+            // 
+            // checkBox4
+            // 
+            resources.ApplyResources(this.checkBox4, "checkBox4");
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            resources.ApplyResources(this.checkBox3, "checkBox3");
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            resources.ApplyResources(this.checkBox2, "checkBox2");
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.label5);
+            this.groupBox5.Controls.Add(this.textBox1);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.TabStop = false;
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // textBox1
+            // 
+            resources.ApplyResources(this.textBox1, "textBox1");
+            this.textBox1.Name = "textBox1";
+            // 
+            // TwitchTriggerSettings
+            // 
+            this.TwitchTriggerSettings.Controls.Add(this.label6);
+            this.TwitchTriggerSettings.Controls.Add(this.textBox2);
+            this.TwitchTriggerSettings.Controls.Add(this.TwitchNeedsSubscriber);
+            this.TwitchTriggerSettings.Controls.Add(this.TwitchNeedsFollower);
+            this.TwitchTriggerSettings.Controls.Add(this.TwitchCommandTrigger);
+            this.TwitchTriggerSettings.Controls.Add(this.TwitchCommandTriggerLabel);
+            resources.ApplyResources(this.TwitchTriggerSettings, "TwitchTriggerSettings");
+            this.TwitchTriggerSettings.Name = "TwitchTriggerSettings";
+            this.TwitchTriggerSettings.TabStop = false;
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // textBox2
+            // 
+            resources.ApplyResources(this.textBox2, "textBox2");
+            this.textBox2.Name = "textBox2";
+            // 
+            // TwitchNeedsSubscriber
+            // 
+            resources.ApplyResources(this.TwitchNeedsSubscriber, "TwitchNeedsSubscriber");
+            this.TwitchNeedsSubscriber.Name = "TwitchNeedsSubscriber";
+            this.TwitchNeedsSubscriber.UseVisualStyleBackColor = true;
+            // 
+            // TwitchNeedsFollower
+            // 
+            resources.ApplyResources(this.TwitchNeedsFollower, "TwitchNeedsFollower");
+            this.TwitchNeedsFollower.Name = "TwitchNeedsFollower";
+            this.TwitchNeedsFollower.UseVisualStyleBackColor = true;
+            // 
+            // TwitchCommandTrigger
+            // 
+            resources.ApplyResources(this.TwitchCommandTrigger, "TwitchCommandTrigger");
+            this.TwitchCommandTrigger.Name = "TwitchCommandTrigger";
+            // 
+            // TwitchCommandTriggerLabel
+            // 
+            resources.ApplyResources(this.TwitchCommandTriggerLabel, "TwitchCommandTriggerLabel");
+            this.TwitchCommandTriggerLabel.Name = "TwitchCommandTriggerLabel";
+            // 
+            // checkBox1
+            // 
+            resources.ApplyResources(this.checkBox1, "checkBox1");
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // TwitchTestButton
+            // 
+            resources.ApplyResources(this.TwitchTestButton, "TwitchTestButton");
+            this.TwitchTestButton.Name = "TwitchTestButton";
+            this.TwitchTestButton.UseVisualStyleBackColor = true;
+            this.TwitchTestButton.Click += new System.EventHandler(this.TwitchTestButton_Click);
+            // 
+            // TwitchChannel
+            // 
+            resources.ApplyResources(this.TwitchChannel, "TwitchChannel");
+            this.TwitchChannel.Name = "TwitchChannel";
+            // 
+            // TwitchAccessToken
+            // 
+            resources.ApplyResources(this.TwitchAccessToken, "TwitchAccessToken");
+            this.TwitchAccessToken.Name = "TwitchAccessToken";
+            // 
+            // TwitchUsername
+            // 
+            resources.ApplyResources(this.TwitchUsername, "TwitchUsername");
+            this.TwitchUsername.Name = "TwitchUsername";
+            // 
+            // TwitchChannelNameLabel
+            // 
+            resources.ApplyResources(this.TwitchChannelNameLabel, "TwitchChannelNameLabel");
+            this.TwitchChannelNameLabel.Name = "TwitchChannelNameLabel";
+            // 
+            // TwitchAccesstokenLabel
+            // 
+            resources.ApplyResources(this.TwitchAccesstokenLabel, "TwitchAccesstokenLabel");
+            this.TwitchAccesstokenLabel.Name = "TwitchAccesstokenLabel";
+            // 
+            // TwitchUsernameLabel
+            // 
+            resources.ApplyResources(this.TwitchUsernameLabel, "TwitchUsernameLabel");
+            this.TwitchUsernameLabel.Name = "TwitchUsernameLabel";
             // 
             // fileToolStripMenuItem
             // 
@@ -435,6 +646,13 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
+            // TwitchAuthorizeButton
+            // 
+            resources.ApplyResources(this.TwitchAuthorizeButton, "TwitchAuthorizeButton");
+            this.TwitchAuthorizeButton.Name = "TwitchAuthorizeButton";
+            this.TwitchAuthorizeButton.UseVisualStyleBackColor = true;
+            this.TwitchAuthorizeButton.Click += new System.EventHandler(this.TwitchAuthorizeButton_Click);
+            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -458,6 +676,15 @@ namespace BanterBrain_Buddy
             this.MainTab.ResumeLayout(false);
             this.MainTab.PerformLayout();
             this.BBBTabs.ResumeLayout(false);
+            this.StreaminSettingsTab.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.TwitchTriggerSettings.ResumeLayout(false);
+            this.TwitchTriggerSettings.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -515,6 +742,34 @@ namespace BanterBrain_Buddy
         private ToolStripMenuItem aboutToolStripMenuItem;
         private MenuStrip menuStrip1;
         private ComboBox TTSAudioOutputComboBox;
+        private TabPage LLMTab;
+        private TabPage StreaminSettingsTab;
+        private GroupBox groupBox4;
+        private TextBox TwitchChannel;
+        private TextBox TwitchAccessToken;
+        private TextBox TwitchUsername;
+        private Label TwitchChannelNameLabel;
+        private Label TwitchAccesstokenLabel;
+        private Label TwitchUsernameLabel;
+        private Button TwitchTestButton;
+        private CheckBox checkBox1;
+        private TextBox TwitchStatusTextBox;
+        private Label TwitchStatusLabel;
+        private GroupBox groupBox5;
+        private GroupBox TwitchTriggerSettings;
+        private CheckBox TwitchNeedsSubscriber;
+        private CheckBox TwitchNeedsFollower;
+        private TextBox TwitchCommandTrigger;
+        private Label TwitchCommandTriggerLabel;
+        private GroupBox groupBox6;
+        private CheckBox checkBox2;
+        private Label label5;
+        private TextBox textBox1;
+        private Label label6;
+        private TextBox textBox2;
+        private CheckBox checkBox4;
+        private CheckBox checkBox3;
+        private Button TwitchAuthorizeButton;
     }
 }
 
