@@ -13,29 +13,20 @@ using CSCore.MediaFoundation;
 using CSCore.SoundOut;
 using CSCore.SoundIn;
 using CSCore;
-using CSCore.DMO;
 using CSCore.CoreAudioAPI;
 using CSCore.Streams;
 using CSCore.Codecs.WAV;
-using System.Speech.AudioFormat;
-using OpenAI_API.Moderation;
 using System.Threading;
 using TwitchLib.Client;
-using TwitchLib.Client.Models;
-using TwitchLib.Communication.Models;
-using TwitchLib.Communication.Clients;
 using TwitchLib.Client.Events;
-using TwitchLib.Communication.Interfaces;
-using System.Text;
-using Newtonsoft.Json;
+using TwitchLib.Client.Models;
+using TwitchLib.Communication.Clients;
+using TwitchLib.Communication.Models;
 using Newtonsoft.Json.Linq;
-using TwitchLib.Api.Helix.Models.Soundtrack;
-using TwitchLib.Api.Auth;
 using System.Diagnostics;
-using System.Linq;
-using System.Web;
 using System.Reflection;
-using static System.Net.WebRequestMethods;
+using TwitchLib.Communication.Interfaces;
+using TwitchLib.Api.Helix.Models.Search;
 
 namespace BanterBrain_Buddy
 {
@@ -609,12 +600,106 @@ namespace BanterBrain_Buddy
             m_GlobalHook.OnCombination(map);
         }
 
+      
         private async void TwitchTestButton_Click(object sender, EventArgs e)
         {
+              TwitchClient client;
+            //lets make a bot and see if we can connect and send a message to a channel
+            ConnectionCredentials credentials = new ConnectionCredentials(TwitchUsername.Text, TwitchAccessToken.Text);
+            /*  var clientOptions = new ClientOptions
+              {
+                  MessagesAllowedInPeriod = 750,
+                  ThrottlingPeriod = TimeSpan.FromSeconds(30)
+              };
+              WebSocketClient customClient = new WebSocketClient(clientOptions);
+            */
+            WebSocketClient customClient = new WebSocketClient();
+            client = new TwitchClient(customClient);
+            client.Initialize(credentials, TwitchChannel.Text);
 
+            //Logwriter
+            client.OnLog += (o, a) => {
+                Console.WriteLine($"{a.DateTime.ToString()}: {a.BotUsername} - {a.Data}");
+            };
+
+            //Connection evets
+            client.OnConnected += (o, a) =>
+            {
+                Console.WriteLine($"OnConnected => Connected to {a.AutoJoinChannel}");
+            };
+            client.OnJoinedChannel += (o, a) =>
+            {
+                client.SendMessage(a.Channel, "Hey all! I am BanterBrain Buddy https://banterbrain.tv");
+            };
+
+            /*
+                    error handling
+            */
+            //connection and login
+            client.OnConnectionError += (o, a) => {
+                Console.WriteLine("OnConnectionError =>" + a.Error);
+                client.Disconnect();
+            };
+            client.OnIncorrectLogin += (o, a) =>
+            {
+                Console.WriteLine("OnIncorrectLogin => " + a.Exception);
+                client.Disconnect();
+
+            };
+            client.OnDisconnected += (o, a) =>
+            {
+                Console.WriteLine("onDisconnected => I got disconnected");
+            };
+            //Channel joining issues
+            client.OnFailureToReceiveJoinConfirmation += (o, a) =>
+            {
+                Console.WriteLine("OnFailureToReceiveJoinConfirmation => " + a.Exception);
+            };
+
+            //channel permissions & events
+            client.OnNoPermissionError += (o, a) =>
+            {
+                Console.WriteLine("OnNoPermissionError => " + a.ToString());
+            };
+            client.OnRateLimit += (o, a) =>
+            {
+                Console.WriteLine("OnRateLimit => " + a.Message);
+            };
+            client.OnBanned += (o, a) =>
+            {
+                Console.WriteLine("onBanned => " + a.Message);
+            };
+            client.OnSlowMode += (o, a) =>
+            {
+                Console.WriteLine("OnSlowMode => " + a.Message);
+            };
+            client.OnSubsOnly += (o, a) =>
+            {
+                Console.WriteLine("OnSubsOnly => " + a.Message);
+            };
+
+            //account verification not met
+            client.OnRequiresVerifiedEmail += (o, a) =>
+            {
+                Console.WriteLine("OnRequiresVerifiedEmail => " + a.Message);
+            };
+            client.OnRequiresVerifiedPhoneNumber += (o, a) =>
+            {
+                Console.WriteLine("OnRequiresVerifiedPhoneNumber => " + a.Message);
+            };
+
+            //general error
+            client.OnError += (o, a) => {
+                Console.WriteLine("OnError => " + a.Exception.Message);
+            };
+
+
+            client.OnMessageReceived += (o, a) =>
+            {
+                Console.WriteLine("onMessageReceived => " + a.ChatMessage);
+            };
+            client.Connect();
         }
-   
-
         private async void TwitchAuthorizeButton_Click(object sender, EventArgs e)
         {
             //lets not block everything.
@@ -636,7 +721,7 @@ namespace BanterBrain_Buddy
                 dynamic data = JObject.Parse(json);
                 SecretsJson = data.TwitchAPISecret;
             }
-           
+            //TODO: we should get this from the file too, cos that makes it more configurable
             string TwitchAuthRedirect = "http://localhost:8080/redirect/";
             string TwitchAuthClientId = "osrlyqidmp7hea761h146r0h5ggkq2";
             // create twitch api instance
@@ -658,6 +743,8 @@ namespace BanterBrain_Buddy
 
             // update TwitchLib's api with the recently acquired access token
             api.Settings.AccessToken = resp.AccessToken;
+            //also save this in our form
+            TwitchAccessToken.Text = resp.AccessToken;
 
             // get the auth'd user
             var user = (await api.Helix.Users.GetUsersAsync()).Users[0];

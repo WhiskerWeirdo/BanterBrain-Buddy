@@ -30,8 +30,8 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 
 ### 0.0.3 TODO
 - [X] Get OAUTH token from Twitch
-- [ ] Connect to Twitch
-- [ ] Read Twitch chat
+- [X] Connect to Twitch
+- [X] Read Twitch chat
 - [ ] Respond to specified Twitch command
 
  
