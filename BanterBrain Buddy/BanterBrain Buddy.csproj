@@ -320,8 +320,8 @@
     <Reference Include="TwitchLib.Client.Models, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TwitchLib.Client.Models.3.3.1\lib\netstandard2.0\TwitchLib.Client.Models.dll</HintPath>
     </Reference>
-    <Reference Include="TwitchLib.Communication, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TwitchLib.Communication.1.0.4\lib\netstandard2.0\TwitchLib.Communication.dll</HintPath>
+    <Reference Include="TwitchLib.Communication, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TwitchLib.Communication.1.0.6\lib\netstandard2.0\TwitchLib.Communication.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

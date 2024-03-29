@@ -27,6 +27,8 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 
 ### KNOWN ISSUES
 - [ ] Wav file in use error sometimes on TTS
+- [ ] Twitch client won't die after you started the "Test"
+- [ ] You need to sign up to https://dev.twitch.com and get a application ClientID & Secret to build BBB yourself
 
 ### 0.0.3 TODO
 - [X] Get OAUTH token from Twitch
@@ -40,10 +42,10 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 - [X] 0.0.2 MVP use non-default audio devices for input/output
 - [ ] 0.0.3 MVP ability to read Twitch chat and react to specifyable chat command
 - [ ] 0.0.4 MVP Azure TTS/STT support
-- [ ] 0.0.5 MVP ability to read Twitch chat and react to alerts (read out alert and give reaction) & use bits and channel points for events
+- [ ] 0.0.5 MVP ability to read Twitch chat and react to alerts (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
 - [ ] 0.0.6 MVP Google & OpenAI Whisper TTS support 
 - [ ] 0.0.7 MVP Error handling & Code documentation
-- [ ] 0.0.8 MVP clean up code, make TTS/STT native in their own class(es)
+- [ ] 0.0.8 MVP clean up code: use logger; make TTS/STT, Twitch etc. in their own class(es)
 - [ ] 0.0.9 - reserved -
 - [ ] 0.1.0 Installable Beta build release
 

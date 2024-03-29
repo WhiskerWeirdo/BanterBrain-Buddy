@@ -79,6 +79,11 @@ namespace BanterBrain_Buddy
             this.LLMTab = new System.Windows.Forms.TabPage();
             this.StreaminSettingsTab = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.TwitchTestSendText = new System.Windows.Forms.TextBox();
+            this.TwitchSendTextCheckBox = new System.Windows.Forms.CheckBox();
+            this.TwitchTestButton = new System.Windows.Forms.Button();
+            this.TwitchAuthorizeButton = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
@@ -94,7 +99,6 @@ namespace BanterBrain_Buddy
             this.TwitchCommandTrigger = new System.Windows.Forms.TextBox();
             this.TwitchCommandTriggerLabel = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.TwitchTestButton = new System.Windows.Forms.Button();
             this.TwitchChannel = new System.Windows.Forms.TextBox();
             this.TwitchAccessToken = new System.Windows.Forms.TextBox();
             this.TwitchUsername = new System.Windows.Forms.TextBox();
@@ -107,7 +111,6 @@ namespace BanterBrain_Buddy
             this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.TwitchAuthorizeButton = new System.Windows.Forms.Button();
             this.SettingsTab.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -117,6 +120,7 @@ namespace BanterBrain_Buddy
             this.BBBTabs.SuspendLayout();
             this.StreaminSettingsTab.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.TwitchTriggerSettings.SuspendLayout();
@@ -459,12 +463,12 @@ namespace BanterBrain_Buddy
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.groupBox7);
             this.groupBox4.Controls.Add(this.TwitchAuthorizeButton);
             this.groupBox4.Controls.Add(this.groupBox6);
             this.groupBox4.Controls.Add(this.groupBox5);
             this.groupBox4.Controls.Add(this.TwitchTriggerSettings);
             this.groupBox4.Controls.Add(this.checkBox1);
-            this.groupBox4.Controls.Add(this.TwitchTestButton);
             this.groupBox4.Controls.Add(this.TwitchChannel);
             this.groupBox4.Controls.Add(this.TwitchAccessToken);
             this.groupBox4.Controls.Add(this.TwitchUsername);
@@ -474,6 +478,42 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.TwitchTestSendText);
+            this.groupBox7.Controls.Add(this.TwitchSendTextCheckBox);
+            this.groupBox7.Controls.Add(this.TwitchTestButton);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.TabStop = false;
+            // 
+            // TwitchTestSendText
+            // 
+            resources.ApplyResources(this.TwitchTestSendText, "TwitchTestSendText");
+            this.TwitchTestSendText.Name = "TwitchTestSendText";
+            // 
+            // TwitchSendTextCheckBox
+            // 
+            resources.ApplyResources(this.TwitchSendTextCheckBox, "TwitchSendTextCheckBox");
+            this.TwitchSendTextCheckBox.Checked = true;
+            this.TwitchSendTextCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.TwitchSendTextCheckBox.Name = "TwitchSendTextCheckBox";
+            this.TwitchSendTextCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TwitchTestButton
+            // 
+            resources.ApplyResources(this.TwitchTestButton, "TwitchTestButton");
+            this.TwitchTestButton.Name = "TwitchTestButton";
+            this.TwitchTestButton.UseVisualStyleBackColor = true;
+            this.TwitchTestButton.Click += new System.EventHandler(this.TwitchTestButton_Click);
+            // 
+            // TwitchAuthorizeButton
+            // 
+            resources.ApplyResources(this.TwitchAuthorizeButton, "TwitchAuthorizeButton");
+            this.TwitchAuthorizeButton.Name = "TwitchAuthorizeButton";
+            this.TwitchAuthorizeButton.UseVisualStyleBackColor = true;
+            this.TwitchAuthorizeButton.Click += new System.EventHandler(this.TwitchAuthorizeButton_Click);
             // 
             // groupBox6
             // 
@@ -570,13 +610,6 @@ namespace BanterBrain_Buddy
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // TwitchTestButton
-            // 
-            resources.ApplyResources(this.TwitchTestButton, "TwitchTestButton");
-            this.TwitchTestButton.Name = "TwitchTestButton";
-            this.TwitchTestButton.UseVisualStyleBackColor = true;
-            this.TwitchTestButton.Click += new System.EventHandler(this.TwitchTestButton_Click);
-            // 
             // TwitchChannel
             // 
             resources.ApplyResources(this.TwitchChannel, "TwitchChannel");
@@ -646,13 +679,6 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
-            // TwitchAuthorizeButton
-            // 
-            resources.ApplyResources(this.TwitchAuthorizeButton, "TwitchAuthorizeButton");
-            this.TwitchAuthorizeButton.Name = "TwitchAuthorizeButton";
-            this.TwitchAuthorizeButton.UseVisualStyleBackColor = true;
-            this.TwitchAuthorizeButton.Click += new System.EventHandler(this.TwitchAuthorizeButton_Click);
-            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -679,6 +705,8 @@ namespace BanterBrain_Buddy
             this.StreaminSettingsTab.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -751,7 +779,6 @@ namespace BanterBrain_Buddy
         private Label TwitchChannelNameLabel;
         private Label TwitchAccesstokenLabel;
         private Label TwitchUsernameLabel;
-        private Button TwitchTestButton;
         private CheckBox checkBox1;
         private TextBox TwitchStatusTextBox;
         private Label TwitchStatusLabel;
@@ -770,6 +797,10 @@ namespace BanterBrain_Buddy
         private CheckBox checkBox4;
         private CheckBox checkBox3;
         private Button TwitchAuthorizeButton;
+        private GroupBox groupBox7;
+        private TextBox TwitchTestSendText;
+        private CheckBox TwitchSendTextCheckBox;
+        private Button TwitchTestButton;
     }
 }
 

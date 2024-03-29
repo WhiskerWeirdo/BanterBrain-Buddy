@@ -601,9 +601,11 @@ namespace BanterBrain_Buddy
         }
 
       
-        private async void TwitchTestButton_Click(object sender, EventArgs e)
+        //yes this is lame as shit, i know classes, objects do it correctly etc.
+        //but it works for now, so eh.
+        private void TwitchTestButton_Click(object sender, EventArgs e)
         {
-              TwitchClient client;
+            TwitchClient client;
             //lets make a bot and see if we can connect and send a message to a channel
             ConnectionCredentials credentials = new ConnectionCredentials(TwitchUsername.Text, TwitchAccessToken.Text);
             /*  var clientOptions = new ClientOptions
@@ -615,7 +617,8 @@ namespace BanterBrain_Buddy
             */
             WebSocketClient customClient = new WebSocketClient();
             client = new TwitchClient(customClient);
-            client.Initialize(credentials, TwitchChannel.Text);
+            client.Initialize(credentials);
+          //  client.Initialize(credentials, TwitchChannel.Text);
 
             //Logwriter
             client.OnLog += (o, a) => {
@@ -629,7 +632,10 @@ namespace BanterBrain_Buddy
             };
             client.OnJoinedChannel += (o, a) =>
             {
-                client.SendMessage(a.Channel, "Hey all! I am BanterBrain Buddy https://banterbrain.tv");
+                if (TwitchSendTextCheckBox.Checked)
+                    client.SendMessage(a.Channel, TwitchTestSendText.Text);
+                else
+                    Console.WriteLine("I would have send: " + a.Channel + " => " + TwitchTestSendText.Text);
             };
 
             /*
@@ -714,16 +720,19 @@ namespace BanterBrain_Buddy
             //read the api secret from secret.json cos we dont want to have it in the github
             //even if its not really all that secret
             string SecretsJson = null;
+            string TwitchAuthRedirect = null;
+            string TwitchAuthClientId = null;
             using (StreamReader r = new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
             {
                 string json = r.ReadToEnd();
                 Console.WriteLine($"{json}");
                 dynamic data = JObject.Parse(json);
+                Console.WriteLine(data);
                 SecretsJson = data.TwitchAPISecret;
+                TwitchAuthRedirect = data.TwitchAuthRedirect;
+                TwitchAuthClientId= data.TwitchAuthClientId;
             }
-            //TODO: we should get this from the file too, cos that makes it more configurable
-            string TwitchAuthRedirect = "http://localhost:8080/redirect/";
-            string TwitchAuthClientId = "osrlyqidmp7hea761h146r0h5ggkq2";
+
             // create twitch api instance
             var api = new TwitchLib.Api.TwitchAPI();
             api.Settings.ClientId = TwitchAuthClientId;
@@ -750,7 +759,7 @@ namespace BanterBrain_Buddy
             var user = (await api.Helix.Users.GetUsersAsync()).Users[0];
 
             // print out all the data we've got
-            Console.WriteLine($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {resp.AccessToken}\nRefresh token: {resp.RefreshToken}\nExpires in: {resp.ExpiresIn}\nScopes: {string.Join(", ", resp.Scopes)}");
+          //  Console.WriteLine($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {resp.AccessToken}\nRefresh token: {resp.RefreshToken}\nExpires in: {resp.ExpiresIn}\nScopes: {string.Join(", ", resp.Scopes)}");
 
             // refresh token
             var refresh = await api.Auth.RefreshAuthTokenAsync(resp.RefreshToken, SecretsJson);
