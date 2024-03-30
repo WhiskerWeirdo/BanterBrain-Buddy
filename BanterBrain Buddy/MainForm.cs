@@ -457,12 +457,21 @@ namespace BanterBrain_Buddy
             TwitchAccessToken.Text = Properties.Settings.Default.TwitchAccessToken;
             TwitchChannel.Text = Properties.Settings.Default.TwitchChannel;
             TwitchCommandTrigger.Text = Properties.Settings.Default.TwitchCommandTrigger;
+            TwitchChatCommandDelay.Text = Properties.Settings.Default.TwitchChatCommandDelay.ToString();
+            TwitchNeedsFollower.Checked = Properties.Settings.Default.TwitchNeedsFollower;
+            TwitchNeedsSubscriber.Checked = Properties.Settings.Default.TwitchNeedsSubscriber;
+            TwitchMinBits.Text = Properties.Settings.Default.TwitchMinBits.ToString();
+            TwitchSubscribed.Checked = Properties.Settings.Default.TwitchSubscribed;
+            TwitchCommunitySubs.Checked = Properties.Settings.Default.TwitchCommunitySubs;
+            TwitchGiftedSub.Checked = Properties.Settings.Default.TwitchGiftedSub;
+            TwitchSendTextCheckBox.Checked = Properties.Settings.Default.TwitchSendTextCheckBox;
             //load HotkeyList into SetHotKeys
             foreach (String key in Properties.Settings.Default.HotkeyList)
             {
                 Keys tmpKey = (Keys)Enum.Parse(typeof(Keys), key, true);
                 SetHotkeys.Add(tmpKey);
              }
+
         }
 
         private void BBB_FormClosing(object sender, FormClosingEventArgs e)
@@ -488,6 +497,14 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
             Properties.Settings.Default.TwitchChannel  = TwitchChannel.Text;
             Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
+            Properties.Settings.Default.TwitchChatCommandDelay  = int.Parse(TwitchChatCommandDelay.Text);
+            Properties.Settings.Default.TwitchNeedsFollower = TwitchNeedsFollower.Checked;
+            Properties.Settings.Default.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
+            Properties.Settings.Default.TwitchMinBits = int.Parse(TwitchMinBits.Text);
+            Properties.Settings.Default.TwitchSubscribed =  TwitchSubscribed.Checked;
+            Properties.Settings.Default.TwitchCommunitySubs = TwitchCommunitySubs.Checked;
+            Properties.Settings.Default.TwitchGiftedSub = TwitchGiftedSub.Checked;
+            Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
             //add the hotkeys in settings list, not in text
             Properties.Settings.Default.HotkeyList.Clear();
             foreach (Keys key in SetHotkeys)
@@ -617,8 +634,11 @@ namespace BanterBrain_Buddy
             */
             WebSocketClient customClient = new WebSocketClient();
             client = new TwitchClient(customClient);
-            client.Initialize(credentials);
-          //  client.Initialize(credentials, TwitchChannel.Text);
+            //client.Initialize(credentials);
+            client.Initialize(credentials, TwitchChannel.Text);
+
+            //commands start with $
+            client.AddChatCommandIdentifier(char.Parse(TwitchCommandTrigger.Text));
 
             //Logwriter
             client.OnLog += (o, a) => {
@@ -683,7 +703,14 @@ namespace BanterBrain_Buddy
             {
                 Console.WriteLine("OnSubsOnly => " + a.Message);
             };
-
+            // respond to: $tts ""
+            client.OnChatCommandReceived += (o, a) =>
+            {
+                if (a.Command.CommandText == "tts")
+                {
+                    client.SendMessage(TwitchChannel.Text, "you send command tts with param: " + a.Command.ArgumentsAsString);
+                }
+            };
             //account verification not met
             client.OnRequiresVerifiedEmail += (o, a) =>
             {

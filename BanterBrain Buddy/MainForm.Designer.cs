@@ -85,20 +85,20 @@ namespace BanterBrain_Buddy
             this.TwitchTestButton = new System.Windows.Forms.Button();
             this.TwitchAuthorizeButton = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.TwitchGiftedSub = new System.Windows.Forms.CheckBox();
+            this.TwitchCommunitySubs = new System.Windows.Forms.CheckBox();
+            this.TwitchSubscribed = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.TwitchMinBits = new System.Windows.Forms.TextBox();
             this.TwitchTriggerSettings = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.TwitchChatCommandDelay = new System.Windows.Forms.TextBox();
             this.TwitchNeedsSubscriber = new System.Windows.Forms.CheckBox();
             this.TwitchNeedsFollower = new System.Windows.Forms.CheckBox();
             this.TwitchCommandTrigger = new System.Windows.Forms.TextBox();
             this.TwitchCommandTriggerLabel = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.TwitchAutoConnect = new System.Windows.Forms.CheckBox();
             this.TwitchChannel = new System.Windows.Forms.TextBox();
             this.TwitchAccessToken = new System.Windows.Forms.TextBox();
             this.TwitchUsername = new System.Windows.Forms.TextBox();
@@ -468,7 +468,7 @@ namespace BanterBrain_Buddy
             this.groupBox4.Controls.Add(this.groupBox6);
             this.groupBox4.Controls.Add(this.groupBox5);
             this.groupBox4.Controls.Add(this.TwitchTriggerSettings);
-            this.groupBox4.Controls.Add(this.checkBox1);
+            this.groupBox4.Controls.Add(this.TwitchAutoConnect);
             this.groupBox4.Controls.Add(this.TwitchChannel);
             this.groupBox4.Controls.Add(this.TwitchAccessToken);
             this.groupBox4.Controls.Add(this.TwitchUsername);
@@ -517,35 +517,35 @@ namespace BanterBrain_Buddy
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.checkBox4);
-            this.groupBox6.Controls.Add(this.checkBox3);
-            this.groupBox6.Controls.Add(this.checkBox2);
+            this.groupBox6.Controls.Add(this.TwitchGiftedSub);
+            this.groupBox6.Controls.Add(this.TwitchCommunitySubs);
+            this.groupBox6.Controls.Add(this.TwitchSubscribed);
             resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
             // 
-            // checkBox4
+            // TwitchGiftedSub
             // 
-            resources.ApplyResources(this.checkBox4, "checkBox4");
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.TwitchGiftedSub, "TwitchGiftedSub");
+            this.TwitchGiftedSub.Name = "TwitchGiftedSub";
+            this.TwitchGiftedSub.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // TwitchCommunitySubs
             // 
-            resources.ApplyResources(this.checkBox3, "checkBox3");
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.TwitchCommunitySubs, "TwitchCommunitySubs");
+            this.TwitchCommunitySubs.Name = "TwitchCommunitySubs";
+            this.TwitchCommunitySubs.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // TwitchSubscribed
             // 
-            resources.ApplyResources(this.checkBox2, "checkBox2");
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.TwitchSubscribed, "TwitchSubscribed");
+            this.TwitchSubscribed.Name = "TwitchSubscribed";
+            this.TwitchSubscribed.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.label5);
-            this.groupBox5.Controls.Add(this.textBox1);
+            this.groupBox5.Controls.Add(this.TwitchMinBits);
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
@@ -555,15 +555,15 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // textBox1
+            // TwitchMinBits
             // 
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
+            resources.ApplyResources(this.TwitchMinBits, "TwitchMinBits");
+            this.TwitchMinBits.Name = "TwitchMinBits";
             // 
             // TwitchTriggerSettings
             // 
             this.TwitchTriggerSettings.Controls.Add(this.label6);
-            this.TwitchTriggerSettings.Controls.Add(this.textBox2);
+            this.TwitchTriggerSettings.Controls.Add(this.TwitchChatCommandDelay);
             this.TwitchTriggerSettings.Controls.Add(this.TwitchNeedsSubscriber);
             this.TwitchTriggerSettings.Controls.Add(this.TwitchNeedsFollower);
             this.TwitchTriggerSettings.Controls.Add(this.TwitchCommandTrigger);
@@ -577,10 +577,10 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
             // 
-            // textBox2
+            // TwitchChatCommandDelay
             // 
-            resources.ApplyResources(this.textBox2, "textBox2");
-            this.textBox2.Name = "textBox2";
+            resources.ApplyResources(this.TwitchChatCommandDelay, "TwitchChatCommandDelay");
+            this.TwitchChatCommandDelay.Name = "TwitchChatCommandDelay";
             // 
             // TwitchNeedsSubscriber
             // 
@@ -604,11 +604,11 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.TwitchCommandTriggerLabel, "TwitchCommandTriggerLabel");
             this.TwitchCommandTriggerLabel.Name = "TwitchCommandTriggerLabel";
             // 
-            // checkBox1
+            // TwitchAutoConnect
             // 
-            resources.ApplyResources(this.checkBox1, "checkBox1");
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.TwitchAutoConnect, "TwitchAutoConnect");
+            this.TwitchAutoConnect.Name = "TwitchAutoConnect";
+            this.TwitchAutoConnect.UseVisualStyleBackColor = true;
             // 
             // TwitchChannel
             // 
@@ -779,7 +779,7 @@ namespace BanterBrain_Buddy
         private Label TwitchChannelNameLabel;
         private Label TwitchAccesstokenLabel;
         private Label TwitchUsernameLabel;
-        private CheckBox checkBox1;
+        private CheckBox TwitchAutoConnect;
         private TextBox TwitchStatusTextBox;
         private Label TwitchStatusLabel;
         private GroupBox groupBox5;
@@ -789,13 +789,13 @@ namespace BanterBrain_Buddy
         private TextBox TwitchCommandTrigger;
         private Label TwitchCommandTriggerLabel;
         private GroupBox groupBox6;
-        private CheckBox checkBox2;
+        private CheckBox TwitchSubscribed;
         private Label label5;
-        private TextBox textBox1;
+        private TextBox TwitchMinBits;
         private Label label6;
-        private TextBox textBox2;
-        private CheckBox checkBox4;
-        private CheckBox checkBox3;
+        private TextBox TwitchChatCommandDelay;
+        private CheckBox TwitchGiftedSub;
+        private CheckBox TwitchCommunitySubs;
         private Button TwitchAuthorizeButton;
         private GroupBox groupBox7;
         private TextBox TwitchTestSendText;

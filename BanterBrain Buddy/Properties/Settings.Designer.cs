@@ -288,5 +288,125 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchCommandTrigger"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchAutoConnect {
+            get {
+                return ((bool)(this["TwitchAutoConnect"]));
+            }
+            set {
+                this["TwitchAutoConnect"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        public string TwitchTestSendText {
+            get {
+                return ((string)(this["TwitchTestSendText"]));
+            }
+            set {
+                this["TwitchTestSendText"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchSendTextCheckBox {
+            get {
+                return ((bool)(this["TwitchSendTextCheckBox"]));
+            }
+            set {
+                this["TwitchSendTextCheckBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TwitchChatCommandDelay {
+            get {
+                return ((int)(this["TwitchChatCommandDelay"]));
+            }
+            set {
+                this["TwitchChatCommandDelay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchNeedsFollower {
+            get {
+                return ((bool)(this["TwitchNeedsFollower"]));
+            }
+            set {
+                this["TwitchNeedsFollower"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchNeedsSubscriber {
+            get {
+                return ((bool)(this["TwitchNeedsSubscriber"]));
+            }
+            set {
+                this["TwitchNeedsSubscriber"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TwitchMinBits {
+            get {
+                return ((int)(this["TwitchMinBits"]));
+            }
+            set {
+                this["TwitchMinBits"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchSubscribed {
+            get {
+                return ((bool)(this["TwitchSubscribed"]));
+            }
+            set {
+                this["TwitchSubscribed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchCommunitySubs {
+            get {
+                return ((bool)(this["TwitchCommunitySubs"]));
+            }
+            set {
+                this["TwitchCommunitySubs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchGiftedSub {
+            get {
+                return ((bool)(this["TwitchGiftedSub"]));
+            }
+            set {
+                this["TwitchGiftedSub"] = value;
+            }
+        }
     }
 }

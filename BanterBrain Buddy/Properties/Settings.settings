@@ -72,5 +72,35 @@
     <Setting Name="TwitchCommandTrigger" Type="System.String" Scope="User">
       <Value Profile="(Default)">placeholder</Value>
     </Setting>
+    <Setting Name="TwitchAutoConnect" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchTestSendText" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="TwitchSendTextCheckBox" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchChatCommandDelay" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="TwitchNeedsFollower" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchNeedsSubscriber" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchMinBits" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="TwitchSubscribed" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchCommunitySubs" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchGiftedSub" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
