@@ -27,6 +27,9 @@ using System.Diagnostics;
 using System.Reflection;
 using TwitchLib.Communication.Interfaces;
 using TwitchLib.Api.Helix.Models.Search;
+using Microsoft.CognitiveServices.Speech.Audio;
+using Microsoft.CognitiveServices.Speech;
+using SpeechSynthesizer = System.Speech.Synthesis.SpeechSynthesizer;
 
 namespace BanterBrain_Buddy
 {
@@ -81,14 +84,34 @@ namespace BanterBrain_Buddy
                 STTTestButton.Text = "Recording";
                 String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
                 TextLog.AppendText(SelectedProvider + "\r\n");
+
                 STTDone = false;
                 if (SelectedProvider == "Native")
                 {
                     TextLog.AppendText("Test Native STT calling\r\n");
-                    InputStreamtoWav();
+                    NativeInputStreamtoWav();
                     while (!STTDone)
                     {
                         await Task.Delay(500);
+                    }
+                } else if (SelectedProvider == "Azure")
+                {
+                    TextLog.AppendText("Test Azure STT calling\r\n");
+                    //cant be empty
+
+                    if ((STTAPIKeyEditbox.Text.Length < 1) || (STTRegionEditbox.Text.Length < 1))
+                    {
+                        STTTestOutput.Text = "Error! API Key or region cannot be empty!";
+                        STTTestButton.Text = "Test";
+                    }
+                    else
+                    {
+                        AzureInputStream();
+                        while (!STTDone)
+                        {
+                            await Task.Delay(500);
+                        }
+                       
                     }
                 }
             }
@@ -116,12 +139,14 @@ namespace BanterBrain_Buddy
                 TextLog.AppendText("Azure\r\n");
                 STTAPIKeyEditbox.Enabled = true;
                 STTRegionEditbox.Enabled = true;
+                STTTestOutput.Text = "Be sure to set API key and region!";
             }
             else if (SelectedProvider == "Google")
             {
                 TextLog.AppendText("Google\r\n");
                 STTAPIKeyEditbox.Enabled = true;
                 STTRegionEditbox.Enabled = true;
+                STTTestOutput.Text = "NON FUNCTIONAL";
             }
         }
 
@@ -136,12 +161,62 @@ namespace BanterBrain_Buddy
             }
         }
 
-        // Saving data from specific input device into a .wav file for Speech recognition
+        //Azure
+        //Maybe should make it a Task instead of a void 
+        private async void AzureInputStream()
+        {
+            //ok lets just start
+            var AzureSpeechConfig = SpeechConfig.FromSubscription(STTAPIKeyEditbox.Text, STTRegionEditbox.Text);
+            AzureSpeechConfig.SpeechRecognitionLanguage = "en-US"; //default language
+
+            //default mic cos...lets start easy
+            var AzureAudioConfig = AudioConfig.FromDefaultMicrophoneInput();
+            var AzureSpeechRecognizer = new Microsoft.CognitiveServices.Speech.SpeechRecognizer(AzureSpeechConfig, AzureAudioConfig);
+            STTTestOutput.Text = "Speak into your microphone to test Azure.";
+            var speechRecognitionResult = await AzureSpeechRecognizer.RecognizeOnceAsync();
+            AzureOutputSpeechRecognitionResult(speechRecognitionResult);
+            STTTestButton.Text = "Test";
+            STTDone = true;
+        }
+
+        private void AzureOutputSpeechRecognitionResult(SpeechRecognitionResult speechRecognitionResult)
+        {
+            
+            switch (speechRecognitionResult.Reason)
+            {
+                case ResultReason.RecognizedSpeech:
+                    Console.WriteLine($"RECOGNIZED: Text={speechRecognitionResult.Text}");
+                    STTTestOutput.Text = speechRecognitionResult.Text;
+                    break;
+                case ResultReason.NoMatch:
+                    Console.WriteLine($"NOMATCH: Speech could not be recognized.");
+                    STTTestOutput.Text = $"NOMATCH: Speech could not be recognized.";
+                    break;
+                case ResultReason.Canceled:
+                    var cancellation = CancellationDetails.FromResult(speechRecognitionResult);
+                    Console.WriteLine($"CANCELED: Reason={cancellation.Reason}");
+                    STTTestOutput.Text = $"CANCELED: Reason={cancellation.Reason}";
+
+                    if (cancellation.Reason == CancellationReason.Error)
+                    {
+                        STTTestOutput.Text = $"CANCELED: ErrorCode={cancellation.ErrorCode}\r\n";
+                        STTTestOutput.Text += $"CANCELED: ErrorDetails={cancellation.ErrorDetails}\r\n";
+                        STTTestOutput.Text += $"CANCELED: Did you set the speech resource key and region values?\r\n";
+                        Console.WriteLine($"CANCELED: ErrorCode={cancellation.ErrorCode}");
+                        Console.WriteLine($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
+                        Console.WriteLine($"CANCELED: Did you set the speech resource key and region values?");
+                    }
+                    break;
+            }
+        }
+
+        //NATIVE
+        //Saving data from specific input device into a .wav file for Speech recognition
         private MMDevice _selectedDevice;
         private WasapiCapture _soundIn;
         private IWriteable _writer;
         private string tmpWavFile = Path.GetDirectoryName(Application.ExecutablePath) + "\\tmp.wav";
-        private void InputStreamtoWav()
+        private void NativeInputStreamtoWav()
         {
 
             var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Capture, DeviceState.Active);
@@ -348,7 +423,8 @@ namespace BanterBrain_Buddy
         private async void TTSNativeSpeakToOutput(String TTSText)
         {
             TextLog.AppendText("Saying text with Native TTS\r\n");
-            SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+            //using the full name to make sure we dont confuse native with Azure
+            SpeechSynthesizer synthesizer = new System.Speech.Synthesis.SpeechSynthesizer();
             var stream = new MemoryStream();
             synthesizer.SetOutputToWaveStream(stream);
             synthesizer.Speak(TTSText);
@@ -394,7 +470,7 @@ namespace BanterBrain_Buddy
                 if (SelectedProvider == "Native")
                 {
                     TextLog.AppendText("ProframFlow Native STT calling\r\n");
-                    InputStreamtoWav();
+                    NativeInputStreamtoWav();
                     while (!STTDone)
                     {
                         await Task.Delay(500);

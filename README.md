@@ -1,5 +1,5 @@
 # BanterBrain Buddy
-v0.0.3
+v0.0.4
 
 ## License
 This project uses the GNU General Public License v3.0 as you can read [here](./LICENSE.txt). The TLDR is:
@@ -28,17 +28,20 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 ### KNOWN ISSUES
 0.0.2
 - [ ] Wav file in use error sometimes on TTS
+
 0.0.3
 - [ ] Twitch chat client won't die after you started the "Test" 
 - [ ] Twitch Auth Token needs refresh instead of re-auth
 - [ ] You need to sign up to https://dev.twitch.tv and get a application ClientID & Secret to build BBB yourself
 
 ### 0.0.3 TODO
-- [X] Get OAUTH token from Twitch
-- [X] Connect to Twitch
-- [X] Read Twitch chat
-- [X] Respond to specified Twitch command ($tts <text>)
-- [X] Store the settings for Twitch in the config
+- [X] Store Azure API key
+- [X] Use Azure API for Speech-To-Text Test
+- [ ] Use Azure API for STT Normal use
+- [ ] Use Azure STT from non-default microphone
+- [ ] Use Azure APi for Text-To-Speech test
+- [ ] Use Azure API for TTS Normal use
+- [ ] Use Azure STT from non-default output device
  
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT

@@ -49,17 +49,6 @@ namespace BanterBrain_Buddy
             this.TTSProviderComboBox = new System.Windows.Forms.ComboBox();
             this.TTSAudioOutputLabel = new System.Windows.Forms.Label();
             this.TTSProviderLabel = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.LLMModelComboBox = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.LLMTestOutputbox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.LLMRoleTextBox = new System.Windows.Forms.TextBox();
-            this.GPTTestButton = new System.Windows.Forms.Button();
-            this.LLMAPIKeyTextBox = new System.Windows.Forms.TextBox();
-            this.GPTAPIKeyLabel = new System.Windows.Forms.Label();
-            this.LLMProviderComboBox = new System.Windows.Forms.ComboBox();
-            this.GPTProviderLabel = new System.Windows.Forms.Label();
             this.STTGroupBox = new System.Windows.Forms.GroupBox();
             this.STTHintText = new System.Windows.Forms.Label();
             this.STTRegionEditbox = new System.Windows.Forms.TextBox();
@@ -77,6 +66,17 @@ namespace BanterBrain_Buddy
             this.ProgramFlowTest = new System.Windows.Forms.Button();
             this.BBBTabs = new System.Windows.Forms.TabControl();
             this.LLMTab = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.LLMModelComboBox = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.LLMTestOutputbox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.LLMRoleTextBox = new System.Windows.Forms.TextBox();
+            this.GPTTestButton = new System.Windows.Forms.Button();
+            this.LLMAPIKeyTextBox = new System.Windows.Forms.TextBox();
+            this.GPTAPIKeyLabel = new System.Windows.Forms.Label();
+            this.LLMProviderComboBox = new System.Windows.Forms.ComboBox();
+            this.GPTProviderLabel = new System.Windows.Forms.Label();
             this.StreaminSettingsTab = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -114,10 +114,11 @@ namespace BanterBrain_Buddy
             this.SettingsTab.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.STTGroupBox.SuspendLayout();
             this.MainTab.SuspendLayout();
             this.BBBTabs.SuspendLayout();
+            this.LLMTab.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.StreaminSettingsTab.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -132,7 +133,6 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.SettingsTab, "SettingsTab");
             this.SettingsTab.Controls.Add(this.groupBox3);
             this.SettingsTab.Controls.Add(this.groupBox2);
-            this.SettingsTab.Controls.Add(this.groupBox1);
             this.SettingsTab.Controls.Add(this.STTGroupBox);
             this.SettingsTab.Name = "SettingsTab";
             this.SettingsTab.UseVisualStyleBackColor = true;
@@ -254,85 +254,6 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.TTSProviderLabel, "TTSProviderLabel");
             this.TTSProviderLabel.Name = "TTSProviderLabel";
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.LLMModelComboBox);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.LLMTestOutputbox);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.LLMRoleTextBox);
-            this.groupBox1.Controls.Add(this.GPTTestButton);
-            this.groupBox1.Controls.Add(this.LLMAPIKeyTextBox);
-            this.groupBox1.Controls.Add(this.GPTAPIKeyLabel);
-            this.groupBox1.Controls.Add(this.LLMProviderComboBox);
-            this.groupBox1.Controls.Add(this.GPTProviderLabel);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
-            // 
-            // LLMModelComboBox
-            // 
-            this.LLMModelComboBox.FormattingEnabled = true;
-            this.LLMModelComboBox.Items.AddRange(new object[] {
-            resources.GetString("LLMModelComboBox.Items"),
-            resources.GetString("LLMModelComboBox.Items1")});
-            resources.ApplyResources(this.LLMModelComboBox, "LLMModelComboBox");
-            this.LLMModelComboBox.Name = "LLMModelComboBox";
-            this.LLMModelComboBox.UseWaitCursor = true;
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // LLMTestOutputbox
-            // 
-            resources.ApplyResources(this.LLMTestOutputbox, "LLMTestOutputbox");
-            this.LLMTestOutputbox.Name = "LLMTestOutputbox";
-            this.LLMTestOutputbox.ReadOnly = true;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // LLMRoleTextBox
-            // 
-            resources.ApplyResources(this.LLMRoleTextBox, "LLMRoleTextBox");
-            this.LLMRoleTextBox.Name = "LLMRoleTextBox";
-            this.LLMRoleTextBox.TabStop = false;
-            // 
-            // GPTTestButton
-            // 
-            resources.ApplyResources(this.GPTTestButton, "GPTTestButton");
-            this.GPTTestButton.Name = "GPTTestButton";
-            this.GPTTestButton.UseVisualStyleBackColor = true;
-            this.GPTTestButton.Click += new System.EventHandler(this.GPTTestButton_Click);
-            // 
-            // LLMAPIKeyTextBox
-            // 
-            resources.ApplyResources(this.LLMAPIKeyTextBox, "LLMAPIKeyTextBox");
-            this.LLMAPIKeyTextBox.Name = "LLMAPIKeyTextBox";
-            // 
-            // GPTAPIKeyLabel
-            // 
-            resources.ApplyResources(this.GPTAPIKeyLabel, "GPTAPIKeyLabel");
-            this.GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
-            // 
-            // LLMProviderComboBox
-            // 
-            this.LLMProviderComboBox.FormattingEnabled = true;
-            this.LLMProviderComboBox.Items.AddRange(new object[] {
-            resources.GetString("LLMProviderComboBox.Items"),
-            resources.GetString("LLMProviderComboBox.Items1")});
-            resources.ApplyResources(this.LLMProviderComboBox, "LLMProviderComboBox");
-            this.LLMProviderComboBox.Name = "LLMProviderComboBox";
-            // 
-            // GPTProviderLabel
-            // 
-            resources.ApplyResources(this.GPTProviderLabel, "GPTProviderLabel");
-            this.GPTProviderLabel.Name = "GPTProviderLabel";
-            // 
             // STTGroupBox
             // 
             resources.ApplyResources(this.STTGroupBox, "STTGroupBox");
@@ -450,9 +371,89 @@ namespace BanterBrain_Buddy
             // 
             // LLMTab
             // 
+            this.LLMTab.Controls.Add(this.groupBox1);
             resources.ApplyResources(this.LLMTab, "LLMTab");
             this.LLMTab.Name = "LLMTab";
             this.LLMTab.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.LLMModelComboBox);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.LLMTestOutputbox);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.LLMRoleTextBox);
+            this.groupBox1.Controls.Add(this.GPTTestButton);
+            this.groupBox1.Controls.Add(this.LLMAPIKeyTextBox);
+            this.groupBox1.Controls.Add(this.GPTAPIKeyLabel);
+            this.groupBox1.Controls.Add(this.LLMProviderComboBox);
+            this.groupBox1.Controls.Add(this.GPTProviderLabel);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // LLMModelComboBox
+            // 
+            this.LLMModelComboBox.FormattingEnabled = true;
+            this.LLMModelComboBox.Items.AddRange(new object[] {
+            resources.GetString("LLMModelComboBox.Items"),
+            resources.GetString("LLMModelComboBox.Items1")});
+            resources.ApplyResources(this.LLMModelComboBox, "LLMModelComboBox");
+            this.LLMModelComboBox.Name = "LLMModelComboBox";
+            this.LLMModelComboBox.UseWaitCursor = true;
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // LLMTestOutputbox
+            // 
+            resources.ApplyResources(this.LLMTestOutputbox, "LLMTestOutputbox");
+            this.LLMTestOutputbox.Name = "LLMTestOutputbox";
+            this.LLMTestOutputbox.ReadOnly = true;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // LLMRoleTextBox
+            // 
+            resources.ApplyResources(this.LLMRoleTextBox, "LLMRoleTextBox");
+            this.LLMRoleTextBox.Name = "LLMRoleTextBox";
+            this.LLMRoleTextBox.TabStop = false;
+            // 
+            // GPTTestButton
+            // 
+            resources.ApplyResources(this.GPTTestButton, "GPTTestButton");
+            this.GPTTestButton.Name = "GPTTestButton";
+            this.GPTTestButton.UseVisualStyleBackColor = true;
+            this.GPTTestButton.Click += new System.EventHandler(this.GPTTestButton_Click);
+            // 
+            // LLMAPIKeyTextBox
+            // 
+            resources.ApplyResources(this.LLMAPIKeyTextBox, "LLMAPIKeyTextBox");
+            this.LLMAPIKeyTextBox.Name = "LLMAPIKeyTextBox";
+            // 
+            // GPTAPIKeyLabel
+            // 
+            resources.ApplyResources(this.GPTAPIKeyLabel, "GPTAPIKeyLabel");
+            this.GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
+            // 
+            // LLMProviderComboBox
+            // 
+            this.LLMProviderComboBox.FormattingEnabled = true;
+            this.LLMProviderComboBox.Items.AddRange(new object[] {
+            resources.GetString("LLMProviderComboBox.Items"),
+            resources.GetString("LLMProviderComboBox.Items1")});
+            resources.ApplyResources(this.LLMProviderComboBox, "LLMProviderComboBox");
+            this.LLMProviderComboBox.Name = "LLMProviderComboBox";
+            // 
+            // GPTProviderLabel
+            // 
+            resources.ApplyResources(this.GPTProviderLabel, "GPTProviderLabel");
+            this.GPTProviderLabel.Name = "GPTProviderLabel";
             // 
             // StreaminSettingsTab
             // 
@@ -695,13 +696,14 @@ namespace BanterBrain_Buddy
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.STTGroupBox.ResumeLayout(false);
             this.STTGroupBox.PerformLayout();
             this.MainTab.ResumeLayout(false);
             this.MainTab.PerformLayout();
             this.BBBTabs.ResumeLayout(false);
+            this.LLMTab.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.StreaminSettingsTab.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -723,17 +725,6 @@ namespace BanterBrain_Buddy
         #endregion
         private TabPage SettingsTab;
         private GroupBox groupBox2;
-        private GroupBox groupBox1;
-        private ComboBox LLMModelComboBox;
-        private Label label4;
-        private TextBox LLMTestOutputbox;
-        private Label label1;
-        private TextBox LLMRoleTextBox;
-        private Button GPTTestButton;
-        private TextBox LLMAPIKeyTextBox;
-        private Label GPTAPIKeyLabel;
-        private ComboBox LLMProviderComboBox;
-        private Label GPTProviderLabel;
         private GroupBox STTGroupBox;
         private TextBox STTRegionEditbox;
         private Label STTRegionLabel;
@@ -801,6 +792,17 @@ namespace BanterBrain_Buddy
         private TextBox TwitchTestSendText;
         private CheckBox TwitchSendTextCheckBox;
         private Button TwitchTestButton;
+        private GroupBox groupBox1;
+        private ComboBox LLMModelComboBox;
+        private Label label4;
+        private TextBox LLMTestOutputbox;
+        private Label label1;
+        private TextBox LLMRoleTextBox;
+        private Button GPTTestButton;
+        private TextBox LLMAPIKeyTextBox;
+        private Label GPTAPIKeyLabel;
+        private ComboBox LLMProviderComboBox;
+        private Label GPTProviderLabel;
     }
 }
 

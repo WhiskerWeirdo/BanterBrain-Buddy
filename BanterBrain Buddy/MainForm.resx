@@ -121,548 +121,14 @@
   <data name="SettingsTab.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;MicroPhoneHotkeyLabel.Name" xml:space="preserve">
-    <value>MicroPhoneHotkeyLabel</value>
-  </data>
-  <data name="&gt;&gt;MicroPhoneHotkeyLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MicroPhoneHotkeyLabel.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;MicroPhoneHotkeyLabel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneHotkeyEditbox.Name" xml:space="preserve">
-    <value>MicrophoneHotkeyEditbox</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneHotkeyEditbox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneHotkeyEditbox.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneHotkeyEditbox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;VoiceInputLabel.Name" xml:space="preserve">
-    <value>VoiceInputLabel</value>
-  </data>
-  <data name="&gt;&gt;VoiceInputLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;VoiceInputLabel.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;VoiceInputLabel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;SoundInputDevices.Name" xml:space="preserve">
-    <value>SoundInputDevices</value>
-  </data>
-  <data name="&gt;&gt;SoundInputDevices.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SoundInputDevices.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;SoundInputDevices.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneHotkeySet.Name" xml:space="preserve">
-    <value>MicrophoneHotkeySet</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneHotkeySet.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneHotkeySet.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneHotkeySet.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 6</value>
-  </data>
-  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>547, 88</value>
-  </data>
-  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Microphone</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
-    <value>SettingsTab</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;TTSOutputVoiceOptions.Name" xml:space="preserve">
-    <value>TTSOutputVoiceOptions</value>
-  </data>
-  <data name="&gt;&gt;TTSOutputVoiceOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TTSOutputVoiceOptions.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;TTSOutputVoiceOptions.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;TTSOutputVoice.Name" xml:space="preserve">
-    <value>TTSOutputVoice</value>
-  </data>
-  <data name="&gt;&gt;TTSOutputVoice.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TTSOutputVoice.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;TTSOutputVoice.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;TTSTestTextBox.Name" xml:space="preserve">
-    <value>TTSTestTextBox</value>
-  </data>
-  <data name="&gt;&gt;TTSTestTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TTSTestTextBox.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;TTSTestTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;TTSTestButton.Name" xml:space="preserve">
-    <value>TTSTestButton</value>
-  </data>
-  <data name="&gt;&gt;TTSTestButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TTSTestButton.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;TTSTestButton.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;TTSAudioOutputComboBox.Name" xml:space="preserve">
-    <value>TTSAudioOutputComboBox</value>
-  </data>
-  <data name="&gt;&gt;TTSAudioOutputComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TTSAudioOutputComboBox.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;TTSAudioOutputComboBox.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;TTSProviderComboBox.Name" xml:space="preserve">
-    <value>TTSProviderComboBox</value>
-  </data>
-  <data name="&gt;&gt;TTSProviderComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TTSProviderComboBox.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;TTSProviderComboBox.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;TTSAudioOutputLabel.Name" xml:space="preserve">
-    <value>TTSAudioOutputLabel</value>
-  </data>
-  <data name="&gt;&gt;TTSAudioOutputLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TTSAudioOutputLabel.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;TTSAudioOutputLabel.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;TTSProviderLabel.Name" xml:space="preserve">
-    <value>TTSProviderLabel</value>
-  </data>
-  <data name="&gt;&gt;TTSProviderLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TTSProviderLabel.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;TTSProviderLabel.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 498</value>
-  </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>549, 190</value>
-  </data>
-  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>TTS</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
-    <value>SettingsTab</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;LLMModelComboBox.Name" xml:space="preserve">
-    <value>LLMModelComboBox</value>
-  </data>
-  <data name="&gt;&gt;LLMModelComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LLMModelComboBox.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;LLMModelComboBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;LLMTestOutputbox.Name" xml:space="preserve">
-    <value>LLMTestOutputbox</value>
-  </data>
-  <data name="&gt;&gt;LLMTestOutputbox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LLMTestOutputbox.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;LLMTestOutputbox.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;LLMRoleTextBox.Name" xml:space="preserve">
-    <value>LLMRoleTextBox</value>
-  </data>
-  <data name="&gt;&gt;LLMRoleTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LLMRoleTextBox.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;LLMRoleTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;GPTTestButton.Name" xml:space="preserve">
-    <value>GPTTestButton</value>
-  </data>
-  <data name="&gt;&gt;GPTTestButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GPTTestButton.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;GPTTestButton.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;LLMAPIKeyTextBox.Name" xml:space="preserve">
-    <value>LLMAPIKeyTextBox</value>
-  </data>
-  <data name="&gt;&gt;LLMAPIKeyTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LLMAPIKeyTextBox.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;LLMAPIKeyTextBox.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;GPTAPIKeyLabel.Name" xml:space="preserve">
-    <value>GPTAPIKeyLabel</value>
-  </data>
-  <data name="&gt;&gt;GPTAPIKeyLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GPTAPIKeyLabel.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;GPTAPIKeyLabel.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;LLMProviderComboBox.Name" xml:space="preserve">
-    <value>LLMProviderComboBox</value>
-  </data>
-  <data name="&gt;&gt;LLMProviderComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LLMProviderComboBox.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;LLMProviderComboBox.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;GPTProviderLabel.Name" xml:space="preserve">
-    <value>GPTProviderLabel</value>
-  </data>
-  <data name="&gt;&gt;GPTProviderLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GPTProviderLabel.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;GPTProviderLabel.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 265</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>549, 227</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>LLM</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>SettingsTab</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="STTGroupBox.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="&gt;&gt;STTHintText.Name" xml:space="preserve">
-    <value>STTHintText</value>
-  </data>
-  <data name="&gt;&gt;STTHintText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTHintText.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTHintText.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;STTRegionEditbox.Name" xml:space="preserve">
-    <value>STTRegionEditbox</value>
-  </data>
-  <data name="&gt;&gt;STTRegionEditbox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTRegionEditbox.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTRegionEditbox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;STTRegionLabel.Name" xml:space="preserve">
-    <value>STTRegionLabel</value>
-  </data>
-  <data name="&gt;&gt;STTRegionLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTRegionLabel.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTRegionLabel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyLabel.Name" xml:space="preserve">
-    <value>STTAPIKeyLabel</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyLabel.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyLabel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyEditbox.Name" xml:space="preserve">
-    <value>STTAPIKeyEditbox</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyEditbox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyEditbox.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyEditbox.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;STTTestButton.Name" xml:space="preserve">
-    <value>STTTestButton</value>
-  </data>
-  <data name="&gt;&gt;STTTestButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTTestButton.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTTestButton.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;STTProviderLabel.Name" xml:space="preserve">
-    <value>STTProviderLabel</value>
-  </data>
-  <data name="&gt;&gt;STTProviderLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTProviderLabel.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTProviderLabel.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;STTProviderBox.Name" xml:space="preserve">
-    <value>STTProviderBox</value>
-  </data>
-  <data name="&gt;&gt;STTProviderBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTProviderBox.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTProviderBox.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;STTTestOutput.Name" xml:space="preserve">
-    <value>STTTestOutput</value>
-  </data>
-  <data name="&gt;&gt;STTTestOutput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTTestOutput.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTTestOutput.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="STTGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 100</value>
-  </data>
-  <data name="STTGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>549, 159</value>
-  </data>
-  <data name="STTGroupBox.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="STTGroupBox.Text" xml:space="preserve">
-    <value>STT</value>
-  </data>
-  <data name="&gt;&gt;STTGroupBox.Name" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTGroupBox.Parent" xml:space="preserve">
-    <value>SettingsTab</value>
-  </data>
-  <data name="&gt;&gt;STTGroupBox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="SettingsTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="SettingsTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="SettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>587, 412</value>
-  </data>
-  <data name="SettingsTab.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="SettingsTab.Text" xml:space="preserve">
-    <value>Voice Settings</value>
-  </data>
-  <data name="&gt;&gt;SettingsTab.Name" xml:space="preserve">
-    <value>SettingsTab</value>
-  </data>
-  <data name="&gt;&gt;SettingsTab.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SettingsTab.Parent" xml:space="preserve">
-    <value>BBBTabs</value>
-  </data>
-  <data name="&gt;&gt;SettingsTab.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="MicroPhoneHotkeyLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="MicroPhoneHotkeyLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="MicroPhoneHotkeyLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 50</value>
   </data>
@@ -785,6 +251,30 @@
   </data>
   <data name="&gt;&gt;MicrophoneHotkeySet.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 6</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>547, 88</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Microphone</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>SettingsTab</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="TTSOutputVoiceOptions.Location" type="System.Drawing.Point, System.Drawing">
     <value>144, 117</value>
@@ -1055,6 +545,468 @@
   </data>
   <data name="&gt;&gt;TTSProviderLabel.ZOrder" xml:space="preserve">
     <value>9</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 265</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>549, 190</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>TTS</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>SettingsTab</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="STTGroupBox.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="STTHintText.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="STTHintText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="STTHintText.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 104</value>
+  </data>
+  <data name="STTHintText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 13</value>
+  </data>
+  <data name="STTHintText.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;STTHintText.Name" xml:space="preserve">
+    <value>STTHintText</value>
+  </data>
+  <data name="&gt;&gt;STTHintText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTHintText.Parent" xml:space="preserve">
+    <value>STTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTHintText.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="STTRegionEditbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 66</value>
+  </data>
+  <data name="STTRegionEditbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 20</value>
+  </data>
+  <data name="STTRegionEditbox.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;STTRegionEditbox.Name" xml:space="preserve">
+    <value>STTRegionEditbox</value>
+  </data>
+  <data name="&gt;&gt;STTRegionEditbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTRegionEditbox.Parent" xml:space="preserve">
+    <value>STTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTRegionEditbox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="STTRegionLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="STTRegionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="STTRegionLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 73</value>
+  </data>
+  <data name="STTRegionLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 13</value>
+  </data>
+  <data name="STTRegionLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="STTRegionLabel.Text" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="&gt;&gt;STTRegionLabel.Name" xml:space="preserve">
+    <value>STTRegionLabel</value>
+  </data>
+  <data name="&gt;&gt;STTRegionLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTRegionLabel.Parent" xml:space="preserve">
+    <value>STTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTRegionLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="STTAPIKeyLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="STTAPIKeyLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="STTAPIKeyLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 46</value>
+  </data>
+  <data name="STTAPIKeyLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 13</value>
+  </data>
+  <data name="STTAPIKeyLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="STTAPIKeyLabel.Text" xml:space="preserve">
+    <value>API Key</value>
+  </data>
+  <data name="&gt;&gt;STTAPIKeyLabel.Name" xml:space="preserve">
+    <value>STTAPIKeyLabel</value>
+  </data>
+  <data name="&gt;&gt;STTAPIKeyLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTAPIKeyLabel.Parent" xml:space="preserve">
+    <value>STTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTAPIKeyLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="STTAPIKeyEditbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 39</value>
+  </data>
+  <data name="STTAPIKeyEditbox.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="STTAPIKeyEditbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 20</value>
+  </data>
+  <data name="STTAPIKeyEditbox.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;STTAPIKeyEditbox.Name" xml:space="preserve">
+    <value>STTAPIKeyEditbox</value>
+  </data>
+  <data name="&gt;&gt;STTAPIKeyEditbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTAPIKeyEditbox.Parent" xml:space="preserve">
+    <value>STTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTAPIKeyEditbox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="STTTestButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="STTTestButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>359, 11</value>
+  </data>
+  <data name="STTTestButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="STTTestButton.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="STTTestButton.Text" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="&gt;&gt;STTTestButton.Name" xml:space="preserve">
+    <value>STTTestButton</value>
+  </data>
+  <data name="&gt;&gt;STTTestButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTTestButton.Parent" xml:space="preserve">
+    <value>STTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTTestButton.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="STTProviderLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="STTProviderLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="STTProviderLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 19</value>
+  </data>
+  <data name="STTProviderLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 13</value>
+  </data>
+  <data name="STTProviderLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="STTProviderLabel.Text" xml:space="preserve">
+    <value>Speech-To-Text Provider</value>
+  </data>
+  <data name="&gt;&gt;STTProviderLabel.Name" xml:space="preserve">
+    <value>STTProviderLabel</value>
+  </data>
+  <data name="&gt;&gt;STTProviderLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTProviderLabel.Parent" xml:space="preserve">
+    <value>STTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTProviderLabel.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="STTProviderBox.Items" xml:space="preserve">
+    <value>Native</value>
+  </data>
+  <data name="STTProviderBox.Items1" xml:space="preserve">
+    <value>OpenAI Whisper</value>
+  </data>
+  <data name="STTProviderBox.Items2" xml:space="preserve">
+    <value>Azure</value>
+  </data>
+  <data name="STTProviderBox.Items3" xml:space="preserve">
+    <value>Google</value>
+  </data>
+  <data name="STTProviderBox.Items4" xml:space="preserve">
+    <value>VOSK (local)</value>
+  </data>
+  <data name="STTProviderBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 11</value>
+  </data>
+  <data name="STTProviderBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 21</value>
+  </data>
+  <data name="STTProviderBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="STTProviderBox.Text" xml:space="preserve">
+    <value>Native</value>
+  </data>
+  <data name="&gt;&gt;STTProviderBox.Name" xml:space="preserve">
+    <value>STTProviderBox</value>
+  </data>
+  <data name="&gt;&gt;STTProviderBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTProviderBox.Parent" xml:space="preserve">
+    <value>STTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTProviderBox.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="STTTestOutput.Location" type="System.Drawing.Point, System.Drawing">
+    <value>359, 39</value>
+  </data>
+  <data name="STTTestOutput.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="STTTestOutput.Size" type="System.Drawing.Size, System.Drawing">
+    <value>184, 103</value>
+  </data>
+  <data name="STTTestOutput.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;STTTestOutput.Name" xml:space="preserve">
+    <value>STTTestOutput</value>
+  </data>
+  <data name="&gt;&gt;STTTestOutput.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTTestOutput.Parent" xml:space="preserve">
+    <value>STTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTTestOutput.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="STTGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 100</value>
+  </data>
+  <data name="STTGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>549, 159</value>
+  </data>
+  <data name="STTGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="STTGroupBox.Text" xml:space="preserve">
+    <value>STT</value>
+  </data>
+  <data name="&gt;&gt;STTGroupBox.Name" xml:space="preserve">
+    <value>STTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTGroupBox.Parent" xml:space="preserve">
+    <value>SettingsTab</value>
+  </data>
+  <data name="&gt;&gt;STTGroupBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="SettingsTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="SettingsTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="SettingsTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>587, 412</value>
+  </data>
+  <data name="SettingsTab.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="SettingsTab.Text" xml:space="preserve">
+    <value>Voice Settings</value>
+  </data>
+  <data name="&gt;&gt;SettingsTab.Name" xml:space="preserve">
+    <value>SettingsTab</value>
+  </data>
+  <data name="&gt;&gt;SettingsTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SettingsTab.Parent" xml:space="preserve">
+    <value>BBBTabs</value>
+  </data>
+  <data name="&gt;&gt;SettingsTab.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TwitchStatusTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 62</value>
+  </data>
+  <data name="TwitchStatusTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TwitchStatusTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="TwitchStatusTextBox.Text" xml:space="preserve">
+    <value>DISCONNECTED</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusTextBox.Name" xml:space="preserve">
+    <value>TwitchStatusTextBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusTextBox.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TwitchStatusLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchStatusLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 46</value>
+  </data>
+  <data name="TwitchStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 13</value>
+  </data>
+  <data name="TwitchStatusLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="TwitchStatusLabel.Text" xml:space="preserve">
+    <value>Twitch Status</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusLabel.Name" xml:space="preserve">
+    <value>TwitchStatusLabel</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusLabel.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TextLog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>112, 18</value>
+  </data>
+  <data name="TextLog.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TextLog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>467, 364</value>
+  </data>
+  <data name="TextLog.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;TextLog.Name" xml:space="preserve">
+    <value>TextLog</value>
+  </data>
+  <data name="&gt;&gt;TextLog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextLog.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;TextLog.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ProgramFlowTest.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ProgramFlowTest.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 16</value>
+  </data>
+  <data name="ProgramFlowTest.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ProgramFlowTest.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="ProgramFlowTest.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="&gt;&gt;ProgramFlowTest.Name" xml:space="preserve">
+    <value>ProgramFlowTest</value>
+  </data>
+  <data name="&gt;&gt;ProgramFlowTest.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProgramFlowTest.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;ProgramFlowTest.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="MainTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="MainTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="MainTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>587, 412</value>
+  </data>
+  <data name="MainTab.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="MainTab.Text" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="&gt;&gt;MainTab.Name" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;MainTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MainTab.Parent" xml:space="preserve">
+    <value>BBBTabs</value>
+  </data>
+  <data name="&gt;&gt;MainTab.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BBBTabs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="LLMModelComboBox.Items" xml:space="preserve">
     <value>gpt-3.5-turbo</value>
@@ -1338,437 +1290,29 @@
   <data name="&gt;&gt;GPTProviderLabel.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="STTHintText.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 12</value>
   </data>
-  <data name="STTHintText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>549, 227</value>
   </data>
-  <data name="STTHintText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 104</value>
-  </data>
-  <data name="STTHintText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 13</value>
-  </data>
-  <data name="STTHintText.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;STTHintText.Name" xml:space="preserve">
-    <value>STTHintText</value>
-  </data>
-  <data name="&gt;&gt;STTHintText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTHintText.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTHintText.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="STTRegionEditbox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 66</value>
-  </data>
-  <data name="STTRegionEditbox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 20</value>
-  </data>
-  <data name="STTRegionEditbox.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;STTRegionEditbox.Name" xml:space="preserve">
-    <value>STTRegionEditbox</value>
-  </data>
-  <data name="&gt;&gt;STTRegionEditbox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTRegionEditbox.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTRegionEditbox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="STTRegionLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="STTRegionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="STTRegionLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 73</value>
-  </data>
-  <data name="STTRegionLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 13</value>
-  </data>
-  <data name="STTRegionLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="STTRegionLabel.Text" xml:space="preserve">
-    <value>Region</value>
-  </data>
-  <data name="&gt;&gt;STTRegionLabel.Name" xml:space="preserve">
-    <value>STTRegionLabel</value>
-  </data>
-  <data name="&gt;&gt;STTRegionLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTRegionLabel.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTRegionLabel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="STTAPIKeyLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="STTAPIKeyLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="STTAPIKeyLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 46</value>
-  </data>
-  <data name="STTAPIKeyLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 13</value>
-  </data>
-  <data name="STTAPIKeyLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="STTAPIKeyLabel.Text" xml:space="preserve">
-    <value>API Key</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyLabel.Name" xml:space="preserve">
-    <value>STTAPIKeyLabel</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyLabel.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyLabel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="STTAPIKeyEditbox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 39</value>
-  </data>
-  <data name="STTAPIKeyEditbox.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
-    <value>*</value>
-  </data>
-  <data name="STTAPIKeyEditbox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 20</value>
-  </data>
-  <data name="STTAPIKeyEditbox.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyEditbox.Name" xml:space="preserve">
-    <value>STTAPIKeyEditbox</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyEditbox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyEditbox.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTAPIKeyEditbox.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="STTTestButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="STTTestButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>359, 11</value>
-  </data>
-  <data name="STTTestButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="STTTestButton.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="STTTestButton.Text" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="&gt;&gt;STTTestButton.Name" xml:space="preserve">
-    <value>STTTestButton</value>
-  </data>
-  <data name="&gt;&gt;STTTestButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTTestButton.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTTestButton.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="STTProviderLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="STTProviderLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="STTProviderLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 19</value>
-  </data>
-  <data name="STTProviderLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 13</value>
-  </data>
-  <data name="STTProviderLabel.TabIndex" type="System.Int32, mscorlib">
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
-  <data name="STTProviderLabel.Text" xml:space="preserve">
-    <value>Speech-To-Text Provider</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>LLM</value>
   </data>
-  <data name="&gt;&gt;STTProviderLabel.Name" xml:space="preserve">
-    <value>STTProviderLabel</value>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;STTProviderLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;STTProviderLabel.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>LLMTab</value>
   </data>
-  <data name="&gt;&gt;STTProviderLabel.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="STTProviderBox.Items" xml:space="preserve">
-    <value>Native</value>
-  </data>
-  <data name="STTProviderBox.Items1" xml:space="preserve">
-    <value>OpenAI Whisper</value>
-  </data>
-  <data name="STTProviderBox.Items2" xml:space="preserve">
-    <value>Azure</value>
-  </data>
-  <data name="STTProviderBox.Items3" xml:space="preserve">
-    <value>Google</value>
-  </data>
-  <data name="STTProviderBox.Items4" xml:space="preserve">
-    <value>VOSK (local)</value>
-  </data>
-  <data name="STTProviderBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 11</value>
-  </data>
-  <data name="STTProviderBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 21</value>
-  </data>
-  <data name="STTProviderBox.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="STTProviderBox.Text" xml:space="preserve">
-    <value>Native</value>
-  </data>
-  <data name="&gt;&gt;STTProviderBox.Name" xml:space="preserve">
-    <value>STTProviderBox</value>
-  </data>
-  <data name="&gt;&gt;STTProviderBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTProviderBox.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTProviderBox.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="STTTestOutput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>359, 39</value>
-  </data>
-  <data name="STTTestOutput.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="STTTestOutput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>184, 103</value>
-  </data>
-  <data name="STTTestOutput.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;STTTestOutput.Name" xml:space="preserve">
-    <value>STTTestOutput</value>
-  </data>
-  <data name="&gt;&gt;STTTestOutput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTTestOutput.Parent" xml:space="preserve">
-    <value>STTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTTestOutput.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusTextBox.Name" xml:space="preserve">
-    <value>TwitchStatusTextBox</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusTextBox.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusTextBox.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.Name" xml:space="preserve">
-    <value>TwitchStatusLabel</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Name" xml:space="preserve">
-    <value>TextLog</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TextLog.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;ProgramFlowTest.Name" xml:space="preserve">
-    <value>ProgramFlowTest</value>
-  </data>
-  <data name="&gt;&gt;ProgramFlowTest.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProgramFlowTest.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;ProgramFlowTest.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="MainTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="MainTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="MainTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>587, 412</value>
-  </data>
-  <data name="MainTab.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="MainTab.Text" xml:space="preserve">
-    <value>Main</value>
-  </data>
-  <data name="&gt;&gt;MainTab.Name" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;MainTab.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MainTab.Parent" xml:space="preserve">
-    <value>BBBTabs</value>
-  </data>
-  <data name="&gt;&gt;MainTab.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="TwitchStatusTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 62</value>
-  </data>
-  <data name="TwitchStatusTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 20</value>
-  </data>
-  <data name="TwitchStatusTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="TwitchStatusTextBox.Text" xml:space="preserve">
-    <value>DISCONNECTED</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusTextBox.Name" xml:space="preserve">
-    <value>TwitchStatusTextBox</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusTextBox.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="TwitchStatusLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="TwitchStatusLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 46</value>
-  </data>
-  <data name="TwitchStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 13</value>
-  </data>
-  <data name="TwitchStatusLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="TwitchStatusLabel.Text" xml:space="preserve">
-    <value>Twitch Status</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.Name" xml:space="preserve">
-    <value>TwitchStatusLabel</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="TextLog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>112, 18</value>
-  </data>
-  <data name="TextLog.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="TextLog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>467, 364</value>
-  </data>
-  <data name="TextLog.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Name" xml:space="preserve">
-    <value>TextLog</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TextLog.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="ProgramFlowTest.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="ProgramFlowTest.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 16</value>
-  </data>
-  <data name="ProgramFlowTest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="ProgramFlowTest.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="ProgramFlowTest.Text" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="&gt;&gt;ProgramFlowTest.Name" xml:space="preserve">
-    <value>ProgramFlowTest</value>
-  </data>
-  <data name="&gt;&gt;ProgramFlowTest.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProgramFlowTest.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;ProgramFlowTest.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="BBBTabs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="LLMTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -1794,6 +1338,18 @@
   <data name="&gt;&gt;LLMTab.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="TwitchTestSendText.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 50</value>
+  </data>
+  <data name="TwitchTestSendText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>264, 20</value>
+  </data>
+  <data name="TwitchTestSendText.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="TwitchTestSendText.Text" xml:space="preserve">
+    <value>Hello! I am BanterBrain Buddy https://banterbrain.tv</value>
+  </data>
   <data name="&gt;&gt;TwitchTestSendText.Name" xml:space="preserve">
     <value>TwitchTestSendText</value>
   </data>
@@ -1806,6 +1362,24 @@
   <data name="&gt;&gt;TwitchTestSendText.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="TwitchSendTextCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchSendTextCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TwitchSendTextCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 17</value>
+  </data>
+  <data name="TwitchSendTextCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 17</value>
+  </data>
+  <data name="TwitchSendTextCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="TwitchSendTextCheckBox.Text" xml:space="preserve">
+    <value>Send Message on join</value>
+  </data>
   <data name="&gt;&gt;TwitchSendTextCheckBox.Name" xml:space="preserve">
     <value>TwitchSendTextCheckBox</value>
   </data>
@@ -1817,6 +1391,21 @@
   </data>
   <data name="&gt;&gt;TwitchSendTextCheckBox.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="TwitchTestButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TwitchTestButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 13</value>
+  </data>
+  <data name="TwitchTestButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="TwitchTestButton.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="TwitchTestButton.Text" xml:space="preserve">
+    <value>Test Credentials</value>
   </data>
   <data name="&gt;&gt;TwitchTestButton.Name" xml:space="preserve">
     <value>TwitchTestButton</value>
@@ -1878,6 +1467,24 @@
   <data name="&gt;&gt;TwitchAuthorizeButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="TwitchGiftedSub.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchGiftedSub.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TwitchGiftedSub.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 43</value>
+  </data>
+  <data name="TwitchGiftedSub.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 17</value>
+  </data>
+  <data name="TwitchGiftedSub.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="TwitchGiftedSub.Text" xml:space="preserve">
+    <value>Gifted sub</value>
+  </data>
   <data name="&gt;&gt;TwitchGiftedSub.Name" xml:space="preserve">
     <value>TwitchGiftedSub</value>
   </data>
@@ -1890,6 +1497,21 @@
   <data name="&gt;&gt;TwitchGiftedSub.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="TwitchCommunitySubs.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchCommunitySubs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>131, 19</value>
+  </data>
+  <data name="TwitchCommunitySubs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 17</value>
+  </data>
+  <data name="TwitchCommunitySubs.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="TwitchCommunitySubs.Text" xml:space="preserve">
+    <value>Community subs</value>
+  </data>
   <data name="&gt;&gt;TwitchCommunitySubs.Name" xml:space="preserve">
     <value>TwitchCommunitySubs</value>
   </data>
@@ -1901,6 +1523,21 @@
   </data>
   <data name="&gt;&gt;TwitchCommunitySubs.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="TwitchSubscribed.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchSubscribed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 20</value>
+  </data>
+  <data name="TwitchSubscribed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 17</value>
+  </data>
+  <data name="TwitchSubscribed.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TwitchSubscribed.Text" xml:space="preserve">
+    <value>Subscribed</value>
   </data>
   <data name="&gt;&gt;TwitchSubscribed.Name" xml:space="preserve">
     <value>TwitchSubscribed</value>
@@ -1938,6 +1575,21 @@
   <data name="&gt;&gt;groupBox6.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 16</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 13</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Minimum bits</value>
+  </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
   </data>
@@ -1948,6 +1600,15 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TwitchMinBits.Location" type="System.Drawing.Point, System.Drawing">
+    <value>133, 13</value>
+  </data>
+  <data name="TwitchMinBits.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TwitchMinBits.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="&gt;&gt;TwitchMinBits.Name" xml:space="preserve">
@@ -2415,236 +2076,17 @@
   <data name="&gt;&gt;BBBTabs.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="TwitchTestSendText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 50</value>
-  </data>
-  <data name="TwitchTestSendText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 20</value>
-  </data>
-  <data name="TwitchTestSendText.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="TwitchTestSendText.Text" xml:space="preserve">
-    <value>Hello! I am BanterBrain Buddy https://banterbrain.tv</value>
-  </data>
-  <data name="&gt;&gt;TwitchTestSendText.Name" xml:space="preserve">
-    <value>TwitchTestSendText</value>
-  </data>
-  <data name="&gt;&gt;TwitchTestSendText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchTestSendText.Parent" xml:space="preserve">
-    <value>groupBox7</value>
-  </data>
-  <data name="&gt;&gt;TwitchTestSendText.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="TwitchSendTextCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="TwitchSendTextCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="TwitchSendTextCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 17</value>
-  </data>
-  <data name="TwitchSendTextCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 17</value>
-  </data>
-  <data name="TwitchSendTextCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="TwitchSendTextCheckBox.Text" xml:space="preserve">
-    <value>Send Message on join</value>
-  </data>
-  <data name="&gt;&gt;TwitchSendTextCheckBox.Name" xml:space="preserve">
-    <value>TwitchSendTextCheckBox</value>
-  </data>
-  <data name="&gt;&gt;TwitchSendTextCheckBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchSendTextCheckBox.Parent" xml:space="preserve">
-    <value>groupBox7</value>
-  </data>
-  <data name="&gt;&gt;TwitchSendTextCheckBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="TwitchTestButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="TwitchTestButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>204, 13</value>
-  </data>
-  <data name="TwitchTestButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="TwitchTestButton.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="TwitchTestButton.Text" xml:space="preserve">
-    <value>Test Credentials</value>
-  </data>
-  <data name="&gt;&gt;TwitchTestButton.Name" xml:space="preserve">
-    <value>TwitchTestButton</value>
-  </data>
-  <data name="&gt;&gt;TwitchTestButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchTestButton.Parent" xml:space="preserve">
-    <value>groupBox7</value>
-  </data>
-  <data name="&gt;&gt;TwitchTestButton.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="TwitchGiftedSub.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="TwitchGiftedSub.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="TwitchGiftedSub.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 43</value>
-  </data>
-  <data name="TwitchGiftedSub.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
-  </data>
-  <data name="TwitchGiftedSub.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="TwitchGiftedSub.Text" xml:space="preserve">
-    <value>Gifted sub</value>
-  </data>
-  <data name="&gt;&gt;TwitchGiftedSub.Name" xml:space="preserve">
-    <value>TwitchGiftedSub</value>
-  </data>
-  <data name="&gt;&gt;TwitchGiftedSub.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchGiftedSub.Parent" xml:space="preserve">
-    <value>groupBox6</value>
-  </data>
-  <data name="&gt;&gt;TwitchGiftedSub.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="TwitchCommunitySubs.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="TwitchCommunitySubs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>131, 19</value>
-  </data>
-  <data name="TwitchCommunitySubs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 17</value>
-  </data>
-  <data name="TwitchCommunitySubs.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="TwitchCommunitySubs.Text" xml:space="preserve">
-    <value>Community subs</value>
-  </data>
-  <data name="&gt;&gt;TwitchCommunitySubs.Name" xml:space="preserve">
-    <value>TwitchCommunitySubs</value>
-  </data>
-  <data name="&gt;&gt;TwitchCommunitySubs.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchCommunitySubs.Parent" xml:space="preserve">
-    <value>groupBox6</value>
-  </data>
-  <data name="&gt;&gt;TwitchCommunitySubs.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="TwitchSubscribed.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="TwitchSubscribed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 20</value>
-  </data>
-  <data name="TwitchSubscribed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 17</value>
-  </data>
-  <data name="TwitchSubscribed.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="TwitchSubscribed.Text" xml:space="preserve">
-    <value>Subscribed</value>
-  </data>
-  <data name="&gt;&gt;TwitchSubscribed.Name" xml:space="preserve">
-    <value>TwitchSubscribed</value>
-  </data>
-  <data name="&gt;&gt;TwitchSubscribed.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchSubscribed.Parent" xml:space="preserve">
-    <value>groupBox6</value>
-  </data>
-  <data name="&gt;&gt;TwitchSubscribed.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 16</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 13</value>
-  </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Minimum bits</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="TwitchMinBits.Location" type="System.Drawing.Point, System.Drawing">
-    <value>133, 13</value>
-  </data>
-  <data name="TwitchMinBits.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 20</value>
-  </data>
-  <data name="TwitchMinBits.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;TwitchMinBits.Name" xml:space="preserve">
-    <value>TwitchMinBits</value>
-  </data>
-  <data name="&gt;&gt;TwitchMinBits.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchMinBits.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;TwitchMinBits.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
   <data name="ExitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>93, 22</value>
   </data>
   <data name="ExitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
-  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
+  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
   </data>
-  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Help</value>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;File</value>
   </data>
   <data name="githubToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 22</value>
@@ -2657,6 +2099,12 @@
   </data>
   <data name="aboutToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;About</value>
+  </data>
+  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Help</value>
   </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>132, 17</value>
