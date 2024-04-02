@@ -939,31 +939,31 @@
   <data name="&gt;&gt;TextLog.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="ProgramFlowTest.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="MainRecordingStart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="ProgramFlowTest.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="MainRecordingStart.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 16</value>
   </data>
-  <data name="ProgramFlowTest.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="MainRecordingStart.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="ProgramFlowTest.TabIndex" type="System.Int32, mscorlib">
+  <data name="MainRecordingStart.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="ProgramFlowTest.Text" xml:space="preserve">
+  <data name="MainRecordingStart.Text" xml:space="preserve">
     <value>Start</value>
   </data>
-  <data name="&gt;&gt;ProgramFlowTest.Name" xml:space="preserve">
-    <value>ProgramFlowTest</value>
+  <data name="&gt;&gt;MainRecordingStart.Name" xml:space="preserve">
+    <value>MainRecordingStart</value>
   </data>
-  <data name="&gt;&gt;ProgramFlowTest.Type" xml:space="preserve">
+  <data name="&gt;&gt;MainRecordingStart.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ProgramFlowTest.Parent" xml:space="preserve">
+  <data name="&gt;&gt;MainRecordingStart.Parent" xml:space="preserve">
     <value>MainTab</value>
   </data>
-  <data name="&gt;&gt;ProgramFlowTest.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;MainRecordingStart.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="MainTab.Location" type="System.Drawing.Point, System.Drawing">
@@ -3263,7 +3263,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>BanterBrain Buddy 0.0.3-dev</value>
+    <value>BanterBrain Buddy 0.0.4-dev</value>
   </data>
   <data name="&gt;&gt;fileToolStripMenuItem.Name" xml:space="preserve">
     <value>fileToolStripMenuItem</value>

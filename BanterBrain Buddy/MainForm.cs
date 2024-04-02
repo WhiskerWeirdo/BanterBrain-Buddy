@@ -83,13 +83,13 @@ namespace BanterBrain_Buddy
 
         private async void STTTestButton_Click(object sender, EventArgs e)
         {
+            String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             if (STTTestButton.Text == "Test")
             {
                 STTTestOutput.Text = "";
                 TextLog.AppendText("Test Microphone on\r\n");
                 BBBlog.Info("Test Microphone on");
                 STTTestButton.Text = "Recording";
-                String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
                 TextLog.AppendText(SelectedProvider + "\r\n");
 
                 STTDone = false;
@@ -131,7 +131,8 @@ namespace BanterBrain_Buddy
                 TextLog.AppendText("Test stopped recording\r\n");
                 BBBlog.Info("Test stopped recording");
                 STTTestOutput.BackColor = SystemColors.Control;
-                StopWavCapture();
+                if (SelectedProvider == "Native")
+                    StopWavCapture();
             }
         }
 
@@ -178,10 +179,10 @@ namespace BanterBrain_Buddy
             //default mic cos...lets start easy
             var AzureAudioConfig = AudioConfig.FromDefaultMicrophoneInput();
             var AzureSpeechRecognizer = new Microsoft.CognitiveServices.Speech.SpeechRecognizer(AzureSpeechConfig, AzureAudioConfig);
-            STTTestOutput.Text = "Azure STT microphone start. -- SPEAK NOW --";
+            STTTestOutput.Text = "";
             BBBlog.Info("Azure STT microphone start.");
 
-            while (STTTestButton.Text == "Recording")
+            while (STTTestButton.Text == "Recording" || MainRecordingStart.Text =="Recording")
             {
                 var speechRecognitionResult = await AzureSpeechRecognizer.RecognizeOnceAsync();
                 AzureOutputSpeechRecognitionResult(speechRecognitionResult);
@@ -190,22 +191,22 @@ namespace BanterBrain_Buddy
         }
 
         private void AzureOutputSpeechRecognitionResult(SpeechRecognitionResult speechRecognitionResult)
-        {
-            
+        {     
             switch (speechRecognitionResult.Reason)
             {
                 case ResultReason.RecognizedSpeech:
                     BBBlog.Info($"RECOGNIZED: Text={speechRecognitionResult.Text}");
-                    STTTestOutput.Text += speechRecognitionResult.Text;
+                    STTTestOutput.Text += speechRecognitionResult.Text + "\r\n";
+                    TextLog.Text += speechRecognitionResult.Text + "\r\n";
                     break;
                 case ResultReason.NoMatch:
-                    BBBlog.Info($"NOMATCH: Speech could not be recognized.");
-                    STTTestOutput.Text += $"NOMATCH: Speech could not be recognized.";
+                    BBBlog.Info("NOMATCH: Speech could not be recognized.");
+                    STTTestOutput.Text += "NOMATCH: Speech could not be recognized.\r\n";
                     break;
                 case ResultReason.Canceled:
                     var cancellation = CancellationDetails.FromResult(speechRecognitionResult);
                     BBBlog.Info($"CANCELED: Reason={cancellation.Reason}");
-                    STTTestOutput.Text += $"CANCELED: Reason={cancellation.Reason}";
+                    STTTestOutput.Text += $"CANCELED: Reason={cancellation.Reason}\r\n";
 
                     if (cancellation.Reason == CancellationReason.Error)
                     {
@@ -218,6 +219,7 @@ namespace BanterBrain_Buddy
                     }
                     break;
             }
+            STTTestOutput.Text += "\r\n";
         }
 
         //NATIVE
@@ -400,9 +402,9 @@ namespace BanterBrain_Buddy
                 await chat.StreamResponseFromChatbotAsync(res =>
                  {
                      TextLog.AppendText(res);
-                     BBBlog.Info(res);
                      LLMTestOutputbox.AppendText(res);
                  });
+                BBBlog.Info(LLMTestOutputbox.Text);
                 TextLog.AppendText("\r\nGPT Response done\r\n");
                 BBBlog.Info("GPT Response done");
                 GPTDone = true;
@@ -490,14 +492,15 @@ namespace BanterBrain_Buddy
             }
         }
 
-        private async void ProgramFlowTest_Click(object sender, EventArgs e)
+        private async void MainRecordingStart_Click(object sender, EventArgs e)
         {
+            String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             //first, lets call STT
-            if (ProgramFlowTest.Text == "Start")
+            if (MainRecordingStart.Text == "Start")
             {
                 STTTestOutput.Text = "";
-                ProgramFlowTest.Text = "Recording";
-                String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
+                MainRecordingStart.Text = "Recording";
+                
 
                 if (SelectedProvider == "Native")
                 {
@@ -508,8 +511,29 @@ namespace BanterBrain_Buddy
                     {
                         await Task.Delay(500);
                     }
+                } else if (SelectedProvider == "Azure")
+                {
+                    TextLog.AppendText("Azure STT calling\r\n");
+                    BBBlog.Info("Azure STT calling");
+                    //cant be empty
+
+                    if ((STTAPIKeyEditbox.Text.Length < 1) || (STTRegionEditbox.Text.Length < 1))
+                    {
+                        TextLog.Text = "Error! API Key or region cannot be empty!\r\n";
+                        BBBlog.Error("Error! API Key or region cannot be empty!");
+                        MainRecordingStart.Text = "Start";
+                    }
+                    else
+                    {
+                        AzureInputStream();
+                        while (!STTDone)
+                        {
+                            await Task.Delay(500);
+                        }
+
+                    }
                 }
-                
+
                 Thread.Sleep(500);
                 //now the STT text is in STTTestOutput.Text, lets pass that to ChatGPT
                 if (STTTestOutput.Text.Length > 1)
@@ -541,8 +565,9 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                ProgramFlowTest.Text = "Start";
-                StopWavCapture();
+                MainRecordingStart.Text = "Start";
+                if (SelectedProvider == "Native")
+                    StopWavCapture();
 
             }
         }
@@ -692,9 +717,9 @@ namespace BanterBrain_Buddy
         {
             if (!HotkeyCalled)
             {
-                if (ProgramFlowTest.Text == "Start")
+                if (MainRecordingStart.Text == "Start")
                 {
-                    ProgramFlowTest_Click(null,null);
+                    MainRecordingStart_Click(null,null);
                     HotkeyCalled = true;
                     //ok lets wait 1 sec before checking shit again
                     await Task.Delay(1000);
@@ -712,7 +737,7 @@ namespace BanterBrain_Buddy
                 //foreach (Keys key in SetHotkeys)
                 if (SetHotkeys.Contains(e.KeyCode))
                 {
-                    ProgramFlowTest_Click(null, null);
+                    MainRecordingStart_Click(null, null);
                     await Task.Delay(1000);
                     HotkeyCalled = false;
                 }

@@ -63,7 +63,7 @@ namespace BanterBrain_Buddy
             this.TwitchStatusTextBox = new System.Windows.Forms.TextBox();
             this.TwitchStatusLabel = new System.Windows.Forms.Label();
             this.TextLog = new System.Windows.Forms.TextBox();
-            this.ProgramFlowTest = new System.Windows.Forms.Button();
+            this.MainRecordingStart = new System.Windows.Forms.Button();
             this.BBBTabs = new System.Windows.Forms.TabControl();
             this.LLMTab = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -326,7 +326,7 @@ namespace BanterBrain_Buddy
             this.MainTab.Controls.Add(this.TwitchStatusTextBox);
             this.MainTab.Controls.Add(this.TwitchStatusLabel);
             this.MainTab.Controls.Add(this.TextLog);
-            this.MainTab.Controls.Add(this.ProgramFlowTest);
+            this.MainTab.Controls.Add(this.MainRecordingStart);
             resources.ApplyResources(this.MainTab, "MainTab");
             this.MainTab.Name = "MainTab";
             this.MainTab.UseVisualStyleBackColor = true;
@@ -348,12 +348,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.TextLog, "TextLog");
             this.TextLog.Name = "TextLog";
             // 
-            // ProgramFlowTest
+            // MainRecordingStart
             // 
-            resources.ApplyResources(this.ProgramFlowTest, "ProgramFlowTest");
-            this.ProgramFlowTest.Name = "ProgramFlowTest";
-            this.ProgramFlowTest.UseVisualStyleBackColor = true;
-            this.ProgramFlowTest.Click += new System.EventHandler(this.ProgramFlowTest_Click);
+            resources.ApplyResources(this.MainRecordingStart, "MainRecordingStart");
+            this.MainRecordingStart.Name = "MainRecordingStart";
+            this.MainRecordingStart.UseVisualStyleBackColor = true;
+            this.MainRecordingStart.Click += new System.EventHandler(this.MainRecordingStart_Click);
             // 
             // BBBTabs
             // 
@@ -731,7 +731,7 @@ namespace BanterBrain_Buddy
         private ComboBox STTProviderBox;
         private TextBox STTTestOutput;
         private TabPage MainTab;
-        private Button ProgramFlowTest;
+        private Button MainRecordingStart;
         private TabControl BBBTabs;
         private ComboBox TTSOutputVoiceOptions;
         private Label label3;

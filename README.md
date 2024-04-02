@@ -34,11 +34,11 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 - [ ] Twitch Auth Token needs refresh instead of re-auth
 - [ ] You need to sign up to https://dev.twitch.tv and get a application ClientID & Secret to build BBB yourself
 
-### 0.0.3 TODO
+### 0.0.4 TODO
 - [X] Store Azure API key
 - [X] Use Azure API for Speech-To-Text Test
-- [ ] Add an actual logfile
-- [ ] Use Azure API for STT Normal use
+- [X] Add an actual logfile
+- [X] Use Azure API for STT Normal use
 - [ ] Use Azure STT from non-default microphone
 - [ ] Use Azure APi for Text-To-Speech test
 - [ ] Use Azure API for TTS Normal use
