@@ -37,6 +37,7 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 ### 0.0.3 TODO
 - [X] Store Azure API key
 - [X] Use Azure API for Speech-To-Text Test
+- [ ] Add an actual logfile
 - [ ] Use Azure API for STT Normal use
 - [ ] Use Azure STT from non-default microphone
 - [ ] Use Azure APi for Text-To-Speech test
@@ -46,7 +47,7 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
 - [X] 0.0.2 MVP use non-default audio devices for input/output
-- [ ] 0.0.3 MVP ability to read Twitch chat and react to specifyable chat command
+- [X] 0.0.3 MVP ability to read Twitch chat and react to specifyable chat command
 - [ ] 0.0.4 MVP Azure TTS/STT support
 - [ ] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
 - [ ] 0.0.5.1 ALPHA INSTALLABLE ALPHA BUILD

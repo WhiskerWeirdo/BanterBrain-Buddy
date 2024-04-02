@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BanterBrain_Buddy
 {
+    
     public class Authorization
     {
         public string Code { get; }
@@ -20,6 +21,8 @@ namespace BanterBrain_Buddy
     }
     public class TwitchAuthWebserver
     {
+        private static readonly log4net.ILog BBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private HttpListener listener;
 
         public TwitchAuthWebserver(string uri)
@@ -49,11 +52,13 @@ namespace BanterBrain_Buddy
                         if (req.QueryString.AllKeys.Any("code".Contains))
                         {
                             writer.WriteLine("Authorization started! Check your application! You can close this window!");
+                            BBBlog.Info("OAUTH Authorization started! Check your application!");
                             writer.Flush();
                             return new Authorization(req.QueryString["code"]);
                         }
                         else
                         {
+                            BBBlog.Info("No code found in query string! Problem with OAUTH");
                             writer.WriteLine("No code found in query string! Problem with OAUTH");
                             writer.Flush();
                         }
@@ -61,7 +66,7 @@ namespace BanterBrain_Buddy
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    BBBlog.Error("Webserver: " +ex.ToString());
                 }
                 
             }

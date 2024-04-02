@@ -239,8 +239,7 @@ namespace BanterBrain_Buddy
             this.TTSProviderComboBox.FormattingEnabled = true;
             this.TTSProviderComboBox.Items.AddRange(new object[] {
             resources.GetString("TTSProviderComboBox.Items"),
-            resources.GetString("TTSProviderComboBox.Items1"),
-            resources.GetString("TTSProviderComboBox.Items2")});
+            resources.GetString("TTSProviderComboBox.Items1")});
             resources.ApplyResources(this.TTSProviderComboBox, "TTSProviderComboBox");
             this.TTSProviderComboBox.Name = "TTSProviderComboBox";
             // 
@@ -311,10 +310,7 @@ namespace BanterBrain_Buddy
             this.STTProviderBox.FormattingEnabled = true;
             this.STTProviderBox.Items.AddRange(new object[] {
             resources.GetString("STTProviderBox.Items"),
-            resources.GetString("STTProviderBox.Items1"),
-            resources.GetString("STTProviderBox.Items2"),
-            resources.GetString("STTProviderBox.Items3"),
-            resources.GetString("STTProviderBox.Items4")});
+            resources.GetString("STTProviderBox.Items1")});
             resources.ApplyResources(this.STTProviderBox, "STTProviderBox");
             this.STTProviderBox.Name = "STTProviderBox";
             this.STTProviderBox.SelectedIndexChanged += new System.EventHandler(this.STTProviderBox_SelectedIndexChanged);

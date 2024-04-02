@@ -30,11 +30,15 @@ using TwitchLib.Api.Helix.Models.Search;
 using Microsoft.CognitiveServices.Speech.Audio;
 using Microsoft.CognitiveServices.Speech;
 using SpeechSynthesizer = System.Speech.Synthesis.SpeechSynthesizer;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BanterBrain_Buddy
 {
     public partial class BBB : Form
     {
+        //set logger
+        private static readonly log4net.ILog BBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         //PTT hotkey hook
         private IKeyboardMouseEvents m_GlobalHook;
 
@@ -55,7 +59,9 @@ namespace BanterBrain_Buddy
             Subscribe();
             GetAudioDevices();
 
-            TextLog.AppendText("Program Starting...\r\n");
+            BBBlog.Info("Program Starting...");
+            BBBlog.Info("PPT hotkey: " + MicrophoneHotkeyEditbox.Text);
+            TextLog.AppendText("Program Starting...");
             TextLog.AppendText("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
         }
 
@@ -81,6 +87,7 @@ namespace BanterBrain_Buddy
             {
                 STTTestOutput.Text = "";
                 TextLog.AppendText("Test Microphone on\r\n");
+                BBBlog.Info("Test Microphone on");
                 STTTestButton.Text = "Recording";
                 String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
                 TextLog.AppendText(SelectedProvider + "\r\n");
@@ -89,6 +96,7 @@ namespace BanterBrain_Buddy
                 if (SelectedProvider == "Native")
                 {
                     TextLog.AppendText("Test Native STT calling\r\n");
+                    BBBlog.Info("Test Native STT calling");
                     NativeInputStreamtoWav();
                     while (!STTDone)
                     {
@@ -97,11 +105,13 @@ namespace BanterBrain_Buddy
                 } else if (SelectedProvider == "Azure")
                 {
                     TextLog.AppendText("Test Azure STT calling\r\n");
+                    BBBlog.Info("Test Azure STT calling");
                     //cant be empty
 
                     if ((STTAPIKeyEditbox.Text.Length < 1) || (STTRegionEditbox.Text.Length < 1))
                     {
                         STTTestOutput.Text = "Error! API Key or region cannot be empty!";
+                        BBBlog.Error("Error! API Key or region cannot be empty!");
                         STTTestButton.Text = "Test";
                     }
                     else
@@ -119,6 +129,7 @@ namespace BanterBrain_Buddy
             {
                 STTTestButton.Text = "Test";
                 TextLog.AppendText("Test stopped recording\r\n");
+                BBBlog.Info("Test stopped recording");
                 STTTestOutput.BackColor = SystemColors.Control;
                 StopWavCapture();
             }
@@ -130,6 +141,7 @@ namespace BanterBrain_Buddy
             if (SelectedProvider == "Native")
             {
                 TextLog.AppendText("Native STT\r\n");
+                BBBlog.Info("Native STT");
                 STTAPIKeyEditbox.Enabled = false;
                 STTRegionEditbox.Enabled = false;
                 STTTestOutput.Text = "Hint: For better native Speech-To-Text always train your voice at least once in Control Panel\\Ease of Access\\Speech Recognition";
@@ -137,16 +149,10 @@ namespace BanterBrain_Buddy
             else if (SelectedProvider == "Azure")
             {
                 TextLog.AppendText("Azure\r\n");
+                BBBlog.Info("Azure STT");
                 STTAPIKeyEditbox.Enabled = true;
                 STTRegionEditbox.Enabled = true;
                 STTTestOutput.Text = "Be sure to set API key and region!";
-            }
-            else if (SelectedProvider == "Google")
-            {
-                TextLog.AppendText("Google\r\n");
-                STTAPIKeyEditbox.Enabled = true;
-                STTRegionEditbox.Enabled = true;
-                STTTestOutput.Text = "NON FUNCTIONAL";
             }
         }
 
@@ -172,10 +178,14 @@ namespace BanterBrain_Buddy
             //default mic cos...lets start easy
             var AzureAudioConfig = AudioConfig.FromDefaultMicrophoneInput();
             var AzureSpeechRecognizer = new Microsoft.CognitiveServices.Speech.SpeechRecognizer(AzureSpeechConfig, AzureAudioConfig);
-            STTTestOutput.Text = "Speak into your microphone to test Azure.";
-            var speechRecognitionResult = await AzureSpeechRecognizer.RecognizeOnceAsync();
-            AzureOutputSpeechRecognitionResult(speechRecognitionResult);
-            STTTestButton.Text = "Test";
+            STTTestOutput.Text = "Azure STT microphone start. -- SPEAK NOW --";
+            BBBlog.Info("Azure STT microphone start.");
+
+            while (STTTestButton.Text == "Recording")
+            {
+                var speechRecognitionResult = await AzureSpeechRecognizer.RecognizeOnceAsync();
+                AzureOutputSpeechRecognitionResult(speechRecognitionResult);
+            }
             STTDone = true;
         }
 
@@ -185,26 +195,26 @@ namespace BanterBrain_Buddy
             switch (speechRecognitionResult.Reason)
             {
                 case ResultReason.RecognizedSpeech:
-                    Console.WriteLine($"RECOGNIZED: Text={speechRecognitionResult.Text}");
-                    STTTestOutput.Text = speechRecognitionResult.Text;
+                    BBBlog.Info($"RECOGNIZED: Text={speechRecognitionResult.Text}");
+                    STTTestOutput.Text += speechRecognitionResult.Text;
                     break;
                 case ResultReason.NoMatch:
-                    Console.WriteLine($"NOMATCH: Speech could not be recognized.");
-                    STTTestOutput.Text = $"NOMATCH: Speech could not be recognized.";
+                    BBBlog.Info($"NOMATCH: Speech could not be recognized.");
+                    STTTestOutput.Text += $"NOMATCH: Speech could not be recognized.";
                     break;
                 case ResultReason.Canceled:
                     var cancellation = CancellationDetails.FromResult(speechRecognitionResult);
-                    Console.WriteLine($"CANCELED: Reason={cancellation.Reason}");
-                    STTTestOutput.Text = $"CANCELED: Reason={cancellation.Reason}";
+                    BBBlog.Info($"CANCELED: Reason={cancellation.Reason}");
+                    STTTestOutput.Text += $"CANCELED: Reason={cancellation.Reason}";
 
                     if (cancellation.Reason == CancellationReason.Error)
                     {
                         STTTestOutput.Text = $"CANCELED: ErrorCode={cancellation.ErrorCode}\r\n";
                         STTTestOutput.Text += $"CANCELED: ErrorDetails={cancellation.ErrorDetails}\r\n";
                         STTTestOutput.Text += $"CANCELED: Did you set the speech resource key and region values?\r\n";
-                        Console.WriteLine($"CANCELED: ErrorCode={cancellation.ErrorCode}");
-                        Console.WriteLine($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
-                        Console.WriteLine($"CANCELED: Did you set the speech resource key and region values?");
+                        BBBlog.Info($"CANCELED: ErrorCode={cancellation.ErrorCode}");
+                        BBBlog.Info($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
+                        BBBlog.Info($"CANCELED: Did you set the speech resource key and region values?");
                     }
                     break;
             }
@@ -215,7 +225,7 @@ namespace BanterBrain_Buddy
         private MMDevice _selectedDevice;
         private WasapiCapture _soundIn;
         private IWriteable _writer;
-        private string tmpWavFile = Path.GetDirectoryName(Application.ExecutablePath) + "\\tmp.wav";
+        private string tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
         private void NativeInputStreamtoWav()
         {
 
@@ -246,11 +256,14 @@ namespace BanterBrain_Buddy
             };
             _soundIn.Start();
             TextLog.AppendText("STT microphone start. -- SPEAK NOW -- \r\n");
+            BBBlog.Info("Native STT microphone start.");
         }
 
         private void StopWavCapture()
         {
             TextLog.AppendText("Stopping capture to WAV file\r\n");
+            BBBlog.Info("Stopping capture to WAV file");
+
             if (_soundIn != null)
             {
                 _soundIn.Stop();
@@ -277,28 +290,31 @@ namespace BanterBrain_Buddy
             recognizer2.SetInputToWaveFile(tmpWavFile);
             // Attach event handlers for the results of recognition.  
             recognizer2.SpeechRecognized +=
-              new EventHandler<SpeechRecognizedEventArgs>(SpeechRecognized);
+              new EventHandler<SpeechRecognizedEventArgs>(NativeSpeechRecognized);
             recognizer2.RecognizeCompleted +=
-              new EventHandler<RecognizeCompletedEventArgs>(RecognizeCompletedHandler);
+              new EventHandler<RecognizeCompletedEventArgs>(NativeRecognizeCompletedHandler);
 
-            TextLog.AppendText("Starting asynchronous recognition... on " +tmpWavFile +"\r\n");
+            TextLog.AppendText("Starting asynchronous Native recognition... on " +tmpWavFile +"\r\n");
+            BBBlog.Info("Starting asynchronous Native recognition... on " +tmpWavFile);
+
             STTDone = false;
             recognizer2.RecognizeAsync(RecognizeMode.Multiple);
             while (!STTDone)
             {
                 await Task.Delay(1000);
             }
-            TextLog.AppendText("STT done.\r\n");
+            TextLog.AppendText("Native STT done.\r\n");
+            BBBlog.Info("Native STT done.");
             recognizer2.Dispose();
         }
 
 
 
         // Handle the SpeechHypothesized event.  
-        private void SpeechHypothesizedHandler(object sender, SpeechHypothesizedEventArgs e)
+        private void NativeSpeechHypothesizedHandler(object sender, SpeechHypothesizedEventArgs e)
         {
             TextLog.AppendText(" In SpeechHypothesizedHandler:+\r\n");
-            Console.WriteLine("in hypothesishandler");
+            BBBlog.Info("in hypothesishandler");
             string grammarName = "<not available>";
             string resultText = "<not available>";
             if (e.Result != null)
@@ -314,47 +330,56 @@ namespace BanterBrain_Buddy
               grammarName, resultText);
         }
 
-        private void RecognizeCompletedHandler(object sender, RecognizeCompletedEventArgs e)
+        private void NativeRecognizeCompletedHandler(object sender, RecognizeCompletedEventArgs e)
         {
             if (e.Error != null)
             {
-                TextLog.AppendText("  Error encountered, "+ e.Error.GetType().Name+" : " +e.Error.Message+"\r\n");
+                TextLog.AppendText("Native STT Error encountered, "+ e.Error.GetType().Name+" : " +e.Error.Message+"\r\n");
+                BBBlog.Error("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message);
+
             }
             if (e.Cancelled)
             {
-                TextLog.AppendText("  Operation cancelled\r\n");
+                TextLog.AppendText("Native STT Operation cancelled\r\n");
+                BBBlog.Info("Native STT Operation cancelled");
             }
             if (e.InputStreamEnded)
             {
-                TextLog.AppendText("STT recognize Stopped.\r\n");
+                TextLog.AppendText("Native STT recognize Stopped.\r\n");
+                BBBlog.Info("Mative STT recognize Stopped.");
             }
             
             STTDone = true;
         }
 
         // Handle the SpeechRecognized event.  
-        private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        private void NativeSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             if (e.Result != null && e.Result.Text != null)
             {
-                TextLog.AppendText("Recognized text: " + e.Result.Text + "\r\n");
+                TextLog.AppendText("Native recognized text: " + e.Result.Text + "\r\n");
+                BBBlog.Info("Native recognized text: " + e.Result.Text);
                 STTTestOutput.AppendText(e.Result.Text + "\r\n");
             }
             else
             {
-                STTTestOutput.AppendText("  Recognized text not available.");
+                STTTestOutput.AppendText("Native recognized text not available.");
+                BBBlog.Info("Native recognized text not available.");
             }
         }
 
-        private void SpeechDetectedHandler(object sender, SpeechDetectedEventArgs e)
+        private void NativeSpeechDetectedHandler(object sender, SpeechDetectedEventArgs e)
         {
-            TextLog.AppendText(" In SpeechDetectedHandler:\r\n");
+            TextLog.AppendText(" In NativeSpeechDetectedHandler:\r\n");
             TextLog.AppendText(" - AudioPosition = " + e.AudioPosition + "\r\n");
+            BBBlog.Info(" In NativeSpeechDetectedHandler: ");
+            BBBlog.Info(" - AudioPosition = \" + e.AudioPosition");
         }
 
         private async void TalkToOpenAIGPT(String UserInput)
         {
             TextLog.AppendText("Sending to GPT: " +UserInput+ "\r\n");
+            BBBlog.Info("Sending to GPT: " + UserInput);
             GPTDone = false;
             OpenAIAPI api = new OpenAIAPI(LLMAPIKeyTextBox.Text);
             var chat = api.Chat.CreateConversation();
@@ -364,23 +389,28 @@ namespace BanterBrain_Buddy
 
             //mood is setting the system text description
             TextLog.AppendText("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
+            BBBlog.Info("SystemRole: " + LLMRoleTextBox.Text);
             chat.AppendSystemMessage(LLMRoleTextBox.Text);
 
             chat.AppendUserInput(UserInput);
             try
             {
                 TextLog.AppendText("ChatGPT response: ");
+                BBBlog.Info("ChatGPT response: ");
                 await chat.StreamResponseFromChatbotAsync(res =>
                  {
                      TextLog.AppendText(res);
+                     BBBlog.Info(res);
                      LLMTestOutputbox.AppendText(res);
                  });
                 TextLog.AppendText("\r\nGPT Response done\r\n");
+                BBBlog.Info("GPT Response done");
                 GPTDone = true;
             }
             catch (System.Security.Authentication.AuthenticationException ex)
             {
                 MessageBox.Show(ex.Message, "GPT API Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                BBBlog.Error("GPT API Auth error: " +ex.Message);
             }
 
         }
@@ -392,7 +422,8 @@ namespace BanterBrain_Buddy
             GPTTestButton.Text = "Wait...";
             if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
             {
-                TextLog.AppendText("Using ChatGPT\r\n");
+                TextLog.AppendText("Testing using ChatGPT\r\n");
+                BBBlog.Info("Testing using ChatGPT");
                 TalkToOpenAIGPT("How are you?");
             }
             GPTTestButton.Text = "Test";
@@ -423,6 +454,7 @@ namespace BanterBrain_Buddy
         private async void TTSNativeSpeakToOutput(String TTSText)
         {
             TextLog.AppendText("Saying text with Native TTS\r\n");
+            BBBlog.Info("Saying text with Native TTS");
             //using the full name to make sure we dont confuse native with Azure
             SpeechSynthesizer synthesizer = new System.Speech.Synthesis.SpeechSynthesizer();
             var stream = new MemoryStream();
@@ -470,6 +502,7 @@ namespace BanterBrain_Buddy
                 if (SelectedProvider == "Native")
                 {
                     TextLog.AppendText("ProframFlow Native STT calling\r\n");
+                    BBBlog.Info("ProframFlow Native STT calling");
                     NativeInputStreamtoWav();
                     while (!STTDone)
                     {
@@ -477,7 +510,7 @@ namespace BanterBrain_Buddy
                     }
                 }
                 
-                Thread.Sleep(500); 
+                Thread.Sleep(500);
                 //now the STT text is in STTTestOutput.Text, lets pass that to ChatGPT
                 if (STTTestOutput.Text.Length > 1)
                 {
@@ -485,6 +518,7 @@ namespace BanterBrain_Buddy
                     if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
                     {
                         TextLog.AppendText("Using ChatGPT\r\n");
+                        BBBlog.Info("Using ChatGPT");
                         TalkToOpenAIGPT(STTTestOutput.Text);
                     }
                     //lets wait for GPT to be done
@@ -500,7 +534,10 @@ namespace BanterBrain_Buddy
                     }
                 }
                 else
+                {
                     TextLog.AppendText("No audio recorded");
+                    BBBlog.Info("No audio recorded");
+                }
             }
             else
             {
@@ -624,6 +661,7 @@ namespace BanterBrain_Buddy
                 }
             }
             TextLog.AppendText("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
+            BBBlog.Info("Hotkey set to "+ MicrophoneHotkeyEditbox.Text);
             HotkeyDialog.Dispose();
             //bind the new value 
             Subscribe();
@@ -718,20 +756,20 @@ namespace BanterBrain_Buddy
 
             //Logwriter
             client.OnLog += (o, a) => {
-                Console.WriteLine($"{a.DateTime.ToString()}: {a.BotUsername} - {a.Data}");
+                BBBlog.Info($"Twitch: {a.BotUsername} - {a.Data}");
             };
 
             //Connection evets
             client.OnConnected += (o, a) =>
             {
-                Console.WriteLine($"OnConnected => Connected to {a.AutoJoinChannel}");
+                BBBlog.Info($"Twitch OnConnected => Connected to {a.AutoJoinChannel}");
             };
             client.OnJoinedChannel += (o, a) =>
             {
                 if (TwitchSendTextCheckBox.Checked)
                     client.SendMessage(a.Channel, TwitchTestSendText.Text);
                 else
-                    Console.WriteLine("I would have send: " + a.Channel + " => " + TwitchTestSendText.Text);
+                    BBBlog.Info("Twitch I would have send: " + a.Channel + " => " + TwitchTestSendText.Text);
             };
 
             /*
@@ -739,45 +777,45 @@ namespace BanterBrain_Buddy
             */
             //connection and login
             client.OnConnectionError += (o, a) => {
-                Console.WriteLine("OnConnectionError =>" + a.Error);
+                BBBlog.Error("Twitch OnConnectionError =>" + a.Error);
                 client.Disconnect();
             };
             client.OnIncorrectLogin += (o, a) =>
             {
-                Console.WriteLine("OnIncorrectLogin => " + a.Exception);
+                BBBlog.Error("Twitch OnIncorrectLogin => " + a.Exception);
                 client.Disconnect();
 
             };
             client.OnDisconnected += (o, a) =>
             {
-                Console.WriteLine("onDisconnected => I got disconnected");
+                BBBlog.Error("Twitch onDisconnected => I got disconnected");
             };
             //Channel joining issues
             client.OnFailureToReceiveJoinConfirmation += (o, a) =>
             {
-                Console.WriteLine("OnFailureToReceiveJoinConfirmation => " + a.Exception);
+                BBBlog.Error("Twitch OnFailureToReceiveJoinConfirmation => " + a.Exception);
             };
 
             //channel permissions & events
             client.OnNoPermissionError += (o, a) =>
             {
-                Console.WriteLine("OnNoPermissionError => " + a.ToString());
+                BBBlog.Error("Twitch OnNoPermissionError => " + a.ToString());
             };
             client.OnRateLimit += (o, a) =>
             {
-                Console.WriteLine("OnRateLimit => " + a.Message);
+                BBBlog.Error("Twitch OnRateLimit => " + a.Message);
             };
             client.OnBanned += (o, a) =>
             {
-                Console.WriteLine("onBanned => " + a.Message);
+                BBBlog.Error("Twitch onBanned => " + a.Message);
             };
             client.OnSlowMode += (o, a) =>
             {
-                Console.WriteLine("OnSlowMode => " + a.Message);
+                BBBlog.Error("Twitch OnSlowMode => " + a.Message);
             };
             client.OnSubsOnly += (o, a) =>
             {
-                Console.WriteLine("OnSubsOnly => " + a.Message);
+                BBBlog.Error("Twitch OnSubsOnly => " + a.Message);
             };
             // respond to: $tts ""
             client.OnChatCommandReceived += (o, a) =>
@@ -790,22 +828,22 @@ namespace BanterBrain_Buddy
             //account verification not met
             client.OnRequiresVerifiedEmail += (o, a) =>
             {
-                Console.WriteLine("OnRequiresVerifiedEmail => " + a.Message);
+                BBBlog.Error("Twitch OnRequiresVerifiedEmail => " + a.Message);
             };
             client.OnRequiresVerifiedPhoneNumber += (o, a) =>
             {
-                Console.WriteLine("OnRequiresVerifiedPhoneNumber => " + a.Message);
+                BBBlog.Error("Twitch OnRequiresVerifiedPhoneNumber => " + a.Message);
             };
 
             //general error
             client.OnError += (o, a) => {
-                Console.WriteLine("OnError => " + a.Exception.Message);
+                BBBlog.Error("Twitch OnError => " + a.Exception.Message);
             };
 
 
             client.OnMessageReceived += (o, a) =>
             {
-                Console.WriteLine("onMessageReceived => " + a.ChatMessage);
+                BBBlog.Info("Twitch  onMessageReceived => " + a.ChatMessage);
             };
             client.Connect();
         }
@@ -872,10 +910,9 @@ namespace BanterBrain_Buddy
             user = (await api.Helix.Users.GetUsersAsync()).Users[0];
 
             // print out all the data we've got
-            Console.WriteLine($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {refresh.AccessToken}\nRefresh token: {refresh.RefreshToken}\nExpires in: {refresh.ExpiresIn}\nScopes: {string.Join(", ", refresh.Scopes)}");
-            
+            BBBlog.Debug($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {refresh.AccessToken}\nRefresh token: {refresh.RefreshToken}\nExpires in: {refresh.ExpiresIn}\nScopes: {string.Join(", ", refresh.Scopes)}");
             //we should clean up the browser thread
-            t.Abort();
+           t.Abort();
         }
 
         private static string getAuthorizationCodeUrl(string clientId, string redirectUri, List<string> scopes)
