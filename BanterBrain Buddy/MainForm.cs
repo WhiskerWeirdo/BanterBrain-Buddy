@@ -157,14 +157,16 @@ namespace BanterBrain_Buddy
             }
         }
 
-        //help with selected inputdevice
-        private IWaveSource _finalSource;
-        public MMDevice SelectedDevice
+        //this sets "SelectedDevice" to the correct input/microphone
+        private void SetSelectedInputDevice()
         {
-            get { return _selectedDevice; }
-            set
+            var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Capture, DeviceState.Active);
+            foreach (var device in devices)
             {
-                _selectedDevice = value;
+                if (device.FriendlyName == SoundInputDevices.Text)
+                {
+                    SelectedDevice = device;
+                }
             }
         }
 
@@ -177,7 +179,12 @@ namespace BanterBrain_Buddy
             AzureSpeechConfig.SpeechRecognitionLanguage = "en-US"; //default language
 
             //default mic cos...lets start easy
-            var AzureAudioConfig = AudioConfig.FromDefaultMicrophoneInput();
+            //var AzureAudioConfig = AudioConfig.FromDefaultMicrophoneInput();
+
+            SetSelectedInputDevice();
+
+            BBBlog.Info("selected audio input device for azure: " + SelectedDevice);
+            var AzureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedDevice.DeviceID);  
             var AzureSpeechRecognizer = new Microsoft.CognitiveServices.Speech.SpeechRecognizer(AzureSpeechConfig, AzureAudioConfig);
             STTTestOutput.Text = "";
             BBBlog.Info("Azure STT microphone start.");
@@ -222,6 +229,18 @@ namespace BanterBrain_Buddy
             STTTestOutput.Text += "\r\n";
         }
 
+        //help with selected inputdevice to return the ID
+        //that corresponds with the name
+        private IWaveSource _finalSource;
+        public MMDevice SelectedDevice
+        {
+            get { return _selectedDevice; }
+            set
+            {
+                _selectedDevice = value;
+            }
+        }
+
         //NATIVE
         //Saving data from specific input device into a .wav file for Speech recognition
         private MMDevice _selectedDevice;
@@ -231,14 +250,8 @@ namespace BanterBrain_Buddy
         private void NativeInputStreamtoWav()
         {
 
-            var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Capture, DeviceState.Active);
-            foreach (var device in devices)
-            {
-                if (device.FriendlyName == SoundInputDevices.Text)
-                {
-                    SelectedDevice = device;
-                }
-            }
+            SetSelectedInputDevice();
+
             _soundIn = new WasapiCapture();
             _soundIn.Device = SelectedDevice;
             _soundIn.Initialize();
