@@ -408,5 +408,29 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchGiftedSub"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        public string TTSAPIKeyTextBox {
+            get {
+                return ((string)(this["TTSAPIKeyTextBox"]));
+            }
+            set {
+                this["TTSAPIKeyTextBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        public string TTSRegionTextBox {
+            get {
+                return ((string)(this["TTSRegionTextBox"]));
+            }
+            set {
+                this["TTSRegionTextBox"] = value;
+            }
+        }
     }
 }

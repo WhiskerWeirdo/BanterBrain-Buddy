@@ -102,5 +102,11 @@
     <Setting Name="TwitchGiftedSub" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="TTSAPIKeyTextBox" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="TTSRegionTextBox" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

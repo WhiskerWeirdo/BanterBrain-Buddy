@@ -41,6 +41,7 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 - [X] Use Azure API for STT Normal use
 - [X] Use Azure STT from non-default microphone
 - [ ] Use Azure API for Text-To-Speech test
+- [ ] Use Azure API to find the available voices and voice-moods
 - [ ] Use Azure API for TTS Normal use
 - [ ] Use Azure STT from non-default output device
  

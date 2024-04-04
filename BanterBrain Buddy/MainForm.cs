@@ -31,6 +31,9 @@ using Microsoft.CognitiveServices.Speech.Audio;
 using Microsoft.CognitiveServices.Speech;
 using SpeechSynthesizer = System.Speech.Synthesis.SpeechSynthesizer;
 using static System.Net.Mime.MediaTypeNames;
+using OpenAI_API.Moderation;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace BanterBrain_Buddy
 {
@@ -178,9 +181,6 @@ namespace BanterBrain_Buddy
             var AzureSpeechConfig = SpeechConfig.FromSubscription(STTAPIKeyEditbox.Text, STTRegionEditbox.Text);
             AzureSpeechConfig.SpeechRecognitionLanguage = "en-US"; //default language
 
-            //default mic cos...lets start easy
-            //var AzureAudioConfig = AudioConfig.FromDefaultMicrophoneInput();
-
             SetSelectedInputDevice();
 
             BBBlog.Info("selected audio input device for azure: " + SelectedDevice);
@@ -251,7 +251,7 @@ namespace BanterBrain_Buddy
         {
 
             SetSelectedInputDevice();
-
+            BBBlog.Info("Selected audio input device for Native: " + SelectedDevice);
             _soundIn = new WasapiCapture();
             _soundIn.Device = SelectedDevice;
             _soundIn.Initialize();
@@ -465,7 +465,94 @@ namespace BanterBrain_Buddy
                 waveOut.WaitForStopped();
             }
         }
- 
+
+        //holder of the list of Azure Voices and their options
+        List<AzureVoices> AzureRegionVoicesList = new List<AzureVoices>();
+        private async Task TTSGetAzureVoices()
+        {           
+            BBBlog.Info("Finding TTS Azure voices available");
+            SpeechConfig speechConfig = SpeechConfig.FromSubscription(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text);
+            //lets get the voices available
+            var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(speechConfig, null as AudioConfig);
+            SynthesisVoicesResult result = await speechSynthesizer.GetVoicesAsync();
+            
+            if (result.Reason == ResultReason.VoicesListRetrieved)
+            {
+                //remove the old listed items
+                AzureRegionVoicesList.Clear();
+                BBBlog.Info($"Found {result.Voices.Count} voices");
+                foreach (var voice in result.Voices)
+                {
+                    var tmpVoice = new AzureVoices();
+                    tmpVoice.Locale = voice.Locale;
+                    tmpVoice.LocalName = voice.LocalName;
+                    //we dont use this directly, but this is what we need to refer to for selecting it.
+                    tmpVoice.Name = voice.Name;
+                    tmpVoice.Gender = voice.Gender.ToString();
+                    tmpVoice.StyleList = new List<string>(voice.StyleList);
+                    RegionInfo ri = new RegionInfo(voice.Locale);
+                    tmpVoice.LocaleDisplayname = ri.ThreeLetterISORegionName;
+                    AzureRegionVoicesList.Add(tmpVoice);
+                }
+            }
+        }
+
+        private void TTSFillAzureVoicesList()
+        {
+            BBBlog.Info("Fill Azure voice list");
+            //list setup TTSOutputVoice
+            // Locale, Gender, Localname
+            TTSOutputVoice.Items.Clear();
+            foreach (var AzureRegionVoice in AzureRegionVoicesList)
+            {
+                TTSOutputVoice.Items.Add(AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-"+ AzureRegionVoice.LocalName );
+            }
+            TTSOutputVoice.Sorted = true;
+            TTSOutputVoiceOptions.Text = "";
+            TTSAzureFillOptions(TTSOutputVoice.Text);
+        }
+
+        private void TTSAzureFillOptions(string SelectedVoice)
+        {
+            BBBlog.Info("Finding Azure voice options (if available)");
+            TTSOutputVoiceOptions.Items.Clear();
+            //the voice is the item in TTSOutputVoice 
+            //now to find it in AzureRegionVoicesList
+            foreach (var AzureRegionVoice in AzureRegionVoicesList)
+            {
+                if (SelectedVoice == (AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-" + AzureRegionVoice.LocalName))
+                {
+                    BBBlog.Info("Match found, checking for voice options");
+                    foreach (var voiceOption in AzureRegionVoice.StyleList)
+                    {
+                        if (voiceOption.Length > 0)
+                            TTSOutputVoiceOptions.Items.Add(voiceOption);
+                        else
+                            TTSOutputVoiceOptions.Items.Add("Default");
+                    }
+                }
+            }
+            if (TTSOutputVoiceOptions.SelectedIndex == -1)
+            {
+                TTSOutputVoiceOptions.Text = TTSOutputVoiceOptions.Items[0].ToString();
+            }
+
+        }
+
+        //Azure Text-To-Speach
+        private async void TTSAzureSpeakToOutput(string TextToSpeak)
+        {
+            //get all options but only if API key and Region are filled
+            if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
+            {
+                await TTSGetAzureVoices();
+                //fill the listboxes
+                TTSFillAzureVoicesList();
+            }
+        }
+
+
+
         private async void TTSNativeSpeakToOutput(String TTSText)
         {
             TextLog.AppendText("Saying text with Native TTS\r\n");
@@ -502,6 +589,10 @@ namespace BanterBrain_Buddy
             if (TTSProviderComboBox.Text == "Native")
             {
                 TTSNativeSpeakToOutput(TTSTestTextBox.Text);
+            }
+            else if (TTSProviderComboBox.Text == "Azure")
+            {
+                TTSAzureSpeakToOutput(TTSTestTextBox.Text);
             }
         }
 
@@ -616,6 +707,8 @@ namespace BanterBrain_Buddy
             TwitchCommunitySubs.Checked = Properties.Settings.Default.TwitchCommunitySubs;
             TwitchGiftedSub.Checked = Properties.Settings.Default.TwitchGiftedSub;
             TwitchSendTextCheckBox.Checked = Properties.Settings.Default.TwitchSendTextCheckBox;
+            TTSAPIKeyTextBox.Text = Properties.Settings.Default.TTSAPIKeyTextBox;
+            TTSRegionTextBox.Text = Properties.Settings.Default.TTSRegionTextBox;
             //load HotkeyList into SetHotKeys
             foreach (String key in Properties.Settings.Default.HotkeyList)
             {
@@ -623,6 +716,20 @@ namespace BanterBrain_Buddy
                 SetHotkeys.Add(tmpKey);
              }
 
+            //we need to get azure regions and voice options if azure is selected so we dont need to fill it later
+            if (TTSProviderComboBox.Text == "Azure")
+            {
+                //fill the list if its empty
+                if (TTSOutputVoice.Items.Count < 1)
+                {
+                    if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
+                    {
+                        TTSGetAzureVoices();
+                        //fill the listboxes
+                        TTSFillAzureVoicesList();
+                    }
+                }
+            }
         }
 
         private void BBB_FormClosing(object sender, FormClosingEventArgs e)
@@ -656,6 +763,8 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchCommunitySubs = TwitchCommunitySubs.Checked;
             Properties.Settings.Default.TwitchGiftedSub = TwitchGiftedSub.Checked;
             Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
+            Properties.Settings.Default.TTSAPIKeyTextBox = TTSAPIKeyTextBox.Text;
+            Properties.Settings.Default.TTSRegionTextBox = TTSRegionTextBox.Text;
             //add the hotkeys in settings list, not in text
             Properties.Settings.Default.HotkeyList.Clear();
             foreach (Keys key in SetHotkeys)
@@ -777,16 +886,10 @@ namespace BanterBrain_Buddy
             TwitchClient client;
             //lets make a bot and see if we can connect and send a message to a channel
             ConnectionCredentials credentials = new ConnectionCredentials(TwitchUsername.Text, TwitchAccessToken.Text);
-            /*  var clientOptions = new ClientOptions
-              {
-                  MessagesAllowedInPeriod = 750,
-                  ThrottlingPeriod = TimeSpan.FromSeconds(30)
-              };
-              WebSocketClient customClient = new WebSocketClient(clientOptions);
-            */
+
             WebSocketClient customClient = new WebSocketClient();
             client = new TwitchClient(customClient);
-            //client.Initialize(credentials);
+
             client.Initialize(credentials, TwitchChannel.Text);
 
             //commands start with $
@@ -963,5 +1066,44 @@ namespace BanterBrain_Buddy
                    "response_type=code&" +
                    $"scope={scopesStr}";
         }
+
+        private void TTSProviderComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (TTSProviderComboBox.Text == "Native")
+            {
+                TTSAPIKeyTextBox.Enabled = false;
+                TTSAudioOutputComboBox.Enabled = false;
+                TTSOutputVoice.Enabled = false;
+                TTSOutputVoiceOptions.Enabled = false;
+                TTSRegionTextBox.Enabled = false;
+
+            } else if (TTSProviderComboBox.Text == "Azure")
+            {
+                TTSAPIKeyTextBox.Enabled = true;
+                TTSAudioOutputComboBox.Enabled = true;
+                TTSOutputVoice.Enabled = true;
+                TTSOutputVoiceOptions.Enabled = true;
+                TTSRegionTextBox.Enabled = true;
+            }
+        }
+
+        //if we change the region box, lets make sure we till have the right voices
+        private async void TTSRegionTextBox_Leave(object sender, EventArgs e)
+        {
+            BBBlog.Info("Region edit box exited");
+            if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
+            {
+                await TTSGetAzureVoices();
+                //fill the listboxes
+                TTSFillAzureVoicesList();
+            }
+        }
+
+        private void TTSOutputVoice_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //depending on what voice is selected we need to now select the voice options (if any)
+            TTSAzureFillOptions(TTSOutputVoice.Text);
+        }
+
     }
-}
+    }

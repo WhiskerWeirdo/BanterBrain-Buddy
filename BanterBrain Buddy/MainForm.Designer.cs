@@ -39,6 +39,8 @@ namespace BanterBrain_Buddy
             this.SoundInputDevices = new System.Windows.Forms.ComboBox();
             this.MicrophoneHotkeySet = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.TTSAPIKeyTextBox = new System.Windows.Forms.TextBox();
             this.TTSOutputVoiceOptions = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TTSOutputVoice = new System.Windows.Forms.ComboBox();
@@ -111,6 +113,8 @@ namespace BanterBrain_Buddy
             this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.label8 = new System.Windows.Forms.Label();
+            this.TTSRegionTextBox = new System.Windows.Forms.TextBox();
             this.SettingsTab.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -179,6 +183,10 @@ namespace BanterBrain_Buddy
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.TTSRegionTextBox);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.TTSAPIKeyTextBox);
             this.groupBox2.Controls.Add(this.TTSOutputVoiceOptions);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.TTSOutputVoice);
@@ -192,6 +200,16 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // TTSAPIKeyTextBox
+            // 
+            resources.ApplyResources(this.TTSAPIKeyTextBox, "TTSAPIKeyTextBox");
+            this.TTSAPIKeyTextBox.Name = "TTSAPIKeyTextBox";
             // 
             // TTSOutputVoiceOptions
             // 
@@ -209,6 +227,7 @@ namespace BanterBrain_Buddy
             this.TTSOutputVoice.FormattingEnabled = true;
             resources.ApplyResources(this.TTSOutputVoice, "TTSOutputVoice");
             this.TTSOutputVoice.Name = "TTSOutputVoice";
+            this.TTSOutputVoice.SelectedIndexChanged += new System.EventHandler(this.TTSOutputVoice_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -242,6 +261,7 @@ namespace BanterBrain_Buddy
             resources.GetString("TTSProviderComboBox.Items1")});
             resources.ApplyResources(this.TTSProviderComboBox, "TTSProviderComboBox");
             this.TTSProviderComboBox.Name = "TTSProviderComboBox";
+            this.TTSProviderComboBox.SelectedIndexChanged += new System.EventHandler(this.TTSProviderComboBox_SelectedIndexChanged);
             // 
             // TTSAudioOutputLabel
             // 
@@ -676,6 +696,17 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // TTSRegionTextBox
+            // 
+            resources.ApplyResources(this.TTSRegionTextBox, "TTSRegionTextBox");
+            this.TTSRegionTextBox.Name = "TTSRegionTextBox";
+            this.TTSRegionTextBox.Leave += new System.EventHandler(this.TTSRegionTextBox_Leave);
+            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -722,7 +753,6 @@ namespace BanterBrain_Buddy
         private TabPage SettingsTab;
         private GroupBox groupBox2;
         private GroupBox STTGroupBox;
-        private TextBox STTRegionEditbox;
         private Label STTRegionLabel;
         private Label STTAPIKeyLabel;
         private TextBox STTAPIKeyEditbox;
@@ -799,6 +829,11 @@ namespace BanterBrain_Buddy
         private Label GPTAPIKeyLabel;
         private ComboBox LLMProviderComboBox;
         private Label GPTProviderLabel;
+        private Label label7;
+        private TextBox TTSAPIKeyTextBox;
+        private TextBox STTRegionEditbox;
+        private Label label8;
+        private TextBox TTSRegionTextBox;
     }
 }
 

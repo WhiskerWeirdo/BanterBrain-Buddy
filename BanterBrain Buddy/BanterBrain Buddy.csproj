@@ -333,6 +333,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureVoices.cs" />
     <Compile Include="TwitchAuthWebserver.cs" />
     <Compile Include="HotkeyForm.cs">
       <SubType>Form</SubType>
