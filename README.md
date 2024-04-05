@@ -12,6 +12,8 @@ BanterBrain Buddy is a Windows .Net based Speech-To-Text to LLM to Text-To-Speec
 The goal is to provide local PC or streaming entertainment by talking to an AI and hearing the responses back, based on a role you can set for the AI. The goa is to support both local only-resources or API services.
 For the streaming side of things, integration with Twitch to respond to chat commands and stream events is planned.
 
+Example: https://www.youtube.com/watch?v=TawapT1WEEo
+
 ## Social
 Come talk or chat at https://discord.banterbrain.tv
 
