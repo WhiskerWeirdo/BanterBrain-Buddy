@@ -570,13 +570,6 @@ namespace BanterBrain_Buddy
         private async void TTSAzureSpeakToOutput(string TextToSpeak)
         {
             BBBlog.Info("TTS Azure voice output.");
-            /*
-            //get all options but only if API key and Region are filled
-            if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
-            {
-                await TTSGetAzureVoices();
-                //fill the listboxes
-             }*/
 
             //Lets us the formal long assignment to prevent confusion on local vs Azure
             var speechConfig = Microsoft.CognitiveServices.Speech.SpeechConfig.FromSubscription(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text);
@@ -594,7 +587,7 @@ namespace BanterBrain_Buddy
 
             if (!string.IsNullOrEmpty(tmpVoiceNameSelected))
             {
-                BBBlog.Info("Speaking with " + tmpVoiceNameSelected + "in style: "+ TTSOutputVoiceOptions.Text);
+                BBBlog.Info("Speaking with " + tmpVoiceNameSelected + " in style: "+ TTSOutputVoiceOptions.Text);
                 string SSMLText = 
                     "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"zh-CN\">\r\n   " +
                     $" <voice name=\"{tmpVoiceNameSelected}\">\r\n       " +
@@ -690,6 +683,7 @@ namespace BanterBrain_Buddy
         {
             String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             //first, lets call STT
+            STTDone = false;
             if (MainRecordingStart.Text == "Start")
             {
                 STTTestOutput.Text = "";
@@ -1208,6 +1202,25 @@ namespace BanterBrain_Buddy
         private void SoundInputDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
             BBBlog.Info("Selected input device changed to " + SoundInputDevices.Text);
+        }
+
+        private void githubToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //spawn browser for authing
+            var t = new Thread(() => Process.Start("https://github.com/WhiskerWeirdo/BanterBrain-Buddy"));
+            t.Start();
+            Thread.Sleep(100);
+            t.Abort();
+        }
+
+        private void discordToolStripMenuItem_Click(object sender, EventArgs e)
+        {           
+            //spawn browser for authing
+            var t = new Thread(() => Process.Start("https://discord.banterbrain.tv"));
+            t.Start();
+            Thread.Sleep(100);
+            t.Abort();
+
         }
     }
 }

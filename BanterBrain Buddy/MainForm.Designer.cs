@@ -83,6 +83,7 @@ namespace BanterBrain_Buddy
             this.GPTProviderLabel = new System.Windows.Forms.Label();
             this.StreaminSettingsTab = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.DisconnectTwitchButton = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.TwitchTestSendText = new System.Windows.Forms.TextBox();
             this.TwitchSendTextCheckBox = new System.Windows.Forms.CheckBox();
@@ -96,6 +97,8 @@ namespace BanterBrain_Buddy
             this.label5 = new System.Windows.Forms.Label();
             this.TwitchMinBits = new System.Windows.Forms.TextBox();
             this.TwitchTriggerSettings = new System.Windows.Forms.GroupBox();
+            this.Command = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.TwitchChatCommandDelay = new System.Windows.Forms.TextBox();
             this.TwitchNeedsSubscriber = new System.Windows.Forms.CheckBox();
@@ -113,7 +116,7 @@ namespace BanterBrain_Buddy
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.discordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.SettingsTab.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -473,8 +476,7 @@ namespace BanterBrain_Buddy
             // 
             this.LLMProviderComboBox.FormattingEnabled = true;
             this.LLMProviderComboBox.Items.AddRange(new object[] {
-            resources.GetString("LLMProviderComboBox.Items"),
-            resources.GetString("LLMProviderComboBox.Items1")});
+            resources.GetString("LLMProviderComboBox.Items")});
             resources.ApplyResources(this.LLMProviderComboBox, "LLMProviderComboBox");
             this.LLMProviderComboBox.Name = "LLMProviderComboBox";
             // 
@@ -492,6 +494,7 @@ namespace BanterBrain_Buddy
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.DisconnectTwitchButton);
             this.groupBox4.Controls.Add(this.groupBox7);
             this.groupBox4.Controls.Add(this.TwitchAuthorizeButton);
             this.groupBox4.Controls.Add(this.groupBox6);
@@ -507,6 +510,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
+            // 
+            // DisconnectTwitchButton
+            // 
+            resources.ApplyResources(this.DisconnectTwitchButton, "DisconnectTwitchButton");
+            this.DisconnectTwitchButton.Name = "DisconnectTwitchButton";
+            this.DisconnectTwitchButton.UseVisualStyleBackColor = true;
             // 
             // groupBox7
             // 
@@ -591,6 +600,8 @@ namespace BanterBrain_Buddy
             // 
             // TwitchTriggerSettings
             // 
+            this.TwitchTriggerSettings.Controls.Add(this.Command);
+            this.TwitchTriggerSettings.Controls.Add(this.textBox1);
             this.TwitchTriggerSettings.Controls.Add(this.label6);
             this.TwitchTriggerSettings.Controls.Add(this.TwitchChatCommandDelay);
             this.TwitchTriggerSettings.Controls.Add(this.TwitchNeedsSubscriber);
@@ -600,6 +611,16 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.TwitchTriggerSettings, "TwitchTriggerSettings");
             this.TwitchTriggerSettings.Name = "TwitchTriggerSettings";
             this.TwitchTriggerSettings.TabStop = false;
+            // 
+            // Command
+            // 
+            resources.ApplyResources(this.Command, "Command");
+            this.Command.Name = "Command";
+            // 
+            // textBox1
+            // 
+            resources.ApplyResources(this.textBox1, "textBox1");
+            this.textBox1.Name = "textBox1";
             // 
             // label6
             // 
@@ -686,7 +707,7 @@ namespace BanterBrain_Buddy
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.githubToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.discordToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
@@ -694,11 +715,13 @@ namespace BanterBrain_Buddy
             // 
             this.githubToolStripMenuItem.Name = "githubToolStripMenuItem";
             resources.ApplyResources(this.githubToolStripMenuItem, "githubToolStripMenuItem");
+            this.githubToolStripMenuItem.Click += new System.EventHandler(this.githubToolStripMenuItem_Click);
             // 
-            // aboutToolStripMenuItem
+            // discordToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
+            this.discordToolStripMenuItem.Name = "discordToolStripMenuItem";
+            resources.ApplyResources(this.discordToolStripMenuItem, "discordToolStripMenuItem");
+            this.discordToolStripMenuItem.Click += new System.EventHandler(this.discordToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -785,7 +808,7 @@ namespace BanterBrain_Buddy
         private ToolStripMenuItem ExitToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem githubToolStripMenuItem;
-        private ToolStripMenuItem aboutToolStripMenuItem;
+        private ToolStripMenuItem discordToolStripMenuItem;
         private MenuStrip menuStrip1;
         private ComboBox TTSAudioOutputComboBox;
         private TabPage LLMTab;
@@ -835,6 +858,9 @@ namespace BanterBrain_Buddy
         private TextBox STTRegionEditbox;
         private Label label8;
         private TextBox TTSRegionTextBox;
+        private Button DisconnectTwitchButton;
+        private Label Command;
+        private TextBox textBox1;
     }
 }
 
