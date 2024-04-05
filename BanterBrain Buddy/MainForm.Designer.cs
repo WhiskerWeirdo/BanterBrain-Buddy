@@ -39,6 +39,8 @@ namespace BanterBrain_Buddy
             this.SoundInputDevices = new System.Windows.Forms.ComboBox();
             this.MicrophoneHotkeySet = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.TTSRegionTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.TTSAPIKeyTextBox = new System.Windows.Forms.TextBox();
             this.TTSOutputVoiceOptions = new System.Windows.Forms.ComboBox();
@@ -113,8 +115,6 @@ namespace BanterBrain_Buddy
             this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.label8 = new System.Windows.Forms.Label();
-            this.TTSRegionTextBox = new System.Windows.Forms.TextBox();
             this.SettingsTab.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -173,6 +173,7 @@ namespace BanterBrain_Buddy
             this.SoundInputDevices.FormattingEnabled = true;
             resources.ApplyResources(this.SoundInputDevices, "SoundInputDevices");
             this.SoundInputDevices.Name = "SoundInputDevices";
+            this.SoundInputDevices.SelectedIndexChanged += new System.EventHandler(this.SoundInputDevices_SelectedIndexChanged);
             // 
             // MicrophoneHotkeySet
             // 
@@ -200,6 +201,17 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // TTSRegionTextBox
+            // 
+            resources.ApplyResources(this.TTSRegionTextBox, "TTSRegionTextBox");
+            this.TTSRegionTextBox.Name = "TTSRegionTextBox";
+            this.TTSRegionTextBox.Leave += new System.EventHandler(this.TTSRegionTextBox_Leave);
             // 
             // label7
             // 
@@ -695,17 +707,6 @@ namespace BanterBrain_Buddy
             this.helpToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
-            // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            // 
-            // TTSRegionTextBox
-            // 
-            resources.ApplyResources(this.TTSRegionTextBox, "TTSRegionTextBox");
-            this.TTSRegionTextBox.Name = "TTSRegionTextBox";
-            this.TTSRegionTextBox.Leave += new System.EventHandler(this.TTSRegionTextBox_Leave);
             // 
             // BBB
             // 

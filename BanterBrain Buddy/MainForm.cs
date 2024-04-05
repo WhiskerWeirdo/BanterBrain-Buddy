@@ -50,11 +50,11 @@ namespace BanterBrain_Buddy
         // check if SST is finished yet
         private bool STTDone = false;
         //Hotkey Storage
-        private List<Keys> SetHotkeys = new List<Keys>();
+        readonly private List<Keys> SetHotkeys = new List<Keys>();
         //check if the GPT LLM is donestop audio capture
         private bool GPTDone = false;
 
-        public BBB()
+        public  BBB()
         {
 
             InitializeComponent();
@@ -76,7 +76,7 @@ namespace BanterBrain_Buddy
                 SoundInputDevices.Items.Add(device.Name);
             }
             //output devices
-            var OutputDevices = WaveOutDevice.EnumerateDevices();
+            //var OutputDevices = WaveOutDevice.EnumerateDevices();
 
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
@@ -105,7 +105,8 @@ namespace BanterBrain_Buddy
                     {
                         await Task.Delay(500);
                     }
-                } else if (SelectedProvider == "Azure")
+                }
+                else if (SelectedProvider == "Azure")
                 {
                     TextLog.AppendText("Test Azure STT calling\r\n");
                     BBBlog.Info("Test Azure STT calling");
@@ -124,7 +125,7 @@ namespace BanterBrain_Buddy
                         {
                             await Task.Delay(500);
                         }
-                       
+
                     }
                 }
             }
@@ -160,7 +161,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        //this sets "SelectedDevice" to the correct input/microphone
+        //this sets "SelectedInputDevice" to the correct input/microphone
         private void SetSelectedInputDevice()
         {
             var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Capture, DeviceState.Active);
@@ -168,7 +169,24 @@ namespace BanterBrain_Buddy
             {
                 if (device.FriendlyName == SoundInputDevices.Text)
                 {
-                    SelectedDevice = device;
+                    SelectedInputDevice = device;
+                }
+            }
+        }
+
+        private void SetSelectedOutputDevice()
+        {
+            var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active);
+            BBBlog.Info("Selected device:" +TTSAudioOutputComboBox.Text);
+            foreach (var device in devices)
+            {
+                BBBlog.Info($"outputdevice: {device.FriendlyName}"); 
+                //this is a hack. Friendlydevice name is old while the enumeration returns the new
+                //// so lets check the start
+                if (device.FriendlyName.StartsWith(TTSAudioOutputComboBox.Text))
+                {
+                    BBBlog.Info($"Selected outputdevice = {device.FriendlyName}");
+                    SelectedOutputDevice = device;
                 }
             }
         }
@@ -183,13 +201,13 @@ namespace BanterBrain_Buddy
 
             SetSelectedInputDevice();
 
-            BBBlog.Info("selected audio input device for azure: " + SelectedDevice);
-            var AzureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedDevice.DeviceID);  
+            BBBlog.Info("selected audio input device for azure: " + SelectedInputDevice);
+            var AzureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedInputDevice.DeviceID);
             var AzureSpeechRecognizer = new Microsoft.CognitiveServices.Speech.SpeechRecognizer(AzureSpeechConfig, AzureAudioConfig);
             STTTestOutput.Text = "";
             BBBlog.Info("Azure STT microphone start.");
 
-            while (STTTestButton.Text == "Recording" || MainRecordingStart.Text =="Recording")
+            while (STTTestButton.Text == "Recording" || MainRecordingStart.Text == "Recording")
             {
                 var speechRecognitionResult = await AzureSpeechRecognizer.RecognizeOnceAsync();
                 AzureOutputSpeechRecognitionResult(speechRecognitionResult);
@@ -198,7 +216,7 @@ namespace BanterBrain_Buddy
         }
 
         private void AzureOutputSpeechRecognitionResult(SpeechRecognitionResult speechRecognitionResult)
-        {     
+        {
             switch (speechRecognitionResult.Reason)
             {
                 case ResultReason.RecognizedSpeech:
@@ -232,7 +250,16 @@ namespace BanterBrain_Buddy
         //help with selected inputdevice to return the ID
         //that corresponds with the name
         private IWaveSource _finalSource;
-        public MMDevice SelectedDevice
+        public MMDevice SelectedInputDevice
+        {
+            get { return _selectedDevice; }
+            set
+            {
+                _selectedDevice = value;
+            }
+        }
+
+        public MMDevice SelectedOutputDevice
         {
             get { return _selectedDevice; }
             set
@@ -246,21 +273,20 @@ namespace BanterBrain_Buddy
         private MMDevice _selectedDevice;
         private WasapiCapture _soundIn;
         private IWriteable _writer;
-        private string tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
+        readonly private string  tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
         private void NativeInputStreamtoWav()
         {
 
             SetSelectedInputDevice();
-            BBBlog.Info("Selected audio input device for Native: " + SelectedDevice);
-            _soundIn = new WasapiCapture();
-            _soundIn.Device = SelectedDevice;
+            BBBlog.Info("Selected audio input device for Native: " + SelectedInputDevice);
+            _soundIn = new WasapiCapture() { Device = SelectedInputDevice };
             _soundIn.Initialize();
             var soundInSource = new SoundInSource(_soundIn) { FillWithZeros = false };
             var singleBlockNotificationStream = new SingleBlockNotificationStream(soundInSource.ToSampleSource());
 
             //speech recognition is painful, like life
             //this has to be this setting or Native TTS function will throw an error
-            _finalSource = singleBlockNotificationStream.ToMono().ChangeSampleRate(16000).ToWaveSource(16); 
+            _finalSource = singleBlockNotificationStream.ToMono().ChangeSampleRate(16000).ToWaveSource(16);
             _writer = new WaveWriter(tmpWavFile, _finalSource.WaveFormat);
             soundInSource.DataAvailable += (s, e) =>
             {
@@ -309,8 +335,8 @@ namespace BanterBrain_Buddy
             recognizer2.RecognizeCompleted +=
               new EventHandler<RecognizeCompletedEventArgs>(NativeRecognizeCompletedHandler);
 
-            TextLog.AppendText("Starting asynchronous Native recognition... on " +tmpWavFile +"\r\n");
-            BBBlog.Info("Starting asynchronous Native recognition... on " +tmpWavFile);
+            TextLog.AppendText("Starting asynchronous Native recognition... on " + tmpWavFile + "\r\n");
+            BBBlog.Info("Starting asynchronous Native recognition... on " + tmpWavFile);
 
             STTDone = false;
             recognizer2.RecognizeAsync(RecognizeMode.Multiple);
@@ -349,7 +375,7 @@ namespace BanterBrain_Buddy
         {
             if (e.Error != null)
             {
-                TextLog.AppendText("Native STT Error encountered, "+ e.Error.GetType().Name+" : " +e.Error.Message+"\r\n");
+                TextLog.AppendText("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message + "\r\n");
                 BBBlog.Error("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message);
 
             }
@@ -363,7 +389,7 @@ namespace BanterBrain_Buddy
                 TextLog.AppendText("Native STT recognize Stopped.\r\n");
                 BBBlog.Info("Mative STT recognize Stopped.");
             }
-            
+
             STTDone = true;
         }
 
@@ -393,7 +419,7 @@ namespace BanterBrain_Buddy
 
         private async void TalkToOpenAIGPT(String UserInput)
         {
-            TextLog.AppendText("Sending to GPT: " +UserInput+ "\r\n");
+            TextLog.AppendText("Sending to GPT: " + UserInput + "\r\n");
             BBBlog.Info("Sending to GPT: " + UserInput);
             GPTDone = false;
             OpenAIAPI api = new OpenAIAPI(LLMAPIKeyTextBox.Text);
@@ -425,7 +451,7 @@ namespace BanterBrain_Buddy
             catch (System.Security.Authentication.AuthenticationException ex)
             {
                 MessageBox.Show(ex.Message, "GPT API Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                BBBlog.Error("GPT API Auth error: " +ex.Message);
+                BBBlog.Error("GPT API Auth error: " + ex.Message);
             }
 
         }
@@ -448,7 +474,7 @@ namespace BanterBrain_Buddy
         //output to the selected audio device
         private void OutputStream(MemoryStream stream)
         {
-            var Devices = WaveOutDevice.EnumerateDevices();
+            //var Devices = WaveOutDevice.EnumerateDevices();
             int deviceID = 0;
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
@@ -456,7 +482,8 @@ namespace BanterBrain_Buddy
                 {
                     deviceID = device.DeviceId;
                 }
-            }   
+            }
+            //TODO fix to "SelectedOutputDevice"
             var waveOut = new WaveOut { Device = new WaveOutDevice(deviceID) };
             using (var waveSource = new MediaFoundationDecoder(stream))
             {
@@ -467,15 +494,15 @@ namespace BanterBrain_Buddy
         }
 
         //holder of the list of Azure Voices and their options
-        List<AzureVoices> AzureRegionVoicesList = new List<AzureVoices>();
+        readonly List<AzureVoices> AzureRegionVoicesList = new List<AzureVoices>();
         private async Task TTSGetAzureVoices()
-        {           
+        {
             BBBlog.Info("Finding TTS Azure voices available");
             SpeechConfig speechConfig = SpeechConfig.FromSubscription(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text);
             //lets get the voices available
             var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(speechConfig, null as AudioConfig);
             SynthesisVoicesResult result = await speechSynthesizer.GetVoicesAsync();
-            
+
             if (result.Reason == ResultReason.VoicesListRetrieved)
             {
                 //remove the old listed items
@@ -483,15 +510,15 @@ namespace BanterBrain_Buddy
                 BBBlog.Info($"Found {result.Voices.Count} voices");
                 foreach (var voice in result.Voices)
                 {
-                    var tmpVoice = new AzureVoices();
-                    tmpVoice.Locale = voice.Locale;
-                    tmpVoice.LocalName = voice.LocalName;
-                    //we dont use this directly, but this is what we need to refer to for selecting it.
-                    tmpVoice.Name = voice.Name;
-                    tmpVoice.Gender = voice.Gender.ToString();
-                    tmpVoice.StyleList = new List<string>(voice.StyleList);
-                    RegionInfo ri = new RegionInfo(voice.Locale);
-                    tmpVoice.LocaleDisplayname = ri.ThreeLetterISORegionName;
+                    var tmpVoice = new AzureVoices()
+                    {
+                        Locale = voice.Locale,
+                        LocalName = voice.LocalName,
+                        Name = voice.Name,
+                        Gender = voice.Gender.ToString(),
+                        StyleList = new List<string>(voice.StyleList),
+                        LocaleDisplayname = new RegionInfo(voice.Locale).ThreeLetterISORegionName
+                    };
                     AzureRegionVoicesList.Add(tmpVoice);
                 }
             }
@@ -505,7 +532,7 @@ namespace BanterBrain_Buddy
             TTSOutputVoice.Items.Clear();
             foreach (var AzureRegionVoice in AzureRegionVoicesList)
             {
-                TTSOutputVoice.Items.Add(AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-"+ AzureRegionVoice.LocalName );
+                TTSOutputVoice.Items.Add(AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-" + AzureRegionVoice.LocalName);
             }
             TTSOutputVoice.Sorted = true;
             TTSOutputVoiceOptions.Text = "";
@@ -542,16 +569,80 @@ namespace BanterBrain_Buddy
         //Azure Text-To-Speach
         private async void TTSAzureSpeakToOutput(string TextToSpeak)
         {
+            BBBlog.Info("TTS Azure voice output.");
+            /*
             //get all options but only if API key and Region are filled
             if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
             {
                 await TTSGetAzureVoices();
                 //fill the listboxes
-                TTSFillAzureVoicesList();
+             }*/
+
+            //Lets us the formal long assignment to prevent confusion on local vs Azure
+            var speechConfig = Microsoft.CognitiveServices.Speech.SpeechConfig.FromSubscription(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text);
+            
+            //now find the correct name associated with the selected voice
+            var tmpVoiceNameSelected = "";
+            foreach (var AzureRegionVoice in AzureRegionVoicesList)
+            {
+                if (TTSOutputVoice.Text == (AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-" + AzureRegionVoice.LocalName))
+                {
+                    BBBlog.Info("Voice found assigning");
+                    tmpVoiceNameSelected = AzureRegionVoice.Name;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(tmpVoiceNameSelected))
+            {
+                BBBlog.Info("Speaking with " + tmpVoiceNameSelected + "in style: "+ TTSOutputVoiceOptions.Text);
+                string SSMLText = 
+                    "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"zh-CN\">\r\n   " +
+                    $" <voice name=\"{tmpVoiceNameSelected}\">\r\n       " +
+                    $" <mstts:express-as style=\"{TTSOutputVoiceOptions.Text}\" styledegree=\"2\">\r\n            " +
+                    $"{TextToSpeak}\r\n        " +
+                    "</mstts:express-as>\r\n    " +
+                    "</voice>\r\n" +
+                    "</speak>";
+
+                speechConfig.SpeechSynthesisVoiceName = tmpVoiceNameSelected;
+
+                //var AzureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedInputDevice.DeviceID);
+                //deviceid = TTSAudioOutputComboBox.Text
+                SetSelectedOutputDevice();
+                var tmpAudioConfig = AudioConfig.FromSpeakerOutput(SelectedOutputDevice.DeviceID);
+                var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(speechConfig, tmpAudioConfig);
+                
+                // var speechSynthesisResult = await speechSynthesizer.SpeakTextAsync(TextToSpeak);
+                var speechSynthesisResult = await speechSynthesizer.SpeakSsmlAsync(SSMLText);
+                TTSAzureOutputSpeechSynthesisResult(speechSynthesisResult, TextToSpeak);
+            }  else
+            {
+                BBBlog.Error("Cannot find selected voice in the list.");
             }
         }
 
+        static void TTSAzureOutputSpeechSynthesisResult(SpeechSynthesisResult speechSynthesisResult, string text)
+        {
+            switch (speechSynthesisResult.Reason)
+            {
+                case ResultReason.SynthesizingAudioCompleted:
+                    BBBlog.Info($"Speech synthesized for text: [{text}]");
+                    break;
+                case ResultReason.Canceled:
+                    var cancellation = SpeechSynthesisCancellationDetails.FromResult(speechSynthesisResult);
+                    BBBlog.Info($"CANCELED: Reason={cancellation.Reason}");
 
+                    if (cancellation.Reason == CancellationReason.Error)
+                    {
+                        BBBlog.Info($"CANCELED: ErrorCode={cancellation.ErrorCode}");
+                        BBBlog.Info($"CANCELED: ErrorDetails=[{cancellation.ErrorDetails}]");
+                        BBBlog.Info($"CANCELED: Did you set the speech resource key and region values?");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
 
         private async void TTSNativeSpeakToOutput(String TTSText)
         {
@@ -562,8 +653,7 @@ namespace BanterBrain_Buddy
             var stream = new MemoryStream();
             synthesizer.SetOutputToWaveStream(stream);
             synthesizer.Speak(TTSText);
-            //OutputStream(stream);
-            var Devices = WaveOutDevice.EnumerateDevices();
+
             int deviceID = 0;
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
@@ -604,7 +694,7 @@ namespace BanterBrain_Buddy
             {
                 STTTestOutput.Text = "";
                 MainRecordingStart.Text = "Recording";
-                
+
 
                 if (SelectedProvider == "Native")
                 {
@@ -615,7 +705,8 @@ namespace BanterBrain_Buddy
                     {
                         await Task.Delay(500);
                     }
-                } else if (SelectedProvider == "Azure")
+                }
+                else if (SelectedProvider == "Azure")
                 {
                     TextLog.AppendText("Azure STT calling\r\n");
                     BBBlog.Info("Azure STT calling");
@@ -659,6 +750,9 @@ namespace BanterBrain_Buddy
                     if (TTSProviderComboBox.Text == "Native")
                     {
                         TTSNativeSpeakToOutput(LLMTestOutputbox.Text);
+                    } else if (TTSProviderComboBox.Text == "Azure")
+                    {
+                        TTSAzureSpeakToOutput(LLMTestOutputbox.Text);
                     }
                 }
                 else
@@ -676,7 +770,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        private void LoadSettings()
+        private async void LoadSettings()
         {
             SoundInputDevices.Text = Properties.Settings.Default.VoiceInput;
             MicrophoneHotkeyEditbox.Text = Properties.Settings.Default.PTTHotkey;
@@ -687,7 +781,7 @@ namespace BanterBrain_Buddy
             TTSProviderComboBox.Text = Properties.Settings.Default.TTSProvider;
             TTSAudioOutputComboBox.Text = Properties.Settings.Default.TTSAudioOutput;
             TTSOutputVoice.Text = Properties.Settings.Default.TTSAudioVoice;
-            TTSOutputVoiceOptions.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
+            
             STTAPIKeyEditbox.Text = Properties.Settings.Default.STTAPIKey;
             STTRegionEditbox.Text = Properties.Settings.Default.STTAPIRegion;
             LLMAPIKeyTextBox.Text = Properties.Settings.Default.LLMAPIKey;
@@ -695,7 +789,7 @@ namespace BanterBrain_Buddy
             TTSOutputVoiceOptions.Enabled = Properties.Settings.Default.TTSAudioVoiceOptionsEnabled;
             STTAPIKeyEditbox.Enabled = Properties.Settings.Default.STTAPIKeyEnabled;
             STTRegionEditbox.Enabled = Properties.Settings.Default.STTAPIRegionEnabled;
-            TwitchUsername.Text= Properties.Settings.Default.TwitchUsername;
+            TwitchUsername.Text = Properties.Settings.Default.TwitchUsername;
             TwitchAccessToken.Text = Properties.Settings.Default.TwitchAccessToken;
             TwitchChannel.Text = Properties.Settings.Default.TwitchChannel;
             TwitchCommandTrigger.Text = Properties.Settings.Default.TwitchCommandTrigger;
@@ -714,7 +808,7 @@ namespace BanterBrain_Buddy
             {
                 Keys tmpKey = (Keys)Enum.Parse(typeof(Keys), key, true);
                 SetHotkeys.Add(tmpKey);
-             }
+            }
 
             //we need to get azure regions and voice options if azure is selected so we dont need to fill it later
             if (TTSProviderComboBox.Text == "Azure")
@@ -724,12 +818,14 @@ namespace BanterBrain_Buddy
                 {
                     if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
                     {
-                        TTSGetAzureVoices();
+                        await TTSGetAzureVoices();
                         //fill the listboxes
                         TTSFillAzureVoicesList();
                     }
                 }
             }
+            //this last so it overwrites possibly loaded voice options
+            TTSOutputVoiceOptions.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
         }
 
         private void BBB_FormClosing(object sender, FormClosingEventArgs e)
@@ -753,18 +849,19 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.STTAPIRegionEnabled = STTRegionEditbox.Enabled;
             Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
             Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
-            Properties.Settings.Default.TwitchChannel  = TwitchChannel.Text;
+            Properties.Settings.Default.TwitchChannel = TwitchChannel.Text;
             Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
-            Properties.Settings.Default.TwitchChatCommandDelay  = int.Parse(TwitchChatCommandDelay.Text);
+            Properties.Settings.Default.TwitchChatCommandDelay = int.Parse(TwitchChatCommandDelay.Text);
             Properties.Settings.Default.TwitchNeedsFollower = TwitchNeedsFollower.Checked;
             Properties.Settings.Default.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
             Properties.Settings.Default.TwitchMinBits = int.Parse(TwitchMinBits.Text);
-            Properties.Settings.Default.TwitchSubscribed =  TwitchSubscribed.Checked;
+            Properties.Settings.Default.TwitchSubscribed = TwitchSubscribed.Checked;
             Properties.Settings.Default.TwitchCommunitySubs = TwitchCommunitySubs.Checked;
             Properties.Settings.Default.TwitchGiftedSub = TwitchGiftedSub.Checked;
             Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
             Properties.Settings.Default.TTSAPIKeyTextBox = TTSAPIKeyTextBox.Text;
             Properties.Settings.Default.TTSRegionTextBox = TTSRegionTextBox.Text;
+
             //add the hotkeys in settings list, not in text
             Properties.Settings.Default.HotkeyList.Clear();
             foreach (Keys key in SetHotkeys)
@@ -772,6 +869,7 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.HotkeyList.Add(key.ToString());
             }
             Properties.Settings.Default.Save();
+
             //remove hotkey hooks
             Unsubscribe();
         }
@@ -783,7 +881,7 @@ namespace BanterBrain_Buddy
 
         public void ShowHotkeyDialogBox()
         {
-            
+
             HotkeyForm HotkeyDialog = new HotkeyForm();
             var result = HotkeyDialog.ShowDialog(this);
             // Show testDialog as a modal dialog and determine if DialogResult = OK.
@@ -795,7 +893,7 @@ namespace BanterBrain_Buddy
                 //ok now we got the keys, parse them and put them in the index box
                 // and the global list for hotkeys
 
-                for (var i=0; i< HotKeys.Count; i++)
+                for (var i = 0; i < HotKeys.Count; i++)
                 {
                     //add to the current hotkey list for keyup event checks
                     SetHotkeys.Add(HotKeys[i]);
@@ -808,7 +906,7 @@ namespace BanterBrain_Buddy
                 }
             }
             TextLog.AppendText("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
-            BBBlog.Info("Hotkey set to "+ MicrophoneHotkeyEditbox.Text);
+            BBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
             HotkeyDialog.Dispose();
             //bind the new value 
             Subscribe();
@@ -832,7 +930,7 @@ namespace BanterBrain_Buddy
         {
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyDown += GlobalHookKeyDown;
-            m_GlobalHook.KeyUp  += GlobalHookKeyUp;
+            m_GlobalHook.KeyUp += GlobalHookKeyUp;
         }
 
         private async void HandleHotkeyButton()
@@ -841,7 +939,7 @@ namespace BanterBrain_Buddy
             {
                 if (MainRecordingStart.Text == "Start")
                 {
-                    MainRecordingStart_Click(null,null);
+                    MainRecordingStart_Click(null, null);
                     HotkeyCalled = true;
                     //ok lets wait 1 sec before checking shit again
                     await Task.Delay(1000);
@@ -878,7 +976,7 @@ namespace BanterBrain_Buddy
             m_GlobalHook.OnCombination(map);
         }
 
-      
+
         //yes this is lame as shit, i know classes, objects do it correctly etc.
         //but it works for now, so eh.
         private void TwitchTestButton_Click(object sender, EventArgs e)
@@ -896,7 +994,8 @@ namespace BanterBrain_Buddy
             client.AddChatCommandIdentifier(char.Parse(TwitchCommandTrigger.Text));
 
             //Logwriter
-            client.OnLog += (o, a) => {
+            client.OnLog += (o, a) =>
+            {
                 BBBlog.Info($"Twitch: {a.BotUsername} - {a.Data}");
             };
 
@@ -917,7 +1016,8 @@ namespace BanterBrain_Buddy
                     error handling
             */
             //connection and login
-            client.OnConnectionError += (o, a) => {
+            client.OnConnectionError += (o, a) =>
+            {
                 BBBlog.Error("Twitch OnConnectionError =>" + a.Error);
                 client.Disconnect();
             };
@@ -977,7 +1077,8 @@ namespace BanterBrain_Buddy
             };
 
             //general error
-            client.OnError += (o, a) => {
+            client.OnError += (o, a) =>
+            {
                 BBBlog.Error("Twitch OnError => " + a.Exception.Message);
             };
 
@@ -995,7 +1096,7 @@ namespace BanterBrain_Buddy
         }
 
         //authorizations te token has to have for what we want to do
-        private static List<string> scopes = new List<string> { "chat:read", "whispers:read", "whispers:edit", "chat:edit", "channel:moderate" };
+        readonly private static List<string> scopes = new List<string> { "chat:read", "whispers:read", "whispers:edit", "chat:edit", "channel:moderate" };
         private async Task GetTwitchAuthToken()
         {
 
@@ -1012,7 +1113,7 @@ namespace BanterBrain_Buddy
                 Console.WriteLine(data);
                 SecretsJson = data.TwitchAPISecret;
                 TwitchAuthRedirect = data.TwitchAuthRedirect;
-                TwitchAuthClientId= data.TwitchAuthClientId;
+                TwitchAuthClientId = data.TwitchAuthClientId;
             }
 
             // create twitch api instance
@@ -1022,9 +1123,9 @@ namespace BanterBrain_Buddy
             // start local web server
             var server = new TwitchAuthWebserver(TwitchAuthRedirect);
 
-             //spawn browser for authing
-             var t = new Thread(() => Process.Start($"{getAuthorizationCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}"));
-             t.Start();
+            //spawn browser for authing
+            var t = new Thread(() => Process.Start($"{GetAuthorizationCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}"));
+            t.Start();
 
             // listen for incoming requests
             var auth = await server.Listen();
@@ -1040,9 +1141,6 @@ namespace BanterBrain_Buddy
             // get the auth'd user
             var user = (await api.Helix.Users.GetUsersAsync()).Users[0];
 
-            // print out all the data we've got
-          //  Console.WriteLine($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {resp.AccessToken}\nRefresh token: {resp.RefreshToken}\nExpires in: {resp.ExpiresIn}\nScopes: {string.Join(", ", resp.Scopes)}");
-
             // refresh token
             var refresh = await api.Auth.RefreshAuthTokenAsync(resp.RefreshToken, SecretsJson);
             api.Settings.AccessToken = refresh.AccessToken;
@@ -1052,11 +1150,12 @@ namespace BanterBrain_Buddy
 
             // print out all the data we've got
             BBBlog.Debug($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {refresh.AccessToken}\nRefresh token: {refresh.RefreshToken}\nExpires in: {refresh.ExpiresIn}\nScopes: {string.Join(", ", refresh.Scopes)}");
+            
             //we should clean up the browser thread
-           t.Abort();
+            t.Abort();
         }
 
-        private static string getAuthorizationCodeUrl(string clientId, string redirectUri, List<string> scopes)
+        private static string GetAuthorizationCodeUrl(string clientId, string redirectUri, List<string> scopes)
         {
             var scopesStr = String.Join("+", scopes);
 
@@ -1077,7 +1176,8 @@ namespace BanterBrain_Buddy
                 TTSOutputVoiceOptions.Enabled = false;
                 TTSRegionTextBox.Enabled = false;
 
-            } else if (TTSProviderComboBox.Text == "Azure")
+            }
+            else if (TTSProviderComboBox.Text == "Azure")
             {
                 TTSAPIKeyTextBox.Enabled = true;
                 TTSAudioOutputComboBox.Enabled = true;
@@ -1105,5 +1205,9 @@ namespace BanterBrain_Buddy
             TTSAzureFillOptions(TTSOutputVoice.Text);
         }
 
+        private void SoundInputDevices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BBBlog.Info("Selected input device changed to " + SoundInputDevices.Text);
+        }
     }
-    }
+}
