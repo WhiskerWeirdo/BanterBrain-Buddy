@@ -177,10 +177,10 @@ namespace BanterBrain_Buddy
         private void SetSelectedOutputDevice()
         {
             var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active);
-            BBBlog.Info("Selected device:" +TTSAudioOutputComboBox.Text);
+            BBBlog.Debug("Selected output device text field" +TTSAudioOutputComboBox.Text);
             foreach (var device in devices)
             {
-                BBBlog.Info($"outputdevice: {device.FriendlyName}"); 
+               
                 //this is a hack. Friendlydevice name is old while the enumeration returns the new
                 //// so lets check the start
                 if (device.FriendlyName.StartsWith(TTSAudioOutputComboBox.Text))
@@ -1108,9 +1108,9 @@ namespace BanterBrain_Buddy
             using (StreamReader r = new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
             {
                 string json = r.ReadToEnd();
-                Console.WriteLine($"{json}");
+                BBBlog.Info($"{json}");
                 dynamic data = JObject.Parse(json);
-                Console.WriteLine(data);
+                BBBlog.Info(data);
                 SecretsJson = data.TwitchAPISecret;
                 TwitchAuthRedirect = data.TwitchAuthRedirect;
                 TwitchAuthClientId = data.TwitchAuthClientId;
