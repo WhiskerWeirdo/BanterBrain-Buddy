@@ -68,6 +68,7 @@ namespace BanterBrain_Buddy
             TextLog.AppendText("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
         }
 
+        //fill the audio input and output list boxes
         public void GetAudioDevices()
         {
             var CaptureDevices = WaveInDevice.EnumerateDevices();
@@ -75,8 +76,6 @@ namespace BanterBrain_Buddy
             {
                 SoundInputDevices.Items.Add(device.Name);
             }
-            //output devices
-            //var OutputDevices = WaveOutDevice.EnumerateDevices();
 
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
@@ -105,8 +104,7 @@ namespace BanterBrain_Buddy
                     {
                         await Task.Delay(500);
                     }
-                }
-                else if (SelectedProvider == "Azure")
+                } else if (SelectedProvider == "Azure")
                 {
                     TextLog.AppendText("Test Azure STT calling\r\n");
                     BBBlog.Info("Test Azure STT calling");
@@ -117,8 +115,7 @@ namespace BanterBrain_Buddy
                         STTTestOutput.Text = "Error! API Key or region cannot be empty!";
                         BBBlog.Error("Error! API Key or region cannot be empty!");
                         STTTestButton.Text = "Test";
-                    }
-                    else
+                    } else
                     {
                         AzureInputStream();
                         while (!STTDone)
@@ -128,8 +125,7 @@ namespace BanterBrain_Buddy
 
                     }
                 }
-            }
-            else
+            } else
             {
                 STTTestButton.Text = "Test";
                 TextLog.AppendText("Test stopped recording\r\n");
@@ -145,16 +141,16 @@ namespace BanterBrain_Buddy
             String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             if (SelectedProvider == "Native")
             {
-                TextLog.AppendText("Native STT\r\n");
-                BBBlog.Info("Native STT");
+                TextLog.AppendText("Native STT selected\r\n");
+                BBBlog.Info("Native STT selected");
                 STTAPIKeyEditbox.Enabled = false;
                 STTRegionEditbox.Enabled = false;
                 STTTestOutput.Text = "Hint: For better native Speech-To-Text always train your voice at least once in Control Panel\\Ease of Access\\Speech Recognition";
             }
             else if (SelectedProvider == "Azure")
             {
-                TextLog.AppendText("Azure\r\n");
-                BBBlog.Info("Azure STT");
+                TextLog.AppendText("Azure STT selected\r\n");
+                BBBlog.Info("Azure STT selected");
                 STTAPIKeyEditbox.Enabled = true;
                 STTRegionEditbox.Enabled = true;
                 STTTestOutput.Text = "Be sure to set API key and region!";
@@ -180,7 +176,6 @@ namespace BanterBrain_Buddy
             BBBlog.Debug("Selected output device text field" +TTSAudioOutputComboBox.Text);
             foreach (var device in devices)
             {
-               
                 //this is a hack. Friendlydevice name is old while the enumeration returns the new
                 //// so lets check the start
                 if (device.FriendlyName.StartsWith(TTSAudioOutputComboBox.Text))
@@ -348,8 +343,6 @@ namespace BanterBrain_Buddy
             BBBlog.Info("Native STT done.");
             recognizer2.Dispose();
         }
-
-
 
         // Handle the SpeechHypothesized event.  
         private void NativeSpeechHypothesizedHandler(object sender, SpeechHypothesizedEventArgs e)
@@ -559,6 +552,7 @@ namespace BanterBrain_Buddy
                     }
                 }
             }
+            //if nothing ends up being selected, pick the top one so at least something is selected
             if (TTSOutputVoiceOptions.SelectedIndex == -1)
             {
                 TTSOutputVoiceOptions.Text = TTSOutputVoiceOptions.Items[0].ToString();
@@ -688,12 +682,10 @@ namespace BanterBrain_Buddy
             {
                 STTTestOutput.Text = "";
                 MainRecordingStart.Text = "Recording";
-
-
                 if (SelectedProvider == "Native")
                 {
-                    TextLog.AppendText("ProframFlow Native STT calling\r\n");
-                    BBBlog.Info("ProframFlow Native STT calling");
+                    TextLog.AppendText("Main button Native STT calling\r\n");
+                    BBBlog.Info("Main button Native STT calling");
                     NativeInputStreamtoWav();
                     while (!STTDone)
                     {
@@ -775,7 +767,6 @@ namespace BanterBrain_Buddy
             TTSProviderComboBox.Text = Properties.Settings.Default.TTSProvider;
             TTSAudioOutputComboBox.Text = Properties.Settings.Default.TTSAudioOutput;
             TTSOutputVoice.Text = Properties.Settings.Default.TTSAudioVoice;
-            
             STTAPIKeyEditbox.Text = Properties.Settings.Default.STTAPIKey;
             STTRegionEditbox.Text = Properties.Settings.Default.STTAPIRegion;
             LLMAPIKeyTextBox.Text = Properties.Settings.Default.LLMAPIKey;
@@ -970,119 +961,38 @@ namespace BanterBrain_Buddy
             m_GlobalHook.OnCombination(map);
         }
 
-
-        //yes this is lame as shit, i know classes, objects do it correctly etc.
-        //but it works for now, so eh.
-        private void TwitchTestButton_Click(object sender, EventArgs e)
+        private async void TwitchTestButton_Click(object sender, EventArgs e)
         {
-            TwitchClient client;
-            //lets make a bot and see if we can connect and send a message to a channel
-            ConnectionCredentials credentials = new ConnectionCredentials(TwitchUsername.Text, TwitchAccessToken.Text);
+            TwitchClient twitchClient = new TwitchClient();
+            
+            twitchClient.SetTwitchSetStartupInfo(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
+            
+            while (!twitchClient.TwitchClientInit())
+            {
+                await Task.Delay(500);
+            }
 
-            WebSocketClient customClient = new WebSocketClient();
-            client = new TwitchClient(customClient);
+            //check if we want to do an onjoin if so then
+            if (TwitchSendTextCheckBox.Checked)
+                twitchClient.SetTwitchClientOnjoinMessage(TwitchTestSendText.Text);
 
-            client.Initialize(credentials, TwitchChannel.Text);
+            twitchClient.TwitchDoConnect();
 
-            //commands start with $
-            client.AddChatCommandIdentifier(char.Parse(TwitchCommandTrigger.Text));
+            BBBlog.Info("TwitchClient is connecting, now we try see if we can join the channel");
 
-            //Logwriter
-            client.OnLog += (o, a) =>
-            {
-                BBBlog.Info($"Twitch: {a.BotUsername} - {a.Data}");
-            };
-
-            //Connection evets
-            client.OnConnected += (o, a) =>
-            {
-                BBBlog.Info($"Twitch OnConnected => Connected to {a.AutoJoinChannel}");
-            };
-            client.OnJoinedChannel += (o, a) =>
-            {
-                if (TwitchSendTextCheckBox.Checked)
-                    client.SendMessage(a.Channel, TwitchTestSendText.Text);
-                else
-                    BBBlog.Info("Twitch I would have send: " + a.Channel + " => " + TwitchTestSendText.Text);
-            };
-
-            /*
-                    error handling
-            */
-            //connection and login
-            client.OnConnectionError += (o, a) =>
-            {
-                BBBlog.Error("Twitch OnConnectionError =>" + a.Error);
-                client.Disconnect();
-            };
-            client.OnIncorrectLogin += (o, a) =>
-            {
-                BBBlog.Error("Twitch OnIncorrectLogin => " + a.Exception);
-                client.Disconnect();
-
-            };
-            client.OnDisconnected += (o, a) =>
-            {
-                BBBlog.Error("Twitch onDisconnected => I got disconnected");
-            };
-            //Channel joining issues
-            client.OnFailureToReceiveJoinConfirmation += (o, a) =>
-            {
-                BBBlog.Error("Twitch OnFailureToReceiveJoinConfirmation => " + a.Exception);
-            };
-
-            //channel permissions & events
-            client.OnNoPermissionError += (o, a) =>
-            {
-                BBBlog.Error("Twitch OnNoPermissionError => " + a.ToString());
-            };
-            client.OnRateLimit += (o, a) =>
-            {
-                BBBlog.Error("Twitch OnRateLimit => " + a.Message);
-            };
-            client.OnBanned += (o, a) =>
-            {
-                BBBlog.Error("Twitch onBanned => " + a.Message);
-            };
-            client.OnSlowMode += (o, a) =>
-            {
-                BBBlog.Error("Twitch OnSlowMode => " + a.Message);
-            };
-            client.OnSubsOnly += (o, a) =>
-            {
-                BBBlog.Error("Twitch OnSubsOnly => " + a.Message);
-            };
-            // respond to: $tts ""
-            client.OnChatCommandReceived += (o, a) =>
-            {
-                if (a.Command.CommandText == "tts")
-                {
-                    client.SendMessage(TwitchChannel.Text, "you send command tts with param: " + a.Command.ArgumentsAsString);
-                }
-            };
-            //account verification not met
-            client.OnRequiresVerifiedEmail += (o, a) =>
-            {
-                BBBlog.Error("Twitch OnRequiresVerifiedEmail => " + a.Message);
-            };
-            client.OnRequiresVerifiedPhoneNumber += (o, a) =>
-            {
-                BBBlog.Error("Twitch OnRequiresVerifiedPhoneNumber => " + a.Message);
-            };
-
-            //general error
-            client.OnError += (o, a) =>
-            {
-                BBBlog.Error("Twitch OnError => " + a.Exception.Message);
-            };
-
-
-            client.OnMessageReceived += (o, a) =>
-            {
-                BBBlog.Info("Twitch  onMessageReceived => " + a.ChatMessage);
-            };
-            client.Connect();
+            //we wait till we get a result thats not "unknown",
+            //this is either a success in joining the channel or an authentication
+            while (twitchClient.TwitchChanJoinedTest() == "unknown") 
+            { 
+                await Task.Delay(500); 
+            }
+            BBBlog.Info("Test result: " + twitchClient.TwitchChanJoinedTest());
+            if (twitchClient.TwitchChanJoinedTest() == "failed")
+                MessageBox.Show("Login Authentication failed. Username, Access token or channel incorrect", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+            else if (twitchClient.TwitchChanJoinedTest() == "success")
+                MessageBox.Show("Login success!", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
         }
+
         private async void TwitchAuthorizeButton_Click(object sender, EventArgs e)
         {
             //lets not block everything.
@@ -1139,11 +1049,17 @@ namespace BanterBrain_Buddy
             var refresh = await api.Auth.RefreshAuthTokenAsync(resp.RefreshToken, SecretsJson);
             api.Settings.AccessToken = refresh.AccessToken;
 
-            // confirm new token works
+            // confirm new refreshed token works
             user = (await api.Helix.Users.GetUsersAsync()).Users[0];
 
+
+            //TODO: set timer with refresh.ExpiresIn to call refresh in time.
+
+
             // print out all the data we've got
-            BBBlog.Debug($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {refresh.AccessToken}\nRefresh token: {refresh.RefreshToken}\nExpires in: {refresh.ExpiresIn}\nScopes: {string.Join(", ", refresh.Scopes)}");
+            //NOTE: THIS IS SENSITIVE DATA
+
+            //BBBlog.Debug($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {refresh.AccessToken}\nRefresh token: {refresh.RefreshToken}\nExpires in: {refresh.ExpiresIn}\nScopes: {string.Join(", ", refresh.Scopes)}");
             
             //we should clean up the browser thread
             t.Abort();
@@ -1206,7 +1122,7 @@ namespace BanterBrain_Buddy
 
         private void githubToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //spawn browser for authing
+            //spawn browser for github link
             var t = new Thread(() => Process.Start("https://github.com/WhiskerWeirdo/BanterBrain-Buddy"));
             t.Start();
             Thread.Sleep(100);
@@ -1215,7 +1131,7 @@ namespace BanterBrain_Buddy
 
         private void discordToolStripMenuItem_Click(object sender, EventArgs e)
         {           
-            //spawn browser for authing
+            //spawn browser for discord link
             var t = new Thread(() => Process.Start("https://discord.banterbrain.tv"));
             t.Start();
             Thread.Sleep(100);

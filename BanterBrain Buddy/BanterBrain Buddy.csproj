@@ -319,21 +319,26 @@
     <Reference Include="TwitchLib.Api.Helix.Models, Version=3.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TwitchLib.Api.Helix.Models.3.10.0-preview-e47ba7f\lib\netstandard2.0\TwitchLib.Api.Helix.Models.dll</HintPath>
     </Reference>
-    <Reference Include="TwitchLib.Client, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TwitchLib.Client.3.3.1\lib\netstandard2.0\TwitchLib.Client.dll</HintPath>
+    <Reference Include="TwitchLib.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TwitchLib.Client.4.0.0-preview-fd131763416cb9f1a31705ca609566d7e7e7fac8\lib\netstandard2.0\TwitchLib.Client.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="TwitchLib.Client.Enums, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TwitchLib.Client.Enums.3.3.1\lib\netstandard2.0\TwitchLib.Client.Enums.dll</HintPath>
+    <Reference Include="TwitchLib.Client.Enums, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TwitchLib.Client.Enums.4.0.0-preview-fd131763416cb9f1a31705ca609566d7e7e7fac8\lib\netstandard2.0\TwitchLib.Client.Enums.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="TwitchLib.Client.Models, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TwitchLib.Client.Models.3.3.1\lib\netstandard2.0\TwitchLib.Client.Models.dll</HintPath>
+    <Reference Include="TwitchLib.Client.Models, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TwitchLib.Client.Models.4.0.0-preview-fd131763416cb9f1a31705ca609566d7e7e7fac8\lib\netstandard2.0\TwitchLib.Client.Models.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="TwitchLib.Communication, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TwitchLib.Communication.1.0.6\lib\netstandard2.0\TwitchLib.Communication.dll</HintPath>
+    <Reference Include="TwitchLib.Communication, Version=2.0.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\TwitchLib.Communication.2.0.1\lib\netstandard2.0\TwitchLib.Communication.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureVoices.cs" />
+    <Compile Include="TwitchClient.cs" />
     <Compile Include="TwitchAuthWebserver.cs" />
     <Compile Include="HotkeyForm.cs">
       <SubType>Form</SubType>
