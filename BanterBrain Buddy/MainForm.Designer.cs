@@ -115,8 +115,8 @@ namespace BanterBrain_Buddy
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.discordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GithubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DiscordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.SettingsTab.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -706,22 +706,22 @@ namespace BanterBrain_Buddy
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.githubToolStripMenuItem,
-            this.discordToolStripMenuItem});
+            this.GithubToolStripMenuItem,
+            this.DiscordToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
-            // githubToolStripMenuItem
+            // GithubToolStripMenuItem
             // 
-            this.githubToolStripMenuItem.Name = "githubToolStripMenuItem";
-            resources.ApplyResources(this.githubToolStripMenuItem, "githubToolStripMenuItem");
-            this.githubToolStripMenuItem.Click += new System.EventHandler(this.githubToolStripMenuItem_Click);
+            this.GithubToolStripMenuItem.Name = "GithubToolStripMenuItem";
+            resources.ApplyResources(this.GithubToolStripMenuItem, "GithubToolStripMenuItem");
+            this.GithubToolStripMenuItem.Click += new System.EventHandler(this.GithubToolStripMenuItem_Click);
             // 
-            // discordToolStripMenuItem
+            // DiscordToolStripMenuItem
             // 
-            this.discordToolStripMenuItem.Name = "discordToolStripMenuItem";
-            resources.ApplyResources(this.discordToolStripMenuItem, "discordToolStripMenuItem");
-            this.discordToolStripMenuItem.Click += new System.EventHandler(this.discordToolStripMenuItem_Click);
+            this.DiscordToolStripMenuItem.Name = "DiscordToolStripMenuItem";
+            resources.ApplyResources(this.DiscordToolStripMenuItem, "DiscordToolStripMenuItem");
+            this.DiscordToolStripMenuItem.Click += new System.EventHandler(this.DiscordToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -807,8 +807,8 @@ namespace BanterBrain_Buddy
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem ExitToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
-        private ToolStripMenuItem githubToolStripMenuItem;
-        private ToolStripMenuItem discordToolStripMenuItem;
+        private ToolStripMenuItem GithubToolStripMenuItem;
+        private ToolStripMenuItem DiscordToolStripMenuItem;
         private MenuStrip menuStrip1;
         private ComboBox TTSAudioOutputComboBox;
         private TabPage LLMTab;

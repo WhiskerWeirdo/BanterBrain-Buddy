@@ -2253,16 +2253,16 @@
   <data name="fileToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;File</value>
   </data>
-  <data name="githubToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="GithubToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>180, 22</value>
   </data>
-  <data name="githubToolStripMenuItem.Text" xml:space="preserve">
+  <data name="GithubToolStripMenuItem.Text" xml:space="preserve">
     <value>Github</value>
   </data>
-  <data name="discordToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="DiscordToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>180, 22</value>
   </data>
-  <data name="discordToolStripMenuItem.Text" xml:space="preserve">
+  <data name="DiscordToolStripMenuItem.Text" xml:space="preserve">
     <value>Discord</value>
   </data>
   <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
@@ -3460,16 +3460,16 @@
   <data name="&gt;&gt;helpToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;githubToolStripMenuItem.Name" xml:space="preserve">
-    <value>githubToolStripMenuItem</value>
+  <data name="&gt;&gt;GithubToolStripMenuItem.Name" xml:space="preserve">
+    <value>GithubToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;githubToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;GithubToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;discordToolStripMenuItem.Name" xml:space="preserve">
-    <value>discordToolStripMenuItem</value>
+  <data name="&gt;&gt;DiscordToolStripMenuItem.Name" xml:space="preserve">
+    <value>DiscordToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;discordToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;DiscordToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

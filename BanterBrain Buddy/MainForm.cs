@@ -982,6 +982,7 @@ namespace BanterBrain_Buddy
 
             //we wait till we get a result thats not "unknown",
             //this is either a success in joining the channel or an authentication
+            //TODO: shouldnt this be an eventhandler?
             while (twitchClient.TwitchChanJoinedTest() == "unknown") 
             { 
                 await Task.Delay(500); 
@@ -1003,10 +1004,7 @@ namespace BanterBrain_Buddy
         readonly private static List<string> scopes = new List<string> { "chat:read", "whispers:read", "whispers:edit", "chat:edit", "channel:moderate" };
         private async Task GetTwitchAuthToken()
         {
-
-            //read the api secret from secret.json cos we dont want to have it in the github
-            //even if its not really all that secret
-            string SecretsJson = null;
+            //lets read this from a file, so its easier for other people to change.
             string TwitchAuthRedirect = null;
             string TwitchAuthClientId = null;
             using (StreamReader r = new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
@@ -1015,11 +1013,11 @@ namespace BanterBrain_Buddy
                 BBBlog.Info($"{json}");
                 dynamic data = JObject.Parse(json);
                 BBBlog.Info(data);
-                SecretsJson = data.TwitchAPISecret;
                 TwitchAuthRedirect = data.TwitchAuthRedirect;
                 TwitchAuthClientId = data.TwitchAuthClientId;
             }
 
+            BBBlog.Info("Clientid: " + TwitchAuthClientId);
             // create twitch api instance
             var api = new TwitchLib.Api.TwitchAPI();
             api.Settings.ClientId = TwitchAuthClientId;
@@ -1027,42 +1025,24 @@ namespace BanterBrain_Buddy
             // start local web server
             var server = new TwitchAuthWebserver(TwitchAuthRedirect);
 
-            //spawn browser for authing
-            var t = new Thread(() => Process.Start($"{GetAuthorizationCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}"));
-            t.Start();
-
-            // listen for incoming requests
-            var auth = await server.Listen();
-
-            // exchange auth code for oauth access/refresh uses "secret"
-            var resp = await api.Auth.GetAccessTokenFromCodeAsync(auth.Code, SecretsJson, TwitchAuthRedirect);
+            //implicit flow is rather simple compared to client cred
+            var tImplicit = new Thread(() => Process.Start($"{GetImplicitCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}"));
+            tImplicit.Start();
+            var authImplicit = await server.ImplicitListen();
 
             // update TwitchLib's api with the recently acquired access token
-            api.Settings.AccessToken = resp.AccessToken;
+            api.Settings.AccessToken = authImplicit.Code;
+
             //also save this in our form
-            TwitchAccessToken.Text = resp.AccessToken;
+            TwitchAccessToken.Text = authImplicit.Code;
 
             // get the auth'd user
             var user = (await api.Helix.Users.GetUsersAsync()).Users[0];
 
-            // refresh token
-            var refresh = await api.Auth.RefreshAuthTokenAsync(resp.RefreshToken, SecretsJson);
-            api.Settings.AccessToken = refresh.AccessToken;
-
-            // confirm new refreshed token works
-            user = (await api.Helix.Users.GetUsersAsync()).Users[0];
-
-
-            //TODO: set timer with refresh.ExpiresIn to call refresh in time.
-
-
             // print out all the data we've got
-            //NOTE: THIS IS SENSITIVE DATA
+            Console.WriteLine($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\n");
 
-            //BBBlog.Debug($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\nAccess token: {refresh.AccessToken}\nRefresh token: {refresh.RefreshToken}\nExpires in: {refresh.ExpiresIn}\nScopes: {string.Join(", ", refresh.Scopes)}");
-            
-            //we should clean up the browser thread
-            t.Abort();
+            tImplicit.Abort();
         }
 
         private static string GetAuthorizationCodeUrl(string clientId, string redirectUri, List<string> scopes)
@@ -1073,6 +1053,16 @@ namespace BanterBrain_Buddy
                    $"client_id={clientId}&" +
                    $"redirect_uri={redirectUri}&" +
                    "response_type=code&" +
+                   $"scope={scopesStr}";
+        }
+        private static string GetImplicitCodeUrl(string clientId, string redirectUri, List<string> scopes)
+        {
+            var scopesStr = String.Join("+", scopes);
+
+            return "https://id.twitch.tv/oauth2/authorize?" +
+                   $"client_id={clientId}&" +
+                   $"redirect_uri={redirectUri}&" +
+                   "response_type=token&" +
                    $"scope={scopesStr}";
         }
 
@@ -1120,7 +1110,7 @@ namespace BanterBrain_Buddy
             BBBlog.Info("Selected input device changed to " + SoundInputDevices.Text);
         }
 
-        private void githubToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GithubToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //spawn browser for github link
             var t = new Thread(() => Process.Start("https://github.com/WhiskerWeirdo/BanterBrain-Buddy"));
@@ -1129,7 +1119,7 @@ namespace BanterBrain_Buddy
             t.Abort();
         }
 
-        private void discordToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DiscordToolStripMenuItem_Click(object sender, EventArgs e)
         {           
             //spawn browser for discord link
             var t = new Thread(() => Process.Start("https://discord.banterbrain.tv"));

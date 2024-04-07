@@ -77,12 +77,7 @@ namespace BanterBrain_Buddy
                 TwitchChatIdentifier = twChatIdent;
                 TwitchChatCommand = twChatCommand;
 
-<<<<<<< HEAD
-=======
-                // client.AddChatCommandIdentifier(TwitchChatIdentifier);
-                // respond to: <twChatIdent><twChatCommand> "message"
-                //client.OnChatCommandReceived += TwitchOnChatCommandReceived;
->>>>>>> c71ce93 (rebuilding the Twitch part into a seperate class. Connection test works in the new format. Did require using the 4.x preview versions of Twitchlib though.)
+
                 client.OnChatCommandReceived += (o, a) =>
                 {
                     if (a.Command.CommandText == twChatCommand)
