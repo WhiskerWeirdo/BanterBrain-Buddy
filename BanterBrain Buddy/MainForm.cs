@@ -34,6 +34,7 @@ using static System.Net.Mime.MediaTypeNames;
 using OpenAI_API.Moderation;
 using System.ComponentModel;
 using System.Globalization;
+using TwitchLib.Api.Core.Exceptions;
 
 namespace BanterBrain_Buddy
 {
@@ -963,6 +964,43 @@ namespace BanterBrain_Buddy
 
         private async void TwitchTestButton_Click(object sender, EventArgs e)
         {
+            //TODO: fix to global or store somewhere since multiple calls use it?
+            string TwitchAuthClientId = null;
+            using (StreamReader r = new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
+            {
+                string json = r.ReadToEnd();
+                dynamic data = JObject.Parse(json);
+                TwitchAuthClientId = data.TwitchAuthClientId;
+            }
+            //first we test access token validity
+            //basically the returned user.DisplayName should be the same as TwitchUsername.Text
+            var TwitchAPI = new TwitchLib.Api.TwitchAPI();
+            TwitchAPI.Settings.ClientId = TwitchAuthClientId;
+            TwitchAPI.Settings.AccessToken = TwitchAccessToken.Text;
+            bool VerifyOk = false;
+            TwitchLib.Api.Helix.Models.Users.GetUsers.User user = new TwitchLib.Api.Helix.Models.Users.GetUsers.User();
+            try
+            {
+                user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
+                VerifyOk = true;
+            } catch (BadScopeException exception)
+            {
+               BBBlog.Error(exception.Message);
+               VerifyOk = false;
+            } 
+
+            if (!VerifyOk)
+            {
+                BBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
+                MessageBox.Show("Problem verifying Access token, invalid access token", "Access Token veryfication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            } else
+            {
+                BBBlog.Info($"Twitch Access token verified for user: {user.DisplayName}");
+                MessageBox.Show($"Twitch Access token verified for user {user.DisplayName}", "Access Token verification success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            return;
+            //after that we check the client itself
             TwitchClient twitchClient = new TwitchClient();
             
             twitchClient.SetTwitchSetStartupInfo(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
@@ -1010,17 +1048,15 @@ namespace BanterBrain_Buddy
             using (StreamReader r = new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
             {
                 string json = r.ReadToEnd();
-                BBBlog.Info($"{json}");
                 dynamic data = JObject.Parse(json);
-                BBBlog.Info(data);
                 TwitchAuthRedirect = data.TwitchAuthRedirect;
                 TwitchAuthClientId = data.TwitchAuthClientId;
             }
 
             BBBlog.Info("Clientid: " + TwitchAuthClientId);
             // create twitch api instance
-            var api = new TwitchLib.Api.TwitchAPI();
-            api.Settings.ClientId = TwitchAuthClientId;
+            var TwitchAPI = new TwitchLib.Api.TwitchAPI();
+            TwitchAPI.Settings.ClientId = TwitchAuthClientId;
 
             // start local web server
             var server = new TwitchAuthWebserver(TwitchAuthRedirect);
@@ -1031,13 +1067,13 @@ namespace BanterBrain_Buddy
             var authImplicit = await server.ImplicitListen();
 
             // update TwitchLib's api with the recently acquired access token
-            api.Settings.AccessToken = authImplicit.Code;
+            TwitchAPI.Settings.AccessToken = authImplicit.Code;
 
             //also save this in our form
             TwitchAccessToken.Text = authImplicit.Code;
 
             // get the auth'd user to test the access token's validity
-            var user = (await api.Helix.Users.GetUsersAsync()).Users[0];
+            var user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
 
             // print out all the data we've got
            

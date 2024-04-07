@@ -85,7 +85,7 @@ namespace BanterBrain_Buddy
                             resp.OutputStream.Write(encoded, 0, encoded.Length);
                             resp.OutputStream.Close();
                             FirstTime = false;
-                        }else if (req.QueryString.AllKeys.Any("access_token".Contains) && !FirstTime)
+                        } else if (req.QueryString.AllKeys.Any("access_token".Contains) && !FirstTime)
                         {
                             writer.WriteLine("Implicit grant started! Check your application! You can close this window!");
                             BBBlog.Info("OAUTH Implcit grant started! Check your application!");
