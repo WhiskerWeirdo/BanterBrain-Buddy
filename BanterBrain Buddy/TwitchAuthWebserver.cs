@@ -70,12 +70,13 @@ namespace BanterBrain_Buddy
                             //and redirect ourselves to the new url
                             string response = "<!DOCTYPE html>\r\n" +
                                 "<html>\r\n " +
-                                "<p id=\"demo\">placeholder.</p>" +
+                                "<p id=\"demo\">placeholder.</p>\r\n" +
                                 "<body>\r\n" +
                                 "<script>\r\n" +
                                 "let Url = window.location.href;\r\n" +
                                 "let newUrl = Url.replace(\"#\",\"?\");\r\n" +
                                 "window.location.replace(newUrl);\r\n" +
+                                "document.getElementById(\"demo\").innerHTML=`Browser should refresh if not click <a href=\\\"${newUrl}\\\">here</a>`;\r\n" +
                                 "</script> \r\n" +
                                 "</body>\r\n" +
                                 "</html>";
@@ -84,8 +85,7 @@ namespace BanterBrain_Buddy
                             resp.OutputStream.Write(encoded, 0, encoded.Length);
                             resp.OutputStream.Close();
                             FirstTime = false;
-                        }
-                        if (req.QueryString.AllKeys.Any("access_token".Contains))
+                        }else if (req.QueryString.AllKeys.Any("access_token".Contains) && !FirstTime)
                         {
                             writer.WriteLine("Implicit grant started! Check your application! You can close this window!");
                             BBBlog.Info("OAUTH Implcit grant started! Check your application!");
