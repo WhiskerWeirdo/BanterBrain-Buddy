@@ -32,9 +32,9 @@ namespace BanterBrain_Buddy
             listener.Prefixes.Add(uri);
         }
 
-        public async Task<Authorization> ClientListen()
+        public async Task<Authorization> AuthorizationListen()
         {
-            BBBlog.Info("Client credential OAUTH starting");
+            BBBlog.Info("Authorization code OAUTH starting");
             listener.Start();
             var result = await OnAuthorizationRequest();
             return result;
@@ -87,8 +87,8 @@ namespace BanterBrain_Buddy
                         }
                         if (req.QueryString.AllKeys.Any("access_token".Contains))
                         {
-                            writer.WriteLine("Authorization started! Check your application! You can close this window!");
-                            BBBlog.Info("OAUTH Authorization started! Check your application!");
+                            writer.WriteLine("Implicit grant started! Check your application! You can close this window!");
+                            BBBlog.Info("OAUTH Implcit grant started! Check your application!");
                             writer.Flush();
                             return new Authorization(req.QueryString["access_token"]);
                         }

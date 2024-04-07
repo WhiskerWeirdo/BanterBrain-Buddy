@@ -1036,12 +1036,13 @@ namespace BanterBrain_Buddy
             //also save this in our form
             TwitchAccessToken.Text = authImplicit.Code;
 
-            // get the auth'd user
+            // get the auth'd user to test the access token's validity
             var user = (await api.Helix.Users.GetUsersAsync()).Users[0];
 
             // print out all the data we've got
+           
             Console.WriteLine($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\n");
-
+            //kill the browser thread
             tImplicit.Abort();
         }
 
