@@ -54,6 +54,8 @@ namespace BanterBrain_Buddy
         readonly private List<Keys> SetHotkeys = new List<Keys>();
         //check if the GPT LLM is donestop audio capture
         private bool GPTDone = false;
+        //error checker
+        private bool BigError = false;
 
         public  BBB()
         {
@@ -86,6 +88,7 @@ namespace BanterBrain_Buddy
 
         private async void STTTestButton_Click(object sender, EventArgs e)
         {
+            
             String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             if (STTTestButton.Text == "Test")
             {
@@ -96,6 +99,7 @@ namespace BanterBrain_Buddy
                 TextLog.AppendText(SelectedProvider + "\r\n");
 
                 STTDone = false;
+                BigError = false;
                 if (SelectedProvider == "Native")
                 {
                     TextLog.AppendText("Test Native STT calling\r\n");
@@ -119,7 +123,7 @@ namespace BanterBrain_Buddy
                     } else
                     {
                         AzureInputStream();
-                        while (!STTDone)
+                        while (!STTDone && !BigError)
                         {
                             await Task.Delay(500);
                         }
@@ -203,7 +207,7 @@ namespace BanterBrain_Buddy
             STTTestOutput.Text = "";
             BBBlog.Info("Azure STT microphone start.");
 
-            while (STTTestButton.Text == "Recording" || MainRecordingStart.Text == "Recording")
+            while ( (STTTestButton.Text == "Recording" || MainRecordingStart.Text == "Recording") && !STTDone && !BigError)
             {
                 var speechRecognitionResult = await AzureSpeechRecognizer.RecognizeOnceAsync();
                 AzureOutputSpeechRecognitionResult(speechRecognitionResult);
@@ -231,13 +235,15 @@ namespace BanterBrain_Buddy
 
                     if (cancellation.Reason == CancellationReason.Error)
                     {
-                        STTTestOutput.Text = $"CANCELED: ErrorCode={cancellation.ErrorCode}\r\n";
-                        STTTestOutput.Text += $"CANCELED: ErrorDetails={cancellation.ErrorDetails}\r\n";
-                        STTTestOutput.Text += $"CANCELED: Did you set the speech resource key and region values?\r\n";
-                        BBBlog.Info($"CANCELED: ErrorCode={cancellation.ErrorCode}");
-                        BBBlog.Info($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
-                        BBBlog.Info($"CANCELED: Did you set the speech resource key and region values?");
+                        STTTestOutput.Text = $"CANCELED: ErrorCode={cancellation.ErrorCode} see log for more details.\r\n";
+                        BBBlog.Error($"CANCELED: ErrorCode={cancellation.ErrorCode}");
+                        BBBlog.Error($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
+                        BBBlog.Error($"CANCELED: Did you set the correct API resource key and region values?");
+                        MessageBox.Show($"CANCELED: Did you set the correct API resource key and region values? ErrorCode={cancellation.ErrorCode} see log for more details.", "Azure STT Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                    STTDone = true;
+                    STTTestButton.Text = "Test";
+                    BigError = true;
                     break;
             }
             STTTestOutput.Text += "\r\n";
@@ -493,10 +499,10 @@ namespace BanterBrain_Buddy
         {
             BBBlog.Info("Finding TTS Azure voices available");
             SpeechConfig speechConfig = SpeechConfig.FromSubscription(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text);
+            BBBlog.Info("Azure authorizationToken: " +speechConfig.AuthorizationToken);
             //lets get the voices available
             var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(speechConfig, null as AudioConfig);
             SynthesisVoicesResult result = await speechSynthesizer.GetVoicesAsync();
-
             if (result.Reason == ResultReason.VoicesListRetrieved)
             {
                 //remove the old listed items
@@ -515,6 +521,12 @@ namespace BanterBrain_Buddy
                     };
                     AzureRegionVoicesList.Add(tmpVoice);
                 }
+            }
+            else //no voices back means something is definately bad
+            {
+                BBBlog.Error("Problem retreiving Azure API voicelist. Is your API key or subscription still valid?");
+                MessageBox.Show("Problem retreiving Azure API voicelist. Is your API key or subscription still valid?", "Azure No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                BigError = true;
             }
         }
 
@@ -556,7 +568,13 @@ namespace BanterBrain_Buddy
             //if nothing ends up being selected, pick the top one so at least something is selected
             if (TTSOutputVoiceOptions.SelectedIndex == -1)
             {
-                TTSOutputVoiceOptions.Text = TTSOutputVoiceOptions.Items[0].ToString();
+                try
+                {
+                    TTSOutputVoiceOptions.Text = TTSOutputVoiceOptions.Items[0].ToString();
+                } catch ( Exception ex)
+                {
+                    BBBlog.Error("Issue assigning Azure voice. Error: " + ex.Message);
+                }
             }
 
         }
@@ -565,6 +583,7 @@ namespace BanterBrain_Buddy
         private async void TTSAzureSpeakToOutput(string TextToSpeak)
         {
             BBBlog.Info("TTS Azure voice output.");
+            //first of all API key and region cannot be empty
 
             //Lets us the formal long assignment to prevent confusion on local vs Azure
             var speechConfig = Microsoft.CognitiveServices.Speech.SpeechConfig.FromSubscription(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text);
@@ -575,7 +594,7 @@ namespace BanterBrain_Buddy
             {
                 if (TTSOutputVoice.Text == (AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-" + AzureRegionVoice.LocalName))
                 {
-                    BBBlog.Info("Voice found assigning");
+                    BBBlog.Info("Azure =voice found assigning!");
                     tmpVoiceNameSelected = AzureRegionVoice.Name;
                 }
             }
@@ -593,23 +612,20 @@ namespace BanterBrain_Buddy
                     "</speak>";
 
                 speechConfig.SpeechSynthesisVoiceName = tmpVoiceNameSelected;
-
-                //var AzureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedInputDevice.DeviceID);
-                //deviceid = TTSAudioOutputComboBox.Text
                 SetSelectedOutputDevice();
                 var tmpAudioConfig = AudioConfig.FromSpeakerOutput(SelectedOutputDevice.DeviceID);
                 var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(speechConfig, tmpAudioConfig);
-                
-                // var speechSynthesisResult = await speechSynthesizer.SpeakTextAsync(TextToSpeak);
                 var speechSynthesisResult = await speechSynthesizer.SpeakSsmlAsync(SSMLText);
                 TTSAzureOutputSpeechSynthesisResult(speechSynthesisResult, TextToSpeak);
             }  else
             {
-                BBBlog.Error("Cannot find selected voice in the list.");
+                BBBlog.Error("Cannot find selected voice in the list. Is there a problem with your API key or subscription?");
+                MessageBox.Show("Cannot find selected voice in the list. Is there a problem with your API key or subscription?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                BigError = true;
             }
         }
 
-        static void TTSAzureOutputSpeechSynthesisResult(SpeechSynthesisResult speechSynthesisResult, string text)
+        private void TTSAzureOutputSpeechSynthesisResult(SpeechSynthesisResult speechSynthesisResult, string text)
         {
             switch (speechSynthesisResult.Reason)
             {
@@ -626,6 +642,8 @@ namespace BanterBrain_Buddy
                         BBBlog.Info($"CANCELED: ErrorDetails=[{cancellation.ErrorDetails}]");
                         BBBlog.Info($"CANCELED: Did you set the speech resource key and region values?");
                     }
+                    STTDone = true;
+                    BigError = true;
                     break;
                 default:
                     break;
@@ -676,6 +694,7 @@ namespace BanterBrain_Buddy
 
         private async void MainRecordingStart_Click(object sender, EventArgs e)
         {
+            BigError = false;
             String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             //first, lets call STT
             STTDone = false;
@@ -714,6 +733,15 @@ namespace BanterBrain_Buddy
                         }
 
                     }
+                }
+
+                //if BigError is true, stop! something is very wrong.
+                if (BigError)
+                {
+                    TextLog.AppendText("Theres an error, stopping execution!\r\n");
+                    BBBlog.Error("Theres an error, stopping execution");
+                    MainRecordingStart.Text = "Start";
+                    return;
                 }
 
                 Thread.Sleep(500);
@@ -999,7 +1027,6 @@ namespace BanterBrain_Buddy
                 BBBlog.Info($"Twitch Access token verified for user: {user.DisplayName}");
                 MessageBox.Show($"Twitch Access token verified for user {user.DisplayName}", "Access Token verification success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            return;
             //after that we check the client itself
             TwitchClient twitchClient = new TwitchClient();
             

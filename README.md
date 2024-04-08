@@ -43,7 +43,7 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 - [ ] Twitch: Setup Twitch client in its own class
 - [X] Twitch: refresh auth token correctly on both timer and restart of application (fixed: using implicit grant)
 - [ ] Twitch: set not only identifier but also command for  bot reaction
-- [ ] Twitch: allow for reactions to: subscription events & bits used
+- [ ] Twitch: allow for reactions to: subscription events, point redemptions & bits used
 
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
