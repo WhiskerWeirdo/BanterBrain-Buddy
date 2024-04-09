@@ -38,11 +38,13 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 - [ ] You need to sign up to https://dev.twitch.tv and get a application ClientID & Secret to build BBB yourself
 
 ### 0.0.5 TODO
+- [ ] FIX SET HOTKEY
+
 - [ ] TTS/STT: see how far you can set Native and Azure into their own classes so the main program isn't poluted too much
 - [ ] Native STT: fix the output stream issue of native STT instead of using a wav file. (0.0.2 known issue)
 - [ ] Twitch: Setup Twitch client in its own class
 - [X] Twitch: refresh auth token correctly on both timer and restart of application (fixed: using implicit grant)
-- [ ] Twitch: set not only identifier but also command for  bot reaction
+- [ ] Twitch: set not only identifier but also command for bot reaction
 - [ ] Twitch: allow for reactions to: subscription events, point redemptions & bits used
 
 ### Short term roadmap

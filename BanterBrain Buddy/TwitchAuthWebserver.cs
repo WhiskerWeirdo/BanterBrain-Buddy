@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -59,45 +56,44 @@ namespace BanterBrain_Buddy
                     var req = ctx.Request;
                     var resp = ctx.Response;
 
-                    using (var writer = new StreamWriter(resp.OutputStream))
+                    using var writer = new StreamWriter(resp.OutputStream);
+                    //so, with implicit flow, the first time we get back an URl that can only be read by the browser context
+                    //because it has #, we rewrite that in a Uri resource (changing # to ?) and call ourselves again.
+                    //The second time the parser will pick up the code correctly then.
+                    if (FirstTime)
                     {
-                        //so, with implicit flow, the first time we get back an URl that can only be read by the browser context
-                        //because it has #, we rewrite that in a Uri resource (changing # to ?) and call ourselves again.
-                        //The second time the parser will pick up the code correctly then.
-                        if (FirstTime)
-                        {
-                            //its a hack cos implicit gets a #access_token instead of ?code so we do some rewrite magic
-                            //and redirect ourselves to the new url
-                            string response = "<!DOCTYPE html>\r\n" +
-                                "<html>\r\n " +
-                                "<p id=\"demo\">placeholder.</p>\r\n" +
-                                "<body>\r\n" +
-                                "<script>\r\n" +
-                                "let Url = window.location.href;\r\n" +
-                                "let newUrl = Url.replace(\"#\",\"?\");\r\n" +
-                                "window.location.replace(newUrl);\r\n" +
-                                "document.getElementById(\"demo\").innerHTML=`Browser should refresh if not click <a href=\\\"${newUrl}\\\">here</a>`;\r\n" +
-                                "</script> \r\n" +
-                                "</body>\r\n" +
-                                "</html>";
-                            byte[] encoded = Encoding.UTF8.GetBytes(response);
-                            resp.ContentLength64 = encoded.Length;
-                            resp.OutputStream.Write(encoded, 0, encoded.Length);
-                            resp.OutputStream.Close();
-                            FirstTime = false;
-                        } else if (req.QueryString.AllKeys.Any("access_token".Contains) && !FirstTime)
-                        {
-                            writer.WriteLine("Implicit grant started! Check your application! You can close this window!");
-                            BBBlog.Info("OAUTH Implcit grant started! Check your application!");
-                            writer.Flush();
-                            return new Authorization(req.QueryString["access_token"]);
-                        }
-                        else
-                        {
-                            BBBlog.Info("No access_token found in query string! Problem with OAUTH");
-                            writer.WriteLine("No access_code found in query string! Problem with OAUTH");
-                            writer.Flush();
-                        }
+                        //its a hack cos implicit gets a #access_token instead of ?code so we do some rewrite magic
+                        //and redirect ourselves to the new url
+                        string response = "<!DOCTYPE html>\r\n" +
+                            "<html>\r\n " +
+                            "<p id=\"demo\">placeholder.</p>\r\n" +
+                            "<body>\r\n" +
+                            "<script>\r\n" +
+                            "let Url = window.location.href;\r\n" +
+                            "let newUrl = Url.replace(\"#\",\"?\");\r\n" +
+                            "window.location.replace(newUrl);\r\n" +
+                            "document.getElementById(\"demo\").innerHTML=`Browser should refresh if not click <a href=\\\"${newUrl}\\\">here</a>`;\r\n" +
+                            "</script> \r\n" +
+                            "</body>\r\n" +
+                            "</html>";
+                        byte[] encoded = Encoding.UTF8.GetBytes(response);
+                        resp.ContentLength64 = encoded.Length;
+                        resp.OutputStream.Write(encoded, 0, encoded.Length);
+                        resp.OutputStream.Close();
+                        FirstTime = false;
+                    }
+                    else if (req.QueryString.AllKeys.Any("access_token".Contains) && !FirstTime)
+                    {
+                        writer.WriteLine("Implicit grant started! Check your application! You can close this window!");
+                        BBBlog.Info("OAUTH Implcit grant started! Check your application!");
+                        writer.Flush();
+                        return new Authorization(req.QueryString["access_token"]);
+                    }
+                    else
+                    {
+                        BBBlog.Info("No access_token found in query string! Problem with OAUTH");
+                        writer.WriteLine("No access_code found in query string! Problem with OAUTH");
+                        writer.Flush();
                     }
                 }
                 catch (Exception ex)
@@ -120,21 +116,19 @@ namespace BanterBrain_Buddy
                     var req = ctx.Request;
                     var resp = ctx.Response;
 
-                    using (var writer = new StreamWriter(resp.OutputStream))
+                    using var writer = new StreamWriter(resp.OutputStream);
+                    if (req.QueryString.AllKeys.Any("code".Contains))
                     {
-                        if (req.QueryString.AllKeys.Any("code".Contains))
-                        {
-                            writer.WriteLine("Authorization started! Check your application! You can close this window!");
-                            BBBlog.Info("OAUTH Authorization started! Check your application!");
-                            writer.Flush();
-                            return new Authorization(req.QueryString["code"]);
-                        }
-                        else
-                        {
-                            BBBlog.Info("No code found in query string! Problem with OAUTH");
-                            writer.WriteLine("No code found in query string! Problem with OAUTH");
-                            writer.Flush();
-                        }
+                        writer.WriteLine("Authorization started! Check your application! You can close this window!");
+                        BBBlog.Info("OAUTH Authorization started! Check your application!");
+                        writer.Flush();
+                        return new Authorization(req.QueryString["code"]);
+                    }
+                    else
+                    {
+                        BBBlog.Info("No code found in query string! Problem with OAUTH");
+                        writer.WriteLine("No code found in query string! Problem with OAUTH");
+                        writer.Flush();
                     }
                 }
                 catch (Exception ex)

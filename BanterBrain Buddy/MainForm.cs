@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Speech.Recognition;
-using System.Speech.Synthesis;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
@@ -17,24 +16,16 @@ using CSCore.CoreAudioAPI;
 using CSCore.Streams;
 using CSCore.Codecs.WAV;
 using System.Threading;
-using TwitchLib.Client;
-using TwitchLib.Client.Events;
-using TwitchLib.Client.Models;
-using TwitchLib.Communication.Clients;
-using TwitchLib.Communication.Models;
+
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Reflection;
-using TwitchLib.Communication.Interfaces;
-using TwitchLib.Api.Helix.Models.Search;
 using Microsoft.CognitiveServices.Speech.Audio;
 using Microsoft.CognitiveServices.Speech;
 using SpeechSynthesizer = System.Speech.Synthesis.SpeechSynthesizer;
-using static System.Net.Mime.MediaTypeNames;
-using OpenAI_API.Moderation;
-using System.ComponentModel;
 using System.Globalization;
-using TwitchLib.Api.Core.Exceptions;
+
+using Microsoft.Extensions.Logging;
 
 namespace BanterBrain_Buddy
 {
@@ -51,18 +42,18 @@ namespace BanterBrain_Buddy
         // check if SST is finished yet
         private bool STTDone = false;
         //Hotkey Storage
-        readonly private List<Keys> SetHotkeys = new List<Keys>();
+        readonly private List<Keys> SetHotkeys = new();
         //check if the GPT LLM is donestop audio capture
         private bool GPTDone = false;
         //error checker
         private bool BigError = false;
 
-        public  BBB()
+        public BBB()
         {
 
             InitializeComponent();
             LoadSettings();
-            Subscribe();
+            //Subscribe();
             GetAudioDevices();
 
             BBBlog.Info("Program Starting...");
@@ -88,7 +79,7 @@ namespace BanterBrain_Buddy
 
         private async void STTTestButton_Click(object sender, EventArgs e)
         {
-            
+
             String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             if (STTTestButton.Text == "Test")
             {
@@ -109,7 +100,8 @@ namespace BanterBrain_Buddy
                     {
                         await Task.Delay(500);
                     }
-                } else if (SelectedProvider == "Azure")
+                }
+                else if (SelectedProvider == "Azure")
                 {
                     TextLog.AppendText("Test Azure STT calling\r\n");
                     BBBlog.Info("Test Azure STT calling");
@@ -120,7 +112,8 @@ namespace BanterBrain_Buddy
                         STTTestOutput.Text = "Error! API Key or region cannot be empty!";
                         BBBlog.Error("Error! API Key or region cannot be empty!");
                         STTTestButton.Text = "Test";
-                    } else
+                    }
+                    else
                     {
                         AzureInputStream();
                         while (!STTDone && !BigError)
@@ -130,7 +123,8 @@ namespace BanterBrain_Buddy
 
                     }
                 }
-            } else
+            }
+            else
             {
                 STTTestButton.Text = "Test";
                 TextLog.AppendText("Test stopped recording\r\n");
@@ -178,7 +172,7 @@ namespace BanterBrain_Buddy
         private void SetSelectedOutputDevice()
         {
             var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active);
-            BBBlog.Debug("Selected output device text field" +TTSAudioOutputComboBox.Text);
+            BBBlog.Debug("Selected output device text field" + TTSAudioOutputComboBox.Text);
             foreach (var device in devices)
             {
                 //this is a hack. Friendlydevice name is old while the enumeration returns the new
@@ -207,7 +201,7 @@ namespace BanterBrain_Buddy
             STTTestOutput.Text = "";
             BBBlog.Info("Azure STT microphone start.");
 
-            while ( (STTTestButton.Text == "Recording" || MainRecordingStart.Text == "Recording") && !STTDone && !BigError)
+            while ((STTTestButton.Text == "Recording" || MainRecordingStart.Text == "Recording") && !STTDone && !BigError)
             {
                 var speechRecognitionResult = await AzureSpeechRecognizer.RecognizeOnceAsync();
                 AzureOutputSpeechRecognitionResult(speechRecognitionResult);
@@ -275,7 +269,7 @@ namespace BanterBrain_Buddy
         private MMDevice _selectedDevice;
         private WasapiCapture _soundIn;
         private IWriteable _writer;
-        readonly private string  tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
+        readonly private string tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
         private void NativeInputStreamtoWav()
         {
 
@@ -327,7 +321,7 @@ namespace BanterBrain_Buddy
         private async void NativeSTTfromWAV()
         {
             // Create an in-process speech recognizer for the en-US locale.  
-            SpeechRecognitionEngine recognizer2 = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-US"));
+            SpeechRecognitionEngine recognizer2 = new(new System.Globalization.CultureInfo("en-US"));
             // Create and load a dictation grammar.  
             recognizer2.LoadGrammar(new DictationGrammar());
             recognizer2.SetInputToWaveFile(tmpWavFile);
@@ -422,7 +416,7 @@ namespace BanterBrain_Buddy
             TextLog.AppendText("Sending to GPT: " + UserInput + "\r\n");
             BBBlog.Info("Sending to GPT: " + UserInput);
             GPTDone = false;
-            OpenAIAPI api = new OpenAIAPI(LLMAPIKeyTextBox.Text);
+            OpenAIAPI api = new(LLMAPIKeyTextBox.Text);
             var chat = api.Chat.CreateConversation();
             chat.Model = Model.ChatGPTTurbo;
             chat.RequestParameters.Temperature = 0;
@@ -485,21 +479,19 @@ namespace BanterBrain_Buddy
             }
             //TODO fix to "SelectedOutputDevice"
             var waveOut = new WaveOut { Device = new WaveOutDevice(deviceID) };
-            using (var waveSource = new MediaFoundationDecoder(stream))
-            {
-                waveOut.Initialize(waveSource);
-                waveOut.Play();
-                waveOut.WaitForStopped();
-            }
+            using var waveSource = new MediaFoundationDecoder(stream);
+            waveOut.Initialize(waveSource);
+            waveOut.Play();
+            waveOut.WaitForStopped();
         }
 
         //holder of the list of Azure Voices and their options
-        readonly List<AzureVoices> AzureRegionVoicesList = new List<AzureVoices>();
+        readonly List<AzureVoices> AzureRegionVoicesList = new();
         private async Task TTSGetAzureVoices()
         {
             BBBlog.Info("Finding TTS Azure voices available");
             SpeechConfig speechConfig = SpeechConfig.FromSubscription(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text);
-            BBBlog.Info("Azure authorizationToken: " +speechConfig.AuthorizationToken);
+            BBBlog.Info("Azure authorizationToken: " + speechConfig.AuthorizationToken);
             //lets get the voices available
             var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(speechConfig, null as AudioConfig);
             SynthesisVoicesResult result = await speechSynthesizer.GetVoicesAsync();
@@ -571,7 +563,8 @@ namespace BanterBrain_Buddy
                 try
                 {
                     TTSOutputVoiceOptions.Text = TTSOutputVoiceOptions.Items[0].ToString();
-                } catch ( Exception ex)
+                }
+                catch (Exception ex)
                 {
                     BBBlog.Error("Issue assigning Azure voice. Error: " + ex.Message);
                 }
@@ -587,7 +580,7 @@ namespace BanterBrain_Buddy
 
             //Lets us the formal long assignment to prevent confusion on local vs Azure
             var speechConfig = Microsoft.CognitiveServices.Speech.SpeechConfig.FromSubscription(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text);
-            
+
             //now find the correct name associated with the selected voice
             var tmpVoiceNameSelected = "";
             foreach (var AzureRegionVoice in AzureRegionVoicesList)
@@ -601,8 +594,8 @@ namespace BanterBrain_Buddy
 
             if (!string.IsNullOrEmpty(tmpVoiceNameSelected))
             {
-                BBBlog.Info("Speaking with " + tmpVoiceNameSelected + " in style: "+ TTSOutputVoiceOptions.Text);
-                string SSMLText = 
+                BBBlog.Info("Speaking with " + tmpVoiceNameSelected + " in style: " + TTSOutputVoiceOptions.Text);
+                string SSMLText =
                     "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"zh-CN\">\r\n   " +
                     $" <voice name=\"{tmpVoiceNameSelected}\">\r\n       " +
                     $" <mstts:express-as style=\"{TTSOutputVoiceOptions.Text}\" styledegree=\"2\">\r\n            " +
@@ -617,7 +610,8 @@ namespace BanterBrain_Buddy
                 var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(speechConfig, tmpAudioConfig);
                 var speechSynthesisResult = await speechSynthesizer.SpeakSsmlAsync(SSMLText);
                 TTSAzureOutputSpeechSynthesisResult(speechSynthesisResult, TextToSpeak);
-            }  else
+            }
+            else
             {
                 BBBlog.Error("Cannot find selected voice in the list. Is there a problem with your API key or subscription?");
                 MessageBox.Show("Cannot find selected voice in the list. Is there a problem with your API key or subscription?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -655,7 +649,7 @@ namespace BanterBrain_Buddy
             TextLog.AppendText("Saying text with Native TTS\r\n");
             BBBlog.Info("Saying text with Native TTS");
             //using the full name to make sure we dont confuse native with Azure
-            SpeechSynthesizer synthesizer = new System.Speech.Synthesis.SpeechSynthesizer();
+            SpeechSynthesizer synthesizer = new();
             var stream = new MemoryStream();
             synthesizer.SetOutputToWaveStream(stream);
             synthesizer.Speak(TTSText);
@@ -669,14 +663,12 @@ namespace BanterBrain_Buddy
                 }
             }
             var waveOut = new WaveOut { Device = new WaveOutDevice(deviceID) };
-            using (var waveSource = new MediaFoundationDecoder(stream))
+            using var waveSource = new MediaFoundationDecoder(stream);
+            waveOut.Initialize(waveSource);
+            waveOut.Play();
+            while (waveOut.PlaybackState != PlaybackState.Stopped)
             {
-                waveOut.Initialize(waveSource);
-                waveOut.Play();
-                while (waveOut.PlaybackState != PlaybackState.Stopped)
-                {
-                    await Task.Delay(500);
-                }
+                await Task.Delay(500);
             }
         }
 
@@ -765,7 +757,8 @@ namespace BanterBrain_Buddy
                     if (TTSProviderComboBox.Text == "Native")
                     {
                         TTSNativeSpeakToOutput(LLMTestOutputbox.Text);
-                    } else if (TTSProviderComboBox.Text == "Azure")
+                    }
+                    else if (TTSProviderComboBox.Text == "Azure")
                     {
                         TTSAzureSpeakToOutput(LLMTestOutputbox.Text);
                     }
@@ -818,245 +811,255 @@ namespace BanterBrain_Buddy
             TTSAPIKeyTextBox.Text = Properties.Settings.Default.TTSAPIKeyTextBox;
             TTSRegionTextBox.Text = Properties.Settings.Default.TTSRegionTextBox;
             //load HotkeyList into SetHotKeys
-            foreach (String key in Properties.Settings.Default.HotkeyList)
-            {
-                Keys tmpKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                SetHotkeys.Add(tmpKey);
-            }
+            /* foreach (String key in Properties.Settings.Default.HotkeyList)
+             {
+                 Keys tmpKey = (Keys)Enum.Parse(typeof(Keys), key, true);
+                 SetHotkeys.Add(tmpKey);
+             }*
+            */
+             //we need to get azure regions and voice options if azure is selected so we dont need to fill it later
+             if (TTSProviderComboBox.Text == "Azure")
+             {
+                 //fill the list if its empty
+                 if (TTSOutputVoice.Items.Count < 1)
+                 {
+                     if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
+                     {
+                         await TTSGetAzureVoices();
+                         //fill the listboxes
+                         TTSFillAzureVoicesList();
+                     }
+                 }
+             }
+             //this last so it overwrites possibly loaded voice options
+             TTSOutputVoiceOptions.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
+         }
 
-            //we need to get azure regions and voice options if azure is selected so we dont need to fill it later
-            if (TTSProviderComboBox.Text == "Azure")
-            {
-                //fill the list if its empty
-                if (TTSOutputVoice.Items.Count < 1)
-                {
-                    if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
-                    {
-                        await TTSGetAzureVoices();
-                        //fill the listboxes
-                        TTSFillAzureVoicesList();
-                    }
-                }
-            }
-            //this last so it overwrites possibly loaded voice options
-            TTSOutputVoiceOptions.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
-        }
+         private void BBB_FormClosing(object sender, FormClosingEventArgs e)
+         {
+             Properties.Settings.Default.VoiceInput = this.SoundInputDevices.Text;
+             Properties.Settings.Default.PTTHotkey = this.MicrophoneHotkeyEditbox.Text;
+             Properties.Settings.Default.STTProvider = STTProviderBox.Text;
+             Properties.Settings.Default.LLMProvider = LLMProviderComboBox.Text;
+             Properties.Settings.Default.LLMModel = LLMModelComboBox.Text;
+             Properties.Settings.Default.LLMRoleText = LLMRoleTextBox.Text;
+             Properties.Settings.Default.TTSProvider = TTSProviderComboBox.Text;
+             Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
+             Properties.Settings.Default.TTSAudioVoice = TTSOutputVoice.Text;
+             Properties.Settings.Default.TTSAudioVoiceOptions = TTSOutputVoiceOptions.Text;
+             Properties.Settings.Default.STTAPIKey = STTAPIKeyEditbox.Text;
+             Properties.Settings.Default.STTAPIRegion = STTRegionEditbox.Text;
+             Properties.Settings.Default.LLMAPIKey = LLMAPIKeyTextBox.Text;
+             Properties.Settings.Default.TTSAudioVoiceEnabled = TTSOutputVoice.Enabled;
+             Properties.Settings.Default.TTSAudioVoiceOptionsEnabled = TTSOutputVoiceOptions.Enabled;
+             Properties.Settings.Default.STTAPIKeyEnabled = STTAPIKeyEditbox.Enabled;
+             Properties.Settings.Default.STTAPIRegionEnabled = STTRegionEditbox.Enabled;
+             Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
+             Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
+             Properties.Settings.Default.TwitchChannel = TwitchChannel.Text;
+             Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
+             Properties.Settings.Default.TwitchChatCommandDelay = int.Parse(TwitchChatCommandDelay.Text);
+             Properties.Settings.Default.TwitchNeedsFollower = TwitchNeedsFollower.Checked;
+             Properties.Settings.Default.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
+             Properties.Settings.Default.TwitchMinBits = int.Parse(TwitchMinBits.Text);
+             Properties.Settings.Default.TwitchSubscribed = TwitchSubscribed.Checked;
+             Properties.Settings.Default.TwitchCommunitySubs = TwitchCommunitySubs.Checked;
+             Properties.Settings.Default.TwitchGiftedSub = TwitchGiftedSub.Checked;
+             Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
+             Properties.Settings.Default.TTSAPIKeyTextBox = TTSAPIKeyTextBox.Text;
+             Properties.Settings.Default.TTSRegionTextBox = TTSRegionTextBox.Text;
 
-        private void BBB_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Properties.Settings.Default.VoiceInput = this.SoundInputDevices.Text;
-            Properties.Settings.Default.PTTHotkey = this.MicrophoneHotkeyEditbox.Text;
-            Properties.Settings.Default.STTProvider = STTProviderBox.Text;
-            Properties.Settings.Default.LLMProvider = LLMProviderComboBox.Text;
-            Properties.Settings.Default.LLMModel = LLMModelComboBox.Text;
-            Properties.Settings.Default.LLMRoleText = LLMRoleTextBox.Text;
-            Properties.Settings.Default.TTSProvider = TTSProviderComboBox.Text;
-            Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
-            Properties.Settings.Default.TTSAudioVoice = TTSOutputVoice.Text;
-            Properties.Settings.Default.TTSAudioVoiceOptions = TTSOutputVoiceOptions.Text;
-            Properties.Settings.Default.STTAPIKey = STTAPIKeyEditbox.Text;
-            Properties.Settings.Default.STTAPIRegion = STTRegionEditbox.Text;
-            Properties.Settings.Default.LLMAPIKey = LLMAPIKeyTextBox.Text;
-            Properties.Settings.Default.TTSAudioVoiceEnabled = TTSOutputVoice.Enabled;
-            Properties.Settings.Default.TTSAudioVoiceOptionsEnabled = TTSOutputVoiceOptions.Enabled;
-            Properties.Settings.Default.STTAPIKeyEnabled = STTAPIKeyEditbox.Enabled;
-            Properties.Settings.Default.STTAPIRegionEnabled = STTRegionEditbox.Enabled;
-            Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
-            Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
-            Properties.Settings.Default.TwitchChannel = TwitchChannel.Text;
-            Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
-            Properties.Settings.Default.TwitchChatCommandDelay = int.Parse(TwitchChatCommandDelay.Text);
-            Properties.Settings.Default.TwitchNeedsFollower = TwitchNeedsFollower.Checked;
-            Properties.Settings.Default.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
-            Properties.Settings.Default.TwitchMinBits = int.Parse(TwitchMinBits.Text);
-            Properties.Settings.Default.TwitchSubscribed = TwitchSubscribed.Checked;
-            Properties.Settings.Default.TwitchCommunitySubs = TwitchCommunitySubs.Checked;
-            Properties.Settings.Default.TwitchGiftedSub = TwitchGiftedSub.Checked;
-            Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
-            Properties.Settings.Default.TTSAPIKeyTextBox = TTSAPIKeyTextBox.Text;
-            Properties.Settings.Default.TTSRegionTextBox = TTSRegionTextBox.Text;
+            /* //add the hotkeys in settings list, not in text
+             Properties.Settings.Default.HotkeyList.Clear();
+             foreach (Keys key in SetHotkeys)
+             {
+                 Properties.Settings.Default.HotkeyList.Add(key.ToString());
+             }*/
+             Properties.Settings.Default.Save();
 
-            //add the hotkeys in settings list, not in text
-            Properties.Settings.Default.HotkeyList.Clear();
-            foreach (Keys key in SetHotkeys)
-            {
-                Properties.Settings.Default.HotkeyList.Add(key.ToString());
-            }
-            Properties.Settings.Default.Save();
+             //remove hotkey hooks
+           //  Unsubscribe();
+         }
 
-            //remove hotkey hooks
-            Unsubscribe();
-        }
+         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+         {
+             System.Windows.Forms.Application.Exit();
+         }
 
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Windows.Forms.Application.Exit();
-        }
+         public void ShowHotkeyDialogBox()
+         {
 
-        public void ShowHotkeyDialogBox()
-        {
+             HotkeyForm HotkeyDialog = new();
+             var result = HotkeyDialog.ShowDialog(this);
+             // Show testDialog as a modal dialog and determine if DialogResult = OK.
+             if (result == DialogResult.OK && HotkeyDialog.ReturnValue1 != null)
+             {
+                 SetHotkeys.Clear();
+                 this.MicrophoneHotkeyEditbox.Text = "";
+                 List<Keys> HotKeys = HotkeyDialog.ReturnValue1;
+                 //ok now we got the keys, parse them and put them in the index box
+                 // and the global list for hotkeys
 
-            HotkeyForm HotkeyDialog = new HotkeyForm();
-            var result = HotkeyDialog.ShowDialog(this);
-            // Show testDialog as a modal dialog and determine if DialogResult = OK.
-            if (result == DialogResult.OK && HotkeyDialog.ReturnValue1 != null)
-            {
-                SetHotkeys.Clear();
-                this.MicrophoneHotkeyEditbox.Text = "";
-                List<Keys> HotKeys = HotkeyDialog.ReturnValue1;
-                //ok now we got the keys, parse them and put them in the index box
-                // and the global list for hotkeys
+                 for (var i = 0; i < HotKeys.Count; i++)
+                 {
+                     //add to the current hotkey list for keyup event checks
+                     SetHotkeys.Add(HotKeys[i]);
 
-                for (var i = 0; i < HotKeys.Count; i++)
-                {
-                    //add to the current hotkey list for keyup event checks
-                    SetHotkeys.Add(HotKeys[i]);
+                     //add to the text box
+                     if (i < HotKeys.Count - 1)
+                         this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString() + " + ";
+                     else
+                         this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString();
+                 }
+             }
+             TextLog.AppendText("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
+             BBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
+             HotkeyDialog.Dispose();
+             //bind the new value 
+             Subscribe();
+         }
 
-                    //add to the text box
-                    if (i < HotKeys.Count - 1)
-                        this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString() + " + ";
-                    else
-                        this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString();
-                }
-            }
-            TextLog.AppendText("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
-            BBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
-            HotkeyDialog.Dispose();
-            //bind the new value 
-            Subscribe();
-        }
+         private void MicrophoneHotkeySet_Click(object sender, EventArgs e)
+         {
+             Unsubscribe();
+             ShowHotkeyDialogBox();
+         }
 
-        private void MicrophoneHotkeySet_Click(object sender, EventArgs e)
-        {
-            Unsubscribe();
-            ShowHotkeyDialogBox();
-        }
+         //Keyboard hooks
+         public void Unsubscribe()
+         {
+             m_GlobalHook.KeyDown -= GlobalHookKeyDown;
+             m_GlobalHook.KeyUp -= GlobalHookKeyUp;
+             //It is recommened to dispose it
+             m_GlobalHook.Dispose();
+         }
+         public void Subscribe()
+         {
+             m_GlobalHook = Hook.GlobalEvents();
+             m_GlobalHook.KeyDown += GlobalHookKeyDown;
+             m_GlobalHook.KeyUp += GlobalHookKeyUp;
+         }
 
-        //Keyboard hooks
-        public void Unsubscribe()
-        {
-            m_GlobalHook.KeyDown -= GlobalHookKeyDown;
-            m_GlobalHook.KeyUp -= GlobalHookKeyUp;
-            //It is recommened to dispose it
-            m_GlobalHook.Dispose();
-        }
-        public void Subscribe()
-        {
-            m_GlobalHook = Hook.GlobalEvents();
-            m_GlobalHook.KeyDown += GlobalHookKeyDown;
-            m_GlobalHook.KeyUp += GlobalHookKeyUp;
-        }
+         private async void HandleHotkeyButton()
+         {
+             if (!HotkeyCalled)
+             {
+                 if (MainRecordingStart.Text == "Start")
+                 {
+                     MainRecordingStart_Click(null, null);
+                     HotkeyCalled = true;
+                     //ok lets wait 1 sec before checking shit again
+                     await Task.Delay(1000);
+                 }
+             }
+         }
 
-        private async void HandleHotkeyButton()
-        {
-            if (!HotkeyCalled)
-            {
-                if (MainRecordingStart.Text == "Start")
-                {
-                    MainRecordingStart_Click(null, null);
-                    HotkeyCalled = true;
-                    //ok lets wait 1 sec before checking shit again
-                    await Task.Delay(1000);
-                }
-            }
-        }
+         private async void GlobalHookKeyUp(object sender, KeyEventArgs e)
+         {
+             //if microphone is on (hotkeycalled = true) and of the hotkeys are in the keyup event turn off the microphone
+             //current hotkeys are in SetHotkeys
+             if (HotkeyCalled)
+             {
+                 //if one of the keys in the sethotkeys is detected as UP, give it a second then stop recording
+                 //foreach (Keys key in SetHotkeys)
+                 if (SetHotkeys.Contains(e.KeyCode))
+                 {
+                     MainRecordingStart_Click(null, null);
+                     await Task.Delay(1000);
+                     HotkeyCalled = false;
+                 }
+             }
 
-        private async void GlobalHookKeyUp(object sender, KeyEventArgs e)
-        {
-            //if microphone is on (hotkeycalled = true) and of the hotkeys are in the keyup event turn off the microphone
-            //current hotkeys are in SetHotkeys
-            if (HotkeyCalled)
-            {
-                //if one of the keys in the sethotkeys is detected as UP, give it a second then stop recording
-                //foreach (Keys key in SetHotkeys)
-                if (SetHotkeys.Contains(e.KeyCode))
-                {
-                    MainRecordingStart_Click(null, null);
-                    await Task.Delay(1000);
-                    HotkeyCalled = false;
-                }
-            }
+         }
 
-        }
+         //handle the current hotkey setting
+         private void GlobalHookKeyDown(object sender, KeyEventArgs e)
+         {
+             var map = new Dictionary<Combination, Action>
+             {
+                {Combination.FromString(MicrophoneHotkeyEditbox.Text),  () => HandleHotkeyButton() }
+             };
 
-        //handle the current hotkey setting
-        private void GlobalHookKeyDown(object sender, KeyEventArgs e)
-        {
-            var map = new Dictionary<Combination, Action>
-            {
-               {Combination.FromString(MicrophoneHotkeyEditbox.Text),  () => HandleHotkeyButton() }
-            };
+             m_GlobalHook.OnCombination(map);
+         }
 
-            m_GlobalHook.OnCombination(map);
-        }
+         private async void TwitchTestButton_Click(object sender, EventArgs e)
+         {
+             
+             //TODO: fix to global or store somewhere since multiple calls use it?
+             string TwitchAuthClientId = null;
+             using (StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
+             {
+                 string json = r.ReadToEnd();
+                 dynamic data = JObject.Parse(json);
+                 TwitchAuthClientId = data.TwitchAuthClientId;
+             }
+             //first we test access token validity
+             //basically the returned user.DisplayName should be the same as TwitchUsername.Text
+             var TwitchAPI = new TwitchLib.Api.TwitchAPI();
+             TwitchAPI.Settings.ClientId = TwitchAuthClientId;
+             TwitchAPI.Settings.AccessToken = TwitchAccessToken.Text;
+             bool VerifyOk = false;
+             TwitchLib.Api.Helix.Models.Users.GetUsers.User user = new();
+             try
+             {
+                 user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
+                 VerifyOk = true;
+             } catch (TwitchLib.Api.Core.Exceptions.BadScopeException exception)
+             {
+                BBBlog.Error(exception.Message);
+                VerifyOk = false;
+             } 
 
-        private async void TwitchTestButton_Click(object sender, EventArgs e)
-        {
-            //TODO: fix to global or store somewhere since multiple calls use it?
-            string TwitchAuthClientId = null;
-            using (StreamReader r = new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
-            {
-                string json = r.ReadToEnd();
-                dynamic data = JObject.Parse(json);
-                TwitchAuthClientId = data.TwitchAuthClientId;
-            }
-            //first we test access token validity
-            //basically the returned user.DisplayName should be the same as TwitchUsername.Text
-            var TwitchAPI = new TwitchLib.Api.TwitchAPI();
-            TwitchAPI.Settings.ClientId = TwitchAuthClientId;
-            TwitchAPI.Settings.AccessToken = TwitchAccessToken.Text;
-            bool VerifyOk = false;
-            TwitchLib.Api.Helix.Models.Users.GetUsers.User user = new TwitchLib.Api.Helix.Models.Users.GetUsers.User();
-            try
-            {
-                user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
-                VerifyOk = true;
-            } catch (BadScopeException exception)
-            {
-               BBBlog.Error(exception.Message);
-               VerifyOk = false;
-            } 
+             if (!VerifyOk)
+             {
+                 BBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
+                 MessageBox.Show("Problem verifying Access token, invalid access token", "Access Token veryfication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                 //return;
+             } else
+             {
+                 BBBlog.Info($"Twitch Access token verified for user: {user.DisplayName}");
+                 MessageBox.Show($"Twitch Access token verified for user {user.DisplayName}", "Access Token verification success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+             }
 
-            if (!VerifyOk)
-            {
-                BBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
-                MessageBox.Show("Problem verifying Access token, invalid access token", "Access Token veryfication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            } else
-            {
-                BBBlog.Info($"Twitch Access token verified for user: {user.DisplayName}");
-                MessageBox.Show($"Twitch Access token verified for user {user.DisplayName}", "Access Token verification success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+             
             //after that we check the client itself
-            TwitchClient twitchClient = new TwitchClient();
-            
-            twitchClient.SetTwitchSetStartupInfo(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
-            
-            while (!twitchClient.TwitchClientInit())
+            TwitchTestConnSetup(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
+
+
+        }
+
+        TwitchLib.Client.TwitchClient TwClient;
+        //this is a test for the eventhandlers
+        public async Task TwitchTestConnSetup(string TwUsername, string TwAccessToken, string TwChannel)
+        {
+            //debug logger for the IRC stuff
+            Microsoft.Extensions.Logging.ILoggerFactory dloggerFactory = LoggerFactory.Create(c => c.AddConsole().SetMinimumLevel(LogLevel.Trace));
+            TwClient = new TwitchLib.Client.TwitchClient(loggerFactory: dloggerFactory);
+            TwitchLib.Client.Models.ConnectionCredentials TwitchConnCredentials = new(TwUsername, TwAccessToken);
+            TwClient.Initialize(TwitchConnCredentials);//, TwChannel);
+
+            TwClient.OnIncorrectLogin += TwClient_OnIncorrectLogin;
+            TwClient.OnConnected += TwClient_OnConnected;
+
+            await TwClient.ConnectAsync();
+            if (TwClient.IsConnected)
             {
-                await Task.Delay(500);
+                BBBlog.Info("Client is actually connected");
             }
+            await Task.Delay(-1);
+        }
 
-            //check if we want to do an onjoin if so then
-            if (TwitchSendTextCheckBox.Checked)
-                twitchClient.SetTwitchClientOnjoinMessage(TwitchTestSendText.Text);
+        private async Task TwClient_OnConnected(object sender, TwitchLib.Client.Events.OnConnectedEventArgs e)
+        {
+            BBBlog.Info($"Twitch OnConnected => Connected.");
+            await Task.CompletedTask;
+        }
 
-            twitchClient.TwitchDoConnect();
-
-            BBBlog.Info("TwitchClient is connecting, now we try see if we can join the channel");
-
-            //we wait till we get a result thats not "unknown",
-            //this is either a success in joining the channel or an authentication
-            //TODO: shouldnt this be an eventhandler?
-            while (twitchClient.TwitchChanJoinedTest() == "unknown") 
-            { 
-                await Task.Delay(500); 
-            }
-            BBBlog.Info("Test result: " + twitchClient.TwitchChanJoinedTest());
-            if (twitchClient.TwitchChanJoinedTest() == "failed")
-                MessageBox.Show("Login Authentication failed. Username, Access token or channel incorrect", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-            else if (twitchClient.TwitchChanJoinedTest() == "success")
-                MessageBox.Show("Login success!", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+        private async Task TwClient_OnIncorrectLogin(object sender, TwitchLib.Client.Events.OnIncorrectLoginArgs e)
+        {
+            BBBlog.Info($"Twitch OnIncorrectLogin => " + e.Exception);
+            await TwClient.DisconnectAsync();
         }
 
         private async void TwitchAuthorizeButton_Click(object sender, EventArgs e)
@@ -1066,13 +1069,14 @@ namespace BanterBrain_Buddy
         }
 
         //authorizations te token has to have for what we want to do
-        readonly private static List<string> scopes = new List<string> { "chat:read", "whispers:read", "whispers:edit", "chat:edit", "channel:moderate" };
+        readonly private static List<string> scopes = new() { "chat:read", "whispers:read", "whispers:edit", "chat:edit", "channel:moderate" };
         private async Task GetTwitchAuthToken()
         {
             //lets read this from a file, so its easier for other people to change.
             string TwitchAuthRedirect = null;
             string TwitchAuthClientId = null;
-            using (StreamReader r = new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
+            //todo: error handling
+            using (StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
             {
                 string json = r.ReadToEnd();
                 dynamic data = JObject.Parse(json);
@@ -1089,7 +1093,7 @@ namespace BanterBrain_Buddy
             var server = new TwitchAuthWebserver(TwitchAuthRedirect);
 
             //implicit flow is rather simple compared to client cred
-            var tImplicit = new Thread(() => Process.Start($"{GetImplicitCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}"));
+            var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetImplicitCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}") { UseShellExecute = true }));
             tImplicit.Start();
             var authImplicit = await server.ImplicitListen();
 
@@ -1103,10 +1107,8 @@ namespace BanterBrain_Buddy
             var user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
 
             // print out all the data we've got
-           
+
             Console.WriteLine($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\n");
-            //kill the browser thread
-            tImplicit.Abort();
         }
 
         private static string GetAuthorizationCodeUrl(string clientId, string redirectUri, List<string> scopes)
@@ -1184,7 +1186,7 @@ namespace BanterBrain_Buddy
         }
 
         private void DiscordToolStripMenuItem_Click(object sender, EventArgs e)
-        {           
+        {
             //spawn browser for discord link
             var t = new Thread(() => Process.Start("https://discord.banterbrain.tv"));
             t.Start();

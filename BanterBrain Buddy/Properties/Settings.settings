@@ -53,13 +53,6 @@
     <Setting Name="STTAPIRegionEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="HotkeyList" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;string&gt;LControlKey&lt;/string&gt;
-  &lt;string&gt;Z&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
     <Setting Name="TwitchUsername" Type="System.String" Scope="User">
       <Value Profile="(Default)">placeholder</Value>
     </Setting>
@@ -106,6 +99,9 @@
       <Value Profile="(Default)">placeholder</Value>
     </Setting>
     <Setting Name="TTSRegionTextBox" Type="System.String" Scope="User">
+      <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="HotkeyList" Type="System.String" Scope="User">
       <Value Profile="(Default)">placeholder</Value>
     </Setting>
   </Settings>
