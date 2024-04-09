@@ -20,7 +20,7 @@ namespace BanterBrain_Buddy
             m_GlobalHook.KeyDown += GlobalHookKeyDown;
         }
 
-        List<Keys> KeyCombo = new();
+        List<Keys> KeyCombo = [];
         public List<Keys> ReturnValue1 { get; set; }
         private void GlobalHookKeyDown(object sender, KeyEventArgs e)
         {

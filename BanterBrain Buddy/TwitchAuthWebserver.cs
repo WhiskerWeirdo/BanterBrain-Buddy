@@ -8,20 +8,16 @@ using System.Threading.Tasks;
 namespace BanterBrain_Buddy
 {
     
-    public class Authorization
+    public class Authorization(string code)
     {
-        public string Code { get; }
-
-        public Authorization(string code)
-        {
-            Code = code;
-        }
+        public string Code { get; } = code;
     }
+
     public class TwitchAuthWebserver
     {
         private static readonly log4net.ILog BBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private HttpListener listener;
+        private readonly HttpListener listener;
 
         public TwitchAuthWebserver(string uri)
         {

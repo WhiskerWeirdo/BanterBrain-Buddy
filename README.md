@@ -17,7 +17,7 @@ Come talk or chat at https://discord.banterbrain.tv
 
 ## Build instructions
 [todo]
-tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate called BanterBrain Buddy_TemporaryKey.pfx. Also install NAudio, MouseKeyHook and OpenAI by OkGoDolt. 
+tldr: use Visual studio 2022 with .net 8. 
 
 ## Resources for local and API
 - for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)

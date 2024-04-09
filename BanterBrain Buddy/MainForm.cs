@@ -26,6 +26,8 @@ using SpeechSynthesizer = System.Speech.Synthesis.SpeechSynthesizer;
 using System.Globalization;
 
 using Microsoft.Extensions.Logging;
+using TwitchLib.Communication.Interfaces;
+using TwitchLib.Client.Events;
 
 namespace BanterBrain_Buddy
 {
@@ -42,7 +44,7 @@ namespace BanterBrain_Buddy
         // check if SST is finished yet
         private bool STTDone = false;
         //Hotkey Storage
-        readonly private List<Keys> SetHotkeys = new();
+        readonly private List<Keys> SetHotkeys = [];
         //check if the GPT LLM is donestop audio capture
         private bool GPTDone = false;
         //error checker
@@ -486,7 +488,7 @@ namespace BanterBrain_Buddy
         }
 
         //holder of the list of Azure Voices and their options
-        readonly List<AzureVoices> AzureRegionVoicesList = new();
+        readonly List<AzureVoices> AzureRegionVoicesList = [];
         private async Task TTSGetAzureVoices()
         {
             BBBlog.Info("Finding TTS Azure voices available");
@@ -1022,15 +1024,13 @@ namespace BanterBrain_Buddy
                  MessageBox.Show($"Twitch Access token verified for user {user.DisplayName}", "Access Token verification success", MessageBoxButtons.OK, MessageBoxIcon.Information);
              }
 
-             
-            //after that we check the client itself
-            TwitchTestConnSetup(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
-
+            await TwitchTestConnSetup(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
 
         }
 
         TwitchLib.Client.TwitchClient TwClient;
-        //this is a test for the eventhandlers
+        //this is a test for seeing if we can join the specific twitch channel 
+        //If no error, then it works.
         public async Task TwitchTestConnSetup(string TwUsername, string TwAccessToken, string TwChannel)
         {
             //debug logger for the IRC stuff
@@ -1041,13 +1041,26 @@ namespace BanterBrain_Buddy
 
             TwClient.OnIncorrectLogin += TwClient_OnIncorrectLogin;
             TwClient.OnConnected += TwClient_OnConnected;
+            TwClient.OnJoinedChannel += TwClient_OnJoinedChannel;
+            TwClient.OnMessageReceived += TwClient_OnMessageReceived;
 
             await TwClient.ConnectAsync();
+
             if (TwClient.IsConnected)
             {
-                BBBlog.Info("Client is actually connected");
+                BBBlog.Info("Client is actually connected, now attempting to join channel " + TwChannel);
+                await TwClient.JoinChannelAsync(TwChannel);
             }
-            await Task.Delay(-1);
+        }
+        private async Task TwClient_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
+        {
+            BBBlog.Info("Twitch OnJoinedChannel => " + e.Channel);
+        }
+
+        private Task TwClient_OnMessageReceived(object sender, OnMessageReceivedArgs e)
+        {
+            BBBlog.Info($"Twitch OnMessageReceived => #{e.ChatMessage.Channel} {e.ChatMessage.Username}: {e.ChatMessage.Message}");
+            return Task.CompletedTask;
         }
 
         private async Task TwClient_OnConnected(object sender, TwitchLib.Client.Events.OnConnectedEventArgs e)
@@ -1069,7 +1082,7 @@ namespace BanterBrain_Buddy
         }
 
         //authorizations te token has to have for what we want to do
-        readonly private static List<string> scopes = new() { "chat:read", "whispers:read", "whispers:edit", "chat:edit", "channel:moderate" };
+        readonly private static List<string> scopes = ["chat:read", "whispers:read", "whispers:edit", "chat:edit", "channel:moderate"];
         private async Task GetTwitchAuthToken()
         {
             //lets read this from a file, so its easier for other people to change.
@@ -1182,7 +1195,6 @@ namespace BanterBrain_Buddy
             var t = new Thread(() => Process.Start("https://github.com/WhiskerWeirdo/BanterBrain-Buddy"));
             t.Start();
             Thread.Sleep(100);
-            t.Abort();
         }
 
         private void DiscordToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1191,8 +1203,6 @@ namespace BanterBrain_Buddy
             var t = new Thread(() => Process.Start("https://discord.banterbrain.tv"));
             t.Start();
             Thread.Sleep(100);
-            t.Abort();
-
         }
     }
 }
