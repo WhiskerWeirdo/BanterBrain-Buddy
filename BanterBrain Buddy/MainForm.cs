@@ -1024,55 +1024,9 @@ namespace BanterBrain_Buddy
                  MessageBox.Show($"Twitch Access token verified for user {user.DisplayName}", "Access Token verification success", MessageBoxButtons.OK, MessageBoxIcon.Information);
              }
 
-            await TwitchTestConnSetup(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
+             TwitchClient TwClient = new(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
+             await TwClient.TwitchDoConnect();
 
-        }
-
-        TwitchLib.Client.TwitchClient TwClient;
-        //this is a test for seeing if we can join the specific twitch channel 
-        //If no error, then it works.
-        public async Task TwitchTestConnSetup(string TwUsername, string TwAccessToken, string TwChannel)
-        {
-            //debug logger for the IRC stuff
-            Microsoft.Extensions.Logging.ILoggerFactory dloggerFactory = LoggerFactory.Create(c => c.AddConsole().SetMinimumLevel(LogLevel.Trace));
-            TwClient = new TwitchLib.Client.TwitchClient(loggerFactory: dloggerFactory);
-            TwitchLib.Client.Models.ConnectionCredentials TwitchConnCredentials = new(TwUsername, TwAccessToken);
-            TwClient.Initialize(TwitchConnCredentials);//, TwChannel);
-
-            TwClient.OnIncorrectLogin += TwClient_OnIncorrectLogin;
-            TwClient.OnConnected += TwClient_OnConnected;
-            TwClient.OnJoinedChannel += TwClient_OnJoinedChannel;
-            TwClient.OnMessageReceived += TwClient_OnMessageReceived;
-
-            await TwClient.ConnectAsync();
-
-            if (TwClient.IsConnected)
-            {
-                BBBlog.Info("Client is actually connected, now attempting to join channel " + TwChannel);
-                await TwClient.JoinChannelAsync(TwChannel);
-            }
-        }
-        private async Task TwClient_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
-        {
-            BBBlog.Info("Twitch OnJoinedChannel => " + e.Channel);
-        }
-
-        private Task TwClient_OnMessageReceived(object sender, OnMessageReceivedArgs e)
-        {
-            BBBlog.Info($"Twitch OnMessageReceived => #{e.ChatMessage.Channel} {e.ChatMessage.Username}: {e.ChatMessage.Message}");
-            return Task.CompletedTask;
-        }
-
-        private async Task TwClient_OnConnected(object sender, TwitchLib.Client.Events.OnConnectedEventArgs e)
-        {
-            BBBlog.Info($"Twitch OnConnected => Connected.");
-            await Task.CompletedTask;
-        }
-
-        private async Task TwClient_OnIncorrectLogin(object sender, TwitchLib.Client.Events.OnIncorrectLoginArgs e)
-        {
-            BBBlog.Info($"Twitch OnIncorrectLogin => " + e.Exception);
-            await TwClient.DisconnectAsync();
         }
 
         private async void TwitchAuthorizeButton_Click(object sender, EventArgs e)
