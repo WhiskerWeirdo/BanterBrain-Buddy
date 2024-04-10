@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TwitchLib.Api.Helix;
 
 namespace BanterBrain_Buddy
 {
@@ -21,6 +22,9 @@ namespace BanterBrain_Buddy
 
         private static string TwitchAuthRedirect { get; set; }
         private static string TwitchAuthClientId { get; set; }
+
+        //if this is set, we need to send a test message to a channel on join.
+        public string TwitchSendTestMessageOnJoin { get; set; }
 
         public TwitchAPI()
         {
@@ -48,7 +52,8 @@ namespace BanterBrain_Buddy
             }
         }
 
-        public async Task<bool> CheckAuthCodeAPI(string TwAuthToken)
+        //auth token, username
+        public async Task<bool> CheckAuthCodeAPI(string TwAuthToken, string TwUsername, string TwChannelName)
         {
             BBBlog.Info($"Checking Authorization code using the API");
 
@@ -59,17 +64,32 @@ namespace BanterBrain_Buddy
             TwitchLib.Api.Helix.Models.Users.GetUsers.User user = new();
             try
             {
-                user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
+                BBBlog.Info("Trying to see if I can getting the current user using Helix call.");
+                //user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
+                await Task.Delay(500);
+                var Broadcaster = (await TwitchAPI.Helix.Users.GetUsersAsync(null, new List<string> { TwChannelName })).Users;
+                var MessageSender = (await TwitchAPI.Helix.Users.GetUsersAsync(null, new List<string> { TwUsername })).Users;
+                //TODO if we got both back
+
+                BBBlog.Info("Broadcaster: " + Broadcaster[0].Login +" id:"+ Broadcaster[0].Id);
+                BBBlog.Info("Message sender: " + MessageSender[0].Login + " id:" + MessageSender[0].Id);
+                //do we need to send a message also?
+                if (TwitchSendTestMessageOnJoin != null)
+                {
+                    BBBlog.Info("Sending message to channel");
+                    await TwitchAPI.Helix.Chat.SendChatMessage(Broadcaster[0].Id.ToString(), MessageSender[0].Id.ToString(), TwitchSendTestMessageOnJoin, null, TwAuthToken);
+                }
+
                 BBBlog.Info("Authorization succeeded can read user so acces token is valid");
                 return true;
             }
             catch (TwitchLib.Api.Core.Exceptions.BadScopeException exception)
             {
-                BBBlog.Error("Issue with access token: " +exception.Message);
+                BBBlog.Error("Bad scope Issue with access token: " +exception.Message);
                 return false;
             } catch (HttpRequestException exception)
             {
-                BBBlog.Error("Issue with access token: " + exception.Message);
+                BBBlog.Error("HTTPrequest Issue with access token: " + exception.Message);
                 return false;
             }
         }

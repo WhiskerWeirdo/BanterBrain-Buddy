@@ -69,13 +69,7 @@
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
     <PackageReference Include="System.Speech" Version="8.0.0" />
-    <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-e47ba7f" />
-    <PackageReference Include="TwitchLib.Api.Core" Version="3.10.0-preview-e47ba7f" />
-    <PackageReference Include="TwitchLib.Api.Core.Enums" Version="3.10.0-preview-e47ba7f" />
-    <PackageReference Include="TwitchLib.Api.Core.Interfaces" Version="3.10.0-preview-e47ba7f" />
-    <PackageReference Include="TwitchLib.Api.Core.Models" Version="3.10.0-preview-e47ba7f" />
-    <PackageReference Include="TwitchLib.Api.Helix" Version="3.10.0-preview-e47ba7f" />
-    <PackageReference Include="TwitchLib.Api.Helix.Models" Version="3.10.0-preview-e47ba7f" />
+    <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-97052d8" />
     <PackageReference Include="TwitchLib.Client" Version="4.0.0-preview-de39bd056dddc47d2907cb0602a0cf088aafb4b3" />
     <PackageReference Include="TwitchLib.Client.Enums" Version="4.0.0-preview-de39bd056dddc47d2907cb0602a0cf088aafb4b3" />
     <PackageReference Include="TwitchLib.Client.Models" Version="4.0.0-preview-de39bd056dddc47d2907cb0602a0cf088aafb4b3" />

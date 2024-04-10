@@ -42,7 +42,7 @@ tldr: use Visual studio 2022 with .net 8.
 
 - [ ] TTS/STT: see how far you can set Native and Azure into their own classes so the main program isn't poluted too much
 - [ ] Native STT: fix the output stream issue of native STT instead of using a wav file. (0.0.2 known issue)
-- [ ] Twitch: Setup Twitch client in its own class
+- [X] Twitch: Setup Twitch client in its own class
 - [X] Twitch: refresh auth token correctly on both timer and restart of application (fixed: using implicit grant)
 - [ ] Twitch: set not only identifier but also command for bot reaction
 - [ ] Twitch: allow for reactions to: subscription events, point redemptions & bits used
