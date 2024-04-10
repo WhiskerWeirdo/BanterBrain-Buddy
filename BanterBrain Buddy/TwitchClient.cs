@@ -39,6 +39,57 @@ namespace BanterBrain_Buddy
             }
         }
 
+        //this is for testing if we can join the channel
+        public async Task<bool> TwitchDoConnectTest()
+        {
+            bool JoinedSuccess = false;
+            //we dont want to use the normal eventhandler
+            TwClient.OnJoinedChannel -= TwClient_OnJoinedChannel;
+
+            TwClient.OnJoinedChannel += (o, a) =>
+            {
+                BBBlog.Info($"Channeltest OnJoinedChannel => {a.Channel}");
+                JoinedSuccess = true;
+                return Task.CompletedTask;
+            };
+            await TwClient.ConnectAsync();
+            if (TwClient.IsConnected)
+            {
+                BBBlog.Info("Client is actually connected, now attempting to join channel " + TwChannelG);
+                await TwClient.JoinChannelAsync(TwChannelG);
+
+                //we need to give a second for the special handler to trigger
+                await Task.Delay(1000);
+            }
+            return JoinedSuccess;
+        }
+
+        public async Task<bool> TwitchDoConnectTest(string message)
+        {
+            bool JoinedSuccess = false;
+            //we dont want to use the normal eventhandler
+            TwClient.OnJoinedChannel -= TwClient_OnJoinedChannel;
+
+            TwClient.OnJoinedChannel += async (o, a) =>
+            {
+                BBBlog.Info($"Channeltest OnJoinedChannel => {a.Channel}");
+                await TwClient.SendMessageAsync(a.Channel, message);
+                BBBlog.Info($"Channeltest sending message => --{message}-- to {a.Channel}");
+                JoinedSuccess = true;
+               // return Task.CompletedTask;
+            };
+            await TwClient.ConnectAsync();
+            if (TwClient.IsConnected)
+            {
+                BBBlog.Info("Client is actually connected, now attempting to join channel " + TwChannelG);
+                await TwClient.JoinChannelAsync(TwChannelG);
+
+                //we need to give a second for the special handler to trigger
+                await Task.Delay(1000);
+            }
+            return JoinedSuccess;
+        }
+
         //here we set all the event handlers for the class.
         private void TwitchSetEventHandlers()
         {

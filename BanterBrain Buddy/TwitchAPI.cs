@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -18,10 +19,14 @@ namespace BanterBrain_Buddy
         public string TwitchAuthToken { get;  private set; }
         private bool TwitchAuthRequestResult { get; set; }
 
+        private static string TwitchAuthRedirect { get; set; }
+        private static string TwitchAuthClientId { get; set; }
+
         public TwitchAPI()
         {
             TwitchAuthToken = "";
             TwitchAuthRequestResult = false;
+            TwitchReadSettings();
         }
 
         public async Task<bool> GetTwitchAuthToken(List<string> scopes)
@@ -30,12 +35,9 @@ namespace BanterBrain_Buddy
             return TwitchAuthRequestResult;
         }
 
-        private async Task ReqTwitchAuthToken(List<string> scopes)
+        //read the config file into globals
+        private static void TwitchReadSettings()
         {
-            //lets read this from a file, so its easier for other people to change.
-            string TwitchAuthRedirect = null;
-            string TwitchAuthClientId = null;
-
             //todo: error handling
             using (StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
             {
@@ -44,7 +46,36 @@ namespace BanterBrain_Buddy
                 TwitchAuthRedirect = data.TwitchAuthRedirect;
                 TwitchAuthClientId = data.TwitchAuthClientId;
             }
+        }
 
+        public async Task<bool> CheckAuthCodeAPI(string TwAuthToken)
+        {
+            BBBlog.Info($"Checking Authorization code using the API");
+
+            var TwitchAPI = new TwitchLib.Api.TwitchAPI();
+            TwitchAPI.Settings.ClientId = TwitchAuthClientId;
+            TwitchAPI.Settings.AccessToken = TwAuthToken;
+            BBBlog.Debug($"clientid: {TwitchAPI.Settings.ClientId} accesstoken: {TwitchAPI.Settings.AccessToken}");
+            TwitchLib.Api.Helix.Models.Users.GetUsers.User user = new();
+            try
+            {
+                user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
+                BBBlog.Info("Authorization succeeded can read user so acces token is valid");
+                return true;
+            }
+            catch (TwitchLib.Api.Core.Exceptions.BadScopeException exception)
+            {
+                BBBlog.Error("Issue with access token: " +exception.Message);
+                return false;
+            } catch (HttpRequestException exception)
+            {
+                BBBlog.Error("Issue with access token: " + exception.Message);
+                return false;
+            }
+        }
+
+        private async Task ReqTwitchAuthToken(List<string> scopes)
+        {
             // create twitch api instance
             var TwitchAPI = new TwitchLib.Api.TwitchAPI();
             TwitchAPI.Settings.ClientId = TwitchAuthClientId;
@@ -70,7 +101,7 @@ namespace BanterBrain_Buddy
                 var user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
 
                 // print out all the data we've got
-                BBBlog.Info($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\n");
+                BBBlog.Info($"Authorization success! User: {user.DisplayName} (id: {user.Id})");
             } else
             {
                 TwitchAuthRequestResult =false;

@@ -28,6 +28,7 @@ using System.Globalization;
 using Microsoft.Extensions.Logging;
 using TwitchLib.Communication.Interfaces;
 using TwitchLib.Client.Events;
+using TwitchLib.Api;
 
 namespace BanterBrain_Buddy
 {
@@ -987,46 +988,43 @@ namespace BanterBrain_Buddy
 
          private async void TwitchTestButton_Click(object sender, EventArgs e)
          {
-             
-             //TODO: fix to global or store somewhere since multiple calls use it?
-             string TwitchAuthClientId = null;
-             using (StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
+            //first lets make sure people cant click too often
+            TwitchTestButton.Enabled = false;
+            //first we check if the Authorization key is fine, using the API
+            TwitchAPI TwAPITest = new TwitchAPI();
+            var VerifyOk = await TwAPITest.CheckAuthCodeAPI(TwitchAccessToken.Text);
+            BBBlog.Info("RESULT >>> " + VerifyOk);
+            if (!VerifyOk)
              {
-                 string json = r.ReadToEnd();
-                 dynamic data = JObject.Parse(json);
-                 TwitchAuthClientId = data.TwitchAuthClientId;
-             }
-             //first we test access token validity
-             //basically the returned user.DisplayName should be the same as TwitchUsername.Text
-             var TwitchAPI = new TwitchLib.Api.TwitchAPI();
-             TwitchAPI.Settings.ClientId = TwitchAuthClientId;
-             TwitchAPI.Settings.AccessToken = TwitchAccessToken.Text;
-             bool VerifyOk = false;
-             TwitchLib.Api.Helix.Models.Users.GetUsers.User user = new();
-             try
-             {
-                 user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
-                 VerifyOk = true;
-             } catch (TwitchLib.Api.Core.Exceptions.BadScopeException exception)
-             {
-                BBBlog.Error(exception.Message);
-                VerifyOk = false;
-             } 
-
-             if (!VerifyOk)
-             {
-                 BBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
-                 MessageBox.Show("Problem verifying Access token, invalid access token", "Access Token veryfication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                 //return;
+                BBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
+                MessageBox.Show("Problem verifying Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TwitchTestButton.Enabled = true;
+                return;
              } else
              {
-                 BBBlog.Info($"Twitch Access token verified for user: {user.DisplayName}");
-                 MessageBox.Show($"Twitch Access token verified for user {user.DisplayName}", "Access Token verification success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                BBBlog.Info($"Twitch Access token verified success!");
+                MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
              }
+            TwitchClient TwClient = new(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
 
-             TwitchClient TwClient = new(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
-             await TwClient.TwitchDoConnect();
+            bool TwitchJoinTestResult;
+            //we need to check if we need to send a greeter message to the channel or not!
+            if (TwitchSendTextCheckBox.Checked)
+                TwitchJoinTestResult = await TwClient.TwitchDoConnectTest(TwitchTestSendText.Text);
+            else
+                TwitchJoinTestResult = await TwClient.TwitchDoConnectTest();
 
+            if (TwitchJoinTestResult)
+            {
+                    BBBlog.Info($"Twitch join channel test successfull!");
+                    MessageBox.Show($"Twitch join channel test successfull!", "Twitch channel test result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                BBBlog.Info($"Twitch join channel test failed!");
+                MessageBox.Show($"Twitch join channel test failed!", "Twitch channel test result", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            TwitchTestButton.Enabled = true;
         }
 
         private async void TwitchAuthorizeButton_Click(object sender, EventArgs e)
