@@ -44,7 +44,7 @@ namespace BanterBrain_Buddy
         // check if SST is finished yet
         private bool STTDone = false;
         //Hotkey Storage
-        readonly private List<Keys> SetHotkeys = [];
+        readonly private List<Keys> SetHotkeys = new List<Keys>();
         //check if the GPT LLM is donestop audio capture
         private bool GPTDone = false;
         //error checker
@@ -488,7 +488,7 @@ namespace BanterBrain_Buddy
         }
 
         //holder of the list of Azure Voices and their options
-        readonly List<AzureVoices> AzureRegionVoicesList = [];
+        readonly List<AzureVoices> AzureRegionVoicesList = new List<AzureVoices>();
         private async Task TTSGetAzureVoices()
         {
             BBBlog.Info("Finding TTS Azure voices available");
@@ -1031,72 +1031,20 @@ namespace BanterBrain_Buddy
 
         private async void TwitchAuthorizeButton_Click(object sender, EventArgs e)
         {
-            //lets not block everything.
-            await GetTwitchAuthToken();
-        }
-
-        //authorizations te token has to have for what we want to do
-        readonly private static List<string> scopes = ["chat:read", "whispers:read", "whispers:edit", "chat:edit", "channel:moderate"];
-        private async Task GetTwitchAuthToken()
-        {
-            //lets read this from a file, so its easier for other people to change.
-            string TwitchAuthRedirect = null;
-            string TwitchAuthClientId = null;
-            //todo: error handling
-            using (StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
+            //lets not block everything, but lets try get a Twitch Auth token.
+            //This is done by spawning a browser where the user has to authorize (implicit grant) 
+            //the application. 
+            TwitchAPI twitchAPI = new TwitchAPI();
+            var TwitchAPIResult = await twitchAPI.GetTwitchAuthToken(new List<string> { "chat:read", "whispers:read", "whispers:edit", "chat:edit" });
+            
+            if (!TwitchAPIResult)
             {
-                string json = r.ReadToEnd();
-                dynamic data = JObject.Parse(json);
-                TwitchAuthRedirect = data.TwitchAuthRedirect;
-                TwitchAuthClientId = data.TwitchAuthClientId;
+                BBBlog.Error("Issue with getting auth token. Check logs for more information.");
+                MessageBox.Show($"Issue with getting Auth token. Check logs for more information.", "Twitch Authorization Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } else
+            {
+                TwitchAccessToken.Text = twitchAPI.TwitchAuthToken;
             }
-
-            BBBlog.Info("Clientid: " + TwitchAuthClientId);
-            // create twitch api instance
-            var TwitchAPI = new TwitchLib.Api.TwitchAPI();
-            TwitchAPI.Settings.ClientId = TwitchAuthClientId;
-
-            // start local web server
-            var server = new TwitchAuthWebserver(TwitchAuthRedirect);
-
-            //implicit flow is rather simple compared to client cred
-            var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetImplicitCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}") { UseShellExecute = true }));
-            tImplicit.Start();
-            var authImplicit = await server.ImplicitListen();
-
-            // update TwitchLib's api with the recently acquired access token
-            TwitchAPI.Settings.AccessToken = authImplicit.Code;
-
-            //also save this in our form
-            TwitchAccessToken.Text = authImplicit.Code;
-
-            // get the auth'd user to test the access token's validity
-            var user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
-
-            // print out all the data we've got
-
-            Console.WriteLine($"Authorization success!\n\nUser: {user.DisplayName} (id: {user.Id})\n");
-        }
-
-        private static string GetAuthorizationCodeUrl(string clientId, string redirectUri, List<string> scopes)
-        {
-            var scopesStr = String.Join("+", scopes);
-
-            return "https://id.twitch.tv/oauth2/authorize?" +
-                   $"client_id={clientId}&" +
-                   $"redirect_uri={redirectUri}&" +
-                   "response_type=code&" +
-                   $"scope={scopesStr}";
-        }
-        private static string GetImplicitCodeUrl(string clientId, string redirectUri, List<string> scopes)
-        {
-            var scopesStr = String.Join("+", scopes);
-
-            return "https://id.twitch.tv/oauth2/authorize?" +
-                   $"client_id={clientId}&" +
-                   $"redirect_uri={redirectUri}&" +
-                   "response_type=token&" +
-                   $"scope={scopesStr}";
         }
 
         private void TTSProviderComboBox_SelectedIndexChanged(object sender, EventArgs e)

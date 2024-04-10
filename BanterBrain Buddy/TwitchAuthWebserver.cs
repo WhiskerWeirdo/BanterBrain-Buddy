@@ -8,9 +8,14 @@ using System.Threading.Tasks;
 namespace BanterBrain_Buddy
 {
     
-    public class Authorization(string code)
+    public class Authorization
     {
-        public string Code { get; } = code;
+        public string Code { get; }
+
+        public Authorization(string code)
+        {
+            Code = code;
+        }
     }
 
     public class TwitchAuthWebserver
