@@ -992,8 +992,16 @@ namespace BanterBrain_Buddy
             TwitchTestButton.Enabled = false;
             //first we check if the Authorization key is fine, using the API
             TwitchAPI TwAPITest = new TwitchAPI();
-            var VerifyOk = await TwAPITest.CheckAuthCodeAPI(TwitchAccessToken.Text);
-            BBBlog.Info("RESULT >>> " + VerifyOk);
+
+            //check to see if we need to send a message on join
+            if (TwitchSendTextCheckBox.Checked)
+            {
+                TwAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
+            }
+
+            //we need the username AND channel name to get the broadcasterid which is needed for sending a message via the API
+            //we need both since the username of the bot and teh channel it joins can be different.
+            var VerifyOk = await TwAPITest.CheckAuthCodeAPI(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text);
             if (!VerifyOk)
              {
                 BBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
@@ -1005,6 +1013,9 @@ namespace BanterBrain_Buddy
                 BBBlog.Info($"Twitch Access token verified success!");
                 MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
              }
+
+            //THIS IS NOT SUGGESTED..READING EVENTS IS SUPPOSED TO BE DONE WITH EVENTSUB!
+            /*
             TwitchClient TwClient = new(TwitchUsername.Text, TwitchAccessToken.Text, TwitchChannel.Text);
 
             bool TwitchJoinTestResult;
@@ -1023,7 +1034,7 @@ namespace BanterBrain_Buddy
             {
                 BBBlog.Info($"Twitch join channel test failed!");
                 MessageBox.Show($"Twitch join channel test failed!", "Twitch channel test result", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            }*/
             TwitchTestButton.Enabled = true;
         }
 
@@ -1033,7 +1044,7 @@ namespace BanterBrain_Buddy
             //This is done by spawning a browser where the user has to authorize (implicit grant) 
             //the application. 
             TwitchAPI twitchAPI = new TwitchAPI();
-            var TwitchAPIResult = await twitchAPI.GetTwitchAuthToken(new List<string> { "chat:read", "whispers:read", "whispers:edit", "chat:edit" });
+            var TwitchAPIResult = await twitchAPI.GetTwitchAuthToken(new List<string> { "chat:read", "whispers:read", "whispers:edit", "chat:edit", "user:write:chat" });
             
             if (!TwitchAPIResult)
             {
