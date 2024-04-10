@@ -77,7 +77,7 @@ namespace BanterBrain_Buddy
                 if (TwitchSendTestMessageOnJoin != null)
                 {
                     BBBlog.Info("Sending message to channel");
-                    await TwitchAPI.Helix.Chat.SendChatMessage(Broadcaster[0].Id.ToString(), MessageSender[0].Id.ToString(), TwitchSendTestMessageOnJoin, null, TwAuthToken);
+                    await TwitchAPI.Helix.Chat.SendChatMessage(Broadcaster[0].Id.ToString(), MessageSender[0].Id.ToString(), "API:" +TwitchSendTestMessageOnJoin, null, TwAuthToken);
                 }
 
                 BBBlog.Info("Authorization succeeded can read user so acces token is valid");
