@@ -33,7 +33,7 @@ namespace BanterBrain_Buddy
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BBB));
             SettingsTab = new TabPage();
             groupBox3 = new GroupBox();
-            MicroPhoneHotkeyLabel = new Label();
+            PTTKeyLabel = new Label();
             MicrophoneHotkeyEditbox = new TextBox();
             VoiceInputLabel = new Label();
             SoundInputDevices = new ComboBox();
@@ -97,15 +97,12 @@ namespace BanterBrain_Buddy
             label5 = new Label();
             TwitchMinBits = new TextBox();
             TwitchTriggerSettings = new GroupBox();
-            Command = new Label();
-            textBox1 = new TextBox();
             label6 = new Label();
             TwitchChatCommandDelay = new TextBox();
             TwitchNeedsSubscriber = new CheckBox();
             TwitchNeedsFollower = new CheckBox();
             TwitchCommandTrigger = new TextBox();
             TwitchCommandTriggerLabel = new Label();
-            TwitchAutoConnect = new CheckBox();
             TwitchChannel = new TextBox();
             TwitchAccessToken = new TextBox();
             TwitchUsername = new TextBox();
@@ -118,6 +115,8 @@ namespace BanterBrain_Buddy
             GithubToolStripMenuItem = new ToolStripMenuItem();
             DiscordToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
+            STTLanguageComboBox = new ComboBox();
+            STTLanguageLabel = new Label();
             SettingsTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -146,7 +145,7 @@ namespace BanterBrain_Buddy
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(MicroPhoneHotkeyLabel);
+            groupBox3.Controls.Add(PTTKeyLabel);
             groupBox3.Controls.Add(MicrophoneHotkeyEditbox);
             groupBox3.Controls.Add(VoiceInputLabel);
             groupBox3.Controls.Add(SoundInputDevices);
@@ -155,10 +154,10 @@ namespace BanterBrain_Buddy
             groupBox3.Name = "groupBox3";
             groupBox3.TabStop = false;
             // 
-            // MicroPhoneHotkeyLabel
+            // PTTKeyLabel
             // 
-            resources.ApplyResources(MicroPhoneHotkeyLabel, "MicroPhoneHotkeyLabel");
-            MicroPhoneHotkeyLabel.Name = "MicroPhoneHotkeyLabel";
+            resources.ApplyResources(PTTKeyLabel, "PTTKeyLabel");
+            PTTKeyLabel.Name = "PTTKeyLabel";
             // 
             // MicrophoneHotkeyEditbox
             // 
@@ -289,6 +288,8 @@ namespace BanterBrain_Buddy
             // STTGroupBox
             // 
             resources.ApplyResources(STTGroupBox, "STTGroupBox");
+            STTGroupBox.Controls.Add(STTLanguageLabel);
+            STTGroupBox.Controls.Add(STTLanguageComboBox);
             STTGroupBox.Controls.Add(STTHintText);
             STTGroupBox.Controls.Add(STTRegionEditbox);
             STTGroupBox.Controls.Add(STTRegionLabel);
@@ -422,7 +423,7 @@ namespace BanterBrain_Buddy
             // LLMModelComboBox
             // 
             LLMModelComboBox.FormattingEnabled = true;
-            LLMModelComboBox.Items.AddRange(new object[] { resources.GetString("LLMModelComboBox.Items"), resources.GetString("LLMModelComboBox.Items1") });
+            LLMModelComboBox.Items.AddRange(new object[] { resources.GetString("LLMModelComboBox.Items") });
             resources.ApplyResources(LLMModelComboBox, "LLMModelComboBox");
             LLMModelComboBox.Name = "LLMModelComboBox";
             LLMModelComboBox.UseWaitCursor = true;
@@ -493,7 +494,6 @@ namespace BanterBrain_Buddy
             groupBox4.Controls.Add(groupBox6);
             groupBox4.Controls.Add(groupBox5);
             groupBox4.Controls.Add(TwitchTriggerSettings);
-            groupBox4.Controls.Add(TwitchAutoConnect);
             groupBox4.Controls.Add(TwitchChannel);
             groupBox4.Controls.Add(TwitchAccessToken);
             groupBox4.Controls.Add(TwitchUsername);
@@ -593,8 +593,6 @@ namespace BanterBrain_Buddy
             // 
             // TwitchTriggerSettings
             // 
-            TwitchTriggerSettings.Controls.Add(Command);
-            TwitchTriggerSettings.Controls.Add(textBox1);
             TwitchTriggerSettings.Controls.Add(label6);
             TwitchTriggerSettings.Controls.Add(TwitchChatCommandDelay);
             TwitchTriggerSettings.Controls.Add(TwitchNeedsSubscriber);
@@ -604,16 +602,6 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchTriggerSettings, "TwitchTriggerSettings");
             TwitchTriggerSettings.Name = "TwitchTriggerSettings";
             TwitchTriggerSettings.TabStop = false;
-            // 
-            // Command
-            // 
-            resources.ApplyResources(Command, "Command");
-            Command.Name = "Command";
-            // 
-            // textBox1
-            // 
-            resources.ApplyResources(textBox1, "textBox1");
-            textBox1.Name = "textBox1";
             // 
             // label6
             // 
@@ -646,12 +634,6 @@ namespace BanterBrain_Buddy
             // 
             resources.ApplyResources(TwitchCommandTriggerLabel, "TwitchCommandTriggerLabel");
             TwitchCommandTriggerLabel.Name = "TwitchCommandTriggerLabel";
-            // 
-            // TwitchAutoConnect
-            // 
-            resources.ApplyResources(TwitchAutoConnect, "TwitchAutoConnect");
-            TwitchAutoConnect.Name = "TwitchAutoConnect";
-            TwitchAutoConnect.UseVisualStyleBackColor = true;
             // 
             // TwitchChannel
             // 
@@ -718,6 +700,18 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
             // 
+            // STTLanguageComboBox
+            // 
+            STTLanguageComboBox.FormattingEnabled = true;
+            STTLanguageComboBox.Items.AddRange(new object[] { resources.GetString("STTLanguageComboBox.Items") });
+            resources.ApplyResources(STTLanguageComboBox, "STTLanguageComboBox");
+            STTLanguageComboBox.Name = "STTLanguageComboBox";
+            // 
+            // STTLanguageLabel
+            // 
+            resources.ApplyResources(STTLanguageLabel, "STTLanguageLabel");
+            STTLanguageLabel.Name = "STTLanguageLabel";
+            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -783,7 +777,7 @@ namespace BanterBrain_Buddy
         private Label TTSAudioOutputLabel;
         private Label TTSProviderLabel;
         private GroupBox groupBox3;
-        private Label MicroPhoneHotkeyLabel;
+        private Label PTTKeyLabel;
         private TextBox MicrophoneHotkeyEditbox;
         private Label VoiceInputLabel;
         private ComboBox SoundInputDevices;
@@ -806,7 +800,6 @@ namespace BanterBrain_Buddy
         private Label TwitchChannelNameLabel;
         private Label TwitchAccesstokenLabel;
         private Label TwitchUsernameLabel;
-        private CheckBox TwitchAutoConnect;
         private TextBox TwitchStatusTextBox;
         private Label TwitchStatusLabel;
         private GroupBox groupBox5;
@@ -845,8 +838,8 @@ namespace BanterBrain_Buddy
         private Label label8;
         private TextBox TTSRegionTextBox;
         private Button DisconnectTwitchButton;
-        private Label Command;
-        private TextBox textBox1;
+        private Label STTLanguageLabel;
+        private ComboBox STTLanguageComboBox;
     }
 }
 

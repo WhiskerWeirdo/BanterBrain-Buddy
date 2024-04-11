@@ -63,10 +63,7 @@
       <Value Profile="(Default)">placeholder</Value>
     </Setting>
     <Setting Name="TwitchCommandTrigger" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
-    </Setting>
-    <Setting Name="TwitchAutoConnect" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">$BBB</Value>
     </Setting>
     <Setting Name="TwitchTestSendText" Type="System.String" Scope="User">
       <Value Profile="(Default)">placeholder</Value>
@@ -75,7 +72,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TwitchChatCommandDelay" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">300</Value>
     </Setting>
     <Setting Name="TwitchNeedsFollower" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -103,6 +100,9 @@
     </Setting>
     <Setting Name="HotkeyList" Type="System.String" Scope="User">
       <Value Profile="(Default)">placeholder</Value>
+    </Setting>
+    <Setting Name="STTLanguageComboBox" Type="System.String" Scope="User">
+      <Value Profile="(Default)">en-US</Value>
     </Setting>
   </Settings>
 </SettingsFile>

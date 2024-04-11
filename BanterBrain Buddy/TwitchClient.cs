@@ -12,10 +12,10 @@ namespace BanterBrain_Buddy
     {
         private static readonly log4net.ILog BBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private TwitchLib.Client.TwitchClient TwClient;
-        private string TwUsernameG;
-        private string TwPasswordG;
-        private string TwChannelG;
+        private  TwitchLib.Client.TwitchClient TwClient;
+        private  string TwUsernameG;
+        private  string TwPasswordG;
+        private  string TwChannelG;
 
         public TwitchClient(string TwUsername, string TwAccessToken, string TwChannel) {
             TwUsernameG = TwUsername;

@@ -265,25 +265,13 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("$BBB")]
         public string TwitchCommandTrigger {
             get {
                 return ((string)(this["TwitchCommandTrigger"]));
             }
             set {
                 this["TwitchCommandTrigger"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool TwitchAutoConnect {
-            get {
-                return ((bool)(this["TwitchAutoConnect"]));
-            }
-            set {
-                this["TwitchAutoConnect"] = value;
             }
         }
         
@@ -313,7 +301,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
         public int TwitchChatCommandDelay {
             get {
                 return ((int)(this["TwitchChatCommandDelay"]));
@@ -428,6 +416,18 @@ namespace BanterBrain_Buddy.Properties {
             }
             set {
                 this["HotkeyList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
+        public string STTLanguageComboBox {
+            get {
+                return ((string)(this["STTLanguageComboBox"]));
+            }
+            set {
+                this["STTLanguageComboBox"] = value;
             }
         }
     }

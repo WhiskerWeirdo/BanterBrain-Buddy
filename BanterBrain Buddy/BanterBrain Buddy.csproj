@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>BanterBrain_Buddy</RootNamespace>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -68,7 +68,7 @@
     <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
-    <PackageReference Include="System.Speech" Version="8.0.0" />
+    <PackageReference Include="System.Speech" Version="9.0.0-preview.3.24172.9" />
     <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-97052d8" />
     <PackageReference Include="TwitchLib.Client" Version="4.0.0-preview-de39bd056dddc47d2907cb0602a0cf088aafb4b3" />
     <PackageReference Include="TwitchLib.Client.Enums" Version="4.0.0-preview-de39bd056dddc47d2907cb0602a0cf088aafb4b3" />

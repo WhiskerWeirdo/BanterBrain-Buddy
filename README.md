@@ -26,16 +26,8 @@ tldr: use Visual studio 2022 with .net 8.
 ## Roadmap
 
 ### KNOWN ISSUES
-0.0.1
-- [ ] Selected ChatGPT model does nothing, it always uses the 3.5 turbo.
-
 0.0.2
 - [ ] Wav file in use error sometimes on TTS
-
-0.0.3
-- [ ] Twitch chat client won't die after you started the "Test" 
-- [ ] Twitch Auth Token needs refresh instead of re-auth
-- [ ] You need to sign up to https://dev.twitch.tv and get a application ClientID & Secret to build BBB yourself
 
 ### 0.0.5 TODO
 - [ ] FIX SET HOTKEY
@@ -45,7 +37,7 @@ tldr: use Visual studio 2022 with .net 8.
 - [X] Twitch: Setup Twitch client in its own class
 - [X] Twitch: refresh auth token correctly on both timer and restart of application (fixed: using implicit grant)
 - [ ] Twitch: set not only identifier but also command for bot reaction
-- [ ] Twitch: allow for reactions to: subscription events, point redemptions & bits used
+- [ ] Twitch: eventsub => allow for reactions to: subscription events, point redemptions & bits used
 
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT

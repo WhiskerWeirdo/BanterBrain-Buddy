@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -44,33 +45,28 @@ namespace BanterBrain_Buddy
         private static void TwitchReadSettings()
         {
             //todo: error handling
-            using (StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
+            using StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json");
+            //lets read the file and parse the json safely ;)
+            //need to do error handling if file does not exist
+            var JsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(r.ReadToEnd());
+            bool test = JsonData.TryGetValue("TwitchAuthRedirect", out string tmpVal);
+            if (!test)
             {
-                string json = r.ReadToEnd();
-                //lets read the file and parse the json safely ;)
-                var JsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                foreach (var item in JsonData)
-                {
-                    BBBlog.Debug($"Key: {item.Key} Value: {item.Value}");
-                }
-                string tmpVal = "";
-                bool test = JsonData.TryGetValue("TwitchAuthRedirect", out tmpVal);
-                if (!test)
-                {
-                    BBBlog.Error("TwitchAuthRedirect not found in settings.json");
-                } else
-                {
-                    TwitchAuthRedirect = tmpVal;
-                }
+                BBBlog.Error("TwitchAuthRedirect not found in settings.json");
+            }
+            else
+            {
+                TwitchAuthRedirect = tmpVal;
+            }
 
-                test = JsonData.TryGetValue("TwitchAuthClientId", out tmpVal);
-                if (!test)
-                {
-                    BBBlog.Error("TwitchAuthClientId not found in settings.json");
-                }
-                else {                     
-                    TwitchAuthClientId = tmpVal;
-                }
+            test = JsonData.TryGetValue("TwitchAuthClientId", out tmpVal);
+            if (!test)
+            {
+                BBBlog.Error("TwitchAuthClientId not found in settings.json");
+            }
+            else
+            {
+                TwitchAuthClientId = tmpVal;
             }
         }
 
@@ -83,16 +79,14 @@ namespace BanterBrain_Buddy
             TwitchAPI.Settings.ClientId = TwitchAuthClientId;
             TwitchAPI.Settings.AccessToken = TwAuthToken;
             BBBlog.Debug($"clientid: {TwitchAPI.Settings.ClientId} accesstoken: {TwitchAPI.Settings.AccessToken}");
-            TwitchLib.Api.Helix.Models.Users.GetUsers.User user = new();
             try
             {
                 BBBlog.Info("Trying to see if I can getting the current user using Helix call.");
-                //user = (await TwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
                 await Task.Delay(500);
-                var Broadcaster = (await TwitchAPI.Helix.Users.GetUsersAsync(null, new List<string> { TwChannelName })).Users;
-                var MessageSender = (await TwitchAPI.Helix.Users.GetUsersAsync(null, new List<string> { TwUsername })).Users;
-                //TODO if we got both back
+                var Broadcaster = (await TwitchAPI.Helix.Users.GetUsersAsync(null, [TwChannelName] )).Users;
+                var MessageSender = (await TwitchAPI.Helix.Users.GetUsersAsync(null, [TwUsername] )).Users;
 
+ 
                 BBBlog.Info("Broadcaster: " + Broadcaster[0].Login +" id:"+ Broadcaster[0].Id);
                 BBBlog.Info("Message sender: " + MessageSender[0].Login + " id:" + MessageSender[0].Id);
                 //do we need to send a message also?
@@ -125,8 +119,12 @@ namespace BanterBrain_Buddy
             var server = new TwitchAuthWebserver(TwitchAuthRedirect);
 
             //implicit flow is rather simple compared to client cred
-            var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetImplicitCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}") { UseShellExecute = true }));
+            //var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetImplicitCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}") { UseShellExecute = true }));
+            
+            var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetOAUTHCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes, "Implicit")}") { UseShellExecute = true }));
             tImplicit.Start();
+            
+
             var authImplicit = await server.ImplicitListen();
 
             if (authImplicit != null)
@@ -149,27 +147,26 @@ namespace BanterBrain_Buddy
             }
         }
 
-        private static string GetAuthorizationCodeUrl(string clientId, string redirectUri, List<string> scopes)
+        private static string GetOAUTHCodeUrl(string clientId, string redirectUri, List<string> scopes, string OAUTHType)
         {
-            var scopesStr = String.Join("+", scopes);
+            string scopesStr = String.Join("+", scopes);
+            string responseType;
+
+            if (string.Equals(OAUTHType,"auth", StringComparison.OrdinalIgnoreCase))
+                responseType = "code";
+            else if (string.Equals(OAUTHType, "implicit", StringComparison.OrdinalIgnoreCase))
+                responseType = "token";
+            else
+            {
+                BBBlog.Error("Unknown OAUTHType: " + OAUTHType);
+                return null;
+            }
 
             return "https://id.twitch.tv/oauth2/authorize?" +
-                   $"client_id={clientId}&" +
-                   $"redirect_uri={redirectUri}&" +
-                   "response_type=code&" +
-                   $"scope={scopesStr}";
+                    $"client_id={clientId}&" +
+                    $"redirect_uri={redirectUri}&" +
+                    $"response_type={responseType}&" +
+                    $"scope={scopesStr}";
         }
-
-        private static string GetImplicitCodeUrl(string clientId, string redirectUri, List<string> scopes)
-        {
-            var scopesStr = String.Join("+", scopes);
-
-            return "https://id.twitch.tv/oauth2/authorize?" +
-                   $"client_id={clientId}&" +
-                   $"redirect_uri={redirectUri}&" +
-                   "response_type=token&" +
-                   $"scope={scopesStr}";
-        }
-
     }
 }
