@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -46,9 +47,30 @@ namespace BanterBrain_Buddy
             using (StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json"))
             {
                 string json = r.ReadToEnd();
-                dynamic data = JObject.Parse(json);
-                TwitchAuthRedirect = data.TwitchAuthRedirect;
-                TwitchAuthClientId = data.TwitchAuthClientId;
+                //lets read the file and parse the json safely ;)
+                var JsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                foreach (var item in JsonData)
+                {
+                    BBBlog.Debug($"Key: {item.Key} Value: {item.Value}");
+                }
+                string tmpVal = "";
+                bool test = JsonData.TryGetValue("TwitchAuthRedirect", out tmpVal);
+                if (!test)
+                {
+                    BBBlog.Error("TwitchAuthRedirect not found in settings.json");
+                } else
+                {
+                    TwitchAuthRedirect = tmpVal;
+                }
+
+                test = JsonData.TryGetValue("TwitchAuthClientId", out tmpVal);
+                if (!test)
+                {
+                    BBBlog.Error("TwitchAuthClientId not found in settings.json");
+                }
+                else {                     
+                    TwitchAuthClientId = tmpVal;
+                }
             }
         }
 
@@ -77,9 +99,8 @@ namespace BanterBrain_Buddy
                 if (TwitchSendTestMessageOnJoin != null)
                 {
                     BBBlog.Info("Sending message to channel");
-                    await TwitchAPI.Helix.Chat.SendChatMessage(Broadcaster[0].Id.ToString(), MessageSender[0].Id.ToString(), "API:" +TwitchSendTestMessageOnJoin, null, TwAuthToken);
+                    await TwitchAPI.Helix.Chat.SendChatMessage(Broadcaster[0].Id.ToString(), MessageSender[0].Id.ToString(), TwitchSendTestMessageOnJoin, null, TwAuthToken);
                 }
-
                 BBBlog.Info("Authorization succeeded can read user so acces token is valid");
                 return true;
             }
