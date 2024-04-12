@@ -1142,7 +1142,10 @@
     <value>9</value>
   </data>
   <data name="TwitchStatusTextBox.Text" xml:space="preserve">
-    <value>DISCONNECTED</value>
+    <value>DISABLED</value>
+  </data>
+  <data name="TwitchStatusTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
   </data>
   <data name="&gt;&gt;TwitchStatusTextBox.Name" xml:space="preserve">
     <value>TwitchStatusTextBox</value>
@@ -1160,7 +1163,7 @@
     <value>True</value>
   </data>
   <data name="TwitchStatusLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 53</value>
+    <value>21, 54</value>
   </data>
   <data name="TwitchStatusLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -1668,9 +1671,6 @@
   </data>
   <data name="TwitchCheckAuthAtStartup.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="TwitchCheckAuthAtStartup.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="TwitchCheckAuthAtStartup.Location" type="System.Drawing.Point, System.Drawing">
     <value>170, 17</value>
@@ -2601,6 +2601,9 @@
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>58</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 15</value>

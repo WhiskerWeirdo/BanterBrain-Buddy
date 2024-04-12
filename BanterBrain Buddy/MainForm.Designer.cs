@@ -85,6 +85,7 @@ namespace BanterBrain_Buddy
             GPTProviderLabel = new Label();
             StreaminSettingsTab = new TabPage();
             groupBox4 = new GroupBox();
+            TwitchEnableCheckbox = new CheckBox();
             TwitchCheckAuthAtStartup = new CheckBox();
             DisconnectTwitchButton = new Button();
             groupBox7 = new GroupBox();
@@ -118,7 +119,6 @@ namespace BanterBrain_Buddy
             GithubToolStripMenuItem = new ToolStripMenuItem();
             DiscordToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
-            TwitchEnableCheckbox = new CheckBox();
             SettingsTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -520,11 +520,19 @@ namespace BanterBrain_Buddy
             groupBox4.Name = "groupBox4";
             groupBox4.TabStop = false;
             // 
+            // TwitchEnableCheckbox
+            // 
+            resources.ApplyResources(TwitchEnableCheckbox, "TwitchEnableCheckbox");
+            TwitchEnableCheckbox.Name = "TwitchEnableCheckbox";
+            TwitchEnableCheckbox.UseVisualStyleBackColor = true;
+            TwitchEnableCheckbox.Click += TwitchEnableCheckbox_Click;
+            // 
             // TwitchCheckAuthAtStartup
             // 
             resources.ApplyResources(TwitchCheckAuthAtStartup, "TwitchCheckAuthAtStartup");
             TwitchCheckAuthAtStartup.Name = "TwitchCheckAuthAtStartup";
             TwitchCheckAuthAtStartup.UseVisualStyleBackColor = true;
+            TwitchCheckAuthAtStartup.Click += TwitchCheckAuthAtStartup_Click;
             // 
             // DisconnectTwitchButton
             // 
@@ -721,12 +729,6 @@ namespace BanterBrain_Buddy
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, helpToolStripMenuItem });
             resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
-            // 
-            // TwitchEnableCheckbox
-            // 
-            resources.ApplyResources(TwitchEnableCheckbox, "TwitchEnableCheckbox");
-            TwitchEnableCheckbox.Name = "TwitchEnableCheckbox";
-            TwitchEnableCheckbox.UseVisualStyleBackColor = true;
             // 
             // BBB
             // 

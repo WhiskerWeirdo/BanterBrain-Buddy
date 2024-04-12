@@ -26,6 +26,8 @@ namespace BanterBrain_Buddy
         private static string TwitchAuthRedirect { get; set; }
         private static string TwitchAuthClientId { get; set; }
 
+        private bool TwitchDoAutomatedCheck { get; set; }
+
         private static TwitchLib.Api.TwitchAPI GTwitchAPI;
         //if this is set, we need to send a test message to a channel on join.
         public string TwitchSendTestMessageOnJoin { get; set; }
@@ -35,6 +37,7 @@ namespace BanterBrain_Buddy
             TwitchAuthToken = "";
             TwitchAuthRequestResult = false;
             TwitchReadSettings();
+            TwitchDoAutomatedCheck = true;
             GTwitchAPI = new TwitchLib.Api.TwitchAPI();
         }
 
@@ -42,10 +45,10 @@ namespace BanterBrain_Buddy
         //this is a Twitch rule, see https://dev.twitch.tv/docs/authentication/validate-tokens/
         public async Task<bool> CheckHourlyAccessToken()
         {
-            while (true)
+            while (TwitchDoAutomatedCheck)
             {
                 //45 minutes = 2700000
-                await Task.Delay(30000);
+                await Task.Delay(2700000);
                 if (!await ValidateAccessToken(TwitchAuthToken))
                 {
                     BBBlog.Error($"Hourly check! Access token {TwitchAuthToken} is invalid, please re-authenticate");
@@ -54,7 +57,15 @@ namespace BanterBrain_Buddy
                 else
                     BBBlog.Info("Hourly check! Access Token is validated and valid");
             }
+            return true;
         }
+
+        public void StopHourlyAccessTokenCheck()
+        {
+            BBBlog.Info("Stopping hourly Twitch access token validation");
+            TwitchDoAutomatedCheck = false;
+        }
+
         public async Task<bool> GetTwitchAuthToken(List<string> scopes)
         {
             await ReqTwitchAuthToken(scopes);
@@ -90,7 +101,12 @@ namespace BanterBrain_Buddy
             }
         }
 
-        public static async Task<bool> ValidateAccessToken(string TwAuthToken)
+        /// <summary>
+        /// This validates the access token using the Twitch API
+        /// </summary>
+        /// <param name="TwAuthToken">The access token</param>
+        /// <returns>true if token valid, false if invalid</returns>
+        public async Task<bool> ValidateAccessToken(string TwAuthToken)
         {
 
             GTwitchAPI.Settings.ClientId = TwitchAuthClientId;
@@ -104,11 +120,19 @@ namespace BanterBrain_Buddy
             else
             {
                 BBBlog.Info("Access Token is validated and valid");
+                TwitchAuthToken = TwAuthToken;
                 return true;
             }
         }
 
         //auth token, username
+        /// <summary>
+        /// We do a validate token and then check if we can get the user to verify not just the token but also the user
+        /// </summary>
+        /// <param name="TwAuthToken">The Twitch Access token</param>
+        /// <param name="TwUsername">The Twitch user name</param>
+        /// <param name="TwChannelName">The channel name entered on the GUI</param>
+        /// <returns>true if both tests pass, false if not</returns>
         public async Task<bool> CheckAuthCodeAPI(string TwAuthToken, string TwUsername, string TwChannelName)
         {
             BBBlog.Info($"Checking Authorization code using the API");
@@ -154,6 +178,10 @@ namespace BanterBrain_Buddy
             }
         }
 
+        /// <summary>
+        /// This is the function that will request the auth token from Twitch
+        /// </summary>
+        /// <param name="scopes"></param>
         private async Task ReqTwitchAuthToken(List<string> scopes)
         {
             // create twitch api instance
@@ -163,8 +191,6 @@ namespace BanterBrain_Buddy
             var server = new TwitchAuthWebserver(TwitchAuthRedirect);
 
             //implicit flow is rather simple compared to client cred
-            //var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetImplicitCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes)}") { UseShellExecute = true }));
-            
             var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetOAUTHCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes, "Implicit")}") { UseShellExecute = true }));
             tImplicit.Start();
             

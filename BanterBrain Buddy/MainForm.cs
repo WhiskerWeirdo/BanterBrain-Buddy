@@ -55,19 +55,58 @@ namespace BanterBrain_Buddy
         //error checker
         private bool BigError = false;
 
+        //Global Twitch API class
+        //we need this for the hourly /validate check
+        private TwitchAPI GlobalTwitchAPI;
+        private bool TwitchValidateCheckStarted;
+
         [SupportedOSPlatform("windows6.1")]
         public BBB()
         {
+            TwitchValidateCheckStarted = false;
 
             InitializeComponent();
             LoadSettings();
-            //Subscribe();
             GetAudioDevices();
 
             BBBlog.Info("Program Starting...");
             BBBlog.Info("PPT hotkey: " + MicrophoneHotkeyEditbox.Text);
             TextLog.AppendText("Program Starting...");
             TextLog.AppendText("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
+            if (TwitchEnableCheckbox.Checked && TwitchCheckAuthAtStartup.Checked)
+                SetTwitchValidateTokenTimer();
+            else
+                TwitchCheckAuthAtStartup.Enabled = false;
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        /// <summary>
+        public async void SetTwitchValidateTokenTimer()
+        {
+            if (!TwitchValidateCheckStarted && TwitchEnableCheckbox.Checked && TwitchUsername.Text.Length > 0 && TwitchAccessToken.Text.Length > 0 && TwitchChannel.Text.Length > 0)
+            {
+                GlobalTwitchAPI = new();
+                var result = await GlobalTwitchAPI.ValidateAccessToken(TwitchAccessToken.Text);
+                if (!result)
+                {
+                    BBBlog.Error("Twitch access token is invalid, please re-authenticate");
+                    MessageBox.Show("Twitch access token is invalid, please re-authenticate", "Twitch Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    TextLog.Text += "Twitch access token is invalid, please re-authenticate\r\n";
+                    TwitchValidateCheckStarted = false;
+                    TwitchStatusTextBox.Text = "DISABLED";
+                    BigError = true;
+                }
+                else
+                {
+                    BBBlog.Info("Twitch access token is valid. Starting automated /validate call");
+                    TextLog.Text += "Twitch access token is valid. Starting automated /validate call\r\n";
+                    TwitchValidateCheckStarted = true;
+                    TwitchStatusTextBox.Text = "ENABLED";
+                    //if we are good, start the hourly check
+                    await GlobalTwitchAPI.CheckHourlyAccessToken();
+                }
+
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -82,7 +121,7 @@ namespace BanterBrain_Buddy
 
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
-               _ = TTSAudioOutputComboBox.Items.Add(device.Name);
+                _ = TTSAudioOutputComboBox.Items.Add(device.Name);
             }
         }
 
@@ -182,29 +221,12 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void SetSelectedOutputDevice()
-        {
-            var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active);
-            BBBlog.Debug("Selected output device: " + TTSAudioOutputComboBox.Text);
-            foreach (var device in devices)
-            {
-                //this is a hack. Friendlydevice name is old while the enumeration returns the new
-                //// so lets check the start
-                if (device.FriendlyName.StartsWith(TTSAudioOutputComboBox.Text))
-                {
-                    BBBlog.Info($"Selected outputdevice = {device.FriendlyName}");
-                    SelectedOutputDevice = device;
-                }
-            }
-        }
-
-        [SupportedOSPlatform("windows6.1")]
         /// <summary>
         /// This uses the Azure Cognitive Services Speech SDK to convert voice to text.
         /// </summary>
         private async void AzureConvertVoicetoText()
         {
-            AzureSpeechAPI azureSpeechAPI = new (STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
+            AzureSpeechAPI azureSpeechAPI = new(STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
             //call the Azure STT function with the selected input device
             //first initialize the Azure STT class
             azureSpeechAPI.AzureSTTInit(SoundInputDevices.Text);
@@ -222,7 +244,8 @@ namespace BanterBrain_Buddy
                     TextLog.Text += "Azure Speech-To-Text: Fail! Speech could not be proccessed. Check log for more info.\r\n";
                     BigError = true;
                     STTDone = true;
-                } else
+                }
+                else
                 {
                     STTTestOutput.Text += recognizeResult + "\r\n";
                     TextLog.Text += "Azure Speech-To-Text: " + recognizeResult + "\r\n";
@@ -259,7 +282,7 @@ namespace BanterBrain_Buddy
         private IWriteable _writer;
         [SupportedOSPlatform("windows6.1")]
         readonly private string tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
-        
+
         [SupportedOSPlatform("windows6.1")]
         private void NativeInputStreamtoWav()
         {
@@ -489,7 +512,6 @@ namespace BanterBrain_Buddy
         /// <summary>
         /// Holds the list of Azure Voices and their options
         /// </summary>
-        //holder of the list of Azure Voices and their options
         List<AzureVoices> AzureRegionVoicesList = [];
 
         [SupportedOSPlatform("windows6.1")]
@@ -499,7 +521,7 @@ namespace BanterBrain_Buddy
         private async Task TTSGetAzureVoices()
         {
             //only bother if the two fields are not empty or not "placeholder"
-            if ((TTSAPIKeyTextBox.Text.Length < 1) || (TTSRegionTextBox.Text.Length < 1) || TTSAPIKeyTextBox.Text =="placeholder" || TTSRegionTextBox.Text == "placeholder" )
+            if ((TTSAPIKeyTextBox.Text.Length < 1) || (TTSRegionTextBox.Text.Length < 1) || TTSAPIKeyTextBox.Text == "placeholder" || TTSRegionTextBox.Text == "placeholder")
             {
                 BBBlog.Error("API Key or region cannot be empty!");
                 MessageBox.Show("API Key or region cannot be empty!", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -514,7 +536,8 @@ namespace BanterBrain_Buddy
             {
                 MessageBox.Show("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?", "Azure No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 BigError = true;
-            } else
+            }
+            else
             {
                 BBBlog.Info($"Found {AzureRegionVoicesList.Count} voices");
             }
@@ -537,7 +560,7 @@ namespace BanterBrain_Buddy
             TTSOutputVoice.Sorted = true;
             //if we dont have a real value (i.e. teh first startup placeholders) we need to set it to the first item
             if (TTSOutputVoice.Text == "placeholder")
-                    TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
+                TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
             TTSOutputVoiceOptions.Text = "";
 
             TTSAzureFillOptions(TTSOutputVoice.Text);
@@ -783,6 +806,8 @@ namespace BanterBrain_Buddy
             TTSAPIKeyTextBox.Text = Properties.Settings.Default.TTSAPIKeyTextBox;
             TTSRegionTextBox.Text = Properties.Settings.Default.TTSRegionTextBox;
             STTLanguageComboBox.Text = Properties.Settings.Default.STTLanguageComboBox;
+            TwitchEnableCheckbox.Checked = Properties.Settings.Default.TwitchEnable;
+            TwitchCheckAuthAtStartup.Checked = Properties.Settings.Default.TwitchCheckAuthAtStartup;
             //load HotkeyList into SetHotKeys
             /* foreach (String key in Properties.Settings.Default.HotkeyList)
              {
@@ -791,30 +816,30 @@ namespace BanterBrain_Buddy
              }*
             */
             //we need to get azure regions and voice options if azure is selected so we dont need to fill it later
-             if (TTSProviderComboBox.Text == "Azure")
-             {
-                 //fill the list if its empty
-                 if (TTSOutputVoice.Items.Count < 1)
-                 {
-                     if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
-                     {
-                         await TTSGetAzureVoices();
+            if (TTSProviderComboBox.Text == "Azure")
+            {
+                //fill the list if its empty
+                if (TTSOutputVoice.Items.Count < 1)
+                {
+                    if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
+                    {
+                        await TTSGetAzureVoices();
                         if (BigError)
                         {
                             return;
                         }
-                         //fill the listboxes
-                         TTSFillAzureVoicesList();
-                     }
-                 }
-             }
-             //this last so it overwrites possibly loaded voice options
-             TTSOutputVoiceOptions.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
-         }
+                        //fill the listboxes
+                        TTSFillAzureVoicesList();
+                    }
+                }
+            }
+            //this last so it overwrites possibly loaded voice options
+            TTSOutputVoiceOptions.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
+        }
 
         [SupportedOSPlatform("windows6.1")]
         private void BBB_FormClosing(object sender, FormClosingEventArgs e)
-         {
+        {
             Properties.Settings.Default.VoiceInput = this.SoundInputDevices.Text;
             Properties.Settings.Default.PTTHotkey = this.MicrophoneHotkeyEditbox.Text;
             Properties.Settings.Default.STTProvider = STTProviderBox.Text;
@@ -846,7 +871,9 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
             Properties.Settings.Default.TTSAPIKeyTextBox = TTSAPIKeyTextBox.Text;
             Properties.Settings.Default.TTSRegionTextBox = TTSRegionTextBox.Text;
-            Properties.Settings.Default.STTLanguageComboBox = STTLanguageComboBox.Text; 
+            Properties.Settings.Default.STTLanguageComboBox = STTLanguageComboBox.Text;
+            Properties.Settings.Default.TwitchEnable = TwitchEnableCheckbox.Checked;
+            Properties.Settings.Default.TwitchCheckAuthAtStartup = TwitchCheckAuthAtStartup.Checked;
 
             /* //add the hotkeys in settings list, not in text
              Properties.Settings.Default.HotkeyList.Clear();
@@ -856,124 +883,124 @@ namespace BanterBrain_Buddy
              }*/
             Properties.Settings.Default.Save();
 
-             //remove hotkey hooks
-           //  Unsubscribe();
-         }
+            //remove hotkey hooks
+            //  Unsubscribe();
+        }
 
         [SupportedOSPlatform("windows6.1")]
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-         {
-             System.Windows.Forms.Application.Exit();
-         }
+        {
+            System.Windows.Forms.Application.Exit();
+        }
 
         [SupportedOSPlatform("windows6.1")]
         public void ShowHotkeyDialogBox()
-         {
+        {
 
-             HotkeyForm HotkeyDialog = new();
-             var result = HotkeyDialog.ShowDialog(this);
-             // Show testDialog as a modal dialog and determine if DialogResult = OK.
-             if (result == DialogResult.OK && HotkeyDialog.ReturnValue1 != null)
-             {
-                 SetHotkeys.Clear();
-                 this.MicrophoneHotkeyEditbox.Text = "";
-                 List<Keys> HotKeys = HotkeyDialog.ReturnValue1;
-                 //ok now we got the keys, parse them and put them in the index box
-                 // and the global list for hotkeys
+            HotkeyForm HotkeyDialog = new();
+            var result = HotkeyDialog.ShowDialog(this);
+            // Show testDialog as a modal dialog and determine if DialogResult = OK.
+            if (result == DialogResult.OK && HotkeyDialog.ReturnValue1 != null)
+            {
+                SetHotkeys.Clear();
+                this.MicrophoneHotkeyEditbox.Text = "";
+                List<Keys> HotKeys = HotkeyDialog.ReturnValue1;
+                //ok now we got the keys, parse them and put them in the index box
+                // and the global list for hotkeys
 
-                 for (var i = 0; i < HotKeys.Count; i++)
-                 {
-                     //add to the current hotkey list for keyup event checks
-                     SetHotkeys.Add(HotKeys[i]);
+                for (var i = 0; i < HotKeys.Count; i++)
+                {
+                    //add to the current hotkey list for keyup event checks
+                    SetHotkeys.Add(HotKeys[i]);
 
-                     //add to the text box
-                     if (i < HotKeys.Count - 1)
-                         this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString() + " + ";
-                     else
-                         this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString();
-                 }
-             }
-             TextLog.AppendText("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
-             BBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
-             HotkeyDialog.Dispose();
-             //bind the new value 
-             Subscribe();
-         }
+                    //add to the text box
+                    if (i < HotKeys.Count - 1)
+                        this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString() + " + ";
+                    else
+                        this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString();
+                }
+            }
+            TextLog.AppendText("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
+            BBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
+            HotkeyDialog.Dispose();
+            //bind the new value 
+            Subscribe();
+        }
 
         [SupportedOSPlatform("windows6.1")]
         private void MicrophoneHotkeySet_Click(object sender, EventArgs e)
-         {
-             Unsubscribe();
-             ShowHotkeyDialogBox();
-         }
+        {
+            Unsubscribe();
+            ShowHotkeyDialogBox();
+        }
 
         [SupportedOSPlatform("windows6.1")]
         //Keyboard hooks
         public void Unsubscribe()
-         {
-             m_GlobalHook.KeyDown -= GlobalHookKeyDown;
-             m_GlobalHook.KeyUp -= GlobalHookKeyUp;
-             //It is recommened to dispose it
-             m_GlobalHook.Dispose();
-         }
+        {
+            m_GlobalHook.KeyDown -= GlobalHookKeyDown;
+            m_GlobalHook.KeyUp -= GlobalHookKeyUp;
+            //It is recommened to dispose it
+            m_GlobalHook.Dispose();
+        }
 
         [SupportedOSPlatform("windows6.1")]
         public void Subscribe()
-         {
-             m_GlobalHook = Hook.GlobalEvents();
-             m_GlobalHook.KeyDown += GlobalHookKeyDown;
-             m_GlobalHook.KeyUp += GlobalHookKeyUp;
-         }
+        {
+            m_GlobalHook = Hook.GlobalEvents();
+            m_GlobalHook.KeyDown += GlobalHookKeyDown;
+            m_GlobalHook.KeyUp += GlobalHookKeyUp;
+        }
 
         [SupportedOSPlatform("windows6.1")]
         private async void HandleHotkeyButton()
-         {
-             if (!HotkeyCalled)
-             {
-                 if (MainRecordingStart.Text == "Start")
-                 {
-                     MainRecordingStart_Click(null, null);
-                     HotkeyCalled = true;
-                     //ok lets wait 1 sec before checking shit again
-                     await Task.Delay(1000);
-                 }
-             }
-         }
+        {
+            if (!HotkeyCalled)
+            {
+                if (MainRecordingStart.Text == "Start")
+                {
+                    MainRecordingStart_Click(null, null);
+                    HotkeyCalled = true;
+                    //ok lets wait 1 sec before checking shit again
+                    await Task.Delay(1000);
+                }
+            }
+        }
 
         [SupportedOSPlatform("windows6.1")]
         private async void GlobalHookKeyUp(object sender, KeyEventArgs e)
-         {
-             //if microphone is on (hotkeycalled = true) and of the hotkeys are in the keyup event turn off the microphone
-             //current hotkeys are in SetHotkeys
-             if (HotkeyCalled)
-             {
-                 //if one of the keys in the sethotkeys is detected as UP, give it a second then stop recording
-                 //foreach (Keys key in SetHotkeys)
-                 if (SetHotkeys.Contains(e.KeyCode))
-                 {
-                     MainRecordingStart_Click(null, null);
-                     await Task.Delay(1000);
-                     HotkeyCalled = false;
-                 }
-             }
+        {
+            //if microphone is on (hotkeycalled = true) and of the hotkeys are in the keyup event turn off the microphone
+            //current hotkeys are in SetHotkeys
+            if (HotkeyCalled)
+            {
+                //if one of the keys in the sethotkeys is detected as UP, give it a second then stop recording
+                //foreach (Keys key in SetHotkeys)
+                if (SetHotkeys.Contains(e.KeyCode))
+                {
+                    MainRecordingStart_Click(null, null);
+                    await Task.Delay(1000);
+                    HotkeyCalled = false;
+                }
+            }
 
-         }
+        }
 
         [SupportedOSPlatform("windows6.1")]
         //handle the current hotkey setting
         private void GlobalHookKeyDown(object sender, KeyEventArgs e)
-         {
-             var map = new Dictionary<Combination, Action>
+        {
+            var map = new Dictionary<Combination, Action>
              {
                 {Combination.FromString(MicrophoneHotkeyEditbox.Text),  () => HandleHotkeyButton() }
              };
 
-             m_GlobalHook.OnCombination(map);
-         }
+            m_GlobalHook.OnCombination(map);
+        }
 
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchTestButton_Click(object sender, EventArgs e)
-         {
+        {
             //first lets make sure people cant click too often
             TwitchTestButton.Enabled = false;
             //first we check if the Authorization key is fine, using the API
@@ -989,16 +1016,26 @@ namespace BanterBrain_Buddy
             //we need both since the username of the bot and teh channel it joins can be different.
             var VerifyOk = await TwAPITest.CheckAuthCodeAPI(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text);
             if (!VerifyOk)
-             {
+            {
                 BBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
+                TextLog.Text += "Problem verifying Access token, invalid access token\r\n";
                 MessageBox.Show("Problem verifying Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 TwitchTestButton.Enabled = true;
+
+                //if the token is invalid, lets disable the checkboxes
+                TwitchEnableCheckbox.Checked = false;
+                if (TwitchCheckAuthAtStartup.Checked)
+                    TwitchCheckAuthAtStartup.Checked = false;
                 return;
-             } else
-             {
+            }
+            else
+            {
                 BBBlog.Info($"Twitch Access token verified success!");
                 MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-             }
+                //if the token is valid, and twitch enabled lets start up the hourly validation timer
+                if (TwitchEnableCheckbox.Checked)
+                   SetTwitchValidateTokenTimer();
+            }
 
             TwitchTestButton.Enabled = true;
         }
@@ -1011,12 +1048,13 @@ namespace BanterBrain_Buddy
             //the application. 
             TwitchAPI twitchAPI = new();
             var TwitchAPIResult = await twitchAPI.GetTwitchAuthToken(["chat:read", "whispers:read", "whispers:edit", "chat:edit", "user:write:chat"]);
-            
+
             if (!TwitchAPIResult)
             {
                 BBBlog.Error("Issue with getting auth token. Check logs for more information.");
                 MessageBox.Show($"Issue with getting Auth token. Check logs for more information.", "Twitch Authorization Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else
+            }
+            else
             {
                 TwitchAccessToken.Text = twitchAPI.TwitchAuthToken;
             }
@@ -1090,6 +1128,35 @@ namespace BanterBrain_Buddy
             var t = new Thread(() => Process.Start("https://discord.banterbrain.tv"));
             t.Start();
             Thread.Sleep(100);
+        }
+
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchCheckAuthAtStartup_Click(object sender, EventArgs e)
+        {
+            BBBlog.Debug("Twitch check auth at startup changed to " + TwitchCheckAuthAtStartup.Checked);
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchEnableCheckbox_Click(object sender, EventArgs e)
+        {
+            //if the checkbox is checked, lets enable the timer to check the token every hour
+            if (TwitchEnableCheckbox.Checked)
+            {
+                SetTwitchValidateTokenTimer();
+                TwitchCheckAuthAtStartup.Enabled = true;
+            }
+            else
+            { //turning off Twitch
+                BBBlog.Info("Twitch disabled. Stopping timer and clearing token");
+                if (GlobalTwitchAPI != null)
+                {
+                    GlobalTwitchAPI.StopHourlyAccessTokenCheck();
+                    GlobalTwitchAPI = null;
+                    TwitchStatusTextBox.Text = "DISABLED";
+                }
+            }
+            BBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
         }
     }
 }

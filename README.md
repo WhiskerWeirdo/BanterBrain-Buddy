@@ -36,7 +36,7 @@ tldr: use Visual studio 2022 with .net 8.
 - [ ] Native STT: fix the output stream issue of native STT instead of using a wav file. (0.0.2 known issue)
 - [X] Twitch: Setup Twitch client in its own class
 - [X] Twitch: refresh auth token correctly on both timer and restart of application (fixed: using implicit grant)
-- [ ] Twitch: call /validate on startup to check if token is still valid and then call hourly
+- [X] Twitch: call /validate on startup to check if token is still valid and then call hourly
 - [ ] Twitch: set not only identifier but also command for bot reaction
 - [ ] Twitch: eventsub => allow for reactions to: subscription events, point redemptions & bits used
 

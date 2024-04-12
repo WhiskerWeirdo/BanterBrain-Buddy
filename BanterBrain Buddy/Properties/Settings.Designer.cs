@@ -430,5 +430,29 @@ namespace BanterBrain_Buddy.Properties {
                 this["STTLanguageComboBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchEnable {
+            get {
+                return ((bool)(this["TwitchEnable"]));
+            }
+            set {
+                this["TwitchEnable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchCheckAuthAtStartup {
+            get {
+                return ((bool)(this["TwitchCheckAuthAtStartup"]));
+            }
+            set {
+                this["TwitchCheckAuthAtStartup"] = value;
+            }
+        }
     }
 }
