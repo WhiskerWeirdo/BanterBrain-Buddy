@@ -54,6 +54,8 @@ namespace BanterBrain_Buddy
             TTSAudioOutputLabel = new Label();
             TTSProviderLabel = new Label();
             STTGroupBox = new GroupBox();
+            STTLanguageLabel = new Label();
+            STTLanguageComboBox = new ComboBox();
             STTHintText = new Label();
             STTRegionEditbox = new TextBox();
             STTRegionLabel = new Label();
@@ -83,6 +85,7 @@ namespace BanterBrain_Buddy
             GPTProviderLabel = new Label();
             StreaminSettingsTab = new TabPage();
             groupBox4 = new GroupBox();
+            TwitchCheckAuthAtStartup = new CheckBox();
             DisconnectTwitchButton = new Button();
             groupBox7 = new GroupBox();
             TwitchTestSendText = new TextBox();
@@ -115,8 +118,7 @@ namespace BanterBrain_Buddy
             GithubToolStripMenuItem = new ToolStripMenuItem();
             DiscordToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
-            STTLanguageComboBox = new ComboBox();
-            STTLanguageLabel = new Label();
+            TwitchEnableCheckbox = new CheckBox();
             SettingsTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -301,6 +303,18 @@ namespace BanterBrain_Buddy
             STTGroupBox.Controls.Add(STTTestOutput);
             STTGroupBox.Name = "STTGroupBox";
             STTGroupBox.TabStop = false;
+            // 
+            // STTLanguageLabel
+            // 
+            resources.ApplyResources(STTLanguageLabel, "STTLanguageLabel");
+            STTLanguageLabel.Name = "STTLanguageLabel";
+            // 
+            // STTLanguageComboBox
+            // 
+            STTLanguageComboBox.FormattingEnabled = true;
+            STTLanguageComboBox.Items.AddRange(new object[] { resources.GetString("STTLanguageComboBox.Items") });
+            resources.ApplyResources(STTLanguageComboBox, "STTLanguageComboBox");
+            STTLanguageComboBox.Name = "STTLanguageComboBox";
             // 
             // STTHintText
             // 
@@ -488,6 +502,8 @@ namespace BanterBrain_Buddy
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(TwitchEnableCheckbox);
+            groupBox4.Controls.Add(TwitchCheckAuthAtStartup);
             groupBox4.Controls.Add(DisconnectTwitchButton);
             groupBox4.Controls.Add(groupBox7);
             groupBox4.Controls.Add(TwitchAuthorizeButton);
@@ -503,6 +519,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(groupBox4, "groupBox4");
             groupBox4.Name = "groupBox4";
             groupBox4.TabStop = false;
+            // 
+            // TwitchCheckAuthAtStartup
+            // 
+            resources.ApplyResources(TwitchCheckAuthAtStartup, "TwitchCheckAuthAtStartup");
+            TwitchCheckAuthAtStartup.Name = "TwitchCheckAuthAtStartup";
+            TwitchCheckAuthAtStartup.UseVisualStyleBackColor = true;
             // 
             // DisconnectTwitchButton
             // 
@@ -700,17 +722,11 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
             // 
-            // STTLanguageComboBox
+            // TwitchEnableCheckbox
             // 
-            STTLanguageComboBox.FormattingEnabled = true;
-            STTLanguageComboBox.Items.AddRange(new object[] { resources.GetString("STTLanguageComboBox.Items") });
-            resources.ApplyResources(STTLanguageComboBox, "STTLanguageComboBox");
-            STTLanguageComboBox.Name = "STTLanguageComboBox";
-            // 
-            // STTLanguageLabel
-            // 
-            resources.ApplyResources(STTLanguageLabel, "STTLanguageLabel");
-            STTLanguageLabel.Name = "STTLanguageLabel";
+            resources.ApplyResources(TwitchEnableCheckbox, "TwitchEnableCheckbox");
+            TwitchEnableCheckbox.Name = "TwitchEnableCheckbox";
+            TwitchEnableCheckbox.UseVisualStyleBackColor = true;
             // 
             // BBB
             // 
@@ -840,6 +856,8 @@ namespace BanterBrain_Buddy
         private Button DisconnectTwitchButton;
         private Label STTLanguageLabel;
         private ComboBox STTLanguageComboBox;
+        private CheckBox TwitchCheckAuthAtStartup;
+        private CheckBox TwitchEnableCheckbox;
     }
 }
 

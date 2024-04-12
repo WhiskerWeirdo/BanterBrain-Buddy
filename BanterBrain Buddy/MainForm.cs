@@ -125,7 +125,7 @@ namespace BanterBrain_Buddy
                     }
                     else
                     {
-                        AzureInputStream();
+                        AzureConvertVoicetoText();
                         while (!STTDone && !BigError)
                         {
                             await Task.Delay(500);
@@ -199,17 +199,43 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        //Azure
-        //Maybe should make it a Task instead of a void 
-        private async void AzureInputStream()
+        //Azure Speech-To-Text
+        private async void AzureConvertVoicetoText()
         {
+            AzureSpeechAPI azureSpeechAPI = new (STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
+            //call the Azure STT function with the selected input device
+            //first initialize the Azure STT class
+            azureSpeechAPI.AzureSTTInit(SoundInputDevices.Text);
+            BBBlog.Info("Azure STT microphone start.");
+            while ((STTTestButton.Text == "Recording" || MainRecordingStart.Text == "Recording") && !STTDone && !BigError)
+            {
+                var recognizeResult = await azureSpeechAPI.RecognizeSpeechAsync();
+                if (recognizeResult == "NOMATCH")
+                {
+                    STTTestOutput.Text += "NOMATCH: Speech could not be recognized.\r\n";
+                }
+                else if (recognizeResult == null)
+                {
+                    STTTestOutput.Text += "Fail! Speech could not be proccessed. Check log for more info.\r\n";
+                    TextLog.Text += "Azure Speech-To-Text: Fail! Speech could not be proccessed. Check log for more info.\r\n";
+                    BigError = true;
+                    STTDone = true;
+                } else
+                {
+                    STTTestOutput.Text += recognizeResult + "\r\n";
+                    TextLog.Text += "Azure Speech-To-Text: " + recognizeResult + "\r\n";
+                }
+            }
+            STTDone = true;
+
+            /*
             //ok lets just start
             var AzureSpeechConfig = SpeechConfig.FromSubscription(STTAPIKeyEditbox.Text, STTRegionEditbox.Text);
             AzureSpeechConfig.SpeechRecognitionLanguage = "en-US"; //default language
 
             SetSelectedInputDevice();
 
-            BBBlog.Info("selected audio input device for azure: " + SelectedInputDevice);
+            BBBlog.Info("selected audio input device for Azure: " + SelectedInputDevice);
             var AzureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedInputDevice.DeviceID);
             var AzureSpeechRecognizer = new Microsoft.CognitiveServices.Speech.SpeechRecognizer(AzureSpeechConfig, AzureAudioConfig);
             STTTestOutput.Text = "";
@@ -221,6 +247,7 @@ namespace BanterBrain_Buddy
                 AzureOutputSpeechRecognitionResult(speechRecognitionResult);
             }
             STTDone = true;
+            */
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -761,7 +788,7 @@ namespace BanterBrain_Buddy
                     }
                     else
                     {
-                        AzureInputStream();
+                        AzureConvertVoicetoText();
                         while (!STTDone)
                         {
                             await Task.Delay(500);
