@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,18 +19,30 @@ namespace BanterBrain_Buddy
         public string AzureRegion { get; set; }
         public string AzureLanguage { get; set; }
 
-        //for the Azure STT input device selection and general speech config
-        private SpeechConfig azureSpeechConfig ;
+        private SpeechConfig azureSpeechConfig;
         private AudioConfig azureAudioConfig;
         private Microsoft.CognitiveServices.Speech.SpeechRecognizer azureSpeechRecognizer;
+        private string AzureVoiceName { get; set; }
+        private string AzureVoiceOptions { get; set; }
 
-        private MMDevice _selectedDevice;
+        //for the Azure STT input/output device selection and general speech config
+        private MMDevice _selectedInputDevice;
         private MMDevice SelectedInputDevice
         {
-            get { return _selectedDevice; }
+            get { return _selectedInputDevice; }
             set
             {
-                _selectedDevice = value;
+                _selectedInputDevice = value;
+            }
+        }
+
+        private MMDevice _selectedOutputDevice;
+        private MMDevice SelectedOutputDevice
+        {
+            get { return _selectedOutputDevice; }
+            set
+            {
+                _selectedOutputDevice = value;
             }
         }
 
@@ -41,8 +54,10 @@ namespace BanterBrain_Buddy
         {
             List<AzureVoices> AzureRegionVoicesList = [];
             BBBlog.Info("Finding TTS Azure voices available");
+            BBBlog.Debug("Get voices Azure API Key: " + AzureAPIKey);
+            BBBlog.Debug("Get voices Azure Region: " + AzureRegion);
+
             SpeechConfig speechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
-            BBBlog.Info("Azure authorizationToken: " + speechConfig.AuthorizationToken);
             var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(speechConfig, null as AudioConfig);
             SynthesisVoicesResult result = await speechSynthesizer.GetVoicesAsync();
 
@@ -81,10 +96,134 @@ namespace BanterBrain_Buddy
             {
                 if (device.FriendlyName == InputDevice)
                 {
+                    BBBlog.Debug($"Selected inputdevice = {device.FriendlyName}");
                     SelectedInputDevice = device;
                 }
             }
         }
+
+        private void SetSelectedOutputDevice(string OutputDevice)
+        {
+            BBBlog.Info($"Setting selected output device for Azure TTS to: {OutputDevice}");
+            var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active);
+            foreach (var device in devices)
+            {
+                if (device.FriendlyName.StartsWith(OutputDevice))
+                {
+                    BBBlog.Debug($"Selected outputdevice = {device.FriendlyName}");
+                    SelectedOutputDevice = device;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Initializes the Azure Text to Speech API with the selected voice, style and output device
+        /// </summary>
+        /// <param name="AzureVoiceName">This holds the azure voice. This need to be parsed to be usable for Azure</param>
+        /// <param name="TTSVoiceOptions">This holds the style of the voice (if available)</param>
+        /// <param name="OutputDevice">This is the output device selected in the GUI</param>
+        public async Task AzureTTSInit(string AzureVoiceParseName, string TTSVoiceOptions, string OutputDevice)
+        {
+            BBBlog.Info("Starting Azure Text To Speech, Initializing");
+            BBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
+            BBBlog.Debug("Init Azure Region: " + AzureRegion);
+            BBBlog.Debug("Init Output Device: " + OutputDevice);
+            SetSelectedOutputDevice(OutputDevice);
+
+            azureSpeechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
+
+            //set the options that we can just pass along, this holds the style of the voice
+            AzureVoiceOptions = TTSVoiceOptions;
+
+            //now find the correct name associated with the selected voice
+            var AzureRegionVoicesList = await TTSGetAzureVoices();
+
+            //we need to do some parsing. Azure voices are in the format of "en-US-Guy-Azure" and the text we get is not.
+            //what is returned is the usable voicename for Azure.
+            foreach (var AzureRegionVoice in AzureRegionVoicesList)
+            {
+                if (AzureVoiceParseName == (AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-" + AzureRegionVoice.LocalName))
+                {
+                    
+                    AzureVoiceName = AzureRegionVoice.Name;
+                    BBBlog.Debug($"Azure Voice found. Assigning {AzureVoiceName}");
+                    return;
+                }
+            }
+  
+        }
+
+        /// <summary>
+        /// This method speaks the text passed to it using the Azure TTS API using SSML so it support styles
+        /// </summary>
+        /// <param name="TextToSay">The text to be spoken by the Azure TTS</param>
+        /// <returns>True if no error, False if error</returns>
+        public async Task<bool> AzureSpeak(string TextToSay)
+        {
+            BBBlog.Info($"Starting Azure Text To Speech, Speaking with: {AzureVoiceName}");
+            if (!string.IsNullOrEmpty(AzureVoiceName))
+            {
+                string SSMLText =
+                "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"zh-CN\">\r\n   " +
+                $" <voice name=\"{AzureVoiceName}\">\r\n       " +
+                $" <mstts:express-as style=\"{AzureVoiceOptions}\" styledegree=\"2\">\r\n            " +
+                $"{TextToSay}\r\n        " +
+                "</mstts:express-as>\r\n    " +
+                "</voice>\r\n" +
+                "</speak>";
+
+                //now lets speak the SSML and handle the result 
+                azureSpeechConfig.SpeechSynthesisVoiceName = AzureVoiceName;
+                var tmpAudioConfig = AudioConfig.FromSpeakerOutput(SelectedOutputDevice.DeviceID);
+                var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(azureSpeechConfig, tmpAudioConfig);
+                var speechSynthesisResult = await speechSynthesizer.SpeakSsmlAsync(SSMLText);
+                var result = TTSAzureOutputSpeechSynthesisResult(speechSynthesisResult, TextToSay);
+                if (result)
+                {
+                    return true;
+                } else
+                {
+                    return false;
+                }
+            } else
+            {
+                BBBlog.Error("Cannot find selected voice in the list. Is there a problem with your API key or subscription?");
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// This parses the output of the Azure TTS and returns 
+        /// </summary>
+        /// <param name="speechSynthesisResult">Holds the result of the action of SSML speaking</param>
+        /// <param name="text">The text that has been spoken</param>
+        /// <returns>True if no error, false if not </returns>
+        private static bool TTSAzureOutputSpeechSynthesisResult(SpeechSynthesisResult speechSynthesisResult, string text)
+        {
+            switch (speechSynthesisResult.Reason)
+            {
+                case ResultReason.SynthesizingAudioCompleted:
+                    BBBlog.Info($"Speech synthesized for text: [{text}]");
+                    return true;
+                case ResultReason.Canceled:
+                    var cancellation = SpeechSynthesisCancellationDetails.FromResult(speechSynthesisResult);
+                    BBBlog.Info($"CANCELED: Reason={cancellation.Reason}");
+
+                    if (cancellation.Reason == CancellationReason.Error)
+                    {
+                        BBBlog.Error($"CANCELED: ErrorCode={cancellation.ErrorCode}");
+                        BBBlog.Error($"CANCELED: ErrorDetails=[{cancellation.ErrorDetails}]");
+                        BBBlog.Error($"CANCELED: Did you set the speech resource key and region values?");
+                    }
+                    return false;
+                default:
+                    break;
+            }
+            return false;
+        }
+
 
         /// <summary>
         /// Initializes the Azure Speech to Text API with the selected input device
@@ -93,6 +232,8 @@ namespace BanterBrain_Buddy
         public void AzureSTTInit(string InputDevice)
         {
             BBBlog.Info("Starting Azure Speech to Text, Initializing");
+            BBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
+            BBBlog.Debug("Init Azure Region: " + AzureRegion);
             azureSpeechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
             azureSpeechConfig.SpeechRecognitionLanguage = AzureLanguage; //default language
 
@@ -101,7 +242,6 @@ namespace BanterBrain_Buddy
             azureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedInputDevice.DeviceID);
             azureSpeechRecognizer = new SpeechRecognizer(azureSpeechConfig, azureAudioConfig);
         }
-
 
         /// <summary>
         /// this is the recognizer loop for Azure STT, it returns the speech recognized as text
@@ -112,14 +252,16 @@ namespace BanterBrain_Buddy
         {
             BBBlog.Info("Starting Azure Speech to Text, Recognizing");
             var tmpResult = await azureSpeechRecognizer.RecognizeOnceAsync();
-
-            //returns: result text, NOMATCH or null
             var returnResult = AzureOutputSpeechRecognitionResult(tmpResult);
-
             return returnResult;
         }
 
-        private string AzureOutputSpeechRecognitionResult(SpeechRecognitionResult speechRecognitionResult)
+        /// <summary>
+        /// This method stops the Azure STT recognizer and parses the result for errors or recognized text
+        /// </summary>
+        /// <param name="speechRecognitionResult"></param>
+        /// <returns>Recognized text, NOMATCH or null</returns>
+        private static string AzureOutputSpeechRecognitionResult(SpeechRecognitionResult speechRecognitionResult)
         {
             switch (speechRecognitionResult.Reason)
             {

@@ -199,7 +199,9 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        //Azure Speech-To-Text
+        /// <summary>
+        /// This uses the Azure Cognitive Services Speech SDK to convert voice to text.
+        /// </summary>
         private async void AzureConvertVoicetoText()
         {
             AzureSpeechAPI azureSpeechAPI = new (STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
@@ -227,62 +229,6 @@ namespace BanterBrain_Buddy
                 }
             }
             STTDone = true;
-
-            /*
-            //ok lets just start
-            var AzureSpeechConfig = SpeechConfig.FromSubscription(STTAPIKeyEditbox.Text, STTRegionEditbox.Text);
-            AzureSpeechConfig.SpeechRecognitionLanguage = "en-US"; //default language
-
-            SetSelectedInputDevice();
-
-            BBBlog.Info("selected audio input device for Azure: " + SelectedInputDevice);
-            var AzureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedInputDevice.DeviceID);
-            var AzureSpeechRecognizer = new Microsoft.CognitiveServices.Speech.SpeechRecognizer(AzureSpeechConfig, AzureAudioConfig);
-            STTTestOutput.Text = "";
-            BBBlog.Info("Azure STT microphone start.");
-
-            while ((STTTestButton.Text == "Recording" || MainRecordingStart.Text == "Recording") && !STTDone && !BigError)
-            {
-                var speechRecognitionResult = await AzureSpeechRecognizer.RecognizeOnceAsync();
-                AzureOutputSpeechRecognitionResult(speechRecognitionResult);
-            }
-            STTDone = true;
-            */
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void AzureOutputSpeechRecognitionResult(SpeechRecognitionResult speechRecognitionResult)
-        {
-            switch (speechRecognitionResult.Reason)
-            {
-                case ResultReason.RecognizedSpeech:
-                    BBBlog.Info($"RECOGNIZED: Text={speechRecognitionResult.Text}");
-                    STTTestOutput.Text += speechRecognitionResult.Text + "\r\n";
-                    TextLog.Text += speechRecognitionResult.Text + "\r\n";
-                    break;
-                case ResultReason.NoMatch:
-                    BBBlog.Info("NOMATCH: Speech could not be recognized.");
-                    STTTestOutput.Text += "NOMATCH: Speech could not be recognized.\r\n";
-                    break;
-                case ResultReason.Canceled:
-                    var cancellation = CancellationDetails.FromResult(speechRecognitionResult);
-                    BBBlog.Info($"CANCELED: Reason={cancellation.Reason}");
-                    STTTestOutput.Text += $"CANCELED: Reason={cancellation.Reason}\r\n";
-
-                    if (cancellation.Reason == CancellationReason.Error)
-                    {
-                        STTTestOutput.Text = $"CANCELED: ErrorCode={cancellation.ErrorCode} see log for more details.\r\n";
-                        BBBlog.Error($"CANCELED: ErrorCode={cancellation.ErrorCode}");
-                        BBBlog.Error($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
-                        BBBlog.Error($"CANCELED: Did you set the correct API resource key and region values?");
-                        MessageBox.Show($"CANCELED: Did you set the correct API resource key and region values? ErrorCode={cancellation.ErrorCode} see log for more details.", "Azure STT Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    STTDone = true;
-                    STTTestButton.Text = "Test";
-                    BigError = true;
-                    break;
-            }
-            STTTestOutput.Text += "\r\n";
         }
 
         //help with selected inputdevice to return the ID
@@ -540,11 +486,16 @@ namespace BanterBrain_Buddy
             waveOut.WaitForStopped();
         }
 
-
+        /// <summary>
+        /// Holds the list of Azure Voices and their options
+        /// </summary>
         //holder of the list of Azure Voices and their options
         List<AzureVoices> AzureRegionVoicesList = [];
 
         [SupportedOSPlatform("windows6.1")]
+        /// <summary>
+        /// This function gets the list of voices available in the Azure TTS API
+        /// </summary>
         private async Task TTSGetAzureVoices()
         {
             //only bother if the two fields are not empty or not "placeholder"
@@ -570,6 +521,9 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
+        /// <summary>
+        /// This function fills the Azure voice list in the GUI TTSOutputVoice
+        /// </summary>
         private void TTSFillAzureVoicesList()
         {
             BBBlog.Info("Fill Azure voice list");
@@ -585,12 +539,14 @@ namespace BanterBrain_Buddy
             if (TTSOutputVoice.Text == "placeholder")
                     TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
             TTSOutputVoiceOptions.Text = "";
-            //TODO: handle placeholder text
 
             TTSAzureFillOptions(TTSOutputVoice.Text);
         }
 
         [SupportedOSPlatform("windows6.1")]
+        /// <summary>
+        /// This function fills the Azure voice options in the GUI TTSOutputVoiceOptions, depends on the selected voice
+        /// </summary>
         private void TTSAzureFillOptions(string SelectedVoice)
         {
             BBBlog.Info("Finding Azure voice options (if available)");
@@ -630,73 +586,18 @@ namespace BanterBrain_Buddy
         //Azure Text-To-Speach
         private async void TTSAzureSpeakToOutput(string TextToSpeak)
         {
-            BBBlog.Info("TTS Azure voice output.");
-            //first of all API key and region cannot be empty
+            BBBlog.Info("Azure TTS called with text, seting up");
+            AzureSpeechAPI azureSpeechAPI = new(STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
 
-            //Lets us the formal long assignment to prevent confusion on local vs Azure
-            var speechConfig = Microsoft.CognitiveServices.Speech.SpeechConfig.FromSubscription(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text);
+            //set the output voice, gender and locale, and the style
+            await azureSpeechAPI.AzureTTSInit(TTSOutputVoice.Text, TTSOutputVoiceOptions.Text, TTSAudioOutputComboBox.Text);
 
-            //now find the correct name associated with the selected voice
-            var tmpVoiceNameSelected = "";
-            foreach (var AzureRegionVoice in AzureRegionVoicesList)
+            var result = await azureSpeechAPI.AzureSpeak(TextToSpeak);
+            if (!result)
             {
-                if (TTSOutputVoice.Text == (AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-" + AzureRegionVoice.LocalName))
-                {
-                    BBBlog.Info("Azure Voice found. Assigning!");
-                    tmpVoiceNameSelected = AzureRegionVoice.Name;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(tmpVoiceNameSelected))
-            {
-                BBBlog.Info("Speaking with " + tmpVoiceNameSelected + " in style: " + TTSOutputVoiceOptions.Text);
-                string SSMLText =
-                    "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"zh-CN\">\r\n   " +
-                    $" <voice name=\"{tmpVoiceNameSelected}\">\r\n       " +
-                    $" <mstts:express-as style=\"{TTSOutputVoiceOptions.Text}\" styledegree=\"2\">\r\n            " +
-                    $"{TextToSpeak}\r\n        " +
-                    "</mstts:express-as>\r\n    " +
-                    "</voice>\r\n" +
-                    "</speak>";
-
-                speechConfig.SpeechSynthesisVoiceName = tmpVoiceNameSelected;
-                SetSelectedOutputDevice();
-                var tmpAudioConfig = AudioConfig.FromSpeakerOutput(SelectedOutputDevice.DeviceID);
-                var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(speechConfig, tmpAudioConfig);
-                var speechSynthesisResult = await speechSynthesizer.SpeakSsmlAsync(SSMLText);
-                TTSAzureOutputSpeechSynthesisResult(speechSynthesisResult, TextToSpeak);
-            }
-            else
-            {
-                BBBlog.Error("Cannot find selected voice in the list. Is there a problem with your API key or subscription?");
-                MessageBox.Show("Cannot find selected voice in the list. Is there a problem with your API key or subscription?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                BBBlog.Error("Azure TTS error. Is there a problem with your API key or subscription?");
+                MessageBox.Show("Azure TTS error. Is there a problem with your API key or subscription?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 BigError = true;
-            }
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void TTSAzureOutputSpeechSynthesisResult(SpeechSynthesisResult speechSynthesisResult, string text)
-        {
-            switch (speechSynthesisResult.Reason)
-            {
-                case ResultReason.SynthesizingAudioCompleted:
-                    BBBlog.Info($"Speech synthesized for text: [{text}]");
-                    break;
-                case ResultReason.Canceled:
-                    var cancellation = SpeechSynthesisCancellationDetails.FromResult(speechSynthesisResult);
-                    BBBlog.Info($"CANCELED: Reason={cancellation.Reason}");
-
-                    if (cancellation.Reason == CancellationReason.Error)
-                    {
-                        BBBlog.Info($"CANCELED: ErrorCode={cancellation.ErrorCode}");
-                        BBBlog.Info($"CANCELED: ErrorDetails=[{cancellation.ErrorDetails}]");
-                        BBBlog.Info($"CANCELED: Did you set the speech resource key and region values?");
-                    }
-                    STTDone = true;
-                    BigError = true;
-                    break;
-                default:
-                    break;
             }
         }
 
