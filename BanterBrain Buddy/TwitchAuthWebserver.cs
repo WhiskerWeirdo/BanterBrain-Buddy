@@ -5,6 +5,13 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// CODING RULES:
+/// •	Local variables, private instance, static fields and method parameters should be camelCase.
+/// •	Methods, constants, properties, events and classes should be PascalCase.
+/// •	Global private instance fields should be in camelCase prefixed with an underscore.
+/// </summary>
+
 namespace BanterBrain_Buddy
 {
     
@@ -20,40 +27,40 @@ namespace BanterBrain_Buddy
 
     public class TwitchAuthWebserver
     {
-        private static readonly log4net.ILog BBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly HttpListener listener;
+        private readonly HttpListener _listener;
 
         public TwitchAuthWebserver(string uri)
         {
-            listener = new HttpListener();
-            listener.Prefixes.Add(uri);
+            _listener = new HttpListener();
+            _listener.Prefixes.Add(uri);
         }
 
         public async Task<Authorization> AuthorizationListen()
         {
-            BBBlog.Info("Authorization code OAUTH starting");
-            listener.Start();
+            _bBBlog.Info("Authorization code OAUTH starting");
+            _listener.Start();
             var result = await OnAuthorizationRequest();
             return result;
         }
 
         public async Task<Authorization> ImplicitListen()
         {
-            BBBlog.Info("Implicit grant OAUTH starting");
-            listener.Start();
+            _bBBlog.Info("Implicit grant OAUTH starting");
+            _listener.Start();
             var result = await OnImplicitRequest();
             return result;
         }
 
         private async Task<Authorization> OnImplicitRequest()
         {
-            bool FirstTime = true;
-            while (listener.IsListening)
+            bool firstTime = true;
+            while (_listener.IsListening)
             {
                 try
                 {
-                    HttpListenerContext ctx = await listener.GetContextAsync();
+                    HttpListenerContext ctx = await _listener.GetContextAsync();
                     var req = ctx.Request;
                     var resp = ctx.Response;
 
@@ -61,7 +68,7 @@ namespace BanterBrain_Buddy
                     //so, with implicit flow, the first time we get back an URl that can only be read by the browser context
                     //because it has #, we rewrite that in a Uri resource (changing # to ?) and call ourselves again.
                     //The second time the parser will pick up the code correctly then.
-                    if (FirstTime)
+                    if (firstTime)
                     {
                         //its a hack cos implicit gets a #access_token instead of ?code so we do some rewrite magic
                         //and redirect ourselves to the new url
@@ -81,25 +88,25 @@ namespace BanterBrain_Buddy
                         resp.ContentLength64 = encoded.Length;
                         resp.OutputStream.Write(encoded, 0, encoded.Length);
                         resp.OutputStream.Close();
-                        FirstTime = false;
+                        firstTime = false;
                     }
-                    else if (req.QueryString.AllKeys.Any("access_token".Contains) && !FirstTime)
+                    else if (req.QueryString.AllKeys.Any("access_token".Contains) && !firstTime)
                     {
                         writer.WriteLine("Implicit grant started! Check your application! You can close this window!");
-                        BBBlog.Info("OAUTH Implcit grant started! Check your application!");
+                        _bBBlog.Info("OAUTH Implcit grant started! Check your application!");
                         writer.Flush();
                         return new Authorization(req.QueryString["access_token"]);
                     }
                     else
                     {
-                        BBBlog.Info("No access_token found in query string! Problem with OAUTH");
+                        _bBBlog.Info("No access_token found in query string! Problem with OAUTH");
                         writer.WriteLine("No access_code found in query string! Problem with OAUTH");
                         writer.Flush();
                     }
                 }
                 catch (Exception ex)
                 {
-                    BBBlog.Error("Webserver: " + ex.ToString());
+                    _bBBlog.Error("Webserver: " + ex.ToString());
                 }
 
             }
@@ -109,11 +116,11 @@ namespace BanterBrain_Buddy
         //this for general authorization style requests
         private async Task<Authorization> OnAuthorizationRequest()
         {
-            while (listener.IsListening)
+            while (_listener.IsListening)
             {
                 try
                 {
-                    HttpListenerContext ctx = await listener.GetContextAsync();
+                    HttpListenerContext ctx = await _listener.GetContextAsync();
                     var req = ctx.Request;
                     var resp = ctx.Response;
 
@@ -121,20 +128,20 @@ namespace BanterBrain_Buddy
                     if (req.QueryString.AllKeys.Any("code".Contains))
                     {
                         writer.WriteLine("Authorization started! Check your application! You can close this window!");
-                        BBBlog.Info("OAUTH Authorization started! Check your application!");
+                        _bBBlog.Info("OAUTH Authorization started! Check your application!");
                         writer.Flush();
                         return new Authorization(req.QueryString["code"]);
                     }
                     else
                     {
-                        BBBlog.Info("No code found in query string! Problem with OAUTH");
+                        _bBBlog.Info("No code found in query string! Problem with OAUTH");
                         writer.WriteLine("No code found in query string! Problem with OAUTH");
                         writer.Flush();
                     }
                 }
                 catch (Exception ex)
                 {
-                    BBBlog.Error("Webserver: " +ex.ToString());
+                    _bBBlog.Error("Webserver: " +ex.ToString());
                 }
                 
             }

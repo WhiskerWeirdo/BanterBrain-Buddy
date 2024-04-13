@@ -1163,19 +1163,19 @@
     <value>True</value>
   </data>
   <data name="TwitchStatusLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 54</value>
+    <value>9, 54</value>
   </data>
   <data name="TwitchStatusLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
   </data>
   <data name="TwitchStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 15</value>
+    <value>97, 15</value>
   </data>
   <data name="TwitchStatusLabel.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
   <data name="TwitchStatusLabel.Text" xml:space="preserve">
-    <value>Twitch Status</value>
+    <value>Twitch API Status</value>
   </data>
   <data name="&gt;&gt;TwitchStatusLabel.Name" xml:space="preserve">
     <value>TwitchStatusLabel</value>

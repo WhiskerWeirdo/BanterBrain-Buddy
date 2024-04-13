@@ -1,29 +1,33 @@
 ﻿using CSCore.CoreAudioAPI;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+
+/// <summary>
+/// CODING RULES:
+/// •	Local variables, private instance, static fields and method parameters should be camelCase.
+/// •	Methods, constants, properties, events and classes should be PascalCase.
+/// •	Global private instance fields should be in camelCase prefixed with an underscore.
+/// </summary>
 
 namespace BanterBrain_Buddy
 {
     internal class AzureSpeechAPI
     {
-        private static readonly log4net.ILog BBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public string AzureAPIKey { get; set; }
         public string AzureRegion { get; set; }
         public string AzureLanguage { get; set; }
 
-        private SpeechConfig azureSpeechConfig;
-        private AudioConfig azureAudioConfig;
-        private Microsoft.CognitiveServices.Speech.SpeechRecognizer azureSpeechRecognizer;
-        private string AzureVoiceName { get; set; }
-        private string AzureVoiceOptions { get; set; }
+        private SpeechConfig _azureSpeechConfig;
+        private AudioConfig _azureAudioConfig;
+
+        private Microsoft.CognitiveServices.Speech.SpeechRecognizer _azureSpeechRecognizer;
+        private string _azureVoiceName { get; set; }
+        private string _azureVoiceOptions { get; set; }
 
         //for the Azure STT input/output device selection and general speech config
         private MMDevice _selectedInputDevice;
@@ -52,10 +56,10 @@ namespace BanterBrain_Buddy
         /// <returns>List<AzureVoices></returns>
         public async Task<List<AzureVoices>> TTSGetAzureVoices()
         {
-            List<AzureVoices> AzureRegionVoicesList = [];
-            BBBlog.Info("Finding TTS Azure voices available");
-            BBBlog.Debug("Get voices Azure API Key: " + AzureAPIKey);
-            BBBlog.Debug("Get voices Azure Region: " + AzureRegion);
+            List<AzureVoices> azureRegionVoicesList = [];
+            _bBBlog.Info("Finding TTS Azure voices available");
+            _bBBlog.Debug("Get voices Azure API Key: " + AzureAPIKey);
+            _bBBlog.Debug("Get voices Azure Region: " + AzureRegion);
 
             SpeechConfig speechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
             var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(speechConfig, null as AudioConfig);
@@ -65,8 +69,8 @@ namespace BanterBrain_Buddy
             if (result.Reason == ResultReason.VoicesListRetrieved)
             {
                 //remove the old listed items
-                AzureRegionVoicesList.Clear();
-                BBBlog.Info($"Found {result.Voices.Count} voices");
+                azureRegionVoicesList.Clear();
+                _bBBlog.Info($"Found {result.Voices.Count} voices");
                 foreach (var voice in result.Voices)
                 {
                     var tmpVoice = new AzureVoices()
@@ -78,12 +82,12 @@ namespace BanterBrain_Buddy
                         StyleList = new List<string>(voice.StyleList),
                         LocaleDisplayname = new RegionInfo(voice.Locale).ThreeLetterISORegionName
                     };
-                    AzureRegionVoicesList.Add(tmpVoice);
+                    azureRegionVoicesList.Add(tmpVoice);
                 }
-                return AzureRegionVoicesList;
+                return azureRegionVoicesList;
             } else //no voices back means something is definately bad
             {
-                BBBlog.Error("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?");
+                _bBBlog.Error("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?");
             }
             return null;
         }
@@ -96,7 +100,7 @@ namespace BanterBrain_Buddy
             {
                 if (device.FriendlyName == InputDevice)
                 {
-                    BBBlog.Debug($"Selected inputdevice = {device.FriendlyName}");
+                    _bBBlog.Debug($"Selected inputdevice = {device.FriendlyName}");
                     SelectedInputDevice = device;
                 }
             }
@@ -104,13 +108,13 @@ namespace BanterBrain_Buddy
 
         private void SetSelectedOutputDevice(string OutputDevice)
         {
-            BBBlog.Info($"Setting selected output device for Azure TTS to: {OutputDevice}");
+            _bBBlog.Info($"Setting selected output device for Azure TTS to: {OutputDevice}");
             var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active);
             foreach (var device in devices)
             {
                 if (device.FriendlyName.StartsWith(OutputDevice))
                 {
-                    BBBlog.Debug($"Selected outputdevice = {device.FriendlyName}");
+                    _bBBlog.Debug($"Selected outputdevice = {device.FriendlyName}");
                     SelectedOutputDevice = device;
                 }
             }
@@ -125,29 +129,29 @@ namespace BanterBrain_Buddy
         /// <param name="OutputDevice">This is the output device selected in the GUI</param>
         public async Task AzureTTSInit(string AzureVoiceParseName, string TTSVoiceOptions, string OutputDevice)
         {
-            BBBlog.Info("Starting Azure Text To Speech, Initializing");
-            BBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
-            BBBlog.Debug("Init Azure Region: " + AzureRegion);
-            BBBlog.Debug("Init Output Device: " + OutputDevice);
+            _bBBlog.Info("Starting Azure Text To Speech, Initializing");
+            _bBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
+            _bBBlog.Debug("Init Azure Region: " + AzureRegion);
+            _bBBlog.Debug("Init Azure Output Device: " + OutputDevice);
             SetSelectedOutputDevice(OutputDevice);
 
-            azureSpeechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
+            _azureSpeechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
 
             //set the options that we can just pass along, this holds the style of the voice
-            AzureVoiceOptions = TTSVoiceOptions;
+            _azureVoiceOptions = TTSVoiceOptions;
 
             //now find the correct name associated with the selected voice
-            var AzureRegionVoicesList = await TTSGetAzureVoices();
+            var azureRegionVoicesList = await TTSGetAzureVoices();
 
             //we need to do some parsing. Azure voices are in the format of "en-US-Guy-Azure" and the text we get is not.
             //what is returned is the usable voicename for Azure.
-            foreach (var AzureRegionVoice in AzureRegionVoicesList)
+            foreach (var azureRegionVoice in azureRegionVoicesList)
             {
-                if (AzureVoiceParseName == (AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-" + AzureRegionVoice.LocalName))
+                if (AzureVoiceParseName == (azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName))
                 {
                     
-                    AzureVoiceName = AzureRegionVoice.Name;
-                    BBBlog.Debug($"Azure Voice found. Assigning {AzureVoiceName}");
+                    _azureVoiceName = azureRegionVoice.Name;
+                    _bBBlog.Debug($"Azure Voice found. Assigning {_azureVoiceName}");
                     return;
                 }
             }
@@ -161,22 +165,22 @@ namespace BanterBrain_Buddy
         /// <returns>True if no error, False if error</returns>
         public async Task<bool> AzureSpeak(string TextToSay)
         {
-            BBBlog.Info($"Starting Azure Text To Speech, Speaking with: {AzureVoiceName}");
-            if (!string.IsNullOrEmpty(AzureVoiceName))
+            _bBBlog.Info($"Starting Azure Text To Speech, Speaking with: {_azureVoiceName}");
+            if (!string.IsNullOrEmpty(_azureVoiceName))
             {
                 string SSMLText =
                 "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"zh-CN\">\r\n   " +
-                $" <voice name=\"{AzureVoiceName}\">\r\n       " +
-                $" <mstts:express-as style=\"{AzureVoiceOptions}\" styledegree=\"2\">\r\n            " +
+                $" <voice name=\"{_azureVoiceName}\">\r\n       " +
+                $" <mstts:express-as style=\"{_azureVoiceOptions}\" styledegree=\"2\">\r\n            " +
                 $"{TextToSay}\r\n        " +
                 "</mstts:express-as>\r\n    " +
                 "</voice>\r\n" +
                 "</speak>";
 
                 //now lets speak the SSML and handle the result 
-                azureSpeechConfig.SpeechSynthesisVoiceName = AzureVoiceName;
+                _azureSpeechConfig.SpeechSynthesisVoiceName = _azureVoiceName;
                 var tmpAudioConfig = AudioConfig.FromSpeakerOutput(SelectedOutputDevice.DeviceID);
-                var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(azureSpeechConfig, tmpAudioConfig);
+                var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(_azureSpeechConfig, tmpAudioConfig);
                 var speechSynthesisResult = await speechSynthesizer.SpeakSsmlAsync(SSMLText);
                 var result = TTSAzureOutputSpeechSynthesisResult(speechSynthesisResult, TextToSay);
                 if (result)
@@ -188,7 +192,7 @@ namespace BanterBrain_Buddy
                 }
             } else
             {
-                BBBlog.Error("Cannot find selected voice in the list. Is there a problem with your API key or subscription?");
+                _bBBlog.Error("Cannot find selected voice in the list. Is there a problem with your API key or subscription?");
                 return false;
             }
         }
@@ -205,17 +209,17 @@ namespace BanterBrain_Buddy
             switch (speechSynthesisResult.Reason)
             {
                 case ResultReason.SynthesizingAudioCompleted:
-                    BBBlog.Info($"Speech synthesized for text: [{text}]");
+                    _bBBlog.Info($"Speech synthesized for text: [{text}]");
                     return true;
                 case ResultReason.Canceled:
                     var cancellation = SpeechSynthesisCancellationDetails.FromResult(speechSynthesisResult);
-                    BBBlog.Info($"CANCELED: Reason={cancellation.Reason}");
+                    _bBBlog.Info($"CANCELED: Reason={cancellation.Reason}");
 
                     if (cancellation.Reason == CancellationReason.Error)
                     {
-                        BBBlog.Error($"CANCELED: ErrorCode={cancellation.ErrorCode}");
-                        BBBlog.Error($"CANCELED: ErrorDetails=[{cancellation.ErrorDetails}]");
-                        BBBlog.Error($"CANCELED: Did you set the speech resource key and region values?");
+                        _bBBlog.Error($"CANCELED: ErrorCode={cancellation.ErrorCode}");
+                        _bBBlog.Error($"CANCELED: ErrorDetails=[{cancellation.ErrorDetails}]");
+                        _bBBlog.Error($"CANCELED: Did you set the speech resource key and region values?");
                     }
                     return false;
                 default:
@@ -231,16 +235,16 @@ namespace BanterBrain_Buddy
         /// <param name="InputDevice">This is the name of the selected sound capture device</param>
         public void AzureSTTInit(string InputDevice)
         {
-            BBBlog.Info("Starting Azure Speech to Text, Initializing");
-            BBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
-            BBBlog.Debug("Init Azure Region: " + AzureRegion);
-            azureSpeechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
-            azureSpeechConfig.SpeechRecognitionLanguage = AzureLanguage; //default language
+            _bBBlog.Info("Starting Azure Speech to Text, Initializing");
+            _bBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
+            _bBBlog.Debug("Init Azure Region: " + AzureRegion);
+            _azureSpeechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
+            _azureSpeechConfig.SpeechRecognitionLanguage = AzureLanguage; //default language
 
             SetSelectedInputDevice(InputDevice);
-            BBBlog.Info("selected audio input device for Azure: " + SelectedInputDevice);
-            azureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedInputDevice.DeviceID);
-            azureSpeechRecognizer = new SpeechRecognizer(azureSpeechConfig, azureAudioConfig);
+            _bBBlog.Info("selected audio input device for Azure: " + SelectedInputDevice);
+            _azureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedInputDevice.DeviceID);
+            _azureSpeechRecognizer = new SpeechRecognizer(_azureSpeechConfig, _azureAudioConfig);
         }
 
         /// <summary>
@@ -250,8 +254,8 @@ namespace BanterBrain_Buddy
         /// <returns>Recognized text, NOMATCH or null</returns>
         public async Task<string> RecognizeSpeechAsync()
         {
-            BBBlog.Info("Starting Azure Speech to Text, Recognizing");
-            var tmpResult = await azureSpeechRecognizer.RecognizeOnceAsync();
+            _bBBlog.Info("Starting Azure Speech to Text, Recognizing");
+            var tmpResult = await _azureSpeechRecognizer.RecognizeOnceAsync();
             var returnResult = AzureOutputSpeechRecognitionResult(tmpResult);
             return returnResult;
         }
@@ -266,21 +270,21 @@ namespace BanterBrain_Buddy
             switch (speechRecognitionResult.Reason)
             {
                 case ResultReason.RecognizedSpeech:
-                    BBBlog.Info($"RECOGNIZED: Text={speechRecognitionResult.Text}");
+                    _bBBlog.Info($"RECOGNIZED: Text={speechRecognitionResult.Text}");
                     return speechRecognitionResult.Text;
                 case ResultReason.NoMatch:
-                    BBBlog.Info("NOMATCH: Speech could not be recognized.");
+                    _bBBlog.Info("NOMATCH: Speech could not be recognized.");
                     return "NOMATCH";
                 case ResultReason.Canceled:
                     var cancellation = CancellationDetails.FromResult(speechRecognitionResult);
-             
-                    BBBlog.Info($"CANCELED: Reason={cancellation.Reason}");
+
+                    _bBBlog.Info($"CANCELED: Reason={cancellation.Reason}");
 
                     if (cancellation.Reason == CancellationReason.Error)
-                    {   
-                        BBBlog.Error($"CANCELED: ErrorCode={cancellation.ErrorCode}");
-                        BBBlog.Error($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
-                        BBBlog.Error($"CANCELED: Did you set the correct API resource key and region values?");
+                    {
+                        _bBBlog.Error($"CANCELED: ErrorCode={cancellation.ErrorCode}");
+                        _bBBlog.Error($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
+                        _bBBlog.Error($"CANCELED: Did you set the correct API resource key and region values?");
                     }
                     //whatever the cancel reason, its an error so return null. 
                     //user should checklogfile for more info
@@ -299,11 +303,11 @@ namespace BanterBrain_Buddy
         {
             //first we convert the passed local strings to global
             AzureAPIKey = AzAPIKey;
-            BBBlog.Debug("Azure API Key: " + AzureAPIKey);
+            _bBBlog.Debug("Azure API Key: " + AzureAPIKey);
             AzureRegion = AzRegion;
-            BBBlog.Debug("Azure Region: " + AzureRegion);
+            _bBBlog.Debug("Azure Region: " + AzureRegion);
             AzureLanguage = AzLanguage;
-            BBBlog.Debug("Azure Language: " + AzureLanguage);
+            _bBBlog.Debug("Azure Language: " + AzureLanguage);
         }
     }
 }

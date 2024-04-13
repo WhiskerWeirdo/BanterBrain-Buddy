@@ -16,61 +16,58 @@ using CSCore.CoreAudioAPI;
 using CSCore.Streams;
 using CSCore.Codecs.WAV;
 using System.Threading;
-
-using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using System.Reflection;
-using Microsoft.CognitiveServices.Speech.Audio;
-using Microsoft.CognitiveServices.Speech;
-using SpeechSynthesizer = System.Speech.Synthesis.SpeechSynthesizer;
-using System.Globalization;
-
-using Microsoft.Extensions.Logging;
-using TwitchLib.Communication.Interfaces;
-using TwitchLib.Client.Events;
-using TwitchLib.Api;
 using System.Runtime.Versioning;
+
+
+/// <summary>
+/// CODING RULES:
+/// •	Local variables, private instance, static fields and method parameters should be camelCase.
+/// •	Methods, constants, properties, events and classes should be PascalCase.
+/// •	Global private instance fields should be in camelCase prefixed with an underscore.
+/// </summary>
 
 namespace BanterBrain_Buddy
 {
     public partial class BBB : Form
     {
         //set logger
-        private static readonly log4net.ILog BBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         //PTT hotkey hook
         private IKeyboardMouseEvents m_GlobalHook;
 
         //used for PTT checking
-        private bool HotkeyCalled = false;
+        private bool _hotkeyCalled = false;
         // check if SST is finished yet
-        private bool STTDone = false;
+        private bool _sTTDone = false;
 
         [SupportedOSPlatform("windows6.1")]
         //Hotkey Storage
-        readonly private List<Keys> SetHotkeys = [];
+        readonly private List<Keys> _setHotkeys = [];
 
         //check if the GPT LLM is donestop audio capture
-        private bool GPTDone = false;
-        //error checker
-        private bool BigError = false;
+        private bool _gPTDone = false;
+        
+        //error checker for async events. If true, stop execution of whatever you're doing
+        private bool _bigError = false;
 
         //Global Twitch API class
         //we need this for the hourly /validate check
-        private TwitchAPI GlobalTwitchAPI;
-        private bool TwitchValidateCheckStarted;
+        private TwitchAPI _globalTwitchAPI;
+        private bool _twitchValidateCheckStarted;
 
         [SupportedOSPlatform("windows6.1")]
         public BBB()
         {
-            TwitchValidateCheckStarted = false;
+            _twitchValidateCheckStarted = false;
 
             InitializeComponent();
             LoadSettings();
             GetAudioDevices();
 
-            BBBlog.Info("Program Starting...");
-            BBBlog.Info("PPT hotkey: " + MicrophoneHotkeyEditbox.Text);
+            _bBBlog.Info("Program Starting...");
+            _bBBlog.Info("PPT hotkey: " + MicrophoneHotkeyEditbox.Text);
             TextLog.AppendText("Program Starting...");
             TextLog.AppendText("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
             if (TwitchEnableCheckbox.Checked && TwitchCheckAuthAtStartup.Checked)
@@ -79,31 +76,34 @@ namespace BanterBrain_Buddy
                 TwitchCheckAuthAtStartup.Enabled = false;
         }
 
+        /// <summary>
+        /// Twitch requires you to validate your access token every hour. This starts this timer when Twitch is enabled.
+        /// </summary>
         [SupportedOSPlatform("windows6.1")]
         /// <summary>
         public async void SetTwitchValidateTokenTimer()
         {
-            if (!TwitchValidateCheckStarted && TwitchEnableCheckbox.Checked && TwitchUsername.Text.Length > 0 && TwitchAccessToken.Text.Length > 0 && TwitchChannel.Text.Length > 0)
+            if (!_twitchValidateCheckStarted && TwitchEnableCheckbox.Checked && TwitchUsername.Text.Length > 0 && TwitchAccessToken.Text.Length > 0 && TwitchChannel.Text.Length > 0)
             {
-                GlobalTwitchAPI = new();
-                var result = await GlobalTwitchAPI.ValidateAccessToken(TwitchAccessToken.Text);
+                _globalTwitchAPI = new();
+                var result = await _globalTwitchAPI.ValidateAccessToken(TwitchAccessToken.Text);
                 if (!result)
                 {
-                    BBBlog.Error("Twitch access token is invalid, please re-authenticate");
+                    _bBBlog.Error("Twitch access token is invalid, please re-authenticate");
                     MessageBox.Show("Twitch access token is invalid, please re-authenticate", "Twitch Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     TextLog.Text += "Twitch access token is invalid, please re-authenticate\r\n";
-                    TwitchValidateCheckStarted = false;
+                    _twitchValidateCheckStarted = false;
                     TwitchStatusTextBox.Text = "DISABLED";
-                    BigError = true;
+                    _bigError = true;
                 }
                 else
                 {
-                    BBBlog.Info("Twitch access token is valid. Starting automated /validate call");
+                    _bBBlog.Info("Twitch access token is valid. Starting automated /validate call");
                     TextLog.Text += "Twitch access token is valid. Starting automated /validate call\r\n";
-                    TwitchValidateCheckStarted = true;
+                    _twitchValidateCheckStarted = true;
                     TwitchStatusTextBox.Text = "ENABLED";
                     //if we are good, start the hourly check
-                    await GlobalTwitchAPI.CheckHourlyAccessToken();
+                    await _globalTwitchAPI.CheckHourlyAccessToken();
                 }
 
             }
@@ -113,8 +113,8 @@ namespace BanterBrain_Buddy
         //fill the audio input and output list boxes
         public void GetAudioDevices()
         {
-            var CaptureDevices = WaveInDevice.EnumerateDevices();
-            foreach (var device in CaptureDevices)
+            var captureDevices = WaveInDevice.EnumerateDevices();
+            foreach (var device in captureDevices)
             {
                 SoundInputDevices.Items.Add(device.Name);
             }
@@ -129,43 +129,43 @@ namespace BanterBrain_Buddy
         private async void STTTestButton_Click(object sender, EventArgs e)
         {
 
-            String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
+            String selectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             if (STTTestButton.Text == "Test")
             {
                 STTTestOutput.Text = "";
                 TextLog.AppendText("Test Microphone on\r\n");
-                BBBlog.Info("Test Microphone on");
+                _bBBlog.Info("Test Microphone on");
                 STTTestButton.Text = "Recording";
-                TextLog.AppendText(SelectedProvider + "\r\n");
+                TextLog.AppendText(selectedProvider + "\r\n");
 
-                STTDone = false;
-                BigError = false;
-                if (SelectedProvider == "Native")
+                _sTTDone = false;
+                _bigError = false;
+                if (selectedProvider == "Native")
                 {
                     TextLog.AppendText("Test Native STT calling\r\n");
-                    BBBlog.Info("Test Native STT calling");
+                    _bBBlog.Info("Test Native STT calling");
                     NativeInputStreamtoWav();
-                    while (!STTDone)
+                    while (!_sTTDone)
                     {
                         await Task.Delay(500);
                     }
                 }
-                else if (SelectedProvider == "Azure")
+                else if (selectedProvider == "Azure")
                 {
                     TextLog.AppendText("Test Azure STT calling\r\n");
-                    BBBlog.Info("Test Azure STT calling");
+                    _bBBlog.Info("Test Azure STT calling");
                     //cant be empty
 
                     if ((STTAPIKeyEditbox.Text.Length < 1) || (STTRegionEditbox.Text.Length < 1))
                     {
                         STTTestOutput.Text = "Error! API Key or region cannot be empty!";
-                        BBBlog.Error("Error! API Key or region cannot be empty!");
+                        _bBBlog.Error("Error! API Key or region cannot be empty!");
                         STTTestButton.Text = "Test";
                     }
                     else
                     {
                         AzureConvertVoicetoText();
-                        while (!STTDone && !BigError)
+                        while (!_sTTDone && !_bigError)
                         {
                             await Task.Delay(500);
                         }
@@ -177,9 +177,9 @@ namespace BanterBrain_Buddy
             {
                 STTTestButton.Text = "Test";
                 TextLog.AppendText("Test stopped recording\r\n");
-                BBBlog.Info("Test stopped recording");
+                _bBBlog.Info("Test stopped recording");
                 STTTestOutput.BackColor = SystemColors.Control;
-                if (SelectedProvider == "Native")
+                if (selectedProvider == "Native")
                     StopWavCapture();
             }
         }
@@ -187,19 +187,19 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void STTProviderBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
-            if (SelectedProvider == "Native")
+            String selectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
+            if (selectedProvider == "Native")
             {
                 TextLog.AppendText("Native STT selected\r\n");
-                BBBlog.Info("Native STT selected");
+                _bBBlog.Info("Native STT selected");
                 STTAPIKeyEditbox.Enabled = false;
                 STTRegionEditbox.Enabled = false;
                 STTTestOutput.Text = "Hint: For better native Speech-To-Text always train your voice at least once in Control Panel\\Ease of Access\\Speech Recognition";
             }
-            else if (SelectedProvider == "Azure")
+            else if (selectedProvider == "Azure")
             {
                 TextLog.AppendText("Azure STT selected\r\n");
-                BBBlog.Info("Azure STT selected");
+                _bBBlog.Info("Azure STT selected");
                 STTAPIKeyEditbox.Enabled = true;
                 STTRegionEditbox.Enabled = true;
                 STTTestOutput.Text = "Be sure to set API key and region!";
@@ -230,8 +230,8 @@ namespace BanterBrain_Buddy
             //call the Azure STT function with the selected input device
             //first initialize the Azure STT class
             azureSpeechAPI.AzureSTTInit(SoundInputDevices.Text);
-            BBBlog.Info("Azure STT microphone start.");
-            while ((STTTestButton.Text == "Recording" || MainRecordingStart.Text == "Recording") && !STTDone && !BigError)
+            _bBBlog.Info("Azure STT microphone start.");
+            while ((STTTestButton.Text == "Recording" || MainRecordingStart.Text == "Recording") && !_sTTDone && !_bigError)
             {
                 var recognizeResult = await azureSpeechAPI.RecognizeSpeechAsync();
                 if (recognizeResult == "NOMATCH")
@@ -242,8 +242,8 @@ namespace BanterBrain_Buddy
                 {
                     STTTestOutput.Text += "Fail! Speech could not be proccessed. Check log for more info.\r\n";
                     TextLog.Text += "Azure Speech-To-Text: Fail! Speech could not be proccessed. Check log for more info.\r\n";
-                    BigError = true;
-                    STTDone = true;
+                    _bigError = true;
+                    _sTTDone = true;
                 }
                 else
                 {
@@ -251,7 +251,7 @@ namespace BanterBrain_Buddy
                     TextLog.Text += "Azure Speech-To-Text: " + recognizeResult + "\r\n";
                 }
             }
-            STTDone = true;
+            _sTTDone = true;
         }
 
         //help with selected inputdevice to return the ID
@@ -280,15 +280,16 @@ namespace BanterBrain_Buddy
         private MMDevice _selectedDevice;
         private WasapiCapture _soundIn;
         private IWriteable _writer;
+
         [SupportedOSPlatform("windows6.1")]
-        readonly private string tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
+        readonly private string _tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
 
         [SupportedOSPlatform("windows6.1")]
         private void NativeInputStreamtoWav()
         {
 
             SetSelectedInputDevice();
-            BBBlog.Info("Selected audio input device for Native: " + SelectedInputDevice);
+            _bBBlog.Info("Selected audio input device for Native: " + SelectedInputDevice);
             _soundIn = new WasapiCapture() { Device = SelectedInputDevice };
             _soundIn.Initialize();
             var soundInSource = new SoundInSource(_soundIn) { FillWithZeros = false };
@@ -297,7 +298,7 @@ namespace BanterBrain_Buddy
             //speech recognition is painful, like life
             //this has to be this setting or Native TTS function will throw an error
             _finalSource = singleBlockNotificationStream.ToMono().ChangeSampleRate(16000).ToWaveSource(16);
-            _writer = new WaveWriter(tmpWavFile, _finalSource.WaveFormat);
+            _writer = new WaveWriter(_tmpWavFile, _finalSource.WaveFormat);
             soundInSource.DataAvailable += (s, e) =>
             {
                 int read;
@@ -307,14 +308,14 @@ namespace BanterBrain_Buddy
             };
             _soundIn.Start();
             TextLog.AppendText("STT microphone start. -- SPEAK NOW -- \r\n");
-            BBBlog.Info("Native STT microphone start.");
+            _bBBlog.Info("Native STT microphone start.");
         }
 
         [SupportedOSPlatform("windows6.1")]
         private void StopWavCapture()
         {
             TextLog.AppendText("Stopping capture to WAV file\r\n");
-            BBBlog.Info("Stopping capture to WAV file");
+            _bBBlog.Info("Stopping capture to WAV file");
 
             if (_soundIn != null)
             {
@@ -326,7 +327,7 @@ namespace BanterBrain_Buddy
                     ((IDisposable)_writer).Dispose();
 
             }
-            STTDone = false;
+            _sTTDone = false;
             //give the disk a moment to catch up
             Thread.Sleep(1000);
             //now lets convert the saved .wav to Text
@@ -340,24 +341,24 @@ namespace BanterBrain_Buddy
             SpeechRecognitionEngine recognizer2 = new(new System.Globalization.CultureInfo("en-US"));
             // Create and load a dictation grammar.  
             recognizer2.LoadGrammar(new DictationGrammar());
-            recognizer2.SetInputToWaveFile(tmpWavFile);
+            recognizer2.SetInputToWaveFile(_tmpWavFile);
             // Attach event handlers for the results of recognition.  
             recognizer2.SpeechRecognized +=
               new EventHandler<SpeechRecognizedEventArgs>(NativeSpeechRecognized);
             recognizer2.RecognizeCompleted +=
               new EventHandler<RecognizeCompletedEventArgs>(NativeRecognizeCompletedHandler);
 
-            TextLog.AppendText("Starting asynchronous Native recognition... on " + tmpWavFile + "\r\n");
-            BBBlog.Info("Starting asynchronous Native recognition... on " + tmpWavFile);
+            TextLog.AppendText("Starting asynchronous Native recognition... on " + _tmpWavFile + "\r\n");
+            _bBBlog.Info("Starting asynchronous Native recognition... on " + _tmpWavFile);
 
-            STTDone = false;
+            _sTTDone = false;
             recognizer2.RecognizeAsync(RecognizeMode.Multiple);
-            while (!STTDone)
+            while (!_sTTDone)
             {
                 await Task.Delay(1000);
             }
             TextLog.AppendText("Native STT done.\r\n");
-            BBBlog.Info("Native STT done.");
+            _bBBlog.Info("Native STT done.");
             recognizer2.Dispose();
         }
 
@@ -366,7 +367,7 @@ namespace BanterBrain_Buddy
         private void NativeSpeechHypothesizedHandler(object sender, SpeechHypothesizedEventArgs e)
         {
             TextLog.AppendText(" In SpeechHypothesizedHandler:+\r\n");
-            BBBlog.Info("in hypothesishandler");
+            _bBBlog.Info("in hypothesishandler");
             string grammarName = "<not available>";
             string resultText = "<not available>";
             if (e.Result != null)
@@ -388,21 +389,21 @@ namespace BanterBrain_Buddy
             if (e.Error != null)
             {
                 TextLog.AppendText("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message + "\r\n");
-                BBBlog.Error("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message);
+                _bBBlog.Error("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message);
 
             }
             if (e.Cancelled)
             {
                 TextLog.AppendText("Native STT Operation cancelled\r\n");
-                BBBlog.Info("Native STT Operation cancelled");
+                _bBBlog.Info("Native STT Operation cancelled");
             }
             if (e.InputStreamEnded)
             {
                 TextLog.AppendText("Native STT recognize Stopped.\r\n");
-                BBBlog.Info("Mative STT recognize Stopped.");
+                _bBBlog.Info("Mative STT recognize Stopped.");
             }
 
-            STTDone = true;
+            _sTTDone = true;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -412,13 +413,13 @@ namespace BanterBrain_Buddy
             if (e.Result != null && e.Result.Text != null)
             {
                 TextLog.AppendText("Native recognized text: " + e.Result.Text + "\r\n");
-                BBBlog.Info("Native recognized text: " + e.Result.Text);
+                _bBBlog.Info("Native recognized text: " + e.Result.Text);
                 STTTestOutput.AppendText(e.Result.Text + "\r\n");
             }
             else
             {
                 STTTestOutput.AppendText("Native recognized text not available.");
-                BBBlog.Info("Native recognized text not available.");
+                _bBBlog.Info("Native recognized text not available.");
             }
         }
 
@@ -427,16 +428,16 @@ namespace BanterBrain_Buddy
         {
             TextLog.AppendText(" In NativeSpeechDetectedHandler:\r\n");
             TextLog.AppendText(" - AudioPosition = " + e.AudioPosition + "\r\n");
-            BBBlog.Info(" In NativeSpeechDetectedHandler: ");
-            BBBlog.Info(" - AudioPosition = \" + e.AudioPosition");
+            _bBBlog.Info(" In NativeSpeechDetectedHandler: ");
+            _bBBlog.Info(" - AudioPosition = \" + e.AudioPosition");
         }
 
         [SupportedOSPlatform("windows6.1")]
         private async void TalkToOpenAIGPT(String UserInput)
         {
             TextLog.AppendText("Sending to GPT: " + UserInput + "\r\n");
-            BBBlog.Info("Sending to GPT: " + UserInput);
-            GPTDone = false;
+            _bBBlog.Info("Sending to GPT: " + UserInput);
+            _gPTDone = false;
             OpenAIAPI api = new(LLMAPIKeyTextBox.Text);
             var chat = api.Chat.CreateConversation();
             chat.Model = Model.ChatGPTTurbo;
@@ -445,28 +446,28 @@ namespace BanterBrain_Buddy
 
             //mood is setting the system text description
             TextLog.AppendText("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
-            BBBlog.Info("SystemRole: " + LLMRoleTextBox.Text);
+            _bBBlog.Info("SystemRole: " + LLMRoleTextBox.Text);
             chat.AppendSystemMessage(LLMRoleTextBox.Text);
 
             chat.AppendUserInput(UserInput);
             try
             {
                 TextLog.AppendText("ChatGPT response: ");
-                BBBlog.Info("ChatGPT response: ");
+                _bBBlog.Info("ChatGPT response: ");
                 await chat.StreamResponseFromChatbotAsync(res =>
                  {
                      TextLog.AppendText(res);
                      LLMTestOutputbox.AppendText(res);
                  });
-                BBBlog.Info(LLMTestOutputbox.Text);
+                _bBBlog.Info(LLMTestOutputbox.Text);
                 TextLog.AppendText("\r\nGPT Response done\r\n");
-                BBBlog.Info("GPT Response done");
-                GPTDone = true;
+                _bBBlog.Info("GPT Response done");
+                _gPTDone = true;
             }
             catch (System.Security.Authentication.AuthenticationException ex)
             {
                 MessageBox.Show(ex.Message, "GPT API Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                BBBlog.Error("GPT API Auth error: " + ex.Message);
+                _bBBlog.Error("GPT API Auth error: " + ex.Message);
             }
 
         }
@@ -480,7 +481,7 @@ namespace BanterBrain_Buddy
             if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
             {
                 TextLog.AppendText("Testing using ChatGPT\r\n");
-                BBBlog.Info("Testing using ChatGPT");
+                _bBBlog.Info("Testing using ChatGPT");
                 TalkToOpenAIGPT("How are you?");
             }
             GPTTestButton.Text = "Test";
@@ -492,7 +493,6 @@ namespace BanterBrain_Buddy
         //output to the selected audio device
         private void OutputStream(MemoryStream stream)
         {
-            //var Devices = WaveOutDevice.EnumerateDevices();
             int deviceID = 0;
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
@@ -512,7 +512,7 @@ namespace BanterBrain_Buddy
         /// <summary>
         /// Holds the list of Azure Voices and their options
         /// </summary>
-        List<AzureVoices> AzureRegionVoicesList = [];
+        List<AzureVoices> _azureRegionVoicesList = [];
 
         [SupportedOSPlatform("windows6.1")]
         /// <summary>
@@ -523,23 +523,23 @@ namespace BanterBrain_Buddy
             //only bother if the two fields are not empty or not "placeholder"
             if ((TTSAPIKeyTextBox.Text.Length < 1) || (TTSRegionTextBox.Text.Length < 1) || TTSAPIKeyTextBox.Text == "placeholder" || TTSRegionTextBox.Text == "placeholder")
             {
-                BBBlog.Error("API Key or region cannot be empty!");
+                _bBBlog.Error("API Key or region cannot be empty!");
                 MessageBox.Show("API Key or region cannot be empty!", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                BigError = true;
+                _bigError = true;
                 return;
             }
-            BBBlog.Info("Finding TTS Azure voices available");
+            _bBBlog.Info("Finding TTS Azure voices available");
             AzureSpeechAPI AzureSpeech = new(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text, "en-US");
-            AzureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
+            _azureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
 
-            if (AzureRegionVoicesList == null)
+            if (_azureRegionVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?", "Azure No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                BigError = true;
+                _bigError = true;
             }
             else
             {
-                BBBlog.Info($"Found {AzureRegionVoicesList.Count} voices");
+                _bBBlog.Info($"Found {_azureRegionVoicesList.Count} voices");
             }
         }
 
@@ -549,13 +549,13 @@ namespace BanterBrain_Buddy
         /// </summary>
         private void TTSFillAzureVoicesList()
         {
-            BBBlog.Info("Fill Azure voice list");
+            _bBBlog.Info("Fill Azure voice list");
 
             // Locale, Gender, Localname
             TTSOutputVoice.Items.Clear();
-            foreach (var AzureRegionVoice in AzureRegionVoicesList)
+            foreach (var azureRegionVoice in _azureRegionVoicesList)
             {
-                TTSOutputVoice.Items.Add(AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-" + AzureRegionVoice.LocalName);
+                TTSOutputVoice.Items.Add(azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName);
             }
             TTSOutputVoice.Sorted = true;
             //if we dont have a real value (i.e. teh first startup placeholders) we need to set it to the first item
@@ -572,16 +572,16 @@ namespace BanterBrain_Buddy
         /// </summary>
         private void TTSAzureFillOptions(string SelectedVoice)
         {
-            BBBlog.Info("Finding Azure voice options (if available)");
+            _bBBlog.Info("Finding Azure voice options (if available)");
             TTSOutputVoiceOptions.Items.Clear();
             //the voice is the item in TTSOutputVoice 
             //now to find it in AzureRegionVoicesList
-            foreach (var AzureRegionVoice in AzureRegionVoicesList)
+            foreach (var azureRegionVoice in _azureRegionVoicesList)
             {
-                if (SelectedVoice == (AzureRegionVoice.LocaleDisplayname + "-" + AzureRegionVoice.Gender + "-" + AzureRegionVoice.LocalName))
+                if (SelectedVoice == (azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName))
                 {
-                    BBBlog.Info("Match found, checking for voice options");
-                    foreach (var voiceOption in AzureRegionVoice.StyleList)
+                    _bBBlog.Info("Match found, checking for voice options");
+                    foreach (var voiceOption in azureRegionVoice.StyleList)
                     {
                         if (voiceOption.Length > 0)
                             TTSOutputVoiceOptions.Items.Add(voiceOption);
@@ -599,7 +599,7 @@ namespace BanterBrain_Buddy
                 }
                 catch (Exception ex)
                 {
-                    BBBlog.Error("Issue assigning Azure voice. Error: " + ex.Message);
+                    _bBBlog.Error("Issue assigning Azure voice. Error: " + ex.Message);
                 }
             }
 
@@ -609,7 +609,7 @@ namespace BanterBrain_Buddy
         //Azure Text-To-Speach
         private async void TTSAzureSpeakToOutput(string TextToSpeak)
         {
-            BBBlog.Info("Azure TTS called with text, seting up");
+            _bBBlog.Info("Azure TTS called with text, seting up");
             AzureSpeechAPI azureSpeechAPI = new(STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
 
             //set the output voice, gender and locale, and the style
@@ -618,39 +618,21 @@ namespace BanterBrain_Buddy
             var result = await azureSpeechAPI.AzureSpeak(TextToSpeak);
             if (!result)
             {
-                BBBlog.Error("Azure TTS error. Is there a problem with your API key or subscription?");
+                _bBBlog.Error("Azure TTS error. Is there a problem with your API key or subscription?");
                 MessageBox.Show("Azure TTS error. Is there a problem with your API key or subscription?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                BigError = true;
+                _bigError = true;
             }
         }
+
 
         [SupportedOSPlatform("windows6.1")]
         private async void TTSNativeSpeakToOutput(String TTSText)
         {
             TextLog.AppendText("Saying text with Native TTS\r\n");
-            BBBlog.Info("Saying text with Native TTS");
-            //using the full name to make sure we dont confuse native with Azure
-            SpeechSynthesizer synthesizer = new();
-            var stream = new MemoryStream();
-            synthesizer.SetOutputToWaveStream(stream);
-            synthesizer.Speak(TTSText);
-
-            int deviceID = 0;
-            foreach (var device in WaveOutDevice.EnumerateDevices())
-            {
-                if (device.Name == TTSAudioOutputComboBox.Text)
-                {
-                    deviceID = device.DeviceId;
-                }
-            }
-            var waveOut = new WaveOut { Device = new WaveOutDevice(deviceID) };
-            using var waveSource = new MediaFoundationDecoder(stream);
-            waveOut.Initialize(waveSource);
-            waveOut.Play();
-            while (waveOut.PlaybackState != PlaybackState.Stopped)
-            {
-                await Task.Delay(500);
-            }
+            _bBBlog.Info("Saying text with Native TTS");
+            NativeSpeech nativeSpeech = new();
+            await nativeSpeech.NativeTTSInit(TTSAudioOutputComboBox.Text);
+            await nativeSpeech.NativeSpeak(TTSText);
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -667,7 +649,7 @@ namespace BanterBrain_Buddy
                 if (TTSOutputVoice.Items.Count < 1 || TTSOutputVoice.Text == "placeholder")
                 {
                     await TTSGetAzureVoices();
-                    if (BigError)
+                    if (_bigError)
                     {
                         return;
                     }
@@ -680,40 +662,40 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void MainRecordingStart_Click(object sender, EventArgs e)
         {
-            BigError = false;
-            String SelectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
+            _bigError = false;
+            String selectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             //first, lets call STT
-            STTDone = false;
+            _sTTDone = false;
             if (MainRecordingStart.Text == "Start")
             {
                 STTTestOutput.Text = "";
                 MainRecordingStart.Text = "Recording";
-                if (SelectedProvider == "Native")
+                if (selectedProvider == "Native")
                 {
                     TextLog.AppendText("Main button Native STT calling\r\n");
-                    BBBlog.Info("Main button Native STT calling");
+                    _bBBlog.Info("Main button Native STT calling");
                     NativeInputStreamtoWav();
-                    while (!STTDone)
+                    while (!_sTTDone)
                     {
                         await Task.Delay(500);
                     }
                 }
-                else if (SelectedProvider == "Azure")
+                else if (selectedProvider == "Azure")
                 {
                     TextLog.AppendText("Azure STT calling\r\n");
-                    BBBlog.Info("Azure STT calling");
+                    _bBBlog.Info("Azure STT calling");
                     //cant be empty
 
                     if ((STTAPIKeyEditbox.Text.Length < 1) || (STTRegionEditbox.Text.Length < 1))
                     {
                         TextLog.Text = "Error! API Key or region cannot be empty!\r\n";
-                        BBBlog.Error("Error! API Key or region cannot be empty!");
+                        _bBBlog.Error("Error! API Key or region cannot be empty!");
                         MainRecordingStart.Text = "Start";
                     }
                     else
                     {
                         AzureConvertVoicetoText();
-                        while (!STTDone)
+                        while (!_sTTDone)
                         {
                             await Task.Delay(500);
                         }
@@ -721,11 +703,11 @@ namespace BanterBrain_Buddy
                     }
                 }
 
-                //if BigError is true, stop! something is very wrong.
-                if (BigError)
+                //if _bigError is true, stop! something is very wrong.
+                if (_bigError)
                 {
                     TextLog.AppendText("Theres an error, stopping execution!\r\n");
-                    BBBlog.Error("Theres an error, stopping execution");
+                    _bBBlog.Error("Theres an error, stopping execution");
                     MainRecordingStart.Text = "Start";
                     return;
                 }
@@ -738,11 +720,11 @@ namespace BanterBrain_Buddy
                     if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
                     {
                         TextLog.AppendText("Using ChatGPT\r\n");
-                        BBBlog.Info("Using ChatGPT");
+                        _bBBlog.Info("Using ChatGPT");
                         TalkToOpenAIGPT(STTTestOutput.Text);
                     }
                     //lets wait for GPT to be done
-                    while (!GPTDone)
+                    while (!_gPTDone)
                     {
                         await Task.Delay(500);
                     }
@@ -760,13 +742,13 @@ namespace BanterBrain_Buddy
                 else
                 {
                     TextLog.AppendText("No audio recorded");
-                    BBBlog.Info("No audio recorded");
+                    _bBBlog.Info("No audio recorded");
                 }
             }
             else
             {
                 MainRecordingStart.Text = "Start";
-                if (SelectedProvider == "Native")
+                if (selectedProvider == "Native")
                     StopWavCapture();
 
             }
@@ -808,11 +790,11 @@ namespace BanterBrain_Buddy
             STTLanguageComboBox.Text = Properties.Settings.Default.STTLanguageComboBox;
             TwitchEnableCheckbox.Checked = Properties.Settings.Default.TwitchEnable;
             TwitchCheckAuthAtStartup.Checked = Properties.Settings.Default.TwitchCheckAuthAtStartup;
-            //load HotkeyList into SetHotKeys
+            //load HotkeyList into _setHotkeys
             /* foreach (String key in Properties.Settings.Default.HotkeyList)
              {
                  Keys tmpKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                 SetHotkeys.Add(tmpKey);
+                 _setHotkeys.Add(tmpKey);
              }*
             */
             //we need to get azure regions and voice options if azure is selected so we dont need to fill it later
@@ -824,7 +806,7 @@ namespace BanterBrain_Buddy
                     if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
                     {
                         await TTSGetAzureVoices();
-                        if (BigError)
+                        if (_bigError)
                         {
                             return;
                         }
@@ -877,7 +859,7 @@ namespace BanterBrain_Buddy
 
             /* //add the hotkeys in settings list, not in text
              Properties.Settings.Default.HotkeyList.Clear();
-             foreach (Keys key in SetHotkeys)
+             foreach (Keys key in _setHotkeys)
              {
                  Properties.Settings.Default.HotkeyList.Add(key.ToString());
              }*/
@@ -896,32 +878,33 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         public void ShowHotkeyDialogBox()
         {
-
+            //local, but a form, so PascalCase is allowed
             HotkeyForm HotkeyDialog = new();
+
             var result = HotkeyDialog.ShowDialog(this);
             // Show testDialog as a modal dialog and determine if DialogResult = OK.
             if (result == DialogResult.OK && HotkeyDialog.ReturnValue1 != null)
             {
-                SetHotkeys.Clear();
+                _setHotkeys.Clear();
                 this.MicrophoneHotkeyEditbox.Text = "";
-                List<Keys> HotKeys = HotkeyDialog.ReturnValue1;
+                List<Keys> hotKeys = HotkeyDialog.ReturnValue1;
                 //ok now we got the keys, parse them and put them in the index box
                 // and the global list for hotkeys
 
-                for (var i = 0; i < HotKeys.Count; i++)
+                for (var i = 0; i < hotKeys.Count; i++)
                 {
                     //add to the current hotkey list for keyup event checks
-                    SetHotkeys.Add(HotKeys[i]);
+                    _setHotkeys.Add(hotKeys[i]);
 
                     //add to the text box
-                    if (i < HotKeys.Count - 1)
-                        this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString() + " + ";
+                    if (i < hotKeys.Count - 1)
+                        this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString() + " + ";
                     else
-                        this.MicrophoneHotkeyEditbox.Text += HotKeys[i].ToString();
+                        this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString();
                 }
             }
             TextLog.AppendText("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
-            BBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
+            _bBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
             HotkeyDialog.Dispose();
             //bind the new value 
             Subscribe();
@@ -955,12 +938,12 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void HandleHotkeyButton()
         {
-            if (!HotkeyCalled)
+            if (!_hotkeyCalled)
             {
                 if (MainRecordingStart.Text == "Start")
                 {
                     MainRecordingStart_Click(null, null);
-                    HotkeyCalled = true;
+                    _hotkeyCalled = true;
                     //ok lets wait 1 sec before checking shit again
                     await Task.Delay(1000);
                 }
@@ -971,16 +954,16 @@ namespace BanterBrain_Buddy
         private async void GlobalHookKeyUp(object sender, KeyEventArgs e)
         {
             //if microphone is on (hotkeycalled = true) and of the hotkeys are in the keyup event turn off the microphone
-            //current hotkeys are in SetHotkeys
-            if (HotkeyCalled)
+            //current hotkeys are in _setHotkeys
+            if (_hotkeyCalled)
             {
-                //if one of the keys in the sethotkeys is detected as UP, give it a second then stop recording
-                //foreach (Keys key in SetHotkeys)
-                if (SetHotkeys.Contains(e.KeyCode))
+                //if one of the keys in the _setHotkeys is detected as UP, give it a second then stop recording
+                //foreach (Keys key in _setHotkeys)
+                if (_setHotkeys.Contains(e.KeyCode))
                 {
                     MainRecordingStart_Click(null, null);
                     await Task.Delay(1000);
-                    HotkeyCalled = false;
+                    _hotkeyCalled = false;
                 }
             }
 
@@ -1004,20 +987,20 @@ namespace BanterBrain_Buddy
             //first lets make sure people cant click too often
             TwitchTestButton.Enabled = false;
             //first we check if the Authorization key is fine, using the API
-            TwitchAPI TwAPITest = new();
+            TwitchAPI twAPITest = new();
 
             //check to see if we need to send a message on join
             if (TwitchSendTextCheckBox.Checked)
             {
-                TwAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
+                twAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
             }
 
             //we need the username AND channel name to get the broadcasterid which is needed for sending a message via the API
             //we need both since the username of the bot and teh channel it joins can be different.
-            var VerifyOk = await TwAPITest.CheckAuthCodeAPI(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text);
+            var VerifyOk = await twAPITest.CheckAuthCodeAPI(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text);
             if (!VerifyOk)
             {
-                BBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
+                _bBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
                 TextLog.Text += "Problem verifying Access token, invalid access token\r\n";
                 MessageBox.Show("Problem verifying Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 TwitchTestButton.Enabled = true;
@@ -1030,11 +1013,11 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                BBBlog.Info($"Twitch Access token verified success!");
+                _bBBlog.Info($"Twitch Access token verified success!");
                 MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //if the token is valid, and twitch enabled lets start up the hourly validation timer
                 if (TwitchEnableCheckbox.Checked)
-                   SetTwitchValidateTokenTimer();
+                    SetTwitchValidateTokenTimer();
             }
 
             TwitchTestButton.Enabled = true;
@@ -1047,11 +1030,11 @@ namespace BanterBrain_Buddy
             //This is done by spawning a browser where the user has to authorize (implicit grant) 
             //the application. 
             TwitchAPI twitchAPI = new();
-            var TwitchAPIResult = await twitchAPI.GetTwitchAuthToken(["chat:read", "whispers:read", "whispers:edit", "chat:edit", "user:write:chat"]);
+            var twitchAPIResult = await twitchAPI.GetTwitchAuthToken(["chat:read", "whispers:read", "whispers:edit", "chat:edit", "user:write:chat"]);
 
-            if (!TwitchAPIResult)
+            if (!twitchAPIResult)
             {
-                BBBlog.Error("Issue with getting auth token. Check logs for more information.");
+                _bBBlog.Error("Issue with getting auth token. Check logs for more information.");
                 MessageBox.Show($"Issue with getting Auth token. Check logs for more information.", "Twitch Authorization Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
@@ -1086,11 +1069,11 @@ namespace BanterBrain_Buddy
         //if we change the region box, lets make sure we till have the right voices
         private async void TTSRegionTextBox_Leave(object sender, EventArgs e)
         {
-            BBBlog.Info("Region edit box exited");
+            _bBBlog.Info("Region edit box exited");
             if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
             {
                 await TTSGetAzureVoices();
-                if (BigError)
+                if (_bigError)
                 {
                     return;
                 }
@@ -1109,7 +1092,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void SoundInputDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BBBlog.Info("Selected input device changed to " + SoundInputDevices.Text);
+            _bBBlog.Info("Selected input device changed to " + SoundInputDevices.Text);
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1134,7 +1117,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void TwitchCheckAuthAtStartup_Click(object sender, EventArgs e)
         {
-            BBBlog.Debug("Twitch check auth at startup changed to " + TwitchCheckAuthAtStartup.Checked);
+            _bBBlog.Debug("Twitch check auth at startup changed to " + TwitchCheckAuthAtStartup.Checked);
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1148,15 +1131,15 @@ namespace BanterBrain_Buddy
             }
             else
             { //turning off Twitch
-                BBBlog.Info("Twitch disabled. Stopping timer and clearing token");
-                if (GlobalTwitchAPI != null)
+                _bBBlog.Info("Twitch disabled. Stopping timer and clearing token");
+                if (_globalTwitchAPI != null)
                 {
-                    GlobalTwitchAPI.StopHourlyAccessTokenCheck();
-                    GlobalTwitchAPI = null;
+                    _globalTwitchAPI.StopHourlyAccessTokenCheck();
+                    _globalTwitchAPI = null;
                     TwitchStatusTextBox.Text = "DISABLED";
                 }
             }
-            BBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
+            _bBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
         }
     }
 }

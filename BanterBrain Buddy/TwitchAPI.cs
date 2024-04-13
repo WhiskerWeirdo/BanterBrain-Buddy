@@ -1,34 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing.Text;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using TwitchLib.Api.Helix;
+
+
+/// <summary>
+/// CODING RULES:
+/// •	Local variables, private instance, static fields and method parameters should be camelCase.
+/// •	Methods, constants, properties, events and classes should be PascalCase.
+/// •	Global private instance fields should be in camelCase prefixed with an underscore.
+/// </summary>
 
 namespace BanterBrain_Buddy
 {
     public class TwitchAPI
     {
-        private static readonly log4net.ILog BBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public string TwitchAuthToken { get;  private set; }
         private bool TwitchAuthRequestResult { get; set; }
 
-        private static string TwitchAuthRedirect { get; set; }
-        private static string TwitchAuthClientId { get; set; }
+        private static string _twitchAuthRedirect { get; set; }
+        private static string _twitchAuthClientId { get; set; }
 
-        private bool TwitchDoAutomatedCheck { get; set; }
+        private bool _twitchDoAutomatedCheck { get; set; }
 
-        private static TwitchLib.Api.TwitchAPI GTwitchAPI;
+        private static TwitchLib.Api.TwitchAPI _gTwitchAPI;
         //if this is set, we need to send a test message to a channel on join.
         public string TwitchSendTestMessageOnJoin { get; set; }
 
@@ -37,33 +39,33 @@ namespace BanterBrain_Buddy
             TwitchAuthToken = "";
             TwitchAuthRequestResult = false;
             TwitchReadSettings();
-            TwitchDoAutomatedCheck = true;
-            GTwitchAPI = new TwitchLib.Api.TwitchAPI();
+            _twitchDoAutomatedCheck = true;
+            _gTwitchAPI = new TwitchLib.Api.TwitchAPI();
         }
 
         //if test is validated and Twitch is enabled, we need to check if the access token is still valid every hour
         //this is a Twitch rule, see https://dev.twitch.tv/docs/authentication/validate-tokens/
         public async Task<bool> CheckHourlyAccessToken()
         {
-            while (TwitchDoAutomatedCheck)
+            while (_twitchDoAutomatedCheck)
             {
                 //45 minutes = 2700000
                 await Task.Delay(2700000);
                 if (!await ValidateAccessToken(TwitchAuthToken))
                 {
-                    BBBlog.Error($"Hourly check! Access token {TwitchAuthToken} is invalid, please re-authenticate");
+                    _bBBlog.Error($"Hourly check! Access token {TwitchAuthToken} is invalid, please re-authenticate");
                     return false;
                 }
                 else
-                    BBBlog.Info("Hourly check! Access Token is validated and valid");
+                    _bBBlog.Info("Hourly check! Access Token is validated and valid");
             }
             return true;
         }
 
         public void StopHourlyAccessTokenCheck()
         {
-            BBBlog.Info("Stopping hourly Twitch access token validation");
-            TwitchDoAutomatedCheck = false;
+            _bBBlog.Info("Stopping hourly Twitch access token validation");
+            _twitchDoAutomatedCheck = false;
         }
 
         public async Task<bool> GetTwitchAuthToken(List<string> scopes)
@@ -83,21 +85,21 @@ namespace BanterBrain_Buddy
             bool test = JsonData.TryGetValue("TwitchAuthRedirect", out string tmpVal);
             if (!test)
             {
-                BBBlog.Error("TwitchAuthRedirect not found in settings.json");
+                _bBBlog.Error("TwitchAuthRedirect not found in settings.json");
             }
             else
             {
-                TwitchAuthRedirect = tmpVal;
+                _twitchAuthRedirect = tmpVal;
             }
 
             test = JsonData.TryGetValue("TwitchAuthClientId", out tmpVal);
             if (!test)
             {
-                BBBlog.Error("TwitchAuthClientId not found in settings.json");
+                _bBBlog.Error("TwitchAuthClientId not found in settings.json");
             }
             else
             {
-                TwitchAuthClientId = tmpVal;
+                _twitchAuthClientId = tmpVal;
             }
         }
 
@@ -109,17 +111,17 @@ namespace BanterBrain_Buddy
         public async Task<bool> ValidateAccessToken(string TwAuthToken)
         {
 
-            GTwitchAPI.Settings.ClientId = TwitchAuthClientId;
-            GTwitchAPI.Settings.AccessToken = TwAuthToken;
-            var ValidateTokenTest = await GTwitchAPI.Auth.ValidateAccessTokenAsync(TwAuthToken);
-            if (ValidateTokenTest == null)
+            _gTwitchAPI.Settings.ClientId = _twitchAuthClientId;
+            _gTwitchAPI.Settings.AccessToken = TwAuthToken;
+            var validateTokenTest = await _gTwitchAPI.Auth.ValidateAccessTokenAsync(TwAuthToken);
+            if (validateTokenTest == null)
             {
-                BBBlog.Error("Access token is invalid, please re-authenticate");
+                _bBBlog.Error("Access token is invalid, please re-authenticate");
                 return false;
             }
             else
             {
-                BBBlog.Info("Access Token is validated and valid");
+                _bBBlog.Info("Access Token is validated and valid");
                 TwitchAuthToken = TwAuthToken;
                 return true;
             }
@@ -135,45 +137,45 @@ namespace BanterBrain_Buddy
         /// <returns>true if both tests pass, false if not</returns>
         public async Task<bool> CheckAuthCodeAPI(string TwAuthToken, string TwUsername, string TwChannelName)
         {
-            BBBlog.Info($"Checking Authorization code using the API");
+            _bBBlog.Info($"Checking Authorization code using the API");
 
-            GTwitchAPI.Settings.ClientId = TwitchAuthClientId;
-            GTwitchAPI.Settings.AccessToken = TwAuthToken;
-            BBBlog.Debug($"clientid: {GTwitchAPI.Settings.ClientId} accesstoken: {GTwitchAPI.Settings.AccessToken}");
+            _gTwitchAPI.Settings.ClientId = _twitchAuthClientId;
+            _gTwitchAPI.Settings.AccessToken = TwAuthToken;
+            _bBBlog.Debug($"clientid: {_gTwitchAPI.Settings.ClientId} accesstoken: {_gTwitchAPI.Settings.AccessToken}");
             //before we do anything else, we validate the access token
             //if null, then the token is no longer valid and we need to let the user know
             if (!await ValidateAccessToken(TwAuthToken))
             {
-                BBBlog.Error("Access token is invalid, please re-authenticate");
+                _bBBlog.Error("Access token is invalid, please re-authenticate");
                 return false;
             }
             //assuming token itself is valid, lets continue
             try
             {
-                BBBlog.Info("Trying to see if I can getting the current user using Helix call.");
+                _bBBlog.Info("Trying to see if I can getting the current user using Helix call.");
                 await Task.Delay(500);
-                var Broadcaster = (await GTwitchAPI.Helix.Users.GetUsersAsync(null, [TwChannelName] )).Users;
-                var MessageSender = (await GTwitchAPI.Helix.Users.GetUsersAsync(null, [TwUsername] )).Users;
+                var broadCaster = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwChannelName] )).Users;
+                var messageSender = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwUsername] )).Users;
 
  
-                BBBlog.Info("Broadcaster: " + Broadcaster[0].Login +" id:"+ Broadcaster[0].Id);
-                BBBlog.Info("Message sender: " + MessageSender[0].Login + " id:" + MessageSender[0].Id);
+                _bBBlog.Info("Broadcaster: " + broadCaster[0].Login +" id:"+ broadCaster[0].Id);
+                _bBBlog.Info("Message sender: " + messageSender[0].Login + " id:" + messageSender[0].Id);
                 //do we need to send a message also?
                 if (TwitchSendTestMessageOnJoin != null)
                 {
-                    BBBlog.Info("Sending message to channel");
-                    await GTwitchAPI.Helix.Chat.SendChatMessage(Broadcaster[0].Id.ToString(), MessageSender[0].Id.ToString(), TwitchSendTestMessageOnJoin, null, TwAuthToken);
+                    _bBBlog.Info("Sending message to channel");
+                    await _gTwitchAPI.Helix.Chat.SendChatMessage(broadCaster[0].Id.ToString(), messageSender[0].Id.ToString(), TwitchSendTestMessageOnJoin, null, TwAuthToken);
                 }
-                BBBlog.Info("Authorization succeeded can read user so acces token is valid");
+                _bBBlog.Info("Authorization succeeded can read user so acces token is valid");
                 return true;
             }
             catch (TwitchLib.Api.Core.Exceptions.BadScopeException exception)
             {
-                BBBlog.Error("Bad scope Issue with access token: " +exception.Message);
+                _bBBlog.Error("Bad scope Issue with access token: " +exception.Message);
                 return false;
             } catch (HttpRequestException exception)
             {
-                BBBlog.Error("HTTPrequest Issue with access token: " + exception.Message);
+                _bBBlog.Error("HTTPrequest Issue with access token: " + exception.Message);
                 return false;
             }
         }
@@ -185,32 +187,31 @@ namespace BanterBrain_Buddy
         private async Task ReqTwitchAuthToken(List<string> scopes)
         {
             // create twitch api instance
-            GTwitchAPI.Settings.ClientId = TwitchAuthClientId;
+            _gTwitchAPI.Settings.ClientId = _twitchAuthClientId;
 
             // start local web server
-            var server = new TwitchAuthWebserver(TwitchAuthRedirect);
+            var server = new TwitchAuthWebserver(_twitchAuthRedirect);
 
             //implicit flow is rather simple compared to client cred
-            var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetOAUTHCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes, "Implicit")}") { UseShellExecute = true }));
+            var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetOAUTHCodeUrl(_twitchAuthClientId, _twitchAuthRedirect, scopes, "Implicit")}") { UseShellExecute = true }));
             tImplicit.Start();
             
-
             var authImplicit = await server.ImplicitListen();
 
             if (authImplicit != null)
             {
                 TwitchAuthRequestResult = true;
                 // update TwitchLib's api with the recently acquired access token
-                GTwitchAPI.Settings.AccessToken = authImplicit.Code;
+                _gTwitchAPI.Settings.AccessToken = authImplicit.Code;
 
                 //also save this the global to return
                 TwitchAuthToken = authImplicit.Code;
 
                 // get the auth'd user to test the access token's validity
-                var user = (await GTwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
+                var user = (await _gTwitchAPI.Helix.Users.GetUsersAsync()).Users[0];
 
                 // print out all the data we've got
-                BBBlog.Info($"Authorization success! User: {user.DisplayName} (id: {user.Id})");
+                _bBBlog.Info($"Authorization success! User: {user.DisplayName} (id: {user.Id})");
             } else
             {
                 TwitchAuthRequestResult =false;
@@ -228,7 +229,7 @@ namespace BanterBrain_Buddy
                 responseType = "token";
             else
             {
-                BBBlog.Error("Unknown OAUTHType: " + OAUTHType);
+                _bBBlog.Error("Unknown OAUTHType: " + OAUTHType);
                 return null;
             }
 
