@@ -18,6 +18,17 @@ using CSCore.Codecs.WAV;
 using System.Threading;
 using System.Diagnostics;
 using System.Runtime.Versioning;
+using TwitchLib.Api.Helix;
+using static System.Formats.Asn1.AsnWriter;
+using TwitchLib.Api.Helix.Models.Subscriptions;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using TwitchLib.EventSub.Websockets.Core.EventArgs.Channel;
+using TwitchLib.EventSub.Websockets.Core.EventArgs;
+using TwitchLib.EventSub.Websockets;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using TwitchLib.EventSub.Websockets.Extensions;
 
 
 /// <summary>
@@ -48,7 +59,7 @@ namespace BanterBrain_Buddy
 
         //check if the GPT LLM is donestop audio capture
         private bool _gPTDone = false;
-        
+
         //error checker for async events. If true, stop execution of whatever you're doing
         private bool _bigError = false;
 
@@ -1030,7 +1041,24 @@ namespace BanterBrain_Buddy
             //This is done by spawning a browser where the user has to authorize (implicit grant) 
             //the application. 
             TwitchAPI twitchAPI = new();
-            var twitchAPIResult = await twitchAPI.GetTwitchAuthToken(["chat:read", "whispers:read", "whispers:edit", "chat:edit", "user:write:chat"]);
+            //see https://dev.twitch.tv/docs/authentication/scopes/ and https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/#channelchatmessage
+            //API events:
+            //channel.send.message ("user:write:chat")
+            //eventsub events:
+            //channel.chat.message (user:read:chat) to read chat
+            //channel.subscribe (channel:read:subscriptions) to get subscription events
+            //channel.subscription.gift (channel:read:subscriptions) to get gifted sub events
+            //channel.subscription.message (channel:read:subscriptions) to get sub message events
+            //channel.cheer (bits:read) to get information on cheered bits
+            //channel.follow (moderator:read:followers) to get who followed a channel
+            //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by viewers
+            //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by viewers
+
+            var twitchAPIResult = await twitchAPI.GetTwitchAuthToken([
+                //API scope to send text to chat
+                "user:write:chat", 
+                //EventSub scopes for subscription types to read chat, get subscription events, read when people cheer (bits) and follower events
+                "user:read:chat", "channel:read:subscriptions", "bits:read", "moderator:read:followers", "channel:read:redemptions"]);
 
             if (!twitchAPIResult)
             {
@@ -1140,6 +1168,19 @@ namespace BanterBrain_Buddy
                 }
             }
             _bBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
+        }
+
+        /// <summary>
+        /// TESTING TESTING TESTING HERE BE DRAGONS
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void EventSubTest_Click(object sender, EventArgs e)
+        {
+            //testing to start an eventsub server and see if we can actually connect
+            TwitchEventSub twitchEventSub = new();
+            await twitchEventSub.StartAsync();
+
         }
     }
 }

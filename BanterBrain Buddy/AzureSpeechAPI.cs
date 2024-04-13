@@ -58,7 +58,8 @@ namespace BanterBrain_Buddy
         {
             List<AzureVoices> azureRegionVoicesList = [];
             _bBBlog.Info("Finding TTS Azure voices available");
-            _bBBlog.Debug("Get voices Azure API Key: " + AzureAPIKey);
+            //sensitive information
+            //_bBBlog.Debug("Get voices Azure API Key: " + AzureAPIKey);
             _bBBlog.Debug("Get voices Azure Region: " + AzureRegion);
 
             SpeechConfig speechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
@@ -130,7 +131,8 @@ namespace BanterBrain_Buddy
         public async Task AzureTTSInit(string AzureVoiceParseName, string TTSVoiceOptions, string OutputDevice)
         {
             _bBBlog.Info("Starting Azure Text To Speech, Initializing");
-            _bBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
+            //sensitive information
+            //_bBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
             _bBBlog.Debug("Init Azure Region: " + AzureRegion);
             _bBBlog.Debug("Init Azure Output Device: " + OutputDevice);
             SetSelectedOutputDevice(OutputDevice);
@@ -236,7 +238,8 @@ namespace BanterBrain_Buddy
         public void AzureSTTInit(string InputDevice)
         {
             _bBBlog.Info("Starting Azure Speech to Text, Initializing");
-            _bBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
+            //sensitive information
+            //_bBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
             _bBBlog.Debug("Init Azure Region: " + AzureRegion);
             _azureSpeechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
             _azureSpeechConfig.SpeechRecognitionLanguage = AzureLanguage; //default language
@@ -303,7 +306,8 @@ namespace BanterBrain_Buddy
         {
             //first we convert the passed local strings to global
             AzureAPIKey = AzAPIKey;
-            _bBBlog.Debug("Azure API Key: " + AzureAPIKey);
+            //Sensitive information
+            //_bBBlog.Debug("Azure API Key: " + AzureAPIKey);
             AzureRegion = AzRegion;
             _bBBlog.Debug("Azure Region: " + AzureRegion);
             AzureLanguage = AzLanguage;

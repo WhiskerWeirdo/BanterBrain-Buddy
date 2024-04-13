@@ -53,7 +53,8 @@ namespace BanterBrain_Buddy
                 await Task.Delay(2700000);
                 if (!await ValidateAccessToken(TwitchAuthToken))
                 {
-                    _bBBlog.Error($"Hourly check! Access token {TwitchAuthToken} is invalid, please re-authenticate");
+                    //technically sensitive data, so we need to log this as an error, even if its invalid lets not log it
+                    _bBBlog.Error($"Hourly check! Access token is invalid, please re-authenticate");
                     return false;
                 }
                 else
@@ -141,7 +142,10 @@ namespace BanterBrain_Buddy
 
             _gTwitchAPI.Settings.ClientId = _twitchAuthClientId;
             _gTwitchAPI.Settings.AccessToken = TwAuthToken;
-            _bBBlog.Debug($"clientid: {_gTwitchAPI.Settings.ClientId} accesstoken: {_gTwitchAPI.Settings.AccessToken}");
+            _bBBlog.Debug($"clientid: {_gTwitchAPI.Settings.ClientId} ");
+            //sensitive information 
+            //"accesstoken: {_gTwitchAPI.Settings.AccessToken}");
+
             //before we do anything else, we validate the access token
             //if null, then the token is no longer valid and we need to let the user know
             if (!await ValidateAccessToken(TwAuthToken))

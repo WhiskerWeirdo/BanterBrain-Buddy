@@ -66,6 +66,8 @@ namespace BanterBrain_Buddy
             STTProviderBox = new ComboBox();
             STTTestOutput = new TextBox();
             MainTab = new TabPage();
+            textBox1 = new TextBox();
+            TwitchEventSubStatusLabel = new Label();
             TwitchStatusTextBox = new TextBox();
             TwitchStatusLabel = new Label();
             TextLog = new TextBox();
@@ -84,11 +86,12 @@ namespace BanterBrain_Buddy
             LLMProviderComboBox = new ComboBox();
             GPTProviderLabel = new Label();
             StreaminSettingsTab = new TabPage();
+            EventSubTest = new Button();
             groupBox4 = new GroupBox();
             TwitchEnableCheckbox = new CheckBox();
             TwitchCheckAuthAtStartup = new CheckBox();
             DisconnectTwitchButton = new Button();
-            groupBox7 = new GroupBox();
+            TwitchAPITestGroupBox = new GroupBox();
             TwitchTestSendText = new TextBox();
             TwitchSendTextCheckBox = new CheckBox();
             TwitchTestButton = new Button();
@@ -129,7 +132,7 @@ namespace BanterBrain_Buddy
             groupBox1.SuspendLayout();
             StreaminSettingsTab.SuspendLayout();
             groupBox4.SuspendLayout();
-            groupBox7.SuspendLayout();
+            TwitchAPITestGroupBox.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox5.SuspendLayout();
             TwitchTriggerSettings.SuspendLayout();
@@ -369,6 +372,8 @@ namespace BanterBrain_Buddy
             // 
             // MainTab
             // 
+            MainTab.Controls.Add(textBox1);
+            MainTab.Controls.Add(TwitchEventSubStatusLabel);
             MainTab.Controls.Add(TwitchStatusTextBox);
             MainTab.Controls.Add(TwitchStatusLabel);
             MainTab.Controls.Add(TextLog);
@@ -376,6 +381,17 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(MainTab, "MainTab");
             MainTab.Name = "MainTab";
             MainTab.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            textBox1.BackColor = System.Drawing.SystemColors.Control;
+            resources.ApplyResources(textBox1, "textBox1");
+            textBox1.Name = "textBox1";
+            // 
+            // TwitchEventSubStatusLabel
+            // 
+            resources.ApplyResources(TwitchEventSubStatusLabel, "TwitchEventSubStatusLabel");
+            TwitchEventSubStatusLabel.Name = "TwitchEventSubStatusLabel";
             // 
             // TwitchStatusTextBox
             // 
@@ -495,17 +511,25 @@ namespace BanterBrain_Buddy
             // 
             // StreaminSettingsTab
             // 
+            StreaminSettingsTab.Controls.Add(EventSubTest);
             StreaminSettingsTab.Controls.Add(groupBox4);
             resources.ApplyResources(StreaminSettingsTab, "StreaminSettingsTab");
             StreaminSettingsTab.Name = "StreaminSettingsTab";
             StreaminSettingsTab.UseVisualStyleBackColor = true;
+            // 
+            // EventSubTest
+            // 
+            resources.ApplyResources(EventSubTest, "EventSubTest");
+            EventSubTest.Name = "EventSubTest";
+            EventSubTest.UseVisualStyleBackColor = true;
+            EventSubTest.Click += EventSubTest_Click;
             // 
             // groupBox4
             // 
             groupBox4.Controls.Add(TwitchEnableCheckbox);
             groupBox4.Controls.Add(TwitchCheckAuthAtStartup);
             groupBox4.Controls.Add(DisconnectTwitchButton);
-            groupBox4.Controls.Add(groupBox7);
+            groupBox4.Controls.Add(TwitchAPITestGroupBox);
             groupBox4.Controls.Add(TwitchAuthorizeButton);
             groupBox4.Controls.Add(groupBox6);
             groupBox4.Controls.Add(groupBox5);
@@ -540,14 +564,14 @@ namespace BanterBrain_Buddy
             DisconnectTwitchButton.Name = "DisconnectTwitchButton";
             DisconnectTwitchButton.UseVisualStyleBackColor = true;
             // 
-            // groupBox7
+            // TwitchAPITestGroupBox
             // 
-            groupBox7.Controls.Add(TwitchTestSendText);
-            groupBox7.Controls.Add(TwitchSendTextCheckBox);
-            groupBox7.Controls.Add(TwitchTestButton);
-            resources.ApplyResources(groupBox7, "groupBox7");
-            groupBox7.Name = "groupBox7";
-            groupBox7.TabStop = false;
+            TwitchAPITestGroupBox.Controls.Add(TwitchTestSendText);
+            TwitchAPITestGroupBox.Controls.Add(TwitchSendTextCheckBox);
+            TwitchAPITestGroupBox.Controls.Add(TwitchTestButton);
+            resources.ApplyResources(TwitchAPITestGroupBox, "TwitchAPITestGroupBox");
+            TwitchAPITestGroupBox.Name = "TwitchAPITestGroupBox";
+            TwitchAPITestGroupBox.TabStop = false;
             // 
             // TwitchTestSendText
             // 
@@ -757,8 +781,8 @@ namespace BanterBrain_Buddy
             StreaminSettingsTab.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
-            groupBox7.ResumeLayout(false);
-            groupBox7.PerformLayout();
+            TwitchAPITestGroupBox.ResumeLayout(false);
+            TwitchAPITestGroupBox.PerformLayout();
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
             groupBox5.ResumeLayout(false);
@@ -835,7 +859,7 @@ namespace BanterBrain_Buddy
         private CheckBox TwitchGiftedSub;
         private CheckBox TwitchCommunitySubs;
         private Button TwitchAuthorizeButton;
-        private GroupBox groupBox7;
+        private GroupBox TwitchAPITestGroupBox;
         private TextBox TwitchTestSendText;
         private CheckBox TwitchSendTextCheckBox;
         private Button TwitchTestButton;
@@ -860,6 +884,9 @@ namespace BanterBrain_Buddy
         private ComboBox STTLanguageComboBox;
         private CheckBox TwitchCheckAuthAtStartup;
         private CheckBox TwitchEnableCheckbox;
+        private Label TwitchEventSubStatusLabel;
+        private TextBox textBox1;
+        private Button EventSubTest;
     }
 }
 
