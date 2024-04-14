@@ -65,7 +65,7 @@ namespace BanterBrain_Buddy
 
         //Global Twitch API class
         //we need this for the hourly /validate check
-        private TwitchAPI _globalTwitchAPI;
+        private TwitchAPIESub _globalTwitchAPI;
         private bool _twitchValidateCheckStarted;
 
         [SupportedOSPlatform("windows6.1")]
@@ -998,7 +998,7 @@ namespace BanterBrain_Buddy
             //first lets make sure people cant click too often
             TwitchTestButton.Enabled = false;
             //first we check if the Authorization key is fine, using the API
-            TwitchAPI twAPITest = new();
+            TwitchAPIESub twAPITest = new();
 
             //check to see if we need to send a message on join
             if (TwitchSendTextCheckBox.Checked)
@@ -1040,7 +1040,7 @@ namespace BanterBrain_Buddy
             //lets not block everything, but lets try get a Twitch Auth token.
             //This is done by spawning a browser where the user has to authorize (implicit grant) 
             //the application. 
-            TwitchAPI twitchAPI = new();
+            TwitchAPIESub twitchAPI = new();
             //see https://dev.twitch.tv/docs/authentication/scopes/ and https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/#channelchatmessage
             //API events:
             //channel.send.message ("user:write:chat")
@@ -1177,9 +1177,11 @@ namespace BanterBrain_Buddy
         /// <param name="e"></param>
         private async void EventSubTest_Click(object sender, EventArgs e)
         {
+            //TODO: this only works once API access-token is verified
             //testing to start an eventsub server and see if we can actually connect
-            TwitchEventSub twitchEventSub = new();
-            await twitchEventSub.StartAsync();
+            TwitchAPIESub twitchEventSub = new();
+            await twitchEventSub.EventSubInit();
+            await twitchEventSub.EventSubStartAsync();
 
         }
     }

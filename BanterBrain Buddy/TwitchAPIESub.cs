@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,6 +8,10 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
+using TwitchLib.EventSub.Websockets;
+using TwitchLib.EventSub.Websockets.Core.EventArgs.Channel;
+using TwitchLib.EventSub.Websockets.Core.EventArgs;
 
 
 /// <summary>
@@ -18,7 +23,7 @@ using System.Threading.Tasks;
 
 namespace BanterBrain_Buddy
 {
-    public class TwitchAPI
+    public class TwitchAPIESub
     {
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -34,14 +39,36 @@ namespace BanterBrain_Buddy
         //if this is set, we need to send a test message to a channel on join.
         public string TwitchSendTestMessageOnJoin { get; set; }
 
-        public TwitchAPI()
+
+        private readonly EventSubWebsocketClient _eventSubWebsocketClient;
+
+        public TwitchAPIESub()
         {
             TwitchAuthToken = "";
             TwitchAuthRequestResult = false;
             TwitchReadSettings();
             _twitchDoAutomatedCheck = true;
             _gTwitchAPI = new TwitchLib.Api.TwitchAPI();
+            _eventSubWebsocketClient = new EventSubWebsocketClient();
         }
+
+        /// <summary>
+        /// This will initialize the event handlers for the TwitchEventSub
+        /// </summary>
+        public async Task<bool> EventSubInit()
+        {
+            _bBBlog.Info("TwitchEventSub eventhandlers start");
+            _eventSubWebsocketClient.WebsocketConnected += EventSubOnWebsocketConnected;
+            _eventSubWebsocketClient.WebsocketDisconnected += EventSubOnWebsocketDisconnected;
+            _eventSubWebsocketClient.WebsocketReconnected += EventSubOnWebsocketReconnected;
+            _eventSubWebsocketClient.ErrorOccurred += EventSubOnErrorOccurred;
+
+            _eventSubWebsocketClient.ChannelFollow += EventSubOnChannelFollow;
+            _bBBlog.Info("TwitchEventSub eventhandlers setting done");
+            return true;
+        }
+
+
 
         //if test is validated and Twitch is enabled, we need to check if the access token is still valid every hour
         //this is a Twitch rule, see https://dev.twitch.tv/docs/authentication/validate-tokens/
@@ -243,5 +270,75 @@ namespace BanterBrain_Buddy
                     $"response_type={responseType}&" +
                     $"scope={scopesStr}";
         }
+
+        public async Task EventSubStartAsync()
+        {
+            var result = await _eventSubWebsocketClient.ConnectAsync();
+            if (result)
+            {
+                _bBBlog.Info($"Websocket {_eventSubWebsocketClient.SessionId} connected!");
+            }
+            else
+            {
+                _bBBlog.Error($"Websocket {_eventSubWebsocketClient.SessionId} failed to connect!");
+            }
+        }
+
+        public async Task EventSubStopAsync()
+        {
+            await _eventSubWebsocketClient.DisconnectAsync();
+        }
+
+        private async Task EventSubOnErrorOccurred(object sender, ErrorOccuredArgs e)
+        {
+
+            _bBBlog.Error($"Websocket {_eventSubWebsocketClient.SessionId} - Error occurred!");
+        }
+
+        private async Task EventSubOnChannelFollow(object sender, ChannelFollowArgs e)
+        {
+            var eventData = e.Notification.Payload.Event;
+
+            _bBBlog.Info($"{eventData.UserName} followed {eventData.BroadcasterUserName} at {eventData.FollowedAt}");
+        }
+
+        private async Task EventSubOnWebsocketConnected(object sender, WebsocketConnectedArgs e)
+        {
+
+            _bBBlog.Info($"Websocket {_eventSubWebsocketClient.SessionId} connected!");
+
+            if (!e.IsRequestedReconnect)
+            {
+                // subscribe to topics using API Helix.EventSub.CreateEventSubSubscriptionAsync
+                ///example
+                ///Dictionary<string, string> conditions = new()
+                ///{
+                ///    { "broadcaster_user_id", "ID_OF_CHANNEL_TO_READ" },
+                ///             { "user_id", "ID_OF_BOT" },
+                ///};
+                ///var response = await _twitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.chat.message", "1", conditions, 
+                ///TwitchLib.Api.Core.Enums.EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, clientId: "CLIENT_ID", accessToken: "ACCESS_TOKEN");
+                _bBBlog.Info("Subscribing to topics");
+
+            }
+        }
+
+        private async Task EventSubOnWebsocketDisconnected(object sender, EventArgs e)
+        {
+            _bBBlog.Error($"Websocket {_eventSubWebsocketClient.SessionId} disconnected.");
+
+            // Don't do this in production. You should implement a better reconnect strategy
+            while (!await _eventSubWebsocketClient.ReconnectAsync())
+            {
+                await Task.Delay(1000);
+            }
+        }
+
+        private async Task EventSubOnWebsocketReconnected(object sender, EventArgs e)
+        {
+            _bBBlog.Warn($"Websocket {_eventSubWebsocketClient.SessionId} reconnected");
+        }
     }
+
 }
+
