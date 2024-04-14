@@ -29,6 +29,7 @@ using TwitchLib.EventSub.Websockets;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TwitchLib.EventSub.Websockets.Extensions;
+using System.Diagnostics.Eventing.Reader;
 
 
 /// <summary>
@@ -1067,7 +1068,7 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                TwitchAccessToken.Text = twitchAPI.TwitchAuthToken;
+                TwitchAccessToken.Text = twitchAPI.TwitchAccessToken;
             }
         }
 
@@ -1170,19 +1171,29 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
         }
 
-        /// <summary>
-        /// TESTING TESTING TESTING HERE BE DRAGONS
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+        [SupportedOSPlatform("windows6.1")]
         private async void EventSubTest_Click(object sender, EventArgs e)
         {
             //TODO: this only works once API access-token is verified
             //testing to start an eventsub server and see if we can actually connect
             TwitchAPIESub twitchEventSub = new();
-            await twitchEventSub.EventSubInit();
-            await twitchEventSub.EventSubStartAsync();
-
+            bool eventSubStart = false;
+            if (await twitchEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
+            {
+                eventSubStart = await twitchEventSub.EventSubStartAsync();
+            } else
+            {
+                _bBBlog.Error("Issue with starting EventSub server. Check logs for more information.");
+                MessageBox.Show("Issue with starting EventSub server. Check logs for more information.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            if (eventSubStart)
+            {
+                _bBBlog.Info("EventSub server started successfully");
+                MessageBox.Show("EventSub server started successfully so all is well!", "Twitch EventSub success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //this is only a test, so we need to stop it again
+               // await twitchEventSub.EventSubStopAsync();
+            }
         }
     }
 }
