@@ -43,7 +43,7 @@ namespace BanterBrain_Buddy
             TTSRegionTextBox = new TextBox();
             label7 = new Label();
             TTSAPIKeyTextBox = new TextBox();
-            TTSOutputVoiceOptions = new ComboBox();
+            TTSOutputVoiceOption1 = new ComboBox();
             label3 = new Label();
             TTSOutputVoice = new ComboBox();
             label2 = new Label();
@@ -66,12 +66,13 @@ namespace BanterBrain_Buddy
             STTProviderBox = new ComboBox();
             STTTestOutput = new TextBox();
             MainTab = new TabPage();
+            groupBox7 = new GroupBox();
+            MainRecordingStart = new Button();
             textBox1 = new TextBox();
             TwitchEventSubStatusLabel = new Label();
             TwitchStatusTextBox = new TextBox();
             TwitchStatusLabel = new Label();
             TextLog = new TextBox();
-            MainRecordingStart = new Button();
             BBBTabs = new TabControl();
             LLMTab = new TabPage();
             groupBox1 = new GroupBox();
@@ -86,8 +87,9 @@ namespace BanterBrain_Buddy
             LLMProviderComboBox = new ComboBox();
             GPTProviderLabel = new Label();
             StreaminSettingsTab = new TabPage();
-            EventSubTest = new Button();
             groupBox4 = new GroupBox();
+            EventSubGroupbox = new GroupBox();
+            EventSubTest = new Button();
             TwitchEnableCheckbox = new CheckBox();
             TwitchCheckAuthAtStartup = new CheckBox();
             DisconnectTwitchButton = new Button();
@@ -104,6 +106,7 @@ namespace BanterBrain_Buddy
             label5 = new Label();
             TwitchMinBits = new TextBox();
             TwitchTriggerSettings = new GroupBox();
+            TwitchReadChatCheckBox = new CheckBox();
             label6 = new Label();
             TwitchChatCommandDelay = new TextBox();
             TwitchNeedsSubscriber = new CheckBox();
@@ -116,22 +119,26 @@ namespace BanterBrain_Buddy
             TwitchChannelNameLabel = new Label();
             TwitchAccesstokenLabel = new Label();
             TwitchUsernameLabel = new Label();
+            PersonasTab = new TabPage();
             fileToolStripMenuItem = new ToolStripMenuItem();
             ExitToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             GithubToolStripMenuItem = new ToolStripMenuItem();
             DiscordToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
+            TwitchCheerCheckbox = new CheckBox();
             SettingsTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
             STTGroupBox.SuspendLayout();
             MainTab.SuspendLayout();
+            groupBox7.SuspendLayout();
             BBBTabs.SuspendLayout();
             LLMTab.SuspendLayout();
             groupBox1.SuspendLayout();
             StreaminSettingsTab.SuspendLayout();
             groupBox4.SuspendLayout();
+            EventSubGroupbox.SuspendLayout();
             TwitchAPITestGroupBox.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox5.SuspendLayout();
@@ -195,7 +202,7 @@ namespace BanterBrain_Buddy
             groupBox2.Controls.Add(TTSRegionTextBox);
             groupBox2.Controls.Add(label7);
             groupBox2.Controls.Add(TTSAPIKeyTextBox);
-            groupBox2.Controls.Add(TTSOutputVoiceOptions);
+            groupBox2.Controls.Add(TTSOutputVoiceOption1);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(TTSOutputVoice);
             groupBox2.Controls.Add(label2);
@@ -230,11 +237,11 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TTSAPIKeyTextBox, "TTSAPIKeyTextBox");
             TTSAPIKeyTextBox.Name = "TTSAPIKeyTextBox";
             // 
-            // TTSOutputVoiceOptions
+            // TTSOutputVoiceOption1
             // 
-            TTSOutputVoiceOptions.FormattingEnabled = true;
-            resources.ApplyResources(TTSOutputVoiceOptions, "TTSOutputVoiceOptions");
-            TTSOutputVoiceOptions.Name = "TTSOutputVoiceOptions";
+            TTSOutputVoiceOption1.FormattingEnabled = true;
+            resources.ApplyResources(TTSOutputVoiceOption1, "TTSOutputVoiceOption1");
+            TTSOutputVoiceOption1.Name = "TTSOutputVoiceOption1";
             // 
             // label3
             // 
@@ -372,21 +379,37 @@ namespace BanterBrain_Buddy
             // 
             // MainTab
             // 
+            MainTab.Controls.Add(groupBox7);
             MainTab.Controls.Add(textBox1);
             MainTab.Controls.Add(TwitchEventSubStatusLabel);
             MainTab.Controls.Add(TwitchStatusTextBox);
             MainTab.Controls.Add(TwitchStatusLabel);
             MainTab.Controls.Add(TextLog);
-            MainTab.Controls.Add(MainRecordingStart);
             resources.ApplyResources(MainTab, "MainTab");
             MainTab.Name = "MainTab";
             MainTab.UseVisualStyleBackColor = true;
             // 
+            // groupBox7
+            // 
+            groupBox7.Controls.Add(MainRecordingStart);
+            resources.ApplyResources(groupBox7, "groupBox7");
+            groupBox7.Name = "groupBox7";
+            groupBox7.TabStop = false;
+            // 
+            // MainRecordingStart
+            // 
+            resources.ApplyResources(MainRecordingStart, "MainRecordingStart");
+            MainRecordingStart.Name = "MainRecordingStart";
+            MainRecordingStart.UseVisualStyleBackColor = true;
+            MainRecordingStart.Click += MainRecordingStart_Click;
+            // 
             // textBox1
             // 
-            textBox1.BackColor = System.Drawing.SystemColors.Control;
+            textBox1.BackColor = System.Drawing.Color.Red;
+            textBox1.ForeColor = System.Drawing.Color.White;
             resources.ApplyResources(textBox1, "textBox1");
             textBox1.Name = "textBox1";
+            textBox1.ReadOnly = true;
             // 
             // TwitchEventSubStatusLabel
             // 
@@ -395,6 +418,8 @@ namespace BanterBrain_Buddy
             // 
             // TwitchStatusTextBox
             // 
+            TwitchStatusTextBox.BackColor = System.Drawing.Color.Red;
+            TwitchStatusTextBox.ForeColor = System.Drawing.Color.White;
             resources.ApplyResources(TwitchStatusTextBox, "TwitchStatusTextBox");
             TwitchStatusTextBox.Name = "TwitchStatusTextBox";
             TwitchStatusTextBox.ReadOnly = true;
@@ -410,13 +435,6 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TextLog, "TextLog");
             TextLog.Name = "TextLog";
             // 
-            // MainRecordingStart
-            // 
-            resources.ApplyResources(MainRecordingStart, "MainRecordingStart");
-            MainRecordingStart.Name = "MainRecordingStart";
-            MainRecordingStart.UseVisualStyleBackColor = true;
-            MainRecordingStart.Click += MainRecordingStart_Click;
-            // 
             // BBBTabs
             // 
             resources.ApplyResources(BBBTabs, "BBBTabs");
@@ -424,6 +442,7 @@ namespace BanterBrain_Buddy
             BBBTabs.Controls.Add(SettingsTab);
             BBBTabs.Controls.Add(LLMTab);
             BBBTabs.Controls.Add(StreaminSettingsTab);
+            BBBTabs.Controls.Add(PersonasTab);
             BBBTabs.Name = "BBBTabs";
             BBBTabs.SelectedIndex = 0;
             // 
@@ -511,21 +530,14 @@ namespace BanterBrain_Buddy
             // 
             // StreaminSettingsTab
             // 
-            StreaminSettingsTab.Controls.Add(EventSubTest);
             StreaminSettingsTab.Controls.Add(groupBox4);
             resources.ApplyResources(StreaminSettingsTab, "StreaminSettingsTab");
             StreaminSettingsTab.Name = "StreaminSettingsTab";
             StreaminSettingsTab.UseVisualStyleBackColor = true;
             // 
-            // EventSubTest
-            // 
-            resources.ApplyResources(EventSubTest, "EventSubTest");
-            EventSubTest.Name = "EventSubTest";
-            EventSubTest.UseVisualStyleBackColor = true;
-            EventSubTest.Click += EventSubTest_Click;
-            // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(EventSubGroupbox);
             groupBox4.Controls.Add(TwitchEnableCheckbox);
             groupBox4.Controls.Add(TwitchCheckAuthAtStartup);
             groupBox4.Controls.Add(DisconnectTwitchButton);
@@ -543,6 +555,20 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(groupBox4, "groupBox4");
             groupBox4.Name = "groupBox4";
             groupBox4.TabStop = false;
+            // 
+            // EventSubGroupbox
+            // 
+            EventSubGroupbox.Controls.Add(EventSubTest);
+            resources.ApplyResources(EventSubGroupbox, "EventSubGroupbox");
+            EventSubGroupbox.Name = "EventSubGroupbox";
+            EventSubGroupbox.TabStop = false;
+            // 
+            // EventSubTest
+            // 
+            resources.ApplyResources(EventSubTest, "EventSubTest");
+            EventSubTest.Name = "EventSubTest";
+            EventSubTest.UseVisualStyleBackColor = true;
+            EventSubTest.Click += EventSubTest_Click;
             // 
             // TwitchEnableCheckbox
             // 
@@ -629,6 +655,7 @@ namespace BanterBrain_Buddy
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(TwitchCheerCheckbox);
             groupBox5.Controls.Add(label5);
             groupBox5.Controls.Add(TwitchMinBits);
             resources.ApplyResources(groupBox5, "groupBox5");
@@ -647,6 +674,7 @@ namespace BanterBrain_Buddy
             // 
             // TwitchTriggerSettings
             // 
+            TwitchTriggerSettings.Controls.Add(TwitchReadChatCheckBox);
             TwitchTriggerSettings.Controls.Add(label6);
             TwitchTriggerSettings.Controls.Add(TwitchChatCommandDelay);
             TwitchTriggerSettings.Controls.Add(TwitchNeedsSubscriber);
@@ -656,6 +684,13 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchTriggerSettings, "TwitchTriggerSettings");
             TwitchTriggerSettings.Name = "TwitchTriggerSettings";
             TwitchTriggerSettings.TabStop = false;
+            // 
+            // TwitchReadChatCheckBox
+            // 
+            resources.ApplyResources(TwitchReadChatCheckBox, "TwitchReadChatCheckBox");
+            TwitchReadChatCheckBox.Name = "TwitchReadChatCheckBox";
+            TwitchReadChatCheckBox.UseVisualStyleBackColor = true;
+            TwitchReadChatCheckBox.Click += TwitchReadChatCheckBox_Click;
             // 
             // label6
             // 
@@ -719,6 +754,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchUsernameLabel, "TwitchUsernameLabel");
             TwitchUsernameLabel.Name = "TwitchUsernameLabel";
             // 
+            // PersonasTab
+            // 
+            resources.ApplyResources(PersonasTab, "PersonasTab");
+            PersonasTab.Name = "PersonasTab";
+            PersonasTab.UseVisualStyleBackColor = true;
+            // 
             // fileToolStripMenuItem
             // 
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ExitToolStripMenuItem });
@@ -754,6 +795,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
             // 
+            // TwitchCheerCheckbox
+            // 
+            resources.ApplyResources(TwitchCheerCheckbox, "TwitchCheerCheckbox");
+            TwitchCheerCheckbox.Name = "TwitchCheerCheckbox";
+            TwitchCheerCheckbox.UseVisualStyleBackColor = true;
+            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -774,6 +821,7 @@ namespace BanterBrain_Buddy
             STTGroupBox.PerformLayout();
             MainTab.ResumeLayout(false);
             MainTab.PerformLayout();
+            groupBox7.ResumeLayout(false);
             BBBTabs.ResumeLayout(false);
             LLMTab.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
@@ -781,6 +829,7 @@ namespace BanterBrain_Buddy
             StreaminSettingsTab.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            EventSubGroupbox.ResumeLayout(false);
             TwitchAPITestGroupBox.ResumeLayout(false);
             TwitchAPITestGroupBox.PerformLayout();
             groupBox6.ResumeLayout(false);
@@ -809,7 +858,7 @@ namespace BanterBrain_Buddy
         private TabPage MainTab;
         private Button MainRecordingStart;
         private TabControl BBBTabs;
-        private ComboBox TTSOutputVoiceOptions;
+        private ComboBox TTSOutputVoiceOption1;
         private Label label3;
         private ComboBox TTSOutputVoice;
         private Label label2;
@@ -887,6 +936,11 @@ namespace BanterBrain_Buddy
         private Label TwitchEventSubStatusLabel;
         private TextBox textBox1;
         private Button EventSubTest;
+        private CheckBox TwitchReadChatCheckBox;
+        private GroupBox EventSubGroupbox;
+        private TabPage PersonasTab;
+        private GroupBox groupBox7;
+        private CheckBox TwitchCheerCheckbox;
     }
 }
 

@@ -18,19 +18,9 @@ using CSCore.Codecs.WAV;
 using System.Threading;
 using System.Diagnostics;
 using System.Runtime.Versioning;
+using TwitchLib.Api.Helix.Models.Users.GetUserFollows;
+using TwitchLib.Api.Helix.Models.Moderation.CheckAutoModStatus;
 using TwitchLib.Api.Helix;
-using static System.Formats.Asn1.AsnWriter;
-using TwitchLib.Api.Helix.Models.Subscriptions;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using TwitchLib.EventSub.Websockets.Core.EventArgs.Channel;
-using TwitchLib.EventSub.Websockets.Core.EventArgs;
-using TwitchLib.EventSub.Websockets;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using TwitchLib.EventSub.Websockets.Extensions;
-using System.Diagnostics.Eventing.Reader;
-
 
 /// <summary>
 /// CODING RULES:
@@ -106,6 +96,7 @@ namespace BanterBrain_Buddy
                     TextLog.Text += "Twitch access token is invalid, please re-authenticate\r\n";
                     _twitchValidateCheckStarted = false;
                     TwitchStatusTextBox.Text = "DISABLED";
+                    TwitchStatusTextBox.BackColor = Color.Red;
                     _bigError = true;
                 }
                 else
@@ -114,10 +105,11 @@ namespace BanterBrain_Buddy
                     TextLog.Text += "Twitch access token is valid. Starting automated /validate call\r\n";
                     _twitchValidateCheckStarted = true;
                     TwitchStatusTextBox.Text = "ENABLED";
+                    TwitchStatusTextBox.BackColor = Color.Green;
                     //if we are good, start the hourly check
                     await _globalTwitchAPI.CheckHourlyAccessToken();
                 }
-
+                //TODO: we also need to start the EventSub Client
             }
         }
 
@@ -573,7 +565,7 @@ namespace BanterBrain_Buddy
             //if we dont have a real value (i.e. teh first startup placeholders) we need to set it to the first item
             if (TTSOutputVoice.Text == "placeholder")
                 TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
-            TTSOutputVoiceOptions.Text = "";
+            TTSOutputVoiceOption1.Text = "";
 
             TTSAzureFillOptions(TTSOutputVoice.Text);
         }
@@ -585,7 +577,7 @@ namespace BanterBrain_Buddy
         private void TTSAzureFillOptions(string SelectedVoice)
         {
             _bBBlog.Info("Finding Azure voice options (if available)");
-            TTSOutputVoiceOptions.Items.Clear();
+            TTSOutputVoiceOption1.Items.Clear();
             //the voice is the item in TTSOutputVoice 
             //now to find it in AzureRegionVoicesList
             foreach (var azureRegionVoice in _azureRegionVoicesList)
@@ -596,18 +588,18 @@ namespace BanterBrain_Buddy
                     foreach (var voiceOption in azureRegionVoice.StyleList)
                     {
                         if (voiceOption.Length > 0)
-                            TTSOutputVoiceOptions.Items.Add(voiceOption);
+                            TTSOutputVoiceOption1.Items.Add(voiceOption);
                         else
-                            TTSOutputVoiceOptions.Items.Add("Default");
+                            TTSOutputVoiceOption1.Items.Add("Default");
                     }
                 }
             }
             //if nothing ends up being selected, pick the top one so at least something is selected
-            if (TTSOutputVoiceOptions.SelectedIndex == -1)
+            if (TTSOutputVoiceOption1.SelectedIndex == -1)
             {
                 try
                 {
-                    TTSOutputVoiceOptions.Text = TTSOutputVoiceOptions.Items[0].ToString();
+                    TTSOutputVoiceOption1.Text = TTSOutputVoiceOption1.Items[0].ToString();
                 }
                 catch (Exception ex)
                 {
@@ -625,7 +617,7 @@ namespace BanterBrain_Buddy
             AzureSpeechAPI azureSpeechAPI = new(STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
 
             //set the output voice, gender and locale, and the style
-            await azureSpeechAPI.AzureTTSInit(TTSOutputVoice.Text, TTSOutputVoiceOptions.Text, TTSAudioOutputComboBox.Text);
+            await azureSpeechAPI.AzureTTSInit(TTSOutputVoice.Text, TTSOutputVoiceOption1.Text, TTSAudioOutputComboBox.Text);
 
             var result = await azureSpeechAPI.AzureSpeak(TextToSpeak);
             if (!result)
@@ -782,7 +774,7 @@ namespace BanterBrain_Buddy
             STTRegionEditbox.Text = Properties.Settings.Default.STTAPIRegion;
             LLMAPIKeyTextBox.Text = Properties.Settings.Default.LLMAPIKey;
             TTSOutputVoice.Enabled = Properties.Settings.Default.TTSAudioVoiceEnabled;
-            TTSOutputVoiceOptions.Enabled = Properties.Settings.Default.TTSAudioVoiceOptionsEnabled;
+            TTSOutputVoiceOption1.Enabled = Properties.Settings.Default.TTSAudioVoiceOptionsEnabled;
             STTAPIKeyEditbox.Enabled = Properties.Settings.Default.STTAPIKeyEnabled;
             STTRegionEditbox.Enabled = Properties.Settings.Default.STTAPIRegionEnabled;
             TwitchUsername.Text = Properties.Settings.Default.TwitchUsername;
@@ -802,6 +794,8 @@ namespace BanterBrain_Buddy
             STTLanguageComboBox.Text = Properties.Settings.Default.STTLanguageComboBox;
             TwitchEnableCheckbox.Checked = Properties.Settings.Default.TwitchEnable;
             TwitchCheckAuthAtStartup.Checked = Properties.Settings.Default.TwitchCheckAuthAtStartup;
+            TwitchReadChatCheckBox.Checked = Properties.Settings.Default.TwitchReadChatCheckBox;
+            TwitchCheerCheckbox.Checked = Properties.Settings.Default.TwitchCheerCheckbox;
             //load HotkeyList into _setHotkeys
             /* foreach (String key in Properties.Settings.Default.HotkeyList)
              {
@@ -828,7 +822,7 @@ namespace BanterBrain_Buddy
                 }
             }
             //this last so it overwrites possibly loaded voice options
-            TTSOutputVoiceOptions.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
+            TTSOutputVoiceOption1.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -843,12 +837,12 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TTSProvider = TTSProviderComboBox.Text;
             Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
             Properties.Settings.Default.TTSAudioVoice = TTSOutputVoice.Text;
-            Properties.Settings.Default.TTSAudioVoiceOptions = TTSOutputVoiceOptions.Text;
+            Properties.Settings.Default.TTSAudioVoiceOptions = TTSOutputVoiceOption1.Text;
             Properties.Settings.Default.STTAPIKey = STTAPIKeyEditbox.Text;
             Properties.Settings.Default.STTAPIRegion = STTRegionEditbox.Text;
             Properties.Settings.Default.LLMAPIKey = LLMAPIKeyTextBox.Text;
             Properties.Settings.Default.TTSAudioVoiceEnabled = TTSOutputVoice.Enabled;
-            Properties.Settings.Default.TTSAudioVoiceOptionsEnabled = TTSOutputVoiceOptions.Enabled;
+            Properties.Settings.Default.TTSAudioVoiceOptionsEnabled = TTSOutputVoiceOption1.Enabled;
             Properties.Settings.Default.STTAPIKeyEnabled = STTAPIKeyEditbox.Enabled;
             Properties.Settings.Default.STTAPIRegionEnabled = STTRegionEditbox.Enabled;
             Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
@@ -868,7 +862,8 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.STTLanguageComboBox = STTLanguageComboBox.Text;
             Properties.Settings.Default.TwitchEnable = TwitchEnableCheckbox.Checked;
             Properties.Settings.Default.TwitchCheckAuthAtStartup = TwitchCheckAuthAtStartup.Checked;
-
+            Properties.Settings.Default.TwitchReadChatCheckBox = TwitchReadChatCheckBox.Checked;
+            Properties.Settings.Default.TwitchCheerCheckbox = TwitchCheerCheckbox.Checked;
             /* //add the hotkeys in settings list, not in text
              Properties.Settings.Default.HotkeyList.Clear();
              foreach (Keys key in _setHotkeys)
@@ -1016,7 +1011,8 @@ namespace BanterBrain_Buddy
                 TextLog.Text += "Problem verifying Access token, invalid access token\r\n";
                 MessageBox.Show("Problem verifying Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 TwitchTestButton.Enabled = true;
-
+                TwitchStatusTextBox.Text = "DISABLED";
+                TwitchStatusTextBox.BackColor = Color.Red;
                 //if the token is invalid, lets disable the checkboxes
                 TwitchEnableCheckbox.Checked = false;
                 if (TwitchCheckAuthAtStartup.Checked)
@@ -1026,7 +1022,10 @@ namespace BanterBrain_Buddy
             else
             {
                 _bBBlog.Info($"Twitch Access token verified success!");
+                TextLog.AppendText("Twitch Access token verified success!\r\n");
                 MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                TwitchStatusTextBox.Text = "ENABLED";
+                TwitchStatusTextBox.BackColor = Color.Green;
                 //if the token is valid, and twitch enabled lets start up the hourly validation timer
                 if (TwitchEnableCheckbox.Checked)
                     SetTwitchValidateTokenTimer();
@@ -1080,7 +1079,7 @@ namespace BanterBrain_Buddy
                 TTSAPIKeyTextBox.Enabled = false;
                 TTSAudioOutputComboBox.Enabled = false;
                 TTSOutputVoice.Enabled = false;
-                TTSOutputVoiceOptions.Enabled = false;
+                TTSOutputVoiceOption1.Enabled = false;
                 TTSRegionTextBox.Enabled = false;
 
             }
@@ -1089,7 +1088,7 @@ namespace BanterBrain_Buddy
                 TTSAPIKeyTextBox.Enabled = true;
                 TTSAudioOutputComboBox.Enabled = true;
                 TTSOutputVoice.Enabled = true;
-                TTSOutputVoiceOptions.Enabled = true;
+                TTSOutputVoiceOption1.Enabled = true;
                 TTSRegionTextBox.Enabled = true;
             }
         }
@@ -1153,9 +1152,12 @@ namespace BanterBrain_Buddy
         private void TwitchEnableCheckbox_Click(object sender, EventArgs e)
         {
             //if the checkbox is checked, lets enable the timer to check the token every hour
+            //and start the eventsub server
+            //TODO: only allow this after both API and EventSub are tested and working
             if (TwitchEnableCheckbox.Checked)
             {
                 SetTwitchValidateTokenTimer();
+                //allow for it to be automatic at startup
                 TwitchCheckAuthAtStartup.Enabled = true;
             }
             else
@@ -1179,10 +1181,23 @@ namespace BanterBrain_Buddy
             //testing to start an eventsub server and see if we can actually connect
             TwitchAPIESub twitchEventSub = new();
             bool eventSubStart = false;
+            //we should set here what eventhandlers we want to have enabled based on the twitch Settings
+
             if (await twitchEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
             {
+                //we need to first set teh event handlers we want to use
+                if (TwitchCheerCheckbox.Checked)
+                    twitchEventSub.EventSubHandleCheer(int.Parse(TwitchMinBits.Text));
+                if (TwitchReadChatCheckBox.Checked)
+                { 
+                    twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
+                    //set local eventhanlder for chat messages
+                    twitchEventSub.OnEsubChatMessage += TwitchEventSub_OnEsubChatMessage;
+                }
+                //now we can connect the client to the server
                 eventSubStart = await twitchEventSub.EventSubStartAsync();
-            } else
+            }
+            else
             {
                 _bBBlog.Error("Issue with starting EventSub server. Check logs for more information.");
                 MessageBox.Show("Issue with starting EventSub server. Check logs for more information.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1192,7 +1207,31 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info("EventSub server started successfully");
                 MessageBox.Show("EventSub server started successfully so all is well!", "Twitch EventSub success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //this is only a test, so we need to stop it again
-               // await twitchEventSub.EventSubStopAsync();
+                // await twitchEventSub.EventSubStopAsync();
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        //eventhandler for valid chat messages trigger
+        private void TwitchEventSub_OnEsubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
+        {
+            //we got a valid chat message, lets see what we can do with it
+            _bBBlog.Info("Valid Twitch Chat message received from user: " + e.GetCheerInfo()[0] + " message: " + e.GetCheerInfo()[1]);
+            TextLog.AppendText("Valid Twitch Chat message received from user: " + e.GetCheerInfo()[0] + " message: " + e.GetCheerInfo()[1] + "\r\n");
+        }
+
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchReadChatCheckBox_Click(object sender, EventArgs e)
+        {
+            if (TwitchReadChatCheckBox.Checked)
+            {
+                _bBBlog.Info("This enables reading chat messages to watch for a command, in busy channels this will cause significant load on your computer");
+                MessageBox.Show("Reading chat creates a high load on busy channels. Be warned!", "Twitch Channel messages enabled", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                _bBBlog.Info("Twitch read chat unchecked");
             }
         }
     }

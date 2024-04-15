@@ -3,43 +3,43 @@
   <Profiles />
   <Settings>
     <Setting Name="VoiceInput" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="PTTHotkey" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="STTProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)">Native</Value>
     </Setting>
     <Setting Name="LLMProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)">OpenAI ChatGPT</Value>
     </Setting>
     <Setting Name="LLMModel" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)">gpt-3.5-turbo</Value>
     </Setting>
     <Setting Name="LLMRoleText" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)">You are a helpful assistant with a cheeky personality</Value>
     </Setting>
     <Setting Name="TTSProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)">Native</Value>
     </Setting>
     <Setting Name="TTSAudioOutput" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TTSAudioVoice" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TTSAudioVoiceOptions" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="STTAPIKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="STTAPIRegion" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LLMAPIKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TTSAudioVoiceEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -54,19 +54,19 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TwitchUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TwitchAccessToken" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TwitchChannel" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TwitchCommandTrigger" Type="System.String" Scope="User">
       <Value Profile="(Default)">$BBB</Value>
     </Setting>
     <Setting Name="TwitchTestSendText" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)">Hello! I am BanterBrain Buddy https://banterbrain.tv</Value>
     </Setting>
     <Setting Name="TwitchSendTextCheckBox" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -81,7 +81,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TwitchMinBits" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="TwitchSubscribed" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -93,13 +93,13 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TTSAPIKeyTextBox" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TTSRegionTextBox" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="HotkeyList" Type="System.String" Scope="User">
-      <Value Profile="(Default)">placeholder</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="STTLanguageComboBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">en-US</Value>
@@ -108,6 +108,12 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TwitchCheckAuthAtStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchReadChatCheckBox" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchCheerCheckbox" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

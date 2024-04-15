@@ -12,6 +12,8 @@ using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
 using TwitchLib.EventSub.Websockets;
 using TwitchLib.EventSub.Websockets.Core.EventArgs.Channel;
 using TwitchLib.EventSub.Websockets.Core.EventArgs;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Windows.Forms;
 
 
 /// <summary>
@@ -23,9 +25,32 @@ using TwitchLib.EventSub.Websockets.Core.EventArgs;
 
 namespace BanterBrain_Buddy
 {
+    //eventhandler for valid chat commands
+    public delegate void ESubChatEventHandler(object source, TwitchEventhandlers.OnChatEventArgs e);
+
+/*    public class OnChatEventArgs : EventArgs
+    {
+        private string EventChatUser;
+        private string EventChatMessage;
+
+        public OnChatEventArgs(string userCheered, string cheerMessage)
+        {
+            EventChatUser = userCheered;
+            EventChatMessage = cheerMessage;
+        }
+
+        public string[] GetCheerInfo()
+        {
+            return [EventChatUser, EventChatMessage];
+        }
+    } */
+
     public class TwitchAPIESub
     {
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        //The eventhandler for a valid chat command triggered, it returns the username as [0] and the message as [1] in a string array
+        public event ESubChatEventHandler OnEsubChatMessage;
 
         public string TwitchAccessToken { get;  private set; }
         private bool TwitchAuthRequestResult { get; set; }
@@ -37,6 +62,9 @@ namespace BanterBrain_Buddy
         private static string _twitchChannelID { get; set; }
 
         private bool _twitchDoAutomatedCheck { get; set; }
+
+        private bool _eventSubReadChatMessages { get; set; }
+        private bool _eventSubCheckCheer { get; set; }
 
         private static TwitchLib.Api.TwitchAPI _gTwitchAPI;
 
@@ -70,14 +98,11 @@ namespace BanterBrain_Buddy
                 _twitchUserID = messageSender[0].Id;
                 _twitchChannelID = broadCaster[0].Id;
 
-                _bBBlog.Info("TwitchEventSub eventhandlers start");
+                _bBBlog.Info("TwitchEventSub eventhandlers Errors start");
                 _eventSubWebsocketClient.WebsocketConnected += EventSubOnWebsocketConnected;
                 _eventSubWebsocketClient.WebsocketDisconnected += EventSubOnWebsocketDisconnected;
                 _eventSubWebsocketClient.WebsocketReconnected += EventSubOnWebsocketReconnected;
                 _eventSubWebsocketClient.ErrorOccurred += EventSubOnErrorOccurred;
-
-                _eventSubWebsocketClient.ChannelFollow += EventSubOnChannelFollow;
-                _eventSubWebsocketClient.ChannelChatMessage += EventSubOnChannelChatMessage;
 
                 _bBBlog.Info("TwitchEventSub eventhandlers setting done");
                 return true;
@@ -86,6 +111,21 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("TwitchEventSub failed to initialize. Most likely due to failing key");
                 return false;
             }
+        }
+
+
+        public void EventSubHandleReadchat(string command, int delay, bool follower, bool subscriber)
+        {
+            _bBBlog.Info("Setting EventSubHandleReadchat");
+            _eventSubReadChatMessages = true;
+            _eventSubWebsocketClient.ChannelChatMessage += (sender,e) => EventSubOnChannelChatMessage(sender, e, command, delay, follower, subscriber);
+        }
+        
+        public void EventSubHandleCheer(int minbits)
+        {
+            _bBBlog.Info("Setting EventSubHandleCheer");
+            _eventSubCheckCheer = true;
+            _eventSubWebsocketClient.ChannelCheer += (sender, e) => EventSubOnChannelCheer(sender, e, minbits);
         }
 
 
@@ -325,12 +365,60 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"{eventData.UserName} followed {eventData.BroadcasterUserName} at {eventData.FollowedAt}");
         }
 
-        private async Task EventSubOnChannelChatMessage(object sender, ChannelChatMessageArgs e)
+        //eventhandler for reading chat messages.
+        //This receives: string command, int delay, bool follower, bool subscriber
+        private async Task EventSubOnChannelChatMessage(object sender, ChannelChatMessageArgs e, string command, int delay, bool follower, bool subscriber)
         {
             var eventData = e.Notification.Payload.Event;
-
             _bBBlog.Info($"{eventData.ChatterUserName} said {eventData.Message.Text} in {eventData.BroadcasterUserName}'s chat.");
+            //TODO: check for the command and then trigger the bot if its the right command and delay has been passed since bot was triggered last
+            //we need to also check if the user is a follower or subscriber if that is set
+            //also we should check when last time bot was triggered
+            if (eventData.Message.Text.StartsWith(command))
+            {
+                //var broadCaster =
+                var result =  await _gTwitchAPI.Helix.Channels.GetChannelFollowersAsync(_twitchChannelID, eventData.ChatterUserId);
+
+                 _bBBlog.Info($"Followerscheck length: {result.Data.Length} channel: {_twitchChannelID} chatter: {eventData.ChatterUserId}");
+                //user needs to be a subscriber but is not
+                _bBBlog.Info($"{eventData.ChatterUserName} issubscriber: {eventData.IsSubscriber}");
+                if (subscriber)
+                {
+                    if (!eventData.IsSubscriber && !eventData.IsBroadcaster)
+                    {
+                        _bBBlog.Info($"{eventData.ChatterUserName} is not a subscriber, but the command requires it. Not going to execute");
+                        return;
+                    }
+                    else if (eventData.IsSubscriber)
+                    {
+                        _bBBlog.Info($"{eventData.ChatterUserName} is a subscriber and the command requires it, executing");
+                    }
+                    else if (eventData.IsBroadcaster)
+                    {
+                        _bBBlog.Info($"{eventData.ChatterUserName} is not a subscriber but is a broadcaster its allowed");
+                    }
+                }
+
+                //we need to check if the user is a follower or eventData.IsSubscriber if those are set
+                //we need to request the user information using the Helix API and eventData.ChatterUserId
+                //throw event! OnCommandReceived with {eventData.Message.Text} and {eventData.ChatterUserName}
+                OnEsubChatMessage(this, new TwitchEventhandlers.OnChatEventArgs(eventData.ChatterUserName, eventData.Message.Text));
+
+            }
         }
+
+        //eventhandler for checking cheers and amoun tof min bits
+        private async Task EventSubOnChannelCheer(object sender, ChannelCheerArgs e, int minbits)
+        {
+            var eventData = e.Notification.Payload.Event;
+            _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat.");
+            if (eventData.Bits >= minbits)
+            {
+                _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat, trigger bot");
+                //TODO: throw event handler back to the main form to trigger the bot
+            }
+        }
+
         private async Task EventSubOnWebsocketConnected(object sender, WebsocketConnectedArgs e)
         {
 
@@ -339,15 +427,6 @@ namespace BanterBrain_Buddy
             if (!e.IsRequestedReconnect)
             {
                 // subscribe to topics using API Helix.EventSub.CreateEventSubSubscriptionAsync
-                ///example
-                ///Dictionary<string, string> conditions = new()
-                ///{
-                ///    { "broadcaster_user_id", "ID_OF_CHANNEL_TO_READ" },
-                ///             { "user_id", "ID_OF_BOT" },
-                ///};
-                ///var response = await _twitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.chat.message", "1", conditions, 
-                ///TwitchLib.Api.Core.Enums.EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, clientId: "CLIENT_ID", accessToken: "ACCESS_TOKEN");
-                ///
                 //sooo we need the ID of the channel to read (username of the viewing channel)
                 // the ID of the bot (username of the bot)
                 // the client ID (_twitchAuthClientId)
@@ -359,13 +438,21 @@ namespace BanterBrain_Buddy
                     { "broadcaster_user_id", _twitchChannelID },
                              { "user_id", _twitchUserID },
                 };
-                var response = await _gTwitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.chat.message", "1", conditions,
-                TwitchLib.Api.Core.Enums.EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, clientId: _twitchAuthClientId, accessToken: TwitchAccessToken);
-                //_bBBlog.Info("subscribe response: " +response.ToString() + " " + response.Subscriptions);
-                foreach (var sub in response.Subscriptions)
+
+                //subscribe to reading channel messages.
+                if (_eventSubReadChatMessages)
                 {
-                    _bBBlog.Info($"Sub Type: {sub.Type} is {sub.Status}"); 
-                }; 
+                    var response = await _gTwitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.chat.message", "1", conditions,
+                    TwitchLib.Api.Core.Enums.EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, clientId: _twitchAuthClientId, accessToken: TwitchAccessToken);
+                    foreach (var sub in response.Subscriptions)
+                    {
+                        _bBBlog.Info($"Sub Type: {sub.Type} is {sub.Status}");
+                    };
+                }
+
+                //subscribe to checking cheers
+
+
             }
         }
 

@@ -25,7 +25,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string VoiceInput {
             get {
                 return ((string)(this["VoiceInput"]));
@@ -37,7 +37,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string PTTHotkey {
             get {
                 return ((string)(this["PTTHotkey"]));
@@ -49,7 +49,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Native")]
         public string STTProvider {
             get {
                 return ((string)(this["STTProvider"]));
@@ -61,7 +61,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("OpenAI ChatGPT")]
         public string LLMProvider {
             get {
                 return ((string)(this["LLMProvider"]));
@@ -73,7 +73,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("gpt-3.5-turbo")]
         public string LLMModel {
             get {
                 return ((string)(this["LLMModel"]));
@@ -85,7 +85,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("You are a helpful assistant with a cheeky personality")]
         public string LLMRoleText {
             get {
                 return ((string)(this["LLMRoleText"]));
@@ -97,7 +97,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Native")]
         public string TTSProvider {
             get {
                 return ((string)(this["TTSProvider"]));
@@ -109,7 +109,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TTSAudioOutput {
             get {
                 return ((string)(this["TTSAudioOutput"]));
@@ -121,7 +121,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TTSAudioVoice {
             get {
                 return ((string)(this["TTSAudioVoice"]));
@@ -133,7 +133,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TTSAudioVoiceOptions {
             get {
                 return ((string)(this["TTSAudioVoiceOptions"]));
@@ -145,7 +145,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string STTAPIKey {
             get {
                 return ((string)(this["STTAPIKey"]));
@@ -157,7 +157,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string STTAPIRegion {
             get {
                 return ((string)(this["STTAPIRegion"]));
@@ -169,7 +169,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LLMAPIKey {
             get {
                 return ((string)(this["LLMAPIKey"]));
@@ -229,7 +229,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TwitchUsername {
             get {
                 return ((string)(this["TwitchUsername"]));
@@ -241,7 +241,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TwitchAccessToken {
             get {
                 return ((string)(this["TwitchAccessToken"]));
@@ -253,7 +253,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TwitchChannel {
             get {
                 return ((string)(this["TwitchChannel"]));
@@ -277,7 +277,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Hello! I am BanterBrain Buddy https://banterbrain.tv")]
         public string TwitchTestSendText {
             get {
                 return ((string)(this["TwitchTestSendText"]));
@@ -337,7 +337,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int TwitchMinBits {
             get {
                 return ((int)(this["TwitchMinBits"]));
@@ -385,7 +385,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TTSAPIKeyTextBox {
             get {
                 return ((string)(this["TTSAPIKeyTextBox"]));
@@ -397,7 +397,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TTSRegionTextBox {
             get {
                 return ((string)(this["TTSRegionTextBox"]));
@@ -409,7 +409,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string HotkeyList {
             get {
                 return ((string)(this["HotkeyList"]));
@@ -452,6 +452,30 @@ namespace BanterBrain_Buddy.Properties {
             }
             set {
                 this["TwitchCheckAuthAtStartup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchReadChatCheckBox {
+            get {
+                return ((bool)(this["TwitchReadChatCheckBox"]));
+            }
+            set {
+                this["TwitchReadChatCheckBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchCheerCheckbox {
+            get {
+                return ((bool)(this["TwitchCheerCheckbox"]));
+            }
+            set {
+                this["TwitchCheerCheckbox"] = value;
             }
         }
     }
