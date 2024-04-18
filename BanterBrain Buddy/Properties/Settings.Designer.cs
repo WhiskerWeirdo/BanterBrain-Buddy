@@ -478,5 +478,29 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchCheerCheckbox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TTSAPIKeyTextBoxEnabled {
+            get {
+                return ((bool)(this["TTSAPIKeyTextBoxEnabled"]));
+            }
+            set {
+                this["TTSAPIKeyTextBoxEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TTSRegionTextBoxEnabled {
+            get {
+                return ((bool)(this["TTSRegionTextBoxEnabled"]));
+            }
+            set {
+                this["TTSRegionTextBoxEnabled"] = value;
+            }
+        }
     }
 }

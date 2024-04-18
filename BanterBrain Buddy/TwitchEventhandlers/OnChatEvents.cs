@@ -11,13 +11,13 @@ namespace BanterBrain_Buddy.TwitchEventhandlers
         private string EventChatUser;
         private string EventChatMessage;
 
-        public OnChatEventArgs(string userCheered, string cheerMessage)
+        public OnChatEventArgs(string userChatted, string chatMessage)
         {
-            EventChatUser = userCheered;
-            EventChatMessage = cheerMessage;
+            EventChatUser = userChatted;
+            EventChatMessage = chatMessage;
         }
 
-        public string[] GetCheerInfo()
+        public string[] GetChatInfo()
         {
             return [EventChatUser, EventChatMessage];
         }

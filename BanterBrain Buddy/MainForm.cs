@@ -21,6 +21,8 @@ using System.Runtime.Versioning;
 using TwitchLib.Api.Helix.Models.Users.GetUserFollows;
 using TwitchLib.Api.Helix.Models.Moderation.CheckAutoModStatus;
 using TwitchLib.Api.Helix;
+using Microsoft.AspNetCore.Components;
+using System.Reflection.Emit;
 
 /// <summary>
 /// CODING RULES:
@@ -70,8 +72,9 @@ namespace BanterBrain_Buddy
 
             _bBBlog.Info("Program Starting...");
             _bBBlog.Info("PPT hotkey: " + MicrophoneHotkeyEditbox.Text);
-            TextLog.AppendText("Program Starting...");
-            TextLog.AppendText("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
+
+            UpdateTextLog("Program Starting...");
+            UpdateTextLog("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
             if (TwitchEnableCheckbox.Checked && TwitchCheckAuthAtStartup.Checked)
                 SetTwitchValidateTokenTimer();
             else
@@ -95,8 +98,8 @@ namespace BanterBrain_Buddy
                     MessageBox.Show("Twitch access token is invalid, please re-authenticate", "Twitch Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     TextLog.Text += "Twitch access token is invalid, please re-authenticate\r\n";
                     _twitchValidateCheckStarted = false;
-                    TwitchStatusTextBox.Text = "DISABLED";
-                    TwitchStatusTextBox.BackColor = Color.Red;
+                    TwitchAPIStatusTextBox.Text = "DISABLED";
+                    TwitchAPIStatusTextBox.BackColor = Color.Red;
                     _bigError = true;
                 }
                 else
@@ -104,10 +107,20 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info("Twitch access token is valid. Starting automated /validate call");
                     TextLog.Text += "Twitch access token is valid. Starting automated /validate call\r\n";
                     _twitchValidateCheckStarted = true;
-                    TwitchStatusTextBox.Text = "ENABLED";
-                    TwitchStatusTextBox.BackColor = Color.Green;
-                    //if we are good, start the hourly check
-                    await _globalTwitchAPI.CheckHourlyAccessToken();
+                    TwitchAPIStatusTextBox.Text = "ENABLED";
+                    TwitchAPIStatusTextBox.BackColor = Color.Green;
+
+                    //ok so all is good, lets start the eventsub client
+                    if (await EventSubStartWebsocketClient())
+                        //if we are good, start the hourly check
+                        await _globalTwitchAPI.CheckHourlyAccessToken();
+                    else
+                    {
+                        _bBBlog.Error("Error starting EventSub client");
+                        MessageBox.Show("Error starting EventSub client", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        TextLog.Text += "Error starting EventSub client\r\n";
+                        _bigError = true;
+                    }
                 }
                 //TODO: we also need to start the EventSub Client
             }
@@ -137,16 +150,16 @@ namespace BanterBrain_Buddy
             if (STTTestButton.Text == "Test")
             {
                 STTTestOutput.Text = "";
-                TextLog.AppendText("Test Microphone on\r\n");
+                UpdateTextLog("Test Microphone on\r\n");
                 _bBBlog.Info("Test Microphone on");
                 STTTestButton.Text = "Recording";
-                TextLog.AppendText(selectedProvider + "\r\n");
+                UpdateTextLog(selectedProvider + "\r\n");
 
                 _sTTDone = false;
                 _bigError = false;
                 if (selectedProvider == "Native")
                 {
-                    TextLog.AppendText("Test Native STT calling\r\n");
+                    UpdateTextLog("Test Native STT calling\r\n");
                     _bBBlog.Info("Test Native STT calling");
                     NativeInputStreamtoWav();
                     while (!_sTTDone)
@@ -156,7 +169,7 @@ namespace BanterBrain_Buddy
                 }
                 else if (selectedProvider == "Azure")
                 {
-                    TextLog.AppendText("Test Azure STT calling\r\n");
+                    UpdateTextLog("Test Azure STT calling\r\n");
                     _bBBlog.Info("Test Azure STT calling");
                     //cant be empty
 
@@ -180,7 +193,7 @@ namespace BanterBrain_Buddy
             else
             {
                 STTTestButton.Text = "Test";
-                TextLog.AppendText("Test stopped recording\r\n");
+                UpdateTextLog("Test stopped recording\r\n");
                 _bBBlog.Info("Test stopped recording");
                 STTTestOutput.BackColor = SystemColors.Control;
                 if (selectedProvider == "Native")
@@ -194,7 +207,7 @@ namespace BanterBrain_Buddy
             String selectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             if (selectedProvider == "Native")
             {
-                TextLog.AppendText("Native STT selected\r\n");
+                UpdateTextLog("Native STT selected\r\n");
                 _bBBlog.Info("Native STT selected");
                 STTAPIKeyEditbox.Enabled = false;
                 STTRegionEditbox.Enabled = false;
@@ -202,7 +215,7 @@ namespace BanterBrain_Buddy
             }
             else if (selectedProvider == "Azure")
             {
-                TextLog.AppendText("Azure STT selected\r\n");
+                UpdateTextLog("Azure STT selected\r\n");
                 _bBBlog.Info("Azure STT selected");
                 STTAPIKeyEditbox.Enabled = true;
                 STTRegionEditbox.Enabled = true;
@@ -311,14 +324,14 @@ namespace BanterBrain_Buddy
                     _writer.Write(buffer, 0, read);
             };
             _soundIn.Start();
-            TextLog.AppendText("STT microphone start. -- SPEAK NOW -- \r\n");
+            UpdateTextLog("STT microphone start. -- SPEAK NOW -- \r\n");
             _bBBlog.Info("Native STT microphone start.");
         }
 
         [SupportedOSPlatform("windows6.1")]
         private void StopWavCapture()
         {
-            TextLog.AppendText("Stopping capture to WAV file\r\n");
+            UpdateTextLog("Stopping capture to WAV file\r\n");
             _bBBlog.Info("Stopping capture to WAV file");
 
             if (_soundIn != null)
@@ -352,7 +365,7 @@ namespace BanterBrain_Buddy
             recognizer2.RecognizeCompleted +=
               new EventHandler<RecognizeCompletedEventArgs>(NativeRecognizeCompletedHandler);
 
-            TextLog.AppendText("Starting asynchronous Native recognition... on " + _tmpWavFile + "\r\n");
+            UpdateTextLog("Starting asynchronous Native recognition... on " + _tmpWavFile + "\r\n");
             _bBBlog.Info("Starting asynchronous Native recognition... on " + _tmpWavFile);
 
             _sTTDone = false;
@@ -361,7 +374,7 @@ namespace BanterBrain_Buddy
             {
                 await Task.Delay(1000);
             }
-            TextLog.AppendText("Native STT done.\r\n");
+            UpdateTextLog("Native STT done.\r\n");
             _bBBlog.Info("Native STT done.");
             recognizer2.Dispose();
         }
@@ -370,7 +383,7 @@ namespace BanterBrain_Buddy
         // Handle the SpeechHypothesized event.  
         private void NativeSpeechHypothesizedHandler(object sender, SpeechHypothesizedEventArgs e)
         {
-            TextLog.AppendText(" In SpeechHypothesizedHandler:+\r\n");
+            UpdateTextLog(" In SpeechHypothesizedHandler:+\r\n");
             _bBBlog.Info("in hypothesishandler");
             string grammarName = "<not available>";
             string resultText = "<not available>";
@@ -392,18 +405,18 @@ namespace BanterBrain_Buddy
         {
             if (e.Error != null)
             {
-                TextLog.AppendText("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message + "\r\n");
+                UpdateTextLog("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message + "\r\n");
                 _bBBlog.Error("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message);
 
             }
             if (e.Cancelled)
             {
-                TextLog.AppendText("Native STT Operation cancelled\r\n");
+                UpdateTextLog("Native STT Operation cancelled\r\n");
                 _bBBlog.Info("Native STT Operation cancelled");
             }
             if (e.InputStreamEnded)
             {
-                TextLog.AppendText("Native STT recognize Stopped.\r\n");
+                UpdateTextLog("Native STT recognize Stopped.\r\n");
                 _bBBlog.Info("Mative STT recognize Stopped.");
             }
 
@@ -416,7 +429,7 @@ namespace BanterBrain_Buddy
         {
             if (e.Result != null && e.Result.Text != null)
             {
-                TextLog.AppendText("Native recognized text: " + e.Result.Text + "\r\n");
+                UpdateTextLog("Native recognized text: " + e.Result.Text + "\r\n");
                 _bBBlog.Info("Native recognized text: " + e.Result.Text);
                 STTTestOutput.AppendText(e.Result.Text + "\r\n");
             }
@@ -430,16 +443,16 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void NativeSpeechDetectedHandler(object sender, SpeechDetectedEventArgs e)
         {
-            TextLog.AppendText(" In NativeSpeechDetectedHandler:\r\n");
-            TextLog.AppendText(" - AudioPosition = " + e.AudioPosition + "\r\n");
+            UpdateTextLog(" In NativeSpeechDetectedHandler:\r\n");
+            UpdateTextLog(" - AudioPosition = " + e.AudioPosition + "\r\n");
             _bBBlog.Info(" In NativeSpeechDetectedHandler: ");
             _bBBlog.Info(" - AudioPosition = \" + e.AudioPosition");
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void TalkToOpenAIGPT(String UserInput)
+        private async Task TalkToOpenAIGPT(String UserInput)
         {
-            TextLog.AppendText("Sending to GPT: " + UserInput + "\r\n");
+            UpdateTextLog("Sending to GPT: " + UserInput + "\r\n");
             _bBBlog.Info("Sending to GPT: " + UserInput);
             _gPTDone = false;
             OpenAIAPI api = new(LLMAPIKeyTextBox.Text);
@@ -449,22 +462,22 @@ namespace BanterBrain_Buddy
             chat.RequestParameters.MaxTokens = 100;
 
             //mood is setting the system text description
-            TextLog.AppendText("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
+            UpdateTextLog("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
             _bBBlog.Info("SystemRole: " + LLMRoleTextBox.Text);
             chat.AppendSystemMessage(LLMRoleTextBox.Text);
 
             chat.AppendUserInput(UserInput);
             try
             {
-                TextLog.AppendText("ChatGPT response: ");
+                UpdateTextLog("ChatGPT response: ");
                 _bBBlog.Info("ChatGPT response: ");
                 await chat.StreamResponseFromChatbotAsync(res =>
                  {
-                     TextLog.AppendText(res);
+                     UpdateTextLog(res);
                      LLMTestOutputbox.AppendText(res);
                  });
                 _bBBlog.Info(LLMTestOutputbox.Text);
-                TextLog.AppendText("\r\nGPT Response done\r\n");
+                UpdateTextLog("\r\nGPT Response done\r\n");
                 _bBBlog.Info("GPT Response done");
                 _gPTDone = true;
             }
@@ -477,16 +490,16 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void GPTTestButton_Click(object sender, EventArgs e)
+        private async void GPTTestButton_Click(object sender, EventArgs e)
         {
             LLMTestOutputbox.Text = "";
             GPTTestButton.Enabled = false;
             GPTTestButton.Text = "Wait...";
             if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
             {
-                TextLog.AppendText("Testing using ChatGPT\r\n");
+                UpdateTextLog("Testing using ChatGPT\r\n");
                 _bBBlog.Info("Testing using ChatGPT");
-                TalkToOpenAIGPT("How are you?");
+                await TalkToOpenAIGPT("How are you?");
             }
             GPTTestButton.Text = "Test";
             GPTTestButton.Enabled = true;
@@ -632,19 +645,21 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TTSNativeSpeakToOutput(String TTSText)
         {
-            TextLog.AppendText("Saying text with Native TTS\r\n");
+            UpdateTextLog("Saying text with Native TTS\r\n");
             _bBBlog.Info("Saying text with Native TTS");
             NativeSpeech nativeSpeech = new();
             await nativeSpeech.NativeTTSInit(TTSAudioOutputComboBox.Text);
             await nativeSpeech.NativeSpeak(TTSText);
         }
 
+
+        //agnostic TTS function
         [SupportedOSPlatform("windows6.1")]
-        private async void TTSTestButton_Click(object sender, EventArgs e)
+        private async Task SayText (string TextToSay)
         {
             if (TTSProviderComboBox.Text == "Native")
             {
-                TTSNativeSpeakToOutput(TTSTestTextBox.Text);
+                TTSNativeSpeakToOutput(TextToSay);
             }
             else if (TTSProviderComboBox.Text == "Azure")
             {
@@ -659,9 +674,36 @@ namespace BanterBrain_Buddy
                     }
                     TTSFillAzureVoicesList();
                 }
-                TTSAzureSpeakToOutput(TTSTestTextBox.Text);
+                TTSAzureSpeakToOutput(TextToSay);
             }
         }
+
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TTSTestButton_Click(object sender, EventArgs e)
+        {
+            await SayText(TTSTestTextBox.Text);
+
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async Task TalkToLLM(string TextToPass)
+        {
+            LLMTestOutputbox.Text = "";
+            _gPTDone = false;
+            if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
+            {
+                UpdateTextLog("Using ChatGPT\r\n");
+                _bBBlog.Info("Using ChatGPT");
+                await TalkToOpenAIGPT(TextToPass);
+            }
+            //lets wait for GPT to be done
+            while (!_gPTDone)
+            {
+                await Task.Delay(500);
+            }
+        }
+
 
         [SupportedOSPlatform("windows6.1")]
         private async void MainRecordingStart_Click(object sender, EventArgs e)
@@ -676,7 +718,7 @@ namespace BanterBrain_Buddy
                 MainRecordingStart.Text = "Recording";
                 if (selectedProvider == "Native")
                 {
-                    TextLog.AppendText("Main button Native STT calling\r\n");
+                    UpdateTextLog("Main button Native STT calling\r\n");
                     _bBBlog.Info("Main button Native STT calling");
                     NativeInputStreamtoWav();
                     while (!_sTTDone)
@@ -686,7 +728,7 @@ namespace BanterBrain_Buddy
                 }
                 else if (selectedProvider == "Azure")
                 {
-                    TextLog.AppendText("Azure STT calling\r\n");
+                    UpdateTextLog("Azure STT calling\r\n");
                     _bBBlog.Info("Azure STT calling");
                     //cant be empty
 
@@ -710,28 +752,18 @@ namespace BanterBrain_Buddy
                 //if _bigError is true, stop! something is very wrong.
                 if (_bigError)
                 {
-                    TextLog.AppendText("Theres an error, stopping execution!\r\n");
+                    UpdateTextLog("Theres an error, stopping execution!\r\n");
                     _bBBlog.Error("Theres an error, stopping execution");
                     MainRecordingStart.Text = "Start";
                     return;
                 }
 
                 Thread.Sleep(500);
+                
                 //now the STT text is in STTTestOutput.Text, lets pass that to ChatGPT
                 if (STTTestOutput.Text.Length > 1)
                 {
-                    LLMTestOutputbox.Text = "";
-                    if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
-                    {
-                        TextLog.AppendText("Using ChatGPT\r\n");
-                        _bBBlog.Info("Using ChatGPT");
-                        TalkToOpenAIGPT(STTTestOutput.Text);
-                    }
-                    //lets wait for GPT to be done
-                    while (!_gPTDone)
-                    {
-                        await Task.Delay(500);
-                    }
+                    await TalkToLLM(STTTestOutput.Text);
 
                     //result text is in LLMTestOutputbox.Text, lets pass that to TTS
                     if (TTSProviderComboBox.Text == "Native")
@@ -745,7 +777,7 @@ namespace BanterBrain_Buddy
                 }
                 else
                 {
-                    TextLog.AppendText("No audio recorded");
+                    UpdateTextLog("No audio recorded");
                     _bBBlog.Info("No audio recorded");
                 }
             }
@@ -796,6 +828,8 @@ namespace BanterBrain_Buddy
             TwitchCheckAuthAtStartup.Checked = Properties.Settings.Default.TwitchCheckAuthAtStartup;
             TwitchReadChatCheckBox.Checked = Properties.Settings.Default.TwitchReadChatCheckBox;
             TwitchCheerCheckbox.Checked = Properties.Settings.Default.TwitchCheerCheckbox;
+            TTSAPIKeyTextBox.Enabled = Properties.Settings.Default.TTSAPIKeyTextBoxEnabled;
+            TTSRegionTextBox.Enabled = Properties.Settings.Default.TTSRegionTextBoxEnabled;
             //load HotkeyList into _setHotkeys
             /* foreach (String key in Properties.Settings.Default.HotkeyList)
              {
@@ -864,6 +898,8 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchCheckAuthAtStartup = TwitchCheckAuthAtStartup.Checked;
             Properties.Settings.Default.TwitchReadChatCheckBox = TwitchReadChatCheckBox.Checked;
             Properties.Settings.Default.TwitchCheerCheckbox = TwitchCheerCheckbox.Checked;
+            Properties.Settings.Default.TTSAPIKeyTextBoxEnabled = TTSAPIKeyTextBox.Enabled;
+            Properties.Settings.Default.TTSRegionTextBoxEnabled = TTSRegionTextBox.Enabled;
             /* //add the hotkeys in settings list, not in text
              Properties.Settings.Default.HotkeyList.Clear();
              foreach (Keys key in _setHotkeys)
@@ -910,7 +946,7 @@ namespace BanterBrain_Buddy
                         this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString();
                 }
             }
-            TextLog.AppendText("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
+            UpdateTextLog("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
             _bBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
             HotkeyDialog.Dispose();
             //bind the new value 
@@ -1011,8 +1047,8 @@ namespace BanterBrain_Buddy
                 TextLog.Text += "Problem verifying Access token, invalid access token\r\n";
                 MessageBox.Show("Problem verifying Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 TwitchTestButton.Enabled = true;
-                TwitchStatusTextBox.Text = "DISABLED";
-                TwitchStatusTextBox.BackColor = Color.Red;
+                TwitchAPIStatusTextBox.Text = "DISABLED";
+                TwitchAPIStatusTextBox.BackColor = Color.Red;
                 //if the token is invalid, lets disable the checkboxes
                 TwitchEnableCheckbox.Checked = false;
                 if (TwitchCheckAuthAtStartup.Checked)
@@ -1022,10 +1058,10 @@ namespace BanterBrain_Buddy
             else
             {
                 _bBBlog.Info($"Twitch Access token verified success!");
-                TextLog.AppendText("Twitch Access token verified success!\r\n");
+                UpdateTextLog("Twitch Access token verified success!\r\n");
                 MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                TwitchStatusTextBox.Text = "ENABLED";
-                TwitchStatusTextBox.BackColor = Color.Green;
+                TwitchAPIStatusTextBox.Text = "ENABLED";
+                TwitchAPIStatusTextBox.BackColor = Color.Green;
                 //if the token is valid, and twitch enabled lets start up the hourly validation timer
                 if (TwitchEnableCheckbox.Checked)
                     SetTwitchValidateTokenTimer();
@@ -1167,57 +1203,125 @@ namespace BanterBrain_Buddy
                 {
                     _globalTwitchAPI.StopHourlyAccessTokenCheck();
                     _globalTwitchAPI = null;
-                    TwitchStatusTextBox.Text = "DISABLED";
+                    TwitchAPIStatusTextBox.Text = "DISABLED";
                 }
             }
             _bBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
         }
 
-
         [SupportedOSPlatform("windows6.1")]
-        private async void EventSubTest_Click(object sender, EventArgs e)
+        private async Task<bool> EventSubStartWebsocketClient()
         {
-            //TODO: this only works once API access-token is verified
-            //testing to start an eventsub server and see if we can actually connect
             TwitchAPIESub twitchEventSub = new();
             bool eventSubStart = false;
             //we should set here what eventhandlers we want to have enabled based on the twitch Settings
 
             if (await twitchEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
             {
-                //we need to first set teh event handlers we want to use
+                //we need to first set the event handlers we want to use
+                //do we want to check cheers?
                 if (TwitchCheerCheckbox.Checked)
                     twitchEventSub.EventSubHandleCheer(int.Parse(TwitchMinBits.Text));
+
+                //do we want to check chat messages?
                 if (TwitchReadChatCheckBox.Checked)
-                { 
+                {
                     twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
-                    //set local eventhanlder for chat messages
+                    //set local eventhanlder for valid chat messages to trigger the bot
                     twitchEventSub.OnEsubChatMessage += TwitchEventSub_OnEsubChatMessage;
                 }
                 //now we can connect the client to the server
                 eventSubStart = await twitchEventSub.EventSubStartAsync();
+
+                if (eventSubStart)
+                {
+                    _bBBlog.Info("Twitch EventSub server started successfully");
+                    TextLog.AppendText("Twitch EventSub server started successfully\r\n");
+                    TwitchEventSubStatusTextBox.Text = "ENABLED";
+                    TwitchEventSubStatusTextBox.BackColor = Color.Green;
+                }
+                return true;
             }
             else
             {
-                _bBBlog.Error("Issue with starting EventSub server. Check logs for more information.");
-                MessageBox.Show("Issue with starting EventSub server. Check logs for more information.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            if (eventSubStart)
-            {
-                _bBBlog.Info("EventSub server started successfully");
-                MessageBox.Show("EventSub server started successfully so all is well!", "Twitch EventSub success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //this is only a test, so we need to stop it again
-                // await twitchEventSub.EventSubStopAsync();
+                _bBBlog.Error("Issue with starting Twitch EventSub server. Check logs for more information.");
+                TwitchEventSubStatusTextBox.Text = "DISABLED";
+                TwitchEventSubStatusTextBox.BackColor = Color.Red;
+                return false;
             }
         }
 
         [SupportedOSPlatform("windows6.1")]
-        //eventhandler for valid chat messages trigger
-        private void TwitchEventSub_OnEsubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
+        private async void EventSubTest_Click(object sender, EventArgs e)
         {
+            //This only works once API access-token is verified
+            if (TwitchAPIStatusTextBox.Text.ToLower() != "enabled")
+            {
+                MessageBox.Show("You need to verify the API key first.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if ( await EventSubStartWebsocketClient() )
+            {
+                MessageBox.Show("EventSub server started successfully so all is well!", "Twitch EventSub success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } else
+            {
+                MessageBox.Show("Issue with starting EventSub server. Check logs for more information.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        /// <summary>
+        /// To write to TextLog irregardless of thread
+        public void UpdateTextLog (string TextToAppend)
+        {
+            if (!InvokeRequired)
+            {
+                TextLog.AppendText(TextToAppend);
+            }
+            else
+            {
+                Invoke(new Action(() =>
+                {
+                    TextLog.AppendText(TextToAppend);
+                }));
+            }     
+        }
+
+        //A simple way to invoke UI elements from another thread
+        [SupportedOSPlatform("windows6.1")]
+        private async Task InvokeUI(Action a)
+        {
+            this.BeginInvoke(new MethodInvoker(a));
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        //eventhandler for valid chat messages trigger
+        private async void TwitchEventSub_OnEsubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
+        {
+
+            string message = e.GetChatInfo()[1].Replace(TwitchCommandTrigger.Text, "");
+            string user = e.GetChatInfo()[0];
             //we got a valid chat message, lets see what we can do with it
-            _bBBlog.Info("Valid Twitch Chat message received from user: " + e.GetCheerInfo()[0] + " message: " + e.GetCheerInfo()[1]);
-            TextLog.AppendText("Valid Twitch Chat message received from user: " + e.GetCheerInfo()[0] + " message: " + e.GetCheerInfo()[1] + "\r\n");
+            _bBBlog.Info("Valid Twitch Chat message received from user: " + user + " message: " + message);
+            await InvokeUI(async () => {
+                TextLog.AppendText("Valid Twitch Chat message received from user: " + user + " message: " + message + "\r\n");
+                await SayText(user + " said " + message);
+            });
+            await InvokeUI(async () => {
+                await TalkToLLM("respond to " + user + ", who said: " + message);
+            });
+            //we have to await the GPT response, due to running this from another thread await alone is not enough.
+            while (!_gPTDone)
+            {
+                await Task.Delay(500);
+            }
+            //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
+            await InvokeUI(async () => {
+                await Task.Delay(3000);
+                await SayText(LLMTestOutputbox.Text);
+            });
+
         }
 
 

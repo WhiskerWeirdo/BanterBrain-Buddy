@@ -28,22 +28,6 @@ namespace BanterBrain_Buddy
     //eventhandler for valid chat commands
     public delegate void ESubChatEventHandler(object source, TwitchEventhandlers.OnChatEventArgs e);
 
-/*    public class OnChatEventArgs : EventArgs
-    {
-        private string EventChatUser;
-        private string EventChatMessage;
-
-        public OnChatEventArgs(string userCheered, string cheerMessage)
-        {
-            EventChatUser = userCheered;
-            EventChatMessage = cheerMessage;
-        }
-
-        public string[] GetCheerInfo()
-        {
-            return [EventChatUser, EventChatMessage];
-        }
-    } */
 
     public class TwitchAPIESub
     {
@@ -64,6 +48,9 @@ namespace BanterBrain_Buddy
         private bool _twitchDoAutomatedCheck { get; set; }
 
         private bool _eventSubReadChatMessages { get; set; }
+
+        //needed for timeout of command trigger
+        private bool _isCommandTriggered { get; set; }
         private bool _eventSubCheckCheer { get; set; }
 
         private static TwitchLib.Api.TwitchAPI _gTwitchAPI;
@@ -80,6 +67,7 @@ namespace BanterBrain_Buddy
             TwitchAuthRequestResult = false;
             TwitchReadSettings();
             _twitchDoAutomatedCheck = true;
+
             _gTwitchAPI = new TwitchLib.Api.TwitchAPI();
             _eventSubWebsocketClient = new EventSubWebsocketClient();
         }
@@ -90,6 +78,7 @@ namespace BanterBrain_Buddy
         public async Task<bool> EventSubInit(string TwAuthToken, string TwUsername, string TwChannelName)
         {
             _bBBlog.Info("Set required globals for EventSub");
+            _isCommandTriggered = false;
             TwitchAccessToken = TwAuthToken;
             if (await ValidateAccessToken(TwitchAccessToken))
             {
@@ -120,7 +109,8 @@ namespace BanterBrain_Buddy
             _eventSubReadChatMessages = true;
             _eventSubWebsocketClient.ChannelChatMessage += (sender,e) => EventSubOnChannelChatMessage(sender, e, command, delay, follower, subscriber);
         }
-        
+
+
         public void EventSubHandleCheer(int minbits)
         {
             _bBBlog.Info("Setting EventSubHandleCheer");
@@ -365,10 +355,19 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"{eventData.UserName} followed {eventData.BroadcasterUserName} at {eventData.FollowedAt}");
         }
 
+
         //eventhandler for reading chat messages.
         //This receives: string command, int delay, bool follower, bool subscriber
         private async Task EventSubOnChannelChatMessage(object sender, ChannelChatMessageArgs e, string command, int delay, bool follower, bool subscriber)
         {
+            //if the command is still on timeout, ignore else set it to true
+            if ( _isCommandTriggered)
+            {
+                _bBBlog.Info("Command trigger is still on timeout, ignoring");
+                return;
+            } else
+                _isCommandTriggered = true;
+
             var eventData = e.Notification.Payload.Event;
             _bBBlog.Info($"{eventData.ChatterUserName} said {eventData.Message.Text} in {eventData.BroadcasterUserName}'s chat.");
             //TODO: check for the command and then trigger the bot if its the right command and delay has been passed since bot was triggered last
@@ -376,26 +375,27 @@ namespace BanterBrain_Buddy
             //also we should check when last time bot was triggered
             if (eventData.Message.Text.StartsWith(command))
             {
-                //var broadCaster =
+                //if this does not work we need to, when starting, request all follows and store them in a list and kee it updated
                 var result =  await _gTwitchAPI.Helix.Channels.GetChannelFollowersAsync(_twitchChannelID, eventData.ChatterUserId);
 
                  _bBBlog.Info($"Followerscheck length: {result.Data.Length} channel: {_twitchChannelID} chatter: {eventData.ChatterUserId}");
+
                 //user needs to be a subscriber but is not
                 _bBBlog.Info($"{eventData.ChatterUserName} issubscriber: {eventData.IsSubscriber}");
                 if (subscriber)
                 {
                     if (!eventData.IsSubscriber && !eventData.IsBroadcaster)
                     {
-                        _bBBlog.Info($"{eventData.ChatterUserName} is not a subscriber, but the command requires it. Not going to execute");
+                        _bBBlog.Info($"{eventData.ChatterUserName} is not a subscriber, but the command requires it. Not going to execute.");
                         return;
                     }
                     else if (eventData.IsSubscriber)
                     {
-                        _bBBlog.Info($"{eventData.ChatterUserName} is a subscriber and the command requires it, executing");
+                        _bBBlog.Info($"{eventData.ChatterUserName} is a subscriber and the command requires it, executing!");
                     }
                     else if (eventData.IsBroadcaster)
                     {
-                        _bBBlog.Info($"{eventData.ChatterUserName} is not a subscriber but is a broadcaster its allowed");
+                        _bBBlog.Info($"{eventData.ChatterUserName} is not a subscriber but is a broadcaster so its allowed");
                     }
                 }
 
@@ -404,6 +404,12 @@ namespace BanterBrain_Buddy
                 //throw event! OnCommandReceived with {eventData.Message.Text} and {eventData.ChatterUserName}
                 OnEsubChatMessage(this, new TwitchEventhandlers.OnChatEventArgs(eventData.ChatterUserName, eventData.Message.Text));
 
+                //We need to set a delay before the bot can be triggered again, waiting delay seconds 
+                //not sure if this works ;)
+                _bBBlog.Debug($"Disabling eventhandler for chatmessage");
+                await Task.Delay(delay * 1000);
+                _isCommandTriggered = false;
+                _bBBlog.Debug($"Enabling eventhandler for chatmessage");
             }
         }
 

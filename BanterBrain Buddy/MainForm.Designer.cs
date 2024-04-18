@@ -68,9 +68,9 @@ namespace BanterBrain_Buddy
             MainTab = new TabPage();
             groupBox7 = new GroupBox();
             MainRecordingStart = new Button();
-            textBox1 = new TextBox();
+            TwitchEventSubStatusTextBox = new TextBox();
             TwitchEventSubStatusLabel = new Label();
-            TwitchStatusTextBox = new TextBox();
+            TwitchAPIStatusTextBox = new TextBox();
             TwitchStatusLabel = new Label();
             TextLog = new TextBox();
             BBBTabs = new TabControl();
@@ -103,6 +103,7 @@ namespace BanterBrain_Buddy
             TwitchCommunitySubs = new CheckBox();
             TwitchSubscribed = new CheckBox();
             groupBox5 = new GroupBox();
+            TwitchCheerCheckbox = new CheckBox();
             label5 = new Label();
             TwitchMinBits = new TextBox();
             TwitchTriggerSettings = new GroupBox();
@@ -126,7 +127,6 @@ namespace BanterBrain_Buddy
             GithubToolStripMenuItem = new ToolStripMenuItem();
             DiscordToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
-            TwitchCheerCheckbox = new CheckBox();
             SettingsTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -380,9 +380,9 @@ namespace BanterBrain_Buddy
             // MainTab
             // 
             MainTab.Controls.Add(groupBox7);
-            MainTab.Controls.Add(textBox1);
+            MainTab.Controls.Add(TwitchEventSubStatusTextBox);
             MainTab.Controls.Add(TwitchEventSubStatusLabel);
-            MainTab.Controls.Add(TwitchStatusTextBox);
+            MainTab.Controls.Add(TwitchAPIStatusTextBox);
             MainTab.Controls.Add(TwitchStatusLabel);
             MainTab.Controls.Add(TextLog);
             resources.ApplyResources(MainTab, "MainTab");
@@ -403,26 +403,26 @@ namespace BanterBrain_Buddy
             MainRecordingStart.UseVisualStyleBackColor = true;
             MainRecordingStart.Click += MainRecordingStart_Click;
             // 
-            // textBox1
+            // TwitchEventSubStatusTextBox
             // 
-            textBox1.BackColor = System.Drawing.Color.Red;
-            textBox1.ForeColor = System.Drawing.Color.White;
-            resources.ApplyResources(textBox1, "textBox1");
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
+            TwitchEventSubStatusTextBox.BackColor = System.Drawing.Color.Red;
+            TwitchEventSubStatusTextBox.ForeColor = System.Drawing.Color.White;
+            resources.ApplyResources(TwitchEventSubStatusTextBox, "TwitchEventSubStatusTextBox");
+            TwitchEventSubStatusTextBox.Name = "TwitchEventSubStatusTextBox";
+            TwitchEventSubStatusTextBox.ReadOnly = true;
             // 
             // TwitchEventSubStatusLabel
             // 
             resources.ApplyResources(TwitchEventSubStatusLabel, "TwitchEventSubStatusLabel");
             TwitchEventSubStatusLabel.Name = "TwitchEventSubStatusLabel";
             // 
-            // TwitchStatusTextBox
+            // TwitchAPIStatusTextBox
             // 
-            TwitchStatusTextBox.BackColor = System.Drawing.Color.Red;
-            TwitchStatusTextBox.ForeColor = System.Drawing.Color.White;
-            resources.ApplyResources(TwitchStatusTextBox, "TwitchStatusTextBox");
-            TwitchStatusTextBox.Name = "TwitchStatusTextBox";
-            TwitchStatusTextBox.ReadOnly = true;
+            TwitchAPIStatusTextBox.BackColor = System.Drawing.Color.Red;
+            TwitchAPIStatusTextBox.ForeColor = System.Drawing.Color.White;
+            resources.ApplyResources(TwitchAPIStatusTextBox, "TwitchAPIStatusTextBox");
+            TwitchAPIStatusTextBox.Name = "TwitchAPIStatusTextBox";
+            TwitchAPIStatusTextBox.ReadOnly = true;
             // 
             // TwitchStatusLabel
             // 
@@ -662,6 +662,12 @@ namespace BanterBrain_Buddy
             groupBox5.Name = "groupBox5";
             groupBox5.TabStop = false;
             // 
+            // TwitchCheerCheckbox
+            // 
+            resources.ApplyResources(TwitchCheerCheckbox, "TwitchCheerCheckbox");
+            TwitchCheerCheckbox.Name = "TwitchCheerCheckbox";
+            TwitchCheerCheckbox.UseVisualStyleBackColor = true;
+            // 
             // label5
             // 
             resources.ApplyResources(label5, "label5");
@@ -795,12 +801,6 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
             // 
-            // TwitchCheerCheckbox
-            // 
-            resources.ApplyResources(TwitchCheerCheckbox, "TwitchCheerCheckbox");
-            TwitchCheerCheckbox.Name = "TwitchCheerCheckbox";
-            TwitchCheerCheckbox.UseVisualStyleBackColor = true;
-            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -891,7 +891,7 @@ namespace BanterBrain_Buddy
         private Label TwitchChannelNameLabel;
         private Label TwitchAccesstokenLabel;
         private Label TwitchUsernameLabel;
-        private TextBox TwitchStatusTextBox;
+        private TextBox TwitchAPIStatusTextBox;
         private Label TwitchStatusLabel;
         private GroupBox groupBox5;
         private GroupBox TwitchTriggerSettings;
@@ -934,7 +934,7 @@ namespace BanterBrain_Buddy
         private CheckBox TwitchCheckAuthAtStartup;
         private CheckBox TwitchEnableCheckbox;
         private Label TwitchEventSubStatusLabel;
-        private TextBox textBox1;
+        private TextBox TwitchEventSubStatusTextBox;
         private Button EventSubTest;
         private CheckBox TwitchReadChatCheckBox;
         private GroupBox EventSubGroupbox;
