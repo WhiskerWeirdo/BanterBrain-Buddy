@@ -60,6 +60,7 @@ namespace BanterBrain_Buddy
         //we need this for the hourly /validate check
         private TwitchAPIESub _globalTwitchAPI;
         private bool _twitchValidateCheckStarted;
+        private TwitchAPIESub _twitchEventSub;
 
         [SupportedOSPlatform("windows6.1")]
         public BBB()
@@ -1212,26 +1213,27 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task<bool> EventSubStartWebsocketClient()
         {
-            TwitchAPIESub twitchEventSub = new();
+            _twitchEventSub = new();
             bool eventSubStart = false;
             //we should set here what eventhandlers we want to have enabled based on the twitch Settings
 
-            if (await twitchEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
+            if (await _twitchEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
             {
                 //we need to first set the event handlers we want to use
                 //do we want to check cheers?
                 if (TwitchCheerCheckbox.Checked)
-                    twitchEventSub.EventSubHandleCheer(int.Parse(TwitchMinBits.Text));
+                    _twitchEventSub.EventSubHandleCheer(int.Parse(TwitchMinBits.Text));
 
                 //do we want to check chat messages?
                 if (TwitchReadChatCheckBox.Checked)
                 {
-                    twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
+                    _bBBlog.Info("Twitch read chat enabled, calling eventsubhandlereadchat");
+                    _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
-                    twitchEventSub.OnEsubChatMessage += TwitchEventSub_OnEsubChatMessage;
+                    _twitchEventSub.OnEsubChatMessage += TwitchEventSub_OnEsubChatMessage;
                 }
                 //now we can connect the client to the server
-                eventSubStart = await twitchEventSub.EventSubStartAsync();
+                eventSubStart = await _twitchEventSub.EventSubStartAsync();
 
                 if (eventSubStart)
                 {
@@ -1326,16 +1328,27 @@ namespace BanterBrain_Buddy
 
 
         [SupportedOSPlatform("windows6.1")]
-        private void TwitchReadChatCheckBox_Click(object sender, EventArgs e)
+        private async void TwitchReadChatCheckBox_Click(object sender, EventArgs e)
         {
             if (TwitchReadChatCheckBox.Checked)
             {
                 _bBBlog.Info("This enables reading chat messages to watch for a command, in busy channels this will cause significant load on your computer");
                 MessageBox.Show("Reading chat creates a high load on busy channels. Be warned!", "Twitch Channel messages enabled", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //just double check its not already enabled
+                if (!_globalTwitchAPI.EventSubReadChatMessages)
+                {
+                   _bBBlog.Info("Twitch read chat enabled.");
+                    _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
+                    //set local eventhanlder for valid chat messages to trigger the bot
+                    _twitchEventSub.OnEsubChatMessage += TwitchEventSub_OnEsubChatMessage;
+                }
             }
             else
             {
-                _bBBlog.Info("Twitch read chat unchecked");
+                _bBBlog.Info("Twitch read chat unchecked. Disabling event handler. TODO: disable eventsub subscription");
+                _twitchEventSub.OnEsubChatMessage -= TwitchEventSub_OnEsubChatMessage;
+                await _twitchEventSub.EventSubStopReadChat();
+
             }
         }
     }

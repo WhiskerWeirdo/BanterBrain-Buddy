@@ -47,11 +47,15 @@ namespace BanterBrain_Buddy
 
         private bool _twitchDoAutomatedCheck { get; set; }
 
-        private bool _eventSubReadChatMessages { get; set; }
+        public bool EventSubReadChatMessages { get; private set; }
 
         //needed for timeout of command trigger
         private bool _isCommandTriggered { get; set; }
         private bool _eventSubCheckCheer { get; set; }
+
+        private Dictionary<string, string> _eventSubIllist;  
+
+        private Dictionary<string, string> _conditions;
 
         private static TwitchLib.Api.TwitchAPI _gTwitchAPI;
 
@@ -67,7 +71,7 @@ namespace BanterBrain_Buddy
             TwitchAuthRequestResult = false;
             TwitchReadSettings();
             _twitchDoAutomatedCheck = true;
-
+            _eventSubIllist = new();
             _gTwitchAPI = new TwitchLib.Api.TwitchAPI();
             _eventSubWebsocketClient = new EventSubWebsocketClient();
         }
@@ -80,6 +84,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Set required globals for EventSub");
             _isCommandTriggered = false;
             TwitchAccessToken = TwAuthToken;
+
             if (await ValidateAccessToken(TwitchAccessToken))
             {
                 var broadCaster = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwChannelName])).Users;
@@ -102,12 +107,23 @@ namespace BanterBrain_Buddy
             }
         }
 
-
-        public void EventSubHandleReadchat(string command, int delay, bool follower, bool subscriber)
+        public async Task EventSubStopReadChat()
+        {
+            _bBBlog.Info("Unsubscribe from reading chat.");
+            EventSubReadChatMessages = false;
+            await EventSubUnsubscribe("channel.chat.message");
+        }
+        public async void EventSubHandleReadchat(string command, int delay, bool follower, bool subscriber)
         {
             _bBBlog.Info("Setting EventSubHandleReadchat");
-            _eventSubReadChatMessages = true;
+            EventSubReadChatMessages = true;
             _eventSubWebsocketClient.ChannelChatMessage += (sender,e) => EventSubOnChannelChatMessage(sender, e, command, delay, follower, subscriber);
+            //we can call this function multile times, so we need to check if we are already connected
+            if (_eventSubWebsocketClient.SessionId != null)
+            {
+                _bBBlog.Info("Subscribing to chat messages");
+                await EventSubSubscribe("channel.chat.message", _conditions);
+            }
         }
 
 
@@ -439,26 +455,52 @@ namespace BanterBrain_Buddy
                 // the access token
                 //_bBBlog.Info($"Subscribing to topics. - ClientID: {_twitchAuthClientId} -BroadcasterID: {_twitchChannelID} -UserID {_twitchUserID} "); // -Accesstoken {TwitchAccessToken}");
 
-                Dictionary<string, string> conditions = new()
+                _conditions = new()
                 {
                     { "broadcaster_user_id", _twitchChannelID },
                              { "user_id", _twitchUserID },
                 };
 
-                //subscribe to reading channel messages.
-                if (_eventSubReadChatMessages)
+                //we have to wait to subscribe to the topics until the websocket is connected
+                if (EventSubReadChatMessages)
                 {
-                    var response = await _gTwitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.chat.message", "1", conditions,
-                    TwitchLib.Api.Core.Enums.EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, clientId: _twitchAuthClientId, accessToken: TwitchAccessToken);
-                    foreach (var sub in response.Subscriptions)
-                    {
-                        _bBBlog.Info($"Sub Type: {sub.Type} is {sub.Status}");
-                    };
+                    _bBBlog.Info("Subscribing to chat messages");
+                    await EventSubSubscribe("channel.chat.message", _conditions);
                 }
 
-                //subscribe to checking cheers
 
+            }
+        }
 
+        private async Task EventSubSubscribe(string type, Dictionary<string, string> conditions)
+        {
+            var response = await _gTwitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync(type, "1", conditions,
+                               TwitchLib.Api.Core.Enums.EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, clientId: _twitchAuthClientId, accessToken: TwitchAccessToken);
+            foreach (var sub in response.Subscriptions)
+            {
+                _bBBlog.Info($"Sub Type: {sub.Type} is {sub.Status} with {sub.Id}");
+                _eventSubIllist.Add(type, sub.Id);
+            };
+        }
+
+        //ubsubscribe from an EventSub topic
+        private async Task EventSubUnsubscribe(string type)
+        {
+            if (_eventSubIllist.TryGetValue(type, out string subId))
+            {
+                var result = await _gTwitchAPI.Helix.EventSub.DeleteEventSubSubscriptionAsync(subId, _twitchAuthClientId, TwitchAccessToken);
+                if (result)
+                {
+                    _bBBlog.Info($"Unsubscribed from {type} with id {subId}");
+                    //remove the subscription from the list
+                    _eventSubIllist.Remove(type);
+                } 
+                else
+                    _bBBlog.Error($"Could not unsubscribe from {type} with id {subId}");
+            }
+            else
+            {
+                _bBBlog.Error($"Could not find subscription for {type}");
             }
         }
 

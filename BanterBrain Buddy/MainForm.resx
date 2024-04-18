@@ -1169,7 +1169,7 @@
     <value>12</value>
   </data>
   <data name="groupBox7.Text" xml:space="preserve">
-    <value>Record</value>
+    <value>Microphone record</value>
   </data>
   <data name="&gt;&gt;groupBox7.Name" xml:space="preserve">
     <value>groupBox7</value>
@@ -2111,7 +2111,7 @@
     <value>14</value>
   </data>
   <data name="groupBox6.Text" xml:space="preserve">
-    <value>Subscription</value>
+    <value>Subscription Events</value>
   </data>
   <data name="&gt;&gt;groupBox6.Name" xml:space="preserve">
     <value>groupBox6</value>
@@ -2246,13 +2246,13 @@
     <value>9, 18</value>
   </data>
   <data name="TwitchReadChatCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 19</value>
+    <value>117, 19</value>
   </data>
   <data name="TwitchReadChatCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
   </data>
   <data name="TwitchReadChatCheckBox.Text" xml:space="preserve">
-    <value>Read Chat</value>
+    <value>Read Twitch Chat</value>
   </data>
   <data name="&gt;&gt;TwitchReadChatCheckBox.Name" xml:space="preserve">
     <value>TwitchReadChatCheckBox</value>
@@ -2330,7 +2330,7 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchNeedsSubscriber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>181, 108</value>
+    <value>188, 107</value>
   </data>
   <data name="TwitchNeedsSubscriber.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
@@ -2366,7 +2366,7 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchNeedsFollower.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 107</value>
+    <value>11, 104</value>
   </data>
   <data name="TwitchNeedsFollower.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
