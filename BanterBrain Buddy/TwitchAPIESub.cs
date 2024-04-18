@@ -27,14 +27,17 @@ namespace BanterBrain_Buddy
 {
     //eventhandler for valid chat commands
     public delegate void ESubChatEventHandler(object source, TwitchEventhandlers.OnChatEventArgs e);
-
+    //eventhandler for valid cheers
+    public delegate void ESubCheerEventHandler(object source, TwitchEventhandlers.OnCheerEventsArgs e);
 
     public class TwitchAPIESub
     {
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         //The eventhandler for a valid chat command triggered, it returns the username as [0] and the message as [1] in a string array
-        public event ESubChatEventHandler OnEsubChatMessage;
+        public event ESubChatEventHandler OnESubChatMessage;
+        //the eventhandler for a valid cheer, it returns the username as [0] and the message as [1] in a string array
+        public event ESubCheerEventHandler OnESubCheerMessage;
 
         public string TwitchAccessToken { get;  private set; }
         private bool TwitchAuthRequestResult { get; set; }
@@ -51,7 +54,7 @@ namespace BanterBrain_Buddy
 
         //needed for timeout of command trigger
         private bool _isCommandTriggered { get; set; }
-        private bool _eventSubCheckCheer { get; set; }
+        public bool EventSubCheckCheer { get; set; }
 
         private Dictionary<string, string> _eventSubIllist;  
 
@@ -113,6 +116,14 @@ namespace BanterBrain_Buddy
             EventSubReadChatMessages = false;
             await EventSubUnsubscribe("channel.chat.message");
         }
+
+        public async Task EventSubStopCheer()
+        {
+            _bBBlog.Info("Unsubscribe from checking cheers.");
+            EventSubCheckCheer = false;
+            await EventSubUnsubscribe("channel.cheer");
+        }
+
         public async void EventSubHandleReadchat(string command, int delay, bool follower, bool subscriber)
         {
             _bBBlog.Info("Setting EventSubHandleReadchat");
@@ -127,11 +138,16 @@ namespace BanterBrain_Buddy
         }
 
 
-        public void EventSubHandleCheer(int minbits)
+        public async void EventSubHandleCheer(int minbits)
         {
             _bBBlog.Info("Setting EventSubHandleCheer");
-            _eventSubCheckCheer = true;
+            EventSubCheckCheer = true;
             _eventSubWebsocketClient.ChannelCheer += (sender, e) => EventSubOnChannelCheer(sender, e, minbits);
+            if (_eventSubWebsocketClient.SessionId != null)
+            {
+                _bBBlog.Info("Subscribing to cheers");
+                await EventSubSubscribe("channel.cheer", _conditions);
+            }
         }
 
 
@@ -257,6 +273,14 @@ namespace BanterBrain_Buddy
                 _twitchChannelID = broadCaster[0].Id;
                 _bBBlog.Info("Broadcaster: " + broadCaster[0].Login +" id:"+ broadCaster[0].Id);
                 _bBBlog.Info("Message sender: " + messageSender[0].Login + " id:" + messageSender[0].Id);
+
+                //set the global, we need this for the EventSub
+                _conditions = new()
+                {
+                    { "broadcaster_user_id", _twitchChannelID },
+                             { "user_id", _twitchUserID },
+                };
+
                 //do we need to send a message also?
                 if (TwitchSendTestMessageOnJoin != null)
                 {
@@ -417,8 +441,10 @@ namespace BanterBrain_Buddy
 
                 //we need to check if the user is a follower or eventData.IsSubscriber if those are set
                 //we need to request the user information using the Helix API and eventData.ChatterUserId
-                //throw event! OnCommandReceived with {eventData.Message.Text} and {eventData.ChatterUserName}
-                OnEsubChatMessage(this, new TwitchEventhandlers.OnChatEventArgs(eventData.ChatterUserName, eventData.Message.Text));
+
+                //Define the eventhandlers for being able to be thrown back to the main form
+                OnESubChatMessage(this, new TwitchEventhandlers.OnChatEventArgs(eventData.ChatterUserName, eventData.Message.Text));
+
 
                 //We need to set a delay before the bot can be triggered again, waiting delay seconds 
                 //not sure if this works ;)
@@ -433,11 +459,15 @@ namespace BanterBrain_Buddy
         private async Task EventSubOnChannelCheer(object sender, ChannelCheerArgs e, int minbits)
         {
             var eventData = e.Notification.Payload.Event;
-            _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat.");
+            _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat with message: {eventData.Message}");
             if (eventData.Bits >= minbits)
             {
-                _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat, trigger bot");
+                _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat, trigger bot with message {eventData.Message}");
                 //TODO: throw event handler back to the main form to trigger the bot
+                OnESubCheerMessage(this, new TwitchEventhandlers.OnCheerEventsArgs(eventData.UserName, eventData.Message));
+            } else 
+            { 
+                _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat, but it was not enough to trigger the bot"); 
             }
         }
 
@@ -468,6 +498,11 @@ namespace BanterBrain_Buddy
                     await EventSubSubscribe("channel.chat.message", _conditions);
                 }
 
+                if (EventSubCheckCheer)
+                {
+                    _bBBlog.Info("Subscribing to cheers");
+                    await EventSubSubscribe("channel.cheer", _conditions);
+                }
 
             }
         }

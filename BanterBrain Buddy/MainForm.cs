@@ -656,7 +656,7 @@ namespace BanterBrain_Buddy
 
         //agnostic TTS function
         [SupportedOSPlatform("windows6.1")]
-        private async Task SayText (string TextToSay)
+        private async Task SayText(string TextToSay)
         {
             if (TTSProviderComboBox.Text == "Native")
             {
@@ -760,7 +760,7 @@ namespace BanterBrain_Buddy
                 }
 
                 Thread.Sleep(500);
-                
+
                 //now the STT text is in STTTestOutput.Text, lets pass that to ChatGPT
                 if (STTTestOutput.Text.Length > 1)
                 {
@@ -828,7 +828,7 @@ namespace BanterBrain_Buddy
             TwitchEnableCheckbox.Checked = Properties.Settings.Default.TwitchEnable;
             TwitchCheckAuthAtStartup.Checked = Properties.Settings.Default.TwitchCheckAuthAtStartup;
             TwitchReadChatCheckBox.Checked = Properties.Settings.Default.TwitchReadChatCheckBox;
-            TwitchCheerCheckbox.Checked = Properties.Settings.Default.TwitchCheerCheckbox;
+            TwitchCheerCheckBox.Checked = Properties.Settings.Default.TwitchCheerCheckbox;
             TTSAPIKeyTextBox.Enabled = Properties.Settings.Default.TTSAPIKeyTextBoxEnabled;
             TTSRegionTextBox.Enabled = Properties.Settings.Default.TTSRegionTextBoxEnabled;
             //load HotkeyList into _setHotkeys
@@ -898,7 +898,7 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchEnable = TwitchEnableCheckbox.Checked;
             Properties.Settings.Default.TwitchCheckAuthAtStartup = TwitchCheckAuthAtStartup.Checked;
             Properties.Settings.Default.TwitchReadChatCheckBox = TwitchReadChatCheckBox.Checked;
-            Properties.Settings.Default.TwitchCheerCheckbox = TwitchCheerCheckbox.Checked;
+            Properties.Settings.Default.TwitchCheerCheckbox = TwitchCheerCheckBox.Checked;
             Properties.Settings.Default.TTSAPIKeyTextBoxEnabled = TTSAPIKeyTextBox.Enabled;
             Properties.Settings.Default.TTSRegionTextBoxEnabled = TTSRegionTextBox.Enabled;
             /* //add the hotkeys in settings list, not in text
@@ -1210,6 +1210,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
         }
 
+        //here we star the main websocket client for Twitch EventSub
         [SupportedOSPlatform("windows6.1")]
         private async Task<bool> EventSubStartWebsocketClient()
         {
@@ -1220,9 +1221,6 @@ namespace BanterBrain_Buddy
             if (await _twitchEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
             {
                 //we need to first set the event handlers we want to use
-                //do we want to check cheers?
-                if (TwitchCheerCheckbox.Checked)
-                    _twitchEventSub.EventSubHandleCheer(int.Parse(TwitchMinBits.Text));
 
                 //do we want to check chat messages?
                 if (TwitchReadChatCheckBox.Checked)
@@ -1230,8 +1228,17 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info("Twitch read chat enabled, calling eventsubhandlereadchat");
                     _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
-                    _twitchEventSub.OnEsubChatMessage += TwitchEventSub_OnEsubChatMessage;
+                    _twitchEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
                 }
+
+                //do we want to check cheer messages?
+                if (TwitchCheerCheckBox.Checked)
+                {
+                    _bBBlog.Info("Twitch cheers enabled, calling EventSubHandleCheer with the min amount of bits needed to trigger");
+                    _twitchEventSub.EventSubHandleCheer(int.Parse(TwitchMinBits.Text));
+                    _twitchEventSub.OnESubCheerMessage += TwitchEventSub_OnESubCheerMessage;
+                }
+
                 //now we can connect the client to the server
                 eventSubStart = await _twitchEventSub.EventSubStartAsync();
 
@@ -1263,10 +1270,11 @@ namespace BanterBrain_Buddy
                 return;
             }
 
-            if ( await EventSubStartWebsocketClient() )
+            if (await EventSubStartWebsocketClient())
             {
                 MessageBox.Show("EventSub server started successfully so all is well!", "Twitch EventSub success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            } else
+            }
+            else
             {
                 MessageBox.Show("Issue with starting EventSub server. Check logs for more information.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1275,7 +1283,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         /// <summary>
         /// To write to TextLog irregardless of thread
-        public void UpdateTextLog (string TextToAppend)
+        public void UpdateTextLog(string TextToAppend)
         {
             if (!InvokeRequired)
             {
@@ -1287,7 +1295,7 @@ namespace BanterBrain_Buddy
                 {
                     TextLog.AppendText(TextToAppend);
                 }));
-            }     
+            }
         }
 
         //A simple way to invoke UI elements from another thread
@@ -1298,20 +1306,20 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        //eventhandler for valid chat messages trigger
-        private async void TwitchEventSub_OnEsubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
+        private async void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
         {
-
-            string message = e.GetChatInfo()[1].Replace(TwitchCommandTrigger.Text, "");
-            string user = e.GetChatInfo()[0];
-            //we got a valid chat message, lets see what we can do with it
-            _bBBlog.Info("Valid Twitch Chat message received from user: " + user + " message: " + message);
-            await InvokeUI(async () => {
-                TextLog.AppendText("Valid Twitch Chat message received from user: " + user + " message: " + message + "\r\n");
-                await SayText(user + " said " + message);
+            string user = e.GetCheerInfo()[0];
+            string message = e.GetCheerInfo()[1];
+            //we got a valid cheer message, lets see what we can do with it
+            _bBBlog.Info("Valid Twitch Cheer message received");
+            await InvokeUI(async () =>
+            {
+                TextLog.AppendText($"Valid Twitch Cheer message received from {user}\r\n");
+                await SayText($"Thank you for the bits {user}!");
             });
-            await InvokeUI(async () => {
-                await TalkToLLM("respond to " + user + ", who said: " + message);
+            await InvokeUI(async () =>
+            {
+                await TalkToLLM($"Respond to the message of {user} who said: {message}");
             });
             //we have to await the GPT response, due to running this from another thread await alone is not enough.
             while (!_gPTDone)
@@ -1319,7 +1327,41 @@ namespace BanterBrain_Buddy
                 await Task.Delay(500);
             }
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
-            await InvokeUI(async () => {
+            await InvokeUI(async () =>
+            {
+                await Task.Delay(3000);
+                await SayText(LLMTestOutputbox.Text);
+            });
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        //eventhandler for valid chat messages trigger
+        private async void TwitchEventSub_OnESubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
+        {
+
+            string message = e.GetChatInfo()[1].Replace(TwitchCommandTrigger.Text, "");
+            string user = e.GetChatInfo()[0];
+            //we got a valid chat message, lets see what we can do with it
+            _bBBlog.Info("Valid Twitch Chat message received from user: " + user + " message: " + message);
+
+            //we use InvokeUI to make sure we can write to the textlog from another thread that is not the Ui thread.
+            await InvokeUI(async () =>
+            {
+                TextLog.AppendText("Valid Twitch Chat message received from user: " + user + " message: " + message + "\r\n");
+                await SayText(user + " said " + message);
+            });
+            await InvokeUI(async () =>
+            {
+                await TalkToLLM($"respond to {user} who said: {message}");
+            });
+            //we have to await the GPT response, due to running this from another thread await alone is not enough.
+            while (!_gPTDone)
+            {
+                await Task.Delay(500);
+            }
+            //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
+            await InvokeUI(async () =>
+            {
                 await Task.Delay(3000);
                 await SayText(LLMTestOutputbox.Text);
             });
@@ -1337,17 +1379,41 @@ namespace BanterBrain_Buddy
                 //just double check its not already enabled
                 if (!_globalTwitchAPI.EventSubReadChatMessages)
                 {
-                   _bBBlog.Info("Twitch read chat enabled.");
+                    _bBBlog.Info("Twitch read chat enabled.");
                     _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
-                    _twitchEventSub.OnEsubChatMessage += TwitchEventSub_OnEsubChatMessage;
+                    _twitchEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
                 }
             }
             else
             {
                 _bBBlog.Info("Twitch read chat unchecked. Disabling event handler. TODO: disable eventsub subscription");
-                _twitchEventSub.OnEsubChatMessage -= TwitchEventSub_OnEsubChatMessage;
+                _twitchEventSub.OnESubChatMessage -= TwitchEventSub_OnESubChatMessage;
                 await _twitchEventSub.EventSubStopReadChat();
+
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchCheerCheckbox_Click(object sender, EventArgs e)
+        {
+            if (TwitchCheerCheckBox.Checked)
+            {
+                _bBBlog.Info("This enables reading cheers and messages when cheered over a certain amount");
+                //just double check its not already enabled
+                if (!_globalTwitchAPI.EventSubCheckCheer)
+                {
+                    _bBBlog.Info("Twitch cheering enabled.");
+                    _twitchEventSub.EventSubHandleCheer(int.Parse(TwitchMinBits.Text));
+                    //set local eventhanlder for valid chat messages to trigger the bot
+                    _twitchEventSub.OnESubCheerMessage += TwitchEventSub_OnESubCheerMessage;
+                }
+            }
+            else
+            {
+                _bBBlog.Info("Twitch cheering unchecked. Disabling event handler. TODO: disable eventsub subscription");
+                _twitchEventSub.OnESubCheerMessage -= TwitchEventSub_OnESubCheerMessage;
+                await _twitchEventSub.EventSubStopCheer();
 
             }
         }

@@ -103,7 +103,7 @@ namespace BanterBrain_Buddy
             TwitchCommunitySubs = new CheckBox();
             TwitchSubscribed = new CheckBox();
             groupBox5 = new GroupBox();
-            TwitchCheerCheckbox = new CheckBox();
+            TwitchCheerCheckBox = new CheckBox();
             label5 = new Label();
             TwitchMinBits = new TextBox();
             TwitchTriggerSettings = new GroupBox();
@@ -655,18 +655,19 @@ namespace BanterBrain_Buddy
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(TwitchCheerCheckbox);
+            groupBox5.Controls.Add(TwitchCheerCheckBox);
             groupBox5.Controls.Add(label5);
             groupBox5.Controls.Add(TwitchMinBits);
             resources.ApplyResources(groupBox5, "groupBox5");
             groupBox5.Name = "groupBox5";
             groupBox5.TabStop = false;
             // 
-            // TwitchCheerCheckbox
+            // TwitchCheerCheckBox
             // 
-            resources.ApplyResources(TwitchCheerCheckbox, "TwitchCheerCheckbox");
-            TwitchCheerCheckbox.Name = "TwitchCheerCheckbox";
-            TwitchCheerCheckbox.UseVisualStyleBackColor = true;
+            resources.ApplyResources(TwitchCheerCheckBox, "TwitchCheerCheckBox");
+            TwitchCheerCheckBox.Name = "TwitchCheerCheckBox";
+            TwitchCheerCheckBox.UseVisualStyleBackColor = true;
+            TwitchCheerCheckBox.Click += TwitchCheerCheckbox_Click;
             // 
             // label5
             // 
@@ -940,7 +941,7 @@ namespace BanterBrain_Buddy
         private GroupBox EventSubGroupbox;
         private TabPage PersonasTab;
         private GroupBox groupBox7;
-        private CheckBox TwitchCheerCheckbox;
+        private CheckBox TwitchCheerCheckBox;
     }
 }
 
