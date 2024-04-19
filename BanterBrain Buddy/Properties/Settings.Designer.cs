@@ -502,5 +502,29 @@ namespace BanterBrain_Buddy.Properties {
                 this["TTSRegionTextBoxEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchChannelPointCheckBox {
+            get {
+                return ((bool)(this["TwitchChannelPointCheckBox"]));
+            }
+            set {
+                this["TwitchChannelPointCheckBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchCustomRewardName {
+            get {
+                return ((string)(this["TwitchCustomRewardName"]));
+            }
+            set {
+                this["TwitchCustomRewardName"] = value;
+            }
+        }
     }
 }

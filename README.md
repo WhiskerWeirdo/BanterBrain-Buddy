@@ -37,8 +37,10 @@ tldr: use Visual studio 2022 with .net 8.
 - [X] Twitch: Setup Twitch client in its own class
 - [X] Twitch: refresh auth token correctly on both timer and restart of application (fixed: using implicit grant)
 - [X] Twitch: call /validate on startup to check if token is still valid and then call hourly
-- [ ] Twitch: eventSub => allow for reactions to: subscription events, point redemptions & bits used
-- [ ] Twitch: eventSub => if listening for chat command subscribe to it and parse that text.
+- [X] Twitch: eventSub => if listening for chat command subscribe to it and parse that text.
+- [X] Twitch: eventSub 	=> if listening for cheers, subscribe to it and check minbits and react when over and message attached.
+- [ ] Twitch: eventSub => if listening for subscription events, subscribe to it and check if it's a gift and react when there's a message attached
+- [ ] Twitch: eventSub => allow for reactions to: point redemptions and trigger if a specifc one is used
 
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT

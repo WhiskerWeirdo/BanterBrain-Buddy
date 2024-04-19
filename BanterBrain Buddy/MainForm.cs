@@ -831,6 +831,8 @@ namespace BanterBrain_Buddy
             TwitchCheerCheckBox.Checked = Properties.Settings.Default.TwitchCheerCheckbox;
             TTSAPIKeyTextBox.Enabled = Properties.Settings.Default.TTSAPIKeyTextBoxEnabled;
             TTSRegionTextBox.Enabled = Properties.Settings.Default.TTSRegionTextBoxEnabled;
+            TwitchCustomRewardName.Text = Properties.Settings.Default.TwitchCustomRewardName;
+            TwitchChannelPointCheckBox.Checked = Properties.Settings.Default.TwitchChannelPointCheckBox;
             //load HotkeyList into _setHotkeys
             /* foreach (String key in Properties.Settings.Default.HotkeyList)
              {
@@ -901,6 +903,9 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchCheerCheckbox = TwitchCheerCheckBox.Checked;
             Properties.Settings.Default.TTSAPIKeyTextBoxEnabled = TTSAPIKeyTextBox.Enabled;
             Properties.Settings.Default.TTSRegionTextBoxEnabled = TTSRegionTextBox.Enabled;
+            Properties.Settings.Default.TwitchCustomRewardName = TwitchCustomRewardName.Text;
+            Properties.Settings.Default.TwitchChannelPointCheckBox = TwitchChannelPointCheckBox.Checked;
+
             /* //add the hotkeys in settings list, not in text
              Properties.Settings.Default.HotkeyList.Clear();
              foreach (Keys key in _setHotkeys)
@@ -1118,7 +1123,7 @@ namespace BanterBrain_Buddy
                 TTSOutputVoice.Enabled = false;
                 TTSOutputVoiceOption1.Enabled = false;
                 TTSRegionTextBox.Enabled = false;
-
+                //clear and fill the option box with voices
             }
             else if (TTSProviderComboBox.Text == "Azure")
             {
@@ -1127,6 +1132,8 @@ namespace BanterBrain_Buddy
                 TTSOutputVoice.Enabled = true;
                 TTSOutputVoiceOption1.Enabled = true;
                 TTSRegionTextBox.Enabled = true;
+                //clear and fill the option box with voices
+                //and options
             }
         }
 
@@ -1315,11 +1322,12 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 TextLog.AppendText($"Valid Twitch Cheer message received from {user}\r\n");
-                await SayText($"Thank you for the bits {user}!");
+                await SayText($"Thank you for the bits, {user}!");
             });
             await InvokeUI(async () =>
-            {
-                await TalkToLLM($"Respond to the message of {user} who said: {message}");
+            {   if (message.Length >= 1)
+                    await TalkToLLM($"Respond to the message of {user} who said: {message}");
+                //no message is no text
             });
             //we have to await the GPT response, due to running this from another thread await alone is not enough.
             while (!_gPTDone)
@@ -1416,6 +1424,12 @@ namespace BanterBrain_Buddy
                 await _twitchEventSub.EventSubStopCheer();
 
             }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void BBB_Load(object sender, EventArgs e)
+        {
+          // MessageBox.Show("This is a alpha version of BanterBrain Buddy. Don\'t expect anything to work reliably", "BanterBrain Buddy Alpha", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
