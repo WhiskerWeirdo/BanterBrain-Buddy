@@ -526,5 +526,29 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchCustomRewardName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int LLMMaxTokens {
+            get {
+                return ((int)(this["LLMMaxTokens"]));
+            }
+            set {
+                this["LLMMaxTokens"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int LLMTemperature {
+            get {
+                return ((int)(this["LLMTemperature"]));
+            }
+            set {
+                this["LLMTemperature"] = value;
+            }
+        }
     }
 }

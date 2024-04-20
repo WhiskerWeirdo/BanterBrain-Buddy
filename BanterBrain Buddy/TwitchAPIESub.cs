@@ -19,7 +19,7 @@ using System.Windows.Forms;
 /// <summary>
 /// CODING RULES:
 /// •	Local variables, private instance, static fields and method parameters should be camelCase.
-/// •	Methods, constants, properties, events and classes should be PascalCase.
+/// •	Public instance fields, methods, constants, properties, events and classes should be PascalCase.
 /// •	Global private instance fields should be in camelCase prefixed with an underscore. Static fields not.
 /// </summary>
 
@@ -50,6 +50,8 @@ namespace BanterBrain_Buddy
 
         private bool _twitchDoAutomatedCheck { get; set; }
 
+        private bool _twitchMock { get; set; }
+
         public bool EventSubReadChatMessages { get; private set; }
 
         //needed for timeout of command trigger
@@ -74,7 +76,7 @@ namespace BanterBrain_Buddy
             TwitchAuthRequestResult = false;
             TwitchReadSettings();
             _twitchDoAutomatedCheck = true;
-            _eventSubIllist = new();
+            _eventSubIllist = [];
             _gTwitchAPI = new TwitchLib.Api.TwitchAPI();
             _eventSubWebsocketClient = new EventSubWebsocketClient();
         }
@@ -376,6 +378,25 @@ namespace BanterBrain_Buddy
             }
         }
 
+
+        //mock for testing see https://dev.twitch.tv/docs/cli/websocket-event-command/
+        public async Task<bool> EventSubStartAsyncMock()
+        {
+            //we just faking it ;)
+            _twitchMock = true;
+            var result = await _eventSubWebsocketClient.ConnectAsync(new Uri("ws://127.0.0.1:8080/ws"));
+            if (result)
+            {
+                _bBBlog.Info($"Websocket {_eventSubWebsocketClient.SessionId} connected to MOCK EventSub!");
+                return true;
+            }
+            else
+            {
+                _bBBlog.Error($"Websocket {_eventSubWebsocketClient.SessionId} failed to connect MOCK EventSub!!");
+                return false;
+            }
+        }
+
         public async Task EventSubStopAsync()
         {
             await _eventSubWebsocketClient.DisconnectAsync();
@@ -483,7 +504,7 @@ namespace BanterBrain_Buddy
                 // the ID of the bot (username of the bot)
                 // the client ID (_twitchAuthClientId)
                 // the access token
-                //_bBBlog.Info($"Subscribing to topics. - ClientID: {_twitchAuthClientId} -BroadcasterID: {_twitchChannelID} -UserID {_twitchUserID} "); // -Accesstoken {TwitchAccessToken}");
+                _bBBlog.Info($"Subscribing to topics. - ClientID: {_twitchAuthClientId} -BroadcasterID: {_twitchChannelID} -UserID {_twitchUserID} "); // -Accesstoken {TwitchAccessToken}");
 
                 _conditions = new()
                 {
@@ -509,6 +530,7 @@ namespace BanterBrain_Buddy
 
         private async Task EventSubSubscribe(string type, Dictionary<string, string> conditions)
         {
+            _bBBlog.Info($"Subscribing to {type}");
             var response = await _gTwitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync(type, "1", conditions,
                                TwitchLib.Api.Core.Enums.EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, clientId: _twitchAuthClientId, accessToken: TwitchAccessToken);
             foreach (var sub in response.Subscriptions)

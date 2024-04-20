@@ -1363,6 +1363,108 @@
   <data name="BBBTabs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>281, 130</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 15</value>
+  </data>
+  <data name="label11.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Max tokens</value>
+  </data>
+  <data name="&gt;&gt;label11.Name" xml:space="preserve">
+    <value>label11</value>
+  </data>
+  <data name="&gt;&gt;label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label10.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 132</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 15</value>
+  </data>
+  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Temperature</value>
+  </data>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="&gt;&gt;label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LLMMaxTokens.Location" type="System.Drawing.Point, System.Drawing">
+    <value>280, 150</value>
+  </data>
+  <data name="LLMMaxTokens.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="LLMMaxTokens.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="LLMMaxTokens.Text" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="&gt;&gt;LLMMaxTokens.Name" xml:space="preserve">
+    <value>LLMMaxTokens</value>
+  </data>
+  <data name="&gt;&gt;LLMMaxTokens.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LLMMaxTokens.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;LLMMaxTokens.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="LLMTemperature.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 150</value>
+  </data>
+  <data name="LLMTemperature.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="LLMTemperature.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="LLMTemperature.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;LLMTemperature.Name" xml:space="preserve">
+    <value>LLMTemperature</value>
+  </data>
+  <data name="&gt;&gt;LLMTemperature.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LLMTemperature.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;LLMTemperature.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="LLMModelComboBox.Items" xml:space="preserve">
     <value>gpt-3.5-turbo</value>
   </data>
@@ -1391,7 +1493,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;LLMModelComboBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1424,7 +1526,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="LLMTestOutputbox.Location" type="System.Drawing.Point, System.Drawing">
     <value>414, 65</value>
@@ -1451,7 +1553,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;LLMTestOutputbox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1460,7 +1562,7 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 141</value>
+    <value>8, 192</value>
   </data>
   <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -1484,10 +1586,10 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="LLMRoleTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>156, 141</value>
+    <value>156, 189</value>
   </data>
   <data name="LLMRoleTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
@@ -1514,7 +1616,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;LLMRoleTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>8</value>
   </data>
   <data name="GPTTestButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1544,7 +1646,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;GPTTestButton.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>9</value>
   </data>
   <data name="LLMAPIKeyTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>156, 61</value>
@@ -1571,7 +1673,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;LLMAPIKeyTextBox.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>10</value>
   </data>
   <data name="GPTAPIKeyLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1604,7 +1706,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;GPTAPIKeyLabel.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>11</value>
   </data>
   <data name="LLMProviderComboBox.Items" xml:space="preserve">
     <value>OpenAI ChatGPT</value>
@@ -1634,7 +1736,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;LLMProviderComboBox.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>12</value>
   </data>
   <data name="GPTProviderLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1667,7 +1769,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;GPTProviderLabel.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>13</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 14</value>
@@ -1825,6 +1927,33 @@
   <data name="&gt;&gt;groupBox8.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="TwitchMockEventSub.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchMockEventSub.Location" type="System.Drawing.Point, System.Drawing">
+    <value>213, 22</value>
+  </data>
+  <data name="TwitchMockEventSub.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 19</value>
+  </data>
+  <data name="TwitchMockEventSub.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="TwitchMockEventSub.Text" xml:space="preserve">
+    <value>MOCK EventSub</value>
+  </data>
+  <data name="&gt;&gt;TwitchMockEventSub.Name" xml:space="preserve">
+    <value>TwitchMockEventSub</value>
+  </data>
+  <data name="&gt;&gt;TwitchMockEventSub.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchMockEventSub.Parent" xml:space="preserve">
+    <value>EventSubGroupbox</value>
+  </data>
+  <data name="&gt;&gt;TwitchMockEventSub.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="EventSubTest.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 22</value>
   </data>
@@ -1847,13 +1976,13 @@
     <value>EventSubGroupbox</value>
   </data>
   <data name="&gt;&gt;EventSubTest.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="EventSubGroupbox.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 279</value>
   </data>
   <data name="EventSubGroupbox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 56</value>
+    <value>344, 56</value>
   </data>
   <data name="EventSubGroupbox.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>

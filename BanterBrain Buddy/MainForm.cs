@@ -77,7 +77,7 @@ namespace BanterBrain_Buddy
             UpdateTextLog("Program Starting...");
             UpdateTextLog("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
             if (TwitchEnableCheckbox.Checked && TwitchCheckAuthAtStartup.Checked)
-                SetTwitchValidateTokenTimer();
+                SetTwitchValidateTokenTimer(true);
             else
                 TwitchCheckAuthAtStartup.Enabled = false;
         }
@@ -87,7 +87,7 @@ namespace BanterBrain_Buddy
         /// </summary>
         [SupportedOSPlatform("windows6.1")]
         /// <summary>
-        public async void SetTwitchValidateTokenTimer()
+        public async void SetTwitchValidateTokenTimer(bool StartEventSubClient)
         {
             if (!_twitchValidateCheckStarted && TwitchEnableCheckbox.Checked && TwitchUsername.Text.Length > 0 && TwitchAccessToken.Text.Length > 0 && TwitchChannel.Text.Length > 0)
             {
@@ -111,10 +111,21 @@ namespace BanterBrain_Buddy
                     TwitchAPIStatusTextBox.Text = "ENABLED";
                     TwitchAPIStatusTextBox.BackColor = Color.Green;
 
+                    //only start if StartEventSubClient = true
+
                     //ok so all is good, lets start the eventsub client
-                    if (await EventSubStartWebsocketClient())
+                    if (StartEventSubClient)
+                    {
+                        _bBBlog.Info("Starting EventSub client");
+                        await EventSubStartWebsocketClient();
                         //if we are good, start the hourly check
                         await _globalTwitchAPI.CheckHourlyAccessToken();
+                    }
+                    else if (!StartEventSubClient)
+                    {
+                        _bBBlog.Info("We are in Test. EventSub client not started");
+                        await _globalTwitchAPI.CheckHourlyAccessToken();
+                    }
                     else
                     {
                         _bBBlog.Error("Error starting EventSub client");
@@ -140,6 +151,9 @@ namespace BanterBrain_Buddy
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
                 _ = TTSAudioOutputComboBox.Items.Add(device.Name);
+
+            //TODO: make sure the selected device is the same as the one in the settings
+            //if not, set it to the first one
             }
         }
 
@@ -459,8 +473,8 @@ namespace BanterBrain_Buddy
             OpenAIAPI api = new(LLMAPIKeyTextBox.Text);
             var chat = api.Chat.CreateConversation();
             chat.Model = Model.ChatGPTTurbo;
-            chat.RequestParameters.Temperature = 0;
-            chat.RequestParameters.MaxTokens = 100;
+            chat.RequestParameters.Temperature = int.Parse(LLMTemperature.Text);
+            chat.RequestParameters.MaxTokens = int.Parse(LLMMaxTokens.Text);
 
             //mood is setting the system text description
             UpdateTextLog("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
@@ -833,6 +847,8 @@ namespace BanterBrain_Buddy
             TTSRegionTextBox.Enabled = Properties.Settings.Default.TTSRegionTextBoxEnabled;
             TwitchCustomRewardName.Text = Properties.Settings.Default.TwitchCustomRewardName;
             TwitchChannelPointCheckBox.Checked = Properties.Settings.Default.TwitchChannelPointCheckBox;
+            LLMTemperature.Text = Properties.Settings.Default.LLMTemperature.ToString();
+            LLMMaxTokens.Text = Properties.Settings.Default.LLMMaxTokens.ToString();
             //load HotkeyList into _setHotkeys
             /* foreach (String key in Properties.Settings.Default.HotkeyList)
              {
@@ -905,7 +921,8 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TTSRegionTextBoxEnabled = TTSRegionTextBox.Enabled;
             Properties.Settings.Default.TwitchCustomRewardName = TwitchCustomRewardName.Text;
             Properties.Settings.Default.TwitchChannelPointCheckBox = TwitchChannelPointCheckBox.Checked;
-
+            Properties.Settings.Default.LLMTemperature = int.Parse(LLMTemperature.Text);
+            Properties.Settings.Default.LLMMaxTokens = int.Parse(LLMMaxTokens.Text);
             /* //add the hotkeys in settings list, not in text
              Properties.Settings.Default.HotkeyList.Clear();
              foreach (Keys key in _setHotkeys)
@@ -1070,7 +1087,7 @@ namespace BanterBrain_Buddy
                 TwitchAPIStatusTextBox.BackColor = Color.Green;
                 //if the token is valid, and twitch enabled lets start up the hourly validation timer
                 if (TwitchEnableCheckbox.Checked)
-                    SetTwitchValidateTokenTimer();
+                    SetTwitchValidateTokenTimer(false);
             }
 
             TwitchTestButton.Enabled = true;
@@ -1200,7 +1217,7 @@ namespace BanterBrain_Buddy
             //TODO: only allow this after both API and EventSub are tested and working
             if (TwitchEnableCheckbox.Checked)
             {
-                SetTwitchValidateTokenTimer();
+                SetTwitchValidateTokenTimer(true);
                 //allow for it to be automatic at startup
                 TwitchCheckAuthAtStartup.Enabled = true;
             }
@@ -1246,8 +1263,29 @@ namespace BanterBrain_Buddy
                     _twitchEventSub.OnESubCheerMessage += TwitchEventSub_OnESubCheerMessage;
                 }
 
-                //now we can connect the client to the server
-                eventSubStart = await _twitchEventSub.EventSubStartAsync();
+                //do we want to check for subscription events?
+                if (TwitchSubscribed.Checked || TwitchCommunitySubs.Checked || TwitchGiftedSub.Checked)
+                {
+                    _bBBlog.Info("Twitch subscriptions enabled, calling EventSubHandleSubscriptions");
+                    //_twitchEventSub.EventSubHandleSubscriptions(TwitchSubscribed.Checked, TwitchCommunitySubs.Checked, TwitchGiftedSub.Checked);
+                }
+
+                //do we want to check for channel point redemptions?
+                if (TwitchChannelPointCheckBox.Checked)
+                {
+                    _bBBlog.Info("Twitch channel points enabled, calling EventSubHandleChannelPoints");
+                    //_twitchEventSub.EventSubHandleChannelPoints(TwitchCustomRewardName.Text);
+                }
+
+                if (!TwitchMockEventSub.Checked)
+                {
+                    //if we are not in mock mode, we can start the client
+                    eventSubStart = await _twitchEventSub.EventSubStartAsync();
+                }
+                else
+                { //we are in mock mode, so we just say we started
+                    eventSubStart = await _twitchEventSub.EventSubStartAsyncMock();
+                }
 
                 if (eventSubStart)
                 {
@@ -1255,6 +1293,13 @@ namespace BanterBrain_Buddy
                     TextLog.AppendText("Twitch EventSub server started successfully\r\n");
                     TwitchEventSubStatusTextBox.Text = "ENABLED";
                     TwitchEventSubStatusTextBox.BackColor = Color.Green;
+                }
+                else
+                {
+                    _bBBlog.Error("Issue with starting Twitch EventSub server. Check logs for more information.");
+                    TwitchEventSubStatusTextBox.Text = "DISABLED";
+                    TwitchEventSubStatusTextBox.BackColor = Color.Red;
+                    return false;
                 }
                 return true;
             }

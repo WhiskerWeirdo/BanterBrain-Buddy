@@ -40,7 +40,7 @@ tldr: use Visual studio 2022 with .net 8.
 - [X] Twitch: eventSub => if listening for chat command subscribe to it and parse that text.
 - [X] Twitch: eventSub 	=> if listening for cheers, subscribe to it and check minbits and react when over and message attached.
 - [ ] Twitch: eventSub => if listening for subscription events, subscribe to it and check if it's a gift and react when there's a message attached
-- [ ] Twitch: eventSub => allow for reactions to: point redemptions and trigger if a specifc one is used
+- [ ] Twitch: eventSub => allow for reactions to: point redemptions and trigger if a specific one is used
 
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
@@ -50,7 +50,7 @@ tldr: use Visual studio 2022 with .net 8.
 - [ ] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
 - [ ] 0.0.5.1 ALPHA INSTALLABLE ALPHA BUILD
 - [ ] 0.0.6 ALPHA Google, Elevenlabs & OpenAI Whisper TTS support 
-- [ ] 0.0.7 ALPHA Error handling & Code documentation
+- [ ] 0.0.7 ALPHA Improved Error handling & Code documentation. GUI improvements
 - [	] 0.0.8 ALPHA Other languages than English support
 - [ ] 0.0.9 ALPHA define persona's. A linked Role text with a specific voice setup.
 - [ ] 0.1.0 BETA Installable Beta build release

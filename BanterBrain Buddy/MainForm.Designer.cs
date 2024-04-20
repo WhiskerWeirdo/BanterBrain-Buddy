@@ -76,6 +76,10 @@ namespace BanterBrain_Buddy
             BBBTabs = new TabControl();
             LLMTab = new TabPage();
             groupBox1 = new GroupBox();
+            label11 = new Label();
+            label10 = new Label();
+            LLMMaxTokens = new TextBox();
+            LLMTemperature = new TextBox();
             LLMModelComboBox = new ComboBox();
             label4 = new Label();
             LLMTestOutputbox = new TextBox();
@@ -93,6 +97,7 @@ namespace BanterBrain_Buddy
             TwitchCustomRewardName = new TextBox();
             TwitchChannelPointCheckBox = new CheckBox();
             EventSubGroupbox = new GroupBox();
+            TwitchMockEventSub = new CheckBox();
             EventSubTest = new Button();
             TwitchEnableCheckbox = new CheckBox();
             TwitchCheckAuthAtStartup = new CheckBox();
@@ -460,6 +465,10 @@ namespace BanterBrain_Buddy
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label11);
+            groupBox1.Controls.Add(label10);
+            groupBox1.Controls.Add(LLMMaxTokens);
+            groupBox1.Controls.Add(LLMTemperature);
             groupBox1.Controls.Add(LLMModelComboBox);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(LLMTestOutputbox);
@@ -473,6 +482,26 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.Name = "groupBox1";
             groupBox1.TabStop = false;
+            // 
+            // label11
+            // 
+            resources.ApplyResources(label11, "label11");
+            label11.Name = "label11";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(label10, "label10");
+            label10.Name = "label10";
+            // 
+            // LLMMaxTokens
+            // 
+            resources.ApplyResources(LLMMaxTokens, "LLMMaxTokens");
+            LLMMaxTokens.Name = "LLMMaxTokens";
+            // 
+            // LLMTemperature
+            // 
+            resources.ApplyResources(LLMTemperature, "LLMTemperature");
+            LLMTemperature.Name = "LLMTemperature";
             // 
             // LLMModelComboBox
             // 
@@ -589,10 +618,17 @@ namespace BanterBrain_Buddy
             // 
             // EventSubGroupbox
             // 
+            EventSubGroupbox.Controls.Add(TwitchMockEventSub);
             EventSubGroupbox.Controls.Add(EventSubTest);
             resources.ApplyResources(EventSubGroupbox, "EventSubGroupbox");
             EventSubGroupbox.Name = "EventSubGroupbox";
             EventSubGroupbox.TabStop = false;
+            // 
+            // TwitchMockEventSub
+            // 
+            resources.ApplyResources(TwitchMockEventSub, "TwitchMockEventSub");
+            TwitchMockEventSub.Name = "TwitchMockEventSub";
+            TwitchMockEventSub.UseVisualStyleBackColor = true;
             // 
             // EventSubTest
             // 
@@ -865,6 +901,7 @@ namespace BanterBrain_Buddy
             groupBox8.ResumeLayout(false);
             groupBox8.PerformLayout();
             EventSubGroupbox.ResumeLayout(false);
+            EventSubGroupbox.PerformLayout();
             TwitchAPITestGroupBox.ResumeLayout(false);
             TwitchAPITestGroupBox.PerformLayout();
             groupBox6.ResumeLayout(false);
@@ -980,6 +1017,11 @@ namespace BanterBrain_Buddy
         private Label label9;
         private TextBox TwitchCustomRewardName;
         private CheckBox TwitchChannelPointCheckBox;
+        private CheckBox TwitchMockEventSub;
+        private Label label11;
+        private Label label10;
+        private TextBox LLMMaxTokens;
+        private TextBox LLMTemperature;
     }
 }
 

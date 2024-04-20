@@ -36,7 +36,8 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"Setting selected output device for Native TTS to: {OutputDevice}");
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
-                if (device.Name.StartsWith(OutputDevice))
+                _bBBlog.Debug($"Device.name: {device.Name}");
+                if (OutputDevice.StartsWith(device.Name))
                 {
                     _bBBlog.Debug($"Selected outputdevice = {device.Name}");
                     SelectedOutputDevice = device;
@@ -49,6 +50,8 @@ namespace BanterBrain_Buddy
         public async Task<bool> NativeSpeak(string TextToSay)
         {
             _nativeSynthesizer.Speak(TextToSay);
+            //TODO: handle issues with device not being available or not responsive
+            _bBBlog.Info("Device out: " + SelectedOutputDevice.Name);
             var waveOut = new WaveOut { Device = new WaveOutDevice(SelectedOutputDevice.DeviceId) };
             using var waveSource = new MediaFoundationDecoder(_nativeAudioStream);
             waveOut.Initialize(waveSource);
