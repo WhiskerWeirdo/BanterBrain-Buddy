@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BanterBrain_Buddy.TwitchEventhandlers
 {
-    public  class OnCheerEventsArgs(string userCheered, string cheerMessage) : EventArgs
+    public class OnCheerEventsArgs(string userCheered, string cheerMessage) : EventArgs
     {
         private string EventCheerUser = userCheered;
         private string EventCheerMessage = cheerMessage;

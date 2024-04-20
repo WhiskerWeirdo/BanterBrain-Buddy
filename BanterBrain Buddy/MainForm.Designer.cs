@@ -30,6 +30,7 @@ namespace BanterBrain_Buddy
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BBB));
             SettingsTab = new TabPage();
             groupBox3 = new GroupBox();
@@ -76,8 +77,10 @@ namespace BanterBrain_Buddy
             BBBTabs = new TabControl();
             LLMTab = new TabPage();
             groupBox1 = new GroupBox();
-            label11 = new Label();
-            label10 = new Label();
+            LLMMaxTokensHelpText = new Label();
+            LLMTempHelpText = new Label();
+            LLMMaxTokenLabel = new Label();
+            LLMTempLabel = new Label();
             LLMMaxTokens = new TextBox();
             LLMTemperature = new TextBox();
             LLMModelComboBox = new ComboBox();
@@ -136,6 +139,7 @@ namespace BanterBrain_Buddy
             GithubToolStripMenuItem = new ToolStripMenuItem();
             DiscordToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
+            BBBToolTip = new ToolTip(components);
             SettingsTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -465,8 +469,10 @@ namespace BanterBrain_Buddy
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(label11);
-            groupBox1.Controls.Add(label10);
+            groupBox1.Controls.Add(LLMMaxTokensHelpText);
+            groupBox1.Controls.Add(LLMTempHelpText);
+            groupBox1.Controls.Add(LLMMaxTokenLabel);
+            groupBox1.Controls.Add(LLMTempLabel);
             groupBox1.Controls.Add(LLMMaxTokens);
             groupBox1.Controls.Add(LLMTemperature);
             groupBox1.Controls.Add(LLMModelComboBox);
@@ -483,15 +489,29 @@ namespace BanterBrain_Buddy
             groupBox1.Name = "groupBox1";
             groupBox1.TabStop = false;
             // 
-            // label11
+            // LLMMaxTokensHelpText
             // 
-            resources.ApplyResources(label11, "label11");
-            label11.Name = "label11";
+            resources.ApplyResources(LLMMaxTokensHelpText, "LLMMaxTokensHelpText");
+            LLMMaxTokensHelpText.BackColor = System.Drawing.Color.Gold;
+            LLMMaxTokensHelpText.Name = "LLMMaxTokensHelpText";
+            BBBToolTip.SetToolTip(LLMMaxTokensHelpText, resources.GetString("LLMMaxTokensHelpText.ToolTip"));
             // 
-            // label10
+            // LLMTempHelpText
             // 
-            resources.ApplyResources(label10, "label10");
-            label10.Name = "label10";
+            resources.ApplyResources(LLMTempHelpText, "LLMTempHelpText");
+            LLMTempHelpText.BackColor = System.Drawing.Color.Gold;
+            LLMTempHelpText.Name = "LLMTempHelpText";
+            BBBToolTip.SetToolTip(LLMTempHelpText, resources.GetString("LLMTempHelpText.ToolTip"));
+            // 
+            // LLMMaxTokenLabel
+            // 
+            resources.ApplyResources(LLMMaxTokenLabel, "LLMMaxTokenLabel");
+            LLMMaxTokenLabel.Name = "LLMMaxTokenLabel";
+            // 
+            // LLMTempLabel
+            // 
+            resources.ApplyResources(LLMTempLabel, "LLMTempLabel");
+            LLMTempLabel.Name = "LLMTempLabel";
             // 
             // LLMMaxTokens
             // 
@@ -628,6 +648,7 @@ namespace BanterBrain_Buddy
             // 
             resources.ApplyResources(TwitchMockEventSub, "TwitchMockEventSub");
             TwitchMockEventSub.Name = "TwitchMockEventSub";
+            BBBToolTip.SetToolTip(TwitchMockEventSub, resources.GetString("TwitchMockEventSub.ToolTip"));
             TwitchMockEventSub.UseVisualStyleBackColor = true;
             // 
             // EventSubTest
@@ -719,6 +740,7 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchSubscribed, "TwitchSubscribed");
             TwitchSubscribed.Name = "TwitchSubscribed";
             TwitchSubscribed.UseVisualStyleBackColor = true;
+            TwitchSubscribed.Click += TwitchSubscribed_Click;
             // 
             // groupBox5
             // 
@@ -844,6 +866,7 @@ namespace BanterBrain_Buddy
             // 
             ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
             resources.ApplyResources(ExitToolStripMenuItem, "ExitToolStripMenuItem");
+            ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click_1;
             // 
             // helpToolStripMenuItem
             // 
@@ -1018,10 +1041,13 @@ namespace BanterBrain_Buddy
         private TextBox TwitchCustomRewardName;
         private CheckBox TwitchChannelPointCheckBox;
         private CheckBox TwitchMockEventSub;
-        private Label label11;
-        private Label label10;
+        private Label LLMMaxTokenLabel;
+        private Label LLMTempLabel;
         private TextBox LLMMaxTokens;
         private TextBox LLMTemperature;
+        private ToolTip BBBToolTip;
+        private Label LLMTempHelpText;
+        private Label LLMMaxTokensHelpText;
     }
 }
 

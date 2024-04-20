@@ -23,6 +23,7 @@ using TwitchLib.Api.Helix.Models.Moderation.CheckAutoModStatus;
 using TwitchLib.Api.Helix;
 using Microsoft.AspNetCore.Components;
 using System.Reflection.Emit;
+using static System.Formats.Asn1.AsnWriter;
 
 /// <summary>
 /// CODING RULES:
@@ -70,7 +71,6 @@ namespace BanterBrain_Buddy
             InitializeComponent();
             LoadSettings();
             GetAudioDevices();
-
             _bBBlog.Info("Program Starting...");
             _bBBlog.Info("PPT hotkey: " + MicrophoneHotkeyEditbox.Text);
 
@@ -81,6 +81,7 @@ namespace BanterBrain_Buddy
             else
                 TwitchCheckAuthAtStartup.Enabled = false;
         }
+
 
         /// <summary>
         /// Twitch requires you to validate your access token every hour. This starts this timer when Twitch is enabled.
@@ -152,8 +153,8 @@ namespace BanterBrain_Buddy
             {
                 _ = TTSAudioOutputComboBox.Items.Add(device.Name);
 
-            //TODO: make sure the selected device is the same as the one in the settings
-            //if not, set it to the first one
+                //TODO: make sure the selected device is the same as the one in the settings
+                //if not, set it to the first one
             }
         }
 
@@ -1188,7 +1189,7 @@ namespace BanterBrain_Buddy
         private void GithubToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //spawn browser for github link
-            var t = new Thread(() => Process.Start("https://github.com/WhiskerWeirdo/BanterBrain-Buddy"));
+            var t = new Thread(() => Process.Start(new ProcessStartInfo("https://github.com/WhiskerWeirdo/BanterBrain-Buddy") { UseShellExecute = true }));
             t.Start();
             Thread.Sleep(100);
         }
@@ -1197,7 +1198,7 @@ namespace BanterBrain_Buddy
         private void DiscordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //spawn browser for discord link
-            var t = new Thread(() => Process.Start("https://discord.banterbrain.tv"));
+            var t = new Thread(() => Process.Start(new ProcessStartInfo("https://discord.banterbrain.tv") { UseShellExecute = true }));
             t.Start();
             Thread.Sleep(100);
         }
@@ -1264,11 +1265,15 @@ namespace BanterBrain_Buddy
                 }
 
                 //do we want to check for subscription events?
-                if (TwitchSubscribed.Checked || TwitchCommunitySubs.Checked || TwitchGiftedSub.Checked)
+                if (TwitchSubscribed.Checked) // || TwitchCommunitySubs.Checked || TwitchGiftedSub.Checked)
                 {
-                    _bBBlog.Info("Twitch subscriptions enabled, calling EventSubHandleSubscriptions");
-                    //_twitchEventSub.EventSubHandleSubscriptions(TwitchSubscribed.Checked, TwitchCommunitySubs.Checked, TwitchGiftedSub.Checked);
+                    //new subs
+                    _bBBlog.Info($"Twitch subscriptions enabled, calling EventSubHandleSubscription: {_twitchEventSub.ToString()}");
+                    _twitchEventSub.EventSubHandleSubscription();
+                    _twitchEventSub.OnESubSubscribe += TwitchEventSub_OnESubSubscribe;
+                    //todo set eventhandler being thrown when a new sub is detected or resub
                 }
+                //TODO: resubs, community subs and gifted subs are all part of the subscription event
 
                 //do we want to check for channel point redemptions?
                 if (TwitchChannelPointCheckBox.Checked)
@@ -1277,6 +1282,7 @@ namespace BanterBrain_Buddy
                     //_twitchEventSub.EventSubHandleChannelPoints(TwitchCustomRewardName.Text);
                 }
 
+                
                 if (!TwitchMockEventSub.Checked)
                 {
                     //if we are not in mock mode, we can start the client
@@ -1284,13 +1290,14 @@ namespace BanterBrain_Buddy
                 }
                 else
                 { //we are in mock mode, so we just say we started
+                    _bBBlog.Info("Twitch EventSub client  starting successfully in mock mode");
                     eventSubStart = await _twitchEventSub.EventSubStartAsyncMock();
                 }
-
+                
                 if (eventSubStart)
                 {
-                    _bBBlog.Info("Twitch EventSub server started successfully");
-                    TextLog.AppendText("Twitch EventSub server started successfully\r\n");
+                    _bBBlog.Info("Twitch EventSub client  started successfully");
+                    TextLog.AppendText("Twitch EventSub client started successfully\r\n");
                     TwitchEventSubStatusTextBox.Text = "ENABLED";
                     TwitchEventSubStatusTextBox.BackColor = Color.Green;
                 }
@@ -1364,13 +1371,18 @@ namespace BanterBrain_Buddy
             string message = e.GetCheerInfo()[1];
             //we got a valid cheer message, lets see what we can do with it
             _bBBlog.Info("Valid Twitch Cheer message received");
+            bool _TalkDone = false;
             await InvokeUI(async () =>
             {
                 TextLog.AppendText($"Valid Twitch Cheer message received from {user}\r\n");
-                await SayText($"Thank you for the bits, {user}!");
+                // await SayText($"Thank you for the bits, {user}!");
+                await SayText($"{user} cheered with message {message}");
+                await Task.Delay(5000); //we need this delay because threads are fired off async and this needs to be done before we can say the LLM response
+                _TalkDone = true;
             });
             await InvokeUI(async () =>
-            {   if (message.Length >= 1)
+            {
+                if (message.Length >= 1)
                     await TalkToLLM($"Respond to the message of {user} who said: {message}");
                 //no message is no text
             });
@@ -1382,9 +1394,22 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
-                await Task.Delay(3000);
+                _bBBlog.Info("GPT response received, saying it");
+                while (!_TalkDone)
+                {
+                    await Task.Delay(1000);
+                }
                 await SayText(LLMTestOutputbox.Text);
             });
+        }
+
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchEventSub_OnESubSubscribe(object sender, TwitchEventhandlers.OnSubscribeEventArgs e)
+        {
+            string user = e.GetSubscribeInfo()[0];
+            string broadcaster = e.GetSubscribeInfo()[1];
+            _bBBlog.Info($"Valid Twitch Subscription message received: {user} subscribed to {broadcaster}");
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1474,7 +1499,37 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void BBB_Load(object sender, EventArgs e)
         {
-          // MessageBox.Show("This is a alpha version of BanterBrain Buddy. Don\'t expect anything to work reliably", "BanterBrain Buddy Alpha", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // MessageBox.Show("This is a alpha version of BanterBrain Buddy. Don\'t expect anything to work reliably", "BanterBrain Buddy Alpha", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void ExitToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchSubscribed_Click(object sender, EventArgs e)
+        {
+            /*
+            if (TwitchSubscribed.Checked)
+            {
+                _bBBlog.Info("This enables reading subscription events");
+                //just double check its not already enabled
+                if (!_globalTwitchAPI.EventSubCheckSubscriptions)
+                {
+                    _bBBlog.Info("Twitch subscriptions enabled.");
+                    _twitchEventSub.EventSubHandleSubscription();
+                    //set local eventhanlder for valid chat messages to trigger the bot
+                    _twitchEventSub.OnESubSubscribe += TwitchEventSub_OnESubSubscribe;
+                }
+            }
+            else
+            {
+                _bBBlog.Info("Twitch subscriptions unchecked. Disabling event handler. TODO: disable eventsub subscription");
+                //_globalTwitchAPI.OnESubSubMessage -= TwitchEventSub_OnESubSubMessage;
+                await _twitchEventSub.EventSubStopSubscription();
+            }*/
         }
     }
 }

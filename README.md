@@ -41,6 +41,7 @@ tldr: use Visual studio 2022 with .net 8.
 - [X] Twitch: eventSub 	=> if listening for cheers, subscribe to it and check minbits and react when over and message attached.
 - [ ] Twitch: eventSub => if listening for subscription events, subscribe to it and check if it's a gift and react when there's a message attached
 - [ ] Twitch: eventSub => allow for reactions to: point redemptions and trigger if a specific one is used
+- [	] Store the Audio devices by deviceID instead of name
 
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
