@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace BanterBrain_Buddy.TwitchEventhandlers
 {
-    public class OnSubscribeEventArgs(string userSubscribed, string broadcaster) : EventArgs
+    public class OnSubscribeEventArgs(string userSubscribed, string data) : EventArgs
     {
         private string EventSubscriptionUser = userSubscribed;
-        private string EventSubscriptionBroadcaster = broadcaster;
+        private string EventSubscriptionData = data;
 
         public string[] GetSubscribeInfo()
         {
-            return [EventSubscriptionUser, EventSubscriptionBroadcaster];
+            return [EventSubscriptionUser, EventSubscriptionData];
         }
     }
 }

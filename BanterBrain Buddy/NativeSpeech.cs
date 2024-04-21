@@ -36,7 +36,6 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"Setting selected output device for Native TTS to: {OutputDevice}");
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
-                _bBBlog.Debug($"Device.name: {device.Name}");
                 if (OutputDevice.StartsWith(device.Name))
                 {
                     _bBBlog.Debug($"Selected outputdevice = {device.Name}");

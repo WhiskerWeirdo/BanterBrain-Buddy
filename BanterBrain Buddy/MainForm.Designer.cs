@@ -111,6 +111,7 @@ namespace BanterBrain_Buddy
             TwitchTestButton = new Button();
             TwitchAuthorizeButton = new Button();
             groupBox6 = new GroupBox();
+            ResubscribedCheckBox = new CheckBox();
             TwitchGiftedSub = new CheckBox();
             TwitchCommunitySubs = new CheckBox();
             TwitchSubscribed = new CheckBox();
@@ -716,6 +717,7 @@ namespace BanterBrain_Buddy
             // 
             // groupBox6
             // 
+            groupBox6.Controls.Add(ResubscribedCheckBox);
             groupBox6.Controls.Add(TwitchGiftedSub);
             groupBox6.Controls.Add(TwitchCommunitySubs);
             groupBox6.Controls.Add(TwitchSubscribed);
@@ -723,22 +725,32 @@ namespace BanterBrain_Buddy
             groupBox6.Name = "groupBox6";
             groupBox6.TabStop = false;
             // 
+            // ResubscribedCheckBox
+            // 
+            resources.ApplyResources(ResubscribedCheckBox, "ResubscribedCheckBox");
+            ResubscribedCheckBox.Name = "ResubscribedCheckBox";
+            BBBToolTip.SetToolTip(ResubscribedCheckBox, resources.GetString("ResubscribedCheckBox.ToolTip"));
+            ResubscribedCheckBox.UseVisualStyleBackColor = true;
+            // 
             // TwitchGiftedSub
             // 
             resources.ApplyResources(TwitchGiftedSub, "TwitchGiftedSub");
             TwitchGiftedSub.Name = "TwitchGiftedSub";
+            BBBToolTip.SetToolTip(TwitchGiftedSub, resources.GetString("TwitchGiftedSub.ToolTip"));
             TwitchGiftedSub.UseVisualStyleBackColor = true;
             // 
             // TwitchCommunitySubs
             // 
             resources.ApplyResources(TwitchCommunitySubs, "TwitchCommunitySubs");
             TwitchCommunitySubs.Name = "TwitchCommunitySubs";
+            BBBToolTip.SetToolTip(TwitchCommunitySubs, resources.GetString("TwitchCommunitySubs.ToolTip"));
             TwitchCommunitySubs.UseVisualStyleBackColor = true;
             // 
             // TwitchSubscribed
             // 
             resources.ApplyResources(TwitchSubscribed, "TwitchSubscribed");
             TwitchSubscribed.Name = "TwitchSubscribed";
+            BBBToolTip.SetToolTip(TwitchSubscribed, resources.GetString("TwitchSubscribed.ToolTip"));
             TwitchSubscribed.UseVisualStyleBackColor = true;
             TwitchSubscribed.Click += TwitchSubscribed_Click;
             // 
@@ -755,6 +767,7 @@ namespace BanterBrain_Buddy
             // 
             resources.ApplyResources(TwitchCheerCheckBox, "TwitchCheerCheckBox");
             TwitchCheerCheckBox.Name = "TwitchCheerCheckBox";
+            BBBToolTip.SetToolTip(TwitchCheerCheckBox, resources.GetString("TwitchCheerCheckBox.ToolTip"));
             TwitchCheerCheckBox.UseVisualStyleBackColor = true;
             TwitchCheerCheckBox.Click += TwitchCheerCheckbox_Click;
             // 
@@ -785,6 +798,7 @@ namespace BanterBrain_Buddy
             // 
             resources.ApplyResources(TwitchReadChatCheckBox, "TwitchReadChatCheckBox");
             TwitchReadChatCheckBox.Name = "TwitchReadChatCheckBox";
+            BBBToolTip.SetToolTip(TwitchReadChatCheckBox, resources.GetString("TwitchReadChatCheckBox.ToolTip"));
             TwitchReadChatCheckBox.UseVisualStyleBackColor = true;
             TwitchReadChatCheckBox.Click += TwitchReadChatCheckBox_Click;
             // 
@@ -802,12 +816,14 @@ namespace BanterBrain_Buddy
             // 
             resources.ApplyResources(TwitchNeedsSubscriber, "TwitchNeedsSubscriber");
             TwitchNeedsSubscriber.Name = "TwitchNeedsSubscriber";
+            BBBToolTip.SetToolTip(TwitchNeedsSubscriber, resources.GetString("TwitchNeedsSubscriber.ToolTip"));
             TwitchNeedsSubscriber.UseVisualStyleBackColor = true;
             // 
             // TwitchNeedsFollower
             // 
             resources.ApplyResources(TwitchNeedsFollower, "TwitchNeedsFollower");
             TwitchNeedsFollower.Name = "TwitchNeedsFollower";
+            BBBToolTip.SetToolTip(TwitchNeedsFollower, resources.GetString("TwitchNeedsFollower.ToolTip"));
             TwitchNeedsFollower.UseVisualStyleBackColor = true;
             // 
             // TwitchCommandTrigger
@@ -1048,6 +1064,7 @@ namespace BanterBrain_Buddy
         private ToolTip BBBToolTip;
         private Label LLMTempHelpText;
         private Label LLMMaxTokensHelpText;
+        private CheckBox ResubscribedCheckBox;
     }
 }
 

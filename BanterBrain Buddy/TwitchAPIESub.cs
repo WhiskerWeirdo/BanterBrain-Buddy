@@ -15,6 +15,7 @@ using TwitchLib.EventSub.Websockets.Core.EventArgs;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Windows.Forms;
 using BanterBrain_Buddy.TwitchEventhandlers;
+using System.Runtime.CompilerServices;
 
 
 /// <summary>
@@ -32,6 +33,8 @@ namespace BanterBrain_Buddy
     public delegate void ESubCheerEventHandler(object source, OnCheerEventsArgs e);
     //evnthandler for subscriptions
     public delegate void ESubSubscribeEventHandler(object source, OnSubscribeEventArgs e);
+    //eventhandler for re-subscriptions
+    public delegate void ESubReSubscribeEventHandler(object source, OnReSubscribeEventArgs e);
 
     public class TwitchAPIESub
     {
@@ -41,8 +44,10 @@ namespace BanterBrain_Buddy
         public event ESubChatEventHandler OnESubChatMessage;
         //the eventhandler for a valid cheer, it returns the username as [0] and the message as [1] in a string array
         public event ESubCheerEventHandler OnESubCheerMessage;
-        //the eventhandler for a subscription, it returns the username as [0] and the message as [1] in a string array
+        //the eventhandler for a subscription, it returns the username as [0] and the broadcaster as [1] in a string array
         public event ESubSubscribeEventHandler OnESubSubscribe;
+        //the eventhandler for a re-subscription, it returns the username as [0] and the message as [1] in a string array
+        public event ESubReSubscribeEventHandler OnESubReSubscribe;
 
         public string TwitchAccessToken { get;  private set; }
         private bool TwitchAuthRequestResult { get; set; }
@@ -61,8 +66,8 @@ namespace BanterBrain_Buddy
 
         //needed for timeout of command trigger
         private bool _isCommandTriggered { get; set; }
-        public bool EventSubCheckCheer { get; set; }
-        public bool EventSubCheckSubscriptions { get; set; }
+        public bool EventSubCheckCheer { get; private set; }
+        public bool EventSubCheckSubscriptions { get; private set; }
 
         private Dictionary<string, string> _eventSubIllist;  
 
@@ -74,7 +79,7 @@ namespace BanterBrain_Buddy
         public string TwitchSendTestMessageOnJoin { get; set; }
 
 
-        private readonly EventSubWebsocketClient _eventSubWebsocketClient;
+        public readonly EventSubWebsocketClient _eventSubWebsocketClient;
 
         public TwitchAPIESub()
         {
@@ -135,9 +140,10 @@ namespace BanterBrain_Buddy
 
         public async Task EventSubStopSubscription()
         {
-            _bBBlog.Info("Unsubscribe from listening to subscriptions.");
+            _bBBlog.Info("Unsubscribe from listening to subs and re-subscriptions.");
             EventSubCheckSubscriptions = false;
             await EventSubUnsubscribe("channel.subscribe");
+            await EventSubUnsubscribe("channel.subscription.message");
         }
 
         public async void EventSubHandleReadchat(string command, int delay, bool follower, bool subscriber)
@@ -154,12 +160,14 @@ namespace BanterBrain_Buddy
             }
         }
 
+        //this is for first month subscriptions
         public async void EventSubHandleSubscription()
         {
-            _bBBlog.Info("Setting EventSubHandleSubscriptions for new and resubs");
+            _bBBlog.Info("Setting EventSubHandleSubscriptions for new subs and re-subs");
             _bBBlog.Debug($"SessionID: {_eventSubWebsocketClient.SessionId}");
             EventSubCheckSubscriptions = true;
             _eventSubWebsocketClient.ChannelSubscribe += EventSubOnChannelSubscriber;
+            _eventSubWebsocketClient.ChannelSubscriptionMessage += EventSubOnChannelReSubscriber;
             if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
             {
                 _bBBlog.Info("Subscribing to new subscription events");
@@ -171,7 +179,6 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("EventSubWebsocket is not connected, cannot subscribe to subscriptions");
             }
         }
-
         public async void EventSubHandleCheer(int minbits)
         {
             _bBBlog.Info("Setting EventSubHandleCheer");
@@ -526,7 +533,18 @@ namespace BanterBrain_Buddy
             }
         }
 
-        //eventhandler for subscriptions
+        //eventhandler for RE-subscriptions
+        //they contain a message(might be empty) and the duration in months
+        private async Task EventSubOnChannelReSubscriber(object sender, ChannelSubscriptionMessageArgs e)
+        {
+            _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
+            var eventData = e.Notification.Payload.Event;
+            _bBBlog.Info($"{eventData.UserName} re-subscribed to {eventData.BroadcasterUserName} for {eventData.CumulativeMonths} months with message {eventData.Message}");
+            _bBBlog.Debug($"Re-Subscriber eventhandler triggered: {OnESubReSubscribe}");
+            OnESubReSubscribe(this, new TwitchEventhandlers.OnReSubscribeEventArgs(eventData.UserName, eventData.Message.Text, eventData.CumulativeMonths.ToString()));
+        }
+
+        //eventhandler for NEW subscriptions
         private async Task EventSubOnChannelSubscriber(object sender, ChannelSubscribeArgs e)
         {
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
@@ -581,7 +599,6 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info($"Subscribing to subscriptions. WebsocketSessionId: {_eventSubWebsocketClient.SessionId}");
                     await EventSubSubscribe("channel.subscribe", _conditions);
                     _bBBlog.Info($"Subscribing to resubscriptions. WebsocketSessionId: {_eventSubWebsocketClient.SessionId}");
-
                     await EventSubSubscribe("channel.subscription.message", _conditions);
                 }
 
@@ -591,16 +608,22 @@ namespace BanterBrain_Buddy
         private async Task EventSubSubscribe(string type, Dictionary<string, string> conditions)
         {
             _bBBlog.Info($"Subscribing to {type}");
-            var response = await _gTwitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync(type, "1", conditions,
+            try
+            {
+                var response = await _gTwitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync(type, "1", conditions,
                                TwitchLib.Api.Core.Enums.EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, clientId: _twitchAuthClientId, accessToken: TwitchAccessToken);
-            foreach (var sub in response.Subscriptions)
+                foreach (var sub in response.Subscriptions)
+                {
+                    _bBBlog.Info($"Sub Type: {sub.Type} is {sub.Status} with {sub.Id}");
+                    _eventSubIllist.Add(type, sub.Id);
+                };
+                foreach (var item in _eventSubIllist)
+                {
+                    _bBBlog.Debug($"Active subscriptions: {item.Key} with id {item.Value}");
+                }
+            } catch (TwitchLib.Api.Core.Exceptions.BadRequestException exception)
             {
-                _bBBlog.Info($"Sub Type: {sub.Type} is {sub.Status} with {sub.Id}");
-                _eventSubIllist.Add(type, sub.Id);
-            };
-            foreach (var item in _eventSubIllist)
-            {
-                _bBBlog.Debug($"Active subscriptions: {item.Key} with id {item.Value}");
+                _bBBlog.Error($"Bad request exception: {exception.Message}");
             }
         }
 

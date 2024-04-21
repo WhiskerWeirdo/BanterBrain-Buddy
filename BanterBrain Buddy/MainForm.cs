@@ -1132,7 +1132,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void TTSProviderComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private async void TTSProviderComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (TTSProviderComboBox.Text == "Native")
             {
@@ -1152,6 +1152,20 @@ namespace BanterBrain_Buddy
                 TTSRegionTextBox.Enabled = true;
                 //clear and fill the option box with voices
                 //and options
+                //fill the list if its empty
+                if (TTSOutputVoice.Items.Count < 1)
+                {
+                    if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
+                    {
+                        await TTSGetAzureVoices();
+                        if (_bigError)
+                        {
+                            return;
+                        }
+                        //fill the listboxes
+                        TTSFillAzureVoicesList();
+                    }
+                }
             }
         }
 
@@ -1271,6 +1285,7 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info($"Twitch subscriptions enabled, calling EventSubHandleSubscription: {_twitchEventSub.ToString()}");
                     _twitchEventSub.EventSubHandleSubscription();
                     _twitchEventSub.OnESubSubscribe += TwitchEventSub_OnESubSubscribe;
+                    _twitchEventSub.OnESubReSubscribe += TwitchEventSub_OnESubReSubscribe;
                     //todo set eventhandler being thrown when a new sub is detected or resub
                 }
                 //TODO: resubs, community subs and gifted subs are all part of the subscription event
@@ -1410,7 +1425,27 @@ namespace BanterBrain_Buddy
             string user = e.GetSubscribeInfo()[0];
             string broadcaster = e.GetSubscribeInfo()[1];
             _bBBlog.Info($"Valid Twitch Subscription message received: {user} subscribed to {broadcaster}");
+            await InvokeUI(async () =>
+            {
+                _bBBlog.Info("Lets say a short \"thank you\" for the subscriber");
+                await SayText($"Thanks {user} for subscribing!");
+            });
         }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchEventSub_OnESubReSubscribe(object sender, TwitchEventhandlers.OnReSubscribeEventArgs e)
+        {
+            string user = e.GetSubscribeInfo()[0];
+            string message = e.GetSubscribeInfo()[1];
+            string months = e.GetSubscribeInfo()[2];
+            _bBBlog.Info($"Valid Twitch Re-Subscription message received: {user} subscribed for {months} months with message: {message}");
+            await InvokeUI(async () =>
+            {
+                _bBBlog.Info("TODO: respond to user");
+               // await SayText($"Thanks {user} for subscribing!");
+            });
+        }
+
 
         [SupportedOSPlatform("windows6.1")]
         //eventhandler for valid chat messages trigger
@@ -1450,6 +1485,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchReadChatCheckBox_Click(object sender, EventArgs e)
         {
+            _bBBlog.Debug($"eventsub websocket: {_twitchEventSub._eventSubWebsocketClient.SessionId}");
             if (TwitchReadChatCheckBox.Checked)
             {
                 _bBBlog.Info("This enables reading chat messages to watch for a command, in busy channels this will cause significant load on your computer");
@@ -1475,6 +1511,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchCheerCheckbox_Click(object sender, EventArgs e)
         {
+            _bBBlog.Debug($"eventsub websocket: {_twitchEventSub._eventSubWebsocketClient.SessionId}");
             if (TwitchCheerCheckBox.Checked)
             {
                 _bBBlog.Info("This enables reading cheers and messages when cheered over a certain amount");
@@ -1497,24 +1534,13 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void BBB_Load(object sender, EventArgs e)
-        {
-            // MessageBox.Show("This is a alpha version of BanterBrain Buddy. Don\'t expect anything to work reliably", "BanterBrain Buddy Alpha", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void ExitToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        [SupportedOSPlatform("windows6.1")]
         private async void TwitchSubscribed_Click(object sender, EventArgs e)
         {
-            /*
+            _bBBlog.Debug($"eventsub websocket: {_twitchEventSub._eventSubWebsocketClient.SessionId}");
             if (TwitchSubscribed.Checked)
             {
                 _bBBlog.Info("This enables reading subscription events");
+
                 //just double check its not already enabled
                 if (!_globalTwitchAPI.EventSubCheckSubscriptions)
                 {
@@ -1526,10 +1552,23 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                _bBBlog.Info("Twitch subscriptions unchecked. Disabling event handler. TODO: disable eventsub subscription");
-                //_globalTwitchAPI.OnESubSubMessage -= TwitchEventSub_OnESubSubMessage;
+                _bBBlog.Info("Twitch subscriptions unchecked. Disabling event handler.");
+                _twitchEventSub.OnESubSubscribe -= TwitchEventSub_OnESubSubscribe;
                 await _twitchEventSub.EventSubStopSubscription();
-            }*/
+            }
         }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void BBB_Load(object sender, EventArgs e)
+        {
+            // MessageBox.Show("This is a alpha version of BanterBrain Buddy. Don\'t expect anything to work reliably", "BanterBrain Buddy Alpha", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void ExitToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }
