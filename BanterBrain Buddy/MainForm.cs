@@ -1442,8 +1442,31 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 _bBBlog.Info("TODO: respond to user");
-               // await SayText($"Thanks {user} for subscribing!");
+                if (message.Length >= 1)
+                    await SayText($"{user} has resubscribed for a total of months {months}!");
+                else
+                    await SayText($"{user} has resubscribed for a total of {months} months saying {message}.");
+                
             });
+            if (message.Length >= 1)
+            {
+                _gPTDone = false;
+                await InvokeUI(async () =>
+                {
+                    await TalkToLLM($"Respond to the message of {user} saying: {message}");
+                });
+                //we have to await the GPT response, due to running this from another thread await alone is not enough.
+                while (!_gPTDone)
+                {
+                    await Task.Delay(500);
+                }
+                //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
+                await InvokeUI(async () =>
+                {
+                    await Task.Delay(3000);
+                    await SayText(LLMTestOutputbox.Text);
+                });
+            }
         }
 
 
@@ -1456,7 +1479,7 @@ namespace BanterBrain_Buddy
             string user = e.GetChatInfo()[0];
             //we got a valid chat message, lets see what we can do with it
             _bBBlog.Info("Valid Twitch Chat message received from user: " + user + " message: " + message);
-
+            _gPTDone = false;
             //we use InvokeUI to make sure we can write to the textlog from another thread that is not the Ui thread.
             await InvokeUI(async () =>
             {

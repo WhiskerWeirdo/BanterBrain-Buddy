@@ -539,9 +539,14 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
+            //eventdata can be null, so we need to check for that
+            var message = "";
+            if (eventData.Message != null)
+                message = eventData.Message.Text;
+                    
             _bBBlog.Info($"{eventData.UserName} re-subscribed to {eventData.BroadcasterUserName} for {eventData.CumulativeMonths} months with message {eventData.Message}");
             _bBBlog.Debug($"Re-Subscriber eventhandler triggered: {OnESubReSubscribe}");
-            OnESubReSubscribe(this, new TwitchEventhandlers.OnReSubscribeEventArgs(eventData.UserName, eventData.Message.Text, eventData.CumulativeMonths.ToString()));
+            OnESubReSubscribe(this, new TwitchEventhandlers.OnReSubscribeEventArgs(eventData.UserName, message, eventData.CumulativeMonths.ToString()));
         }
 
         //eventhandler for NEW subscriptions

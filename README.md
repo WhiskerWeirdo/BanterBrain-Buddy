@@ -40,7 +40,7 @@ tldr: use Visual studio 2022 with .net 8.
 - [X] Twitch: eventSub => if listening for chat command subscribe to it and parse that text.
 - [X] Twitch: eventSub => if listening for cheers, subscribe to it and check minbits and react when over and message attached.
 - [X] Twitch: eventSub => if listening for subscription events check first-monthsubscribers and say a thank you message
-- [ ] Twitch: eventSub => if listening for resubscription events, react when there's a message attached
+- [X] Twitch: eventSub => if listening for resubscription events, react when there's a message attached
 - [ ] Twitch: eventSub => if listening for giftsub events, react when there's a message attached
 - [ ] Twitch: eventSub => allow for reactions to point redemptions and trigger if a specific one is used and react to the mesage
 
