@@ -1105,20 +1105,20 @@ namespace BanterBrain_Buddy
             //This is done by spawning a browser where the user has to authorize (implicit grant) 
             //the application. 
             TwitchAPIESub twitchAPI = new();
-            //see https://dev.twitch.tv/docs/authentication/scopes/ and https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/#channelchatmessage
-            //API events:
-            //channel.send.message ("user:write:chat")
-            //eventsub events:
-            //channel.chat.message (user:read:chat) to read chat
-            //channel.subscribe (channel:read:subscriptions) to get subscription events
-            //channel.subscription.gift (channel:read:subscriptions) to get gifted sub events
-            //channel.subscription.message (channel:read:subscriptions) to get sub message events
-            //channel.cheer (bits:read) to get information on cheered bits
-            //channel.follow (moderator:read:followers) to get who followed a channel
-            //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by viewers
-            //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by viewers
+        //see https://dev.twitch.tv/docs/authentication/scopes/ and https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/#channelchatmessage
+        //API events:
+        //channel.send.message ("user:write:chat")
+        //eventsub events:
+        //channel.chat.message (user:read:chat) to read chat
+        //channel.subscribe (channel:read:subscriptions) to get subscription events
+        //channel.subscription.gift (channel:read:subscriptions) to get gifted sub events
+        //channel.subscription.message (channel:read:subscriptions) to get sub message events
+        //channel.cheer (bits:read) to get information on cheered bits
+        //channel.follow (moderator:read:followers) to get who followed a channel
+        //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by viewers
+        //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by viewers
 
-            var twitchAPIResult = await twitchAPI.GetTwitchAuthToken([
+        var twitchAPIResult = await twitchAPI.GetTwitchAuthToken([
                 //API scope to send text to chat
                 "user:write:chat", 
                 //EventSub scopes for subscription types to read chat, get subscription events, read when people cheer (bits) and follower events
@@ -1229,7 +1229,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void TwitchEnableCheckbox_Click(object sender, EventArgs e)
+        private async void TwitchEnableCheckbox_Click(object sender, EventArgs e)
         {
             //if the checkbox is checked, lets enable the timer to check the token every hour
             //and start the eventsub server
@@ -1242,12 +1242,17 @@ namespace BanterBrain_Buddy
             }
             else
             { //turning off Twitch
-                _bBBlog.Info("Twitch disabled. Stopping timer and clearing token");
+                _bBBlog.Info("Twitch disabled. Stopping timer and clearing token. Stopping Websocket client.");
                 if (_globalTwitchAPI != null)
                 {
                     _globalTwitchAPI.StopHourlyAccessTokenCheck();
+                    await _globalTwitchAPI.EventSubStopAsync();
                     _globalTwitchAPI = null;
                     TwitchAPIStatusTextBox.Text = "DISABLED";
+                    TwitchAPIStatusTextBox.BackColor = Color.Red;
+                    TwitchEventSubStatusTextBox.Text = "DISABLED";
+                    TwitchEventSubStatusTextBox.BackColor = Color.Red;
+
                 }
             }
             _bBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
@@ -1304,9 +1309,9 @@ namespace BanterBrain_Buddy
                 if (TwitchChannelPointCheckBox.Checked)
                 {
                     _bBBlog.Info("Twitch channel points enabled, calling EventSubHandleChannelPoints");
-                    //_twitchEventSub.EventSubHandleChannelPoints(TwitchCustomRewardName.Text);
+                    _twitchEventSub.EventSubHandleChannelPointRedemption(TwitchCustomRewardName.Text);
+                    _twitchEventSub.OnESubChannelPointRedemption += TwitchEventSub_OnESubChannelPointRedemption;
                 }
-
 
                 if (!TwitchMockEventSub.Checked)
                 {
@@ -1429,6 +1434,35 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
+        private async void TwitchEventSub_OnESubChannelPointRedemption(object sender, TwitchEventhandlers.OnChannelPointCustomRedemptionEventArgs e)
+        {
+            string user = e.GetChannelPointCustomRedemptionInfo()[0];
+            string message = e.GetChannelPointCustomRedemptionInfo()[1];
+            _gPTDone = false;
+            _bBBlog.Info($"Valid Twitch Channel Point Redemption message received: {user} redeemed with message: {message}");
+            await InvokeUI(async () =>
+            {
+                _bBBlog.Info("Lets say a short \"thank you\" for the channel point redemption, and pass the text to the LLM");
+                await SayText($"{user} redeemed with message {message}");
+            });
+            await InvokeUI(async () =>
+            {
+                await TalkToLLM($"Respond to the message of {user} saying: {message}");
+            });
+            //we have to await the GPT response, due to running this from another thread await alone is not enough.
+            while (!_gPTDone)
+            {
+                await Task.Delay(500);
+            }
+            //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
+            await InvokeUI(async () =>
+            {
+                await Task.Delay(3000);
+                await SayText(LLMTestOutputbox.Text);
+            });
+        }
+
+        [SupportedOSPlatform("windows6.1")]
         //TwitchEventSub_OnESubGiftedSub
         private async void TwitchEventSub_OnESubGiftedSub(object sender, TwitchEventhandlers.OnSubscriptionGiftEventArgs e)
         {
@@ -1466,6 +1500,7 @@ namespace BanterBrain_Buddy
             string user = e.GetSubscribeInfo()[0];
             string message = e.GetSubscribeInfo()[1];
             string months = e.GetSubscribeInfo()[2];
+            _gPTDone = false;
             _bBBlog.Info($"Valid Twitch Re-Subscription message received: {user} subscribed for {months} months with message: {message}");
             await InvokeUI(async () =>
             {

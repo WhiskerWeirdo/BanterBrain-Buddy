@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace BanterBrain_Buddy.TwitchEventhandlers
 {
-    public class OnChannelPointRedemptionEventArgs(string userRedeemed, string redeemedMessage) : EventArgs
+    public class OnChannelPointCustomRedemptionEventArgs(string userRedeemed, string redeemedMessage) : EventArgs
     {
         private string EventChannelPointRedemptionUser = userRedeemed;
         private string EventChannelPointRedemptionMessage = redeemedMessage;
 
-        public string[] GetChannelPointRedemptionInfo()
+        public string[] GetChannelPointCustomRedemptionInfo()
         {
             return [EventChannelPointRedemptionUser, EventChannelPointRedemptionMessage];
         }

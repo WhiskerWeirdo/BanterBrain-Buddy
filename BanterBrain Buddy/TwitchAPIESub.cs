@@ -37,6 +37,8 @@ namespace BanterBrain_Buddy
     public delegate void ESubReSubscribeEventHandler(object source, OnReSubscribeEventArgs e);
     //eventhandler for subscription gifts
     public delegate void EsubSubscriptionGiftEventHandler (object source, OnSubscriptionGiftEventArgs e);
+    //eventhandler for custom channel point redemptions
+    public delegate void ESubChannelPointRedemptionEventHandler (object source, OnChannelPointCustomRedemptionEventArgs e);
 
     public class TwitchAPIESub
     {
@@ -52,6 +54,9 @@ namespace BanterBrain_Buddy
         public event ESubReSubscribeEventHandler OnESubReSubscribe;
         //the eventhandler for a subscription gift, it returns the username as [0] and the message as [1] in a string array
         public event EsubSubscriptionGiftEventHandler OnESubSubscriptionGift;
+        //the eventhandler for custom channel poitn redemptions it returns the username as [0] and the message as [1] in a string array
+        public event ESubChannelPointRedemptionEventHandler OnESubChannelPointRedemption;
+
         public string TwitchAccessToken { get;  private set; }
         private bool TwitchAuthRequestResult { get; set; }
 
@@ -72,6 +77,7 @@ namespace BanterBrain_Buddy
         public bool EventSubCheckCheer { get; private set; }
         public bool EventSubCheckSubscriptions { get; private set; }
         public bool EventSubCheckSubscriptionGift { get; private set; }
+        public bool EventSubCheckChannelPointRedemption { get; private set; }
 
         private Dictionary<string, string> _eventSubIllist;  
 
@@ -133,6 +139,13 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Unsubscribe from reading chat.");
             EventSubReadChatMessages = false;
             await EventSubUnsubscribe("channel.chat.message");
+        }
+
+        public async Task EventSubStopChannelPointRedemption()
+        {
+            _bBBlog.Info("Unsubscribe from checking channel point redemptions.");
+            EventSubCheckChannelPointRedemption = false;
+            await EventSubUnsubscribe("channel.channel_points_custom_reward_redemption.add");
         }
 
         public async Task EventSubStopSubscriptionGift()
@@ -215,6 +228,19 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Subscribing to cheers");
                 await EventSubSubscribe("channel.cheer", _conditions);
+            }
+        }
+
+        public async void EventSubHandleChannelPointRedemption(string redemptionName)
+        {
+            _bBBlog.Info("Setting EventSubHandleChannelPointCustomRedemption");
+            _bBBlog.Debug($"SessionID: {_eventSubWebsocketClient.SessionId}");
+            EventSubCheckChannelPointRedemption = true;
+            _eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionAdd += (sender, e) => EventSubOnChannelPointRedemption(sender, e, redemptionName);
+            if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
+            {
+                _bBBlog.Info("Subscribing to channel point redemptions");
+                await EventSubSubscribe("channel.channel_points_custom_reward_redemption.add", _conditions);
             }
         }
 
@@ -485,6 +511,7 @@ namespace BanterBrain_Buddy
         //This receives: string command, int delay, bool follower, bool subscriber
         private async Task EventSubOnChannelChatMessage(object sender, ChannelChatMessageArgs e, string command, int delay, bool follower, bool subscriber)
         {
+
             _bBBlog.Debug($"Chat message websocket {_eventSubWebsocketClient.SessionId}");
             //if the command is still on timeout, ignore else set it to true
             if ( _isCommandTriggered)
@@ -525,8 +552,11 @@ namespace BanterBrain_Buddy
                     }
                 }
 
-                //we need to check if the user is a follower or eventData.IsSubscriber if those are set
-                //we need to request the user information using the Helix API and eventData.ChatterUserId
+                if (OnESubChatMessage == null)
+                {
+                    _bBBlog.Debug("Chat trigger is null, no eventhandler set. Cannot continue");
+                    return;
+                }
 
                 //Define the eventhandlers for being able to be thrown back to the main form
                 OnESubChatMessage(this, new TwitchEventhandlers.OnChatEventArgs(eventData.ChatterUserName, eventData.Message.Text));
@@ -547,11 +577,15 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"Cheer websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
             _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat with message: {eventData.Message}");
+
             if (eventData.Bits >= minbits)
             {
                 _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat, trigger bot with message {eventData.Message}");
-                //TODO: throw event handler back to the main form to trigger the bot
-                _bBBlog.Debug($"Cheer eventhandler triggered: {OnESubCheerMessage}");
+                if (OnESubCheerMessage == null)
+                {
+                    _bBBlog.Debug("Cheer trigger is null, no eventhandler set. Cannot continue");
+                    return;
+                }
                 OnESubCheerMessage(this, new TwitchEventhandlers.OnCheerEventsArgs(eventData.UserName, eventData.Message));
             } else 
             { 
@@ -563,6 +597,7 @@ namespace BanterBrain_Buddy
         //they contain a message(might be empty) and the duration in months
         private async Task EventSubOnChannelReSubscriber(object sender, ChannelSubscriptionMessageArgs e)
         {
+
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
             //eventdata can be null, so we need to check for that
@@ -571,6 +606,12 @@ namespace BanterBrain_Buddy
                 message = eventData.Message.Text;
                     
             _bBBlog.Info($"{eventData.UserName} re-subscribed to {eventData.BroadcasterUserName} for {eventData.CumulativeMonths} months with message {eventData.Message}");
+
+            if (OnESubReSubscribe == null)
+            {
+                _bBBlog.Debug("Re-Subscriber trigger is null, no eventhandler set. Cannot continue");
+                return;
+            }
             _bBBlog.Debug($"Re-Subscriber eventhandler triggered: {OnESubReSubscribe}");
             OnESubReSubscribe(this, new TwitchEventhandlers.OnReSubscribeEventArgs(eventData.UserName, message, eventData.CumulativeMonths.ToString()));
         }
@@ -578,9 +619,15 @@ namespace BanterBrain_Buddy
         //eventhandler for NEW subscriptions
         private async Task EventSubOnChannelSubscriber(object sender, ChannelSubscribeArgs e)
         {
+
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
             _bBBlog.Info($"{eventData.UserName} subscribed to {eventData.BroadcasterUserName}");
+            if (OnESubSubscribe == null)
+            {
+                _bBBlog.Debug("Subscriber trigger is null, no eventhandler set. Cannot continue");
+                return;
+            }
             _bBBlog.Debug($"Subscriber eventhandler triggered: {OnESubSubscribe}");
             OnESubSubscribe(this, new TwitchEventhandlers.OnSubscribeEventArgs(eventData.UserName, eventData.BroadcasterUserName));
         }
@@ -588,12 +635,39 @@ namespace BanterBrain_Buddy
         //eventhandler for subscription gifts
         private async Task EventSubOnChannelSubscriptionGift(object sender, ChannelSubscriptionGiftArgs e)
         {
+
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
             var tierSub = int.Parse(eventData.Tier)/1000;
             _bBBlog.Info($"{eventData.UserName} gifted {eventData.Total} tier {tierSub} subscription(s) to a total of {eventData.CumulativeTotal}");
+            if (OnESubSubscriptionGift == null)
+            {
+                _bBBlog.Debug("Gift trigger is null, no eventhandler set. Cannot continue");
+                return;
+            }
             _bBBlog.Debug($"Subscriber gift triggered: {OnESubSubscriptionGift}");
             OnESubSubscriptionGift(this, new TwitchEventhandlers.OnSubscriptionGiftEventArgs(eventData.UserName, eventData.Total.ToString(), tierSub.ToString()));
+        }
+
+        //eventhandler for custom channel point redemptions
+        private async Task EventSubOnChannelPointRedemption(object sender, ChannelPointsCustomRewardRedemptionArgs e, string redemptionName)
+        {
+
+            _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
+            var eventData = e.Notification.Payload.Event;
+            _bBBlog.Info($"{eventData.UserName} used {redemptionName} redeemed {eventData.Reward.Title} with message {eventData.UserInput}");
+            if (OnESubChannelPointRedemption == null)
+            {
+                _bBBlog.Debug("Redemption trigger is null, no eventhandler set. Cannot continue");
+                return;
+            } else if (redemptionName.ToLower() == eventData.Reward.Title.ToLower())
+            {
+                _bBBlog.Debug($"Channel point redemption triggered: {OnESubChannelPointRedemption}");
+                OnESubChannelPointRedemption(this, new TwitchEventhandlers.OnChannelPointCustomRedemptionEventArgs(eventData.UserName, eventData.UserInput));
+            } else
+            {
+                _bBBlog.Debug($"Redemption name {redemptionName} does not match the redemption name {eventData.Reward.Title} so ignoring it.");
+            }
         }
 
         private async Task EventSubOnWebsocketConnected(object sender, WebsocketConnectedArgs e)
@@ -648,6 +722,12 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Info($"Subscribing to subscription gifts. WebsocketSessionId: {_eventSubWebsocketClient.SessionId}");
                     await EventSubSubscribe("channel.subscription.gift", _conditions);
+                }
+
+                if (EventSubCheckChannelPointRedemption)
+                {
+                    _bBBlog.Info($"Subscribing to channel point redemptions. WebsocketSessionId: {_eventSubWebsocketClient.SessionId}");
+                    await EventSubSubscribe("channel.channel_points_custom_reward_redemption.add", _conditions);
                 }
             }
         }
