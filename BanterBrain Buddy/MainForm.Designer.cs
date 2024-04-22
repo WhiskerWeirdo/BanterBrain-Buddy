@@ -67,6 +67,7 @@ namespace BanterBrain_Buddy
             STTProviderBox = new ComboBox();
             STTTestOutput = new TextBox();
             MainTab = new TabPage();
+            button1 = new Button();
             groupBox7 = new GroupBox();
             MainRecordingStart = new Button();
             TwitchEventSubStatusTextBox = new TextBox();
@@ -111,9 +112,7 @@ namespace BanterBrain_Buddy
             TwitchTestButton = new Button();
             TwitchAuthorizeButton = new Button();
             groupBox6 = new GroupBox();
-            ResubscribedCheckBox = new CheckBox();
             TwitchGiftedSub = new CheckBox();
-            TwitchCommunitySubs = new CheckBox();
             TwitchSubscribed = new CheckBox();
             groupBox5 = new GroupBox();
             TwitchCheerCheckBox = new CheckBox();
@@ -394,6 +393,7 @@ namespace BanterBrain_Buddy
             // 
             // MainTab
             // 
+            MainTab.Controls.Add(button1);
             MainTab.Controls.Add(groupBox7);
             MainTab.Controls.Add(TwitchEventSubStatusTextBox);
             MainTab.Controls.Add(TwitchEventSubStatusLabel);
@@ -403,6 +403,13 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(MainTab, "MainTab");
             MainTab.Name = "MainTab";
             MainTab.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            resources.ApplyResources(button1, "button1");
+            button1.Name = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // groupBox7
             // 
@@ -717,20 +724,11 @@ namespace BanterBrain_Buddy
             // 
             // groupBox6
             // 
-            groupBox6.Controls.Add(ResubscribedCheckBox);
             groupBox6.Controls.Add(TwitchGiftedSub);
-            groupBox6.Controls.Add(TwitchCommunitySubs);
             groupBox6.Controls.Add(TwitchSubscribed);
             resources.ApplyResources(groupBox6, "groupBox6");
             groupBox6.Name = "groupBox6";
             groupBox6.TabStop = false;
-            // 
-            // ResubscribedCheckBox
-            // 
-            resources.ApplyResources(ResubscribedCheckBox, "ResubscribedCheckBox");
-            ResubscribedCheckBox.Name = "ResubscribedCheckBox";
-            BBBToolTip.SetToolTip(ResubscribedCheckBox, resources.GetString("ResubscribedCheckBox.ToolTip"));
-            ResubscribedCheckBox.UseVisualStyleBackColor = true;
             // 
             // TwitchGiftedSub
             // 
@@ -738,13 +736,7 @@ namespace BanterBrain_Buddy
             TwitchGiftedSub.Name = "TwitchGiftedSub";
             BBBToolTip.SetToolTip(TwitchGiftedSub, resources.GetString("TwitchGiftedSub.ToolTip"));
             TwitchGiftedSub.UseVisualStyleBackColor = true;
-            // 
-            // TwitchCommunitySubs
-            // 
-            resources.ApplyResources(TwitchCommunitySubs, "TwitchCommunitySubs");
-            TwitchCommunitySubs.Name = "TwitchCommunitySubs";
-            BBBToolTip.SetToolTip(TwitchCommunitySubs, resources.GetString("TwitchCommunitySubs.ToolTip"));
-            TwitchCommunitySubs.UseVisualStyleBackColor = true;
+            TwitchGiftedSub.Click += TwitchGiftedSub_Click;
             // 
             // TwitchSubscribed
             // 
@@ -1017,7 +1009,6 @@ namespace BanterBrain_Buddy
         private Label label6;
         private TextBox TwitchChatCommandDelay;
         private CheckBox TwitchGiftedSub;
-        private CheckBox TwitchCommunitySubs;
         private Button TwitchAuthorizeButton;
         private GroupBox TwitchAPITestGroupBox;
         private TextBox TwitchTestSendText;
@@ -1064,7 +1055,7 @@ namespace BanterBrain_Buddy
         private ToolTip BBBToolTip;
         private Label LLMTempHelpText;
         private Label LLMMaxTokensHelpText;
-        private CheckBox ResubscribedCheckBox;
+        private Button button1;
     }
 }
 

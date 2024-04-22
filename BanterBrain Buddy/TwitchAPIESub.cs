@@ -35,6 +35,8 @@ namespace BanterBrain_Buddy
     public delegate void ESubSubscribeEventHandler(object source, OnSubscribeEventArgs e);
     //eventhandler for re-subscriptions
     public delegate void ESubReSubscribeEventHandler(object source, OnReSubscribeEventArgs e);
+    //eventhandler for subscription gifts
+    public delegate void EsubSubscriptionGiftEventHandler (object source, OnSubscriptionGiftEventArgs e);
 
     public class TwitchAPIESub
     {
@@ -48,7 +50,8 @@ namespace BanterBrain_Buddy
         public event ESubSubscribeEventHandler OnESubSubscribe;
         //the eventhandler for a re-subscription, it returns the username as [0] and the message as [1] in a string array
         public event ESubReSubscribeEventHandler OnESubReSubscribe;
-
+        //the eventhandler for a subscription gift, it returns the username as [0] and the message as [1] in a string array
+        public event EsubSubscriptionGiftEventHandler OnESubSubscriptionGift;
         public string TwitchAccessToken { get;  private set; }
         private bool TwitchAuthRequestResult { get; set; }
 
@@ -68,6 +71,7 @@ namespace BanterBrain_Buddy
         private bool _isCommandTriggered { get; set; }
         public bool EventSubCheckCheer { get; private set; }
         public bool EventSubCheckSubscriptions { get; private set; }
+        public bool EventSubCheckSubscriptionGift { get; private set; }
 
         private Dictionary<string, string> _eventSubIllist;  
 
@@ -131,6 +135,13 @@ namespace BanterBrain_Buddy
             await EventSubUnsubscribe("channel.chat.message");
         }
 
+        public async Task EventSubStopSubscriptionGift()
+        {
+            _bBBlog.Info("Unsubscribe from checking subscription gifts.");
+            EventSubCheckSubscriptionGift = false;
+            await EventSubUnsubscribe("channel.subscription.gift");
+        }
+
         public async Task EventSubStopCheer()
         {
             _bBBlog.Info("Unsubscribe from checking cheers.");
@@ -179,6 +190,21 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("EventSubWebsocket is not connected, cannot subscribe to subscriptions");
             }
         }
+
+        //this is for subscription gifts
+        public async void EventSubHandleSubscriptionGift()
+        {
+            _bBBlog.Info("Setting EventSubHandleSubscriptionGift");
+            _bBBlog.Debug($"SessionID: {_eventSubWebsocketClient.SessionId}");
+            EventSubCheckSubscriptionGift = true;
+            _eventSubWebsocketClient.ChannelSubscriptionGift += EventSubOnChannelSubscriptionGift;
+            if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
+            {
+                _bBBlog.Info("Subscribing to subscription gifts");
+                await EventSubSubscribe("channel.subscription.gift", _conditions);
+            }
+        }
+
         public async void EventSubHandleCheer(int minbits)
         {
             _bBBlog.Info("Setting EventSubHandleCheer");
@@ -559,6 +585,17 @@ namespace BanterBrain_Buddy
             OnESubSubscribe(this, new TwitchEventhandlers.OnSubscribeEventArgs(eventData.UserName, eventData.BroadcasterUserName));
         }
 
+        //eventhandler for subscription gifts
+        private async Task EventSubOnChannelSubscriptionGift(object sender, ChannelSubscriptionGiftArgs e)
+        {
+            _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
+            var eventData = e.Notification.Payload.Event;
+            var tierSub = int.Parse(eventData.Tier)/1000;
+            _bBBlog.Info($"{eventData.UserName} gifted {eventData.Total} tier {tierSub} subscription(s) to a total of {eventData.CumulativeTotal}");
+            _bBBlog.Debug($"Subscriber gift triggered: {OnESubSubscriptionGift}");
+            OnESubSubscriptionGift(this, new TwitchEventhandlers.OnSubscriptionGiftEventArgs(eventData.UserName, eventData.Total.ToString(), tierSub.ToString()));
+        }
+
         private async Task EventSubOnWebsocketConnected(object sender, WebsocketConnectedArgs e)
         {
             _bBBlog.Info($"Websocket {_eventSubWebsocketClient.SessionId} connected!");
@@ -607,6 +644,11 @@ namespace BanterBrain_Buddy
                     await EventSubSubscribe("channel.subscription.message", _conditions);
                 }
 
+                if (EventSubCheckSubscriptionGift)
+                {
+                    _bBBlog.Info($"Subscribing to subscription gifts. WebsocketSessionId: {_eventSubWebsocketClient.SessionId}");
+                    await EventSubSubscribe("channel.subscription.gift", _conditions);
+                }
             }
         }
 

@@ -44,8 +44,10 @@ namespace BanterBrain_Buddy
 
         //used for PTT checking
         private bool _hotkeyCalled = false;
-        // check if SST is finished yet
+        // check if STT is finished yet
         private bool _sTTDone = false;
+        //check if TTS is finished yet
+        private bool _tTSDone = false;
 
         [SupportedOSPlatform("windows6.1")]
         //Hotkey Storage
@@ -640,7 +642,7 @@ namespace BanterBrain_Buddy
 
         [SupportedOSPlatform("windows6.1")]
         //Azure Text-To-Speach
-        private async void TTSAzureSpeakToOutput(string TextToSpeak)
+        private async Task TTSAzureSpeakToOutput(string TextToSpeak)
         {
             _bBBlog.Info("Azure TTS called with text, seting up");
             AzureSpeechAPI azureSpeechAPI = new(STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
@@ -659,7 +661,7 @@ namespace BanterBrain_Buddy
 
 
         [SupportedOSPlatform("windows6.1")]
-        private async void TTSNativeSpeakToOutput(String TTSText)
+        private async Task TTSNativeSpeakToOutput(String TTSText)
         {
             UpdateTextLog("Saying text with Native TTS\r\n");
             _bBBlog.Info("Saying text with Native TTS");
@@ -673,9 +675,10 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task SayText(string TextToSay)
         {
+            _tTSDone = false;
             if (TTSProviderComboBox.Text == "Native")
             {
-                TTSNativeSpeakToOutput(TextToSay);
+                await TTSNativeSpeakToOutput(TextToSay);
             }
             else if (TTSProviderComboBox.Text == "Azure")
             {
@@ -690,8 +693,9 @@ namespace BanterBrain_Buddy
                     }
                     TTSFillAzureVoicesList();
                 }
-                TTSAzureSpeakToOutput(TextToSay);
+                await TTSAzureSpeakToOutput(TextToSay);
             }
+            _tTSDone = true;
         }
 
 
@@ -784,11 +788,11 @@ namespace BanterBrain_Buddy
                     //result text is in LLMTestOutputbox.Text, lets pass that to TTS
                     if (TTSProviderComboBox.Text == "Native")
                     {
-                        TTSNativeSpeakToOutput(LLMTestOutputbox.Text);
+                        await TTSNativeSpeakToOutput(LLMTestOutputbox.Text);
                     }
                     else if (TTSProviderComboBox.Text == "Azure")
                     {
-                        TTSAzureSpeakToOutput(LLMTestOutputbox.Text);
+                        await TTSAzureSpeakToOutput(LLMTestOutputbox.Text);
                     }
                 }
                 else
@@ -834,7 +838,7 @@ namespace BanterBrain_Buddy
             TwitchNeedsSubscriber.Checked = Properties.Settings.Default.TwitchNeedsSubscriber;
             TwitchMinBits.Text = Properties.Settings.Default.TwitchMinBits.ToString();
             TwitchSubscribed.Checked = Properties.Settings.Default.TwitchSubscribed;
-            TwitchCommunitySubs.Checked = Properties.Settings.Default.TwitchCommunitySubs;
+            // TwitchCommunitySubs.Checked = Properties.Settings.Default.TwitchCommunitySubs;
             TwitchGiftedSub.Checked = Properties.Settings.Default.TwitchGiftedSub;
             TwitchSendTextCheckBox.Checked = Properties.Settings.Default.TwitchSendTextCheckBox;
             TTSAPIKeyTextBox.Text = Properties.Settings.Default.TTSAPIKeyTextBox;
@@ -908,7 +912,7 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
             Properties.Settings.Default.TwitchMinBits = int.Parse(TwitchMinBits.Text);
             Properties.Settings.Default.TwitchSubscribed = TwitchSubscribed.Checked;
-            Properties.Settings.Default.TwitchCommunitySubs = TwitchCommunitySubs.Checked;
+            // Properties.Settings.Default.TwitchCommunitySubs = TwitchCommunitySubs.Checked;
             Properties.Settings.Default.TwitchGiftedSub = TwitchGiftedSub.Checked;
             Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
             Properties.Settings.Default.TTSAPIKeyTextBox = TTSAPIKeyTextBox.Text;
@@ -1279,7 +1283,7 @@ namespace BanterBrain_Buddy
                 }
 
                 //do we want to check for subscription events?
-                if (TwitchSubscribed.Checked) // || TwitchCommunitySubs.Checked || TwitchGiftedSub.Checked)
+                if (TwitchSubscribed.Checked)
                 {
                     //new subs
                     _bBBlog.Info($"Twitch subscriptions enabled, calling EventSubHandleSubscription: {_twitchEventSub.ToString()}");
@@ -1288,7 +1292,13 @@ namespace BanterBrain_Buddy
                     _twitchEventSub.OnESubReSubscribe += TwitchEventSub_OnESubReSubscribe;
                     //todo set eventhandler being thrown when a new sub is detected or resub
                 }
-                //TODO: resubs, community subs and gifted subs are all part of the subscription event
+                //TODO: gifted subs TwitchGiftedSub.Checked
+                if (TwitchGiftedSub.Checked)
+                {
+                    _bBBlog.Info("Twitch gifted subs enabled, calling EventSubHandleGiftedSubs");
+                    _twitchEventSub.EventSubHandleSubscriptionGift();
+                    _twitchEventSub.OnESubSubscriptionGift += TwitchEventSub_OnESubGiftedSub;
+                }
 
                 //do we want to check for channel point redemptions?
                 if (TwitchChannelPointCheckBox.Checked)
@@ -1297,7 +1307,7 @@ namespace BanterBrain_Buddy
                     //_twitchEventSub.EventSubHandleChannelPoints(TwitchCustomRewardName.Text);
                 }
 
-                
+
                 if (!TwitchMockEventSub.Checked)
                 {
                     //if we are not in mock mode, we can start the client
@@ -1308,7 +1318,7 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info("Twitch EventSub client  starting successfully in mock mode");
                     eventSubStart = await _twitchEventSub.EventSubStartAsyncMock();
                 }
-                
+
                 if (eventSubStart)
                 {
                     _bBBlog.Info("Twitch EventSub client  started successfully");
@@ -1392,7 +1402,7 @@ namespace BanterBrain_Buddy
                 TextLog.AppendText($"Valid Twitch Cheer message received from {user}\r\n");
                 // await SayText($"Thank you for the bits, {user}!");
                 await SayText($"{user} cheered with message {message}");
-                await Task.Delay(5000); //we need this delay because threads are fired off async and this needs to be done before we can say the LLM response
+                await Task.Delay(2000); //we need this delay because threads are fired off async and this needs to be done before we can say the LLM response
                 _TalkDone = true;
             });
             await InvokeUI(async () =>
@@ -1418,6 +1428,24 @@ namespace BanterBrain_Buddy
             });
         }
 
+        [SupportedOSPlatform("windows6.1")]
+        //TwitchEventSub_OnESubGiftedSub
+        private async void TwitchEventSub_OnESubGiftedSub(object sender, TwitchEventhandlers.OnSubscriptionGiftEventArgs e)
+        {
+            string user = e.GetSubscriptionGiftInfo()[0];
+            string amount = e.GetSubscriptionGiftInfo()[1];
+            string tier = e.GetSubscriptionGiftInfo()[2];
+            _bBBlog.Info($"Valid Twitch Gifted Subscription message received: {user} gifted {amount} subs tier {tier}");
+            await InvokeUI(async () =>
+            {
+                _bBBlog.Info("Lets say a short \"thank you\" for the gifted sub(s)");
+                if (int.Parse(amount) > 1)
+                    await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!");
+                else
+                    await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!");
+            });
+
+        }
 
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubSubscribe(object sender, TwitchEventhandlers.OnSubscribeEventArgs e)
@@ -1446,7 +1474,7 @@ namespace BanterBrain_Buddy
                     await SayText($"{user} has resubscribed for a total of months {months}!");
                 else
                     await SayText($"{user} has resubscribed for a total of {months} months saying {message}.");
-                
+
             });
             if (message.Length >= 1)
             {
@@ -1582,16 +1610,60 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
+        private async void TwitchGiftedSub_Click(object sender, EventArgs e)
+        {
+            _bBBlog.Debug($"eventsub websocket: {_twitchEventSub._eventSubWebsocketClient.SessionId}");
+            if (TwitchGiftedSub.Checked)
+            {
+                _bBBlog.Info("This enables reading gifted subscription events");
+
+                //just double check its not already enabled
+                if (!_globalTwitchAPI.EventSubCheckSubscriptionGift)
+                {
+                    _bBBlog.Info("Twitch gifted subscriptions enabled.");
+                    _twitchEventSub.EventSubHandleSubscriptionGift();
+                    //set local eventhanlder for valid chat messages to trigger the bot
+                    _twitchEventSub.OnESubSubscriptionGift += TwitchEventSub_OnESubGiftedSub;
+                }
+            }
+            else
+            {
+                _bBBlog.Info("Twitch gifted subscriptions unchecked. Disabling event handler.");
+                _twitchEventSub.OnESubSubscriptionGift -= TwitchEventSub_OnESubGiftedSub;
+                await _twitchEventSub.EventSubStopSubscriptionGift();
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
         private async void BBB_Load(object sender, EventArgs e)
         {
             // MessageBox.Show("This is a alpha version of BanterBrain Buddy. Don\'t expect anything to work reliably", "BanterBrain Buddy Alpha", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void ExitToolStripMenuItem_Click_1(object sender, EventArgs e)
+        private async void ExitToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
+
+            if (_globalTwitchAPI != null)
+            {
+                _globalTwitchAPI.StopHourlyAccessTokenCheck();
+
+                _globalTwitchAPI = null;
+            }
+            if (_twitchEventSub != null)
+            {
+                await _twitchEventSub.EventSubStopAsync();
+                _twitchEventSub = null;
+            }
             this.Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SettingsForm test = new();
+            test.ShowDialog();
+        }
+
 
     }
 }
