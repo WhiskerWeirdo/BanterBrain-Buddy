@@ -47,7 +47,7 @@ namespace BanterBrain_Buddy
         // check if STT is finished yet
         private bool _sTTDone = false;
         //check if TTS is finished yet
-        private bool _tTSDone = false;
+        private bool _tTSSpeaking = false;
 
         [SupportedOSPlatform("windows6.1")]
         //Hotkey Storage
@@ -689,12 +689,21 @@ namespace BanterBrain_Buddy
             await nativeSpeech.NativeSpeak(TTSText);
         }
 
-
-        //agnostic TTS function
         [SupportedOSPlatform("windows6.1")]
+        //this is the generic caller for TTS function that makes sure the TTS is done before continuing
         private async Task SayText(string TextToSay, int DelayWhenDone)
         {
-            _tTSDone = false;
+            while (_tTSSpeaking)
+            {
+                await Task.Delay(500);
+            }
+           await DoSayText(TextToSay, DelayWhenDone);
+        }
+        //agnostic TTS function
+        [SupportedOSPlatform("windows6.1")]
+        private async Task DoSayText(string TextToSay, int DelayWhenDone)
+        {
+            _tTSSpeaking = true;
             if (TTSProviderComboBox.Text == "Native")
             {
                 await TTSNativeSpeakToOutput(TextToSay);
@@ -715,7 +724,7 @@ namespace BanterBrain_Buddy
                 await TTSAzureSpeakToOutput(TextToSay);
             }
             await Task.Delay(DelayWhenDone);
-            _tTSDone = true;
+            _tTSSpeaking = false;
         }
 
 

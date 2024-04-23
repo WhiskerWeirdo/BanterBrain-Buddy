@@ -47,8 +47,8 @@ tldr: use Visual studio 2022 with .net 8.
 Known issues:
 - [	] Store the Audio devices by deviceID instead of name to fix device renaming issues
 - [ ] Twitch: add a check to verify if there's an active twitch connection, if not dont do anything twitch related
-- [ ] TTS: add a check to verify if there's an active TTS connection, if not dont do anything TTS related
-- [ ] TTS: verify filling the TTS option drowdowns with the correct values when something is changed (doesnt always refresh now)
+- [X] TTS: add a check to verify if there's an active TTS connection, if not dont do anything TTS related
+- [X] TTS: verify filling the TTS option drowdowns with the correct values when something is changed (doesnt always refresh now)
 - [X] TTS: Native TTS needs to list all possible voices
 
 ### Short term roadmap
