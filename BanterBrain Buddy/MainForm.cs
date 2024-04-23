@@ -548,6 +548,7 @@ namespace BanterBrain_Buddy
         /// Holds the list of Azure Voices and their options
         /// </summary>
         List<AzureVoices> _azureRegionVoicesList = [];
+        List<NativeVoices> _nativeRegionVoicesList = [];
 
         [SupportedOSPlatform("windows6.1")]
         /// <summary>
@@ -579,6 +580,22 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
+        private async Task TTSGetNativeVoices()
+        {
+            NativeSpeech nativeSpeech = new();
+            _nativeRegionVoicesList = await nativeSpeech.TTSNativeGetVoices();
+            if (_azureRegionVoicesList == null)
+            {
+                MessageBox.Show("Problem retreiving Native voicelist. Do you have any native voices installed?", "Native No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _bigError = true;
+            }
+            else
+            {
+                _bBBlog.Info($"Found {_nativeRegionVoicesList.Count} voices");
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
         /// <summary>
         /// This function fills the Azure voice list in the GUI TTSOutputVoice
         /// </summary>
@@ -593,12 +610,25 @@ namespace BanterBrain_Buddy
                 TTSOutputVoice.Items.Add(azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName);
             }
             TTSOutputVoice.Sorted = true;
-            //if we dont have a real value (i.e. teh first startup placeholders) we need to set it to the first item
-            if (TTSOutputVoice.Text == "placeholder")
-                TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
+            //select the first item, to have at least something
+            TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
             TTSOutputVoiceOption1.Text = "";
 
             TTSAzureFillOptions(TTSOutputVoice.Text);
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TTSFillNativeVoicesList()
+        {             
+            _bBBlog.Info("Fill Native voice list");
+            TTSOutputVoice.Items.Clear();
+            foreach (var nativeVoice in _nativeRegionVoicesList)
+            {
+                TTSOutputVoice.Items.Add(nativeVoice.Name + "-" + nativeVoice.Gender + "-" + nativeVoice.Culture);
+            }
+            TTSOutputVoice.Sorted = true;
+            TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
+            TTSOutputVoiceOption1.Text = "";
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -625,6 +655,7 @@ namespace BanterBrain_Buddy
                     }
                 }
             }
+            /*
             //if nothing ends up being selected, pick the top one so at least something is selected
             if (TTSOutputVoiceOption1.SelectedIndex == -1)
             {
@@ -636,7 +667,7 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Error("Issue assigning Azure voice. Error: " + ex.Message);
                 }
-            }
+            }*/
 
         }
 
@@ -666,14 +697,14 @@ namespace BanterBrain_Buddy
             UpdateTextLog("Saying text with Native TTS\r\n");
             _bBBlog.Info("Saying text with Native TTS");
             NativeSpeech nativeSpeech = new();
-            await nativeSpeech.NativeTTSInit(TTSAudioOutputComboBox.Text);
+            await nativeSpeech.NativeTTSInit(TTSOutputVoice.Text, TTSAudioOutputComboBox.Text);
             await nativeSpeech.NativeSpeak(TTSText);
         }
 
 
         //agnostic TTS function
         [SupportedOSPlatform("windows6.1")]
-        private async Task SayText(string TextToSay)
+        private async Task SayText(string TextToSay, int DelayWhenDone)
         {
             _tTSDone = false;
             if (TTSProviderComboBox.Text == "Native")
@@ -695,6 +726,7 @@ namespace BanterBrain_Buddy
                 }
                 await TTSAzureSpeakToOutput(TextToSay);
             }
+            await Task.Delay(DelayWhenDone);
             _tTSDone = true;
         }
 
@@ -702,7 +734,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TTSTestButton_Click(object sender, EventArgs e)
         {
-            await SayText(TTSTestTextBox.Text);
+            await SayText(TTSTestTextBox.Text,0);
 
         }
 
@@ -877,6 +909,18 @@ namespace BanterBrain_Buddy
                         //fill the listboxes
                         TTSFillAzureVoicesList();
                     }
+                }
+            }
+            else if (TTSProviderComboBox.Text == "Native")
+            {
+                if (TTSOutputVoice.Items.Count < 1)
+                {
+                    await TTSGetNativeVoices();
+                    if (_bigError)
+                    {
+                        return;
+                    }
+                    TTSFillNativeVoicesList();
                 }
             }
             //this last so it overwrites possibly loaded voice options
@@ -1140,15 +1184,24 @@ namespace BanterBrain_Buddy
         {
             if (TTSProviderComboBox.Text == "Native")
             {
+                TTSOutputVoice.Text = "";
                 TTSAPIKeyTextBox.Enabled = false;
                 TTSAudioOutputComboBox.Enabled = false;
-                TTSOutputVoice.Enabled = false;
+                TTSOutputVoice.Enabled = true;
                 TTSOutputVoiceOption1.Enabled = false;
                 TTSRegionTextBox.Enabled = false;
                 //clear and fill the option box with voices
+                await TTSGetNativeVoices();
+                if (_bigError)
+                {
+                    return;
+                }
+                TTSFillNativeVoicesList();
+
             }
             else if (TTSProviderComboBox.Text == "Azure")
             {
+                TTSOutputVoice.Text = "";
                 TTSAPIKeyTextBox.Enabled = true;
                 TTSAudioOutputComboBox.Enabled = true;
                 TTSOutputVoice.Enabled = true;
@@ -1157,18 +1210,15 @@ namespace BanterBrain_Buddy
                 //clear and fill the option box with voices
                 //and options
                 //fill the list if its empty
-                if (TTSOutputVoice.Items.Count < 1)
+                if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
                 {
-                    if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
+                    await TTSGetAzureVoices();
+                    if (_bigError)
                     {
-                        await TTSGetAzureVoices();
-                        if (_bigError)
-                        {
-                            return;
-                        }
-                        //fill the listboxes
-                        TTSFillAzureVoicesList();
+                        return;
                     }
+                    //fill the listboxes
+                    TTSFillAzureVoicesList();
                 }
             }
         }
@@ -1193,8 +1243,12 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void TTSOutputVoice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //depending on what voice is selected we need to now select the voice options (if any)
-            TTSAzureFillOptions(TTSOutputVoice.Text);
+            if (TTSProviderComboBox.Text == "Azure")
+            {
+                //depending on what voice is selected we need to now select the voice options (if any)
+                TTSAzureFillOptions(TTSOutputVoice.Text);
+            }
+
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1406,8 +1460,7 @@ namespace BanterBrain_Buddy
             {
                 TextLog.AppendText($"Valid Twitch Cheer message received from {user}\r\n");
                 // await SayText($"Thank you for the bits, {user}!");
-                await SayText($"{user} cheered with message {message}");
-                await Task.Delay(2000); //we need this delay because threads are fired off async and this needs to be done before we can say the LLM response
+                await SayText($"{user} cheered with message {message}",2000);
                 _TalkDone = true;
             });
             await InvokeUI(async () =>
@@ -1429,7 +1482,7 @@ namespace BanterBrain_Buddy
                 {
                     await Task.Delay(1000);
                 }
-                await SayText(LLMTestOutputbox.Text);
+                await SayText(LLMTestOutputbox.Text,0);
             });
         }
 
@@ -1443,7 +1496,7 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 _bBBlog.Info("Lets say a short \"thank you\" for the channel point redemption, and pass the text to the LLM");
-                await SayText($"{user} redeemed with message {message}");
+                await SayText($"{user} redeemed with message {message}",3000);
             });
             await InvokeUI(async () =>
             {
@@ -1457,8 +1510,7 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
-                await Task.Delay(3000);
-                await SayText(LLMTestOutputbox.Text);
+                await SayText(LLMTestOutputbox.Text,0);
             });
         }
 
@@ -1474,9 +1526,9 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Lets say a short \"thank you\" for the gifted sub(s)");
                 if (int.Parse(amount) > 1)
-                    await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!");
+                    await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!",0);
                 else
-                    await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!");
+                    await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!",0);
             });
 
         }
@@ -1490,7 +1542,7 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 _bBBlog.Info("Lets say a short \"thank you\" for the subscriber");
-                await SayText($"Thanks {user} for subscribing!");
+                await SayText($"Thanks {user} for subscribing!",0);
             });
         }
 
@@ -1506,9 +1558,9 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("TODO: respond to user");
                 if (message.Length >= 1)
-                    await SayText($"{user} has resubscribed for a total of months {months}!");
+                    await SayText($"{user} has resubscribed for a total of months {months}!",0);
                 else
-                    await SayText($"{user} has resubscribed for a total of {months} months saying {message}.");
+                    await SayText($"{user} has resubscribed for a total of {months} months saying {message}.",0);
 
             });
             if (message.Length >= 1)
@@ -1527,7 +1579,7 @@ namespace BanterBrain_Buddy
                 await InvokeUI(async () =>
                 {
                     await Task.Delay(3000);
-                    await SayText(LLMTestOutputbox.Text);
+                    await SayText(LLMTestOutputbox.Text,0);
                 });
             }
         }
@@ -1547,7 +1599,7 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 TextLog.AppendText("Valid Twitch Chat message received from user: " + user + " message: " + message + "\r\n");
-                await SayText(user + " said " + message);
+                await SayText($"{user} said {message}",3000);
             });
             await InvokeUI(async () =>
             {
@@ -1561,8 +1613,7 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
-                await Task.Delay(3000);
-                await SayText(LLMTestOutputbox.Text);
+                await SayText(LLMTestOutputbox.Text,0);
             });
 
         }

@@ -1,9 +1,14 @@
 ﻿using CSCore.MediaFoundation;
 using CSCore.SoundOut;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Versioning;
 using System.Speech.Synthesis;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 /// <summary>
 /// CODING RULES:
@@ -69,14 +74,39 @@ namespace BanterBrain_Buddy
         /// <param name="OutputDevice">The text of the selected output device. Limited to 32 characters (Windows limition)</param>
         /// <returns></returns>
         [SupportedOSPlatform("windows6.1")]
-        public async Task NativeTTSInit(string OutputDevice)
+        public async Task NativeTTSInit(string VoiceUsed, string OutputDevice)
         {
             _bBBlog.Info("Starting Native Text To Speech, Initializing");
             _bBBlog.Debug("Init Native Output Device: " + OutputDevice);
             SetSelectedOutputDevice(OutputDevice);
             _nativeSynthesizer = new();
+            string selectedVoice = VoiceUsed.Substring(0, VoiceUsed.IndexOf("-"));
+            _bBBlog.Debug("Init Native Voice: " + selectedVoice);
+            _nativeSynthesizer.SelectVoice(selectedVoice);
             _nativeAudioStream = new();
             _nativeSynthesizer.SetOutputToWaveStream(_nativeAudioStream);
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        public async Task<List<NativeVoices>> TTSNativeGetVoices()
+        {
+            List<NativeVoices> nativeVoicesList = [];
+            var synthesizer = new SpeechSynthesizer();
+            foreach (var voice in synthesizer.GetInstalledVoices())
+            {
+                var info = voice.VoiceInfo;
+                _bBBlog.Info($"Native TTS Name: {info.Name}");
+
+                var tmpVoice = new NativeVoices()
+                {
+                    Name = info.Name,
+                    Culture = info.Culture.ToString(),
+                    Gender = info.Gender.ToString()
+                };
+                nativeVoicesList.Add(tmpVoice);
+
+            }
+            return nativeVoicesList;
         }
 
         public NativeSpeech()

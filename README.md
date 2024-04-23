@@ -49,14 +49,14 @@ Known issues:
 - [ ] Twitch: add a check to verify if there's an active twitch connection, if not dont do anything twitch related
 - [ ] TTS: add a check to verify if there's an active TTS connection, if not dont do anything TTS related
 - [ ] TTS: verify filling the TTS option drowdowns with the correct values when something is changed (doesnt always refresh now)
-- [ ] TTS: Native TTS needs to list all possible voices
+- [X] TTS: Native TTS needs to list all possible voices
 
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
 - [X] 0.0.2 MVP use non-default audio devices for input/output
 - [X] 0.0.3 MVP ability to read Twitch chat and react to specifyable chat command
 - [X] 0.0.4 MVP Azure TTS/STT support
-- [ ] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
+- [X] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
 - [ ] 0.0.5.1 ALPHA INSTALLABLE ALPHA BUILD
 - [ ] 0.0.6 ALPHA Google, Elevenlabs & OpenAI Whisper TTS support 
 - [ ] 0.0.7 ALPHA Improved Error handling & Code documentation. GUI improvements
