@@ -59,6 +59,8 @@ namespace BanterBrain_Buddy
         //error checker for async events. If true, stop execution of whatever you're doing
         private bool _bigError = false;
 
+        private bool _twitchStarted = false;
+
         //Global Twitch API class
         //we need this for the hourly /validate check
         private TwitchAPIESub _globalTwitchAPI;
@@ -619,7 +621,7 @@ namespace BanterBrain_Buddy
 
         [SupportedOSPlatform("windows6.1")]
         private void TTSFillNativeVoicesList()
-        {             
+        {
             _bBBlog.Info("Fill Native voice list");
             TTSOutputVoice.Items.Clear();
             foreach (var nativeVoice in _nativeRegionVoicesList)
@@ -697,7 +699,7 @@ namespace BanterBrain_Buddy
             {
                 await Task.Delay(500);
             }
-           await DoSayText(TextToSay, DelayWhenDone);
+            await DoSayText(TextToSay, DelayWhenDone);
         }
         //agnostic TTS function
         [SupportedOSPlatform("windows6.1")]
@@ -731,7 +733,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TTSTestButton_Click(object sender, EventArgs e)
         {
-            await SayText(TTSTestTextBox.Text,0);
+            await SayText(TTSTestTextBox.Text, 0);
 
         }
 
@@ -1146,22 +1148,22 @@ namespace BanterBrain_Buddy
             //This is done by spawning a browser where the user has to authorize (implicit grant) 
             //the application. 
             TwitchAPIESub twitchAPI = new();
-        //see https://dev.twitch.tv/docs/authentication/scopes/ and https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/#channelchatmessage
-        //API events:
-        //channel.send.message ("user:write:chat")
-        //eventsub events:
-        //channel.chat.message (user:read:chat) to read chat
-        //channel.subscribe (channel:read:subscriptions) to get subscription events
-        //channel.subscription.gift (channel:read:subscriptions) to get gifted sub events
-        //channel.subscription.message (channel:read:subscriptions) to get sub message events
-        //channel.cheer (bits:read) to get information on cheered bits
-        //channel.follow (moderator:read:followers) to get who followed a channel
-        //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by viewers
-        //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by viewers
+            //see https://dev.twitch.tv/docs/authentication/scopes/ and https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/#channelchatmessage
+            //API events:
+            //channel.send.message ("user:write:chat")
+            //eventsub events:
+            //channel.chat.message (user:read:chat) to read chat
+            //channel.subscribe (channel:read:subscriptions) to get subscription events
+            //channel.subscription.gift (channel:read:subscriptions) to get gifted sub events
+            //channel.subscription.message (channel:read:subscriptions) to get sub message events
+            //channel.cheer (bits:read) to get information on cheered bits
+            //channel.follow (moderator:read:followers) to get who followed a channel
+            //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by viewers
+            //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by viewers
 
-        var twitchAPIResult = await twitchAPI.GetTwitchAuthToken([
-                //API scope to send text to chat
-                "user:write:chat", 
+            var twitchAPIResult = await twitchAPI.GetTwitchAuthToken([
+                    //API scope to send text to chat
+                    "user:write:chat", 
                 //EventSub scopes for subscription types to read chat, get subscription events, read when people cheer (bits) and follower events
                 "user:read:chat", "channel:read:subscriptions", "bits:read", "moderator:read:followers", "channel:read:redemptions"]);
 
@@ -1325,6 +1327,7 @@ namespace BanterBrain_Buddy
                 if (TwitchReadChatCheckBox.Checked)
                 {
                     _bBBlog.Info("Twitch read chat enabled, calling eventsubhandlereadchat");
+                    TwitchNeedsSubscriber.Enabled = false;
                     _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
                     _twitchEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
@@ -1373,6 +1376,9 @@ namespace BanterBrain_Buddy
                 { //we are in mock mode, so we just say we started
                     _bBBlog.Info("Twitch EventSub client  starting successfully in mock mode");
                     eventSubStart = await _twitchEventSub.EventSubStartAsyncMock();
+                    TwitchEventSubStatusTextBox.Text = "ENABLED";
+                    TwitchEventSubStatusTextBox.BackColor = Color.Green;
+                    _twitchStarted = true;
                 }
 
                 if (eventSubStart)
@@ -1381,12 +1387,14 @@ namespace BanterBrain_Buddy
                     TextLog.AppendText("Twitch EventSub client started successfully\r\n");
                     TwitchEventSubStatusTextBox.Text = "ENABLED";
                     TwitchEventSubStatusTextBox.BackColor = Color.Green;
+                    _twitchStarted = true;
                 }
                 else
                 {
                     _bBBlog.Error("Issue with starting Twitch EventSub server. Check logs for more information.");
                     TwitchEventSubStatusTextBox.Text = "DISABLED";
                     TwitchEventSubStatusTextBox.BackColor = Color.Red;
+                    _twitchStarted = false;
                     return false;
                 }
                 return true;
@@ -1396,6 +1404,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("Issue with starting Twitch EventSub server. Check logs for more information.");
                 TwitchEventSubStatusTextBox.Text = "DISABLED";
                 TwitchEventSubStatusTextBox.BackColor = Color.Red;
+                _twitchStarted = false;
                 return false;
             }
         }
@@ -1457,7 +1466,7 @@ namespace BanterBrain_Buddy
             {
                 TextLog.AppendText($"Valid Twitch Cheer message received from {user}\r\n");
                 // await SayText($"Thank you for the bits, {user}!");
-                await SayText($"{user} cheered with message {message}",2000);
+                await SayText($"{user} cheered with message {message}", 2000);
                 _TalkDone = true;
             });
             await InvokeUI(async () =>
@@ -1479,7 +1488,7 @@ namespace BanterBrain_Buddy
                 {
                     await Task.Delay(1000);
                 }
-                await SayText(LLMTestOutputbox.Text,0);
+                await SayText(LLMTestOutputbox.Text, 0);
             });
         }
 
@@ -1493,7 +1502,7 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 _bBBlog.Info("Lets say a short \"thank you\" for the channel point redemption, and pass the text to the LLM");
-                await SayText($"{user} redeemed with message {message}",3000);
+                await SayText($"{user} redeemed with message {message}", 3000);
             });
             await InvokeUI(async () =>
             {
@@ -1507,7 +1516,7 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
-                await SayText(LLMTestOutputbox.Text,0);
+                await SayText(LLMTestOutputbox.Text, 0);
             });
         }
 
@@ -1523,9 +1532,9 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Lets say a short \"thank you\" for the gifted sub(s)");
                 if (int.Parse(amount) > 1)
-                    await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!",0);
+                    await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!", 0);
                 else
-                    await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!",0);
+                    await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!", 0);
             });
 
         }
@@ -1539,7 +1548,7 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 _bBBlog.Info("Lets say a short \"thank you\" for the subscriber");
-                await SayText($"Thanks {user} for subscribing!",0);
+                await SayText($"Thanks {user} for subscribing!", 0);
             });
         }
 
@@ -1555,9 +1564,9 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("TODO: respond to user");
                 if (message.Length >= 1)
-                    await SayText($"{user} has resubscribed for a total of months {months}!",0);
+                    await SayText($"{user} has resubscribed for a total of months {months}!", 0);
                 else
-                    await SayText($"{user} has resubscribed for a total of {months} months saying {message}.",0);
+                    await SayText($"{user} has resubscribed for a total of {months} months saying {message}.", 0);
 
             });
             if (message.Length >= 1)
@@ -1576,7 +1585,7 @@ namespace BanterBrain_Buddy
                 await InvokeUI(async () =>
                 {
                     await Task.Delay(3000);
-                    await SayText(LLMTestOutputbox.Text,0);
+                    await SayText(LLMTestOutputbox.Text, 0);
                 });
             }
         }
@@ -1596,7 +1605,7 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 TextLog.AppendText("Valid Twitch Chat message received from user: " + user + " message: " + message + "\r\n");
-                await SayText($"{user} said {message}",3000);
+                await SayText($"{user} said {message}", 3000);
             });
             await InvokeUI(async () =>
             {
@@ -1610,7 +1619,7 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
-                await SayText(LLMTestOutputbox.Text,0);
+                await SayText(LLMTestOutputbox.Text, 0);
             });
 
         }
@@ -1619,6 +1628,12 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchReadChatCheckBox_Click(object sender, EventArgs e)
         {
+            //if twitch isnt enabled, we cant do anything internal so ignore anything Twitch related
+            if (!_twitchStarted)
+            {
+                _bBBlog.Debug("Twitch not enabled, ignoring read chat checkbox");
+                return;
+            }
             _bBBlog.Debug($"eventsub websocket: {_twitchEventSub._eventSubWebsocketClient.SessionId}");
             if (TwitchReadChatCheckBox.Checked)
             {
@@ -1628,6 +1643,7 @@ namespace BanterBrain_Buddy
                 if (!_globalTwitchAPI.EventSubReadChatMessages)
                 {
                     _bBBlog.Info("Twitch read chat enabled.");
+                    TwitchNeedsSubscriber.Enabled = false;
                     _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
                     _twitchEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
@@ -1635,7 +1651,8 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                _bBBlog.Info("Twitch read chat unchecked. Disabling event handler. TODO: disable eventsub subscription");
+                _bBBlog.Info("Twitch read chat unchecked. Disabling event handler.");
+                TwitchNeedsSubscriber.Enabled = true;
                 _twitchEventSub.OnESubChatMessage -= TwitchEventSub_OnESubChatMessage;
                 await _twitchEventSub.EventSubStopReadChat();
 
@@ -1645,6 +1662,12 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchCheerCheckbox_Click(object sender, EventArgs e)
         {
+            //if twitch isnt enabled, we cant do anything internal so ignore anything Twitch related
+            if (!_twitchStarted)
+            {
+                _bBBlog.Debug("Twitch not enabled, ignoring cheer checkbox");
+                return;
+            }
             _bBBlog.Debug($"eventsub websocket: {_twitchEventSub._eventSubWebsocketClient.SessionId}");
             if (TwitchCheerCheckBox.Checked)
             {
@@ -1670,6 +1693,12 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchSubscribed_Click(object sender, EventArgs e)
         {
+            //if twitch isnt enabled, we cant do anything internal so ignore anything Twitch related
+            if (!_twitchStarted)
+            {
+                _bBBlog.Debug("Twitch not enabled, ignoring subscribed checkbox");
+                return;
+            }
             _bBBlog.Debug($"eventsub websocket: {_twitchEventSub._eventSubWebsocketClient.SessionId}");
             if (TwitchSubscribed.Checked)
             {
@@ -1695,6 +1724,12 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchGiftedSub_Click(object sender, EventArgs e)
         {
+            //if twitch isnt enabled, we cant do anything internal so ignore anything Twitch related
+            if (!_twitchStarted)
+            {
+                _bBBlog.Debug("Twitch not enabled, ignoring gifted subs checkbox");
+                return;
+            }
             _bBBlog.Debug($"eventsub websocket: {_twitchEventSub._eventSubWebsocketClient.SessionId}");
             if (TwitchGiftedSub.Checked)
             {
@@ -1741,12 +1776,39 @@ namespace BanterBrain_Buddy
             this.Close();
         }
 
+        [SupportedOSPlatform("windows6.1")]
         private void button1_Click(object sender, EventArgs e)
         {
             SettingsForm test = new();
             test.ShowDialog();
         }
 
-
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchChannelPointCheckBox_Click(object sender, EventArgs e)
+        {
+            //if twitch isnt enabled, we cant do anything internal so ignore anything Twitch related
+            if (!_twitchStarted)
+            {
+                _bBBlog.Debug("Twitch not enabled, ignoring channelpoint redemption checkbox");
+                return;
+            }
+            if (TwitchChannelPointCheckBox.Checked)
+            {
+                _bBBlog.Info("This enables reading channel point redemption events");
+                //just double check its not already enabled
+                if (!_globalTwitchAPI.EventSubCheckChannelPointRedemption)
+                {
+                    _bBBlog.Info("Twitch channel points enabled, calling EventSubHandleChannelPoints");
+                    _twitchEventSub.EventSubHandleChannelPointRedemption(TwitchCustomRewardName.Text);
+                    _twitchEventSub.OnESubChannelPointRedemption += TwitchEventSub_OnESubChannelPointRedemption;
+                }
+            }
+            else
+            {
+                _bBBlog.Info("Twitch channel points unchecked. Disabling event handler.");
+                _twitchEventSub.OnESubChannelPointRedemption -= TwitchEventSub_OnESubChannelPointRedemption;
+                await _twitchEventSub.EventSubStopChannelPointRedemption();
+            }
+        }
     }
 }

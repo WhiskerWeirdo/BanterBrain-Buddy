@@ -643,6 +643,7 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchChannelPointCheckBox, "TwitchChannelPointCheckBox");
             TwitchChannelPointCheckBox.Name = "TwitchChannelPointCheckBox";
             TwitchChannelPointCheckBox.UseVisualStyleBackColor = true;
+            TwitchChannelPointCheckBox.Click += TwitchChannelPointCheckBox_Click;
             // 
             // EventSubGroupbox
             // 
