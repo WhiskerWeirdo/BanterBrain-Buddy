@@ -645,7 +645,8 @@ namespace BanterBrain_Buddy
             {
                 if (SelectedVoice == (azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName))
                 {
-                    _bBBlog.Info("Match found, checking for voice options");
+                    _bBBlog.Info($"Match found, checking for voice options. Voice has a total of {azureRegionVoice.StyleList.Count}");
+
                     foreach (var voiceOption in azureRegionVoice.StyleList)
                     {
                         if (voiceOption.Length > 0)
@@ -655,20 +656,7 @@ namespace BanterBrain_Buddy
                     }
                 }
             }
-            /*
-            //if nothing ends up being selected, pick the top one so at least something is selected
-            if (TTSOutputVoiceOption1.SelectedIndex == -1)
-            {
-                try
-                {
-                    TTSOutputVoiceOption1.Text = TTSOutputVoiceOption1.Items[0].ToString();
-                }
-                catch (Exception ex)
-                {
-                    _bBBlog.Error("Issue assigning Azure voice. Error: " + ex.Message);
-                }
-            }*/
-
+            TTSOutputVoiceOption1.Text = TTSOutputVoiceOption1.Items[0].ToString();
         }
 
         [SupportedOSPlatform("windows6.1")]
