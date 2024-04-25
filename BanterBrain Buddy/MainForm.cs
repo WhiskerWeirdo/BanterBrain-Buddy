@@ -24,6 +24,8 @@ using TwitchLib.Api.Helix;
 using Microsoft.AspNetCore.Components;
 using System.Reflection.Emit;
 using static System.Formats.Asn1.AsnWriter;
+using System.Reflection;
+using Newtonsoft.Json;
 
 /// <summary>
 /// CODING RULES:
@@ -67,25 +69,148 @@ namespace BanterBrain_Buddy
         private bool _twitchValidateCheckStarted;
         private TwitchAPIESub _twitchEventSub;
 
+         //this will hold the STT output text
+        private string _sTTOutputText;
+        private string _gPTOutputText;
+
+        private List<Personas> _personas = new List<Personas>();
+        private Personas _broadcasterSelectedPersona = new Personas();
+
         [SupportedOSPlatform("windows6.1")]
         public BBB()
         {
             _twitchValidateCheckStarted = false;
 
             InitializeComponent();
-            LoadSettings();
-            GetAudioDevices();
-            _bBBlog.Info("Program Starting...");
-            _bBBlog.Info("PPT hotkey: " + MicrophoneHotkeyEditbox.Text);
+            LoadPersonas();
 
-            UpdateTextLog("Program Starting...");
-            UpdateTextLog("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
+            _bBBlog.Info("Program Starting...");
+            // _bBBlog.Info("PPT hotkey: " + MicrophoneHotkeyEditbox.Text);
+
+            UpdateTextLog("Program Starting...\r\n");
+            //UpdateTextLog("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
             if (TwitchEnableCheckbox.Checked && TwitchCheckAuthAtStartup.Checked)
                 SetTwitchValidateTokenTimer(true);
             else
                 TwitchCheckAuthAtStartup.Enabled = false;
+            CheckConfiguredSTTProviders();
+            LoadSettings();
+            SetSelectedPersona();
         }
 
+        [SupportedOSPlatform("windows6.1")]
+        private void SetSelectedPersona()
+        {
+            if (SelectedPersonaComboBox.Text.Length > 0)
+            {
+                foreach (var persona in _personas)
+                {
+                    if (persona.Name == SelectedPersonaComboBox.Text)
+                    {
+                        _bBBlog.Debug("Setting selected persona: " + persona.Name);
+                        _broadcasterSelectedPersona = persona;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //this loads the personas from the personas.json file
+        //if one doesn't exist, it creates a default one
+        [SupportedOSPlatform("windows6.1")]
+        private async void LoadPersonas()
+        {
+            var tmpFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\personas.json";
+            if (!File.Exists(tmpFile))
+            {
+                _bBBlog.Debug("Personas file not found, creating it");
+                //there might be a native voice installed, if so we should add it to the list
+                NativeSpeech nativeSpeech = new();
+                var nativeRegionVoicesList = await nativeSpeech.TTSNativeGetVoices();
+                string tmpNativeVoice = null;
+                if (nativeRegionVoicesList.Count > 0)
+                {
+                    _bBBlog.Debug("Native voices found, adding them to the list");
+
+                    foreach (var voice in nativeRegionVoicesList)
+                    {
+                        _bBBlog.Debug("Adding voice: " + voice);
+                        tmpNativeVoice = voice.Name + "-" + voice.Gender + "-" + voice.Culture;
+                        break;
+                    }
+                }
+                else
+                {
+                    _bBBlog.Debug("No native voices found");
+                    tmpNativeVoice = "None";
+                }
+                var newPersonas = new List<Personas>();
+                newPersonas.Add(new Personas { Name = "Default", RoleText = "You are a cheeky streamer assistant with a silly personality.", VoiceProvider = "Native", VoiceName = tmpNativeVoice, VoiceOptions = new List<string>() });
+                string tmpString = JsonConvert.SerializeObject(newPersonas);
+                using (var sw = new StreamWriter(tmpFile, true))
+                {
+                    sw.Write(tmpString);
+                }
+            }
+            else
+            {
+                _bBBlog.Debug("Personas file found, loading it.");
+                _personas.Clear();
+                SelectedPersonaComboBox.Items.Clear();
+                using (var sr = new StreamReader(tmpFile))
+                {
+                    var tmpString = sr.ReadToEnd();
+                    //var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
+                    var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
+                    foreach (var persona in tmpPersonas)
+                    {
+                        _bBBlog.Debug("Loading persona into available list: " + persona.Name);
+                        _personas.Add(persona);
+                        SelectedPersonaComboBox.Items.Add(persona.Name);
+                    }
+                }
+            }
+            //alright now lets load up the selected persona if there is one
+
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void CheckConfiguredSTTProviders()
+        {
+            
+            //is there already one from loadsettings?
+            var tmpProvider = STTSelectedComboBox.Text;
+            if (tmpProvider.Length > 0)
+            {
+                _bBBlog.Debug("STT provider already set: " + tmpProvider);
+                return;
+            }
+            //if there's at least one native voice installed, enable the native STT
+            NativeSpeech nativeSpeech = new();
+            var result = await nativeSpeech.TTSNativeGetVoices();
+            _bBBlog.DebugFormat("Found {0} native voices", result.Count);
+            if (result.Count > 0)
+            {
+                STTSelectedComboBox.Items.Add("Native");
+            }
+            //if there's an Azure API key, enable Azure STT
+            //lets just assume its valid
+            if (Properties.Settings.Default.AzureAPIKeyTextBox.Length > 1)
+            {
+                List<AzureVoices> azureRegionVoicesList = [];
+                _bBBlog.Info("Finding TTS Azure voices available");
+                AzureSpeechAPI AzureSpeech = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
+                azureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
+                if (azureRegionVoicesList.Count > 0)
+                {
+                    STTSelectedComboBox.Items.Add("Azure");
+                }
+                else
+                {
+                    _bBBlog.Error("No Azure voices found, despite what seems to be an API key");
+                }
+            }
+        }
 
         /// <summary>
         /// Twitch requires you to validate your access token every hour. This starts this timer when Twitch is enabled.
@@ -139,29 +264,10 @@ namespace BanterBrain_Buddy
                         _bigError = true;
                     }
                 }
-                //TODO: we also need to start the EventSub Client
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
-        //fill the audio input and output list boxes
-        public void GetAudioDevices()
-        {
-            var captureDevices = WaveInDevice.EnumerateDevices();
-            foreach (var device in captureDevices)
-            {
-                SoundInputDevices.Items.Add(device.Name);
-            }
-
-            foreach (var device in WaveOutDevice.EnumerateDevices())
-            {
-                _ = TTSAudioOutputComboBox.Items.Add(device.Name);
-
-                //TODO: make sure the selected device is the same as the one in the settings
-                //if not, set it to the first one
-            }
-        }
-
+        /*
         [SupportedOSPlatform("windows6.1")]
         private async void STTTestButton_Click(object sender, EventArgs e)
         {
@@ -169,7 +275,7 @@ namespace BanterBrain_Buddy
             String selectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
             if (STTTestButton.Text == "Test")
             {
-                STTTestOutput.Text = "";
+                _sTTOutputText = "";
                 UpdateTextLog("Test Microphone on\r\n");
                 _bBBlog.Info("Test Microphone on");
                 STTTestButton.Text = "Recording";
@@ -195,7 +301,7 @@ namespace BanterBrain_Buddy
 
                     if ((STTAPIKeyEditbox.Text.Length < 1) || (STTRegionEditbox.Text.Length < 1))
                     {
-                        STTTestOutput.Text = "Error! API Key or region cannot be empty!";
+                        _sTTOutputText = "Error! API Key or region cannot be empty!";
                         _bBBlog.Error("Error! API Key or region cannot be empty!");
                         STTTestButton.Text = "Test";
                     }
@@ -220,28 +326,8 @@ namespace BanterBrain_Buddy
                     StopWavCapture();
             }
         }
+        */
 
-        [SupportedOSPlatform("windows6.1")]
-        private void STTProviderBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            String selectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
-            if (selectedProvider == "Native")
-            {
-                UpdateTextLog("Native STT selected\r\n");
-                _bBBlog.Info("Native STT selected");
-                STTAPIKeyEditbox.Enabled = false;
-                STTRegionEditbox.Enabled = false;
-                STTTestOutput.Text = "Hint: For better native Speech-To-Text always train your voice at least once in Control Panel\\Ease of Access\\Speech Recognition";
-            }
-            else if (selectedProvider == "Azure")
-            {
-                UpdateTextLog("Azure STT selected\r\n");
-                _bBBlog.Info("Azure STT selected");
-                STTAPIKeyEditbox.Enabled = true;
-                STTRegionEditbox.Enabled = true;
-                STTTestOutput.Text = "Be sure to set API key and region!";
-            }
-        }
 
         [SupportedOSPlatform("windows6.1")]
         //this sets "SelectedInputDevice" to the correct input/microphone
@@ -250,7 +336,7 @@ namespace BanterBrain_Buddy
             var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Capture, DeviceState.Active);
             foreach (var device in devices)
             {
-                if (device.FriendlyName == SoundInputDevices.Text)
+                if (device.FriendlyName == Properties.Settings.Default.VoiceInput)
                 {
                     SelectedInputDevice = device;
                 }
@@ -263,28 +349,29 @@ namespace BanterBrain_Buddy
         /// </summary>
         private async void AzureConvertVoicetoText()
         {
-            AzureSpeechAPI azureSpeechAPI = new(STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
+            _sTTOutputText = "";
+            AzureSpeechAPI azureSpeechAPI = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
             //call the Azure STT function with the selected input device
             //first initialize the Azure STT class
-            azureSpeechAPI.AzureSTTInit(SoundInputDevices.Text);
+            azureSpeechAPI.AzureSTTInit(Properties.Settings.Default.VoiceInput);
             _bBBlog.Info("Azure STT microphone start.");
-            while ((STTTestButton.Text == "Recording" || MainRecordingStart.Text == "Recording") && !_sTTDone && !_bigError)
+            while (MainRecordingStart.Text == "Recording" && !_sTTDone && !_bigError)
             {
                 var recognizeResult = await azureSpeechAPI.RecognizeSpeechAsync();
                 if (recognizeResult == "NOMATCH")
                 {
-                    STTTestOutput.Text += "NOMATCH: Speech could not be recognized.\r\n";
+                    _sTTOutputText += "NOMATCH: Speech could not be recognized.\r\n";
                 }
                 else if (recognizeResult == null)
                 {
-                    STTTestOutput.Text += "Fail! Speech could not be proccessed. Check log for more info.\r\n";
+                    _sTTOutputText += "Fail! Speech could not be proccessed. Check log for more info.\r\n";
                     TextLog.Text += "Azure Speech-To-Text: Fail! Speech could not be proccessed. Check log for more info.\r\n";
                     _bigError = true;
                     _sTTDone = true;
                 }
                 else
                 {
-                    STTTestOutput.Text += recognizeResult + "\r\n";
+                    _sTTOutputText += recognizeResult + "\r\n";
                     TextLog.Text += "Azure Speech-To-Text: " + recognizeResult + "\r\n";
                 }
             }
@@ -374,6 +461,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void NativeSTTfromWAV()
         {
+            _sTTOutputText = "";
             // Create an in-process speech recognizer for the en-US locale.  
             SpeechRecognitionEngine recognizer2 = new(new System.Globalization.CultureInfo("en-US"));
             // Create and load a dictation grammar.  
@@ -451,11 +539,12 @@ namespace BanterBrain_Buddy
             {
                 UpdateTextLog("Native recognized text: " + e.Result.Text + "\r\n");
                 _bBBlog.Info("Native recognized text: " + e.Result.Text);
-                STTTestOutput.AppendText(e.Result.Text + "\r\n");
+                _sTTOutputText += e.Result.Text + "\r\n";
+                //STTTestOutput.AppendText(e.Result.Text + "\r\n");
             }
             else
             {
-                STTTestOutput.AppendText("Native recognized text not available.");
+                //STTTestOutput.AppendText("Native recognized text not available.");
                 _bBBlog.Info("Native recognized text not available.");
             }
         }
@@ -472,19 +561,22 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task TalkToOpenAIGPT(String UserInput)
         {
+            _gPTOutputText = "";
             UpdateTextLog("Sending to GPT: " + UserInput + "\r\n");
             _bBBlog.Info("Sending to GPT: " + UserInput);
             _gPTDone = false;
-            OpenAIAPI api = new(LLMAPIKeyTextBox.Text);
+            OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
+            //api.Auth.ValidateAPIKey
             var chat = api.Chat.CreateConversation();
             chat.Model = Model.ChatGPTTurbo;
-            chat.RequestParameters.Temperature = int.Parse(LLMTemperature.Text);
-            chat.RequestParameters.MaxTokens = int.Parse(LLMMaxTokens.Text);
+            chat.RequestParameters.Temperature = Properties.Settings.Default.GPTTemperature;
+            chat.RequestParameters.MaxTokens = Properties.Settings.Default.GPTMaxTokens;
 
             //mood is setting the system text description
-            UpdateTextLog("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
-            _bBBlog.Info("SystemRole: " + LLMRoleTextBox.Text);
-            chat.AppendSystemMessage(LLMRoleTextBox.Text);
+            //this is the persona role
+           // UpdateTextLog("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
+            _bBBlog.Info("SystemRole: " + _broadcasterSelectedPersona.RoleText);
+            chat.AppendSystemMessage(_broadcasterSelectedPersona.RoleText);
 
             chat.AppendUserInput(UserInput);
             try
@@ -494,9 +586,9 @@ namespace BanterBrain_Buddy
                 await chat.StreamResponseFromChatbotAsync(res =>
                  {
                      UpdateTextLog(res);
-                     LLMTestOutputbox.AppendText(res);
+                     _gPTOutputText += res;
                  });
-                _bBBlog.Info(LLMTestOutputbox.Text);
+                _bBBlog.Info(_gPTOutputText);
                 UpdateTextLog("\r\nGPT Response done\r\n");
                 _bBBlog.Info("GPT Response done");
                 _gPTDone = true;
@@ -509,21 +601,6 @@ namespace BanterBrain_Buddy
 
         }
 
-        [SupportedOSPlatform("windows6.1")]
-        private async void GPTTestButton_Click(object sender, EventArgs e)
-        {
-            LLMTestOutputbox.Text = "";
-            GPTTestButton.Enabled = false;
-            GPTTestButton.Text = "Wait...";
-            if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
-            {
-                UpdateTextLog("Testing using ChatGPT\r\n");
-                _bBBlog.Info("Testing using ChatGPT");
-                await TalkToOpenAIGPT("How are you?");
-            }
-            GPTTestButton.Text = "Test";
-            GPTTestButton.Enabled = true;
-        }
 
         [SupportedOSPlatform("windows6.1")]
 
@@ -533,7 +610,7 @@ namespace BanterBrain_Buddy
             int deviceID = 0;
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
-                if (device.Name == TTSAudioOutputComboBox.Text)
+                if (device.Name == Properties.Settings.Default.TTSAudioOutput)
                 {
                     deviceID = device.DeviceId;
                 }
@@ -549,127 +626,19 @@ namespace BanterBrain_Buddy
         /// <summary>
         /// Holds the list of Azure Voices and their options
         /// </summary>
-        List<AzureVoices> _azureRegionVoicesList = [];
-        List<NativeVoices> _nativeRegionVoicesList = [];
 
-        [SupportedOSPlatform("windows6.1")]
-        /// <summary>
-        /// This function gets the list of voices available in the Azure TTS API
-        /// </summary>
-        private async Task TTSGetAzureVoices()
-        {
-            //only bother if the two fields are not empty or not "placeholder"
-            if ((TTSAPIKeyTextBox.Text.Length < 1) || (TTSRegionTextBox.Text.Length < 1) || TTSAPIKeyTextBox.Text == "placeholder" || TTSRegionTextBox.Text == "placeholder")
-            {
-                _bBBlog.Error("API Key or region cannot be empty!");
-                MessageBox.Show("API Key or region cannot be empty!", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _bigError = true;
-                return;
-            }
-            _bBBlog.Info("Finding TTS Azure voices available");
-            AzureSpeechAPI AzureSpeech = new(TTSAPIKeyTextBox.Text, TTSRegionTextBox.Text, "en-US");
-            _azureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
-
-            if (_azureRegionVoicesList == null)
-            {
-                MessageBox.Show("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?", "Azure No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _bigError = true;
-            }
-            else
-            {
-                _bBBlog.Info($"Found {_azureRegionVoicesList.Count} voices");
-            }
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private async Task TTSGetNativeVoices()
-        {
-            NativeSpeech nativeSpeech = new();
-            _nativeRegionVoicesList = await nativeSpeech.TTSNativeGetVoices();
-            if (_azureRegionVoicesList == null)
-            {
-                MessageBox.Show("Problem retreiving Native voicelist. Do you have any native voices installed?", "Native No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _bigError = true;
-            }
-            else
-            {
-                _bBBlog.Info($"Found {_nativeRegionVoicesList.Count} voices");
-            }
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        /// <summary>
-        /// This function fills the Azure voice list in the GUI TTSOutputVoice
-        /// </summary>
-        private void TTSFillAzureVoicesList()
-        {
-            _bBBlog.Info("Fill Azure voice list");
-
-            // Locale, Gender, Localname
-            TTSOutputVoice.Items.Clear();
-            foreach (var azureRegionVoice in _azureRegionVoicesList)
-            {
-                TTSOutputVoice.Items.Add(azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName);
-            }
-            TTSOutputVoice.Sorted = true;
-            //select the first item, to have at least something
-            TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
-            TTSOutputVoiceOption1.Text = "";
-
-            TTSAzureFillOptions(TTSOutputVoice.Text);
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void TTSFillNativeVoicesList()
-        {
-            _bBBlog.Info("Fill Native voice list");
-            TTSOutputVoice.Items.Clear();
-            foreach (var nativeVoice in _nativeRegionVoicesList)
-            {
-                TTSOutputVoice.Items.Add(nativeVoice.Name + "-" + nativeVoice.Gender + "-" + nativeVoice.Culture);
-            }
-            TTSOutputVoice.Sorted = true;
-            TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
-            TTSOutputVoiceOption1.Text = "";
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        /// <summary>
-        /// This function fills the Azure voice options in the GUI TTSOutputVoiceOptions, depends on the selected voice
-        /// </summary>
-        private void TTSAzureFillOptions(string SelectedVoice)
-        {
-            _bBBlog.Info("Finding Azure voice options (if available)");
-            TTSOutputVoiceOption1.Items.Clear();
-            //the voice is the item in TTSOutputVoice 
-            //now to find it in AzureRegionVoicesList
-            foreach (var azureRegionVoice in _azureRegionVoicesList)
-            {
-                if (SelectedVoice == (azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName))
-                {
-                    _bBBlog.Info($"Match found, checking for voice options. Voice has a total of {azureRegionVoice.StyleList.Count}");
-
-                    foreach (var voiceOption in azureRegionVoice.StyleList)
-                    {
-                        if (voiceOption.Length > 0)
-                            TTSOutputVoiceOption1.Items.Add(voiceOption);
-                        else
-                            TTSOutputVoiceOption1.Items.Add("Default");
-                    }
-                }
-            }
-            TTSOutputVoiceOption1.Text = TTSOutputVoiceOption1.Items[0].ToString();
-        }
 
         [SupportedOSPlatform("windows6.1")]
         //Azure Text-To-Speach
         private async Task TTSAzureSpeakToOutput(string TextToSpeak)
         {
             _bBBlog.Info("Azure TTS called with text, seting up");
-            AzureSpeechAPI azureSpeechAPI = new(STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
+            AzureSpeechAPI azureSpeechAPI = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
+            //STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
 
             //set the output voice, gender and locale, and the style
-            await azureSpeechAPI.AzureTTSInit(TTSOutputVoice.Text, TTSOutputVoiceOption1.Text, TTSAudioOutputComboBox.Text);
+            //this now depends on the selected persona
+            await azureSpeechAPI.AzureTTSInit( _broadcasterSelectedPersona.VoiceName,  _broadcasterSelectedPersona.VoiceOptions[0], Properties.Settings.Default.TTSAudioOutput);
 
             var result = await azureSpeechAPI.AzureSpeak(TextToSpeak);
             if (!result)
@@ -687,13 +656,15 @@ namespace BanterBrain_Buddy
             UpdateTextLog("Saying text with Native TTS\r\n");
             _bBBlog.Info("Saying text with Native TTS");
             NativeSpeech nativeSpeech = new();
-            await nativeSpeech.NativeTTSInit(TTSOutputVoice.Text, TTSAudioOutputComboBox.Text);
+            //this now depends on the selected persona
+            await nativeSpeech.NativeTTSInit(_broadcasterSelectedPersona.VoiceName, Properties.Settings.Default.TTSAudioOutput);
             await nativeSpeech.NativeSpeak(TTSText);
         }
 
         [SupportedOSPlatform("windows6.1")]
         //this is the generic caller for TTS function that makes sure the TTS is done before continuing
-        private async Task SayText(string TextToSay, int DelayWhenDone)
+        //we make this public so we can call it to test
+        public async Task SayText(string TextToSay, int DelayWhenDone)
         {
             while (_tTSSpeaking)
             {
@@ -705,24 +676,14 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task DoSayText(string TextToSay, int DelayWhenDone)
         {
+            //this depends on the selected TTS provider from the persona
             _tTSSpeaking = true;
-            if (TTSProviderComboBox.Text == "Native")
+            if (_broadcasterSelectedPersona.VoiceProvider == "Native")
             {
                 await TTSNativeSpeakToOutput(TextToSay);
             }
-            else if (TTSProviderComboBox.Text == "Azure")
+            else if (_broadcasterSelectedPersona.VoiceProvider == "Azure")
             {
-                //we also need to fill the list and select the first available voice
-                //then the options
-                if (TTSOutputVoice.Items.Count < 1 || TTSOutputVoice.Text == "placeholder")
-                {
-                    await TTSGetAzureVoices();
-                    if (_bigError)
-                    {
-                        return;
-                    }
-                    TTSFillAzureVoicesList();
-                }
                 await TTSAzureSpeakToOutput(TextToSay);
             }
             await Task.Delay(DelayWhenDone);
@@ -730,19 +691,13 @@ namespace BanterBrain_Buddy
         }
 
 
-        [SupportedOSPlatform("windows6.1")]
-        private async void TTSTestButton_Click(object sender, EventArgs e)
-        {
-            await SayText(TTSTestTextBox.Text, 0);
-
-        }
-
+        //talk to the various LLM's
         [SupportedOSPlatform("windows6.1")]
         private async Task TalkToLLM(string TextToPass)
         {
-            LLMTestOutputbox.Text = "";
+            _gPTOutputText = "";
             _gPTDone = false;
-            if (LLMProviderComboBox.Text == "OpenAI ChatGPT")
+            if (Properties.Settings.Default.SelectedLLM == "GPT")
             {
                 UpdateTextLog("Using ChatGPT\r\n");
                 _bBBlog.Info("Using ChatGPT");
@@ -755,17 +710,19 @@ namespace BanterBrain_Buddy
             }
         }
 
-
+        //main function for recording text, passing it to STT, then to GPT, then to TTS
         [SupportedOSPlatform("windows6.1")]
         private async void MainRecordingStart_Click(object sender, EventArgs e)
         {
             _bigError = false;
-            String selectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
+
+            //selected STT provider
+            String selectedProvider = STTSelectedComboBox.Text;
             //first, lets call STT
             _sTTDone = false;
             if (MainRecordingStart.Text == "Start")
             {
-                STTTestOutput.Text = "";
+                _sTTOutputText = "";
                 MainRecordingStart.Text = "Recording";
                 if (selectedProvider == "Native")
                 {
@@ -783,7 +740,7 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info("Azure STT calling");
                     //cant be empty
 
-                    if ((STTAPIKeyEditbox.Text.Length < 1) || (STTRegionEditbox.Text.Length < 1))
+                    if ((Properties.Settings.Default.AzureAPIKeyTextBox.Length < 1) || (Properties.Settings.Default.AzureRegionTextBox.Length < 1))
                     {
                         TextLog.Text = "Error! API Key or region cannot be empty!\r\n";
                         _bBBlog.Error("Error! API Key or region cannot be empty!");
@@ -811,19 +768,20 @@ namespace BanterBrain_Buddy
 
                 Thread.Sleep(500);
 
-                //now the STT text is in STTTestOutput.Text, lets pass that to ChatGPT
-                if (STTTestOutput.Text.Length > 1)
+                //now the STT text is in _sTTOutputText, lets pass that to ChatGPT
+                if (_sTTOutputText.Length > 1)
                 {
-                    await TalkToLLM(STTTestOutput.Text);
+                    await TalkToLLM(_sTTOutputText);
 
-                    //result text is in LLMTestOutputbox.Text, lets pass that to TTS
-                    if (TTSProviderComboBox.Text == "Native")
+                    //result text is in _gPTOutputText, lets pass that to TTS
+                    //this depends on the selected persona now
+                    if (_broadcasterSelectedPersona.VoiceProvider == "Native")
                     {
-                        await TTSNativeSpeakToOutput(LLMTestOutputbox.Text);
+                        await TTSNativeSpeakToOutput(_gPTOutputText);
                     }
-                    else if (TTSProviderComboBox.Text == "Azure")
+                    else if (_broadcasterSelectedPersona.VoiceProvider == "Azure")
                     {
-                        await TTSAzureSpeakToOutput(LLMTestOutputbox.Text);
+                        await TTSAzureSpeakToOutput(_gPTOutputText);
                     }
                 }
                 else
@@ -844,22 +802,6 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void LoadSettings()
         {
-            SoundInputDevices.Text = Properties.Settings.Default.VoiceInput;
-            MicrophoneHotkeyEditbox.Text = Properties.Settings.Default.PTTHotkey;
-            STTProviderBox.Text = Properties.Settings.Default.STTProvider;
-            LLMProviderComboBox.Text = Properties.Settings.Default.LLMProvider;
-            LLMModelComboBox.Text = Properties.Settings.Default.LLMModel;
-            LLMRoleTextBox.Text = Properties.Settings.Default.LLMRoleText;
-            TTSProviderComboBox.Text = Properties.Settings.Default.TTSProvider;
-            TTSAudioOutputComboBox.Text = Properties.Settings.Default.TTSAudioOutput;
-            TTSOutputVoice.Text = Properties.Settings.Default.TTSAudioVoice;
-            STTAPIKeyEditbox.Text = Properties.Settings.Default.STTAPIKey;
-            STTRegionEditbox.Text = Properties.Settings.Default.STTAPIRegion;
-            LLMAPIKeyTextBox.Text = Properties.Settings.Default.LLMAPIKey;
-            TTSOutputVoice.Enabled = Properties.Settings.Default.TTSAudioVoiceEnabled;
-            TTSOutputVoiceOption1.Enabled = Properties.Settings.Default.TTSAudioVoiceOptionsEnabled;
-            STTAPIKeyEditbox.Enabled = Properties.Settings.Default.STTAPIKeyEnabled;
-            STTRegionEditbox.Enabled = Properties.Settings.Default.STTAPIRegionEnabled;
             TwitchUsername.Text = Properties.Settings.Default.TwitchUsername;
             TwitchAccessToken.Text = Properties.Settings.Default.TwitchAccessToken;
             TwitchChannel.Text = Properties.Settings.Default.TwitchChannel;
@@ -869,83 +811,28 @@ namespace BanterBrain_Buddy
             TwitchNeedsSubscriber.Checked = Properties.Settings.Default.TwitchNeedsSubscriber;
             TwitchMinBits.Text = Properties.Settings.Default.TwitchMinBits.ToString();
             TwitchSubscribed.Checked = Properties.Settings.Default.TwitchSubscribed;
-            // TwitchCommunitySubs.Checked = Properties.Settings.Default.TwitchCommunitySubs;
             TwitchGiftedSub.Checked = Properties.Settings.Default.TwitchGiftedSub;
             TwitchSendTextCheckBox.Checked = Properties.Settings.Default.TwitchSendTextCheckBox;
-            TTSAPIKeyTextBox.Text = Properties.Settings.Default.TTSAPIKeyTextBox;
-            TTSRegionTextBox.Text = Properties.Settings.Default.TTSRegionTextBox;
-            STTLanguageComboBox.Text = Properties.Settings.Default.STTLanguageComboBox;
             TwitchEnableCheckbox.Checked = Properties.Settings.Default.TwitchEnable;
             TwitchCheckAuthAtStartup.Checked = Properties.Settings.Default.TwitchCheckAuthAtStartup;
             TwitchReadChatCheckBox.Checked = Properties.Settings.Default.TwitchReadChatCheckBox;
             TwitchCheerCheckBox.Checked = Properties.Settings.Default.TwitchCheerCheckbox;
-            TTSAPIKeyTextBox.Enabled = Properties.Settings.Default.TTSAPIKeyTextBoxEnabled;
-            TTSRegionTextBox.Enabled = Properties.Settings.Default.TTSRegionTextBoxEnabled;
             TwitchCustomRewardName.Text = Properties.Settings.Default.TwitchCustomRewardName;
             TwitchChannelPointCheckBox.Checked = Properties.Settings.Default.TwitchChannelPointCheckBox;
-            LLMTemperature.Text = Properties.Settings.Default.LLMTemperature.ToString();
-            LLMMaxTokens.Text = Properties.Settings.Default.LLMMaxTokens.ToString();
+            STTSelectedComboBox.SelectedIndex = STTSelectedComboBox.FindStringExact(Properties.Settings.Default.STTSelectedProvider);
+            SelectedPersonaComboBox.SelectedIndex = SelectedPersonaComboBox.FindStringExact(Properties.Settings.Default.MainSelectedPersona);
             //load HotkeyList into _setHotkeys
             /* foreach (String key in Properties.Settings.Default.HotkeyList)
              {
                  Keys tmpKey = (Keys)Enum.Parse(typeof(Keys), key, true);
                  _setHotkeys.Add(tmpKey);
-             }*
-            */
-            //we need to get azure regions and voice options if azure is selected so we dont need to fill it later
-            if (TTSProviderComboBox.Text == "Azure")
-            {
-                //fill the list if its empty
-                if (TTSOutputVoice.Items.Count < 1)
-                {
-                    if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
-                    {
-                        await TTSGetAzureVoices();
-                        if (_bigError)
-                        {
-                            return;
-                        }
-                        //fill the listboxes
-                        TTSFillAzureVoicesList();
-                    }
-                }
-            }
-            else if (TTSProviderComboBox.Text == "Native")
-            {
-                if (TTSOutputVoice.Items.Count < 1)
-                {
-                    await TTSGetNativeVoices();
-                    if (_bigError)
-                    {
-                        return;
-                    }
-                    TTSFillNativeVoicesList();
-                }
-            }
-            //this last so it overwrites possibly loaded voice options
-            TTSOutputVoiceOption1.Text = Properties.Settings.Default.TTSAudioVoiceOptions;
+             }*/
+
         }
 
         [SupportedOSPlatform("windows6.1")]
         private void BBB_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Properties.Settings.Default.VoiceInput = this.SoundInputDevices.Text;
-            Properties.Settings.Default.PTTHotkey = this.MicrophoneHotkeyEditbox.Text;
-            Properties.Settings.Default.STTProvider = STTProviderBox.Text;
-            Properties.Settings.Default.LLMProvider = LLMProviderComboBox.Text;
-            Properties.Settings.Default.LLMModel = LLMModelComboBox.Text;
-            Properties.Settings.Default.LLMRoleText = LLMRoleTextBox.Text;
-            Properties.Settings.Default.TTSProvider = TTSProviderComboBox.Text;
-            Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
-            Properties.Settings.Default.TTSAudioVoice = TTSOutputVoice.Text;
-            Properties.Settings.Default.TTSAudioVoiceOptions = TTSOutputVoiceOption1.Text;
-            Properties.Settings.Default.STTAPIKey = STTAPIKeyEditbox.Text;
-            Properties.Settings.Default.STTAPIRegion = STTRegionEditbox.Text;
-            Properties.Settings.Default.LLMAPIKey = LLMAPIKeyTextBox.Text;
-            Properties.Settings.Default.TTSAudioVoiceEnabled = TTSOutputVoice.Enabled;
-            Properties.Settings.Default.TTSAudioVoiceOptionsEnabled = TTSOutputVoiceOption1.Enabled;
-            Properties.Settings.Default.STTAPIKeyEnabled = STTAPIKeyEditbox.Enabled;
-            Properties.Settings.Default.STTAPIRegionEnabled = STTRegionEditbox.Enabled;
             Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
             Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
             Properties.Settings.Default.TwitchChannel = TwitchChannel.Text;
@@ -955,22 +842,17 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
             Properties.Settings.Default.TwitchMinBits = int.Parse(TwitchMinBits.Text);
             Properties.Settings.Default.TwitchSubscribed = TwitchSubscribed.Checked;
-            // Properties.Settings.Default.TwitchCommunitySubs = TwitchCommunitySubs.Checked;
             Properties.Settings.Default.TwitchGiftedSub = TwitchGiftedSub.Checked;
             Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
-            Properties.Settings.Default.TTSAPIKeyTextBox = TTSAPIKeyTextBox.Text;
-            Properties.Settings.Default.TTSRegionTextBox = TTSRegionTextBox.Text;
-            Properties.Settings.Default.STTLanguageComboBox = STTLanguageComboBox.Text;
             Properties.Settings.Default.TwitchEnable = TwitchEnableCheckbox.Checked;
             Properties.Settings.Default.TwitchCheckAuthAtStartup = TwitchCheckAuthAtStartup.Checked;
             Properties.Settings.Default.TwitchReadChatCheckBox = TwitchReadChatCheckBox.Checked;
             Properties.Settings.Default.TwitchCheerCheckbox = TwitchCheerCheckBox.Checked;
-            Properties.Settings.Default.TTSAPIKeyTextBoxEnabled = TTSAPIKeyTextBox.Enabled;
-            Properties.Settings.Default.TTSRegionTextBoxEnabled = TTSRegionTextBox.Enabled;
             Properties.Settings.Default.TwitchCustomRewardName = TwitchCustomRewardName.Text;
             Properties.Settings.Default.TwitchChannelPointCheckBox = TwitchChannelPointCheckBox.Checked;
-            Properties.Settings.Default.LLMTemperature = int.Parse(LLMTemperature.Text);
-            Properties.Settings.Default.LLMMaxTokens = int.Parse(LLMMaxTokens.Text);
+            Properties.Settings.Default.STTSelectedProvider = STTSelectedComboBox.Text;
+            Properties.Settings.Default.MainSelectedPersona = SelectedPersonaComboBox.Text;
+
             /* //add the hotkeys in settings list, not in text
              Properties.Settings.Default.HotkeyList.Clear();
              foreach (Keys key in _setHotkeys)
@@ -1000,7 +882,7 @@ namespace BanterBrain_Buddy
             if (result == DialogResult.OK && HotkeyDialog.ReturnValue1 != null)
             {
                 _setHotkeys.Clear();
-                this.MicrophoneHotkeyEditbox.Text = "";
+                //this.MicrophoneHotkeyEditbox.Text = "";
                 List<Keys> hotKeys = HotkeyDialog.ReturnValue1;
                 //ok now we got the keys, parse them and put them in the index box
                 // and the global list for hotkeys
@@ -1011,14 +893,16 @@ namespace BanterBrain_Buddy
                     _setHotkeys.Add(hotKeys[i]);
 
                     //add to the text box
+                    /*
                     if (i < hotKeys.Count - 1)
                         this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString() + " + ";
                     else
                         this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString();
+                    */
                 }
             }
-            UpdateTextLog("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
-            _bBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
+            //  UpdateTextLog("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
+            //   _bBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
             HotkeyDialog.Dispose();
             //bind the new value 
             Subscribe();
@@ -1087,12 +971,14 @@ namespace BanterBrain_Buddy
         //handle the current hotkey setting
         private void GlobalHookKeyDown(object sender, KeyEventArgs e)
         {
+            /*
             var map = new Dictionary<Combination, Action>
              {
                 {Combination.FromString(MicrophoneHotkeyEditbox.Text),  () => HandleHotkeyButton() }
              };
 
             m_GlobalHook.OnCombination(map);
+            */
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1176,84 +1062,6 @@ namespace BanterBrain_Buddy
             {
                 TwitchAccessToken.Text = twitchAPI.TwitchAccessToken;
             }
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private async void TTSProviderComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (TTSProviderComboBox.Text == "Native")
-            {
-                TTSOutputVoice.Text = "";
-                TTSAPIKeyTextBox.Enabled = false;
-                TTSAudioOutputComboBox.Enabled = false;
-                TTSOutputVoice.Enabled = true;
-                TTSOutputVoiceOption1.Enabled = false;
-                TTSRegionTextBox.Enabled = false;
-                //clear and fill the option box with voices
-                await TTSGetNativeVoices();
-                if (_bigError)
-                {
-                    return;
-                }
-                TTSFillNativeVoicesList();
-
-            }
-            else if (TTSProviderComboBox.Text == "Azure")
-            {
-                TTSOutputVoice.Text = "";
-                TTSAPIKeyTextBox.Enabled = true;
-                TTSAudioOutputComboBox.Enabled = true;
-                TTSOutputVoice.Enabled = true;
-                TTSOutputVoiceOption1.Enabled = true;
-                TTSRegionTextBox.Enabled = true;
-                //clear and fill the option box with voices
-                //and options
-                //fill the list if its empty
-                if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
-                {
-                    await TTSGetAzureVoices();
-                    if (_bigError)
-                    {
-                        return;
-                    }
-                    //fill the listboxes
-                    TTSFillAzureVoicesList();
-                }
-            }
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        //if we change the region box, lets make sure we till have the right voices
-        private async void TTSRegionTextBox_Leave(object sender, EventArgs e)
-        {
-            _bBBlog.Info("Region edit box exited");
-            if (TTSAPIKeyTextBox.Text.Length > 0 && TTSRegionTextBox.Text.Length > 0)
-            {
-                await TTSGetAzureVoices();
-                if (_bigError)
-                {
-                    return;
-                }
-                //fill the listboxes
-                TTSFillAzureVoicesList();
-            }
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void TTSOutputVoice_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (TTSProviderComboBox.Text == "Azure")
-            {
-                //depending on what voice is selected we need to now select the voice options (if any)
-                TTSAzureFillOptions(TTSOutputVoice.Text);
-            }
-
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void SoundInputDevices_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _bBBlog.Info("Selected input device changed to " + SoundInputDevices.Text);
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1451,7 +1259,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task InvokeUI(Action a)
         {
-            this.BeginInvoke(new MethodInvoker(a));
+            this.BeginInvoke(new System.Windows.Forms.MethodInvoker(a));
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1488,7 +1296,7 @@ namespace BanterBrain_Buddy
                 {
                     await Task.Delay(1000);
                 }
-                await SayText(LLMTestOutputbox.Text, 0);
+                await SayText(_gPTOutputText, 0);
             });
         }
 
@@ -1516,7 +1324,7 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
-                await SayText(LLMTestOutputbox.Text, 0);
+                await SayText(_gPTOutputText, 0);
             });
         }
 
@@ -1585,7 +1393,7 @@ namespace BanterBrain_Buddy
                 await InvokeUI(async () =>
                 {
                     await Task.Delay(3000);
-                    await SayText(LLMTestOutputbox.Text, 0);
+                    await SayText(_gPTOutputText, 0);
                 });
             }
         }
@@ -1619,7 +1427,7 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
-                await SayText(LLMTestOutputbox.Text, 0);
+                await SayText(_gPTOutputText, 0);
             });
 
         }
@@ -1755,6 +1563,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void BBB_Load(object sender, EventArgs e)
         {
+            _bBBlog.Info("BanterBrain Buddy started");
             // MessageBox.Show("This is a alpha version of BanterBrain Buddy. Don\'t expect anything to work reliably", "BanterBrain Buddy Alpha", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -1779,8 +1588,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void button1_Click(object sender, EventArgs e)
         {
-            SettingsForm test = new();
-            test.ShowDialog();
+
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1809,6 +1617,30 @@ namespace BanterBrain_Buddy
                 _twitchEventSub.OnESubChannelPointRedemption -= TwitchEventSub_OnESubChannelPointRedemption;
                 await _twitchEventSub.EventSubStopChannelPointRedemption();
             }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void seToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsForm test = new();
+            test.FormClosing += BBB_Test_FormClosing;
+            test.ShowDialog();
+        }
+
+        //handle the settings form closing and be sure to reload the new settings
+        [SupportedOSPlatform("windows6.1")]
+        private void BBB_Test_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            UpdateTextLog("Settings closed. We loaded settings!\r\n");
+            _bBBlog.Info("Settings form closed. We should load the new settings!");
+            LoadPersonas();
+            LoadSettings();
+            SetSelectedPersona();
+        }
+
+        private void BBB_VisibleChanged(object sender, EventArgs e)
+        {
+            _bBBlog.Info("BanterBrain Buddy visible changed. to test if closing form2 is done");
         }
     }
 }

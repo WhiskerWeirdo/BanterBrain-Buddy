@@ -49,181 +49,25 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Native")]
-        public string STTProvider {
-            get {
-                return ((string)(this["STTProvider"]));
-            }
-            set {
-                this["STTProvider"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("OpenAI ChatGPT")]
-        public string LLMProvider {
-            get {
-                return ((string)(this["LLMProvider"]));
-            }
-            set {
-                this["LLMProvider"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("gpt-3.5-turbo")]
-        public string LLMModel {
+        public string GPTModel {
             get {
-                return ((string)(this["LLMModel"]));
+                return ((string)(this["GPTModel"]));
             }
             set {
-                this["LLMModel"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("You are a helpful assistant with a cheeky personality")]
-        public string LLMRoleText {
-            get {
-                return ((string)(this["LLMRoleText"]));
-            }
-            set {
-                this["LLMRoleText"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Native")]
-        public string TTSProvider {
-            get {
-                return ((string)(this["TTSProvider"]));
-            }
-            set {
-                this["TTSProvider"] = value;
+                this["GPTModel"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TTSAudioOutput {
+        public string GPTAPIKey {
             get {
-                return ((string)(this["TTSAudioOutput"]));
+                return ((string)(this["GPTAPIKey"]));
             }
             set {
-                this["TTSAudioOutput"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TTSAudioVoice {
-            get {
-                return ((string)(this["TTSAudioVoice"]));
-            }
-            set {
-                this["TTSAudioVoice"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TTSAudioVoiceOptions {
-            get {
-                return ((string)(this["TTSAudioVoiceOptions"]));
-            }
-            set {
-                this["TTSAudioVoiceOptions"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string STTAPIKey {
-            get {
-                return ((string)(this["STTAPIKey"]));
-            }
-            set {
-                this["STTAPIKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string STTAPIRegion {
-            get {
-                return ((string)(this["STTAPIRegion"]));
-            }
-            set {
-                this["STTAPIRegion"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LLMAPIKey {
-            get {
-                return ((string)(this["LLMAPIKey"]));
-            }
-            set {
-                this["LLMAPIKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool TTSAudioVoiceEnabled {
-            get {
-                return ((bool)(this["TTSAudioVoiceEnabled"]));
-            }
-            set {
-                this["TTSAudioVoiceEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool TTSAudioVoiceOptionsEnabled {
-            get {
-                return ((bool)(this["TTSAudioVoiceOptionsEnabled"]));
-            }
-            set {
-                this["TTSAudioVoiceOptionsEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool STTAPIKeyEnabled {
-            get {
-                return ((bool)(this["STTAPIKeyEnabled"]));
-            }
-            set {
-                this["STTAPIKeyEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool STTAPIRegionEnabled {
-            get {
-                return ((bool)(this["STTAPIRegionEnabled"]));
-            }
-            set {
-                this["STTAPIRegionEnabled"] = value;
+                this["GPTAPIKey"] = value;
             }
         }
         
@@ -386,24 +230,24 @@ namespace BanterBrain_Buddy.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TTSAPIKeyTextBox {
+        public string AzureAPIKeyTextBox {
             get {
-                return ((string)(this["TTSAPIKeyTextBox"]));
+                return ((string)(this["AzureAPIKeyTextBox"]));
             }
             set {
-                this["TTSAPIKeyTextBox"] = value;
+                this["AzureAPIKeyTextBox"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TTSRegionTextBox {
+        public string AzureRegionTextBox {
             get {
-                return ((string)(this["TTSRegionTextBox"]));
+                return ((string)(this["AzureRegionTextBox"]));
             }
             set {
-                this["TTSRegionTextBox"] = value;
+                this["AzureRegionTextBox"] = value;
             }
         }
         
@@ -422,12 +266,12 @@ namespace BanterBrain_Buddy.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
-        public string STTLanguageComboBox {
+        public string AzureLanguageComboBox {
             get {
-                return ((string)(this["STTLanguageComboBox"]));
+                return ((string)(this["AzureLanguageComboBox"]));
             }
             set {
-                this["STTLanguageComboBox"] = value;
+                this["AzureLanguageComboBox"] = value;
             }
         }
         
@@ -530,24 +374,84 @@ namespace BanterBrain_Buddy.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public int LLMMaxTokens {
+        public int GPTMaxTokens {
             get {
-                return ((int)(this["LLMMaxTokens"]));
+                return ((int)(this["GPTMaxTokens"]));
             }
             set {
-                this["LLMMaxTokens"] = value;
+                this["GPTMaxTokens"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int LLMTemperature {
+        public int GPTTemperature {
             get {
-                return ((int)(this["LLMTemperature"]));
+                return ((int)(this["GPTTemperature"]));
             }
             set {
-                this["LLMTemperature"] = value;
+                this["GPTTemperature"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TTSNativeVoiceSelected {
+            get {
+                return ((string)(this["TTSNativeVoiceSelected"]));
+            }
+            set {
+                this["TTSNativeVoiceSelected"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string STTSelectedProvider {
+            get {
+                return ((string)(this["STTSelectedProvider"]));
+            }
+            set {
+                this["STTSelectedProvider"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MainSelectedPersona {
+            get {
+                return ((string)(this["MainSelectedPersona"]));
+            }
+            set {
+                this["MainSelectedPersona"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TTSAudioOutput {
+            get {
+                return ((string)(this["TTSAudioOutput"]));
+            }
+            set {
+                this["TTSAudioOutput"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string SelectedLLM {
+            get {
+                return ((string)(this["SelectedLLM"]));
+            }
+            set {
+                this["SelectedLLM"] = value;
             }
         }
     }

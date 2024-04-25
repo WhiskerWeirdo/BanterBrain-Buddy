@@ -32,42 +32,11 @@ namespace BanterBrain_Buddy
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BBB));
-            SettingsTab = new TabPage();
-            groupBox3 = new GroupBox();
-            PTTKeyLabel = new Label();
-            MicrophoneHotkeyEditbox = new TextBox();
-            VoiceInputLabel = new Label();
-            SoundInputDevices = new ComboBox();
-            MicrophoneHotkeySet = new Button();
-            groupBox2 = new GroupBox();
-            label8 = new Label();
-            TTSRegionTextBox = new TextBox();
-            label7 = new Label();
-            TTSAPIKeyTextBox = new TextBox();
-            TTSOutputVoiceOption1 = new ComboBox();
-            label3 = new Label();
-            TTSOutputVoice = new ComboBox();
-            label2 = new Label();
-            TTSTestTextBox = new TextBox();
-            TTSTestButton = new Button();
-            TTSAudioOutputComboBox = new ComboBox();
-            TTSProviderComboBox = new ComboBox();
-            TTSAudioOutputLabel = new Label();
-            TTSProviderLabel = new Label();
-            STTGroupBox = new GroupBox();
-            STTLanguageLabel = new Label();
-            STTLanguageComboBox = new ComboBox();
-            STTHintText = new Label();
-            STTRegionEditbox = new TextBox();
-            STTRegionLabel = new Label();
-            STTAPIKeyLabel = new Label();
-            STTAPIKeyEditbox = new TextBox();
-            STTTestButton = new Button();
-            STTProviderLabel = new Label();
-            STTProviderBox = new ComboBox();
-            STTTestOutput = new TextBox();
             MainTab = new TabPage();
-            button1 = new Button();
+            groupBox3 = new GroupBox();
+            SelectedPersonaComboBox = new ComboBox();
+            groupBox2 = new GroupBox();
+            STTSelectedComboBox = new ComboBox();
             groupBox7 = new GroupBox();
             MainRecordingStart = new Button();
             TwitchEventSubStatusTextBox = new TextBox();
@@ -76,24 +45,6 @@ namespace BanterBrain_Buddy
             TwitchStatusLabel = new Label();
             TextLog = new TextBox();
             BBBTabs = new TabControl();
-            LLMTab = new TabPage();
-            groupBox1 = new GroupBox();
-            LLMMaxTokensHelpText = new Label();
-            LLMTempHelpText = new Label();
-            LLMMaxTokenLabel = new Label();
-            LLMTempLabel = new Label();
-            LLMMaxTokens = new TextBox();
-            LLMTemperature = new TextBox();
-            LLMModelComboBox = new ComboBox();
-            label4 = new Label();
-            LLMTestOutputbox = new TextBox();
-            label1 = new Label();
-            LLMRoleTextBox = new TextBox();
-            GPTTestButton = new Button();
-            LLMAPIKeyTextBox = new TextBox();
-            GPTAPIKeyLabel = new Label();
-            LLMProviderComboBox = new ComboBox();
-            GPTProviderLabel = new Label();
             StreaminSettingsTab = new TabPage();
             groupBox4 = new GroupBox();
             groupBox8 = new GroupBox();
@@ -132,23 +83,19 @@ namespace BanterBrain_Buddy
             TwitchChannelNameLabel = new Label();
             TwitchAccesstokenLabel = new Label();
             TwitchUsernameLabel = new Label();
-            PersonasTab = new TabPage();
             fileToolStripMenuItem = new ToolStripMenuItem();
             ExitToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             GithubToolStripMenuItem = new ToolStripMenuItem();
             DiscordToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
+            seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
-            SettingsTab.SuspendLayout();
+            MainTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
-            STTGroupBox.SuspendLayout();
-            MainTab.SuspendLayout();
             groupBox7.SuspendLayout();
             BBBTabs.SuspendLayout();
-            LLMTab.SuspendLayout();
-            groupBox1.SuspendLayout();
             StreaminSettingsTab.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox8.SuspendLayout();
@@ -160,240 +107,10 @@ namespace BanterBrain_Buddy
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // SettingsTab
-            // 
-            resources.ApplyResources(SettingsTab, "SettingsTab");
-            SettingsTab.Controls.Add(groupBox3);
-            SettingsTab.Controls.Add(groupBox2);
-            SettingsTab.Controls.Add(STTGroupBox);
-            SettingsTab.Name = "SettingsTab";
-            SettingsTab.UseVisualStyleBackColor = true;
-            // 
-            // groupBox3
-            // 
-            groupBox3.Controls.Add(PTTKeyLabel);
-            groupBox3.Controls.Add(MicrophoneHotkeyEditbox);
-            groupBox3.Controls.Add(VoiceInputLabel);
-            groupBox3.Controls.Add(SoundInputDevices);
-            groupBox3.Controls.Add(MicrophoneHotkeySet);
-            resources.ApplyResources(groupBox3, "groupBox3");
-            groupBox3.Name = "groupBox3";
-            groupBox3.TabStop = false;
-            // 
-            // PTTKeyLabel
-            // 
-            resources.ApplyResources(PTTKeyLabel, "PTTKeyLabel");
-            PTTKeyLabel.Name = "PTTKeyLabel";
-            // 
-            // MicrophoneHotkeyEditbox
-            // 
-            resources.ApplyResources(MicrophoneHotkeyEditbox, "MicrophoneHotkeyEditbox");
-            MicrophoneHotkeyEditbox.Name = "MicrophoneHotkeyEditbox";
-            MicrophoneHotkeyEditbox.ReadOnly = true;
-            // 
-            // VoiceInputLabel
-            // 
-            resources.ApplyResources(VoiceInputLabel, "VoiceInputLabel");
-            VoiceInputLabel.Name = "VoiceInputLabel";
-            // 
-            // SoundInputDevices
-            // 
-            SoundInputDevices.FormattingEnabled = true;
-            resources.ApplyResources(SoundInputDevices, "SoundInputDevices");
-            SoundInputDevices.Name = "SoundInputDevices";
-            SoundInputDevices.SelectedIndexChanged += SoundInputDevices_SelectedIndexChanged;
-            // 
-            // MicrophoneHotkeySet
-            // 
-            resources.ApplyResources(MicrophoneHotkeySet, "MicrophoneHotkeySet");
-            MicrophoneHotkeySet.Name = "MicrophoneHotkeySet";
-            MicrophoneHotkeySet.UseVisualStyleBackColor = true;
-            MicrophoneHotkeySet.Click += MicrophoneHotkeySet_Click;
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(label8);
-            groupBox2.Controls.Add(TTSRegionTextBox);
-            groupBox2.Controls.Add(label7);
-            groupBox2.Controls.Add(TTSAPIKeyTextBox);
-            groupBox2.Controls.Add(TTSOutputVoiceOption1);
-            groupBox2.Controls.Add(label3);
-            groupBox2.Controls.Add(TTSOutputVoice);
-            groupBox2.Controls.Add(label2);
-            groupBox2.Controls.Add(TTSTestTextBox);
-            groupBox2.Controls.Add(TTSTestButton);
-            groupBox2.Controls.Add(TTSAudioOutputComboBox);
-            groupBox2.Controls.Add(TTSProviderComboBox);
-            groupBox2.Controls.Add(TTSAudioOutputLabel);
-            groupBox2.Controls.Add(TTSProviderLabel);
-            resources.ApplyResources(groupBox2, "groupBox2");
-            groupBox2.Name = "groupBox2";
-            groupBox2.TabStop = false;
-            // 
-            // label8
-            // 
-            resources.ApplyResources(label8, "label8");
-            label8.Name = "label8";
-            // 
-            // TTSRegionTextBox
-            // 
-            resources.ApplyResources(TTSRegionTextBox, "TTSRegionTextBox");
-            TTSRegionTextBox.Name = "TTSRegionTextBox";
-            TTSRegionTextBox.Leave += TTSRegionTextBox_Leave;
-            // 
-            // label7
-            // 
-            resources.ApplyResources(label7, "label7");
-            label7.Name = "label7";
-            // 
-            // TTSAPIKeyTextBox
-            // 
-            resources.ApplyResources(TTSAPIKeyTextBox, "TTSAPIKeyTextBox");
-            TTSAPIKeyTextBox.Name = "TTSAPIKeyTextBox";
-            // 
-            // TTSOutputVoiceOption1
-            // 
-            TTSOutputVoiceOption1.FormattingEnabled = true;
-            resources.ApplyResources(TTSOutputVoiceOption1, "TTSOutputVoiceOption1");
-            TTSOutputVoiceOption1.Name = "TTSOutputVoiceOption1";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(label3, "label3");
-            label3.Name = "label3";
-            // 
-            // TTSOutputVoice
-            // 
-            TTSOutputVoice.FormattingEnabled = true;
-            resources.ApplyResources(TTSOutputVoice, "TTSOutputVoice");
-            TTSOutputVoice.Name = "TTSOutputVoice";
-            TTSOutputVoice.SelectedIndexChanged += TTSOutputVoice_SelectedIndexChanged;
-            // 
-            // label2
-            // 
-            resources.ApplyResources(label2, "label2");
-            label2.Name = "label2";
-            // 
-            // TTSTestTextBox
-            // 
-            resources.ApplyResources(TTSTestTextBox, "TTSTestTextBox");
-            TTSTestTextBox.Name = "TTSTestTextBox";
-            TTSTestTextBox.ReadOnly = true;
-            // 
-            // TTSTestButton
-            // 
-            resources.ApplyResources(TTSTestButton, "TTSTestButton");
-            TTSTestButton.Name = "TTSTestButton";
-            TTSTestButton.UseVisualStyleBackColor = true;
-            TTSTestButton.Click += TTSTestButton_Click;
-            // 
-            // TTSAudioOutputComboBox
-            // 
-            TTSAudioOutputComboBox.FormattingEnabled = true;
-            resources.ApplyResources(TTSAudioOutputComboBox, "TTSAudioOutputComboBox");
-            TTSAudioOutputComboBox.Name = "TTSAudioOutputComboBox";
-            // 
-            // TTSProviderComboBox
-            // 
-            TTSProviderComboBox.FormattingEnabled = true;
-            TTSProviderComboBox.Items.AddRange(new object[] { resources.GetString("TTSProviderComboBox.Items"), resources.GetString("TTSProviderComboBox.Items1") });
-            resources.ApplyResources(TTSProviderComboBox, "TTSProviderComboBox");
-            TTSProviderComboBox.Name = "TTSProviderComboBox";
-            TTSProviderComboBox.SelectedIndexChanged += TTSProviderComboBox_SelectedIndexChanged;
-            // 
-            // TTSAudioOutputLabel
-            // 
-            resources.ApplyResources(TTSAudioOutputLabel, "TTSAudioOutputLabel");
-            TTSAudioOutputLabel.Name = "TTSAudioOutputLabel";
-            // 
-            // TTSProviderLabel
-            // 
-            resources.ApplyResources(TTSProviderLabel, "TTSProviderLabel");
-            TTSProviderLabel.Name = "TTSProviderLabel";
-            // 
-            // STTGroupBox
-            // 
-            resources.ApplyResources(STTGroupBox, "STTGroupBox");
-            STTGroupBox.Controls.Add(STTLanguageLabel);
-            STTGroupBox.Controls.Add(STTLanguageComboBox);
-            STTGroupBox.Controls.Add(STTHintText);
-            STTGroupBox.Controls.Add(STTRegionEditbox);
-            STTGroupBox.Controls.Add(STTRegionLabel);
-            STTGroupBox.Controls.Add(STTAPIKeyLabel);
-            STTGroupBox.Controls.Add(STTAPIKeyEditbox);
-            STTGroupBox.Controls.Add(STTTestButton);
-            STTGroupBox.Controls.Add(STTProviderLabel);
-            STTGroupBox.Controls.Add(STTProviderBox);
-            STTGroupBox.Controls.Add(STTTestOutput);
-            STTGroupBox.Name = "STTGroupBox";
-            STTGroupBox.TabStop = false;
-            // 
-            // STTLanguageLabel
-            // 
-            resources.ApplyResources(STTLanguageLabel, "STTLanguageLabel");
-            STTLanguageLabel.Name = "STTLanguageLabel";
-            // 
-            // STTLanguageComboBox
-            // 
-            STTLanguageComboBox.FormattingEnabled = true;
-            STTLanguageComboBox.Items.AddRange(new object[] { resources.GetString("STTLanguageComboBox.Items") });
-            resources.ApplyResources(STTLanguageComboBox, "STTLanguageComboBox");
-            STTLanguageComboBox.Name = "STTLanguageComboBox";
-            // 
-            // STTHintText
-            // 
-            resources.ApplyResources(STTHintText, "STTHintText");
-            STTHintText.Name = "STTHintText";
-            // 
-            // STTRegionEditbox
-            // 
-            resources.ApplyResources(STTRegionEditbox, "STTRegionEditbox");
-            STTRegionEditbox.Name = "STTRegionEditbox";
-            // 
-            // STTRegionLabel
-            // 
-            resources.ApplyResources(STTRegionLabel, "STTRegionLabel");
-            STTRegionLabel.Name = "STTRegionLabel";
-            // 
-            // STTAPIKeyLabel
-            // 
-            resources.ApplyResources(STTAPIKeyLabel, "STTAPIKeyLabel");
-            STTAPIKeyLabel.Name = "STTAPIKeyLabel";
-            // 
-            // STTAPIKeyEditbox
-            // 
-            resources.ApplyResources(STTAPIKeyEditbox, "STTAPIKeyEditbox");
-            STTAPIKeyEditbox.Name = "STTAPIKeyEditbox";
-            // 
-            // STTTestButton
-            // 
-            resources.ApplyResources(STTTestButton, "STTTestButton");
-            STTTestButton.Name = "STTTestButton";
-            STTTestButton.UseVisualStyleBackColor = true;
-            STTTestButton.Click += STTTestButton_Click;
-            // 
-            // STTProviderLabel
-            // 
-            resources.ApplyResources(STTProviderLabel, "STTProviderLabel");
-            STTProviderLabel.Name = "STTProviderLabel";
-            // 
-            // STTProviderBox
-            // 
-            STTProviderBox.FormattingEnabled = true;
-            STTProviderBox.Items.AddRange(new object[] { resources.GetString("STTProviderBox.Items"), resources.GetString("STTProviderBox.Items1") });
-            resources.ApplyResources(STTProviderBox, "STTProviderBox");
-            STTProviderBox.Name = "STTProviderBox";
-            STTProviderBox.SelectedIndexChanged += STTProviderBox_SelectedIndexChanged;
-            // 
-            // STTTestOutput
-            // 
-            resources.ApplyResources(STTTestOutput, "STTTestOutput");
-            STTTestOutput.Name = "STTTestOutput";
-            STTTestOutput.ReadOnly = true;
-            // 
             // MainTab
             // 
-            MainTab.Controls.Add(button1);
+            MainTab.Controls.Add(groupBox3);
+            MainTab.Controls.Add(groupBox2);
             MainTab.Controls.Add(groupBox7);
             MainTab.Controls.Add(TwitchEventSubStatusTextBox);
             MainTab.Controls.Add(TwitchEventSubStatusLabel);
@@ -404,12 +121,33 @@ namespace BanterBrain_Buddy
             MainTab.Name = "MainTab";
             MainTab.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // groupBox3
             // 
-            resources.ApplyResources(button1, "button1");
-            button1.Name = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            groupBox3.Controls.Add(SelectedPersonaComboBox);
+            resources.ApplyResources(groupBox3, "groupBox3");
+            groupBox3.Name = "groupBox3";
+            groupBox3.TabStop = false;
+            // 
+            // SelectedPersonaComboBox
+            // 
+            SelectedPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            SelectedPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(SelectedPersonaComboBox, "SelectedPersonaComboBox");
+            SelectedPersonaComboBox.Name = "SelectedPersonaComboBox";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(STTSelectedComboBox);
+            resources.ApplyResources(groupBox2, "groupBox2");
+            groupBox2.Name = "groupBox2";
+            groupBox2.TabStop = false;
+            // 
+            // STTSelectedComboBox
+            // 
+            STTSelectedComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            STTSelectedComboBox.FormattingEnabled = true;
+            resources.ApplyResources(STTSelectedComboBox, "STTSelectedComboBox");
+            STTSelectedComboBox.Name = "STTSelectedComboBox";
             // 
             // groupBox7
             // 
@@ -461,134 +199,9 @@ namespace BanterBrain_Buddy
             // 
             resources.ApplyResources(BBBTabs, "BBBTabs");
             BBBTabs.Controls.Add(MainTab);
-            BBBTabs.Controls.Add(SettingsTab);
-            BBBTabs.Controls.Add(LLMTab);
             BBBTabs.Controls.Add(StreaminSettingsTab);
-            BBBTabs.Controls.Add(PersonasTab);
             BBBTabs.Name = "BBBTabs";
             BBBTabs.SelectedIndex = 0;
-            // 
-            // LLMTab
-            // 
-            LLMTab.Controls.Add(groupBox1);
-            resources.ApplyResources(LLMTab, "LLMTab");
-            LLMTab.Name = "LLMTab";
-            LLMTab.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(LLMMaxTokensHelpText);
-            groupBox1.Controls.Add(LLMTempHelpText);
-            groupBox1.Controls.Add(LLMMaxTokenLabel);
-            groupBox1.Controls.Add(LLMTempLabel);
-            groupBox1.Controls.Add(LLMMaxTokens);
-            groupBox1.Controls.Add(LLMTemperature);
-            groupBox1.Controls.Add(LLMModelComboBox);
-            groupBox1.Controls.Add(label4);
-            groupBox1.Controls.Add(LLMTestOutputbox);
-            groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(LLMRoleTextBox);
-            groupBox1.Controls.Add(GPTTestButton);
-            groupBox1.Controls.Add(LLMAPIKeyTextBox);
-            groupBox1.Controls.Add(GPTAPIKeyLabel);
-            groupBox1.Controls.Add(LLMProviderComboBox);
-            groupBox1.Controls.Add(GPTProviderLabel);
-            resources.ApplyResources(groupBox1, "groupBox1");
-            groupBox1.Name = "groupBox1";
-            groupBox1.TabStop = false;
-            // 
-            // LLMMaxTokensHelpText
-            // 
-            resources.ApplyResources(LLMMaxTokensHelpText, "LLMMaxTokensHelpText");
-            LLMMaxTokensHelpText.BackColor = System.Drawing.Color.Gold;
-            LLMMaxTokensHelpText.Name = "LLMMaxTokensHelpText";
-            BBBToolTip.SetToolTip(LLMMaxTokensHelpText, resources.GetString("LLMMaxTokensHelpText.ToolTip"));
-            // 
-            // LLMTempHelpText
-            // 
-            resources.ApplyResources(LLMTempHelpText, "LLMTempHelpText");
-            LLMTempHelpText.BackColor = System.Drawing.Color.Gold;
-            LLMTempHelpText.Name = "LLMTempHelpText";
-            BBBToolTip.SetToolTip(LLMTempHelpText, resources.GetString("LLMTempHelpText.ToolTip"));
-            // 
-            // LLMMaxTokenLabel
-            // 
-            resources.ApplyResources(LLMMaxTokenLabel, "LLMMaxTokenLabel");
-            LLMMaxTokenLabel.Name = "LLMMaxTokenLabel";
-            // 
-            // LLMTempLabel
-            // 
-            resources.ApplyResources(LLMTempLabel, "LLMTempLabel");
-            LLMTempLabel.Name = "LLMTempLabel";
-            // 
-            // LLMMaxTokens
-            // 
-            resources.ApplyResources(LLMMaxTokens, "LLMMaxTokens");
-            LLMMaxTokens.Name = "LLMMaxTokens";
-            // 
-            // LLMTemperature
-            // 
-            resources.ApplyResources(LLMTemperature, "LLMTemperature");
-            LLMTemperature.Name = "LLMTemperature";
-            // 
-            // LLMModelComboBox
-            // 
-            LLMModelComboBox.FormattingEnabled = true;
-            LLMModelComboBox.Items.AddRange(new object[] { resources.GetString("LLMModelComboBox.Items") });
-            resources.ApplyResources(LLMModelComboBox, "LLMModelComboBox");
-            LLMModelComboBox.Name = "LLMModelComboBox";
-            LLMModelComboBox.UseWaitCursor = true;
-            // 
-            // label4
-            // 
-            resources.ApplyResources(label4, "label4");
-            label4.Name = "label4";
-            // 
-            // LLMTestOutputbox
-            // 
-            resources.ApplyResources(LLMTestOutputbox, "LLMTestOutputbox");
-            LLMTestOutputbox.Name = "LLMTestOutputbox";
-            LLMTestOutputbox.ReadOnly = true;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(label1, "label1");
-            label1.Name = "label1";
-            // 
-            // LLMRoleTextBox
-            // 
-            resources.ApplyResources(LLMRoleTextBox, "LLMRoleTextBox");
-            LLMRoleTextBox.Name = "LLMRoleTextBox";
-            LLMRoleTextBox.TabStop = false;
-            // 
-            // GPTTestButton
-            // 
-            resources.ApplyResources(GPTTestButton, "GPTTestButton");
-            GPTTestButton.Name = "GPTTestButton";
-            GPTTestButton.UseVisualStyleBackColor = true;
-            GPTTestButton.Click += GPTTestButton_Click;
-            // 
-            // LLMAPIKeyTextBox
-            // 
-            resources.ApplyResources(LLMAPIKeyTextBox, "LLMAPIKeyTextBox");
-            LLMAPIKeyTextBox.Name = "LLMAPIKeyTextBox";
-            // 
-            // GPTAPIKeyLabel
-            // 
-            resources.ApplyResources(GPTAPIKeyLabel, "GPTAPIKeyLabel");
-            GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
-            // 
-            // LLMProviderComboBox
-            // 
-            LLMProviderComboBox.FormattingEnabled = true;
-            LLMProviderComboBox.Items.AddRange(new object[] { resources.GetString("LLMProviderComboBox.Items") });
-            resources.ApplyResources(LLMProviderComboBox, "LLMProviderComboBox");
-            LLMProviderComboBox.Name = "LLMProviderComboBox";
-            // 
-            // GPTProviderLabel
-            // 
-            resources.ApplyResources(GPTProviderLabel, "GPTProviderLabel");
-            GPTProviderLabel.Name = "GPTProviderLabel";
             // 
             // StreaminSettingsTab
             // 
@@ -704,8 +317,6 @@ namespace BanterBrain_Buddy
             // TwitchSendTextCheckBox
             // 
             resources.ApplyResources(TwitchSendTextCheckBox, "TwitchSendTextCheckBox");
-            TwitchSendTextCheckBox.Checked = true;
-            TwitchSendTextCheckBox.CheckState = CheckState.Checked;
             TwitchSendTextCheckBox.Name = "TwitchSendTextCheckBox";
             TwitchSendTextCheckBox.UseVisualStyleBackColor = true;
             // 
@@ -859,12 +470,6 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchUsernameLabel, "TwitchUsernameLabel");
             TwitchUsernameLabel.Name = "TwitchUsernameLabel";
             // 
-            // PersonasTab
-            // 
-            resources.ApplyResources(PersonasTab, "PersonasTab");
-            PersonasTab.Name = "PersonasTab";
-            PersonasTab.UseVisualStyleBackColor = true;
-            // 
             // fileToolStripMenuItem
             // 
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ExitToolStripMenuItem });
@@ -897,9 +502,15 @@ namespace BanterBrain_Buddy
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, helpToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, seToolStripMenuItem, helpToolStripMenuItem });
             resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
+            // 
+            // seToolStripMenuItem
+            // 
+            seToolStripMenuItem.Name = "seToolStripMenuItem";
+            resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
+            seToolStripMenuItem.Click += seToolStripMenuItem_Click;
             // 
             // BBB
             // 
@@ -913,20 +524,13 @@ namespace BanterBrain_Buddy
             Name = "BBB";
             FormClosing += BBB_FormClosing;
             Load += BBB_Load;
-            SettingsTab.ResumeLayout(false);
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            STTGroupBox.ResumeLayout(false);
-            STTGroupBox.PerformLayout();
+            VisibleChanged += BBB_VisibleChanged;
             MainTab.ResumeLayout(false);
             MainTab.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
             groupBox7.ResumeLayout(false);
             BBBTabs.ResumeLayout(false);
-            LLMTab.ResumeLayout(false);
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
             StreaminSettingsTab.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
@@ -949,44 +553,16 @@ namespace BanterBrain_Buddy
         }
 
         #endregion
-        private TabPage SettingsTab;
-        private GroupBox groupBox2;
-        private GroupBox STTGroupBox;
-        private Label STTRegionLabel;
-        private Label STTAPIKeyLabel;
-        private TextBox STTAPIKeyEditbox;
-        private Button STTTestButton;
-        private Label STTProviderLabel;
-        private ComboBox STTProviderBox;
-        private TextBox STTTestOutput;
         private TabPage MainTab;
         private Button MainRecordingStart;
         private TabControl BBBTabs;
-        private ComboBox TTSOutputVoiceOption1;
-        private Label label3;
-        private ComboBox TTSOutputVoice;
-        private Label label2;
-        private TextBox TTSTestTextBox;
-        private Button TTSTestButton;
-        private ComboBox TTSProviderComboBox;
-        private Label TTSAudioOutputLabel;
-        private Label TTSProviderLabel;
-        private GroupBox groupBox3;
-        private Label PTTKeyLabel;
-        private TextBox MicrophoneHotkeyEditbox;
-        private Label VoiceInputLabel;
-        private ComboBox SoundInputDevices;
-        private Button MicrophoneHotkeySet;
         private TextBox TextLog;
-        private Label STTHintText;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem ExitToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem GithubToolStripMenuItem;
         private ToolStripMenuItem DiscordToolStripMenuItem;
         private MenuStrip menuStrip1;
-        private ComboBox TTSAudioOutputComboBox;
-        private TabPage LLMTab;
         private TabPage StreaminSettingsTab;
         private GroupBox groupBox4;
         private TextBox TwitchChannel;
@@ -1015,25 +591,7 @@ namespace BanterBrain_Buddy
         private TextBox TwitchTestSendText;
         private CheckBox TwitchSendTextCheckBox;
         private Button TwitchTestButton;
-        private GroupBox groupBox1;
-        private ComboBox LLMModelComboBox;
-        private Label label4;
-        private TextBox LLMTestOutputbox;
-        private Label label1;
-        private TextBox LLMRoleTextBox;
-        private Button GPTTestButton;
-        private TextBox LLMAPIKeyTextBox;
-        private Label GPTAPIKeyLabel;
-        private ComboBox LLMProviderComboBox;
-        private Label GPTProviderLabel;
-        private Label label7;
-        private TextBox TTSAPIKeyTextBox;
-        private TextBox STTRegionEditbox;
-        private Label label8;
-        private TextBox TTSRegionTextBox;
         private Button DisconnectTwitchButton;
-        private Label STTLanguageLabel;
-        private ComboBox STTLanguageComboBox;
         private CheckBox TwitchCheckAuthAtStartup;
         private CheckBox TwitchEnableCheckbox;
         private Label TwitchEventSubStatusLabel;
@@ -1041,7 +599,6 @@ namespace BanterBrain_Buddy
         private Button EventSubTest;
         private CheckBox TwitchReadChatCheckBox;
         private GroupBox EventSubGroupbox;
-        private TabPage PersonasTab;
         private GroupBox groupBox7;
         private CheckBox TwitchCheerCheckBox;
         private GroupBox groupBox8;
@@ -1049,14 +606,12 @@ namespace BanterBrain_Buddy
         private TextBox TwitchCustomRewardName;
         private CheckBox TwitchChannelPointCheckBox;
         private CheckBox TwitchMockEventSub;
-        private Label LLMMaxTokenLabel;
-        private Label LLMTempLabel;
-        private TextBox LLMMaxTokens;
-        private TextBox LLMTemperature;
         private ToolTip BBBToolTip;
-        private Label LLMTempHelpText;
-        private Label LLMMaxTokensHelpText;
-        private Button button1;
+        private ToolStripMenuItem seToolStripMenuItem;
+        private GroupBox groupBox2;
+        private ComboBox STTSelectedComboBox;
+        private GroupBox groupBox3;
+        private ComboBox SelectedPersonaComboBox;
     }
 }
 

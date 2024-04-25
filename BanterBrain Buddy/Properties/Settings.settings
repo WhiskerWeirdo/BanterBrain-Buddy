@@ -8,50 +8,11 @@
     <Setting Name="PTTHotkey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="STTProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Native</Value>
-    </Setting>
-    <Setting Name="LLMProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">OpenAI ChatGPT</Value>
-    </Setting>
-    <Setting Name="LLMModel" Type="System.String" Scope="User">
+    <Setting Name="GPTModel" Type="System.String" Scope="User">
       <Value Profile="(Default)">gpt-3.5-turbo</Value>
     </Setting>
-    <Setting Name="LLMRoleText" Type="System.String" Scope="User">
-      <Value Profile="(Default)">You are a helpful assistant with a cheeky personality</Value>
-    </Setting>
-    <Setting Name="TTSProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Native</Value>
-    </Setting>
-    <Setting Name="TTSAudioOutput" Type="System.String" Scope="User">
+    <Setting Name="GPTAPIKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="TTSAudioVoice" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="TTSAudioVoiceOptions" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="STTAPIKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="STTAPIRegion" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="LLMAPIKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="TTSAudioVoiceEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="TTSAudioVoiceOptionsEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="STTAPIKeyEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="STTAPIRegionEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TwitchUsername" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -92,16 +53,16 @@
     <Setting Name="TwitchGiftedSub" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="TTSAPIKeyTextBox" Type="System.String" Scope="User">
+    <Setting Name="AzureAPIKeyTextBox" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="TTSRegionTextBox" Type="System.String" Scope="User">
+    <Setting Name="AzureRegionTextBox" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="HotkeyList" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="STTLanguageComboBox" Type="System.String" Scope="User">
+    <Setting Name="AzureLanguageComboBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">en-US</Value>
     </Setting>
     <Setting Name="TwitchEnable" Type="System.Boolean" Scope="User">
@@ -128,11 +89,26 @@
     <Setting Name="TwitchCustomRewardName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LLMMaxTokens" Type="System.Int32" Scope="User">
+    <Setting Name="GPTMaxTokens" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="LLMTemperature" Type="System.Int32" Scope="User">
+    <Setting Name="GPTTemperature" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="TTSNativeVoiceSelected" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="STTSelectedProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MainSelectedPersona" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TTSAudioOutput" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectedLLM" Type="System.String" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

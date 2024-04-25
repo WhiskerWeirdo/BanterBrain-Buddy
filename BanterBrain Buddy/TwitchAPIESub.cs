@@ -280,7 +280,7 @@ namespace BanterBrain_Buddy
         private static void TwitchReadSettings()
         {
             //todo: error handling
-            using StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json");
+            using StreamReader r = new( Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json");
             //lets read the file and parse the json safely ;)
             //need to do error handling if file does not exist
             var JsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(r.ReadToEnd());

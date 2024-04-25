@@ -95,7 +95,7 @@ namespace BanterBrain_Buddy
             foreach (var voice in synthesizer.GetInstalledVoices())
             {
                 var info = voice.VoiceInfo;
-                _bBBlog.Info($"Native TTS Name: {info.Name}");
+                //_bBBlog.Info($"Native TTS Name: {info.Name}");
 
                 var tmpVoice = new NativeVoices()
                 {
