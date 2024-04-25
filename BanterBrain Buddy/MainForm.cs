@@ -26,6 +26,7 @@ using System.Reflection.Emit;
 using static System.Formats.Asn1.AsnWriter;
 using System.Reflection;
 using Newtonsoft.Json;
+using BanterBrain_Buddy.Properties;
 
 /// <summary>
 /// CODING RULES:
@@ -96,6 +97,22 @@ namespace BanterBrain_Buddy
             CheckConfiguredSTTProviders();
             LoadSettings();
             SetSelectedPersona();
+            SetSelectedSTTProvider();
+        }
+
+        //we need to do this so we fill the default saved value only after the API voices are checked
+        [SupportedOSPlatform("windows6.1")]
+        private async void SetSelectedSTTProvider()
+        {
+            //TODO: check if the selected provider is still valid
+            await Task.Delay(500);
+            try
+            {
+                STTSelectedComboBox.SelectedIndex = STTSelectedComboBox.FindStringExact(Properties.Settings.Default.STTSelectedProvider);
+            } catch (Exception ex)
+            {
+                _bBBlog.Error("Error setting STT provider: " + ex.Message);
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]
