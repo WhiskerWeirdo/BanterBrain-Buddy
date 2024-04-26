@@ -70,12 +70,11 @@ namespace BanterBrain_Buddy
         private bool _twitchValidateCheckStarted;
         private TwitchAPIESub _twitchEventSub;
 
-         //this will hold the STT output text
+        //this will hold the STT output text
         private string _sTTOutputText;
         private string _gPTOutputText;
 
         private List<Personas> _personas = new List<Personas>();
-        private Personas _broadcasterSelectedPersona = new Personas();
 
         [SupportedOSPlatform("windows6.1")]
         public BBB()
@@ -90,13 +89,12 @@ namespace BanterBrain_Buddy
 
             UpdateTextLog("Program Starting...\r\n");
             //UpdateTextLog("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
-            if (TwitchEnableCheckbox.Checked && TwitchCheckAuthAtStartup.Checked)
+            //TODO: verify API token first
+
+            if (TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchAccessToken.Length > 1)
                 SetTwitchValidateTokenTimer(true);
-            else
-                TwitchCheckAuthAtStartup.Enabled = false;
             CheckConfiguredSTTProviders();
             LoadSettings();
-            SetSelectedPersona();
             SetSelectedSTTProvider();
         }
 
@@ -109,27 +107,27 @@ namespace BanterBrain_Buddy
             try
             {
                 STTSelectedComboBox.SelectedIndex = STTSelectedComboBox.FindStringExact(Properties.Settings.Default.STTSelectedProvider);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _bBBlog.Error("Error setting STT provider: " + ex.Message);
             }
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void SetSelectedPersona()
+        private Personas GetSelectedPersona(string personaName)
         {
-            if (SelectedPersonaComboBox.Text.Length > 0)
+            Personas tmpPersona = new();
+            foreach (var persona in _personas)
             {
-                foreach (var persona in _personas)
+                if (persona.Name == BroadcasterSelectedPersonaComboBox.Text)
                 {
-                    if (persona.Name == SelectedPersonaComboBox.Text)
-                    {
-                        _bBBlog.Debug("Setting selected persona: " + persona.Name);
-                        _broadcasterSelectedPersona = persona;
-                        break;
-                    }
+                    _bBBlog.Debug("Setting selected persona: " + persona.Name);
+                    //_broadcasterSelectedPersona = persona;
+                    return persona;
                 }
             }
+            return null;
         }
 
         //this loads the personas from the personas.json file
@@ -173,7 +171,7 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Debug("Personas file found, loading it.");
                 _personas.Clear();
-                SelectedPersonaComboBox.Items.Clear();
+                BroadcasterSelectedPersonaComboBox.Items.Clear();
                 using (var sr = new StreamReader(tmpFile))
                 {
                     var tmpString = sr.ReadToEnd();
@@ -183,7 +181,12 @@ namespace BanterBrain_Buddy
                     {
                         _bBBlog.Debug("Loading persona into available list: " + persona.Name);
                         _personas.Add(persona);
-                        SelectedPersonaComboBox.Items.Add(persona.Name);
+                        BroadcasterSelectedPersonaComboBox.Items.Add(persona.Name);
+                        TwitchChatPersonaComboBox.Items.Add(persona.Name);
+                        TwitchChannelPointPersonaComboBox.Items.Add(persona.Name);
+                        TwitchCheeringPersonaComboBox.Items.Add(persona.Name);
+                        TwitchSubscriptionPersonaComboBox.Items.Add(persona.Name);
+
                     }
                 }
             }
@@ -191,10 +194,13 @@ namespace BanterBrain_Buddy
 
         }
 
+        /// <summary>
+        /// We check the available STT providers and add them to the list for the broadcater selection list
+        /// </summary>
         [SupportedOSPlatform("windows6.1")]
         private async void CheckConfiguredSTTProviders()
         {
-            
+
             //is there already one from loadsettings?
             var tmpProvider = STTSelectedComboBox.Text;
             if (tmpProvider.Length > 0)
@@ -210,8 +216,7 @@ namespace BanterBrain_Buddy
             {
                 STTSelectedComboBox.Items.Add("Native");
             }
-            //if there's an Azure API key, enable Azure STT
-            //lets just assume its valid
+
             if (Properties.Settings.Default.AzureAPIKeyTextBox.Length > 1)
             {
                 List<AzureVoices> azureRegionVoicesList = [];
@@ -221,6 +226,8 @@ namespace BanterBrain_Buddy
                 if (azureRegionVoicesList.Count > 0)
                 {
                     STTSelectedComboBox.Items.Add("Azure");
+                    _bBBlog.Info("Azure voices found, adding to list");
+                    TextLog.AppendText("Azure API setting valid.\r\n");
                 }
                 else
                 {
@@ -236,10 +243,10 @@ namespace BanterBrain_Buddy
         /// <summary>
         public async void SetTwitchValidateTokenTimer(bool StartEventSubClient)
         {
-            if (!_twitchValidateCheckStarted && TwitchEnableCheckbox.Checked && TwitchUsername.Text.Length > 0 && TwitchAccessToken.Text.Length > 0 && TwitchChannel.Text.Length > 0)
+            if (!_twitchValidateCheckStarted && TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchUsername.Length > 0 && Properties.Settings.Default.TwitchAccessToken.Length > 0 && Properties.Settings.Default.TwitchChannel.Length > 0)
             {
                 _globalTwitchAPI = new();
-                var result = await _globalTwitchAPI.ValidateAccessToken(TwitchAccessToken.Text);
+                var result = await _globalTwitchAPI.ValidateAccessToken(Properties.Settings.Default.TwitchAccessToken);
                 if (!result)
                 {
                     _bBBlog.Error("Twitch access token is invalid, please re-authenticate");
@@ -576,7 +583,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async Task TalkToOpenAIGPT(String UserInput)
+        private async Task TalkToOpenAIGPT(String UserInput, Personas tmpPersona)
         {
             _gPTOutputText = "";
             UpdateTextLog("Sending to GPT: " + UserInput + "\r\n");
@@ -591,9 +598,9 @@ namespace BanterBrain_Buddy
 
             //mood is setting the system text description
             //this is the persona role
-           // UpdateTextLog("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
-            _bBBlog.Info("SystemRole: " + _broadcasterSelectedPersona.RoleText);
-            chat.AppendSystemMessage(_broadcasterSelectedPersona.RoleText);
+            // UpdateTextLog("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
+            _bBBlog.Info("SystemRole: " + tmpPersona.RoleText);
+            chat.AppendSystemMessage(tmpPersona.RoleText);
 
             chat.AppendUserInput(UserInput);
             try
@@ -647,7 +654,7 @@ namespace BanterBrain_Buddy
 
         [SupportedOSPlatform("windows6.1")]
         //Azure Text-To-Speach
-        private async Task TTSAzureSpeakToOutput(string TextToSpeak)
+        private async Task TTSAzureSpeakToOutput(string TextToSpeak, Personas tmpPersona)
         {
             _bBBlog.Info("Azure TTS called with text, seting up");
             AzureSpeechAPI azureSpeechAPI = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
@@ -655,7 +662,7 @@ namespace BanterBrain_Buddy
 
             //set the output voice, gender and locale, and the style
             //this now depends on the selected persona
-            await azureSpeechAPI.AzureTTSInit( _broadcasterSelectedPersona.VoiceName,  _broadcasterSelectedPersona.VoiceOptions[0], Properties.Settings.Default.TTSAudioOutput);
+            await azureSpeechAPI.AzureTTSInit(tmpPersona.VoiceName, tmpPersona.VoiceOptions[0], Properties.Settings.Default.TTSAudioOutput);
 
             var result = await azureSpeechAPI.AzureSpeak(TextToSpeak);
             if (!result)
@@ -668,40 +675,40 @@ namespace BanterBrain_Buddy
 
 
         [SupportedOSPlatform("windows6.1")]
-        private async Task TTSNativeSpeakToOutput(String TTSText)
+        private async Task TTSNativeSpeakToOutput(String TTSText, Personas tmpPersona)
         {
             UpdateTextLog("Saying text with Native TTS\r\n");
             _bBBlog.Info("Saying text with Native TTS");
             NativeSpeech nativeSpeech = new();
             //this now depends on the selected persona
-            await nativeSpeech.NativeTTSInit(_broadcasterSelectedPersona.VoiceName, Properties.Settings.Default.TTSAudioOutput);
+            await nativeSpeech.NativeTTSInit(tmpPersona.VoiceName, Properties.Settings.Default.TTSAudioOutput);
             await nativeSpeech.NativeSpeak(TTSText);
         }
 
         [SupportedOSPlatform("windows6.1")]
         //this is the generic caller for TTS function that makes sure the TTS is done before continuing
         //we make this public so we can call it to test
-        public async Task SayText(string TextToSay, int DelayWhenDone)
+        private async Task SayText(string TextToSay, int DelayWhenDone, Personas tmpPersona)
         {
             while (_tTSSpeaking)
             {
                 await Task.Delay(500);
             }
-            await DoSayText(TextToSay, DelayWhenDone);
+            await DoSayText(TextToSay, DelayWhenDone, tmpPersona);
         }
         //agnostic TTS function
         [SupportedOSPlatform("windows6.1")]
-        private async Task DoSayText(string TextToSay, int DelayWhenDone)
+        private async Task DoSayText(string TextToSay, int DelayWhenDone, Personas tmpPersona)
         {
             //this depends on the selected TTS provider from the persona
             _tTSSpeaking = true;
-            if (_broadcasterSelectedPersona.VoiceProvider == "Native")
+            if (tmpPersona.VoiceProvider == "Native")
             {
-                await TTSNativeSpeakToOutput(TextToSay);
+                await TTSNativeSpeakToOutput(TextToSay, tmpPersona);
             }
-            else if (_broadcasterSelectedPersona.VoiceProvider == "Azure")
+            else if (tmpPersona.VoiceProvider == "Azure")
             {
-                await TTSAzureSpeakToOutput(TextToSay);
+                await TTSAzureSpeakToOutput(TextToSay, tmpPersona);
             }
             await Task.Delay(DelayWhenDone);
             _tTSSpeaking = false;
@@ -710,7 +717,7 @@ namespace BanterBrain_Buddy
 
         //talk to the various LLM's
         [SupportedOSPlatform("windows6.1")]
-        private async Task TalkToLLM(string TextToPass)
+        private async Task TalkToLLM(string TextToPass, Personas tmpPersona)
         {
             _gPTOutputText = "";
             _gPTDone = false;
@@ -718,7 +725,7 @@ namespace BanterBrain_Buddy
             {
                 UpdateTextLog("Using ChatGPT\r\n");
                 _bBBlog.Info("Using ChatGPT");
-                await TalkToOpenAIGPT(TextToPass);
+                await TalkToOpenAIGPT(TextToPass, tmpPersona);
             }
             //lets wait for GPT to be done
             while (!_gPTDone)
@@ -788,18 +795,12 @@ namespace BanterBrain_Buddy
                 //now the STT text is in _sTTOutputText, lets pass that to ChatGPT
                 if (_sTTOutputText.Length > 1)
                 {
-                    await TalkToLLM(_sTTOutputText);
+                    await TalkToLLM(_sTTOutputText, GetSelectedPersona(BroadcasterSelectedPersonaComboBox.Text));
 
-                    //result text is in _gPTOutputText, lets pass that to TTS
                     //this depends on the selected persona now
-                    if (_broadcasterSelectedPersona.VoiceProvider == "Native")
-                    {
-                        await TTSNativeSpeakToOutput(_gPTOutputText);
-                    }
-                    else if (_broadcasterSelectedPersona.VoiceProvider == "Azure")
-                    {
-                        await TTSAzureSpeakToOutput(_gPTOutputText);
-                    }
+                    //var tmpPersona = GetSelectedPersona(BroadcasterSelectedPersonaComboBox.Text);
+                    await SayText(_gPTOutputText, 0, GetSelectedPersona(BroadcasterSelectedPersonaComboBox.Text));
+
                 }
                 else
                 {
@@ -819,25 +820,26 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void LoadSettings()
         {
-            TwitchUsername.Text = Properties.Settings.Default.TwitchUsername;
-            TwitchAccessToken.Text = Properties.Settings.Default.TwitchAccessToken;
-            TwitchChannel.Text = Properties.Settings.Default.TwitchChannel;
             TwitchCommandTrigger.Text = Properties.Settings.Default.TwitchCommandTrigger;
             TwitchChatCommandDelay.Text = Properties.Settings.Default.TwitchChatCommandDelay.ToString();
-            TwitchNeedsFollower.Checked = Properties.Settings.Default.TwitchNeedsFollower;
             TwitchNeedsSubscriber.Checked = Properties.Settings.Default.TwitchNeedsSubscriber;
             TwitchMinBits.Text = Properties.Settings.Default.TwitchMinBits.ToString();
             TwitchSubscribed.Checked = Properties.Settings.Default.TwitchSubscribed;
             TwitchGiftedSub.Checked = Properties.Settings.Default.TwitchGiftedSub;
-            TwitchSendTextCheckBox.Checked = Properties.Settings.Default.TwitchSendTextCheckBox;
+         //todo: change to button
             TwitchEnableCheckbox.Checked = Properties.Settings.Default.TwitchEnable;
-            TwitchCheckAuthAtStartup.Checked = Properties.Settings.Default.TwitchCheckAuthAtStartup;
             TwitchReadChatCheckBox.Checked = Properties.Settings.Default.TwitchReadChatCheckBox;
             TwitchCheerCheckBox.Checked = Properties.Settings.Default.TwitchCheerCheckbox;
             TwitchCustomRewardName.Text = Properties.Settings.Default.TwitchCustomRewardName;
             TwitchChannelPointCheckBox.Checked = Properties.Settings.Default.TwitchChannelPointCheckBox;
             STTSelectedComboBox.SelectedIndex = STTSelectedComboBox.FindStringExact(Properties.Settings.Default.STTSelectedProvider);
-            SelectedPersonaComboBox.SelectedIndex = SelectedPersonaComboBox.FindStringExact(Properties.Settings.Default.MainSelectedPersona);
+            BroadcasterSelectedPersonaComboBox.SelectedIndex = BroadcasterSelectedPersonaComboBox.FindStringExact(Properties.Settings.Default.MainSelectedPersona);
+            TwitchCheeringPersonaComboBox.SelectedIndex = TwitchCheeringPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchCheeringPersona);
+            TwitchChannelPointPersonaComboBox.SelectedIndex = TwitchChannelPointPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChannelPointPersona);
+            TwitchSubscriptionPersonaComboBox.SelectedIndex = TwitchSubscriptionPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchSubscriptionPersona);
+            TwitchChatPersonaComboBox.SelectedIndex = TwitchChatPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChatPersona);
+
+
             //load HotkeyList into _setHotkeys
             /* foreach (String key in Properties.Settings.Default.HotkeyList)
              {
@@ -845,31 +847,48 @@ namespace BanterBrain_Buddy
                  _setHotkeys.Add(tmpKey);
              }*/
 
+            //lets check if the selected API key for GPT is valid   
+            if (Properties.Settings.Default.SelectedLLM == "GPT")
+            {
+                OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
+                if (await api.Auth.ValidateAPIKey())
+                {
+                    _bBBlog.Info("GPT API key is valid");
+                    TextLog.AppendText("OpenAI ChatGPT is selected asl LLM and key is valid.\r\n");
+                }
+                else
+                {
+                    _bBBlog.Error("GPT API is selected but key is invalid invalid. \r\n");
+
+                }
+
+            }
+            else if (Properties.Settings.Default.SelectedLLM == "None" || Properties.Settings.Default.SelectedLLM == "")
+            {
+                TextLog.AppendText("No LLM selected. You should set one in the settings first\r\n");
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]
         private void BBB_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
-            Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
-            Properties.Settings.Default.TwitchChannel = TwitchChannel.Text;
             Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
             Properties.Settings.Default.TwitchChatCommandDelay = int.Parse(TwitchChatCommandDelay.Text);
-            Properties.Settings.Default.TwitchNeedsFollower = TwitchNeedsFollower.Checked;
             Properties.Settings.Default.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
             Properties.Settings.Default.TwitchMinBits = int.Parse(TwitchMinBits.Text);
             Properties.Settings.Default.TwitchSubscribed = TwitchSubscribed.Checked;
             Properties.Settings.Default.TwitchGiftedSub = TwitchGiftedSub.Checked;
-            Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
             Properties.Settings.Default.TwitchEnable = TwitchEnableCheckbox.Checked;
-            Properties.Settings.Default.TwitchCheckAuthAtStartup = TwitchCheckAuthAtStartup.Checked;
             Properties.Settings.Default.TwitchReadChatCheckBox = TwitchReadChatCheckBox.Checked;
             Properties.Settings.Default.TwitchCheerCheckbox = TwitchCheerCheckBox.Checked;
             Properties.Settings.Default.TwitchCustomRewardName = TwitchCustomRewardName.Text;
             Properties.Settings.Default.TwitchChannelPointCheckBox = TwitchChannelPointCheckBox.Checked;
             Properties.Settings.Default.STTSelectedProvider = STTSelectedComboBox.Text;
-            Properties.Settings.Default.MainSelectedPersona = SelectedPersonaComboBox.Text;
-
+            Properties.Settings.Default.MainSelectedPersona = BroadcasterSelectedPersonaComboBox.Text;
+            Properties.Settings.Default.TwitchChannelPointPersona = TwitchChannelPointPersonaComboBox.Text;
+            Properties.Settings.Default.TwitchCheeringPersona = TwitchCheeringPersonaComboBox.Text;
+            Properties.Settings.Default.TwitchSubscriptionPersona = TwitchSubscriptionPersonaComboBox.Text;
+            Properties.Settings.Default.TwitchChatPersona = TwitchChatPersonaComboBox.Text;
             /* //add the hotkeys in settings list, not in text
              Properties.Settings.Default.HotkeyList.Clear();
              foreach (Keys key in _setHotkeys)
@@ -999,89 +1018,6 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void TwitchTestButton_Click(object sender, EventArgs e)
-        {
-            //first lets make sure people cant click too often
-            TwitchTestButton.Enabled = false;
-            //first we check if the Authorization key is fine, using the API
-            TwitchAPIESub twAPITest = new();
-
-            //check to see if we need to send a message on join
-            if (TwitchSendTextCheckBox.Checked)
-            {
-                twAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
-            }
-
-            //we need the username AND channel name to get the broadcasterid which is needed for sending a message via the API
-            //we need both since the username of the bot and teh channel it joins can be different.
-            var VerifyOk = await twAPITest.CheckAuthCodeAPI(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text);
-            if (!VerifyOk)
-            {
-                _bBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
-                TextLog.Text += "Problem verifying Access token, invalid access token\r\n";
-                MessageBox.Show("Problem verifying Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                TwitchTestButton.Enabled = true;
-                TwitchAPIStatusTextBox.Text = "DISABLED";
-                TwitchAPIStatusTextBox.BackColor = Color.Red;
-                //if the token is invalid, lets disable the checkboxes
-                TwitchEnableCheckbox.Checked = false;
-                if (TwitchCheckAuthAtStartup.Checked)
-                    TwitchCheckAuthAtStartup.Checked = false;
-                return;
-            }
-            else
-            {
-                _bBBlog.Info($"Twitch Access token verified success!");
-                UpdateTextLog("Twitch Access token verified success!\r\n");
-                MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                TwitchAPIStatusTextBox.Text = "ENABLED";
-                TwitchAPIStatusTextBox.BackColor = Color.Green;
-                //if the token is valid, and twitch enabled lets start up the hourly validation timer
-                if (TwitchEnableCheckbox.Checked)
-                    SetTwitchValidateTokenTimer(false);
-            }
-
-            TwitchTestButton.Enabled = true;
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private async void TwitchAuthorizeButton_Click(object sender, EventArgs e)
-        {
-            //lets not block everything, but lets try get a Twitch Auth token.
-            //This is done by spawning a browser where the user has to authorize (implicit grant) 
-            //the application. 
-            TwitchAPIESub twitchAPI = new();
-            //see https://dev.twitch.tv/docs/authentication/scopes/ and https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/#channelchatmessage
-            //API events:
-            //channel.send.message ("user:write:chat")
-            //eventsub events:
-            //channel.chat.message (user:read:chat) to read chat
-            //channel.subscribe (channel:read:subscriptions) to get subscription events
-            //channel.subscription.gift (channel:read:subscriptions) to get gifted sub events
-            //channel.subscription.message (channel:read:subscriptions) to get sub message events
-            //channel.cheer (bits:read) to get information on cheered bits
-            //channel.follow (moderator:read:followers) to get who followed a channel
-            //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by viewers
-            //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by viewers
-
-            var twitchAPIResult = await twitchAPI.GetTwitchAuthToken([
-                    //API scope to send text to chat
-                    "user:write:chat", 
-                //EventSub scopes for subscription types to read chat, get subscription events, read when people cheer (bits) and follower events
-                "user:read:chat", "channel:read:subscriptions", "bits:read", "moderator:read:followers", "channel:read:redemptions"]);
-
-            if (!twitchAPIResult)
-            {
-                _bBBlog.Error("Issue with getting auth token. Check logs for more information.");
-                MessageBox.Show($"Issue with getting Auth token. Check logs for more information.", "Twitch Authorization Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                TwitchAccessToken.Text = twitchAPI.TwitchAccessToken;
-            }
-        }
-
-        [SupportedOSPlatform("windows6.1")]
         private void GithubToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //spawn browser for github link
@@ -1101,12 +1037,6 @@ namespace BanterBrain_Buddy
 
 
         [SupportedOSPlatform("windows6.1")]
-        private void TwitchCheckAuthAtStartup_Click(object sender, EventArgs e)
-        {
-            _bBBlog.Debug("Twitch check auth at startup changed to " + TwitchCheckAuthAtStartup.Checked);
-        }
-
-        [SupportedOSPlatform("windows6.1")]
         private async void TwitchEnableCheckbox_Click(object sender, EventArgs e)
         {
             //if the checkbox is checked, lets enable the timer to check the token every hour
@@ -1115,8 +1045,6 @@ namespace BanterBrain_Buddy
             if (TwitchEnableCheckbox.Checked)
             {
                 SetTwitchValidateTokenTimer(true);
-                //allow for it to be automatic at startup
-                TwitchCheckAuthAtStartup.Enabled = true;
             }
             else
             { //turning off Twitch
@@ -1144,7 +1072,7 @@ namespace BanterBrain_Buddy
             bool eventSubStart = false;
             //we should set here what eventhandlers we want to have enabled based on the twitch Settings
 
-            if (await _twitchEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
+            if (await _twitchEventSub.EventSubInit(Properties.Settings.Default.TwitchAccessToken, Properties.Settings.Default.TwitchUsername, Properties.Settings.Default.TwitchUsername))
             {
                 //we need to first set the event handlers we want to use
 
@@ -1153,7 +1081,7 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Info("Twitch read chat enabled, calling eventsubhandlereadchat");
                     TwitchNeedsSubscriber.Enabled = false;
-                    _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
+                    _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), false, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
                     _twitchEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
                 }
@@ -1192,19 +1120,7 @@ namespace BanterBrain_Buddy
                     _twitchEventSub.OnESubChannelPointRedemption += TwitchEventSub_OnESubChannelPointRedemption;
                 }
 
-                if (!TwitchMockEventSub.Checked)
-                {
-                    //if we are not in mock mode, we can start the client
-                    eventSubStart = await _twitchEventSub.EventSubStartAsync();
-                }
-                else
-                { //we are in mock mode, so we just say we started
-                    _bBBlog.Info("Twitch EventSub client  starting successfully in mock mode");
-                    eventSubStart = await _twitchEventSub.EventSubStartAsyncMock();
-                    TwitchEventSubStatusTextBox.Text = "ENABLED";
-                    TwitchEventSubStatusTextBox.BackColor = Color.Green;
-                    _twitchStarted = true;
-                }
+                eventSubStart = await _twitchEventSub.EventSubStartAsync();
 
                 if (eventSubStart)
                 {
@@ -1234,25 +1150,6 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
-        private async void EventSubTest_Click(object sender, EventArgs e)
-        {
-            //This only works once API access-token is verified
-            if (TwitchAPIStatusTextBox.Text.ToLower() != "enabled")
-            {
-                MessageBox.Show("You need to verify the API key first.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (await EventSubStartWebsocketClient())
-            {
-                MessageBox.Show("EventSub server started successfully so all is well!", "Twitch EventSub success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Issue with starting EventSub server. Check logs for more information.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         [SupportedOSPlatform("windows6.1")]
         /// <summary>
@@ -1282,6 +1179,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
         {
+            
             string user = e.GetCheerInfo()[0];
             string message = e.GetCheerInfo()[1];
             //we got a valid cheer message, lets see what we can do with it
@@ -1291,13 +1189,13 @@ namespace BanterBrain_Buddy
             {
                 TextLog.AppendText($"Valid Twitch Cheer message received from {user}\r\n");
                 // await SayText($"Thank you for the bits, {user}!");
-                await SayText($"{user} cheered with message {message}", 2000);
+                await SayText($"{user} cheered with message {message}", 2000, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
                 _TalkDone = true;
             });
             await InvokeUI(async () =>
             {
                 if (message.Length >= 1)
-                    await TalkToLLM($"Respond to the message of {user} who said: {message}");
+                    await TalkToLLM($"Respond to the message of {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
                 //no message is no text
             });
             //we have to await the GPT response, due to running this from another thread await alone is not enough.
@@ -1313,7 +1211,7 @@ namespace BanterBrain_Buddy
                 {
                     await Task.Delay(1000);
                 }
-                await SayText(_gPTOutputText, 0);
+                await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
             });
         }
 
@@ -1327,11 +1225,11 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 _bBBlog.Info("Lets say a short \"thank you\" for the channel point redemption, and pass the text to the LLM");
-                await SayText($"{user} redeemed with message {message}", 3000);
+                await SayText($"{user} redeemed with message {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
             });
             await InvokeUI(async () =>
             {
-                await TalkToLLM($"Respond to the message of {user} saying: {message}");
+                await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
             });
             //we have to await the GPT response, due to running this from another thread await alone is not enough.
             while (!_gPTDone)
@@ -1341,7 +1239,7 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
-                await SayText(_gPTOutputText, 0);
+                await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
             });
         }
 
@@ -1357,9 +1255,9 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Lets say a short \"thank you\" for the gifted sub(s)");
                 if (int.Parse(amount) > 1)
-                    await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!", 0);
+                    await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                 else
-                    await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!", 0);
+                    await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
             });
 
         }
@@ -1373,7 +1271,7 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 _bBBlog.Info("Lets say a short \"thank you\" for the subscriber");
-                await SayText($"Thanks {user} for subscribing!", 0);
+                await SayText($"Thanks {user} for subscribing!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
             });
         }
 
@@ -1387,11 +1285,10 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"Valid Twitch Re-Subscription message received: {user} subscribed for {months} months with message: {message}");
             await InvokeUI(async () =>
             {
-                _bBBlog.Info("TODO: respond to user");
                 if (message.Length >= 1)
-                    await SayText($"{user} has resubscribed for a total of months {months}!", 0);
+                    await SayText($"{user} has resubscribed for a total of months {months}!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                 else
-                    await SayText($"{user} has resubscribed for a total of {months} months saying {message}.", 0);
+                    await SayText($"{user} has resubscribed for a total of {months} months saying {message}.", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
 
             });
             if (message.Length >= 1)
@@ -1399,7 +1296,7 @@ namespace BanterBrain_Buddy
                 _gPTDone = false;
                 await InvokeUI(async () =>
                 {
-                    await TalkToLLM($"Respond to the message of {user} saying: {message}");
+                    await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                 });
                 //we have to await the GPT response, due to running this from another thread await alone is not enough.
                 while (!_gPTDone)
@@ -1410,7 +1307,7 @@ namespace BanterBrain_Buddy
                 await InvokeUI(async () =>
                 {
                     await Task.Delay(3000);
-                    await SayText(_gPTOutputText, 0);
+                    await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                 });
             }
         }
@@ -1430,11 +1327,11 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 TextLog.AppendText("Valid Twitch Chat message received from user: " + user + " message: " + message + "\r\n");
-                await SayText($"{user} said {message}", 3000);
+                await SayText($"{user} said {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
             });
             await InvokeUI(async () =>
             {
-                await TalkToLLM($"respond to {user} who said: {message}");
+                await TalkToLLM($"respond to {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
             });
             //we have to await the GPT response, due to running this from another thread await alone is not enough.
             while (!_gPTDone)
@@ -1444,7 +1341,7 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
-                await SayText(_gPTOutputText, 0);
+                await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
             });
 
         }
@@ -1469,7 +1366,7 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Info("Twitch read chat enabled.");
                     TwitchNeedsSubscriber.Enabled = false;
-                    _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), TwitchNeedsFollower.Checked, TwitchNeedsSubscriber.Checked);
+                    _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), false, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
                     _twitchEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
                 }
@@ -1480,7 +1377,6 @@ namespace BanterBrain_Buddy
                 TwitchNeedsSubscriber.Enabled = true;
                 _twitchEventSub.OnESubChatMessage -= TwitchEventSub_OnESubChatMessage;
                 await _twitchEventSub.EventSubStopReadChat();
-
             }
         }
 
@@ -1652,12 +1548,16 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Settings form closed. We should load the new settings!");
             LoadPersonas();
             LoadSettings();
-            SetSelectedPersona();
         }
 
         private void BBB_VisibleChanged(object sender, EventArgs e)
         {
             _bBBlog.Info("BanterBrain Buddy visible changed. to test if closing form2 is done");
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void BroadcasterSelectedPersonaComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
         }
     }
 }

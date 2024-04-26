@@ -14,6 +14,7 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace BanterBrain_Buddy
 {
@@ -24,6 +25,10 @@ namespace BanterBrain_Buddy
         private List<Personas> _personas = new List<Personas>();
         private List<AzureVoices> _azureRegionVoicesList = [];
         private List<NativeVoices> _nativeRegionVoicesList = [];
+
+        private TwitchAPIESub _twitchTestEventSub;
+        private bool _twitchStartedTest = false;
+        private bool _twitchAPIVerified = false;
 
         [SupportedOSPlatform("windows6.1")]
         public SettingsForm()
@@ -83,43 +88,32 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void showPanels(string selectedNode)
         {
-            _bBBlog.Debug("Selected node: " + selectedNode);
+            //_bBBlog.Debug("Selected node: " + selectedNode);
             switch (selectedNode)
             {
                 case "VoiceSettings":
-                    _bBBlog.Debug("VoiceSettings selected");
                     PanelVisible(MicrophonePanel.Name);
                     break;
                 case "Microphone":
-                    _bBBlog.Debug("Microphone selected");
                     PanelVisible(MicrophonePanel.Name);
                     break;
                 case "Azure":
-                    _bBBlog.Debug("Azure selected");
                     PanelVisible(AzurePanel.Name);
                     break;
                 case "Speaker":
-                    _bBBlog.Debug("Speaker selected");
                     PanelVisible(SpeakerPanel.Name);
                     break;
                 case "OpenAIChatGPT":
-                    _bBBlog.Debug("OpenAIChatGPT selected");
                     PanelVisible(OpenAIChatGPTPanel.Name);
                     break;
                 case "Twitch":
-                    _bBBlog.Debug("Twitch selected");
-                    PanelVisible(TwitchConnectionPanel.Name);
+                    PanelVisible(TwitchPanel.Name);
                     break;
-                case "TwitchConnection":
-                    _bBBlog.Debug("TwitchConnection selected");
-                    PanelVisible(TwitchConnectionPanel.Name);
-                    break;
+
                 case "TwitchTriggers":
-                    _bBBlog.Debug("TwitchTriggers selected");
-                    PanelVisible(TwitchTriggersPanel.Name);
+                    PanelVisible(TwitchPanel.Name);
                     break;
                 case "Personas":
-                    _bBBlog.Debug("Personas selected");
                     PanelVisible(PersonasPanel.Name);
                     break;
                 default:
@@ -131,6 +125,11 @@ namespace BanterBrain_Buddy
         private async void LoadSettings()
         {
             _bBBlog.Info("Loading settings");
+            TwitchUsername.Text = Properties.Settings.Default.TwitchUsername;
+            TwitchAccessToken.Text = Properties.Settings.Default.TwitchAccessToken;
+            TwitchChannel.Text = Properties.Settings.Default.TwitchChannel;
+            TwitchSendTextCheckBox.Checked = Properties.Settings.Default.TwitchSendTextCheckBox;
+            TwitchCheckAuthAtStartup.Checked = Properties.Settings.Default.TwitchCheckAuthAtStartup;
             SoundInputDevices.SelectedIndex = SoundInputDevices.FindStringExact(Properties.Settings.Default.VoiceInput);
             MicrophoneHotkeyEditbox.Text = Properties.Settings.Default.PTTHotkey;
             TTSAudioOutputComboBox.SelectedIndex = TTSAudioOutputComboBox.FindStringExact(Properties.Settings.Default.TTSAudioOutput);
@@ -141,21 +140,24 @@ namespace BanterBrain_Buddy
             GPTAPIKeyTextBox.Text = Properties.Settings.Default.GPTAPIKey;
             GPTMaxTokensTextBox.Text = Properties.Settings.Default.GPTMaxTokens.ToString();
             GPTTemperatureTextBox.Text = Properties.Settings.Default.GPTTemperature.ToString();
-            if (Properties.Settings.Default.SelectedLLM== "GPT")
+            if (Properties.Settings.Default.SelectedLLM == "GPT")
             {
                 UseGPTLLMCheckBox.Checked = true;
             }
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
+        private async void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             _bBBlog.Info("Settings form closing, saving settings");
+            Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
+            Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
+            Properties.Settings.Default.TwitchChannel = TwitchChannel.Text;
+            Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
+            Properties.Settings.Default.TwitchCheckAuthAtStartup = TwitchCheckAuthAtStartup.Checked;
             Properties.Settings.Default.VoiceInput = SoundInputDevices.Text;
-            _bBBlog.Info("Voice input set to " + SoundInputDevices.Text);
             Properties.Settings.Default.PTTHotkey = MicrophoneHotkeyEditbox.Text;
             Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
-            _bBBlog.Info("TTS Audio Output set to: " + TTSAudioOutputComboBox.Text);
             Properties.Settings.Default.AzureAPIKeyTextBox = AzureAPIKeyTextBox.Text;
             Properties.Settings.Default.AzureRegionTextBox = AzureRegionTextBox.Text;
             Properties.Settings.Default.AzureLanguageComboBox = AzureLanguageComboBox.Text;
@@ -172,6 +174,13 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.SelectedLLM = "None";
             }
             Properties.Settings.Default.Save();
+
+            //we should also close the EventSub client if it is running
+            if (_twitchStartedTest)
+            {
+                _bBBlog.Info("Closing EventSub client");
+                await _twitchTestEventSub.EventSubStopAsync();
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -558,14 +567,266 @@ namespace BanterBrain_Buddy
             OpenAIAPI api = new(GPTAPIKeyTextBox.Text);
             if (await api.Auth.ValidateAPIKey())
             {
-                _bBBlog.Info("API key is valid");
-                MessageBox.Show("API key is valid", "OpenAI API Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _bBBlog.Info("ChatGPT API key is valid");
+                MessageBox.Show("ChatGPT API key is valid", "OpenAI API Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                _bBBlog.Error("API key is invalid");
-                MessageBox.Show("API key is invalid", "OpenAI API Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _bBBlog.Error("ChatGPT API key is invalid");
+                MessageBox.Show("ChatGPT API key is invalid", "OpenAI API Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-    }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchAuthorizeButton_Click(object sender, EventArgs e)
+        {
+            //lets not block everything, but lets try get a Twitch Auth token.
+            //This is done by spawning a browser where the user has to authorize (implicit grant) 
+            //the application. 
+            TwitchAPIESub twitchAPI = new();
+            //see https://dev.twitch.tv/docs/authentication/scopes/ and https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/#channelchatmessage
+            //API events:
+            //channel.send.message ("user:write:chat")
+            //eventsub events:
+            //channel.chat.message (user:read:chat) to read chat
+            //channel.subscribe (channel:read:subscriptions) to get subscription events
+            //channel.subscription.gift (channel:read:subscriptions) to get gifted sub events
+            //channel.subscription.message (channel:read:subscriptions) to get sub message events
+            //channel.cheer (bits:read) to get information on cheered bits
+            //channel.follow (moderator:read:followers) to get who followed a channel
+            //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by viewers
+            //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by viewers
+
+            var twitchAPIResult = await twitchAPI.GetTwitchAuthToken([
+                    //API scope to send text to chat
+                    "user:write:chat", 
+                //EventSub scopes for subscription types to read chat, get subscription events, read when people cheer (bits) and follower events
+                "user:read:chat", "channel:read:subscriptions", "bits:read", "moderator:read:followers", "channel:read:redemptions"]);
+
+            if (!twitchAPIResult)
+            {
+                _bBBlog.Error("Issue with getting auth token. Check logs for more information.");
+                MessageBox.Show($"Issue with getting Auth token. Check logs for more information.", "Twitch Authorization Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                TwitchAccessToken.Text = twitchAPI.TwitchAccessToken;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchTestButton_Click(object sender, EventArgs e)
+        {
+            //first lets make sure people cant click too often
+            _twitchAPIVerified = false;
+            TwitchAPITestButton.Enabled = false;
+            //first we check if the Authorization key is fine, using the API
+            TwitchAPIESub twAPITest = new();
+
+            //check to see if we need to send a message on join
+            if (TwitchSendTextCheckBox.Checked)
+            {
+                twAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
+            }
+
+            //we need the username AND channel name to get the broadcasterid which is needed for sending a message via the API
+            //we need both since the username of the bot and teh channel it joins can be different.
+            var VerifyOk = await twAPITest.CheckAuthCodeAPI(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text);
+            if (!VerifyOk)
+            {
+                _bBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
+                //  TextLog.Text += "Problem verifying Access token, invalid access token\r\n";
+                MessageBox.Show("Problem verifying Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TwitchAPITestButton.Enabled = true;
+                //      TwitchAPIStatusTextBox.Text = "DISABLED";
+                //     TwitchAPIStatusTextBox.BackColor = Color.Red;
+                //if the token is invalid, lets disable the checkboxes
+                //      TwitchEnableCheckbox.Checked = false;
+                if (TwitchCheckAuthAtStartup.Checked)
+                    TwitchCheckAuthAtStartup.Checked = false;
+                return;
+            }
+            else
+            {
+                _bBBlog.Info($"Twitch Access token verified success!");
+                _twitchAPIVerified = true;
+                //       UpdateTextLog("Twitch Access token verified success!\r\n");
+                MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //      TwitchAPIStatusTextBox.Text = "ENABLED";
+                //      TwitchAPIStatusTextBox.BackColor = Color.Green;
+                //if the token is valid, and twitch enabled lets start up the hourly validation timer
+                //   if (TwitchEnableCheckbox.Checked)
+                //      SetTwitchValidateTokenTimer(false);
+            }
+
+            TwitchAPITestButton.Enabled = true;
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void EventSubTest_Click(object sender, EventArgs e)
+        {
+            //This only works once API access-token is verified
+            if (_twitchAPIVerified)
+            {
+                MessageBox.Show("You need to verify the API key first.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (await EventSubStartWebsocketClientTest())
+            {
+                MessageBox.Show("EventSub server started successfully so all is well!", "Twitch EventSub success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Issue with starting EventSub server. Check logs for more information.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        //here we star the main websocket client for Twitch EventSub
+        [SupportedOSPlatform("windows6.1")]
+        private async Task<bool> EventSubStartWebsocketClientTest()
+        {
+            _twitchTestEventSub = new();
+            bool eventSubStart = false;
+            //we should set here what eventhandlers we want to have enabled based on the twitch Settings
+
+            if (await _twitchTestEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
+            {
+                //we need to first set the event handlers we want to use
+
+                //if we are in MOCK mode, just enable all handlers?
+                if (TwitchMockEventSub.Checked)
+                {
+                    _bBBlog.Info("Twitch TEST read chat enabled, calling eventsubhandlereadchat. Command set to $BBB for test");
+                    _twitchTestEventSub.EventSubHandleReadchat("$BBB", 300, false, true);
+                    //set local eventhanlder for valid chat messages to trigger the bot
+                    _twitchTestEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
+                }
+
+                //do we want to check cheer messages?
+                if (TwitchMockEventSub.Checked)
+                {
+                    _bBBlog.Info("Twitch TEST cheers enabled, calling EventSubHandleCheer with the min amount of bits needed to trigger. Set to 10 for test");
+                    _twitchTestEventSub.EventSubHandleCheer(10);
+                    _twitchTestEventSub.OnESubCheerMessage += TwitchEventSub_OnESubCheerMessage;
+                }
+
+                //do we want to check for subscription events?
+                if (TwitchMockEventSub.Checked)
+                {
+                    //new subs
+                    _bBBlog.Info($"Twitch TEST subscriptions enabled, calling EventSubHandleSubscription: {_twitchTestEventSub.ToString()}");
+                    _twitchTestEventSub.EventSubHandleSubscription();
+                    _twitchTestEventSub.OnESubSubscribe += TwitchEventSub_OnESubSubscribe;
+                    _twitchTestEventSub.OnESubReSubscribe += TwitchEventSub_OnESubReSubscribe;
+                    //todo set eventhandler being thrown when a new sub is detected or resub
+                }
+                //TODO: gifted subs TwitchGiftedSub.Checked
+                if (TwitchMockEventSub.Checked)
+                {
+                    _bBBlog.Info("Twitch TEST gifted subs enabled, calling EventSubHandleGiftedSubs");
+                    _twitchTestEventSub.EventSubHandleSubscriptionGift();
+                    _twitchTestEventSub.OnESubSubscriptionGift += TwitchEventSub_OnESubGiftedSub;
+                }
+
+                //do we want to check for channel point redemptions?
+                if (TwitchMockEventSub.Checked)
+                {
+                    _bBBlog.Info("Twitch TEST channel points enabled, calling EventSubHandleChannelPoints");
+                    _twitchTestEventSub.EventSubHandleChannelPointRedemption("rewardtest");
+                    _twitchTestEventSub.OnESubChannelPointRedemption += TwitchEventSub_OnESubChannelPointRedemption;
+                }
+
+                if (!TwitchMockEventSub.Checked)
+                {
+                    //if we are not in mock mode, we can start the client
+                    eventSubStart = await _twitchTestEventSub.EventSubStartAsync();
+                }
+                else
+                { //we are in mock mode, so we just say we started
+                    _bBBlog.Info("Twitch EventSub client  starting successfully in mock mode");
+                    eventSubStart = await _twitchTestEventSub.EventSubStartAsyncMock();
+
+                    _twitchStartedTest = true;
+                }
+
+                if (eventSubStart)
+                {
+                    _bBBlog.Info("Twitch EventSub client  started successfully");
+
+                    _twitchStartedTest = true;
+                }
+                else
+                {
+                    _bBBlog.Error("Issue with starting Twitch EventSub server. Check logs for more information.");
+                    _twitchStartedTest = false;
+                    return false;
+                }
+                return true;
+            }
+            else
+            {
+                _bBBlog.Error("Issue with starting Twitch EventSub server. Check logs for more information.");
+                _twitchStartedTest = false;
+                return false;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchEventSub_OnESubChannelPointRedemption(object sender, TwitchEventhandlers.OnChannelPointCustomRedemptionEventArgs e)
+        {
+            string user = e.GetChannelPointCustomRedemptionInfo()[0];
+            string message = e.GetChannelPointCustomRedemptionInfo()[1];
+            _bBBlog.Info($"TEST: Valid Twitch Channel Point Redemption message received: {user} redeemed with message: {message}");
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        //TwitchEventSub_OnESubGiftedSub
+        private async void TwitchEventSub_OnESubGiftedSub(object sender, TwitchEventhandlers.OnSubscriptionGiftEventArgs e)
+        {
+            string user = e.GetSubscriptionGiftInfo()[0];
+            string amount = e.GetSubscriptionGiftInfo()[1];
+            string tier = e.GetSubscriptionGiftInfo()[2];
+            _bBBlog.Info($"TEST: Valid Twitch Gifted Subscription message received: {user} gifted {amount} subs tier {tier}");
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchEventSub_OnESubSubscribe(object sender, TwitchEventhandlers.OnSubscribeEventArgs e)
+        {
+            string user = e.GetSubscribeInfo()[0];
+            string broadcaster = e.GetSubscribeInfo()[1];
+            _bBBlog.Info($"TEST: Valid Twitch Subscription message received: {user} subscribed to {broadcaster}");
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchEventSub_OnESubReSubscribe(object sender, TwitchEventhandlers.OnReSubscribeEventArgs e)
+        {
+            string user = e.GetSubscribeInfo()[0];
+            string message = e.GetSubscribeInfo()[1];
+            string months = e.GetSubscribeInfo()[2];
+            _bBBlog.Info($"TEST: Valid Twitch Re-Subscription message received: {user} subscribed for {months} months with message: {message}");
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        //eventhandler for valid chat messages trigger
+        private async void TwitchEventSub_OnESubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
+        {
+
+            string message = e.GetChatInfo()[1].Replace("$BBB", "");
+            string user = e.GetChatInfo()[0];
+            //we got a valid chat message, lets see what we can do with it
+            _bBBlog.Info("TEST: Valid Twitch Chat message received from user: " + user + " message: " + message);
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
+        {
+            string user = e.GetCheerInfo()[0];
+            string message = e.GetCheerInfo()[1];
+            //we got a valid cheer message, lets see what we can do with it
+            _bBBlog.Info("TEST: Valid Twitch Cheer message received");
+        }
+
+
+        }
 }

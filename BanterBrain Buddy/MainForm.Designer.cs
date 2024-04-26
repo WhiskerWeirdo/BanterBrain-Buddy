@@ -34,7 +34,7 @@ namespace BanterBrain_Buddy
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BBB));
             MainTab = new TabPage();
             groupBox3 = new GroupBox();
-            SelectedPersonaComboBox = new ComboBox();
+            BroadcasterSelectedPersonaComboBox = new ComboBox();
             groupBox2 = new GroupBox();
             STTSelectedComboBox = new ComboBox();
             groupBox7 = new GroupBox();
@@ -47,42 +47,34 @@ namespace BanterBrain_Buddy
             BBBTabs = new TabControl();
             StreaminSettingsTab = new TabPage();
             groupBox4 = new GroupBox();
+            TwitchStartButton = new Button();
             groupBox8 = new GroupBox();
+            label4 = new Label();
+            TwitchChannelPointPersonaComboBox = new ComboBox();
             label9 = new Label();
             TwitchCustomRewardName = new TextBox();
             TwitchChannelPointCheckBox = new CheckBox();
-            EventSubGroupbox = new GroupBox();
-            TwitchMockEventSub = new CheckBox();
-            EventSubTest = new Button();
             TwitchEnableCheckbox = new CheckBox();
-            TwitchCheckAuthAtStartup = new CheckBox();
-            DisconnectTwitchButton = new Button();
-            TwitchAPITestGroupBox = new GroupBox();
-            TwitchTestSendText = new TextBox();
-            TwitchSendTextCheckBox = new CheckBox();
-            TwitchTestButton = new Button();
-            TwitchAuthorizeButton = new Button();
             groupBox6 = new GroupBox();
+            label2 = new Label();
             TwitchGiftedSub = new CheckBox();
+            TwitchSubscriptionPersonaComboBox = new ComboBox();
             TwitchSubscribed = new CheckBox();
             groupBox5 = new GroupBox();
+            label3 = new Label();
+            TwitchCheeringPersonaComboBox = new ComboBox();
             TwitchCheerCheckBox = new CheckBox();
             label5 = new Label();
             TwitchMinBits = new TextBox();
             TwitchTriggerSettings = new GroupBox();
+            label1 = new Label();
+            TwitchChatPersonaComboBox = new ComboBox();
             TwitchReadChatCheckBox = new CheckBox();
             label6 = new Label();
             TwitchChatCommandDelay = new TextBox();
             TwitchNeedsSubscriber = new CheckBox();
-            TwitchNeedsFollower = new CheckBox();
             TwitchCommandTrigger = new TextBox();
             TwitchCommandTriggerLabel = new Label();
-            TwitchChannel = new TextBox();
-            TwitchAccessToken = new TextBox();
-            TwitchUsername = new TextBox();
-            TwitchChannelNameLabel = new Label();
-            TwitchAccesstokenLabel = new Label();
-            TwitchUsernameLabel = new Label();
             fileToolStripMenuItem = new ToolStripMenuItem();
             ExitToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
@@ -99,8 +91,6 @@ namespace BanterBrain_Buddy
             StreaminSettingsTab.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox8.SuspendLayout();
-            EventSubGroupbox.SuspendLayout();
-            TwitchAPITestGroupBox.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox5.SuspendLayout();
             TwitchTriggerSettings.SuspendLayout();
@@ -123,17 +113,18 @@ namespace BanterBrain_Buddy
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(SelectedPersonaComboBox);
+            groupBox3.Controls.Add(BroadcasterSelectedPersonaComboBox);
             resources.ApplyResources(groupBox3, "groupBox3");
             groupBox3.Name = "groupBox3";
             groupBox3.TabStop = false;
             // 
-            // SelectedPersonaComboBox
+            // BroadcasterSelectedPersonaComboBox
             // 
-            SelectedPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            SelectedPersonaComboBox.FormattingEnabled = true;
-            resources.ApplyResources(SelectedPersonaComboBox, "SelectedPersonaComboBox");
-            SelectedPersonaComboBox.Name = "SelectedPersonaComboBox";
+            BroadcasterSelectedPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            BroadcasterSelectedPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(BroadcasterSelectedPersonaComboBox, "BroadcasterSelectedPersonaComboBox");
+            BroadcasterSelectedPersonaComboBox.Name = "BroadcasterSelectedPersonaComboBox";
+            BroadcasterSelectedPersonaComboBox.SelectedIndexChanged += BroadcasterSelectedPersonaComboBox_SelectedIndexChanged;
             // 
             // groupBox2
             // 
@@ -212,34 +203,44 @@ namespace BanterBrain_Buddy
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(TwitchStartButton);
             groupBox4.Controls.Add(groupBox8);
-            groupBox4.Controls.Add(EventSubGroupbox);
             groupBox4.Controls.Add(TwitchEnableCheckbox);
-            groupBox4.Controls.Add(TwitchCheckAuthAtStartup);
-            groupBox4.Controls.Add(DisconnectTwitchButton);
-            groupBox4.Controls.Add(TwitchAPITestGroupBox);
-            groupBox4.Controls.Add(TwitchAuthorizeButton);
             groupBox4.Controls.Add(groupBox6);
             groupBox4.Controls.Add(groupBox5);
             groupBox4.Controls.Add(TwitchTriggerSettings);
-            groupBox4.Controls.Add(TwitchChannel);
-            groupBox4.Controls.Add(TwitchAccessToken);
-            groupBox4.Controls.Add(TwitchUsername);
-            groupBox4.Controls.Add(TwitchChannelNameLabel);
-            groupBox4.Controls.Add(TwitchAccesstokenLabel);
-            groupBox4.Controls.Add(TwitchUsernameLabel);
             resources.ApplyResources(groupBox4, "groupBox4");
             groupBox4.Name = "groupBox4";
             groupBox4.TabStop = false;
             // 
+            // TwitchStartButton
+            // 
+            resources.ApplyResources(TwitchStartButton, "TwitchStartButton");
+            TwitchStartButton.Name = "TwitchStartButton";
+            TwitchStartButton.UseVisualStyleBackColor = true;
+            // 
             // groupBox8
             // 
+            groupBox8.Controls.Add(label4);
+            groupBox8.Controls.Add(TwitchChannelPointPersonaComboBox);
             groupBox8.Controls.Add(label9);
             groupBox8.Controls.Add(TwitchCustomRewardName);
             groupBox8.Controls.Add(TwitchChannelPointCheckBox);
             resources.ApplyResources(groupBox8, "groupBox8");
             groupBox8.Name = "groupBox8";
             groupBox8.TabStop = false;
+            // 
+            // label4
+            // 
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
+            // 
+            // TwitchChannelPointPersonaComboBox
+            // 
+            TwitchChannelPointPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchChannelPointPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchChannelPointPersonaComboBox, "TwitchChannelPointPersonaComboBox");
+            TwitchChannelPointPersonaComboBox.Name = "TwitchChannelPointPersonaComboBox";
             // 
             // label9
             // 
@@ -258,28 +259,6 @@ namespace BanterBrain_Buddy
             TwitchChannelPointCheckBox.UseVisualStyleBackColor = true;
             TwitchChannelPointCheckBox.Click += TwitchChannelPointCheckBox_Click;
             // 
-            // EventSubGroupbox
-            // 
-            EventSubGroupbox.Controls.Add(TwitchMockEventSub);
-            EventSubGroupbox.Controls.Add(EventSubTest);
-            resources.ApplyResources(EventSubGroupbox, "EventSubGroupbox");
-            EventSubGroupbox.Name = "EventSubGroupbox";
-            EventSubGroupbox.TabStop = false;
-            // 
-            // TwitchMockEventSub
-            // 
-            resources.ApplyResources(TwitchMockEventSub, "TwitchMockEventSub");
-            TwitchMockEventSub.Name = "TwitchMockEventSub";
-            BBBToolTip.SetToolTip(TwitchMockEventSub, resources.GetString("TwitchMockEventSub.ToolTip"));
-            TwitchMockEventSub.UseVisualStyleBackColor = true;
-            // 
-            // EventSubTest
-            // 
-            resources.ApplyResources(EventSubTest, "EventSubTest");
-            EventSubTest.Name = "EventSubTest";
-            EventSubTest.UseVisualStyleBackColor = true;
-            EventSubTest.Click += EventSubTest_Click;
-            // 
             // TwitchEnableCheckbox
             // 
             resources.ApplyResources(TwitchEnableCheckbox, "TwitchEnableCheckbox");
@@ -287,60 +266,20 @@ namespace BanterBrain_Buddy
             TwitchEnableCheckbox.UseVisualStyleBackColor = true;
             TwitchEnableCheckbox.Click += TwitchEnableCheckbox_Click;
             // 
-            // TwitchCheckAuthAtStartup
-            // 
-            resources.ApplyResources(TwitchCheckAuthAtStartup, "TwitchCheckAuthAtStartup");
-            TwitchCheckAuthAtStartup.Name = "TwitchCheckAuthAtStartup";
-            TwitchCheckAuthAtStartup.UseVisualStyleBackColor = true;
-            TwitchCheckAuthAtStartup.Click += TwitchCheckAuthAtStartup_Click;
-            // 
-            // DisconnectTwitchButton
-            // 
-            resources.ApplyResources(DisconnectTwitchButton, "DisconnectTwitchButton");
-            DisconnectTwitchButton.Name = "DisconnectTwitchButton";
-            DisconnectTwitchButton.UseVisualStyleBackColor = true;
-            // 
-            // TwitchAPITestGroupBox
-            // 
-            TwitchAPITestGroupBox.Controls.Add(TwitchTestSendText);
-            TwitchAPITestGroupBox.Controls.Add(TwitchSendTextCheckBox);
-            TwitchAPITestGroupBox.Controls.Add(TwitchTestButton);
-            resources.ApplyResources(TwitchAPITestGroupBox, "TwitchAPITestGroupBox");
-            TwitchAPITestGroupBox.Name = "TwitchAPITestGroupBox";
-            TwitchAPITestGroupBox.TabStop = false;
-            // 
-            // TwitchTestSendText
-            // 
-            resources.ApplyResources(TwitchTestSendText, "TwitchTestSendText");
-            TwitchTestSendText.Name = "TwitchTestSendText";
-            // 
-            // TwitchSendTextCheckBox
-            // 
-            resources.ApplyResources(TwitchSendTextCheckBox, "TwitchSendTextCheckBox");
-            TwitchSendTextCheckBox.Name = "TwitchSendTextCheckBox";
-            TwitchSendTextCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TwitchTestButton
-            // 
-            resources.ApplyResources(TwitchTestButton, "TwitchTestButton");
-            TwitchTestButton.Name = "TwitchTestButton";
-            TwitchTestButton.UseVisualStyleBackColor = true;
-            TwitchTestButton.Click += TwitchTestButton_Click;
-            // 
-            // TwitchAuthorizeButton
-            // 
-            resources.ApplyResources(TwitchAuthorizeButton, "TwitchAuthorizeButton");
-            TwitchAuthorizeButton.Name = "TwitchAuthorizeButton";
-            TwitchAuthorizeButton.UseVisualStyleBackColor = true;
-            TwitchAuthorizeButton.Click += TwitchAuthorizeButton_Click;
-            // 
             // groupBox6
             // 
+            groupBox6.Controls.Add(label2);
             groupBox6.Controls.Add(TwitchGiftedSub);
+            groupBox6.Controls.Add(TwitchSubscriptionPersonaComboBox);
             groupBox6.Controls.Add(TwitchSubscribed);
             resources.ApplyResources(groupBox6, "groupBox6");
             groupBox6.Name = "groupBox6";
             groupBox6.TabStop = false;
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
             // TwitchGiftedSub
             // 
@@ -349,6 +288,13 @@ namespace BanterBrain_Buddy
             BBBToolTip.SetToolTip(TwitchGiftedSub, resources.GetString("TwitchGiftedSub.ToolTip"));
             TwitchGiftedSub.UseVisualStyleBackColor = true;
             TwitchGiftedSub.Click += TwitchGiftedSub_Click;
+            // 
+            // TwitchSubscriptionPersonaComboBox
+            // 
+            TwitchSubscriptionPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchSubscriptionPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchSubscriptionPersonaComboBox, "TwitchSubscriptionPersonaComboBox");
+            TwitchSubscriptionPersonaComboBox.Name = "TwitchSubscriptionPersonaComboBox";
             // 
             // TwitchSubscribed
             // 
@@ -360,12 +306,26 @@ namespace BanterBrain_Buddy
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(label3);
+            groupBox5.Controls.Add(TwitchCheeringPersonaComboBox);
             groupBox5.Controls.Add(TwitchCheerCheckBox);
             groupBox5.Controls.Add(label5);
             groupBox5.Controls.Add(TwitchMinBits);
             resources.ApplyResources(groupBox5, "groupBox5");
             groupBox5.Name = "groupBox5";
             groupBox5.TabStop = false;
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
+            // 
+            // TwitchCheeringPersonaComboBox
+            // 
+            TwitchCheeringPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchCheeringPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchCheeringPersonaComboBox, "TwitchCheeringPersonaComboBox");
+            TwitchCheeringPersonaComboBox.Name = "TwitchCheeringPersonaComboBox";
             // 
             // TwitchCheerCheckBox
             // 
@@ -387,16 +347,29 @@ namespace BanterBrain_Buddy
             // 
             // TwitchTriggerSettings
             // 
+            TwitchTriggerSettings.Controls.Add(label1);
+            TwitchTriggerSettings.Controls.Add(TwitchChatPersonaComboBox);
             TwitchTriggerSettings.Controls.Add(TwitchReadChatCheckBox);
             TwitchTriggerSettings.Controls.Add(label6);
             TwitchTriggerSettings.Controls.Add(TwitchChatCommandDelay);
             TwitchTriggerSettings.Controls.Add(TwitchNeedsSubscriber);
-            TwitchTriggerSettings.Controls.Add(TwitchNeedsFollower);
             TwitchTriggerSettings.Controls.Add(TwitchCommandTrigger);
             TwitchTriggerSettings.Controls.Add(TwitchCommandTriggerLabel);
             resources.ApplyResources(TwitchTriggerSettings, "TwitchTriggerSettings");
             TwitchTriggerSettings.Name = "TwitchTriggerSettings";
             TwitchTriggerSettings.TabStop = false;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
+            // TwitchChatPersonaComboBox
+            // 
+            TwitchChatPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchChatPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchChatPersonaComboBox, "TwitchChatPersonaComboBox");
+            TwitchChatPersonaComboBox.Name = "TwitchChatPersonaComboBox";
             // 
             // TwitchReadChatCheckBox
             // 
@@ -423,13 +396,6 @@ namespace BanterBrain_Buddy
             BBBToolTip.SetToolTip(TwitchNeedsSubscriber, resources.GetString("TwitchNeedsSubscriber.ToolTip"));
             TwitchNeedsSubscriber.UseVisualStyleBackColor = true;
             // 
-            // TwitchNeedsFollower
-            // 
-            resources.ApplyResources(TwitchNeedsFollower, "TwitchNeedsFollower");
-            TwitchNeedsFollower.Name = "TwitchNeedsFollower";
-            BBBToolTip.SetToolTip(TwitchNeedsFollower, resources.GetString("TwitchNeedsFollower.ToolTip"));
-            TwitchNeedsFollower.UseVisualStyleBackColor = true;
-            // 
             // TwitchCommandTrigger
             // 
             resources.ApplyResources(TwitchCommandTrigger, "TwitchCommandTrigger");
@@ -439,36 +405,6 @@ namespace BanterBrain_Buddy
             // 
             resources.ApplyResources(TwitchCommandTriggerLabel, "TwitchCommandTriggerLabel");
             TwitchCommandTriggerLabel.Name = "TwitchCommandTriggerLabel";
-            // 
-            // TwitchChannel
-            // 
-            resources.ApplyResources(TwitchChannel, "TwitchChannel");
-            TwitchChannel.Name = "TwitchChannel";
-            // 
-            // TwitchAccessToken
-            // 
-            resources.ApplyResources(TwitchAccessToken, "TwitchAccessToken");
-            TwitchAccessToken.Name = "TwitchAccessToken";
-            // 
-            // TwitchUsername
-            // 
-            resources.ApplyResources(TwitchUsername, "TwitchUsername");
-            TwitchUsername.Name = "TwitchUsername";
-            // 
-            // TwitchChannelNameLabel
-            // 
-            resources.ApplyResources(TwitchChannelNameLabel, "TwitchChannelNameLabel");
-            TwitchChannelNameLabel.Name = "TwitchChannelNameLabel";
-            // 
-            // TwitchAccesstokenLabel
-            // 
-            resources.ApplyResources(TwitchAccesstokenLabel, "TwitchAccesstokenLabel");
-            TwitchAccesstokenLabel.Name = "TwitchAccesstokenLabel";
-            // 
-            // TwitchUsernameLabel
-            // 
-            resources.ApplyResources(TwitchUsernameLabel, "TwitchUsernameLabel");
-            TwitchUsernameLabel.Name = "TwitchUsernameLabel";
             // 
             // fileToolStripMenuItem
             // 
@@ -502,6 +438,7 @@ namespace BanterBrain_Buddy
             // 
             // menuStrip1
             // 
+            menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, seToolStripMenuItem, helpToolStripMenuItem });
             resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
@@ -536,10 +473,6 @@ namespace BanterBrain_Buddy
             groupBox4.PerformLayout();
             groupBox8.ResumeLayout(false);
             groupBox8.PerformLayout();
-            EventSubGroupbox.ResumeLayout(false);
-            EventSubGroupbox.PerformLayout();
-            TwitchAPITestGroupBox.ResumeLayout(false);
-            TwitchAPITestGroupBox.PerformLayout();
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
             groupBox5.ResumeLayout(false);
@@ -565,18 +498,11 @@ namespace BanterBrain_Buddy
         private MenuStrip menuStrip1;
         private TabPage StreaminSettingsTab;
         private GroupBox groupBox4;
-        private TextBox TwitchChannel;
-        private TextBox TwitchAccessToken;
-        private TextBox TwitchUsername;
-        private Label TwitchChannelNameLabel;
-        private Label TwitchAccesstokenLabel;
-        private Label TwitchUsernameLabel;
         private TextBox TwitchAPIStatusTextBox;
         private Label TwitchStatusLabel;
         private GroupBox groupBox5;
         private GroupBox TwitchTriggerSettings;
         private CheckBox TwitchNeedsSubscriber;
-        private CheckBox TwitchNeedsFollower;
         private TextBox TwitchCommandTrigger;
         private Label TwitchCommandTriggerLabel;
         private GroupBox groupBox6;
@@ -586,32 +512,31 @@ namespace BanterBrain_Buddy
         private Label label6;
         private TextBox TwitchChatCommandDelay;
         private CheckBox TwitchGiftedSub;
-        private Button TwitchAuthorizeButton;
-        private GroupBox TwitchAPITestGroupBox;
-        private TextBox TwitchTestSendText;
-        private CheckBox TwitchSendTextCheckBox;
-        private Button TwitchTestButton;
-        private Button DisconnectTwitchButton;
-        private CheckBox TwitchCheckAuthAtStartup;
         private CheckBox TwitchEnableCheckbox;
         private Label TwitchEventSubStatusLabel;
         private TextBox TwitchEventSubStatusTextBox;
-        private Button EventSubTest;
         private CheckBox TwitchReadChatCheckBox;
-        private GroupBox EventSubGroupbox;
         private GroupBox groupBox7;
         private CheckBox TwitchCheerCheckBox;
         private GroupBox groupBox8;
         private Label label9;
         private TextBox TwitchCustomRewardName;
         private CheckBox TwitchChannelPointCheckBox;
-        private CheckBox TwitchMockEventSub;
         private ToolTip BBBToolTip;
         private ToolStripMenuItem seToolStripMenuItem;
         private GroupBox groupBox2;
         private ComboBox STTSelectedComboBox;
         private GroupBox groupBox3;
-        private ComboBox SelectedPersonaComboBox;
+        private ComboBox BroadcasterSelectedPersonaComboBox;
+        private Label label1;
+        private ComboBox TwitchChatPersonaComboBox;
+        private Label label4;
+        private ComboBox TwitchChannelPointPersonaComboBox;
+        private Label label2;
+        private ComboBox TwitchSubscriptionPersonaComboBox;
+        private Label label3;
+        private ComboBox TwitchCheeringPersonaComboBox;
+        private Button TwitchStartButton;
     }
 }
 

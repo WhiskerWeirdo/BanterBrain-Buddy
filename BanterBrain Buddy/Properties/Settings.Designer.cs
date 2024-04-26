@@ -454,5 +454,53 @@ namespace BanterBrain_Buddy.Properties {
                 this["SelectedLLM"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchChatPersona {
+            get {
+                return ((string)(this["TwitchChatPersona"]));
+            }
+            set {
+                this["TwitchChatPersona"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchChannelPointPersona {
+            get {
+                return ((string)(this["TwitchChannelPointPersona"]));
+            }
+            set {
+                this["TwitchChannelPointPersona"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchCheeringPersona {
+            get {
+                return ((string)(this["TwitchCheeringPersona"]));
+            }
+            set {
+                this["TwitchCheeringPersona"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchSubscriptionPersona {
+            get {
+                return ((string)(this["TwitchSubscriptionPersona"]));
+            }
+            set {
+                this["TwitchSubscriptionPersona"] = value;
+            }
+        }
     }
 }

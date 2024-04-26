@@ -77,7 +77,7 @@ namespace BanterBrain_Buddy
         public async Task NativeTTSInit(string VoiceUsed, string OutputDevice)
         {
             _bBBlog.Info("Starting Native Text To Speech, Initializing");
-            _bBBlog.Debug("Init Native Output Device: " + OutputDevice);
+            _bBBlog.Debug("Init Native Output Device: " + OutputDevice + " using: " + VoiceUsed);
             SetSelectedOutputDevice(OutputDevice);
             _nativeSynthesizer = new();
             string selectedVoice = VoiceUsed.Substring(0, VoiceUsed.IndexOf("-"));
