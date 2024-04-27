@@ -29,15 +29,16 @@ namespace BanterBrain_Buddy
         private TwitchAPIESub _twitchTestEventSub;
         private bool _twitchStartedTest = false;
         private bool _twitchAPIVerified = false;
+        private bool _personaEdited = false;
 
         [SupportedOSPlatform("windows6.1")]
         public SettingsForm()
         {
             InitializeComponent();
+            DisablePersonaEventHandlers();
             GetAudioDevices();
             LoadSettings();
             MenuTreeView.ExpandAll();
-            
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -53,13 +54,32 @@ namespace BanterBrain_Buddy
             foreach (var device in WaveOutDevice.EnumerateDevices())
             {
                 _ = TTSAudioOutputComboBox.Items.Add(device.Name);
-
-                //TODO: make sure the selected device is the same as the one in the settings
-                //if not, set it to the first one
             }
         }
 
+        [SupportedOSPlatform("windows6.1")]
+        private void DisablePersonaEventHandlers()
+        {
+            _bBBlog.Debug("Disabling Persona screen eventhandlers");
+            PersonaComboBox.SelectedValueChanged -= PersonaComboBox_SelectedValueChanged;
+            PersonaRoleTextBox.TextChanged -= PersonaRoleTextBox_TextChanged;
+            TTSProviderComboBox.SelectedValueChanged -= TTSProviderComboBox_SelectedValueChanged;
+            TTSOutputVoice.SelectedValueChanged -= TTSOutputVoice_SelectedValueChanged;
+            TTSOutputVoiceOption1.SelectedIndexChanged -= TTSOutputVoiceOption1_SelectedIndexChanged;
 
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void EnablePersonaEventHandlers(
+            )
+        {
+            _bBBlog.Debug("Enabling Persona screen eventhandlers");
+            PersonaComboBox.SelectedValueChanged += PersonaComboBox_SelectedValueChanged;
+            PersonaRoleTextBox.TextChanged += PersonaRoleTextBox_TextChanged;
+            TTSProviderComboBox.SelectedValueChanged += TTSProviderComboBox_SelectedValueChanged;
+            TTSOutputVoice.SelectedValueChanged += TTSOutputVoice_SelectedValueChanged;
+            TTSOutputVoiceOption1.SelectedIndexChanged += TTSOutputVoiceOption1_SelectedIndexChanged;
+        }
 
         [SupportedOSPlatform("windows6.1")]
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -88,7 +108,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void showPanels(string selectedNode)
         {
-            //_bBBlog.Debug("Selected node: " + selectedNode);
+
             switch (selectedNode)
             {
                 case "VoiceSettings":
@@ -190,36 +210,54 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void PersonasPanel_VisibleChanged(object sender, EventArgs e)
         {
+            //we dont need the eventhandlers when its becoming visible
             if (PersonasPanel.Visible)
             {
-                _bBBlog.Debug("Personas panel visible. we need to load the persona's");
+
+                _bBBlog.Debug("Personas panel visible. we need to load the persona's and enable the eventhandlers");
                 await LoadPersonas();
                 while (PersonaComboBox.Items.Count == 0)
                 {
                     await Task.Delay(1000);
                 }
+                //we need to fill the combo box with the voices available
+                await FillVoiceBoxes();
                 //TODO: set the originally selected persona for now just load the first one
                 PersonaComboBox.SelectedIndex = 0;
-                //we also need to fill the combo box with the voices
-                await FillVoiceBoxes();
+                var selectedPersona = _personas[PersonaComboBox.SelectedIndex];
+                PersonaRoleTextBox.Text = selectedPersona.RoleText;
+                TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
+                TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
+                _personaEdited = false;
+                EnablePersonaEventHandlers();
             }
             else
             {
-                _bBBlog.Debug("Personas panel hidden. we should save the persona's");
-
+                if (_personaEdited)
+                {
+                    _bBBlog.Debug("Personas panel hidden. we should save the persona's if anything changed");
+                    //ask if we need to save the persona
+                    var result = MessageBox.Show("Information changed. Do you want to save the persona?", "Save Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        SavePersona_Click(sender, e);
+                    }
+                }
+                DisablePersonaEventHandlers();
             }
         }
 
         [SupportedOSPlatform("windows6.1")]
         private async Task FillVoiceBoxes()
         {
+            _bBBlog.Info("Fill voice boxes: " + TTSProviderComboBox.Text);
             if (TTSProviderComboBox.Text == "Native")
             {
                 TTSOutputVoice.Text = "";
                 TTSOutputVoiceOption1.Enabled = false;
                 //clear and fill the option box with voices
                 await TTSGetNativeVoices();
-                TTSFillNativeVoicesList();
+                await TTSFillNativeVoicesList();
             }
             else if (TTSProviderComboBox.Text == "Azure")
             {
@@ -244,6 +282,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task LoadPersonas()
         {
+            PersonaComboBox.Items.Clear();
             var tmpFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\personas.json";
             if (!File.Exists(tmpFile))
             {
@@ -297,27 +336,21 @@ namespace BanterBrain_Buddy
 
         }
 
-        [SupportedOSPlatform("windows6.1")]
-        private void PersonaComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //alright index is changed! We need to load the persona into the form
-            var selectedPersona = _personas[PersonaComboBox.SelectedIndex];
-            PersonaRoleTextBox.Text = selectedPersona.RoleText;
-            TTSProviderComboBox.Text = selectedPersona.VoiceProvider;
-            TTSOutputVoice.Text = selectedPersona.VoiceName;
-            if (selectedPersona.VoiceOptions.Count > 0)
-            {
-                _bBBlog.Debug("Voice options found, loading them into the combo box");
-                foreach (var voiceOption in selectedPersona.VoiceOptions)
-                {
-                    _bBBlog.Debug("Adding voice option: " + voiceOption);
-                }
-            }
-        }
 
         [SupportedOSPlatform("windows6.1")]
         private void NewPersona_Click(object sender, EventArgs e)
         {
+            //if the persona is changed we first need to check if the persona was edited if so we need to ask to save it
+            if (_personaEdited && PersonasPanel.Visible)
+            {
+                var result = MessageBox.Show("New Persona. Do you want to save the persona?", "Save Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    SavePersona_Click(sender, e);
+
+                }
+                _personaEdited = false;
+            }
             PersonaRoleTextBox.Text = "";
             TTSProviderComboBox.Text = "";
             TTSOutputVoice.Text = "";
@@ -350,15 +383,37 @@ namespace BanterBrain_Buddy
                 return;
             }
 
-            //ok now we save the persona
-            //var newPersonas = new List<Personas>();
-            var tmpVoiceOptions = new List<string>();
-            if (TTSOutputVoiceOption1.Text != "")
+            //if the persona.name is already in the file, we need to update it not add
+            //else we do add it
+            bool personaExists = false;
+            foreach (var persona in _personas)
             {
-                tmpVoiceOptions.Add(TTSOutputVoiceOption1.Text);
+                if (persona.Name == PersonaComboBox.Text)
+                {
+                    personaExists = true;
+                    _bBBlog.Debug("Persona already exists, updating it");
+                    persona.RoleText = PersonaRoleTextBox.Text;
+                    persona.VoiceProvider = TTSProviderComboBox.Text;
+                    persona.VoiceName = TTSOutputVoice.Text;
+                    persona.VoiceOptions.Clear();
+                    if (TTSOutputVoiceOption1.Text != "")
+                    {
+                        persona.VoiceOptions.Add(TTSOutputVoiceOption1.Text);
+                    }
+                }
             }
-            _personas.Add(new Personas { Name = PersonaComboBox.Text, RoleText = PersonaRoleTextBox.Text, VoiceProvider = TTSProviderComboBox.Text, VoiceName = TTSOutputVoice.Text, VoiceOptions = tmpVoiceOptions });
+            if (!personaExists)
+            {
+                _bBBlog.Debug("Persona does not exist, adding it");
 
+                var tmpVoiceOptions = new List<string>();
+                if (TTSOutputVoiceOption1.Text != "")
+                {
+                    tmpVoiceOptions.Add(TTSOutputVoiceOption1.Text);
+                }
+                _personas.Add(new Personas { Name = PersonaComboBox.Text, RoleText = PersonaRoleTextBox.Text, VoiceProvider = TTSProviderComboBox.Text, VoiceName = TTSOutputVoice.Text, VoiceOptions = tmpVoiceOptions });
+
+            }
             //and write the file
             var tmpFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\personas.json";
             _bBBlog.Debug("Writing personas to file: " + _personas.Count);
@@ -366,6 +421,9 @@ namespace BanterBrain_Buddy
             {
                 sw.Write(JsonConvert.SerializeObject(_personas));
             }
+            _personaEdited = false;
+            SavePersona.Enabled = false;
+            return;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -384,25 +442,21 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void TTSFillNativeVoicesList()
+        private async Task TTSFillNativeVoicesList()
         {
             _bBBlog.Info("Fill Native voice list");
+            //no need to clear we only add if we find new things
             TTSOutputVoice.Items.Clear();
             foreach (var nativeVoice in _nativeRegionVoicesList)
             {
-                TTSOutputVoice.Items.Add(nativeVoice.Name + "-" + nativeVoice.Gender + "-" + nativeVoice.Culture);
+                string OutputVoice = nativeVoice.Name + "-" + nativeVoice.Gender + "-" + nativeVoice.Culture;
+                TTSOutputVoice.Items.Add(OutputVoice);
             }
             TTSOutputVoice.Sorted = true;
             TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
             TTSOutputVoiceOption1.Text = "";
         }
 
-        [SupportedOSPlatform("windows6.1")]
-        private async void TTSProviderComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _bBBlog.Info("TTS Provider changed to " + TTSProviderComboBox.Text);
-            await FillVoiceBoxes();
-        }
 
         [SupportedOSPlatform("windows6.1")]
         /// <summary>
@@ -417,10 +471,10 @@ namespace BanterBrain_Buddy
                 MessageBox.Show("API Key or region cannot be empty!", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            _bBBlog.Info("Finding TTS Azure voices available");
+
             AzureSpeechAPI AzureSpeech = new(AzureAPIKeyTextBox.Text, AzureRegionTextBox.Text, AzureLanguageComboBox.Text);
             _azureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
-
+            _bBBlog.Info($"Found Azure voices: {_azureRegionVoicesList.Count} ");
             if (_azureRegionVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?", "Azure API Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -451,7 +505,6 @@ namespace BanterBrain_Buddy
             //select the first item, to have at least something
             TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
             TTSOutputVoiceOption1.Text = "";
-
             TTSAzureFillOptions(TTSOutputVoice.Text);
         }
 
@@ -508,16 +561,6 @@ namespace BanterBrain_Buddy
             if (await TTSGetAzureVoices())
             {
                 MessageBox.Show("Azure API settings are correct", "Azure API Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void TTSOutputVoice_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (TTSProviderComboBox.Text == "Azure")
-            {
-                //depending on what voice is selected we need to now select the voice options (if any)
-                TTSAzureFillOptions(TTSOutputVoice.Text);
             }
         }
 
@@ -826,6 +869,116 @@ namespace BanterBrain_Buddy
             else
             {
                 TwitchEventSubTestButton.Enabled = false;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void PersonaRoleTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (PersonasPanel.Visible)
+            {
+                _bBBlog.Debug("Persona role text changed");
+                _personaEdited = true;
+                SavePersona.Enabled = true;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TTSOutputVoiceOption1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (PersonasPanel.Visible)
+            {
+                _bBBlog.Debug("Persona voice option changed");
+                _personaEdited = true;
+                SavePersona.Enabled = true;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void PersonaComboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            _bBBlog.Debug($"Persona selected value changed to {PersonaComboBox.Text} index {PersonaComboBox.SelectedIndex}");
+            _bBBlog.Debug($"Disable eventhandlers for now while loading the new persona data");
+            DisablePersonaEventHandlers();
+            //if the persona is changed we first need to check if the persona was edited if so we need to ask to save it
+            if (_personaEdited && PersonasPanel.Visible)
+            {
+                var result = MessageBox.Show("Persona Changed. Do you want to save the persona?", "Save Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    SavePersona_Click(sender, e);
+
+                }
+                _personaEdited = false;
+                SavePersona.Enabled = false;
+            }
+
+            //alright index is changed! We need to load the persona into the form
+            var selectedPersona = _personas[PersonaComboBox.SelectedIndex];
+            _bBBlog.Debug($"Loading persona into form. Personaname: {selectedPersona.VoiceName} VoiceProvider: {selectedPersona.VoiceProvider} TTSOutputvoice: {selectedPersona.VoiceName}  Amount of options: {selectedPersona.VoiceOptions.Count}");
+            PersonaRoleTextBox.Text = selectedPersona.RoleText;
+            //now lets load the one thats part of the selected persona
+            TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
+            //the provider can be different from the one before so we need to load teh voices
+            await FillVoiceBoxes();
+            TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
+            //now to fill the options field
+            TTSAzureFillOptions(TTSOutputVoice.Text);
+            if (selectedPersona.VoiceOptions.Count > 0)
+            {
+                _bBBlog.Debug("Voice options found, loading them into the combo box");
+                foreach (var voiceOption in selectedPersona.VoiceOptions)
+                {
+                    _bBBlog.Debug("Adding voice option: " + voiceOption);
+                    TTSOutputVoiceOption1.SelectedIndex = TTSOutputVoiceOption1.FindStringExact(voiceOption);
+                }
+            }
+            //enable them again.
+            EnablePersonaEventHandlers();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TTSProviderComboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            _bBBlog.Debug("TTSProvider selected value changed");
+            if (PersonasPanel.Visible)
+            {
+                SavePersona.Enabled = true;
+                _personaEdited = true;
+                _bBBlog.Info("TTS Provider changed to " + TTSProviderComboBox.Text);
+                await FillVoiceBoxes();
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TTSOutputVoice_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (PersonasPanel.Visible)
+            {
+                SavePersona.Enabled = true;
+                _personaEdited = true;
+                if (TTSProviderComboBox.Text == "Azure")
+                {
+                    _bBBlog.Info($"Azure voice changed, filling options on {TTSOutputVoice.Text}");
+                    //depending on what voice is selected we need to now select the voice options (if any)
+                    TTSAzureFillOptions(TTSOutputVoice.Text);
+                }
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void MenuTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            if (_personaEdited)
+            {
+                _bBBlog.Debug("Personas panel hidden. we should save the persona's if anything changed");
+                //ask if we need to save the persona
+                var result = MessageBox.Show("Information changed. Do you want to save the persona?", "Save Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    SavePersona_Click(sender, e);
+                }
+                _personaEdited = false;
             }
         }
     }
