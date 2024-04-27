@@ -104,7 +104,7 @@ namespace BanterBrain_Buddy
         private async void SetSelectedSTTProvider()
         {
             //TODO: check if the selected provider is still valid
-            await Task.Delay(500);
+            await Task.Delay(1000);
             try
             {
                 STTSelectedComboBox.SelectedIndex = STTSelectedComboBox.FindStringExact(Properties.Settings.Default.STTSelectedProvider);
@@ -593,7 +593,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async Task TalkToOpenAIGPT(String UserInput, Personas tmpPersona)
+        private async Task TalkToOpenAIGPT(String UserInput, string tmpPersonaRoletext)
         {
             _gPTOutputText = "";
             UpdateTextLog("Sending to GPT: " + UserInput + "\r\n");
@@ -609,8 +609,8 @@ namespace BanterBrain_Buddy
             //mood is setting the system text description
             //this is the persona role
             // UpdateTextLog("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
-            _bBBlog.Info("SystemRole: " + tmpPersona.RoleText);
-            chat.AppendSystemMessage(tmpPersona.RoleText);
+            _bBBlog.Info("SystemRole: " + tmpPersonaRoletext);
+            chat.AppendSystemMessage(tmpPersonaRoletext);
 
             chat.AppendUserInput(UserInput);
             try
@@ -727,7 +727,7 @@ namespace BanterBrain_Buddy
 
         //talk to the various LLM's
         [SupportedOSPlatform("windows6.1")]
-        private async Task TalkToLLM(string TextToPass, Personas tmpPersona)
+        private async Task TalkToLLM(string TextToPass, string tmpPersonaRoleText)
         {
             _gPTOutputText = "";
             _gPTDone = false;
@@ -735,7 +735,7 @@ namespace BanterBrain_Buddy
             {
                 UpdateTextLog("Using ChatGPT\r\n");
                 _bBBlog.Info("Using ChatGPT");
-                await TalkToOpenAIGPT(TextToPass, tmpPersona);
+                await TalkToOpenAIGPT(TextToPass, tmpPersonaRoleText);
             }
             //lets wait for GPT to be done
             while (!_gPTDone)
@@ -805,7 +805,7 @@ namespace BanterBrain_Buddy
                 //now the STT text is in _sTTOutputText, lets pass that to ChatGPT
                 if (_sTTOutputText.Length > 1)
                 {
-                    await TalkToLLM(_sTTOutputText, GetSelectedPersona(BroadcasterSelectedPersonaComboBox.Text));
+                    await TalkToLLM(_sTTOutputText, GetSelectedPersona(BroadcasterSelectedPersonaComboBox.Text).RoleText);
 
                     //this depends on the selected persona now
                     //var tmpPersona = GetSelectedPersona(BroadcasterSelectedPersonaComboBox.Text);
@@ -901,6 +901,11 @@ namespace BanterBrain_Buddy
             else if (Properties.Settings.Default.SelectedLLM == "None" || Properties.Settings.Default.SelectedLLM == "")
             {
                 TextLog.AppendText("No LLM selected. You should set one in the settings first\r\n");
+            }
+
+            if (TwitchAutoStart.Checked)
+            {
+                TwitchStartButton_Click(null, null);
             }
         }
 
@@ -1218,7 +1223,7 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 if (message.Length >= 1)
-                    await TalkToLLM($"Respond to the message of {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
+                    await TalkToLLM($"Respond to the message of {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona).RoleText);
                 //no message is no text
             });
             //we have to await the GPT response, due to running this from another thread await alone is not enough.
@@ -1252,7 +1257,7 @@ namespace BanterBrain_Buddy
             });
             await InvokeUI(async () =>
             {
-                await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
+                await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona).RoleText);
             });
             //we have to await the GPT response, due to running this from another thread await alone is not enough.
             while (!_gPTDone)
@@ -1319,7 +1324,7 @@ namespace BanterBrain_Buddy
                 _gPTDone = false;
                 await InvokeUI(async () =>
                 {
-                    await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                    await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona).RoleText);
                 });
                 //we have to await the GPT response, due to running this from another thread await alone is not enough.
                 while (!_gPTDone)
@@ -1354,7 +1359,7 @@ namespace BanterBrain_Buddy
             });
             await InvokeUI(async () =>
             {
-                await TalkToLLM($"respond to {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
+                await TalkToLLM($"respond to {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona).RoleText);
             });
             //we have to await the GPT response, due to running this from another thread await alone is not enough.
             while (!_gPTDone)

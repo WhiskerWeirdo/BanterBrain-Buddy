@@ -29,27 +29,14 @@ tldr: use Visual studio 2022 with .net 8.
 0.0.2
 - [ ] Wav file in use error sometimes on TTS
 
-### 0.0.5 TODO
+### TODO
 - [ ] FIX SET HOTKEY
-
-- [X] TTS/STT: see how far you can set Native and Azure into their own classes so the main program isn't poluted too much
 - [ ] Native STT: fix the output stream issue of native STT instead of using a wav file. (0.0.2 known issue)
-- [X] Twitch: Setup Twitch client in its own class
-- [X] Twitch: refresh auth token correctly on both timer and restart of application (fixed: using implicit grant)
-- [X] Twitch: call /validate on startup to check if token is still valid and then call hourly
-- [X] Twitch: eventSub => if listening for chat command subscribe to it and parse that text.
-- [X] Twitch: eventSub => if listening for cheers, subscribe to it and check minbits and react when over and message attached.
-- [X] Twitch: eventSub => if listening for subscription events check first-monthsubscribers and say a thank you message
-- [X] Twitch: eventSub => if listening for resubscription events, react when there's a message attached
-- [X] Twitch: eventSub => if listening for giftsub events and say a thank you message
-- [X] Twitch: eventSub => allow for reactions to point redemptions and trigger if a specific one is used and react to the mesage
 
 Known issues:
 - [	] Store the Audio devices by deviceID instead of name to fix device renaming issues
-- [X] Twitch: add a check to verify if there's an active twitch connection, if not dont do anything twitch related
-- [X] TTS: add a check to verify if there's an active TTS connection, if not dont do anything TTS related
-- [X] TTS: verify filling the TTS option drowdowns with the correct values when something is changed (doesnt always refresh now)
-- [X] TTS: Native TTS needs to list all possible voices
+- [ ] Persona's cannot be deleted yet from the GUI
+
 
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
