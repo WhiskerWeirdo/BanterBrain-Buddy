@@ -63,6 +63,7 @@ namespace BanterBrain_Buddy
         private bool _bigError = false;
 
         private bool _twitchStarted = false;
+        private bool _twitchAPIVerified = false;
 
         //Global Twitch API class
         //we need this for the hourly /validate check
@@ -135,6 +136,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void LoadPersonas()
         {
+
             var tmpFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\personas.json";
             if (!File.Exists(tmpFile))
             {
@@ -172,6 +174,10 @@ namespace BanterBrain_Buddy
                 _bBBlog.Debug("Personas file found, loading it.");
                 _personas.Clear();
                 BroadcasterSelectedPersonaComboBox.Items.Clear();
+                TwitchChatPersonaComboBox.Items.Clear();
+                TwitchChannelPointPersonaComboBox.Items.Clear();
+                TwitchCheeringPersonaComboBox.Items.Clear();
+                TwitchSubscriptionPersonaComboBox.Items.Clear();
                 using (var sr = new StreamReader(tmpFile))
                 {
                     var tmpString = sr.ReadToEnd();
@@ -245,7 +251,12 @@ namespace BanterBrain_Buddy
         {
             if (!_twitchValidateCheckStarted && TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchUsername.Length > 0 && Properties.Settings.Default.TwitchAccessToken.Length > 0 && Properties.Settings.Default.TwitchChannel.Length > 0)
             {
-                _globalTwitchAPI = new();
+                //only make a new instance if it's null
+                if (_globalTwitchAPI == null)
+                {
+                    _globalTwitchAPI = new();
+                }
+
                 var result = await _globalTwitchAPI.ValidateAccessToken(Properties.Settings.Default.TwitchAccessToken);
                 if (!result)
                 {
@@ -266,7 +277,6 @@ namespace BanterBrain_Buddy
                     TwitchAPIStatusTextBox.BackColor = Color.Green;
 
                     //only start if StartEventSubClient = true
-
                     //ok so all is good, lets start the eventsub client
                     if (StartEventSubClient)
                     {
@@ -826,8 +836,29 @@ namespace BanterBrain_Buddy
             TwitchMinBits.Text = Properties.Settings.Default.TwitchMinBits.ToString();
             TwitchSubscribed.Checked = Properties.Settings.Default.TwitchSubscribed;
             TwitchGiftedSub.Checked = Properties.Settings.Default.TwitchGiftedSub;
-         //todo: change to button
+            TwitchAutoStart.Checked = Properties.Settings.Default.TwitchAutoStart;
+            //todo: change to button
             TwitchEnableCheckbox.Checked = Properties.Settings.Default.TwitchEnable;
+            //setting the Twitch items enabled/disabled based on the checkbox
+            if (Properties.Settings.Default.TwitchEnable)
+            {
+                TwitchStartButton.Enabled = true;
+                TwitchTriggerSettings.Enabled = true;
+                TwitchCheerSettings.Enabled = true;
+                TwitchSubscriberSettings.Enabled = true;
+                TwitchChannelPointsSettings.Enabled = true;
+                TwitchAutoStart.Enabled = true;
+            }
+            else
+            {
+                TwitchStartButton.Enabled = false;
+                TwitchTriggerSettings.Enabled = false;
+                TwitchCheerSettings.Enabled = false;
+                TwitchSubscriberSettings.Enabled = false;
+                TwitchChannelPointsSettings.Enabled = false;
+                TwitchAutoStart.Enabled = false;
+            }
+
             TwitchReadChatCheckBox.Checked = Properties.Settings.Default.TwitchReadChatCheckBox;
             TwitchCheerCheckBox.Checked = Properties.Settings.Default.TwitchCheerCheckbox;
             TwitchCustomRewardName.Text = Properties.Settings.Default.TwitchCustomRewardName;
@@ -855,11 +886,15 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Info("GPT API key is valid");
                     TextLog.AppendText("OpenAI ChatGPT is selected asl LLM and key is valid.\r\n");
+                    _twitchAPIVerified = true;
+                    TwitchStartButton.Enabled = true;
                 }
                 else
                 {
                     _bBBlog.Error("GPT API is selected but key is invalid invalid. \r\n");
-
+                    TextLog.AppendText("OpenAI ChatGPT is selected as LLM but key is invalid. \r\n");
+                    _twitchAPIVerified = false;
+                    TwitchStartButton.Enabled = false;
                 }
 
             }
@@ -870,8 +905,15 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void BBB_FormClosing(object sender, FormClosingEventArgs e)
+        private async void BBB_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //turn off potentionally running Twitch stuff
+            if (_globalTwitchAPI != null)
+                await _globalTwitchAPI.EventSubStopAsync();
+
+            if (_twitchEventSub != null)
+                await _twitchEventSub.EventSubStopAsync();
+
             Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
             Properties.Settings.Default.TwitchChatCommandDelay = int.Parse(TwitchChatCommandDelay.Text);
             Properties.Settings.Default.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
@@ -889,6 +931,7 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchCheeringPersona = TwitchCheeringPersonaComboBox.Text;
             Properties.Settings.Default.TwitchSubscriptionPersona = TwitchSubscriptionPersonaComboBox.Text;
             Properties.Settings.Default.TwitchChatPersona = TwitchChatPersonaComboBox.Text;
+            Properties.Settings.Default.TwitchAutoStart = TwitchAutoStart.Checked;
             /* //add the hotkeys in settings list, not in text
              Properties.Settings.Default.HotkeyList.Clear();
              foreach (Keys key in _setHotkeys)
@@ -1039,28 +1082,9 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEnableCheckbox_Click(object sender, EventArgs e)
         {
-            //if the checkbox is checked, lets enable the timer to check the token every hour
-            //and start the eventsub server
-            //TODO: only allow this after both API and EventSub are tested and working
-            if (TwitchEnableCheckbox.Checked)
-            {
-                SetTwitchValidateTokenTimer(true);
-            }
-            else
-            { //turning off Twitch
-                _bBBlog.Info("Twitch disabled. Stopping timer and clearing token. Stopping Websocket client.");
-                if (_globalTwitchAPI != null)
-                {
-                    _globalTwitchAPI.StopHourlyAccessTokenCheck();
-                    await _globalTwitchAPI.EventSubStopAsync();
-                    _globalTwitchAPI = null;
-                    TwitchAPIStatusTextBox.Text = "DISABLED";
-                    TwitchAPIStatusTextBox.BackColor = Color.Red;
-                    TwitchEventSubStatusTextBox.Text = "DISABLED";
-                    TwitchEventSubStatusTextBox.BackColor = Color.Red;
+            //this turns off and on all twitch options
 
-                }
-            }
+
             _bBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
         }
 
@@ -1080,7 +1104,6 @@ namespace BanterBrain_Buddy
                 if (TwitchReadChatCheckBox.Checked)
                 {
                     _bBBlog.Info("Twitch read chat enabled, calling eventsubhandlereadchat");
-                    TwitchNeedsSubscriber.Enabled = false;
                     _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), false, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
                     _twitchEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
@@ -1179,7 +1202,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
         {
-            
+
             string user = e.GetCheerInfo()[0];
             string message = e.GetCheerInfo()[1];
             //we got a valid cheer message, lets see what we can do with it
@@ -1365,7 +1388,7 @@ namespace BanterBrain_Buddy
                 if (!_globalTwitchAPI.EventSubReadChatMessages)
                 {
                     _bBBlog.Info("Twitch read chat enabled.");
-                    TwitchNeedsSubscriber.Enabled = false;
+                    TwitchEnableDisableFields();
                     _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), false, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
                     _twitchEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
@@ -1374,7 +1397,7 @@ namespace BanterBrain_Buddy
             else
             {
                 _bBBlog.Info("Twitch read chat unchecked. Disabling event handler.");
-                TwitchNeedsSubscriber.Enabled = true;
+                TwitchEnableDisableFields();
                 _twitchEventSub.OnESubChatMessage -= TwitchEventSub_OnESubChatMessage;
                 await _twitchEventSub.EventSubStopReadChat();
             }
@@ -1404,7 +1427,7 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                _bBBlog.Info("Twitch cheering unchecked. Disabling event handler. TODO: disable eventsub subscription");
+                _bBBlog.Info("Twitch cheering unchecked. Disabling event handler.");
                 _twitchEventSub.OnESubCheerMessage -= TwitchEventSub_OnESubCheerMessage;
                 await _twitchEventSub.EventSubStopCheer();
 
@@ -1558,6 +1581,166 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void BroadcasterSelectedPersonaComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void TwitchStartButton_Click(object sender, EventArgs e)
+        {
+            if (!_twitchAPIVerified)
+            {
+                MessageBox.Show("Twitch API key is invalid. Please check the settings.", "Twitch API error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _bBBlog.Error("Twitch API key is invalid. Please check the settings.");
+                return;
+            }
+            //we also need at least one subsription event enabled else its useless
+            if (!TwitchReadChatCheckBox.Checked && !TwitchCheerCheckBox.Checked && !TwitchSubscribed.Checked && !TwitchGiftedSub.Checked && !TwitchChannelPointCheckBox.Checked)
+            {
+                MessageBox.Show("You need to enable at least one event to listen to. Please check the settings.", "Twitch API error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _bBBlog.Error("You need to enable at least one event to listen to. Please check the settings.");
+                return;
+            }
+
+
+            //if the checkbox is checked, lets enable the timer to check the token every hour
+            //and start the eventsub server
+            //TODO: only allow this after both API and EventSub are tested and working
+            if (TwitchStartButton.Text == "Start")
+            {
+                _bBBlog.Info("Twitch enabled. Starting API and EventSub");
+                SetTwitchValidateTokenTimer(true);
+                //we need to wait till the eventsub is started before we can enable the fields
+                while (!_twitchValidateCheckStarted)
+                {
+                    await Task.Delay(500);
+                }
+                TwitchStartButton.Text = "Stop";
+                TwitchEnableDisableFields();
+            }
+            else
+            { //turning off Twitch
+                _bBBlog.Info("Twitch disabled. Stopping timer and clearing token. Stopping Websocket client.");
+                TextLog.AppendText("Twitch disabled. Stopping timer and clearing token. Stopping Websocket client.\r\n");
+                TwitchStartButton.Text = "Start";
+
+                if (_globalTwitchAPI != null)
+                {
+                    _globalTwitchAPI.StopHourlyAccessTokenCheck();
+                    if (_globalTwitchAPI != null)
+                        await _globalTwitchAPI.EventSubStopAsync();
+
+                    if (_twitchEventSub != null)
+                        await _twitchEventSub.EventSubStopAsync();
+                    _twitchValidateCheckStarted = false;
+                    TwitchAPIStatusTextBox.Text = "DISABLED";
+                    TwitchAPIStatusTextBox.BackColor = Color.Red;
+                    TwitchEventSubStatusTextBox.Text = "DISABLED";
+                    TwitchEventSubStatusTextBox.BackColor = Color.Red;
+                    TwitchEnableDisableFields();
+                }
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchEnableDisableFields()
+        {
+            _bBBlog.Info($"Twitch enable/disable fields. Twitch started: {_twitchValidateCheckStarted}");
+            //we need to disable the ability to change settings of eventlisteners that are active
+            if (_twitchValidateCheckStarted)
+            {
+                if (TwitchReadChatCheckBox.Checked)
+                {
+                    _bBBlog.Info("Twitch read chat enabled, disabling settings");
+                    TwitchNeedsSubscriber.Enabled = false;
+                    TwitchCommandTrigger.Enabled = false;
+                    TwitchChatCommandDelay.Enabled = false;
+                    TwitchChatPersonaComboBox.Enabled = false;
+                } else
+                {
+                    TwitchNeedsSubscriber.Enabled = true;
+                    TwitchCommandTrigger.Enabled = true;
+                    TwitchChatCommandDelay.Enabled = true;
+                    TwitchChatPersonaComboBox.Enabled = true;
+                }
+
+                if (TwitchCheerCheckBox.Checked)
+                {
+                    _bBBlog.Info("Twitch cheers enabled, disabling settings");
+                    TwitchMinBits.Enabled = false;
+                    TwitchCheeringPersonaComboBox.Enabled = false;
+
+                } else
+                {
+                    TwitchMinBits.Enabled = true;
+                    TwitchCheeringPersonaComboBox.Enabled = true;
+                }
+
+                if (TwitchSubscribed.Checked || TwitchGiftedSub.Checked)
+                {
+                    _bBBlog.Info("Twitch subscriptions enabled, disabling settings");
+                    TwitchSubscriptionPersonaComboBox.Enabled = false;
+                }
+                else
+                {
+                    TwitchSubscriptionPersonaComboBox.Enabled = true;
+                }
+
+                if (TwitchChannelPointCheckBox.Checked)
+                {
+                    _bBBlog.Info("Twitch channel points enabled, disabling settings");
+                    TwitchChannelPointPersonaComboBox.Enabled = false;
+                    TwitchCustomRewardName.Enabled = false;
+                } else
+                {
+                    TwitchChannelPointPersonaComboBox.Enabled = true;
+                    TwitchCustomRewardName.Enabled = true;
+                }
+            }
+            else
+            {
+                TwitchNeedsSubscriber.Enabled = true;
+                TwitchCommandTrigger.Enabled = true;
+                TwitchChatCommandDelay.Enabled = true;
+                TwitchChatPersonaComboBox.Enabled = true;
+                TwitchMinBits.Enabled = true;
+                TwitchCheeringPersonaComboBox.Enabled = true;
+                TwitchSubscriptionPersonaComboBox.Enabled = true;
+                TwitchChannelPointPersonaComboBox.Enabled = true;
+                TwitchCustomRewardName.Enabled = true;
+
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchEnableCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            //first we check if theres actually info in the API settings or else lets not even bother
+            if (Properties.Settings.Default.TwitchAccessToken.Length < 1 && Properties.Settings.Default.TwitchChannel.Length < 1 && Properties.Settings.Default.TwitchUsername.Length <1 )
+            {
+                MessageBox.Show("Twitch API settings are not filled in. Please check the settings.", "Twitch API error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _bBBlog.Error("Twitch API settings are not filled in. Please check the settings.");
+                return;
+            }
+            if (TwitchEnableCheckbox.Checked)
+            {
+                _bBBlog.Info("Twitch enabled. Enabling all settings");
+                TwitchStartButton.Enabled = true;
+                TwitchTriggerSettings.Enabled = true;
+                TwitchCheerSettings.Enabled = true;
+                TwitchSubscriberSettings.Enabled = true;
+                TwitchChannelPointsSettings.Enabled = true;
+                TwitchAutoStart.Enabled = true;
+            }
+            else
+            {
+                _bBBlog.Info("Twitch disabled. Stopping API and EventSub");
+                //do same as stop also disable stuff
+                TwitchStartButton.Enabled = false;
+                TwitchTriggerSettings.Enabled = false;
+                TwitchCheerSettings.Enabled = false;
+                TwitchSubscriberSettings.Enabled = false;
+                TwitchChannelPointsSettings.Enabled = false;
+                TwitchAutoStart.Enabled = false;
+            }
         }
     }
 }

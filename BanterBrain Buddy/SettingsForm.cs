@@ -37,7 +37,7 @@ namespace BanterBrain_Buddy
             GetAudioDevices();
             LoadSettings();
             MenuTreeView.ExpandAll();
-
+            
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -129,7 +129,6 @@ namespace BanterBrain_Buddy
             TwitchAccessToken.Text = Properties.Settings.Default.TwitchAccessToken;
             TwitchChannel.Text = Properties.Settings.Default.TwitchChannel;
             TwitchSendTextCheckBox.Checked = Properties.Settings.Default.TwitchSendTextCheckBox;
-            TwitchCheckAuthAtStartup.Checked = Properties.Settings.Default.TwitchCheckAuthAtStartup;
             SoundInputDevices.SelectedIndex = SoundInputDevices.FindStringExact(Properties.Settings.Default.VoiceInput);
             MicrophoneHotkeyEditbox.Text = Properties.Settings.Default.PTTHotkey;
             TTSAudioOutputComboBox.SelectedIndex = TTSAudioOutputComboBox.FindStringExact(Properties.Settings.Default.TTSAudioOutput);
@@ -154,7 +153,6 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
             Properties.Settings.Default.TwitchChannel = TwitchChannel.Text;
             Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
-            Properties.Settings.Default.TwitchCheckAuthAtStartup = TwitchCheckAuthAtStartup.Checked;
             Properties.Settings.Default.VoiceInput = SoundInputDevices.Text;
             Properties.Settings.Default.PTTHotkey = MicrophoneHotkeyEditbox.Text;
             Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
@@ -638,25 +636,16 @@ namespace BanterBrain_Buddy
                 //  TextLog.Text += "Problem verifying Access token, invalid access token\r\n";
                 MessageBox.Show("Problem verifying Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 TwitchAPITestButton.Enabled = true;
-                //      TwitchAPIStatusTextBox.Text = "DISABLED";
-                //     TwitchAPIStatusTextBox.BackColor = Color.Red;
-                //if the token is invalid, lets disable the checkboxes
-                //      TwitchEnableCheckbox.Checked = false;
-                if (TwitchCheckAuthAtStartup.Checked)
-                    TwitchCheckAuthAtStartup.Checked = false;
+                _twitchAPIVerified = false;
+                TwitchEventSubTestButton.Enabled = false;
                 return;
             }
             else
             {
                 _bBBlog.Info($"Twitch Access token verified success!");
                 _twitchAPIVerified = true;
-                //       UpdateTextLog("Twitch Access token verified success!\r\n");
+                TwitchEventSubTestButton.Enabled = true;
                 MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //      TwitchAPIStatusTextBox.Text = "ENABLED";
-                //      TwitchAPIStatusTextBox.BackColor = Color.Green;
-                //if the token is valid, and twitch enabled lets start up the hourly validation timer
-                //   if (TwitchEnableCheckbox.Checked)
-                //      SetTwitchValidateTokenTimer(false);
             }
 
             TwitchAPITestButton.Enabled = true;
@@ -666,7 +655,7 @@ namespace BanterBrain_Buddy
         private async void EventSubTest_Click(object sender, EventArgs e)
         {
             //This only works once API access-token is verified
-            if (_twitchAPIVerified)
+            if (!_twitchAPIVerified)
             {
                 MessageBox.Show("You need to verify the API key first.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -827,6 +816,17 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("TEST: Valid Twitch Cheer message received");
         }
 
-
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (_twitchAPIVerified)
+            {
+                TwitchEventSubTestButton.Enabled = true;
+            }
+            else
+            {
+                TwitchEventSubTestButton.Enabled = false;
+            }
         }
+    }
 }

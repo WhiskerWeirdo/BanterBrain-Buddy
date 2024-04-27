@@ -45,7 +45,6 @@
             EventSubGroupbox = new System.Windows.Forms.GroupBox();
             TwitchMockEventSub = new System.Windows.Forms.CheckBox();
             TwitchEventSubTestButton = new System.Windows.Forms.Button();
-            TwitchCheckAuthAtStartup = new System.Windows.Forms.CheckBox();
             TwitchAPITestGroupBox = new System.Windows.Forms.GroupBox();
             TwitchTestSendText = new System.Windows.Forms.TextBox();
             TwitchSendTextCheckBox = new System.Windows.Forms.CheckBox();
@@ -179,7 +178,6 @@
             TwitchPanel.Controls.Add(label5);
             TwitchPanel.Controls.Add(TwitchUsername);
             TwitchPanel.Controls.Add(EventSubGroupbox);
-            TwitchPanel.Controls.Add(TwitchCheckAuthAtStartup);
             TwitchPanel.Controls.Add(TwitchAPITestGroupBox);
             TwitchPanel.Controls.Add(TwitchAuthorizeButton);
             TwitchPanel.Controls.Add(TwitchChannel);
@@ -193,6 +191,7 @@
             TwitchPanel.Name = "TwitchPanel";
             TwitchPanel.Size = new System.Drawing.Size(846, 750);
             TwitchPanel.TabIndex = 5;
+            TwitchPanel.VisibleChanged += TwitchPanel_VisibleChanged;
             // 
             // label5
             // 
@@ -240,6 +239,7 @@
             // 
             // TwitchEventSubTestButton
             // 
+            TwitchEventSubTestButton.Enabled = false;
             TwitchEventSubTestButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             TwitchEventSubTestButton.Location = new System.Drawing.Point(9, 37);
             TwitchEventSubTestButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -249,18 +249,6 @@
             TwitchEventSubTestButton.Text = "Test";
             TwitchEventSubTestButton.UseVisualStyleBackColor = true;
             TwitchEventSubTestButton.Click += EventSubTest_Click;
-            // 
-            // TwitchCheckAuthAtStartup
-            // 
-            TwitchCheckAuthAtStartup.AutoSize = true;
-            TwitchCheckAuthAtStartup.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TwitchCheckAuthAtStartup.Location = new System.Drawing.Point(74, 53);
-            TwitchCheckAuthAtStartup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            TwitchCheckAuthAtStartup.Name = "TwitchCheckAuthAtStartup";
-            TwitchCheckAuthAtStartup.Size = new System.Drawing.Size(118, 29);
-            TwitchCheckAuthAtStartup.TabIndex = 25;
-            TwitchCheckAuthAtStartup.Text = "Auto Start";
-            TwitchCheckAuthAtStartup.UseVisualStyleBackColor = true;
             // 
             // TwitchAPITestGroupBox
             // 
@@ -1033,7 +1021,6 @@
         private System.Windows.Forms.GroupBox EventSubGroupbox;
         private System.Windows.Forms.CheckBox TwitchMockEventSub;
         private System.Windows.Forms.Button TwitchEventSubTestButton;
-        private System.Windows.Forms.CheckBox TwitchCheckAuthAtStartup;
         private System.Windows.Forms.GroupBox TwitchAPITestGroupBox;
         private System.Windows.Forms.TextBox TwitchTestSendText;
         private System.Windows.Forms.CheckBox TwitchSendTextCheckBox;

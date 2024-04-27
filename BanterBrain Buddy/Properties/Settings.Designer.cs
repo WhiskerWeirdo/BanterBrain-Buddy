@@ -502,5 +502,17 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchSubscriptionPersona"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchAutoStart {
+            get {
+                return ((bool)(this["TwitchAutoStart"]));
+            }
+            set {
+                this["TwitchAutoStart"] = value;
+            }
+        }
     }
 }
