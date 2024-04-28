@@ -47,6 +47,7 @@ namespace BanterBrain_Buddy
             BBBTabs = new TabControl();
             StreaminSettingsTab = new TabPage();
             groupBox4 = new GroupBox();
+            TwitchAutoStart = new CheckBox();
             TwitchStartButton = new Button();
             TwitchChannelPointsSettings = new GroupBox();
             label4 = new Label();
@@ -83,7 +84,6 @@ namespace BanterBrain_Buddy
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
-            TwitchAutoStart = new CheckBox();
             MainTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -214,6 +214,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(groupBox4, "groupBox4");
             groupBox4.Name = "groupBox4";
             groupBox4.TabStop = false;
+            // 
+            // TwitchAutoStart
+            // 
+            resources.ApplyResources(TwitchAutoStart, "TwitchAutoStart");
+            TwitchAutoStart.Name = "TwitchAutoStart";
+            TwitchAutoStart.UseVisualStyleBackColor = true;
             // 
             // TwitchStartButton
             // 
@@ -453,12 +459,6 @@ namespace BanterBrain_Buddy
             seToolStripMenuItem.Name = "seToolStripMenuItem";
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += seToolStripMenuItem_Click;
-            // 
-            // TwitchAutoStart
-            // 
-            resources.ApplyResources(TwitchAutoStart, "TwitchAutoStart");
-            TwitchAutoStart.Name = "TwitchAutoStart";
-            TwitchAutoStart.UseVisualStyleBackColor = true;
             // 
             // BBB
             // 

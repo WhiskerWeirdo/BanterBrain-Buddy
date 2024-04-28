@@ -2634,7 +2634,7 @@
     <value>6, 5, 6, 5</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>BanterBrain Buddy 0.0.5-dev</value>
+    <value>BanterBrain Buddy 0.0.5-ALPHA</value>
   </data>
   <data name="&gt;&gt;fileToolStripMenuItem.Name" xml:space="preserve">
     <value>fileToolStripMenuItem</value>

@@ -18,15 +18,8 @@ using CSCore.Codecs.WAV;
 using System.Threading;
 using System.Diagnostics;
 using System.Runtime.Versioning;
-using TwitchLib.Api.Helix.Models.Users.GetUserFollows;
-using TwitchLib.Api.Helix.Models.Moderation.CheckAutoModStatus;
-using TwitchLib.Api.Helix;
-using Microsoft.AspNetCore.Components;
-using System.Reflection.Emit;
-using static System.Formats.Asn1.AsnWriter;
 using System.Reflection;
 using Newtonsoft.Json;
-using BanterBrain_Buddy.Properties;
 
 /// <summary>
 /// CODING RULES:
