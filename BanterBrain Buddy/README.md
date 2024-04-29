@@ -24,9 +24,6 @@ tldr: use Visual studio 2022 with .net 8.
 
 ## Resources for local and API
 - for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
-- local based LLM's like GPT4All take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
-
-## Roadmap
 
 ### KNOWN ISSUES
 Known issues:
