@@ -1,5 +1,6 @@
-﻿using CSCore.MediaFoundation;
-using CSCore.SoundOut;
+﻿//using CSCore.MediaFoundation;
+//using CSCore.SoundOut;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -26,25 +27,18 @@ namespace BanterBrain_Buddy
         private SpeechSynthesizer _nativeSynthesizer;
         private MemoryStream _nativeAudioStream;
 
-        private WaveOutDevice _selectedOutputDevice;
-        private WaveOutDevice SelectedOutputDevice
-        {
-            get { return _selectedOutputDevice; }
-            set
-            {
-                _selectedOutputDevice = value;
-            }
-        }
+        private int SelectedOutputDevice;
 
         private void SetSelectedOutputDevice(string OutputDevice)
         {
             _bBBlog.Info($"Setting selected output device for Native TTS to: {OutputDevice}");
-            foreach (var device in WaveOutDevice.EnumerateDevices())
+            for (int i = 0; i < NAudio.Wave.WaveOut.DeviceCount; i++)
             {
-                if (OutputDevice.StartsWith(device.Name))
+                var tmpOut = NAudio.Wave.WaveOut.GetCapabilities(i).ProductName;
+                if (OutputDevice.StartsWith(tmpOut))
                 {
-                    _bBBlog.Debug($"Selected outputdevice = {device.Name}");
-                    SelectedOutputDevice = device;
+                    _bBBlog.Debug($"Selected outputdevice = {tmpOut}");
+                    SelectedOutputDevice = i;
                 }
             }
         }
@@ -55,10 +49,13 @@ namespace BanterBrain_Buddy
         {
             _nativeSynthesizer.Speak(TextToSay);
             //TODO: handle issues with device not being available or not responsive
-            _bBBlog.Info("Device out: " + SelectedOutputDevice.Name);
-            var waveOut = new WaveOut { Device = new WaveOutDevice(SelectedOutputDevice.DeviceId) };
-            using var waveSource = new MediaFoundationDecoder(_nativeAudioStream);
-            waveOut.Initialize(waveSource);
+            _bBBlog.Info("Device out: " + SelectedOutputDevice);
+            var waveOut = new WaveOut();
+            waveOut.DeviceNumber = SelectedOutputDevice;
+            var waveStream = new RawSourceWaveStream(_nativeAudioStream, new WaveFormat(24000,16,1));
+            waveStream.Position = 0;
+            waveOut.Init(waveStream);
+
             waveOut.Play();
             while (waveOut.PlaybackState != PlaybackState.Stopped)
             {
