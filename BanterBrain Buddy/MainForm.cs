@@ -63,6 +63,7 @@ namespace BanterBrain_Buddy
         private TwitchAPIESub _globalTwitchAPI;
         private bool _twitchValidateCheckStarted;
         private TwitchAPIESub _twitchEventSub;
+        public static bool isTwitchRunning = false;
 
         //this will hold the STT output text
         private string _sTTOutputText;
@@ -1556,6 +1557,14 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void seToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            if (_twitchEventSub != null)
+            {
+                //twitch is running so....lets make sure the settings form knows this
+                isTwitchRunning =true;
+            } else
+                isTwitchRunning = false;
+
             SettingsForm test = new();
             test.FormClosing += BBB_Test_FormClosing;
             test.ShowDialog();

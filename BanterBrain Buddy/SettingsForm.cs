@@ -39,6 +39,18 @@ namespace BanterBrain_Buddy
             GetAudioDevices();
             LoadSettings();
             MenuTreeView.ExpandAll();
+
+            //we need to disable the Twitch settings if its running
+            if (BBB.isTwitchRunning)
+            {
+                _bBBlog.Info("Twitch is running, disabling Twitch settings");
+                TwitchPanel.Enabled = false;
+            }
+            else
+            {
+                _bBBlog.Info("Twitch is not running, enabling Twitch settings");
+                TwitchPanel.Enabled = true;
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]

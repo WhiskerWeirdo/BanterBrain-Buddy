@@ -35,7 +35,7 @@ Known issues:
 - [ ] Persona's cannot be deleted from the interface.
 - [ ] No PTT hotkey
 - [ ] No ability to check for Twitch followers
-- [ ] If you are connected to Twitch and got into the settings and close the settings window Twitch will disconnect.
+- [X] If you are connected to Twitch and got into the settings and close the settings window Twitch will disconnect.
 
 
 ### Short term roadmap
