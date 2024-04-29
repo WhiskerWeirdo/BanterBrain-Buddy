@@ -50,7 +50,9 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Device out: " + SelectedOutputDevice);
             var waveOut = new WaveOut();
             waveOut.DeviceNumber = SelectedOutputDevice;
+            //it has to be 24000, 16, 1 for some reason?
             var waveStream = new RawSourceWaveStream(_nativeAudioStream, new WaveFormat(24000,16,1));
+            //reset the stream to the beginning or you wont hear anything
             waveStream.Position = 0;
             waveOut.Init(waveStream);
 

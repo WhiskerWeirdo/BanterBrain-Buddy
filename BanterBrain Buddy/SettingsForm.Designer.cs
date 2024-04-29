@@ -32,14 +32,13 @@
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Speaker");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode1, treeNode2 });
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Azure");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("OpenAI ChatGPT");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("OpenAI");
             System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode4, treeNode5 });
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Twitch ");
             System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode7 });
             System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Persona's");
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
-            PersonasPanel = new System.Windows.Forms.Panel();
             TwitchPanel = new System.Windows.Forms.Panel();
             label5 = new System.Windows.Forms.Label();
             TwitchUsername = new System.Windows.Forms.TextBox();
@@ -56,6 +55,7 @@
             TwitchChannelNameLabel = new System.Windows.Forms.Label();
             TwitchAccesstokenLabel = new System.Windows.Forms.Label();
             label9 = new System.Windows.Forms.Label();
+            PersonasPanel = new System.Windows.Forms.Panel();
             TestVoiceButton = new System.Windows.Forms.Button();
             DeletePersona = new System.Windows.Forms.Button();
             SavePersona = new System.Windows.Forms.Button();
@@ -109,10 +109,10 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            PersonasPanel.SuspendLayout();
             TwitchPanel.SuspendLayout();
             EventSubGroupbox.SuspendLayout();
             TwitchAPITestGroupBox.SuspendLayout();
+            PersonasPanel.SuspendLayout();
             OpenAIChatGPTPanel.SuspendLayout();
             AzurePanel.SuspendLayout();
             MicrophonePanel.SuspendLayout();
@@ -131,9 +131,9 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(PersonasPanel);
-            splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(AzurePanel);
             splitContainer1.Panel2.Controls.Add(MicrophonePanel);
             splitContainer1.Panel2.Controls.Add(SpeakerPanel);
@@ -155,7 +155,7 @@
             treeNode4.Name = "Azure";
             treeNode4.Text = "Azure";
             treeNode5.Name = "OpenAIChatGPT";
-            treeNode5.Text = "OpenAI ChatGPT";
+            treeNode5.Text = "OpenAI";
             treeNode6.Name = "APISettings";
             treeNode6.Text = "API Settings";
             treeNode7.Name = "Twitch";
@@ -170,30 +170,6 @@
             MenuTreeView.TabIndex = 0;
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += treeView1_AfterSelect;
-            // 
-            // PersonasPanel
-            // 
-            PersonasPanel.Controls.Add(TestVoiceButton);
-            PersonasPanel.Controls.Add(DeletePersona);
-            PersonasPanel.Controls.Add(SavePersona);
-            PersonasPanel.Controls.Add(NewPersona);
-            PersonasPanel.Controls.Add(TTSOutputVoiceOption1);
-            PersonasPanel.Controls.Add(label15);
-            PersonasPanel.Controls.Add(TTSOutputVoice);
-            PersonasPanel.Controls.Add(label16);
-            PersonasPanel.Controls.Add(TTSProviderComboBox);
-            PersonasPanel.Controls.Add(label14);
-            PersonasPanel.Controls.Add(label13);
-            PersonasPanel.Controls.Add(PersonaComboBox);
-            PersonasPanel.Controls.Add(label12);
-            PersonasPanel.Controls.Add(PersonaRoleTextBox);
-            PersonasPanel.Controls.Add(label10);
-            PersonasPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            PersonasPanel.Location = new System.Drawing.Point(0, 0);
-            PersonasPanel.Name = "PersonasPanel";
-            PersonasPanel.Size = new System.Drawing.Size(593, 450);
-            PersonasPanel.TabIndex = 6;
-            PersonasPanel.VisibleChanged += PersonasPanel_VisibleChanged;
             // 
             // TwitchPanel
             // 
@@ -373,6 +349,30 @@
             label9.Size = new System.Drawing.Size(86, 15);
             label9.TabIndex = 0;
             label9.Text = "Twitch Settings";
+            // 
+            // PersonasPanel
+            // 
+            PersonasPanel.Controls.Add(TestVoiceButton);
+            PersonasPanel.Controls.Add(DeletePersona);
+            PersonasPanel.Controls.Add(SavePersona);
+            PersonasPanel.Controls.Add(NewPersona);
+            PersonasPanel.Controls.Add(TTSOutputVoiceOption1);
+            PersonasPanel.Controls.Add(label15);
+            PersonasPanel.Controls.Add(TTSOutputVoice);
+            PersonasPanel.Controls.Add(label16);
+            PersonasPanel.Controls.Add(TTSProviderComboBox);
+            PersonasPanel.Controls.Add(label14);
+            PersonasPanel.Controls.Add(label13);
+            PersonasPanel.Controls.Add(PersonaComboBox);
+            PersonasPanel.Controls.Add(label12);
+            PersonasPanel.Controls.Add(PersonaRoleTextBox);
+            PersonasPanel.Controls.Add(label10);
+            PersonasPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            PersonasPanel.Location = new System.Drawing.Point(0, 0);
+            PersonasPanel.Name = "PersonasPanel";
+            PersonasPanel.Size = new System.Drawing.Size(593, 450);
+            PersonasPanel.TabIndex = 6;
+            PersonasPanel.VisibleChanged += PersonasPanel_VisibleChanged;
             // 
             // TestVoiceButton
             // 
@@ -639,9 +639,9 @@
             label4.Location = new System.Drawing.Point(37, 82);
             label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(41, 15);
+            label4.Size = new System.Drawing.Size(65, 15);
             label4.TabIndex = 31;
-            label4.Text = "Model";
+            label4.Text = "GPT Model";
             // 
             // GPTTestButton
             // 
@@ -680,9 +680,9 @@
             label7.AutoSize = true;
             label7.Location = new System.Drawing.Point(213, 9);
             label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(96, 15);
+            label7.Size = new System.Drawing.Size(47, 15);
             label7.TabIndex = 0;
-            label7.Text = "OpenAI ChatGPT";
+            label7.Text = "OpenAI";
             // 
             // AzurePanel
             // 
@@ -908,14 +908,14 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            PersonasPanel.ResumeLayout(false);
-            PersonasPanel.PerformLayout();
             TwitchPanel.ResumeLayout(false);
             TwitchPanel.PerformLayout();
             EventSubGroupbox.ResumeLayout(false);
             EventSubGroupbox.PerformLayout();
             TwitchAPITestGroupBox.ResumeLayout(false);
             TwitchAPITestGroupBox.PerformLayout();
+            PersonasPanel.ResumeLayout(false);
+            PersonasPanel.PerformLayout();
             OpenAIChatGPTPanel.ResumeLayout(false);
             OpenAIChatGPTPanel.PerformLayout();
             AzurePanel.ResumeLayout(false);

@@ -30,7 +30,7 @@ tldr: use Visual studio 2022 with .net 8.
 
 ### KNOWN ISSUES
 Known issues:
-- [ ] Native TTS Wav file in use error sometimes on TTS
+- [X] Native TTS Wav file in use error sometimes on TTS
 - [ ] Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
 - [ ] Personas cannot be deleted from the interface.
 - [ ] No PTT hotkey

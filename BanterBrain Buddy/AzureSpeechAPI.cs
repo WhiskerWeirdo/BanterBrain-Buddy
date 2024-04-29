@@ -30,7 +30,6 @@ namespace BanterBrain_Buddy
         private string _azureVoiceName { get; set; }
         private string _azureVoiceOptions { get; set; }
 
-
         private NAudio.CoreAudioApi.MMDevice outDevice;
         private NAudio.CoreAudioApi.MMDevice inDevice;
 

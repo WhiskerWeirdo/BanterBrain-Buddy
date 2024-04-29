@@ -56,6 +56,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -237,7 +245,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:BanterBrain"
         "ProductCode" = "8:{76FE6F51-CA42-4E32-BE36-3EBAAABE93FA}"
-        "PackageCode" = "8:{7E8FA1D0-D709-43AD-AEE8-22BC82BACDC1}"
+        "PackageCode" = "8:{CC2F955B-E5CB-4118-90FF-2D4A6E4FE1AA}"
         "UpgradeCode" = "8:{4B635E66-0C4A-48F5-B28C-7107F31B1F77}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -248,7 +256,7 @@
         "Manufacturer" = "8:BanterBrain"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://discord.banterbrain.tv"
-        "Title" = "8:BanterBrain Buddy"
+        "Title" = "8:BanterBrain Buddy 0.0.5-ALPHA.2"
         "Subject" = "8:"
         "ARPCONTACT" = "8:WhiskerWeirdo"
         "Keywords" = "8:"

@@ -213,6 +213,7 @@ namespace BanterBrain_Buddy
                 STTSelectedComboBox.Items.Add("Native");
             }
 
+            //if the Azure API key is set, we can check for voices
             if (Properties.Settings.Default.AzureAPIKeyTextBox.Length > 1)
             {
                 List<AzureVoices> azureRegionVoicesList = [];
@@ -229,6 +230,13 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Error("No Azure voices found, despite what seems to be an API key");
                 }
+            }
+
+            OpenAI openAI = new();
+            if (openAI.OpenAICheckAPIKey())
+            {
+                STTSelectedComboBox.Items.Add("OpenAI Whisper");
+                _bBBlog.Info("OpenAI API setting valid, adding Whisper to list");
             }
         }
 
@@ -333,10 +341,10 @@ namespace BanterBrain_Buddy
 
 
         [SupportedOSPlatform("windows6.1")]
-        private async Task NativeInputStreamtoWav()
+        private async Task InputStreamtoWav()
         {
-            _bBBlog.Info("Native STT microphone start.");
-            _bBBlog.Debug("Selected audio input device for Native: " + Properties.Settings.Default.VoiceInput);
+            _bBBlog.Info("STT microphone start.");
+            _bBBlog.Debug("Selected audio input device for Audio to Wav: " + Properties.Settings.Default.VoiceInput);
             var recordingDevice = 0;
             for (int i = 0; i < NAudio.Wave.WaveIn.DeviceCount; i++)
             {   
@@ -368,12 +376,12 @@ namespace BanterBrain_Buddy
                 writeDone = true;
             };
             UpdateTextLog("STT microphone start. -- SPEAK NOW -- \r\n");
-            _bBBlog.Info("Native STT microphone start.");
+            _bBBlog.Info("STT microphone start.");
             while (MainRecordingStart.Text == "Recording")
             {
                 await Task.Delay(500);
             }
-            _bBBlog.Info("Native STT microphone stop.");
+            _bBBlog.Info("STT microphone stop.");
             waveIn.StopRecording();
             //we have to wait till the file is done writing  to disk
             while (!writeDone)
@@ -382,10 +390,32 @@ namespace BanterBrain_Buddy
             }
             _bBBlog.Debug("converting to Text from WAV");
             _sTTDone = false;
+
             //now lets convert the saved .wav to Text
-            NativeSTTfromWAV();
+            if (STTSelectedComboBox.Text == "Native")
+                NativeSTTfromWAV();
+            if (STTSelectedComboBox.Text == "OpenAI Whisper")
+                WhisperSTTfromWAV();
         }
 
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void WhisperSTTfromWAV()
+        {
+            _sTTOutputText = "";
+           OpenAI openAI = new();
+            _bBBlog.Info("Starting OpenAI STT from WAV");
+            _sTTOutputText = await openAI.OpenAISTT(_tmpWavFile);
+            if (_sTTOutputText == null)
+            {
+                _bBBlog.Error("OpenAI STT failed");
+                _bigError = true;
+            } else
+            {
+                _bBBlog.Info($"OpenAI STT done: {_sTTOutputText}");
+            }
+            _sTTDone = true;
+        }
 
         [SupportedOSPlatform("windows6.1")]
         private async void NativeSTTfromWAV()
@@ -635,12 +665,22 @@ namespace BanterBrain_Buddy
                 {
                     UpdateTextLog("Main button Native STT calling\r\n");
                     _bBBlog.Info("Main button Native STT calling");
-                    await NativeInputStreamtoWav();
+                    await InputStreamtoWav();
+                    while (!_sTTDone)
+                    {
+                        await Task.Delay(500);
+                    }
+                } else if (selectedProvider == "OpenAI Whisper")
+                {
+                    UpdateTextLog("OpenAI Whisper STT calling\r\n");
+                    _bBBlog.Info("OpenAI Whisper STT calling");
+                    await InputStreamtoWav();
                     while (!_sTTDone)
                     {
                         await Task.Delay(500);
                     }
                 }
+
                 else if (selectedProvider == "Azure")
                 {
                     UpdateTextLog("Azure STT calling\r\n");
@@ -752,23 +792,23 @@ namespace BanterBrain_Buddy
                  _setHotkeys.Add(tmpKey);
              }*/
 
-            //lets check if the selected API key for GPT is valid   
+            //lets check if the selected OpenAI API key is valid   
             if (Properties.Settings.Default.SelectedLLM == "GPT")
             {
                 OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
                 if (await api.Auth.ValidateAPIKey())
                 {
                     _bBBlog.Info("GPT API key is valid");
-                    TextLog.AppendText("OpenAI ChatGPT is selected asl LLM and key is valid.\r\n");
-                    _twitchAPIVerified = true;
-                    TwitchStartButton.Enabled = true;
+                    TextLog.AppendText("OpenAI key is valid.\r\n");
+                  //  _twitchAPIVerified = true;
+                  //  TwitchStartButton.Enabled = true;
                 }
                 else
                 {
                     _bBBlog.Error("GPT API is selected but key is invalid invalid. \r\n");
                     TextLog.AppendText("OpenAI ChatGPT is selected as LLM but key is invalid. \r\n");
-                    _twitchAPIVerified = false;
-                    TwitchStartButton.Enabled = false;
+                 //   _twitchAPIVerified = false;
+                  //  TwitchStartButton.Enabled = false;
                 }
 
             }
