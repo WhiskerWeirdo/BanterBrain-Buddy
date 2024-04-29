@@ -1,6 +1,7 @@
-﻿using CSCore.CoreAudioAPI;
-using Microsoft.CognitiveServices.Speech;
+﻿using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
+using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -29,26 +30,9 @@ namespace BanterBrain_Buddy
         private string _azureVoiceName { get; set; }
         private string _azureVoiceOptions { get; set; }
 
-        //for the Azure STT input/output device selection and general speech config
-        private MMDevice _selectedInputDevice;
-        private MMDevice SelectedInputDevice
-        {
-            get { return _selectedInputDevice; }
-            set
-            {
-                _selectedInputDevice = value;
-            }
-        }
 
-        private MMDevice _selectedOutputDevice;
-        private MMDevice SelectedOutputDevice
-        {
-            get { return _selectedOutputDevice; }
-            set
-            {
-                _selectedOutputDevice = value;
-            }
-        }
+        private NAudio.CoreAudioApi.MMDevice outDevice;
+        private NAudio.CoreAudioApi.MMDevice inDevice;
 
         /// <summary>
         /// This method gets all the voices and styles available for the region and language
@@ -96,31 +80,34 @@ namespace BanterBrain_Buddy
         //this sets "SelectedInputDevice" to the correct input/microphone or capture device
         private void SetSelectedInputDevice(string InputDevice)
         {
-            var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Capture, DeviceState.Active);
-            foreach (var device in devices)
+            var enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
+            foreach (var device in
+                     enumerator.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.Capture, NAudio.CoreAudioApi.DeviceState.Active))
             {
-                if (device.FriendlyName == InputDevice)
+                if (device.FriendlyName.StartsWith(InputDevice))
                 {
-                    _bBBlog.Debug($"Selected inputdevice = {device.FriendlyName}");
-                    SelectedInputDevice = device;
+                    inDevice = device;
                 }
             }
         }
+
+
 
         private void SetSelectedOutputDevice(string OutputDevice)
         {
             _bBBlog.Info($"Setting selected output device for Azure TTS to: {OutputDevice}");
-            var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active);
-            foreach (var device in devices)
+
+
+            var enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
+            foreach (var device in
+                     enumerator.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.Render, NAudio.CoreAudioApi.DeviceState.Active))
             {
                 if (device.FriendlyName.StartsWith(OutputDevice))
                 {
-                    _bBBlog.Debug($"Selected outputdevice = {device.FriendlyName}");
-                    SelectedOutputDevice = device;
+                    outDevice = device;
                 }
             }
         }
-
 
         /// <summary>
         /// Initializes the Azure Text to Speech API with the selected voice, style and output device
@@ -181,7 +168,8 @@ namespace BanterBrain_Buddy
 
                 //now lets speak the SSML and handle the result 
                 _azureSpeechConfig.SpeechSynthesisVoiceName = _azureVoiceName;
-                var tmpAudioConfig = AudioConfig.FromSpeakerOutput(SelectedOutputDevice.DeviceID);
+                _bBBlog.Debug($"SelectedOutputdevice: {outDevice.ID}");
+                var tmpAudioConfig = AudioConfig.FromSpeakerOutput(outDevice.ID);
                 var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(_azureSpeechConfig, tmpAudioConfig);
                 var speechSynthesisResult = await speechSynthesizer.SpeakSsmlAsync(SSMLText);
                 var result = TTSAzureOutputSpeechSynthesisResult(speechSynthesisResult, TextToSay);
@@ -245,8 +233,8 @@ namespace BanterBrain_Buddy
             _azureSpeechConfig.SpeechRecognitionLanguage = AzureLanguage; //default language
 
             SetSelectedInputDevice(InputDevice);
-            _bBBlog.Info("selected audio input device for Azure: " + SelectedInputDevice);
-            _azureAudioConfig = AudioConfig.FromMicrophoneInput(SelectedInputDevice.DeviceID);
+            _bBBlog.Info("selected audio input device for Azure: " + inDevice.FriendlyName);
+            _azureAudioConfig = AudioConfig.FromMicrophoneInput(inDevice.ID);
             _azureSpeechRecognizer = new SpeechRecognizer(_azureSpeechConfig, _azureAudioConfig);
         }
 

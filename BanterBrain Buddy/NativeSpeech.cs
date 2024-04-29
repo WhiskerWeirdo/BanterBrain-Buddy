@@ -1,6 +1,4 @@
-﻿//using CSCore.MediaFoundation;
-//using CSCore.SoundOut;
-using NAudio.Wave;
+﻿using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
