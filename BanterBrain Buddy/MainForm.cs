@@ -8,18 +8,14 @@ using System.Speech.Recognition;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using CSCore.MediaFoundation;
-using CSCore.SoundOut;
-using CSCore.SoundIn;
-using CSCore;
-using CSCore.CoreAudioAPI;
-using CSCore.Streams;
-using CSCore.Codecs.WAV;
 using System.Threading;
 using System.Diagnostics;
 using System.Runtime.Versioning;
 using System.Reflection;
 using Newtonsoft.Json;
+using NAudio.Wave;
+using NAudio.CoreAudioApi;
+
 
 /// <summary>
 /// CODING RULES:
@@ -295,81 +291,6 @@ namespace BanterBrain_Buddy
             }
         }
 
-        /*
-        [SupportedOSPlatform("windows6.1")]
-        private async void STTTestButton_Click(object sender, EventArgs e)
-        {
-
-            String selectedProvider = STTProviderBox.GetItemText(STTProviderBox.SelectedItem);
-            if (STTTestButton.Text == "Test")
-            {
-                _sTTOutputText = "";
-                UpdateTextLog("Test Microphone on\r\n");
-                _bBBlog.Info("Test Microphone on");
-                STTTestButton.Text = "Recording";
-                UpdateTextLog(selectedProvider + "\r\n");
-
-                _sTTDone = false;
-                _bigError = false;
-                if (selectedProvider == "Native")
-                {
-                    UpdateTextLog("Test Native STT calling\r\n");
-                    _bBBlog.Info("Test Native STT calling");
-                    NativeInputStreamtoWav();
-                    while (!_sTTDone)
-                    {
-                        await Task.Delay(500);
-                    }
-                }
-                else if (selectedProvider == "Azure")
-                {
-                    UpdateTextLog("Test Azure STT calling\r\n");
-                    _bBBlog.Info("Test Azure STT calling");
-                    //cant be empty
-
-                    if ((STTAPIKeyEditbox.Text.Length < 1) || (STTRegionEditbox.Text.Length < 1))
-                    {
-                        _sTTOutputText = "Error! API Key or region cannot be empty!";
-                        _bBBlog.Error("Error! API Key or region cannot be empty!");
-                        STTTestButton.Text = "Test";
-                    }
-                    else
-                    {
-                        AzureConvertVoicetoText();
-                        while (!_sTTDone && !_bigError)
-                        {
-                            await Task.Delay(500);
-                        }
-
-                    }
-                }
-            }
-            else
-            {
-                STTTestButton.Text = "Test";
-                UpdateTextLog("Test stopped recording\r\n");
-                _bBBlog.Info("Test stopped recording");
-                STTTestOutput.BackColor = SystemColors.Control;
-                if (selectedProvider == "Native")
-                    StopWavCapture();
-            }
-        }
-        */
-
-
-        [SupportedOSPlatform("windows6.1")]
-        //this sets "SelectedInputDevice" to the correct input/microphone
-        private void SetSelectedInputDevice()
-        {
-            var devices = MMDeviceEnumerator.EnumerateDevices(DataFlow.Capture, DeviceState.Active);
-            foreach (var device in devices)
-            {
-                if (device.FriendlyName == Properties.Settings.Default.VoiceInput)
-                {
-                    SelectedInputDevice = device;
-                }
-            }
-        }
 
         [SupportedOSPlatform("windows6.1")]
         /// <summary>
@@ -406,85 +327,65 @@ namespace BanterBrain_Buddy
             _sTTDone = true;
         }
 
-        //help with selected inputdevice to return the ID
-        //that corresponds with the name
-        private IWaveSource _finalSource;
-        public MMDevice SelectedInputDevice
-        {
-            get { return _selectedDevice; }
-            set
-            {
-                _selectedDevice = value;
-            }
-        }
-
-        public MMDevice SelectedOutputDevice
-        {
-            get { return _selectedDevice; }
-            set
-            {
-                _selectedDevice = value;
-            }
-        }
-
-        //NATIVE
-        //Saving data from specific input device into a .wav file for Speech recognition
-        private MMDevice _selectedDevice;
-        private WasapiCapture _soundIn;
-        private IWriteable _writer;
 
         [SupportedOSPlatform("windows6.1")]
         readonly private string _tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
 
+
         [SupportedOSPlatform("windows6.1")]
-        private void NativeInputStreamtoWav()
+        private async Task NativeInputStreamtoWav()
         {
+            _bBBlog.Info("Native STT microphone start.");
+            _bBBlog.Debug("Selected audio input device for Native: " + Properties.Settings.Default.VoiceInput);
+            var recordingDevice = 0;
+            for (int i = 0; i < NAudio.Wave.WaveIn.DeviceCount; i++)
+            {   
+                var tmpEnum = NAudio.Wave.WaveIn.GetCapabilities(i).ProductName;
+                _bBBlog.Debug("Checking recording device: " + tmpEnum + "at id: " +i );
+                if (tmpEnum.StartsWith(Properties.Settings.Default.VoiceInput))
+                {
+                    recordingDevice = i;
+                    break;
+                }
+            }
+            _bBBlog.Debug("Recording device: " + recordingDevice);
 
-            SetSelectedInputDevice();
-            _bBBlog.Info("Selected audio input device for Native: " + SelectedInputDevice);
-            _soundIn = new WasapiCapture() { Device = SelectedInputDevice };
-            _soundIn.Initialize();
-            var soundInSource = new SoundInSource(_soundIn) { FillWithZeros = false };
-            var singleBlockNotificationStream = new SingleBlockNotificationStream(soundInSource.ToSampleSource());
-
-            //speech recognition is painful, like life
-            //this has to be this setting or Native TTS function will throw an error
-            _finalSource = singleBlockNotificationStream.ToMono().ChangeSampleRate(16000).ToWaveSource(16);
-            _writer = new WaveWriter(_tmpWavFile, _finalSource.WaveFormat);
-            soundInSource.DataAvailable += (s, e) =>
+            bool writeDone = false;
+            var waveIn = new WaveInEvent();
+            waveIn.DeviceNumber = recordingDevice;
+            waveIn.WaveFormat = new NAudio.Wave.WaveFormat(16000, 16, 1);
+            var writer = new WaveFileWriter(_tmpWavFile, waveIn.WaveFormat);
+            waveIn.StartRecording();
+            waveIn.DataAvailable += (s, a) =>
             {
-                int read;
-                byte[] buffer = new byte[_finalSource.WaveFormat.BytesPerSecond / 2];
-                while ((read = _finalSource.Read(buffer, 0, buffer.Length)) > 0)
-                    _writer.Write(buffer, 0, read);
+                writer.Write(a.Buffer, 0, a.BytesRecorded);
             };
-            _soundIn.Start();
+            waveIn.RecordingStopped += (s, a) =>
+            {
+                _bBBlog.Debug("Recording stopped. Disposing writer");
+                writer?.Dispose();
+                writer = null;
+                writeDone = true;
+            };
             UpdateTextLog("STT microphone start. -- SPEAK NOW -- \r\n");
             _bBBlog.Info("Native STT microphone start.");
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void StopWavCapture()
-        {
-            UpdateTextLog("Stopping capture to WAV file\r\n");
-            _bBBlog.Info("Stopping capture to WAV file");
-
-            if (_soundIn != null)
+            while (MainRecordingStart.Text == "Recording")
             {
-                _soundIn.Stop();
-                _soundIn.Dispose();
-                _soundIn = null;
-                _finalSource.Dispose();
-                if (_writer is IDisposable)
-                    ((IDisposable)_writer).Dispose();
-
+                await Task.Delay(500);
             }
+            _bBBlog.Info("Native STT microphone stop.");
+            waveIn.StopRecording();
+            //we have to wait till the file is done writing  to disk
+            while (!writeDone)
+            {
+                await Task.Delay(500);
+            }
+            _bBBlog.Debug("converting to Text from WAV");
             _sTTDone = false;
-            //give the disk a moment to catch up
-            Thread.Sleep(1000);
             //now lets convert the saved .wav to Text
             NativeSTTfromWAV();
         }
+
 
         [SupportedOSPlatform("windows6.1")]
         private async void NativeSTTfromWAV()
@@ -629,28 +530,6 @@ namespace BanterBrain_Buddy
 
         }
 
-
-        [SupportedOSPlatform("windows6.1")]
-
-        //output to the selected audio device
-        private void OutputStream(MemoryStream stream)
-        {
-            int deviceID = 0;
-            foreach (var device in WaveOutDevice.EnumerateDevices())
-            {
-                if (device.Name == Properties.Settings.Default.TTSAudioOutput)
-                {
-                    deviceID = device.DeviceId;
-                }
-            }
-            //TODO fix to "SelectedOutputDevice"
-            var waveOut = new WaveOut { Device = new WaveOutDevice(deviceID) };
-            using var waveSource = new MediaFoundationDecoder(stream);
-            waveOut.Initialize(waveSource);
-            waveOut.Play();
-            waveOut.WaitForStopped();
-        }
-
         /// <summary>
         /// Holds the list of Azure Voices and their options
         /// </summary>
@@ -756,7 +635,7 @@ namespace BanterBrain_Buddy
                 {
                     UpdateTextLog("Main button Native STT calling\r\n");
                     _bBBlog.Info("Main button Native STT calling");
-                    NativeInputStreamtoWav();
+                    await NativeInputStreamtoWav();
                     while (!_sTTDone)
                     {
                         await Task.Delay(500);
@@ -815,8 +694,9 @@ namespace BanterBrain_Buddy
             else
             {
                 MainRecordingStart.Text = "Start";
-                if (selectedProvider == "Native")
-                    StopWavCapture();
+                _bBBlog.Info("FAKE: Recording stopped");
+                //  if (selectedProvider == "Native")
+                // StopWavCapture();
 
             }
         }

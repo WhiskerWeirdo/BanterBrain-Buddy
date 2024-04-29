@@ -1,6 +1,4 @@
-﻿using CSCore.SoundIn;
-using CSCore.SoundOut;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OpenAI_API;
 using System;
 using System.Collections.Generic;
@@ -57,15 +55,14 @@ namespace BanterBrain_Buddy
         //fill the audio input and output list boxes
         public void GetAudioDevices()
         {
-            var captureDevices = WaveInDevice.EnumerateDevices();
-            foreach (var device in captureDevices)
+            for (int i = 0; i < NAudio.Wave.WaveIn.DeviceCount; i++)
             {
-                SoundInputDevices.Items.Add(device.Name);
+                SoundInputDevices.Items.Add(NAudio.Wave.WaveIn.GetCapabilities(i).ProductName);
             }
 
-            foreach (var device in WaveOutDevice.EnumerateDevices())
+            for (int i = 0; i < NAudio.Wave.WaveOut.DeviceCount; i++)
             {
-                _ = TTSAudioOutputComboBox.Items.Add(device.Name);
+                TTSAudioOutputComboBox.Items.Add(NAudio.Wave.WaveOut.GetCapabilities(i).ProductName);
             }
         }
 
