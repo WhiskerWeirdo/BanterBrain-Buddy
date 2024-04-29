@@ -1,0 +1,16 @@
+[
+	{
+		"PersonaName": "<name>",
+		"PersonaRoleText": "<roletext>",
+		"VoiceProvider": "<voiceprovider>",
+		"VoiceName": "<voicename>",
+		"VoiceOptions": [ "<voiceoption1>", "<voiceoption2>" ]
+	},
+	{
+		"PersonaName": "<name>",
+		"PersonaRoleText": "<roletext>",
+		"VoiceProvider": "<voiceprovider>",
+		"VoiceName": "<voicename>",
+		"VoiceOptions": [ "<voiceoption1>", "<voiceoption2>", "<voiceoption3>", "<voiceoption4>" ]
+	}
+]

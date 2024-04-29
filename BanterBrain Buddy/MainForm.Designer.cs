@@ -30,811 +30,525 @@ namespace BanterBrain_Buddy
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BBB));
-            this.SettingsTab = new System.Windows.Forms.TabPage();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.MicroPhoneHotkeyLabel = new System.Windows.Forms.Label();
-            this.MicrophoneHotkeyEditbox = new System.Windows.Forms.TextBox();
-            this.VoiceInputLabel = new System.Windows.Forms.Label();
-            this.SoundInputDevices = new System.Windows.Forms.ComboBox();
-            this.MicrophoneHotkeySet = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.TTSRegionTextBox = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.TTSAPIKeyTextBox = new System.Windows.Forms.TextBox();
-            this.TTSOutputVoiceOptions = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.TTSOutputVoice = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.TTSTestTextBox = new System.Windows.Forms.TextBox();
-            this.TTSTestButton = new System.Windows.Forms.Button();
-            this.TTSAudioOutputComboBox = new System.Windows.Forms.ComboBox();
-            this.TTSProviderComboBox = new System.Windows.Forms.ComboBox();
-            this.TTSAudioOutputLabel = new System.Windows.Forms.Label();
-            this.TTSProviderLabel = new System.Windows.Forms.Label();
-            this.STTGroupBox = new System.Windows.Forms.GroupBox();
-            this.STTHintText = new System.Windows.Forms.Label();
-            this.STTRegionEditbox = new System.Windows.Forms.TextBox();
-            this.STTRegionLabel = new System.Windows.Forms.Label();
-            this.STTAPIKeyLabel = new System.Windows.Forms.Label();
-            this.STTAPIKeyEditbox = new System.Windows.Forms.TextBox();
-            this.STTTestButton = new System.Windows.Forms.Button();
-            this.STTProviderLabel = new System.Windows.Forms.Label();
-            this.STTProviderBox = new System.Windows.Forms.ComboBox();
-            this.STTTestOutput = new System.Windows.Forms.TextBox();
-            this.MainTab = new System.Windows.Forms.TabPage();
-            this.TwitchStatusTextBox = new System.Windows.Forms.TextBox();
-            this.TwitchStatusLabel = new System.Windows.Forms.Label();
-            this.TextLog = new System.Windows.Forms.TextBox();
-            this.MainRecordingStart = new System.Windows.Forms.Button();
-            this.BBBTabs = new System.Windows.Forms.TabControl();
-            this.LLMTab = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.LLMModelComboBox = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.LLMTestOutputbox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.LLMRoleTextBox = new System.Windows.Forms.TextBox();
-            this.GPTTestButton = new System.Windows.Forms.Button();
-            this.LLMAPIKeyTextBox = new System.Windows.Forms.TextBox();
-            this.GPTAPIKeyLabel = new System.Windows.Forms.Label();
-            this.LLMProviderComboBox = new System.Windows.Forms.ComboBox();
-            this.GPTProviderLabel = new System.Windows.Forms.Label();
-            this.StreaminSettingsTab = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.TwitchTestSendText = new System.Windows.Forms.TextBox();
-            this.TwitchSendTextCheckBox = new System.Windows.Forms.CheckBox();
-            this.TwitchTestButton = new System.Windows.Forms.Button();
-            this.TwitchAuthorizeButton = new System.Windows.Forms.Button();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.TwitchGiftedSub = new System.Windows.Forms.CheckBox();
-            this.TwitchCommunitySubs = new System.Windows.Forms.CheckBox();
-            this.TwitchSubscribed = new System.Windows.Forms.CheckBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.TwitchMinBits = new System.Windows.Forms.TextBox();
-            this.TwitchTriggerSettings = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.TwitchChatCommandDelay = new System.Windows.Forms.TextBox();
-            this.TwitchNeedsSubscriber = new System.Windows.Forms.CheckBox();
-            this.TwitchNeedsFollower = new System.Windows.Forms.CheckBox();
-            this.TwitchCommandTrigger = new System.Windows.Forms.TextBox();
-            this.TwitchCommandTriggerLabel = new System.Windows.Forms.Label();
-            this.TwitchAutoConnect = new System.Windows.Forms.CheckBox();
-            this.TwitchChannel = new System.Windows.Forms.TextBox();
-            this.TwitchAccessToken = new System.Windows.Forms.TextBox();
-            this.TwitchUsername = new System.Windows.Forms.TextBox();
-            this.TwitchChannelNameLabel = new System.Windows.Forms.Label();
-            this.TwitchAccesstokenLabel = new System.Windows.Forms.Label();
-            this.TwitchUsernameLabel = new System.Windows.Forms.Label();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.SettingsTab.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.STTGroupBox.SuspendLayout();
-            this.MainTab.SuspendLayout();
-            this.BBBTabs.SuspendLayout();
-            this.LLMTab.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.StreaminSettingsTab.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.TwitchTriggerSettings.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // SettingsTab
-            // 
-            resources.ApplyResources(this.SettingsTab, "SettingsTab");
-            this.SettingsTab.Controls.Add(this.groupBox3);
-            this.SettingsTab.Controls.Add(this.groupBox2);
-            this.SettingsTab.Controls.Add(this.STTGroupBox);
-            this.SettingsTab.Name = "SettingsTab";
-            this.SettingsTab.UseVisualStyleBackColor = true;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.MicroPhoneHotkeyLabel);
-            this.groupBox3.Controls.Add(this.MicrophoneHotkeyEditbox);
-            this.groupBox3.Controls.Add(this.VoiceInputLabel);
-            this.groupBox3.Controls.Add(this.SoundInputDevices);
-            this.groupBox3.Controls.Add(this.MicrophoneHotkeySet);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.TabStop = false;
-            // 
-            // MicroPhoneHotkeyLabel
-            // 
-            resources.ApplyResources(this.MicroPhoneHotkeyLabel, "MicroPhoneHotkeyLabel");
-            this.MicroPhoneHotkeyLabel.Name = "MicroPhoneHotkeyLabel";
-            // 
-            // MicrophoneHotkeyEditbox
-            // 
-            resources.ApplyResources(this.MicrophoneHotkeyEditbox, "MicrophoneHotkeyEditbox");
-            this.MicrophoneHotkeyEditbox.Name = "MicrophoneHotkeyEditbox";
-            this.MicrophoneHotkeyEditbox.ReadOnly = true;
-            // 
-            // VoiceInputLabel
-            // 
-            resources.ApplyResources(this.VoiceInputLabel, "VoiceInputLabel");
-            this.VoiceInputLabel.Name = "VoiceInputLabel";
-            // 
-            // SoundInputDevices
-            // 
-            this.SoundInputDevices.FormattingEnabled = true;
-            resources.ApplyResources(this.SoundInputDevices, "SoundInputDevices");
-            this.SoundInputDevices.Name = "SoundInputDevices";
-            this.SoundInputDevices.SelectedIndexChanged += new System.EventHandler(this.SoundInputDevices_SelectedIndexChanged);
-            // 
-            // MicrophoneHotkeySet
-            // 
-            resources.ApplyResources(this.MicrophoneHotkeySet, "MicrophoneHotkeySet");
-            this.MicrophoneHotkeySet.Name = "MicrophoneHotkeySet";
-            this.MicrophoneHotkeySet.UseVisualStyleBackColor = true;
-            this.MicrophoneHotkeySet.Click += new System.EventHandler(this.MicrophoneHotkeySet_Click);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.TTSRegionTextBox);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.TTSAPIKeyTextBox);
-            this.groupBox2.Controls.Add(this.TTSOutputVoiceOptions);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.TTSOutputVoice);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.TTSTestTextBox);
-            this.groupBox2.Controls.Add(this.TTSTestButton);
-            this.groupBox2.Controls.Add(this.TTSAudioOutputComboBox);
-            this.groupBox2.Controls.Add(this.TTSProviderComboBox);
-            this.groupBox2.Controls.Add(this.TTSAudioOutputLabel);
-            this.groupBox2.Controls.Add(this.TTSProviderLabel);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
-            // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            // 
-            // TTSRegionTextBox
-            // 
-            resources.ApplyResources(this.TTSRegionTextBox, "TTSRegionTextBox");
-            this.TTSRegionTextBox.Name = "TTSRegionTextBox";
-            this.TTSRegionTextBox.Leave += new System.EventHandler(this.TTSRegionTextBox_Leave);
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            // 
-            // TTSAPIKeyTextBox
-            // 
-            resources.ApplyResources(this.TTSAPIKeyTextBox, "TTSAPIKeyTextBox");
-            this.TTSAPIKeyTextBox.Name = "TTSAPIKeyTextBox";
-            // 
-            // TTSOutputVoiceOptions
-            // 
-            this.TTSOutputVoiceOptions.FormattingEnabled = true;
-            resources.ApplyResources(this.TTSOutputVoiceOptions, "TTSOutputVoiceOptions");
-            this.TTSOutputVoiceOptions.Name = "TTSOutputVoiceOptions";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // TTSOutputVoice
-            // 
-            this.TTSOutputVoice.FormattingEnabled = true;
-            resources.ApplyResources(this.TTSOutputVoice, "TTSOutputVoice");
-            this.TTSOutputVoice.Name = "TTSOutputVoice";
-            this.TTSOutputVoice.SelectedIndexChanged += new System.EventHandler(this.TTSOutputVoice_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // TTSTestTextBox
-            // 
-            resources.ApplyResources(this.TTSTestTextBox, "TTSTestTextBox");
-            this.TTSTestTextBox.Name = "TTSTestTextBox";
-            this.TTSTestTextBox.ReadOnly = true;
-            // 
-            // TTSTestButton
-            // 
-            resources.ApplyResources(this.TTSTestButton, "TTSTestButton");
-            this.TTSTestButton.Name = "TTSTestButton";
-            this.TTSTestButton.UseVisualStyleBackColor = true;
-            this.TTSTestButton.Click += new System.EventHandler(this.TTSTestButton_Click);
-            // 
-            // TTSAudioOutputComboBox
-            // 
-            this.TTSAudioOutputComboBox.FormattingEnabled = true;
-            resources.ApplyResources(this.TTSAudioOutputComboBox, "TTSAudioOutputComboBox");
-            this.TTSAudioOutputComboBox.Name = "TTSAudioOutputComboBox";
-            // 
-            // TTSProviderComboBox
-            // 
-            this.TTSProviderComboBox.FormattingEnabled = true;
-            this.TTSProviderComboBox.Items.AddRange(new object[] {
-            resources.GetString("TTSProviderComboBox.Items"),
-            resources.GetString("TTSProviderComboBox.Items1")});
-            resources.ApplyResources(this.TTSProviderComboBox, "TTSProviderComboBox");
-            this.TTSProviderComboBox.Name = "TTSProviderComboBox";
-            this.TTSProviderComboBox.SelectedIndexChanged += new System.EventHandler(this.TTSProviderComboBox_SelectedIndexChanged);
-            // 
-            // TTSAudioOutputLabel
-            // 
-            resources.ApplyResources(this.TTSAudioOutputLabel, "TTSAudioOutputLabel");
-            this.TTSAudioOutputLabel.Name = "TTSAudioOutputLabel";
-            // 
-            // TTSProviderLabel
-            // 
-            resources.ApplyResources(this.TTSProviderLabel, "TTSProviderLabel");
-            this.TTSProviderLabel.Name = "TTSProviderLabel";
-            // 
-            // STTGroupBox
-            // 
-            resources.ApplyResources(this.STTGroupBox, "STTGroupBox");
-            this.STTGroupBox.Controls.Add(this.STTHintText);
-            this.STTGroupBox.Controls.Add(this.STTRegionEditbox);
-            this.STTGroupBox.Controls.Add(this.STTRegionLabel);
-            this.STTGroupBox.Controls.Add(this.STTAPIKeyLabel);
-            this.STTGroupBox.Controls.Add(this.STTAPIKeyEditbox);
-            this.STTGroupBox.Controls.Add(this.STTTestButton);
-            this.STTGroupBox.Controls.Add(this.STTProviderLabel);
-            this.STTGroupBox.Controls.Add(this.STTProviderBox);
-            this.STTGroupBox.Controls.Add(this.STTTestOutput);
-            this.STTGroupBox.Name = "STTGroupBox";
-            this.STTGroupBox.TabStop = false;
-            // 
-            // STTHintText
-            // 
-            resources.ApplyResources(this.STTHintText, "STTHintText");
-            this.STTHintText.Name = "STTHintText";
-            // 
-            // STTRegionEditbox
-            // 
-            resources.ApplyResources(this.STTRegionEditbox, "STTRegionEditbox");
-            this.STTRegionEditbox.Name = "STTRegionEditbox";
-            // 
-            // STTRegionLabel
-            // 
-            resources.ApplyResources(this.STTRegionLabel, "STTRegionLabel");
-            this.STTRegionLabel.Name = "STTRegionLabel";
-            // 
-            // STTAPIKeyLabel
-            // 
-            resources.ApplyResources(this.STTAPIKeyLabel, "STTAPIKeyLabel");
-            this.STTAPIKeyLabel.Name = "STTAPIKeyLabel";
-            // 
-            // STTAPIKeyEditbox
-            // 
-            resources.ApplyResources(this.STTAPIKeyEditbox, "STTAPIKeyEditbox");
-            this.STTAPIKeyEditbox.Name = "STTAPIKeyEditbox";
-            // 
-            // STTTestButton
-            // 
-            resources.ApplyResources(this.STTTestButton, "STTTestButton");
-            this.STTTestButton.Name = "STTTestButton";
-            this.STTTestButton.UseVisualStyleBackColor = true;
-            this.STTTestButton.Click += new System.EventHandler(this.STTTestButton_Click);
-            // 
-            // STTProviderLabel
-            // 
-            resources.ApplyResources(this.STTProviderLabel, "STTProviderLabel");
-            this.STTProviderLabel.Name = "STTProviderLabel";
-            // 
-            // STTProviderBox
-            // 
-            this.STTProviderBox.FormattingEnabled = true;
-            this.STTProviderBox.Items.AddRange(new object[] {
-            resources.GetString("STTProviderBox.Items"),
-            resources.GetString("STTProviderBox.Items1")});
-            resources.ApplyResources(this.STTProviderBox, "STTProviderBox");
-            this.STTProviderBox.Name = "STTProviderBox";
-            this.STTProviderBox.SelectedIndexChanged += new System.EventHandler(this.STTProviderBox_SelectedIndexChanged);
-            // 
-            // STTTestOutput
-            // 
-            resources.ApplyResources(this.STTTestOutput, "STTTestOutput");
-            this.STTTestOutput.Name = "STTTestOutput";
-            this.STTTestOutput.ReadOnly = true;
+            MainTab = new TabPage();
+            groupBox3 = new GroupBox();
+            BroadcasterSelectedPersonaComboBox = new ComboBox();
+            groupBox2 = new GroupBox();
+            STTSelectedComboBox = new ComboBox();
+            groupBox7 = new GroupBox();
+            MainRecordingStart = new Button();
+            TwitchEventSubStatusTextBox = new TextBox();
+            TwitchEventSubStatusLabel = new Label();
+            TwitchAPIStatusTextBox = new TextBox();
+            TwitchStatusLabel = new Label();
+            TextLog = new TextBox();
+            BBBTabs = new TabControl();
+            StreaminSettingsTab = new TabPage();
+            groupBox4 = new GroupBox();
+            TwitchAutoStart = new CheckBox();
+            TwitchStartButton = new Button();
+            TwitchChannelPointsSettings = new GroupBox();
+            label4 = new Label();
+            TwitchChannelPointPersonaComboBox = new ComboBox();
+            label9 = new Label();
+            TwitchCustomRewardName = new TextBox();
+            TwitchChannelPointCheckBox = new CheckBox();
+            TwitchEnableCheckbox = new CheckBox();
+            TwitchSubscriberSettings = new GroupBox();
+            label2 = new Label();
+            TwitchGiftedSub = new CheckBox();
+            TwitchSubscriptionPersonaComboBox = new ComboBox();
+            TwitchSubscribed = new CheckBox();
+            TwitchCheerSettings = new GroupBox();
+            label3 = new Label();
+            TwitchCheeringPersonaComboBox = new ComboBox();
+            TwitchCheerCheckBox = new CheckBox();
+            label5 = new Label();
+            TwitchMinBits = new TextBox();
+            TwitchTriggerSettings = new GroupBox();
+            label1 = new Label();
+            TwitchChatPersonaComboBox = new ComboBox();
+            TwitchReadChatCheckBox = new CheckBox();
+            label6 = new Label();
+            TwitchChatCommandDelay = new TextBox();
+            TwitchNeedsSubscriber = new CheckBox();
+            TwitchCommandTrigger = new TextBox();
+            TwitchCommandTriggerLabel = new Label();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            ExitToolStripMenuItem = new ToolStripMenuItem();
+            helpToolStripMenuItem = new ToolStripMenuItem();
+            GithubToolStripMenuItem = new ToolStripMenuItem();
+            DiscordToolStripMenuItem = new ToolStripMenuItem();
+            menuStrip1 = new MenuStrip();
+            seToolStripMenuItem = new ToolStripMenuItem();
+            BBBToolTip = new ToolTip(components);
+            MainTab.SuspendLayout();
+            groupBox3.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox7.SuspendLayout();
+            BBBTabs.SuspendLayout();
+            StreaminSettingsTab.SuspendLayout();
+            groupBox4.SuspendLayout();
+            TwitchChannelPointsSettings.SuspendLayout();
+            TwitchSubscriberSettings.SuspendLayout();
+            TwitchCheerSettings.SuspendLayout();
+            TwitchTriggerSettings.SuspendLayout();
+            menuStrip1.SuspendLayout();
+            SuspendLayout();
             // 
             // MainTab
             // 
-            this.MainTab.Controls.Add(this.TwitchStatusTextBox);
-            this.MainTab.Controls.Add(this.TwitchStatusLabel);
-            this.MainTab.Controls.Add(this.TextLog);
-            this.MainTab.Controls.Add(this.MainRecordingStart);
-            resources.ApplyResources(this.MainTab, "MainTab");
-            this.MainTab.Name = "MainTab";
-            this.MainTab.UseVisualStyleBackColor = true;
+            MainTab.Controls.Add(groupBox3);
+            MainTab.Controls.Add(groupBox2);
+            MainTab.Controls.Add(groupBox7);
+            MainTab.Controls.Add(TwitchEventSubStatusTextBox);
+            MainTab.Controls.Add(TwitchEventSubStatusLabel);
+            MainTab.Controls.Add(TwitchAPIStatusTextBox);
+            MainTab.Controls.Add(TwitchStatusLabel);
+            MainTab.Controls.Add(TextLog);
+            resources.ApplyResources(MainTab, "MainTab");
+            MainTab.Name = "MainTab";
+            MainTab.UseVisualStyleBackColor = true;
             // 
-            // TwitchStatusTextBox
+            // groupBox3
             // 
-            resources.ApplyResources(this.TwitchStatusTextBox, "TwitchStatusTextBox");
-            this.TwitchStatusTextBox.Name = "TwitchStatusTextBox";
-            this.TwitchStatusTextBox.ReadOnly = true;
+            groupBox3.Controls.Add(BroadcasterSelectedPersonaComboBox);
+            resources.ApplyResources(groupBox3, "groupBox3");
+            groupBox3.Name = "groupBox3";
+            groupBox3.TabStop = false;
             // 
-            // TwitchStatusLabel
+            // BroadcasterSelectedPersonaComboBox
             // 
-            resources.ApplyResources(this.TwitchStatusLabel, "TwitchStatusLabel");
-            this.TwitchStatusLabel.Name = "TwitchStatusLabel";
+            BroadcasterSelectedPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            BroadcasterSelectedPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(BroadcasterSelectedPersonaComboBox, "BroadcasterSelectedPersonaComboBox");
+            BroadcasterSelectedPersonaComboBox.Name = "BroadcasterSelectedPersonaComboBox";
+            BroadcasterSelectedPersonaComboBox.SelectedIndexChanged += BroadcasterSelectedPersonaComboBox_SelectedIndexChanged;
             // 
-            // TextLog
+            // groupBox2
             // 
-            this.TextLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            resources.ApplyResources(this.TextLog, "TextLog");
-            this.TextLog.Name = "TextLog";
+            groupBox2.Controls.Add(STTSelectedComboBox);
+            resources.ApplyResources(groupBox2, "groupBox2");
+            groupBox2.Name = "groupBox2";
+            groupBox2.TabStop = false;
             // 
-            // MainRecordingStart
+            // STTSelectedComboBox
             // 
-            resources.ApplyResources(this.MainRecordingStart, "MainRecordingStart");
-            this.MainRecordingStart.Name = "MainRecordingStart";
-            this.MainRecordingStart.UseVisualStyleBackColor = true;
-            this.MainRecordingStart.Click += new System.EventHandler(this.MainRecordingStart_Click);
-            // 
-            // BBBTabs
-            // 
-            resources.ApplyResources(this.BBBTabs, "BBBTabs");
-            this.BBBTabs.Controls.Add(this.MainTab);
-            this.BBBTabs.Controls.Add(this.SettingsTab);
-            this.BBBTabs.Controls.Add(this.LLMTab);
-            this.BBBTabs.Controls.Add(this.StreaminSettingsTab);
-            this.BBBTabs.Name = "BBBTabs";
-            this.BBBTabs.SelectedIndex = 0;
-            // 
-            // LLMTab
-            // 
-            this.LLMTab.Controls.Add(this.groupBox1);
-            resources.ApplyResources(this.LLMTab, "LLMTab");
-            this.LLMTab.Name = "LLMTab";
-            this.LLMTab.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.LLMModelComboBox);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.LLMTestOutputbox);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.LLMRoleTextBox);
-            this.groupBox1.Controls.Add(this.GPTTestButton);
-            this.groupBox1.Controls.Add(this.LLMAPIKeyTextBox);
-            this.groupBox1.Controls.Add(this.GPTAPIKeyLabel);
-            this.groupBox1.Controls.Add(this.LLMProviderComboBox);
-            this.groupBox1.Controls.Add(this.GPTProviderLabel);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
-            // 
-            // LLMModelComboBox
-            // 
-            this.LLMModelComboBox.FormattingEnabled = true;
-            this.LLMModelComboBox.Items.AddRange(new object[] {
-            resources.GetString("LLMModelComboBox.Items"),
-            resources.GetString("LLMModelComboBox.Items1")});
-            resources.ApplyResources(this.LLMModelComboBox, "LLMModelComboBox");
-            this.LLMModelComboBox.Name = "LLMModelComboBox";
-            this.LLMModelComboBox.UseWaitCursor = true;
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // LLMTestOutputbox
-            // 
-            resources.ApplyResources(this.LLMTestOutputbox, "LLMTestOutputbox");
-            this.LLMTestOutputbox.Name = "LLMTestOutputbox";
-            this.LLMTestOutputbox.ReadOnly = true;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // LLMRoleTextBox
-            // 
-            resources.ApplyResources(this.LLMRoleTextBox, "LLMRoleTextBox");
-            this.LLMRoleTextBox.Name = "LLMRoleTextBox";
-            this.LLMRoleTextBox.TabStop = false;
-            // 
-            // GPTTestButton
-            // 
-            resources.ApplyResources(this.GPTTestButton, "GPTTestButton");
-            this.GPTTestButton.Name = "GPTTestButton";
-            this.GPTTestButton.UseVisualStyleBackColor = true;
-            this.GPTTestButton.Click += new System.EventHandler(this.GPTTestButton_Click);
-            // 
-            // LLMAPIKeyTextBox
-            // 
-            resources.ApplyResources(this.LLMAPIKeyTextBox, "LLMAPIKeyTextBox");
-            this.LLMAPIKeyTextBox.Name = "LLMAPIKeyTextBox";
-            // 
-            // GPTAPIKeyLabel
-            // 
-            resources.ApplyResources(this.GPTAPIKeyLabel, "GPTAPIKeyLabel");
-            this.GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
-            // 
-            // LLMProviderComboBox
-            // 
-            this.LLMProviderComboBox.FormattingEnabled = true;
-            this.LLMProviderComboBox.Items.AddRange(new object[] {
-            resources.GetString("LLMProviderComboBox.Items"),
-            resources.GetString("LLMProviderComboBox.Items1")});
-            resources.ApplyResources(this.LLMProviderComboBox, "LLMProviderComboBox");
-            this.LLMProviderComboBox.Name = "LLMProviderComboBox";
-            // 
-            // GPTProviderLabel
-            // 
-            resources.ApplyResources(this.GPTProviderLabel, "GPTProviderLabel");
-            this.GPTProviderLabel.Name = "GPTProviderLabel";
-            // 
-            // StreaminSettingsTab
-            // 
-            this.StreaminSettingsTab.Controls.Add(this.groupBox4);
-            resources.ApplyResources(this.StreaminSettingsTab, "StreaminSettingsTab");
-            this.StreaminSettingsTab.Name = "StreaminSettingsTab";
-            this.StreaminSettingsTab.UseVisualStyleBackColor = true;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.groupBox7);
-            this.groupBox4.Controls.Add(this.TwitchAuthorizeButton);
-            this.groupBox4.Controls.Add(this.groupBox6);
-            this.groupBox4.Controls.Add(this.groupBox5);
-            this.groupBox4.Controls.Add(this.TwitchTriggerSettings);
-            this.groupBox4.Controls.Add(this.TwitchAutoConnect);
-            this.groupBox4.Controls.Add(this.TwitchChannel);
-            this.groupBox4.Controls.Add(this.TwitchAccessToken);
-            this.groupBox4.Controls.Add(this.TwitchUsername);
-            this.groupBox4.Controls.Add(this.TwitchChannelNameLabel);
-            this.groupBox4.Controls.Add(this.TwitchAccesstokenLabel);
-            this.groupBox4.Controls.Add(this.TwitchUsernameLabel);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.TabStop = false;
+            STTSelectedComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            STTSelectedComboBox.FormattingEnabled = true;
+            resources.ApplyResources(STTSelectedComboBox, "STTSelectedComboBox");
+            STTSelectedComboBox.Name = "STTSelectedComboBox";
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.TwitchTestSendText);
-            this.groupBox7.Controls.Add(this.TwitchSendTextCheckBox);
-            this.groupBox7.Controls.Add(this.TwitchTestButton);
-            resources.ApplyResources(this.groupBox7, "groupBox7");
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.TabStop = false;
+            groupBox7.Controls.Add(MainRecordingStart);
+            resources.ApplyResources(groupBox7, "groupBox7");
+            groupBox7.Name = "groupBox7";
+            groupBox7.TabStop = false;
             // 
-            // TwitchTestSendText
+            // MainRecordingStart
             // 
-            resources.ApplyResources(this.TwitchTestSendText, "TwitchTestSendText");
-            this.TwitchTestSendText.Name = "TwitchTestSendText";
+            resources.ApplyResources(MainRecordingStart, "MainRecordingStart");
+            MainRecordingStart.Name = "MainRecordingStart";
+            MainRecordingStart.UseVisualStyleBackColor = true;
+            MainRecordingStart.Click += MainRecordingStart_Click;
             // 
-            // TwitchSendTextCheckBox
+            // TwitchEventSubStatusTextBox
             // 
-            resources.ApplyResources(this.TwitchSendTextCheckBox, "TwitchSendTextCheckBox");
-            this.TwitchSendTextCheckBox.Checked = true;
-            this.TwitchSendTextCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.TwitchSendTextCheckBox.Name = "TwitchSendTextCheckBox";
-            this.TwitchSendTextCheckBox.UseVisualStyleBackColor = true;
+            TwitchEventSubStatusTextBox.BackColor = System.Drawing.Color.Red;
+            TwitchEventSubStatusTextBox.ForeColor = System.Drawing.Color.White;
+            resources.ApplyResources(TwitchEventSubStatusTextBox, "TwitchEventSubStatusTextBox");
+            TwitchEventSubStatusTextBox.Name = "TwitchEventSubStatusTextBox";
+            TwitchEventSubStatusTextBox.ReadOnly = true;
             // 
-            // TwitchTestButton
+            // TwitchEventSubStatusLabel
             // 
-            resources.ApplyResources(this.TwitchTestButton, "TwitchTestButton");
-            this.TwitchTestButton.Name = "TwitchTestButton";
-            this.TwitchTestButton.UseVisualStyleBackColor = true;
-            this.TwitchTestButton.Click += new System.EventHandler(this.TwitchTestButton_Click);
+            resources.ApplyResources(TwitchEventSubStatusLabel, "TwitchEventSubStatusLabel");
+            TwitchEventSubStatusLabel.Name = "TwitchEventSubStatusLabel";
             // 
-            // TwitchAuthorizeButton
+            // TwitchAPIStatusTextBox
             // 
-            resources.ApplyResources(this.TwitchAuthorizeButton, "TwitchAuthorizeButton");
-            this.TwitchAuthorizeButton.Name = "TwitchAuthorizeButton";
-            this.TwitchAuthorizeButton.UseVisualStyleBackColor = true;
-            this.TwitchAuthorizeButton.Click += new System.EventHandler(this.TwitchAuthorizeButton_Click);
+            TwitchAPIStatusTextBox.BackColor = System.Drawing.Color.Red;
+            TwitchAPIStatusTextBox.ForeColor = System.Drawing.Color.White;
+            resources.ApplyResources(TwitchAPIStatusTextBox, "TwitchAPIStatusTextBox");
+            TwitchAPIStatusTextBox.Name = "TwitchAPIStatusTextBox";
+            TwitchAPIStatusTextBox.ReadOnly = true;
             // 
-            // groupBox6
+            // TwitchStatusLabel
             // 
-            this.groupBox6.Controls.Add(this.TwitchGiftedSub);
-            this.groupBox6.Controls.Add(this.TwitchCommunitySubs);
-            this.groupBox6.Controls.Add(this.TwitchSubscribed);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.TabStop = false;
+            resources.ApplyResources(TwitchStatusLabel, "TwitchStatusLabel");
+            TwitchStatusLabel.Name = "TwitchStatusLabel";
+            // 
+            // TextLog
+            // 
+            TextLog.BorderStyle = BorderStyle.None;
+            resources.ApplyResources(TextLog, "TextLog");
+            TextLog.Name = "TextLog";
+            // 
+            // BBBTabs
+            // 
+            resources.ApplyResources(BBBTabs, "BBBTabs");
+            BBBTabs.Controls.Add(MainTab);
+            BBBTabs.Controls.Add(StreaminSettingsTab);
+            BBBTabs.Name = "BBBTabs";
+            BBBTabs.SelectedIndex = 0;
+            // 
+            // StreaminSettingsTab
+            // 
+            StreaminSettingsTab.Controls.Add(groupBox4);
+            resources.ApplyResources(StreaminSettingsTab, "StreaminSettingsTab");
+            StreaminSettingsTab.Name = "StreaminSettingsTab";
+            StreaminSettingsTab.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            groupBox4.Controls.Add(TwitchAutoStart);
+            groupBox4.Controls.Add(TwitchStartButton);
+            groupBox4.Controls.Add(TwitchChannelPointsSettings);
+            groupBox4.Controls.Add(TwitchEnableCheckbox);
+            groupBox4.Controls.Add(TwitchSubscriberSettings);
+            groupBox4.Controls.Add(TwitchCheerSettings);
+            groupBox4.Controls.Add(TwitchTriggerSettings);
+            resources.ApplyResources(groupBox4, "groupBox4");
+            groupBox4.Name = "groupBox4";
+            groupBox4.TabStop = false;
+            // 
+            // TwitchAutoStart
+            // 
+            resources.ApplyResources(TwitchAutoStart, "TwitchAutoStart");
+            TwitchAutoStart.Name = "TwitchAutoStart";
+            TwitchAutoStart.UseVisualStyleBackColor = true;
+            // 
+            // TwitchStartButton
+            // 
+            TwitchStartButton.AllowDrop = true;
+            resources.ApplyResources(TwitchStartButton, "TwitchStartButton");
+            TwitchStartButton.Name = "TwitchStartButton";
+            TwitchStartButton.UseVisualStyleBackColor = true;
+            TwitchStartButton.Click += TwitchStartButton_Click;
+            // 
+            // TwitchChannelPointsSettings
+            // 
+            TwitchChannelPointsSettings.Controls.Add(label4);
+            TwitchChannelPointsSettings.Controls.Add(TwitchChannelPointPersonaComboBox);
+            TwitchChannelPointsSettings.Controls.Add(label9);
+            TwitchChannelPointsSettings.Controls.Add(TwitchCustomRewardName);
+            TwitchChannelPointsSettings.Controls.Add(TwitchChannelPointCheckBox);
+            resources.ApplyResources(TwitchChannelPointsSettings, "TwitchChannelPointsSettings");
+            TwitchChannelPointsSettings.Name = "TwitchChannelPointsSettings";
+            TwitchChannelPointsSettings.TabStop = false;
+            // 
+            // label4
+            // 
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
+            // 
+            // TwitchChannelPointPersonaComboBox
+            // 
+            TwitchChannelPointPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchChannelPointPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchChannelPointPersonaComboBox, "TwitchChannelPointPersonaComboBox");
+            TwitchChannelPointPersonaComboBox.Name = "TwitchChannelPointPersonaComboBox";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(label9, "label9");
+            label9.Name = "label9";
+            // 
+            // TwitchCustomRewardName
+            // 
+            resources.ApplyResources(TwitchCustomRewardName, "TwitchCustomRewardName");
+            TwitchCustomRewardName.Name = "TwitchCustomRewardName";
+            // 
+            // TwitchChannelPointCheckBox
+            // 
+            resources.ApplyResources(TwitchChannelPointCheckBox, "TwitchChannelPointCheckBox");
+            TwitchChannelPointCheckBox.Name = "TwitchChannelPointCheckBox";
+            TwitchChannelPointCheckBox.UseVisualStyleBackColor = true;
+            TwitchChannelPointCheckBox.Click += TwitchChannelPointCheckBox_Click;
+            // 
+            // TwitchEnableCheckbox
+            // 
+            resources.ApplyResources(TwitchEnableCheckbox, "TwitchEnableCheckbox");
+            TwitchEnableCheckbox.Name = "TwitchEnableCheckbox";
+            TwitchEnableCheckbox.UseVisualStyleBackColor = true;
+            TwitchEnableCheckbox.CheckedChanged += TwitchEnableCheckbox_CheckedChanged;
+            TwitchEnableCheckbox.Click += TwitchEnableCheckbox_Click;
+            // 
+            // TwitchSubscriberSettings
+            // 
+            TwitchSubscriberSettings.Controls.Add(label2);
+            TwitchSubscriberSettings.Controls.Add(TwitchGiftedSub);
+            TwitchSubscriberSettings.Controls.Add(TwitchSubscriptionPersonaComboBox);
+            TwitchSubscriberSettings.Controls.Add(TwitchSubscribed);
+            resources.ApplyResources(TwitchSubscriberSettings, "TwitchSubscriberSettings");
+            TwitchSubscriberSettings.Name = "TwitchSubscriberSettings";
+            TwitchSubscriberSettings.TabStop = false;
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
             // TwitchGiftedSub
             // 
-            resources.ApplyResources(this.TwitchGiftedSub, "TwitchGiftedSub");
-            this.TwitchGiftedSub.Name = "TwitchGiftedSub";
-            this.TwitchGiftedSub.UseVisualStyleBackColor = true;
+            resources.ApplyResources(TwitchGiftedSub, "TwitchGiftedSub");
+            TwitchGiftedSub.Name = "TwitchGiftedSub";
+            BBBToolTip.SetToolTip(TwitchGiftedSub, resources.GetString("TwitchGiftedSub.ToolTip"));
+            TwitchGiftedSub.UseVisualStyleBackColor = true;
+            TwitchGiftedSub.Click += TwitchGiftedSub_Click;
             // 
-            // TwitchCommunitySubs
+            // TwitchSubscriptionPersonaComboBox
             // 
-            resources.ApplyResources(this.TwitchCommunitySubs, "TwitchCommunitySubs");
-            this.TwitchCommunitySubs.Name = "TwitchCommunitySubs";
-            this.TwitchCommunitySubs.UseVisualStyleBackColor = true;
+            TwitchSubscriptionPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchSubscriptionPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchSubscriptionPersonaComboBox, "TwitchSubscriptionPersonaComboBox");
+            TwitchSubscriptionPersonaComboBox.Name = "TwitchSubscriptionPersonaComboBox";
             // 
             // TwitchSubscribed
             // 
-            resources.ApplyResources(this.TwitchSubscribed, "TwitchSubscribed");
-            this.TwitchSubscribed.Name = "TwitchSubscribed";
-            this.TwitchSubscribed.UseVisualStyleBackColor = true;
+            resources.ApplyResources(TwitchSubscribed, "TwitchSubscribed");
+            TwitchSubscribed.Name = "TwitchSubscribed";
+            BBBToolTip.SetToolTip(TwitchSubscribed, resources.GetString("TwitchSubscribed.ToolTip"));
+            TwitchSubscribed.UseVisualStyleBackColor = true;
+            TwitchSubscribed.Click += TwitchSubscribed_Click;
             // 
-            // groupBox5
+            // TwitchCheerSettings
             // 
-            this.groupBox5.Controls.Add(this.label5);
-            this.groupBox5.Controls.Add(this.TwitchMinBits);
-            resources.ApplyResources(this.groupBox5, "groupBox5");
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.TabStop = false;
+            TwitchCheerSettings.Controls.Add(label3);
+            TwitchCheerSettings.Controls.Add(TwitchCheeringPersonaComboBox);
+            TwitchCheerSettings.Controls.Add(TwitchCheerCheckBox);
+            TwitchCheerSettings.Controls.Add(label5);
+            TwitchCheerSettings.Controls.Add(TwitchMinBits);
+            resources.ApplyResources(TwitchCheerSettings, "TwitchCheerSettings");
+            TwitchCheerSettings.Name = "TwitchCheerSettings";
+            TwitchCheerSettings.TabStop = false;
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
+            // 
+            // TwitchCheeringPersonaComboBox
+            // 
+            TwitchCheeringPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchCheeringPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchCheeringPersonaComboBox, "TwitchCheeringPersonaComboBox");
+            TwitchCheeringPersonaComboBox.Name = "TwitchCheeringPersonaComboBox";
+            // 
+            // TwitchCheerCheckBox
+            // 
+            resources.ApplyResources(TwitchCheerCheckBox, "TwitchCheerCheckBox");
+            TwitchCheerCheckBox.Name = "TwitchCheerCheckBox";
+            BBBToolTip.SetToolTip(TwitchCheerCheckBox, resources.GetString("TwitchCheerCheckBox.ToolTip"));
+            TwitchCheerCheckBox.UseVisualStyleBackColor = true;
+            TwitchCheerCheckBox.Click += TwitchCheerCheckbox_Click;
             // 
             // label5
             // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
+            resources.ApplyResources(label5, "label5");
+            label5.Name = "label5";
             // 
             // TwitchMinBits
             // 
-            resources.ApplyResources(this.TwitchMinBits, "TwitchMinBits");
-            this.TwitchMinBits.Name = "TwitchMinBits";
+            resources.ApplyResources(TwitchMinBits, "TwitchMinBits");
+            TwitchMinBits.Name = "TwitchMinBits";
             // 
             // TwitchTriggerSettings
             // 
-            this.TwitchTriggerSettings.Controls.Add(this.label6);
-            this.TwitchTriggerSettings.Controls.Add(this.TwitchChatCommandDelay);
-            this.TwitchTriggerSettings.Controls.Add(this.TwitchNeedsSubscriber);
-            this.TwitchTriggerSettings.Controls.Add(this.TwitchNeedsFollower);
-            this.TwitchTriggerSettings.Controls.Add(this.TwitchCommandTrigger);
-            this.TwitchTriggerSettings.Controls.Add(this.TwitchCommandTriggerLabel);
-            resources.ApplyResources(this.TwitchTriggerSettings, "TwitchTriggerSettings");
-            this.TwitchTriggerSettings.Name = "TwitchTriggerSettings";
-            this.TwitchTriggerSettings.TabStop = false;
+            TwitchTriggerSettings.Controls.Add(label1);
+            TwitchTriggerSettings.Controls.Add(TwitchChatPersonaComboBox);
+            TwitchTriggerSettings.Controls.Add(TwitchReadChatCheckBox);
+            TwitchTriggerSettings.Controls.Add(label6);
+            TwitchTriggerSettings.Controls.Add(TwitchChatCommandDelay);
+            TwitchTriggerSettings.Controls.Add(TwitchNeedsSubscriber);
+            TwitchTriggerSettings.Controls.Add(TwitchCommandTrigger);
+            TwitchTriggerSettings.Controls.Add(TwitchCommandTriggerLabel);
+            resources.ApplyResources(TwitchTriggerSettings, "TwitchTriggerSettings");
+            TwitchTriggerSettings.Name = "TwitchTriggerSettings";
+            TwitchTriggerSettings.TabStop = false;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
+            // TwitchChatPersonaComboBox
+            // 
+            TwitchChatPersonaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchChatPersonaComboBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchChatPersonaComboBox, "TwitchChatPersonaComboBox");
+            TwitchChatPersonaComboBox.Name = "TwitchChatPersonaComboBox";
+            // 
+            // TwitchReadChatCheckBox
+            // 
+            resources.ApplyResources(TwitchReadChatCheckBox, "TwitchReadChatCheckBox");
+            TwitchReadChatCheckBox.Name = "TwitchReadChatCheckBox";
+            BBBToolTip.SetToolTip(TwitchReadChatCheckBox, resources.GetString("TwitchReadChatCheckBox.ToolTip"));
+            TwitchReadChatCheckBox.UseVisualStyleBackColor = true;
+            TwitchReadChatCheckBox.Click += TwitchReadChatCheckBox_Click;
             // 
             // label6
             // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
+            resources.ApplyResources(label6, "label6");
+            label6.Name = "label6";
             // 
             // TwitchChatCommandDelay
             // 
-            resources.ApplyResources(this.TwitchChatCommandDelay, "TwitchChatCommandDelay");
-            this.TwitchChatCommandDelay.Name = "TwitchChatCommandDelay";
+            resources.ApplyResources(TwitchChatCommandDelay, "TwitchChatCommandDelay");
+            TwitchChatCommandDelay.Name = "TwitchChatCommandDelay";
             // 
             // TwitchNeedsSubscriber
             // 
-            resources.ApplyResources(this.TwitchNeedsSubscriber, "TwitchNeedsSubscriber");
-            this.TwitchNeedsSubscriber.Name = "TwitchNeedsSubscriber";
-            this.TwitchNeedsSubscriber.UseVisualStyleBackColor = true;
-            // 
-            // TwitchNeedsFollower
-            // 
-            resources.ApplyResources(this.TwitchNeedsFollower, "TwitchNeedsFollower");
-            this.TwitchNeedsFollower.Name = "TwitchNeedsFollower";
-            this.TwitchNeedsFollower.UseVisualStyleBackColor = true;
+            resources.ApplyResources(TwitchNeedsSubscriber, "TwitchNeedsSubscriber");
+            TwitchNeedsSubscriber.Name = "TwitchNeedsSubscriber";
+            BBBToolTip.SetToolTip(TwitchNeedsSubscriber, resources.GetString("TwitchNeedsSubscriber.ToolTip"));
+            TwitchNeedsSubscriber.UseVisualStyleBackColor = true;
             // 
             // TwitchCommandTrigger
             // 
-            resources.ApplyResources(this.TwitchCommandTrigger, "TwitchCommandTrigger");
-            this.TwitchCommandTrigger.Name = "TwitchCommandTrigger";
+            resources.ApplyResources(TwitchCommandTrigger, "TwitchCommandTrigger");
+            TwitchCommandTrigger.Name = "TwitchCommandTrigger";
             // 
             // TwitchCommandTriggerLabel
             // 
-            resources.ApplyResources(this.TwitchCommandTriggerLabel, "TwitchCommandTriggerLabel");
-            this.TwitchCommandTriggerLabel.Name = "TwitchCommandTriggerLabel";
-            // 
-            // TwitchAutoConnect
-            // 
-            resources.ApplyResources(this.TwitchAutoConnect, "TwitchAutoConnect");
-            this.TwitchAutoConnect.Name = "TwitchAutoConnect";
-            this.TwitchAutoConnect.UseVisualStyleBackColor = true;
-            // 
-            // TwitchChannel
-            // 
-            resources.ApplyResources(this.TwitchChannel, "TwitchChannel");
-            this.TwitchChannel.Name = "TwitchChannel";
-            // 
-            // TwitchAccessToken
-            // 
-            resources.ApplyResources(this.TwitchAccessToken, "TwitchAccessToken");
-            this.TwitchAccessToken.Name = "TwitchAccessToken";
-            // 
-            // TwitchUsername
-            // 
-            resources.ApplyResources(this.TwitchUsername, "TwitchUsername");
-            this.TwitchUsername.Name = "TwitchUsername";
-            // 
-            // TwitchChannelNameLabel
-            // 
-            resources.ApplyResources(this.TwitchChannelNameLabel, "TwitchChannelNameLabel");
-            this.TwitchChannelNameLabel.Name = "TwitchChannelNameLabel";
-            // 
-            // TwitchAccesstokenLabel
-            // 
-            resources.ApplyResources(this.TwitchAccesstokenLabel, "TwitchAccesstokenLabel");
-            this.TwitchAccesstokenLabel.Name = "TwitchAccesstokenLabel";
-            // 
-            // TwitchUsernameLabel
-            // 
-            resources.ApplyResources(this.TwitchUsernameLabel, "TwitchUsernameLabel");
-            this.TwitchUsernameLabel.Name = "TwitchUsernameLabel";
+            resources.ApplyResources(TwitchCommandTriggerLabel, "TwitchCommandTriggerLabel");
+            TwitchCommandTriggerLabel.Name = "TwitchCommandTriggerLabel";
             // 
             // fileToolStripMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ExitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ExitToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            resources.ApplyResources(fileToolStripMenuItem, "fileToolStripMenuItem");
             // 
             // ExitToolStripMenuItem
             // 
-            this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            resources.ApplyResources(this.ExitToolStripMenuItem, "ExitToolStripMenuItem");
-            this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
+            resources.ApplyResources(ExitToolStripMenuItem, "ExitToolStripMenuItem");
+            ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click_1;
             // 
             // helpToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.githubToolStripMenuItem,
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
+            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { GithubToolStripMenuItem, DiscordToolStripMenuItem });
+            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            resources.ApplyResources(helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
-            // githubToolStripMenuItem
+            // GithubToolStripMenuItem
             // 
-            this.githubToolStripMenuItem.Name = "githubToolStripMenuItem";
-            resources.ApplyResources(this.githubToolStripMenuItem, "githubToolStripMenuItem");
+            GithubToolStripMenuItem.Name = "GithubToolStripMenuItem";
+            resources.ApplyResources(GithubToolStripMenuItem, "GithubToolStripMenuItem");
+            GithubToolStripMenuItem.Click += GithubToolStripMenuItem_Click;
             // 
-            // aboutToolStripMenuItem
+            // DiscordToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
+            DiscordToolStripMenuItem.Name = "DiscordToolStripMenuItem";
+            resources.ApplyResources(DiscordToolStripMenuItem, "DiscordToolStripMenuItem");
+            DiscordToolStripMenuItem.Click += DiscordToolStripMenuItem_Click;
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
-            resources.ApplyResources(this.menuStrip1, "menuStrip1");
-            this.menuStrip1.Name = "menuStrip1";
+            menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, seToolStripMenuItem, helpToolStripMenuItem });
+            resources.ApplyResources(menuStrip1, "menuStrip1");
+            menuStrip1.Name = "menuStrip1";
+            // 
+            // seToolStripMenuItem
+            // 
+            seToolStripMenuItem.Name = "seToolStripMenuItem";
+            resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
+            seToolStripMenuItem.Click += seToolStripMenuItem_Click;
             // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.BBBTabs);
-            this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
-            this.Name = "BBB";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BBB_FormClosing);
-            this.SettingsTab.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.STTGroupBox.ResumeLayout(false);
-            this.STTGroupBox.PerformLayout();
-            this.MainTab.ResumeLayout(false);
-            this.MainTab.PerformLayout();
-            this.BBBTabs.ResumeLayout(false);
-            this.LLMTab.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.StreaminSettingsTab.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.TwitchTriggerSettings.ResumeLayout(false);
-            this.TwitchTriggerSettings.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(BBBTabs);
+            Controls.Add(menuStrip1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MainMenuStrip = menuStrip1;
+            MaximizeBox = false;
+            Name = "BBB";
+            FormClosing += BBB_FormClosing;
+            Load += BBB_Load;
+            VisibleChanged += BBB_VisibleChanged;
+            MainTab.ResumeLayout(false);
+            MainTab.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            groupBox7.ResumeLayout(false);
+            BBBTabs.ResumeLayout(false);
+            StreaminSettingsTab.ResumeLayout(false);
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
+            TwitchChannelPointsSettings.ResumeLayout(false);
+            TwitchChannelPointsSettings.PerformLayout();
+            TwitchSubscriberSettings.ResumeLayout(false);
+            TwitchSubscriberSettings.PerformLayout();
+            TwitchCheerSettings.ResumeLayout(false);
+            TwitchCheerSettings.PerformLayout();
+            TwitchTriggerSettings.ResumeLayout(false);
+            TwitchTriggerSettings.PerformLayout();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-        private TabPage SettingsTab;
-        private GroupBox groupBox2;
-        private GroupBox STTGroupBox;
-        private Label STTRegionLabel;
-        private Label STTAPIKeyLabel;
-        private TextBox STTAPIKeyEditbox;
-        private Button STTTestButton;
-        private Label STTProviderLabel;
-        private ComboBox STTProviderBox;
-        private TextBox STTTestOutput;
         private TabPage MainTab;
         private Button MainRecordingStart;
         private TabControl BBBTabs;
-        private ComboBox TTSOutputVoiceOptions;
-        private Label label3;
-        private ComboBox TTSOutputVoice;
-        private Label label2;
-        private TextBox TTSTestTextBox;
-        private Button TTSTestButton;
-        private ComboBox TTSProviderComboBox;
-        private Label TTSAudioOutputLabel;
-        private Label TTSProviderLabel;
-        private GroupBox groupBox3;
-        private Label MicroPhoneHotkeyLabel;
-        private TextBox MicrophoneHotkeyEditbox;
-        private Label VoiceInputLabel;
-        private ComboBox SoundInputDevices;
-        private Button MicrophoneHotkeySet;
         private TextBox TextLog;
-        private Label STTHintText;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem ExitToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
-        private ToolStripMenuItem githubToolStripMenuItem;
-        private ToolStripMenuItem aboutToolStripMenuItem;
+        private ToolStripMenuItem GithubToolStripMenuItem;
+        private ToolStripMenuItem DiscordToolStripMenuItem;
         private MenuStrip menuStrip1;
-        private ComboBox TTSAudioOutputComboBox;
-        private TabPage LLMTab;
         private TabPage StreaminSettingsTab;
         private GroupBox groupBox4;
-        private TextBox TwitchChannel;
-        private TextBox TwitchAccessToken;
-        private TextBox TwitchUsername;
-        private Label TwitchChannelNameLabel;
-        private Label TwitchAccesstokenLabel;
-        private Label TwitchUsernameLabel;
-        private CheckBox TwitchAutoConnect;
-        private TextBox TwitchStatusTextBox;
+        private TextBox TwitchAPIStatusTextBox;
         private Label TwitchStatusLabel;
-        private GroupBox groupBox5;
+        private GroupBox TwitchCheerSettings;
         private GroupBox TwitchTriggerSettings;
         private CheckBox TwitchNeedsSubscriber;
-        private CheckBox TwitchNeedsFollower;
         private TextBox TwitchCommandTrigger;
         private Label TwitchCommandTriggerLabel;
-        private GroupBox groupBox6;
+        private GroupBox TwitchSubscriberSettings;
         private CheckBox TwitchSubscribed;
         private Label label5;
         private TextBox TwitchMinBits;
         private Label label6;
         private TextBox TwitchChatCommandDelay;
         private CheckBox TwitchGiftedSub;
-        private CheckBox TwitchCommunitySubs;
-        private Button TwitchAuthorizeButton;
+        private CheckBox TwitchEnableCheckbox;
+        private Label TwitchEventSubStatusLabel;
+        private TextBox TwitchEventSubStatusTextBox;
+        private CheckBox TwitchReadChatCheckBox;
         private GroupBox groupBox7;
-        private TextBox TwitchTestSendText;
-        private CheckBox TwitchSendTextCheckBox;
-        private Button TwitchTestButton;
-        private GroupBox groupBox1;
-        private ComboBox LLMModelComboBox;
-        private Label label4;
-        private TextBox LLMTestOutputbox;
+        private CheckBox TwitchCheerCheckBox;
+        private GroupBox TwitchChannelPointsSettings;
+        private Label label9;
+        private TextBox TwitchCustomRewardName;
+        private CheckBox TwitchChannelPointCheckBox;
+        private ToolTip BBBToolTip;
+        private ToolStripMenuItem seToolStripMenuItem;
+        private GroupBox groupBox2;
+        private ComboBox STTSelectedComboBox;
+        private GroupBox groupBox3;
+        private ComboBox BroadcasterSelectedPersonaComboBox;
         private Label label1;
-        private TextBox LLMRoleTextBox;
-        private Button GPTTestButton;
-        private TextBox LLMAPIKeyTextBox;
-        private Label GPTAPIKeyLabel;
-        private ComboBox LLMProviderComboBox;
-        private Label GPTProviderLabel;
-        private Label label7;
-        private TextBox TTSAPIKeyTextBox;
-        private TextBox STTRegionEditbox;
-        private Label label8;
-        private TextBox TTSRegionTextBox;
+        private ComboBox TwitchChatPersonaComboBox;
+        private Label label4;
+        private ComboBox TwitchChannelPointPersonaComboBox;
+        private Label label2;
+        private ComboBox TwitchSubscriptionPersonaComboBox;
+        private Label label3;
+        private ComboBox TwitchCheeringPersonaComboBox;
+        private Button TwitchStartButton;
+        private CheckBox TwitchAutoStart;
     }
 }
 

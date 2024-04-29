@@ -1,14 +1,15 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BanterBrain Buddy", "BanterBrain Buddy\BanterBrain Buddy.csproj", "{DD9E3655-315D-4ED5-A005-B79F5C46783D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BanterBrain Buddy", "BanterBrain Buddy\BanterBrain Buddy.csproj", "{DD9E3655-315D-4ED5-A005-B79F5C46783D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FDEC3564-E532-457E-AF13-B63C7E108419}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupInstaller", "SetupInstaller\SetupInstaller.vdproj", "{3D428235-5C03-40B7-ABFE-656731FF7D5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +21,8 @@ Global
 		{DD9E3655-315D-4ED5-A005-B79F5C46783D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD9E3655-315D-4ED5-A005-B79F5C46783D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD9E3655-315D-4ED5-A005-B79F5C46783D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D428235-5C03-40B7-ABFE-656731FF7D5A}.Debug|Any CPU.ActiveCfg = Debug
+		{3D428235-5C03-40B7-ABFE-656731FF7D5A}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

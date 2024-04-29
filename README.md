@@ -1,5 +1,5 @@
 # BanterBrain Buddy
-v0.0.4
+v0.0.5
 
 ## License
 This project uses the GNU General Public License v3.0 as you can read [here](./LICENSE.txt). The TLDR is:
@@ -19,7 +19,7 @@ Come talk or chat at https://discord.banterbrain.tv
 
 ## Build instructions
 [todo]
-tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate called BanterBrain Buddy_TemporaryKey.pfx. Also install NAudio, MouseKeyHook and OpenAI by OkGoDolt. 
+tldr: use Visual studio 2022 with .net 8. 
 
 ## Resources for local and API
 - for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
@@ -31,34 +31,26 @@ tldr: use Visual studio 2022 with .net 4.7.2. Create a temporary certificate cal
 0.0.2
 - [ ] Wav file in use error sometimes on TTS
 
-0.0.3
-- [ ] Twitch chat client won't die after you started the "Test" 
-- [ ] Twitch Auth Token needs refresh instead of re-auth
-- [ ] You need to sign up to https://dev.twitch.tv and get a application ClientID & Secret to build BBB yourself
+### TODO
+- [ ] FIX SET HOTKEY
+- [ ] Native STT: fix the output stream issue of native STT instead of using a wav file. (0.0.2 known issue)
 
-### 0.0.4 TODO
-- [X] Store Azure API key
-- [X] Use Azure API for Speech-To-Text Test
-- [X] Add an actual logfile
-- [X] Use Azure API for STT Normal use
-- [X] Use Azure STT from non-default microphone
-- [X] Use Azure API for Text-To-Speech test
-- [X] Use Azure API to find the available voices and voice-moods
-- [X] Set the voice mood, if available
-- [X] Use Azure API for TTS Normal use
-- [X] Use Azure STT from non-default output device
- 
+Known issues:
+- [	] Store the Audio devices by deviceID instead of name to fix device renaming issues
+- [ ] Persona's cannot be deleted yet from the GUI
+
+
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
 - [X] 0.0.2 MVP use non-default audio devices for input/output
 - [X] 0.0.3 MVP ability to read Twitch chat and react to specifyable chat command
 - [X] 0.0.4 MVP Azure TTS/STT support
-- [ ] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
+- [X] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
 - [ ] 0.0.5.1 ALPHA INSTALLABLE ALPHA BUILD
-- [ ] 0.0.6 ALPHA Google & OpenAI Whisper TTS support 
-- [ ] 0.0.7 ALPHA Error handling & Code documentation
-- [ ] 0.0.8 ALPHA clean up code: use Logger; make TTS/STT in their own class(es)
-- [ ] 0.0.9 - reserved -
+- [ ] 0.0.6 ALPHA Google, Elevenlabs & OpenAI Whisper TTS support 
+- [ ] 0.0.7 ALPHA Improved Error handling & Code documentation. GUI improvements
+- [	] 0.0.8 ALPHA Other languages than English support
+- [ ] 0.0.9 ALPHA define persona's. A linked Role text with a specific voice setup.
 - [ ] 0.1.0 BETA Installable Beta build release
 
 

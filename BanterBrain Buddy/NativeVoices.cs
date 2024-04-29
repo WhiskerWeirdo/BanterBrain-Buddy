@@ -9,14 +9,10 @@
 
 namespace BanterBrain_Buddy
 {
-    internal class AzureVoices
+    internal class NativeVoices
     {
         public string Gender { get; set; }
-        public string Locale { get; set; }
-        public string LocaleDisplayname { get; set; }
-
-        public string LocalName { get; set; }
         public string Name { get; set; }
-        public List<string> StyleList { get; set; }
+        public string Culture { get; set; }
     }
 }

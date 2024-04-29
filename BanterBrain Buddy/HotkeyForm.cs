@@ -3,6 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+/// <summary>
+/// CODING RULES:
+/// •	Local variables, private instance, static fields and method parameters should be camelCase.
+/// •	Methods, constants, properties, events and classes should be PascalCase.
+/// •	Global private instance fields should be in camelCase prefixed with an underscore.
+/// </summary>
+
 namespace BanterBrain_Buddy
 {
     public partial class HotkeyForm : Form
@@ -20,7 +27,8 @@ namespace BanterBrain_Buddy
             m_GlobalHook.KeyDown += GlobalHookKeyDown;
         }
 
-        List<Keys> KeyCombo = new List<Keys>();
+        List<Keys> KeyCombo = [];
+
         public List<Keys> ReturnValue1 { get; set; }
         private void GlobalHookKeyDown(object sender, KeyEventArgs e)
         {

@@ -13,7 +13,7 @@ namespace BanterBrain_Buddy.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0")]
-    public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
@@ -25,7 +25,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string VoiceInput {
             get {
                 return ((string)(this["VoiceInput"]));
@@ -37,7 +37,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string PTTHotkey {
             get {
                 return ((string)(this["PTTHotkey"]));
@@ -49,201 +49,31 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string STTProvider {
+        [global::System.Configuration.DefaultSettingValueAttribute("gpt-3.5-turbo")]
+        public string GPTModel {
             get {
-                return ((string)(this["STTProvider"]));
+                return ((string)(this["GPTModel"]));
             }
             set {
-                this["STTProvider"] = value;
+                this["GPTModel"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string LLMProvider {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GPTAPIKey {
             get {
-                return ((string)(this["LLMProvider"]));
+                return ((string)(this["GPTAPIKey"]));
             }
             set {
-                this["LLMProvider"] = value;
+                this["GPTAPIKey"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string LLMModel {
-            get {
-                return ((string)(this["LLMModel"]));
-            }
-            set {
-                this["LLMModel"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string LLMRoleText {
-            get {
-                return ((string)(this["LLMRoleText"]));
-            }
-            set {
-                this["LLMRoleText"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string TTSProvider {
-            get {
-                return ((string)(this["TTSProvider"]));
-            }
-            set {
-                this["TTSProvider"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string TTSAudioOutput {
-            get {
-                return ((string)(this["TTSAudioOutput"]));
-            }
-            set {
-                this["TTSAudioOutput"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string TTSAudioVoice {
-            get {
-                return ((string)(this["TTSAudioVoice"]));
-            }
-            set {
-                this["TTSAudioVoice"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string TTSAudioVoiceOptions {
-            get {
-                return ((string)(this["TTSAudioVoiceOptions"]));
-            }
-            set {
-                this["TTSAudioVoiceOptions"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string STTAPIKey {
-            get {
-                return ((string)(this["STTAPIKey"]));
-            }
-            set {
-                this["STTAPIKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string STTAPIRegion {
-            get {
-                return ((string)(this["STTAPIRegion"]));
-            }
-            set {
-                this["STTAPIRegion"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string LLMAPIKey {
-            get {
-                return ((string)(this["LLMAPIKey"]));
-            }
-            set {
-                this["LLMAPIKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool TTSAudioVoiceEnabled {
-            get {
-                return ((bool)(this["TTSAudioVoiceEnabled"]));
-            }
-            set {
-                this["TTSAudioVoiceEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool TTSAudioVoiceOptionsEnabled {
-            get {
-                return ((bool)(this["TTSAudioVoiceOptionsEnabled"]));
-            }
-            set {
-                this["TTSAudioVoiceOptionsEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool STTAPIKeyEnabled {
-            get {
-                return ((bool)(this["STTAPIKeyEnabled"]));
-            }
-            set {
-                this["STTAPIKeyEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool STTAPIRegionEnabled {
-            get {
-                return ((bool)(this["STTAPIRegionEnabled"]));
-            }
-            set {
-                this["STTAPIRegionEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsd=\"http://www.w3." +
-            "org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <s" +
-            "tring>LControlKey</string>\r\n  <string>Z</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection HotkeyList {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["HotkeyList"]));
-            }
-            set {
-                this["HotkeyList"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TwitchUsername {
             get {
                 return ((string)(this["TwitchUsername"]));
@@ -255,7 +85,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TwitchAccessToken {
             get {
                 return ((string)(this["TwitchAccessToken"]));
@@ -267,7 +97,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TwitchChannel {
             get {
                 return ((string)(this["TwitchChannel"]));
@@ -279,7 +109,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("$BBB")]
         public string TwitchCommandTrigger {
             get {
                 return ((string)(this["TwitchCommandTrigger"]));
@@ -291,19 +121,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool TwitchAutoConnect {
-            get {
-                return ((bool)(this["TwitchAutoConnect"]));
-            }
-            set {
-                this["TwitchAutoConnect"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Hello! I am BanterBrain Buddy https://banterbrain.tv")]
         public string TwitchTestSendText {
             get {
                 return ((string)(this["TwitchTestSendText"]));
@@ -327,7 +145,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
         public int TwitchChatCommandDelay {
             get {
                 return ((int)(this["TwitchChatCommandDelay"]));
@@ -363,7 +181,7 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int TwitchMinBits {
             get {
                 return ((int)(this["TwitchMinBits"]));
@@ -411,25 +229,289 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string TTSAPIKeyTextBox {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AzureAPIKeyTextBox {
             get {
-                return ((string)(this["TTSAPIKeyTextBox"]));
+                return ((string)(this["AzureAPIKeyTextBox"]));
             }
             set {
-                this["TTSAPIKeyTextBox"] = value;
+                this["AzureAPIKeyTextBox"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string TTSRegionTextBox {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AzureRegionTextBox {
             get {
-                return ((string)(this["TTSRegionTextBox"]));
+                return ((string)(this["AzureRegionTextBox"]));
             }
             set {
-                this["TTSRegionTextBox"] = value;
+                this["AzureRegionTextBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HotkeyList {
+            get {
+                return ((string)(this["HotkeyList"]));
+            }
+            set {
+                this["HotkeyList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
+        public string AzureLanguageComboBox {
+            get {
+                return ((string)(this["AzureLanguageComboBox"]));
+            }
+            set {
+                this["AzureLanguageComboBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchEnable {
+            get {
+                return ((bool)(this["TwitchEnable"]));
+            }
+            set {
+                this["TwitchEnable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchCheckAuthAtStartup {
+            get {
+                return ((bool)(this["TwitchCheckAuthAtStartup"]));
+            }
+            set {
+                this["TwitchCheckAuthAtStartup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchReadChatCheckBox {
+            get {
+                return ((bool)(this["TwitchReadChatCheckBox"]));
+            }
+            set {
+                this["TwitchReadChatCheckBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchCheerCheckbox {
+            get {
+                return ((bool)(this["TwitchCheerCheckbox"]));
+            }
+            set {
+                this["TwitchCheerCheckbox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TTSAPIKeyTextBoxEnabled {
+            get {
+                return ((bool)(this["TTSAPIKeyTextBoxEnabled"]));
+            }
+            set {
+                this["TTSAPIKeyTextBoxEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TTSRegionTextBoxEnabled {
+            get {
+                return ((bool)(this["TTSRegionTextBoxEnabled"]));
+            }
+            set {
+                this["TTSRegionTextBoxEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchChannelPointCheckBox {
+            get {
+                return ((bool)(this["TwitchChannelPointCheckBox"]));
+            }
+            set {
+                this["TwitchChannelPointCheckBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchCustomRewardName {
+            get {
+                return ((string)(this["TwitchCustomRewardName"]));
+            }
+            set {
+                this["TwitchCustomRewardName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int GPTMaxTokens {
+            get {
+                return ((int)(this["GPTMaxTokens"]));
+            }
+            set {
+                this["GPTMaxTokens"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GPTTemperature {
+            get {
+                return ((int)(this["GPTTemperature"]));
+            }
+            set {
+                this["GPTTemperature"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TTSNativeVoiceSelected {
+            get {
+                return ((string)(this["TTSNativeVoiceSelected"]));
+            }
+            set {
+                this["TTSNativeVoiceSelected"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string STTSelectedProvider {
+            get {
+                return ((string)(this["STTSelectedProvider"]));
+            }
+            set {
+                this["STTSelectedProvider"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MainSelectedPersona {
+            get {
+                return ((string)(this["MainSelectedPersona"]));
+            }
+            set {
+                this["MainSelectedPersona"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TTSAudioOutput {
+            get {
+                return ((string)(this["TTSAudioOutput"]));
+            }
+            set {
+                this["TTSAudioOutput"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string SelectedLLM {
+            get {
+                return ((string)(this["SelectedLLM"]));
+            }
+            set {
+                this["SelectedLLM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchChatPersona {
+            get {
+                return ((string)(this["TwitchChatPersona"]));
+            }
+            set {
+                this["TwitchChatPersona"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchChannelPointPersona {
+            get {
+                return ((string)(this["TwitchChannelPointPersona"]));
+            }
+            set {
+                this["TwitchChannelPointPersona"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchCheeringPersona {
+            get {
+                return ((string)(this["TwitchCheeringPersona"]));
+            }
+            set {
+                this["TwitchCheeringPersona"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchSubscriptionPersona {
+            get {
+                return ((string)(this["TwitchSubscriptionPersona"]));
+            }
+            set {
+                this["TwitchSubscriptionPersona"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchAutoStart {
+            get {
+                return ((bool)(this["TwitchAutoStart"]));
+            }
+            set {
+                this["TwitchAutoStart"] = value;
             }
         }
     }
