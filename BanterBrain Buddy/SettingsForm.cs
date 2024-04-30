@@ -177,6 +177,16 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (_personaEdited)
+            {
+                _bBBlog.Debug("Personas panel hidden. we should save the persona's if anything changed");
+                //ask if we need to save the persona
+                var result = MessageBox.Show("Information changed. Do you want to save the persona?", "Save Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    SavePersona_Click(sender, e);
+                }
+            }
             _bBBlog.Info("Settings form closing, saving settings");
             Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
             Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;

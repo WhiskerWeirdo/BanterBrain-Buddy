@@ -32,9 +32,9 @@ tldr: use Visual studio 2022 with .net 8.
 Known issues:
 - [ ] Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
 - [ ] Personas cannot be deleted from the interface.
-- [ ] No PTT hotkey
+- [X] No PTT hotkey
 - [ ] No ability to check for Twitch followers
-- [ ] Hard closing the Settings screen does not ask to save the persona
+- [X] Hard closing the Settings screen does not ask to save the persona
 
 
 ### Short term roadmap
