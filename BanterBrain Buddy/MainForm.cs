@@ -224,7 +224,7 @@ namespace BanterBrain_Buddy
                 {
                     STTSelectedComboBox.Items.Add("Azure");
                     _bBBlog.Info("Azure voices found, adding to list");
-                    TextLog.AppendText("Azure API setting valid.\r\n");
+                    UpdateTextLog("Azure API setting valid.\r\n");
                 }
                 else
                 {
@@ -260,7 +260,7 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Error("Twitch access token is invalid, please re-authenticate");
                     MessageBox.Show("Twitch access token is invalid, please re-authenticate", "Twitch Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    TextLog.Text += "Twitch access token is invalid, please re-authenticate\r\n";
+                    UpdateTextLog("Twitch access token is invalid, please re-authenticate\r\n");
                     _twitchValidateCheckStarted = false;
                     TwitchAPIStatusTextBox.Text = "DISABLED";
                     TwitchAPIStatusTextBox.BackColor = Color.Red;
@@ -269,7 +269,7 @@ namespace BanterBrain_Buddy
                 else
                 {
                     _bBBlog.Info("Twitch access token is valid. Starting automated /validate call");
-                    TextLog.Text += "Twitch access token is valid. Starting automated /validate call\r\n";
+                    UpdateTextLog("Twitch access token is valid. Starting automated /validate call\r\n");
                     _twitchValidateCheckStarted = true;
                     TwitchAPIStatusTextBox.Text = "ENABLED";
                     TwitchAPIStatusTextBox.BackColor = Color.Green;
@@ -292,7 +292,7 @@ namespace BanterBrain_Buddy
                     {
                         _bBBlog.Error("Error starting EventSub client");
                         MessageBox.Show("Error starting EventSub client", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        TextLog.Text += "Error starting EventSub client\r\n";
+                        UpdateTextLog("Error starting EventSub client\r\n");
                         _bigError = true;
                     }
                 }
@@ -322,7 +322,7 @@ namespace BanterBrain_Buddy
                 else if (recognizeResult == null)
                 {
                     _sTTOutputText += "Fail! Speech could not be proccessed. Check log for more info.\r\n";
-                    TextLog.Text += "Azure Speech-To-Text: Fail! Speech could not be proccessed. Check log for more info.\r\n";
+                    UpdateTextLog("Azure Speech-To-Text: Fail! Speech could not be proccessed. Check log for more info.\r\n");
                     _bigError = true;
                     _sTTDone = true;
                 }
@@ -524,54 +524,35 @@ namespace BanterBrain_Buddy
             UpdateTextLog("Sending to GPT: " + UserInput + "\r\n");
             _bBBlog.Info("Sending to GPT: " + UserInput);
             _gPTDone = false;
-            OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
-            //api.Auth.ValidateAPIKey
-            var chat = api.Chat.CreateConversation();
-            chat.Model = Model.ChatGPTTurbo;
-            chat.RequestParameters.Temperature = Properties.Settings.Default.GPTTemperature;
-            chat.RequestParameters.MaxTokens = Properties.Settings.Default.GPTMaxTokens;
 
-            //mood is setting the system text description
-            //this is the persona role
-            // UpdateTextLog("SystemRole: " + LLMRoleTextBox.Text + "\r\n");
-            _bBBlog.Info("SystemRole: " + tmpPersonaRoletext);
-            chat.AppendSystemMessage(tmpPersonaRoletext);
-
-            chat.AppendUserInput(UserInput);
-            try
+            OpenAI openAI = new();
+            var result = await openAI.GetOpenAIIGPTResponse(UserInput, tmpPersonaRoletext);
+            if (result == null)
             {
-                UpdateTextLog("ChatGPT response: ");
-                _bBBlog.Info("ChatGPT response: ");
-                await chat.StreamResponseFromChatbotAsync(res =>
-                 {
-                     UpdateTextLog(res);
-                     _gPTOutputText += res;
-                 });
-                _bBBlog.Info(_gPTOutputText);
-                UpdateTextLog("\r\nGPT Response done\r\n");
-                _bBBlog.Info("GPT Response done");
+                _bBBlog.Error("GPT API error. Is there a problem with your API key or subscription?");
+                MessageBox.Show("GPT API error. Is there a problem with your API key or subscription?", "GPT API error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _bigError = true;
+            }
+            else
+            {
+                UpdateTextLog("GPT Response: " + result + "\r\n");
+                _gPTOutputText = result;
                 _gPTDone = true;
             }
-            catch (System.Security.Authentication.AuthenticationException ex)
-            {
-                MessageBox.Show(ex.Message, "GPT API Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _bBBlog.Error("GPT API Auth error: " + ex.Message);
-            }
-
         }
 
         /// <summary>
         /// Holds the list of Azure Voices and their options
         /// </summary>
 
-
+        
         [SupportedOSPlatform("windows6.1")]
         //Azure Text-To-Speach
         private async Task TTSAzureSpeakToOutput(string TextToSpeak, Personas tmpPersona)
         {
-            _bBBlog.Info("Azure TTS called with text, seting up");
+            UpdateTextLog("Saying text with Azure TTS\r\n");
+            _bBBlog.Info("Saying text with Azure TTS");
             AzureSpeechAPI azureSpeechAPI = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
-            //STTAPIKeyEditbox.Text, STTRegionEditbox.Text, STTLanguageComboBox.Text);
 
             //set the output voice, gender and locale, and the style
             //this now depends on the selected persona
@@ -585,7 +566,7 @@ namespace BanterBrain_Buddy
                 _bigError = true;
             }
         }
-
+        
 
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSNativeSpeakToOutput(String TTSText, Personas tmpPersona)
@@ -622,11 +603,22 @@ namespace BanterBrain_Buddy
             else if (tmpPersona.VoiceProvider == "Azure")
             {
                 await TTSAzureSpeakToOutput(TextToSay, tmpPersona);
+            } else if (tmpPersona.VoiceProvider == "OpenAI Whisper")
+            {
+                await TTSGPTSpeakToOutput(TextToSay, tmpPersona);
             }
             await Task.Delay(DelayWhenDone);
             _tTSSpeaking = false;
         }
 
+        [SupportedOSPlatform("windows6.1")]
+        private async Task TTSGPTSpeakToOutput(string TextToSpeak, Personas tmpPersona)
+        {
+            UpdateTextLog("Saying text with GPT TTS\r\n");
+            _bBBlog.Info("Saying text with GPT TTS");
+            OpenAI openAI = new();
+            await openAI.OpenAITTS(TextToSpeak, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName);
+        }
 
         //talk to the various LLM's
         [SupportedOSPlatform("windows6.1")]
@@ -689,7 +681,7 @@ namespace BanterBrain_Buddy
 
                     if ((Properties.Settings.Default.AzureAPIKeyTextBox.Length < 1) || (Properties.Settings.Default.AzureRegionTextBox.Length < 1))
                     {
-                        TextLog.Text = "Error! API Key or region cannot be empty!\r\n";
+                        UpdateTextLog("Error! API Key or region cannot be empty!\r\n");
                         _bBBlog.Error("Error! API Key or region cannot be empty!");
                         MainRecordingStart.Text = "Start";
                     }
@@ -735,9 +727,6 @@ namespace BanterBrain_Buddy
             {
                 MainRecordingStart.Text = "Start";
                 _bBBlog.Info("FAKE: Recording stopped");
-                //  if (selectedProvider == "Native")
-                // StopWavCapture();
-
             }
         }
 
@@ -799,14 +788,14 @@ namespace BanterBrain_Buddy
                 if (await api.Auth.ValidateAPIKey())
                 {
                     _bBBlog.Info("GPT API key is valid");
-                    TextLog.AppendText("OpenAI key is valid.\r\n");
+                    UpdateTextLog("OpenAI key is valid.\r\n");
                   //  _twitchAPIVerified = true;
                   //  TwitchStartButton.Enabled = true;
                 }
                 else
                 {
                     _bBBlog.Error("GPT API is selected but key is invalid invalid. \r\n");
-                    TextLog.AppendText("OpenAI ChatGPT is selected as LLM but key is invalid. \r\n");
+                    UpdateTextLog("OpenAI ChatGPT is selected as LLM but key is invalid. \r\n");
                  //   _twitchAPIVerified = false;
                   //  TwitchStartButton.Enabled = false;
                 }
@@ -814,7 +803,7 @@ namespace BanterBrain_Buddy
             }
             else if (Properties.Settings.Default.SelectedLLM == "None" || Properties.Settings.Default.SelectedLLM == "")
             {
-                TextLog.AppendText("No LLM selected. You should set one in the settings first\r\n");
+                UpdateTextLog("No LLM selected. You should set one in the settings first\r\n");
             }
 
             if (TwitchAutoStart.Checked)
@@ -1067,7 +1056,7 @@ namespace BanterBrain_Buddy
                 if (eventSubStart)
                 {
                     _bBBlog.Info("Twitch EventSub client  started successfully");
-                    TextLog.AppendText("Twitch EventSub client started successfully\r\n");
+                    UpdateTextLog("Twitch EventSub client started successfully\r\n");
                     TwitchEventSubStatusTextBox.Text = "ENABLED";
                     TwitchEventSubStatusTextBox.BackColor = Color.Green;
                     _twitchStarted = true;
@@ -1129,7 +1118,7 @@ namespace BanterBrain_Buddy
             bool _TalkDone = false;
             await InvokeUI(async () =>
             {
-                TextLog.AppendText($"Valid Twitch Cheer message received from {user}\r\n");
+                UpdateTextLog($"Valid Twitch Cheer message received from {user}\r\n");
                 // await SayText($"Thank you for the bits, {user}!");
                 await SayText($"{user} cheered with message {message}", 2000, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
                 _TalkDone = true;
@@ -1268,7 +1257,7 @@ namespace BanterBrain_Buddy
             //we use InvokeUI to make sure we can write to the textlog from another thread that is not the Ui thread.
             await InvokeUI(async () =>
             {
-                TextLog.AppendText("Valid Twitch Chat message received from user: " + user + " message: " + message + "\r\n");
+                UpdateTextLog("Valid Twitch Chat message received from user: " + user + " message: " + message + "\r\n");
                 await SayText($"{user} said {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
             });
             await InvokeUI(async () =>
@@ -1546,7 +1535,7 @@ namespace BanterBrain_Buddy
             else
             { //turning off Twitch
                 _bBBlog.Info("Twitch disabled. Stopping timer and clearing token. Stopping Websocket client.");
-                TextLog.AppendText("Twitch disabled. Stopping timer and clearing token. Stopping Websocket client.\r\n");
+                UpdateTextLog("Twitch disabled. Stopping timer and clearing token. Stopping Websocket client.\r\n");
                 TwitchStartButton.Text = "Start";
 
                 if (_globalTwitchAPI != null)

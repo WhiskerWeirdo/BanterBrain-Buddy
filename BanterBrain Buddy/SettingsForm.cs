@@ -222,6 +222,14 @@ namespace BanterBrain_Buddy
             //we dont need the eventhandlers when its becoming visible
             if (PersonasPanel.Visible)
             {
+                //TTSProvider combobox needs to be filled with the available providers
+                TTSProviderComboBox.Items.Clear();
+                TTSProviderComboBox.Items.Add("Native");
+                if (AzureAPIKeyTextBox.Text.Length > 0 && AzureRegionTextBox.Text.Length > 0)
+                    TTSProviderComboBox.Items.Add("Azure");
+                if (GPTAPIKeyTextBox.Text.Length > 0)
+                    TTSProviderComboBox.Items.Add("OpenAI Whisper");
+                TTSProviderComboBox.SelectedIndex = 0;
 
                 _bBBlog.Debug("Personas panel visible. we need to load the persona's and enable the eventhandlers");
                 await LoadPersonas();
@@ -229,13 +237,16 @@ namespace BanterBrain_Buddy
                 {
                     await Task.Delay(1000);
                 }
-                //we need to fill the combo box with the voices available
-                await FillVoiceBoxes();
+
+
                 //TODO: set the originally selected persona for now just load the first one
                 PersonaComboBox.SelectedIndex = 0;
                 var selectedPersona = _personas[PersonaComboBox.SelectedIndex];
                 PersonaRoleTextBox.Text = selectedPersona.RoleText;
                 TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
+                //we need to fill the combo box with the voices available. We do that here cos provider needs to be loaded first.
+                await FillVoiceBoxes();
+                _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
                 TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
                 _personaEdited = false;
                 EnablePersonaEventHandlers();
@@ -271,8 +282,6 @@ namespace BanterBrain_Buddy
             else if (TTSProviderComboBox.Text == "Azure")
             {
                 TTSOutputVoice.Text = "";
-
-                TTSOutputVoice.Enabled = true;
                 TTSOutputVoiceOption1.Enabled = true;
 
                 if (AzureAPIKeyTextBox.Text.Length > 0 && AzureRegionTextBox.Text.Length > 0)
@@ -285,6 +294,22 @@ namespace BanterBrain_Buddy
                 {
                     MessageBox.Show("Please enter your Azure API key and region", "Azure API error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+            else if (TTSProviderComboBox.Text == "OpenAI Whisper")
+            {
+                TTSOutputVoice.Text = "";
+                TTSOutputVoiceOption1.Enabled = false;
+                //these voices are static
+                //alloy, echo, fable, onyx, nova, and shimmer
+                TTSOutputVoice.Items.Clear();
+                TTSOutputVoice.Items.Add("alloy");
+                TTSOutputVoice.Items.Add("echo");
+                TTSOutputVoice.Items.Add("fable");
+                TTSOutputVoice.Items.Add("onyx");
+                TTSOutputVoice.Items.Add("nova");
+                TTSOutputVoice.Items.Add("shimmer");
+                TTSOutputVoice.Sorted = true;
+                TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
             }
         }
 
@@ -600,7 +625,24 @@ namespace BanterBrain_Buddy
                 }
                 await TTSAzureSpeakToOutput(TextToSay);
             }
+            else if (TTSProviderComboBox.Text == "OpenAI Whisper")
+            {
+                await TTSOpenAIWhisperSpeakToOutput(TextToSay);
+            }
         }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async Task TTSOpenAIWhisperSpeakToOutput(string TextToSay)
+        {
+            OpenAI openAI = new();
+            var result = await openAI.OpenAITTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text);
+            if (!result)
+            {
+                _bBBlog.Error("OpenAI Whisper TTS error. Is there a problem with your API key or subscription?");
+                MessageBox.Show("OpenAI Whisper TTS error. Is there a problem with your API key or subscription?", "OpenAI Whisper TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSNativeSpeakToOutput(String TTSText)
@@ -930,9 +972,11 @@ namespace BanterBrain_Buddy
             TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
             //the provider can be different from the one before so we need to load teh voices
             await FillVoiceBoxes();
+            _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
             TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
             //now to fill the options field
-            TTSAzureFillOptions(TTSOutputVoice.Text);
+            if (TTSProviderComboBox.Text == "Azure")
+                TTSAzureFillOptions(TTSOutputVoice.Text);
             if (selectedPersona.VoiceOptions.Count > 0)
             {
                 _bBBlog.Debug("Voice options found, loading them into the combo box");
@@ -990,5 +1034,6 @@ namespace BanterBrain_Buddy
                 _personaEdited = false;
             }
         }
+
     }
 }
