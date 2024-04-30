@@ -50,6 +50,7 @@ namespace BanterBrain_Buddy
         {
             OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
             var STTResult = await api.Transcriptions.GetTextAsync(audioFile);
+
             if (STTResult == null)
             {
                 _bBBlog.Error("OpenAI STT failed");

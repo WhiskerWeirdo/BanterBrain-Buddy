@@ -1035,5 +1035,38 @@ namespace BanterBrain_Buddy
             }
         }
 
+        [SupportedOSPlatform("windows6.1")]
+        public async Task ShowHotkeyDialogBox()
+        {
+            HotkeyForm HotkeyDialog = new();
+
+            var result = HotkeyDialog.ShowDialog(this);
+            // Show testDialog as a modal dialog and determine if DialogResult = OK.
+            if (result == DialogResult.OK && HotkeyDialog.ReturnValue1 != null)
+            {
+               // _setHotkeys.Clear();
+                this.MicrophoneHotkeyEditbox.Text = "";
+                List<Keys> hotKeys = HotkeyDialog.ReturnValue1;
+                //ok now we got the keys, parse them and put them in the index box
+                // and the global list for hotkeys
+
+                for (var i = 0; i < hotKeys.Count; i++)
+                {
+                    
+                    if (i < hotKeys.Count - 1)
+                        this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString() + " + ";
+                    else
+                        this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString();
+                    
+                }
+            }
+            _bBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
+            HotkeyDialog.Dispose();
+        }
+
+        private async void MicrophoneHotkeySet_Click(object sender, EventArgs e)
+        {
+            await ShowHotkeyDialogBox();
+        }
     }
 }

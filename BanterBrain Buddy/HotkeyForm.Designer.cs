@@ -28,46 +28,59 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.HotkeyPressed = new System.Windows.Forms.Label();
-            this.CombiText = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            HotkeyPressed = new System.Windows.Forms.Label();
+            CombiText = new System.Windows.Forms.Label();
+            DontPingTextBox = new System.Windows.Forms.TextBox();
+            SuspendLayout();
             // 
             // HotkeyPressed
             // 
-            this.HotkeyPressed.AutoSize = true;
-            this.HotkeyPressed.Location = new System.Drawing.Point(40, 24);
-            this.HotkeyPressed.Name = "HotkeyPressed";
-            this.HotkeyPressed.Size = new System.Drawing.Size(216, 13);
-            this.HotkeyPressed.TabIndex = 0;
-            this.HotkeyPressed.Text = "Press key combination. Press ESC to cancel";
+            HotkeyPressed.AutoSize = true;
+            HotkeyPressed.Location = new System.Drawing.Point(45, 9);
+            HotkeyPressed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            HotkeyPressed.Name = "HotkeyPressed";
+            HotkeyPressed.Size = new System.Drawing.Size(233, 15);
+            HotkeyPressed.TabIndex = 2;
+            HotkeyPressed.Text = "Press key combination. Press ESC to cancel";
             // 
             // CombiText
             // 
-            this.CombiText.AutoSize = true;
-            this.CombiText.Location = new System.Drawing.Point(71, 76);
-            this.CombiText.Name = "CombiText";
-            this.CombiText.Size = new System.Drawing.Size(0, 13);
-            this.CombiText.TabIndex = 1;
+            CombiText.AutoSize = true;
+            CombiText.Location = new System.Drawing.Point(85, 43);
+            CombiText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            CombiText.Name = "CombiText";
+            CombiText.Size = new System.Drawing.Size(0, 15);
+            CombiText.TabIndex = 1;
+            // 
+            // DontPingTextBox
+            // 
+            DontPingTextBox.Location = new System.Drawing.Point(218, 31);
+            DontPingTextBox.Name = "DontPingTextBox";
+            DontPingTextBox.Size = new System.Drawing.Size(100, 23);
+            DontPingTextBox.TabIndex = 0;
+            DontPingTextBox.Visible = false;
             // 
             // HotkeyForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(293, 57);
-            this.Controls.Add(this.CombiText);
-            this.Controls.Add(this.HotkeyPressed);
-            this.Name = "HotkeyForm";
-            this.Text = "Hotkey setting";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HotkeyForm_FormClosing);
-            this.Shown += new System.EventHandler(this.HotkeyForm_Shown);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(342, 66);
+            Controls.Add(DontPingTextBox);
+            Controls.Add(CombiText);
+            Controls.Add(HotkeyPressed);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "HotkeyForm";
+            Text = "Hotkey setting";
+            FormClosing += HotkeyForm_FormClosing;
+            Shown += HotkeyForm_Shown;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private System.Windows.Forms.Label HotkeyPressed;
         private System.Windows.Forms.Label CombiText;
+        private System.Windows.Forms.TextBox DontPingTextBox;
     }
 }

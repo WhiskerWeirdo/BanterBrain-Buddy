@@ -15,6 +15,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using NAudio.Wave;
 using NAudio.CoreAudioApi;
+using System.Linq;
 
 
 /// <summary>
@@ -76,10 +77,9 @@ namespace BanterBrain_Buddy
             LoadPersonas();
 
             _bBBlog.Info("Program Starting...");
-            // _bBBlog.Info("PPT hotkey: " + MicrophoneHotkeyEditbox.Text);
+
 
             UpdateTextLog("Program Starting...\r\n");
-            //UpdateTextLog("PPT hotkey: " + MicrophoneHotkeyEditbox.Text + "\r\n");
             //TODO: verify API token first
 
             if (TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchAccessToken.Length > 1)
@@ -87,6 +87,7 @@ namespace BanterBrain_Buddy
             CheckConfiguredSTTProviders();
             LoadSettings();
             SetSelectedSTTProvider();
+            Subscribe();
         }
 
         //we need to do this so we fill the default saved value only after the API voices are checked
@@ -317,7 +318,10 @@ namespace BanterBrain_Buddy
                 var recognizeResult = await azureSpeechAPI.RecognizeSpeechAsync();
                 if (recognizeResult == "NOMATCH")
                 {
-                    _sTTOutputText += "NOMATCH: Speech could not be recognized.\r\n";
+                    UpdateTextLog("Azure Speech-To-Text: NOMATCH: Speech could not be recognized.\r\n");
+                    //_sTTOutputText += "NOMATCH: Speech could not be recognized.\r\n";
+                    _bigError = true;
+                    _sTTDone = true;
                 }
                 else if (recognizeResult == null)
                 {
@@ -367,6 +371,7 @@ namespace BanterBrain_Buddy
             waveIn.DataAvailable += (s, a) =>
             {
                 writer.Write(a.Buffer, 0, a.BytesRecorded);
+                
             };
             waveIn.RecordingStopped += (s, a) =>
             {
@@ -388,6 +393,8 @@ namespace BanterBrain_Buddy
             {
                 await Task.Delay(500);
             }
+            //now we have the .wav file, lets convert it to text
+            //but lets make sure its actually a decent size?
             _bBBlog.Debug("converting to Text from WAV");
             _sTTDone = false;
 
@@ -775,11 +782,17 @@ namespace BanterBrain_Buddy
 
 
             //load HotkeyList into _setHotkeys
-            /* foreach (String key in Properties.Settings.Default.HotkeyList)
-             {
-                 Keys tmpKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                 _setHotkeys.Add(tmpKey);
-             }*/
+            //convert string to a list
+            //Unsubscribe();
+            _bBBlog.Info($"Loading hotkeys: {Properties.Settings.Default.PTTHotkey}");
+            UpdateTextLog("PPT hotkey: " + Properties.Settings.Default.PTTHotkey + "\r\n");
+            var hotKeys = Properties.Settings.Default.PTTHotkey.Split('+').ToList();
+            _setHotkeys.Clear();
+            foreach (var key in hotKeys)
+            {
+                _setHotkeys.Add((Keys)Enum.Parse(typeof(Keys), key));
+            }
+            Subscribe();
 
             //lets check if the selected OpenAI API key is valid   
             if (Properties.Settings.Default.SelectedLLM == "GPT")
@@ -810,6 +823,7 @@ namespace BanterBrain_Buddy
             {
                 TwitchStartButton_Click(null, null);
             }
+
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -840,16 +854,11 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchSubscriptionPersona = TwitchSubscriptionPersonaComboBox.Text;
             Properties.Settings.Default.TwitchChatPersona = TwitchChatPersonaComboBox.Text;
             Properties.Settings.Default.TwitchAutoStart = TwitchAutoStart.Checked;
-            /* //add the hotkeys in settings list, not in text
-             Properties.Settings.Default.HotkeyList.Clear();
-             foreach (Keys key in _setHotkeys)
-             {
-                 Properties.Settings.Default.HotkeyList.Add(key.ToString());
-             }*/
+
             Properties.Settings.Default.Save();
 
             //remove hotkey hooks
-            //  Unsubscribe();
+            Unsubscribe();
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -879,13 +888,6 @@ namespace BanterBrain_Buddy
                     //add to the current hotkey list for keyup event checks
                     _setHotkeys.Add(hotKeys[i]);
 
-                    //add to the text box
-                    /*
-                    if (i < hotKeys.Count - 1)
-                        this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString() + " + ";
-                    else
-                        this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString();
-                    */
                 }
             }
             //  UpdateTextLog("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
@@ -913,15 +915,24 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        public void Subscribe()
+        public  async void Subscribe()
         {
+            _bBBlog.Info("Subscribing to hotkeys");
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyDown += GlobalHookKeyDown;
             m_GlobalHook.KeyUp += GlobalHookKeyUp;
+
+            var map = new Dictionary<Combination, Action>
+             {
+                {Combination.FromString(Properties.Settings.Default.PTTHotkey), async () => await HandleHotkeyButton() }
+             };
+
+            m_GlobalHook.OnCombination(map);
+
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void HandleHotkeyButton()
+        private async Task HandleHotkeyButton()
         {
             if (!_hotkeyCalled)
             {
@@ -938,13 +949,14 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void GlobalHookKeyUp(object sender, KeyEventArgs e)
         {
+
             //if microphone is on (hotkeycalled = true) and of the hotkeys are in the keyup event turn off the microphone
             //current hotkeys are in _setHotkeys
             if (_hotkeyCalled)
             {
                 //if one of the keys in the _setHotkeys is detected as UP, give it a second then stop recording
-                //foreach (Keys key in _setHotkeys)
-                if (_setHotkeys.Contains(e.KeyCode))
+
+                if (_setHotkeys.Contains(e.KeyCode) && MainRecordingStart.Text == "Recording")
                 {
                     MainRecordingStart_Click(null, null);
                     await Task.Delay(1000);
@@ -958,14 +970,14 @@ namespace BanterBrain_Buddy
         //handle the current hotkey setting
         private void GlobalHookKeyDown(object sender, KeyEventArgs e)
         {
-            /*
-            var map = new Dictionary<Combination, Action>
-             {
-                {Combination.FromString(MicrophoneHotkeyEditbox.Text),  () => HandleHotkeyButton() }
-             };
-
-            m_GlobalHook.OnCombination(map);
-            */
+            var keyCombo = "";
+            for (int i = 0; i < _setHotkeys.Count; i++)
+            {
+                if (e.KeyCode == _setHotkeys[i])
+                {
+                    keyCombo += _setHotkeys[i].ToString() + " + ";
+                }
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1430,12 +1442,6 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        [SupportedOSPlatform("windows6.1")]
         private async void TwitchChannelPointCheckBox_Click(object sender, EventArgs e)
         {
             //if twitch isnt enabled, we cant do anything internal so ignore anything Twitch related
@@ -1466,7 +1472,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void seToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Unsubscribe();
             if (_twitchEventSub != null)
             {
                 //twitch is running so....lets make sure the settings form knows this

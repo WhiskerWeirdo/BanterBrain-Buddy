@@ -253,18 +253,6 @@ namespace BanterBrain_Buddy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string HotkeyList {
-            get {
-                return ((string)(this["HotkeyList"]));
-            }
-            set {
-                this["HotkeyList"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
         public string AzureLanguageComboBox {
             get {
