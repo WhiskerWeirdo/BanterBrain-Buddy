@@ -427,101 +427,21 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void NativeSTTfromWAV()
         {
-            _sTTOutputText = "";
-            // Create an in-process speech recognizer for the en-US locale.  
-            SpeechRecognitionEngine recognizer2 = new(new System.Globalization.CultureInfo("en-US"));
-            // Create and load a dictation grammar.  
-            recognizer2.LoadGrammar(new DictationGrammar());
-            recognizer2.SetInputToWaveFile(_tmpWavFile);
-            // Attach event handlers for the results of recognition.  
-            recognizer2.SpeechRecognized +=
-              new EventHandler<SpeechRecognizedEventArgs>(NativeSpeechRecognized);
-            recognizer2.RecognizeCompleted +=
-              new EventHandler<RecognizeCompletedEventArgs>(NativeRecognizeCompletedHandler);
-
-            UpdateTextLog("Starting asynchronous Native recognition... on " + _tmpWavFile + "\r\n");
-            _bBBlog.Info("Starting asynchronous Native recognition... on " + _tmpWavFile);
-
             _sTTDone = false;
-            recognizer2.RecognizeAsync(RecognizeMode.Multiple);
-            while (!_sTTDone)
+            _sTTOutputText = "";
+            NativeSpeech nativeSpeech = new();
+            _bBBlog.Info("Starting Native STT from WAV");
+            _sTTOutputText = await nativeSpeech.NativeSpeechRecognizeStart(_tmpWavFile);
+            if (_sTTOutputText == null)
             {
-                await Task.Delay(1000);
-            }
-            UpdateTextLog("Native STT done.\r\n");
-            _bBBlog.Info("Native STT done.");
-            recognizer2.Dispose();
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        // Handle the SpeechHypothesized event.  
-        private void NativeSpeechHypothesizedHandler(object sender, SpeechHypothesizedEventArgs e)
-        {
-            UpdateTextLog(" In SpeechHypothesizedHandler:+\r\n");
-            _bBBlog.Info("in hypothesishandler");
-            string grammarName = "<not available>";
-            string resultText = "<not available>";
-            if (e.Result != null)
-            {
-                if (e.Result.Grammar != null)
-                {
-                    grammarName = e.Result.Grammar.Name;
-                }
-                resultText = e.Result.Text;
-            }
-
-            Console.WriteLine(" - Grammar Name = {0}; Result Text = {1}",
-              grammarName, resultText);
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void NativeRecognizeCompletedHandler(object sender, RecognizeCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                UpdateTextLog("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message + "\r\n");
-                _bBBlog.Error("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message);
-
-            }
-            if (e.Cancelled)
-            {
-                UpdateTextLog("Native STT Operation cancelled\r\n");
-                _bBBlog.Info("Native STT Operation cancelled");
-            }
-            if (e.InputStreamEnded)
-            {
-                UpdateTextLog("Native STT recognize Stopped.\r\n");
-                _bBBlog.Info("Mative STT recognize Stopped.");
-            }
-
-            _sTTDone = true;
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        // Handle the SpeechRecognized event.  
-        private void NativeSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-        {
-            if (e.Result != null && e.Result.Text != null)
-            {
-                UpdateTextLog("Native recognized text: " + e.Result.Text + "\r\n");
-                _bBBlog.Info("Native recognized text: " + e.Result.Text);
-                _sTTOutputText += e.Result.Text + "\r\n";
-                //STTTestOutput.AppendText(e.Result.Text + "\r\n");
+                _bBBlog.Error("Native STT failed");
+                _bigError = true;
             }
             else
             {
-                //STTTestOutput.AppendText("Native recognized text not available.");
-                _bBBlog.Info("Native recognized text not available.");
+                _bBBlog.Info($"Native STT done: {_sTTOutputText}");
             }
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void NativeSpeechDetectedHandler(object sender, SpeechDetectedEventArgs e)
-        {
-            UpdateTextLog(" In NativeSpeechDetectedHandler:\r\n");
-            UpdateTextLog(" - AudioPosition = " + e.AudioPosition + "\r\n");
-            _bBBlog.Info(" In NativeSpeechDetectedHandler: ");
-            _bBBlog.Info(" - AudioPosition = \" + e.AudioPosition");
+            _sTTDone = true;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -984,7 +904,7 @@ namespace BanterBrain_Buddy
         private void GithubToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //spawn browser for github link
-            var t = new Thread(() => Process.Start(new ProcessStartInfo("https://github.com/WhiskerWeirdo/BanterBrain-Buddy") { UseShellExecute = true }));
+            var t = new Thread(() => Process.Start(new ProcessStartInfo("https://github.com/WhiskerWeirdo/BanterBrain-Buddy/wiki") { UseShellExecute = true }));
             t.Start();
             Thread.Sleep(100);
         }

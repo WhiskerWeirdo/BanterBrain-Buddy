@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Microphone");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Speaker");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode1, treeNode2 });
@@ -39,13 +40,6 @@
             System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Persona's");
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
-            MicrophonePanel = new System.Windows.Forms.Panel();
-            PTTKeyLabel = new System.Windows.Forms.Label();
-            MicrophoneHotkeyEditbox = new System.Windows.Forms.TextBox();
-            VoiceInputLabel = new System.Windows.Forms.Label();
-            SoundInputDevices = new System.Windows.Forms.ComboBox();
-            MicrophoneHotkeySet = new System.Windows.Forms.Button();
-            label1 = new System.Windows.Forms.Label();
             PersonasPanel = new System.Windows.Forms.Panel();
             TestVoiceButton = new System.Windows.Forms.Button();
             DeletePersona = new System.Windows.Forms.Button();
@@ -62,6 +56,13 @@
             label12 = new System.Windows.Forms.Label();
             PersonaRoleTextBox = new System.Windows.Forms.TextBox();
             label10 = new System.Windows.Forms.Label();
+            MicrophonePanel = new System.Windows.Forms.Panel();
+            PTTKeyLabel = new System.Windows.Forms.Label();
+            MicrophoneHotkeyEditbox = new System.Windows.Forms.TextBox();
+            VoiceInputLabel = new System.Windows.Forms.Label();
+            SoundInputDevices = new System.Windows.Forms.ComboBox();
+            MicrophoneHotkeySet = new System.Windows.Forms.Button();
+            label1 = new System.Windows.Forms.Label();
             OpenAIChatGPTPanel = new System.Windows.Forms.Panel();
             UseGPTLLMCheckBox = new System.Windows.Forms.CheckBox();
             LLMMaxTokensHelpText = new System.Windows.Forms.Label();
@@ -105,12 +106,13 @@
             TTSAudioOutputComboBox = new System.Windows.Forms.ComboBox();
             TTSAudioOutputLabel = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
+            BBBToolTip = new System.Windows.Forms.ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            MicrophonePanel.SuspendLayout();
             PersonasPanel.SuspendLayout();
+            MicrophonePanel.SuspendLayout();
             OpenAIChatGPTPanel.SuspendLayout();
             TwitchPanel.SuspendLayout();
             EventSubGroupbox.SuspendLayout();
@@ -171,83 +173,6 @@
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += treeView1_AfterSelect;
             // 
-            // MicrophonePanel
-            // 
-            MicrophonePanel.Controls.Add(PTTKeyLabel);
-            MicrophonePanel.Controls.Add(MicrophoneHotkeyEditbox);
-            MicrophonePanel.Controls.Add(VoiceInputLabel);
-            MicrophonePanel.Controls.Add(SoundInputDevices);
-            MicrophonePanel.Controls.Add(MicrophoneHotkeySet);
-            MicrophonePanel.Controls.Add(label1);
-            MicrophonePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            MicrophonePanel.Location = new System.Drawing.Point(0, 0);
-            MicrophonePanel.Name = "MicrophonePanel";
-            MicrophonePanel.Size = new System.Drawing.Size(593, 450);
-            MicrophonePanel.TabIndex = 0;
-            // 
-            // PTTKeyLabel
-            // 
-            PTTKeyLabel.AutoSize = true;
-            PTTKeyLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            PTTKeyLabel.Location = new System.Drawing.Point(37, 92);
-            PTTKeyLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            PTTKeyLabel.Name = "PTTKeyLabel";
-            PTTKeyLabel.Size = new System.Drawing.Size(114, 15);
-            PTTKeyLabel.TabIndex = 25;
-            PTTKeyLabel.Text = "Push-To-Talk hotkey";
-            // 
-            // MicrophoneHotkeyEditbox
-            // 
-            MicrophoneHotkeyEditbox.Location = new System.Drawing.Point(182, 89);
-            MicrophoneHotkeyEditbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            MicrophoneHotkeyEditbox.Name = "MicrophoneHotkeyEditbox";
-            MicrophoneHotkeyEditbox.ReadOnly = true;
-            MicrophoneHotkeyEditbox.Size = new System.Drawing.Size(220, 23);
-            MicrophoneHotkeyEditbox.TabIndex = 24;
-            // 
-            // VoiceInputLabel
-            // 
-            VoiceInputLabel.AutoSize = true;
-            VoiceInputLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            VoiceInputLabel.Location = new System.Drawing.Point(37, 61);
-            VoiceInputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            VoiceInputLabel.Name = "VoiceInputLabel";
-            VoiceInputLabel.Size = new System.Drawing.Size(66, 15);
-            VoiceInputLabel.TabIndex = 23;
-            VoiceInputLabel.Text = "Voice Input";
-            // 
-            // SoundInputDevices
-            // 
-            SoundInputDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            SoundInputDevices.FormattingEnabled = true;
-            SoundInputDevices.Location = new System.Drawing.Point(182, 52);
-            SoundInputDevices.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            SoundInputDevices.Name = "SoundInputDevices";
-            SoundInputDevices.Size = new System.Drawing.Size(299, 23);
-            SoundInputDevices.TabIndex = 22;
-            SoundInputDevices.SelectedIndexChanged += SoundInputDevices_SelectedIndexChanged;
-            // 
-            // MicrophoneHotkeySet
-            // 
-            MicrophoneHotkeySet.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            MicrophoneHotkeySet.Location = new System.Drawing.Point(423, 86);
-            MicrophoneHotkeySet.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            MicrophoneHotkeySet.Name = "MicrophoneHotkeySet";
-            MicrophoneHotkeySet.Size = new System.Drawing.Size(58, 27);
-            MicrophoneHotkeySet.TabIndex = 21;
-            MicrophoneHotkeySet.Text = "Set";
-            MicrophoneHotkeySet.UseVisualStyleBackColor = true;
-            MicrophoneHotkeySet.Click += MicrophoneHotkeySet_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(226, 9);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(117, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Microphone Settings";
-            // 
             // PersonasPanel
             // 
             PersonasPanel.Controls.Add(TestVoiceButton);
@@ -284,13 +209,13 @@
             // 
             // DeletePersona
             // 
-            DeletePersona.Enabled = false;
             DeletePersona.Location = new System.Drawing.Point(506, 52);
             DeletePersona.Name = "DeletePersona";
             DeletePersona.Size = new System.Drawing.Size(75, 23);
             DeletePersona.TabIndex = 31;
             DeletePersona.Text = "Delete";
             DeletePersona.UseVisualStyleBackColor = true;
+            DeletePersona.Click += DeletePersona_Click;
             // 
             // SavePersona
             // 
@@ -428,6 +353,83 @@
             label10.TabIndex = 0;
             label10.Text = "Personas";
             // 
+            // MicrophonePanel
+            // 
+            MicrophonePanel.Controls.Add(PTTKeyLabel);
+            MicrophonePanel.Controls.Add(MicrophoneHotkeyEditbox);
+            MicrophonePanel.Controls.Add(VoiceInputLabel);
+            MicrophonePanel.Controls.Add(SoundInputDevices);
+            MicrophonePanel.Controls.Add(MicrophoneHotkeySet);
+            MicrophonePanel.Controls.Add(label1);
+            MicrophonePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            MicrophonePanel.Location = new System.Drawing.Point(0, 0);
+            MicrophonePanel.Name = "MicrophonePanel";
+            MicrophonePanel.Size = new System.Drawing.Size(593, 450);
+            MicrophonePanel.TabIndex = 0;
+            // 
+            // PTTKeyLabel
+            // 
+            PTTKeyLabel.AutoSize = true;
+            PTTKeyLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            PTTKeyLabel.Location = new System.Drawing.Point(37, 92);
+            PTTKeyLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            PTTKeyLabel.Name = "PTTKeyLabel";
+            PTTKeyLabel.Size = new System.Drawing.Size(114, 15);
+            PTTKeyLabel.TabIndex = 25;
+            PTTKeyLabel.Text = "Push-To-Talk hotkey";
+            // 
+            // MicrophoneHotkeyEditbox
+            // 
+            MicrophoneHotkeyEditbox.Location = new System.Drawing.Point(182, 89);
+            MicrophoneHotkeyEditbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MicrophoneHotkeyEditbox.Name = "MicrophoneHotkeyEditbox";
+            MicrophoneHotkeyEditbox.ReadOnly = true;
+            MicrophoneHotkeyEditbox.Size = new System.Drawing.Size(220, 23);
+            MicrophoneHotkeyEditbox.TabIndex = 24;
+            // 
+            // VoiceInputLabel
+            // 
+            VoiceInputLabel.AutoSize = true;
+            VoiceInputLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            VoiceInputLabel.Location = new System.Drawing.Point(37, 61);
+            VoiceInputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            VoiceInputLabel.Name = "VoiceInputLabel";
+            VoiceInputLabel.Size = new System.Drawing.Size(66, 15);
+            VoiceInputLabel.TabIndex = 23;
+            VoiceInputLabel.Text = "Voice Input";
+            // 
+            // SoundInputDevices
+            // 
+            SoundInputDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            SoundInputDevices.FormattingEnabled = true;
+            SoundInputDevices.Location = new System.Drawing.Point(182, 52);
+            SoundInputDevices.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            SoundInputDevices.Name = "SoundInputDevices";
+            SoundInputDevices.Size = new System.Drawing.Size(299, 23);
+            SoundInputDevices.TabIndex = 22;
+            SoundInputDevices.SelectedIndexChanged += SoundInputDevices_SelectedIndexChanged;
+            // 
+            // MicrophoneHotkeySet
+            // 
+            MicrophoneHotkeySet.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            MicrophoneHotkeySet.Location = new System.Drawing.Point(423, 86);
+            MicrophoneHotkeySet.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MicrophoneHotkeySet.Name = "MicrophoneHotkeySet";
+            MicrophoneHotkeySet.Size = new System.Drawing.Size(58, 27);
+            MicrophoneHotkeySet.TabIndex = 21;
+            MicrophoneHotkeySet.Text = "Set";
+            MicrophoneHotkeySet.UseVisualStyleBackColor = true;
+            MicrophoneHotkeySet.Click += MicrophoneHotkeySet_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(226, 9);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(117, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Microphone Settings";
+            // 
             // OpenAIChatGPTPanel
             // 
             OpenAIChatGPTPanel.Controls.Add(UseGPTLLMCheckBox);
@@ -469,6 +471,7 @@
             LLMMaxTokensHelpText.Size = new System.Drawing.Size(20, 15);
             LLMMaxTokensHelpText.TabIndex = 38;
             LLMMaxTokensHelpText.Text = "[?]";
+            BBBToolTip.SetToolTip(LLMMaxTokensHelpText, "Tokens are aproximately the amount of words. More tokens means longer words, but might also cost more");
             // 
             // LLMTempHelpText
             // 
@@ -480,6 +483,7 @@
             LLMTempHelpText.Size = new System.Drawing.Size(20, 15);
             LLMTempHelpText.TabIndex = 37;
             LLMTempHelpText.Text = "[?]";
+            BBBToolTip.SetToolTip(LLMTempHelpText, "The higher the temperature the more likely the answer uses more diverse words, but also is more likely to make mistakes");
             // 
             // LLMMaxTokenLabel
             // 
@@ -907,10 +911,10 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            MicrophonePanel.ResumeLayout(false);
-            MicrophonePanel.PerformLayout();
             PersonasPanel.ResumeLayout(false);
             PersonasPanel.PerformLayout();
+            MicrophonePanel.ResumeLayout(false);
+            MicrophonePanel.PerformLayout();
             OpenAIChatGPTPanel.ResumeLayout(false);
             OpenAIChatGPTPanel.PerformLayout();
             TwitchPanel.ResumeLayout(false);
@@ -996,5 +1000,6 @@
         private System.Windows.Forms.TextBox TwitchAccessToken;
         private System.Windows.Forms.Label TwitchChannelNameLabel;
         private System.Windows.Forms.Label TwitchAccesstokenLabel;
+        private System.Windows.Forms.ToolTip BBBToolTip;
     }
 }

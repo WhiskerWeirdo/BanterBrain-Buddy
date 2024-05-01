@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Versioning;
+using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -26,6 +27,9 @@ namespace BanterBrain_Buddy
         private MemoryStream _nativeAudioStream;
 
         private int SelectedOutputDevice;
+        private string _sTTOutputText;
+        private bool _sTTDone;
+
 
         private void SetSelectedOutputDevice(string OutputDevice)
         {
@@ -40,7 +44,6 @@ namespace BanterBrain_Buddy
                 }
             }
         }
-
 
         [SupportedOSPlatform("windows6.1")]
         public async Task<bool> NativeSpeak(string TextToSay)
@@ -106,8 +109,74 @@ namespace BanterBrain_Buddy
             return nativeVoicesList;
         }
 
+
+        [SupportedOSPlatform("windows6.1")]
+        private void NativeRecognizeCompletedHandler(object sender, RecognizeCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                _bBBlog.Error("Native STT Error encountered, " + e.Error.GetType().Name + " : " + e.Error.Message);
+                _sTTOutputText = null;
+            }
+            if (e.Cancelled)
+            {
+                _bBBlog.Info("Native STT Operation cancelled");
+                _sTTOutputText = null;
+            }
+            if (e.InputStreamEnded)
+            {
+                _bBBlog.Info("Mative STT recognize Stopped.");
+            }
+           
+            _sTTDone = true;
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        // Handle the SpeechRecognized event.  
+        private void NativeSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            if (e.Result != null && e.Result.Text != null)
+            {
+                _bBBlog.Info("Native recognized text: " + e.Result.Text);
+                _sTTOutputText += e.Result.Text + "\r\n";
+            }
+            else
+            {
+                _bBBlog.Info("Native recognized text not available.");
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        public async Task<string> NativeSpeechRecognizeStart(string _tmpWavFile)
+        {
+            // Create an in-process speech recognizer for the en-US locale.  
+            SpeechRecognitionEngine recognizer2 = new(new System.Globalization.CultureInfo("en-US"));
+            // Create and load a dictation grammar.  
+            recognizer2.LoadGrammar(new DictationGrammar());
+            recognizer2.SetInputToWaveFile(_tmpWavFile);
+            // Attach event handlers for the results of recognition.  
+            recognizer2.SpeechRecognized +=
+              new EventHandler<SpeechRecognizedEventArgs>(NativeSpeechRecognized);
+            recognizer2.RecognizeCompleted +=
+              new EventHandler<RecognizeCompletedEventArgs>(NativeRecognizeCompletedHandler);
+
+            _bBBlog.Info("Starting asynchronous Native recognition... on " + _tmpWavFile);
+
+            _sTTDone = false;
+            recognizer2.RecognizeAsync(RecognizeMode.Multiple);
+            while (!_sTTDone)
+            {
+                await Task.Delay(500);
+            }
+            _bBBlog.Info("Native STT done.");
+            recognizer2.Dispose();
+            return _sTTOutputText;
+        }
+
         public NativeSpeech()
         {
+            _bBBlog.Info("Native Speech Engine Initialized");
+            _sTTDone = false;
         }
 
     }

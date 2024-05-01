@@ -1,5 +1,5 @@
 # BanterBrain Buddy
-v0.0.5-ALPHA
+v0.0.5-ALPHA.4
 https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.0.5-alpha
 
 ## License
@@ -31,11 +31,10 @@ tldr: use Visual studio 2022 with .net 8.
 ### KNOWN ISSUES
 Known issues:
 - [ ] Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
-- [ ] Personas cannot be deleted from the interface.
+- [X] Personas cannot be deleted from the interface.
 - [X] No PTT hotkey
 - [ ] No ability to check for Twitch followers
 - [X] Hard closing the Settings screen does not ask to save the persona
-
 
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
@@ -44,10 +43,10 @@ Known issues:
 - [X] 0.0.4 MVP Azure TTS/STT support
 - [X] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
 - [X] 0.0.5.1 ALPHA INSTALLABLE ALPHA BUILD
-- [ ] 0.0.6 ALPHA Google, Elevenlabs & OpenAI Whisper TTS support 
+- [ ] 0.0.6 ALPHA Google, Elevenlabs TTS support 
 - [ ] 0.0.7 ALPHA Improved Error handling & Code documentation. GUI improvements
 - [	] 0.0.8 ALPHA Other languages than English support
-- [ ] 0.0.9 ALPHA define persona's. A linked Role text with a specific voice setup.
+- [ ] 0.0.9 ALPHA improve Twitch integration with more configurable event responses
 - [ ] 0.1.0 BETA Installable Beta build release
 
 

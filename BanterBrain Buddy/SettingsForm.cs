@@ -259,6 +259,16 @@ namespace BanterBrain_Buddy
                 _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
                 TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
                 _personaEdited = false;
+
+                //prevent deleting of Default persona
+                if (PersonaComboBox.Text == "Default")
+                {
+                    DeletePersona.Enabled = false;
+                }
+                else
+                {
+                    DeletePersona.Enabled = true;
+                }
                 EnablePersonaEventHandlers();
             }
             else
@@ -996,6 +1006,14 @@ namespace BanterBrain_Buddy
                     TTSOutputVoiceOption1.SelectedIndex = TTSOutputVoiceOption1.FindStringExact(voiceOption);
                 }
             }
+            if (PersonaComboBox.Text == "Default")
+            {
+                DeletePersona.Enabled = false;
+            }
+            else
+            {
+                DeletePersona.Enabled = true;
+            }
             //enable them again.
             EnablePersonaEventHandlers();
         }
@@ -1054,7 +1072,7 @@ namespace BanterBrain_Buddy
             // Show testDialog as a modal dialog and determine if DialogResult = OK.
             if (result == DialogResult.OK && HotkeyDialog.ReturnValue1 != null)
             {
-               // _setHotkeys.Clear();
+                // _setHotkeys.Clear();
                 this.MicrophoneHotkeyEditbox.Text = "";
                 List<Keys> hotKeys = HotkeyDialog.ReturnValue1;
                 //ok now we got the keys, parse them and put them in the index box
@@ -1062,21 +1080,45 @@ namespace BanterBrain_Buddy
 
                 for (var i = 0; i < hotKeys.Count; i++)
                 {
-                    
+
                     if (i < hotKeys.Count - 1)
                         this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString() + " + ";
                     else
                         this.MicrophoneHotkeyEditbox.Text += hotKeys[i].ToString();
-                    
+
                 }
             }
             _bBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
             HotkeyDialog.Dispose();
         }
 
+        [SupportedOSPlatform("windows6.1")]
         private async void MicrophoneHotkeySet_Click(object sender, EventArgs e)
         {
             await ShowHotkeyDialogBox();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void DeletePersona_Click(object sender, EventArgs e)
+        {
+            if (PersonasPanel.Visible)
+            {
+                if (PersonaComboBox.Text == "Default")
+                {
+                    MessageBox.Show("You cannot delete the default persona", "Delete Persona", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var result = MessageBox.Show("Delete Persona. Do you want to delete the persona?", "Delete Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    _personas.Remove(_personas[PersonaComboBox.SelectedIndex]);
+                    PersonaComboBox.Items.Remove(PersonaComboBox.SelectedItem);
+                    PersonaComboBox.SelectedIndex = 0;
+                    SavePersona_Click(sender, e);
+                }
+                _personaEdited = false;
+            }
         }
     }
 }
