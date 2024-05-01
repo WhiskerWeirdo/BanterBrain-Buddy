@@ -341,7 +341,7 @@ namespace BanterBrain_Buddy
 
 
         [SupportedOSPlatform("windows6.1")]
-        readonly private string _tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
+       // readonly private string _tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
 
 
         [SupportedOSPlatform("windows6.1")]
@@ -349,6 +349,9 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Info("STT microphone start.");
             _bBBlog.Debug("Selected audio input device for Audio to Wav: " + Properties.Settings.Default.VoiceInput);
+
+            string tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + $"\\{Guid.NewGuid()}.wav";
+
             var recordingDevice = 0;
             for (int i = 0; i < NAudio.Wave.WaveIn.DeviceCount; i++)
             {   
@@ -366,7 +369,7 @@ namespace BanterBrain_Buddy
             var waveIn = new WaveInEvent();
             waveIn.DeviceNumber = recordingDevice;
             waveIn.WaveFormat = new NAudio.Wave.WaveFormat(16000, 16, 1);
-            var writer = new WaveFileWriter(_tmpWavFile, waveIn.WaveFormat);
+            var writer = new WaveFileWriter(tmpWavFile, waveIn.WaveFormat);
             waveIn.StartRecording();
             waveIn.DataAvailable += (s, a) =>
             {
@@ -400,19 +403,19 @@ namespace BanterBrain_Buddy
 
             //now lets convert the saved .wav to Text
             if (STTSelectedComboBox.Text == "Native")
-                NativeSTTfromWAV();
+                NativeSTTfromWAV(tmpWavFile);
             if (STTSelectedComboBox.Text == "OpenAI Whisper")
-                WhisperSTTfromWAV();
+                WhisperSTTfromWAV(tmpWavFile);
         }
 
 
         [SupportedOSPlatform("windows6.1")]
-        private async void WhisperSTTfromWAV()
+        private async void WhisperSTTfromWAV(string tmpWavFile)
         {
             _sTTOutputText = "";
            OpenAI openAI = new();
             _bBBlog.Info("Starting OpenAI STT from WAV");
-            _sTTOutputText = await openAI.OpenAISTT(_tmpWavFile);
+            _sTTOutputText = await openAI.OpenAISTT(tmpWavFile);
             if (_sTTOutputText == null)
             {
                 _bBBlog.Error("OpenAI STT failed");
@@ -422,16 +425,18 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info($"OpenAI STT done: {_sTTOutputText}");
             }
             _sTTDone = true;
+            _bBBlog.Debug($"Deleting temp wav file: {tmpWavFile}");
+            File.Delete(tmpWavFile);
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void NativeSTTfromWAV()
+        private async void NativeSTTfromWAV(string tmpWavFile)
         {
             _sTTDone = false;
             _sTTOutputText = "";
             NativeSpeech nativeSpeech = new();
             _bBBlog.Info("Starting Native STT from WAV");
-            _sTTOutputText = await nativeSpeech.NativeSpeechRecognizeStart(_tmpWavFile);
+            _sTTOutputText = await nativeSpeech.NativeSpeechRecognizeStart(tmpWavFile);
             if (_sTTOutputText == null)
             {
                 _bBBlog.Error("Native STT failed");
@@ -442,6 +447,9 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info($"Native STT done: {_sTTOutputText}");
             }
             _sTTDone = true;
+            //now delete wav file
+            _bBBlog.Debug($"Deleting temp wav file: {tmpWavFile}");
+            File.Delete(tmpWavFile);
         }
 
         [SupportedOSPlatform("windows6.1")]

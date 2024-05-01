@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Microphone");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Speaker");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode1, treeNode2 });
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Azure");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("OpenAI");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode4, treeNode5 });
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Twitch ");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode7 });
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Persona's");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Microphone");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Speaker");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode10, treeNode11 });
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Azure");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("OpenAI");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode13, treeNode14 });
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Twitch ");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode16 });
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Persona's");
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
             OpenAIChatGPTPanel = new System.Windows.Forms.Panel();
@@ -148,25 +148,25 @@
             MenuTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             MenuTreeView.Location = new System.Drawing.Point(0, 0);
             MenuTreeView.Name = "MenuTreeView";
-            treeNode1.Name = "Microphone";
-            treeNode1.Text = "Microphone";
-            treeNode2.Name = "Speaker";
-            treeNode2.Text = "Speaker";
-            treeNode3.Name = "VoiceSettings";
-            treeNode3.Text = "Sound & Voice settings";
-            treeNode4.Name = "Azure";
-            treeNode4.Text = "Azure";
-            treeNode5.Name = "OpenAIChatGPT";
-            treeNode5.Text = "OpenAI";
-            treeNode6.Name = "APISettings";
-            treeNode6.Text = "API Settings";
-            treeNode7.Name = "Twitch";
-            treeNode7.Text = "Twitch ";
-            treeNode8.Name = "Streaming Settings";
-            treeNode8.Text = "Streaming settings";
-            treeNode9.Name = "Personas";
-            treeNode9.Text = "Persona's";
-            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode3, treeNode6, treeNode8, treeNode9 });
+            treeNode10.Name = "Microphone";
+            treeNode10.Text = "Microphone";
+            treeNode11.Name = "Speaker";
+            treeNode11.Text = "Speaker";
+            treeNode12.Name = "VoiceSettings";
+            treeNode12.Text = "Sound & Voice settings";
+            treeNode13.Name = "Azure";
+            treeNode13.Text = "Azure";
+            treeNode14.Name = "OpenAIChatGPT";
+            treeNode14.Text = "OpenAI";
+            treeNode15.Name = "APISettings";
+            treeNode15.Text = "API Settings";
+            treeNode16.Name = "Twitch";
+            treeNode16.Text = "Twitch ";
+            treeNode17.Name = "Streaming Settings";
+            treeNode17.Text = "Streaming settings";
+            treeNode18.Name = "Personas";
+            treeNode18.Text = "Persona's";
+            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode12, treeNode15, treeNode17, treeNode18 });
             MenuTreeView.PathSeparator = "";
             MenuTreeView.Size = new System.Drawing.Size(203, 450);
             MenuTreeView.TabIndex = 0;
@@ -214,7 +214,7 @@
             LLMMaxTokensHelpText.Size = new System.Drawing.Size(20, 15);
             LLMMaxTokensHelpText.TabIndex = 38;
             LLMMaxTokensHelpText.Text = "[?]";
-            BBBToolTip.SetToolTip(LLMMaxTokensHelpText, "Default: 100. Tokens are aproximately the amount of words. More tokens means longer words, but might also cost more");
+            BBBToolTip.SetToolTip(LLMMaxTokensHelpText, "Default: 100. Max: 4096. Tokens are aproximately the amount of words. More tokens means longer words, but might also cost more");
             // 
             // LLMTempHelpText
             // 
