@@ -89,7 +89,7 @@
     <Setting Name="GPTMaxTokens" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="GPTTemperature" Type="System.Int32" Scope="User">
+    <Setting Name="GPTTemperature" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="TTSNativeVoiceSelected" Type="System.String" Scope="User">

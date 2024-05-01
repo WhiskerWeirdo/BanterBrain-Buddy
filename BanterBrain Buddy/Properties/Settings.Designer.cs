@@ -374,9 +374,9 @@ namespace BanterBrain_Buddy.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int GPTTemperature {
+        public float GPTTemperature {
             get {
-                return ((int)(this["GPTTemperature"]));
+                return ((float)(this["GPTTemperature"]));
             }
             set {
                 this["GPTTemperature"] = value;

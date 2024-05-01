@@ -201,7 +201,7 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.GPTModel = GPTModelComboBox.Text;
             Properties.Settings.Default.GPTAPIKey = GPTAPIKeyTextBox.Text;
             Properties.Settings.Default.GPTMaxTokens = int.Parse(GPTMaxTokensTextBox.Text);
-            Properties.Settings.Default.GPTTemperature = int.Parse(GPTTemperatureTextBox.Text);
+            Properties.Settings.Default.GPTTemperature = float.Parse(GPTTemperatureTextBox.Text);
             if (UseGPTLLMCheckBox.Checked)
             {
                 Properties.Settings.Default.SelectedLLM = "GPT";

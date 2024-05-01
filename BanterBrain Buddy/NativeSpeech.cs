@@ -50,7 +50,7 @@ namespace BanterBrain_Buddy
         {
             _nativeSynthesizer.Speak(TextToSay);
             //TODO: handle issues with device not being available or not responsive
-            _bBBlog.Info("Device out: " + SelectedOutputDevice);
+            //_bBBlog.Info("Device out: " + SelectedOutputDevice);
             var waveOut = new WaveOut();
             waveOut.DeviceNumber = SelectedOutputDevice;
             //it has to be 24000, 16, 1 for some reason?

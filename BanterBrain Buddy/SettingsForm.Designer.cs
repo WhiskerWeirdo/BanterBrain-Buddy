@@ -40,6 +40,20 @@
             System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Persona's");
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
+            OpenAIChatGPTPanel = new System.Windows.Forms.Panel();
+            UseGPTLLMCheckBox = new System.Windows.Forms.CheckBox();
+            LLMMaxTokensHelpText = new System.Windows.Forms.Label();
+            LLMTempHelpText = new System.Windows.Forms.Label();
+            LLMMaxTokenLabel = new System.Windows.Forms.Label();
+            LLMTempLabel = new System.Windows.Forms.Label();
+            GPTMaxTokensTextBox = new System.Windows.Forms.TextBox();
+            GPTTemperatureTextBox = new System.Windows.Forms.TextBox();
+            GPTModelComboBox = new System.Windows.Forms.ComboBox();
+            label4 = new System.Windows.Forms.Label();
+            GPTTestButton = new System.Windows.Forms.Button();
+            GPTAPIKeyTextBox = new System.Windows.Forms.TextBox();
+            GPTAPIKeyLabel = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
             PersonasPanel = new System.Windows.Forms.Panel();
             TestVoiceButton = new System.Windows.Forms.Button();
             DeletePersona = new System.Windows.Forms.Button();
@@ -63,20 +77,6 @@
             SoundInputDevices = new System.Windows.Forms.ComboBox();
             MicrophoneHotkeySet = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
-            OpenAIChatGPTPanel = new System.Windows.Forms.Panel();
-            UseGPTLLMCheckBox = new System.Windows.Forms.CheckBox();
-            LLMMaxTokensHelpText = new System.Windows.Forms.Label();
-            LLMTempHelpText = new System.Windows.Forms.Label();
-            LLMMaxTokenLabel = new System.Windows.Forms.Label();
-            LLMTempLabel = new System.Windows.Forms.Label();
-            GPTMaxTokensTextBox = new System.Windows.Forms.TextBox();
-            GPTTemperatureTextBox = new System.Windows.Forms.TextBox();
-            GPTModelComboBox = new System.Windows.Forms.ComboBox();
-            label4 = new System.Windows.Forms.Label();
-            GPTTestButton = new System.Windows.Forms.Button();
-            GPTAPIKeyTextBox = new System.Windows.Forms.TextBox();
-            GPTAPIKeyLabel = new System.Windows.Forms.Label();
-            label7 = new System.Windows.Forms.Label();
             TwitchPanel = new System.Windows.Forms.Panel();
             label5 = new System.Windows.Forms.Label();
             TwitchUsername = new System.Windows.Forms.TextBox();
@@ -111,9 +111,9 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            OpenAIChatGPTPanel.SuspendLayout();
             PersonasPanel.SuspendLayout();
             MicrophonePanel.SuspendLayout();
-            OpenAIChatGPTPanel.SuspendLayout();
             TwitchPanel.SuspendLayout();
             EventSubGroupbox.SuspendLayout();
             TwitchAPITestGroupBox.SuspendLayout();
@@ -133,9 +133,9 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(PersonasPanel);
             splitContainer1.Panel2.Controls.Add(MicrophonePanel);
-            splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(AzurePanel);
             splitContainer1.Panel2.Controls.Add(SpeakerPanel);
@@ -172,6 +172,162 @@
             MenuTreeView.TabIndex = 0;
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += treeView1_AfterSelect;
+            // 
+            // OpenAIChatGPTPanel
+            // 
+            OpenAIChatGPTPanel.Controls.Add(UseGPTLLMCheckBox);
+            OpenAIChatGPTPanel.Controls.Add(LLMMaxTokensHelpText);
+            OpenAIChatGPTPanel.Controls.Add(LLMTempHelpText);
+            OpenAIChatGPTPanel.Controls.Add(LLMMaxTokenLabel);
+            OpenAIChatGPTPanel.Controls.Add(LLMTempLabel);
+            OpenAIChatGPTPanel.Controls.Add(GPTMaxTokensTextBox);
+            OpenAIChatGPTPanel.Controls.Add(GPTTemperatureTextBox);
+            OpenAIChatGPTPanel.Controls.Add(GPTModelComboBox);
+            OpenAIChatGPTPanel.Controls.Add(label4);
+            OpenAIChatGPTPanel.Controls.Add(GPTTestButton);
+            OpenAIChatGPTPanel.Controls.Add(GPTAPIKeyTextBox);
+            OpenAIChatGPTPanel.Controls.Add(GPTAPIKeyLabel);
+            OpenAIChatGPTPanel.Controls.Add(label7);
+            OpenAIChatGPTPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            OpenAIChatGPTPanel.Location = new System.Drawing.Point(0, 0);
+            OpenAIChatGPTPanel.Name = "OpenAIChatGPTPanel";
+            OpenAIChatGPTPanel.Size = new System.Drawing.Size(593, 450);
+            OpenAIChatGPTPanel.TabIndex = 3;
+            // 
+            // UseGPTLLMCheckBox
+            // 
+            UseGPTLLMCheckBox.AutoSize = true;
+            UseGPTLLMCheckBox.Location = new System.Drawing.Point(37, 11);
+            UseGPTLLMCheckBox.Name = "UseGPTLLMCheckBox";
+            UseGPTLLMCheckBox.Size = new System.Drawing.Size(94, 19);
+            UseGPTLLMCheckBox.TabIndex = 39;
+            UseGPTLLMCheckBox.Text = "Use ChatGPT";
+            UseGPTLLMCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // LLMMaxTokensHelpText
+            // 
+            LLMMaxTokensHelpText.AutoSize = true;
+            LLMMaxTokensHelpText.BackColor = System.Drawing.Color.Gold;
+            LLMMaxTokensHelpText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LLMMaxTokensHelpText.Location = new System.Drawing.Point(387, 116);
+            LLMMaxTokensHelpText.Name = "LLMMaxTokensHelpText";
+            LLMMaxTokensHelpText.Size = new System.Drawing.Size(20, 15);
+            LLMMaxTokensHelpText.TabIndex = 38;
+            LLMMaxTokensHelpText.Text = "[?]";
+            BBBToolTip.SetToolTip(LLMMaxTokensHelpText, "Default: 100. Tokens are aproximately the amount of words. More tokens means longer words, but might also cost more");
+            // 
+            // LLMTempHelpText
+            // 
+            LLMTempHelpText.AutoSize = true;
+            LLMTempHelpText.BackColor = System.Drawing.Color.Gold;
+            LLMTempHelpText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LLMTempHelpText.Location = new System.Drawing.Point(262, 118);
+            LLMTempHelpText.Name = "LLMTempHelpText";
+            LLMTempHelpText.Size = new System.Drawing.Size(20, 15);
+            LLMTempHelpText.TabIndex = 37;
+            LLMTempHelpText.Text = "[?]";
+            BBBToolTip.SetToolTip(LLMTempHelpText, "Default: 0. Suggested: 0,9. Max: 2. The higher the temperature the more likely the answer uses more diverse words, but also is more likely to make mistakes");
+            // 
+            // LLMMaxTokenLabel
+            // 
+            LLMMaxTokenLabel.AutoSize = true;
+            LLMMaxTokenLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LLMMaxTokenLabel.Location = new System.Drawing.Point(307, 116);
+            LLMMaxTokenLabel.Name = "LLMMaxTokenLabel";
+            LLMMaxTokenLabel.Size = new System.Drawing.Size(68, 15);
+            LLMMaxTokenLabel.TabIndex = 36;
+            LLMMaxTokenLabel.Text = "Max tokens";
+            // 
+            // LLMTempLabel
+            // 
+            LLMTempLabel.AutoSize = true;
+            LLMTempLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LLMTempLabel.Location = new System.Drawing.Point(183, 118);
+            LLMTempLabel.Name = "LLMTempLabel";
+            LLMTempLabel.Size = new System.Drawing.Size(73, 15);
+            LLMTempLabel.TabIndex = 35;
+            LLMTempLabel.Text = "Temperature";
+            // 
+            // GPTMaxTokensTextBox
+            // 
+            GPTMaxTokensTextBox.Location = new System.Drawing.Point(307, 136);
+            GPTMaxTokensTextBox.Name = "GPTMaxTokensTextBox";
+            GPTMaxTokensTextBox.Size = new System.Drawing.Size(100, 23);
+            GPTMaxTokensTextBox.TabIndex = 34;
+            GPTMaxTokensTextBox.Text = "100";
+            // 
+            // GPTTemperatureTextBox
+            // 
+            GPTTemperatureTextBox.Location = new System.Drawing.Point(183, 136);
+            GPTTemperatureTextBox.Name = "GPTTemperatureTextBox";
+            GPTTemperatureTextBox.Size = new System.Drawing.Size(100, 23);
+            GPTTemperatureTextBox.TabIndex = 33;
+            GPTTemperatureTextBox.Text = "0";
+            BBBToolTip.SetToolTip(GPTTemperatureTextBox, "Default: 0. Maximum 2");
+            // 
+            // GPTModelComboBox
+            // 
+            GPTModelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            GPTModelComboBox.FormattingEnabled = true;
+            GPTModelComboBox.Items.AddRange(new object[] { "gpt-3.5-turbo" });
+            GPTModelComboBox.Location = new System.Drawing.Point(183, 82);
+            GPTModelComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GPTModelComboBox.Name = "GPTModelComboBox";
+            GPTModelComboBox.Size = new System.Drawing.Size(224, 23);
+            GPTModelComboBox.TabIndex = 32;
+            GPTModelComboBox.UseWaitCursor = true;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label4.Location = new System.Drawing.Point(37, 82);
+            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(65, 15);
+            label4.TabIndex = 31;
+            label4.Text = "GPT Model";
+            // 
+            // GPTTestButton
+            // 
+            GPTTestButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            GPTTestButton.Location = new System.Drawing.Point(437, 47);
+            GPTTestButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GPTTestButton.Name = "GPTTestButton";
+            GPTTestButton.Size = new System.Drawing.Size(88, 27);
+            GPTTestButton.TabIndex = 29;
+            GPTTestButton.Text = "Test";
+            GPTTestButton.UseVisualStyleBackColor = true;
+            GPTTestButton.Click += GPTTestButton_Click;
+            // 
+            // GPTAPIKeyTextBox
+            // 
+            GPTAPIKeyTextBox.Location = new System.Drawing.Point(183, 47);
+            GPTAPIKeyTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GPTAPIKeyTextBox.Name = "GPTAPIKeyTextBox";
+            GPTAPIKeyTextBox.PasswordChar = '*';
+            GPTAPIKeyTextBox.Size = new System.Drawing.Size(224, 23);
+            GPTAPIKeyTextBox.TabIndex = 28;
+            // 
+            // GPTAPIKeyLabel
+            // 
+            GPTAPIKeyLabel.AutoSize = true;
+            GPTAPIKeyLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            GPTAPIKeyLabel.Location = new System.Drawing.Point(37, 51);
+            GPTAPIKeyLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
+            GPTAPIKeyLabel.Size = new System.Drawing.Size(47, 15);
+            GPTAPIKeyLabel.TabIndex = 27;
+            GPTAPIKeyLabel.Text = "API Key";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(213, 9);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(47, 15);
+            label7.TabIndex = 0;
+            label7.Text = "OpenAI";
             // 
             // PersonasPanel
             // 
@@ -429,161 +585,6 @@
             label1.Size = new System.Drawing.Size(117, 15);
             label1.TabIndex = 0;
             label1.Text = "Microphone Settings";
-            // 
-            // OpenAIChatGPTPanel
-            // 
-            OpenAIChatGPTPanel.Controls.Add(UseGPTLLMCheckBox);
-            OpenAIChatGPTPanel.Controls.Add(LLMMaxTokensHelpText);
-            OpenAIChatGPTPanel.Controls.Add(LLMTempHelpText);
-            OpenAIChatGPTPanel.Controls.Add(LLMMaxTokenLabel);
-            OpenAIChatGPTPanel.Controls.Add(LLMTempLabel);
-            OpenAIChatGPTPanel.Controls.Add(GPTMaxTokensTextBox);
-            OpenAIChatGPTPanel.Controls.Add(GPTTemperatureTextBox);
-            OpenAIChatGPTPanel.Controls.Add(GPTModelComboBox);
-            OpenAIChatGPTPanel.Controls.Add(label4);
-            OpenAIChatGPTPanel.Controls.Add(GPTTestButton);
-            OpenAIChatGPTPanel.Controls.Add(GPTAPIKeyTextBox);
-            OpenAIChatGPTPanel.Controls.Add(GPTAPIKeyLabel);
-            OpenAIChatGPTPanel.Controls.Add(label7);
-            OpenAIChatGPTPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            OpenAIChatGPTPanel.Location = new System.Drawing.Point(0, 0);
-            OpenAIChatGPTPanel.Name = "OpenAIChatGPTPanel";
-            OpenAIChatGPTPanel.Size = new System.Drawing.Size(593, 450);
-            OpenAIChatGPTPanel.TabIndex = 3;
-            // 
-            // UseGPTLLMCheckBox
-            // 
-            UseGPTLLMCheckBox.AutoSize = true;
-            UseGPTLLMCheckBox.Location = new System.Drawing.Point(37, 11);
-            UseGPTLLMCheckBox.Name = "UseGPTLLMCheckBox";
-            UseGPTLLMCheckBox.Size = new System.Drawing.Size(94, 19);
-            UseGPTLLMCheckBox.TabIndex = 39;
-            UseGPTLLMCheckBox.Text = "Use ChatGPT";
-            UseGPTLLMCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // LLMMaxTokensHelpText
-            // 
-            LLMMaxTokensHelpText.AutoSize = true;
-            LLMMaxTokensHelpText.BackColor = System.Drawing.Color.Gold;
-            LLMMaxTokensHelpText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LLMMaxTokensHelpText.Location = new System.Drawing.Point(387, 116);
-            LLMMaxTokensHelpText.Name = "LLMMaxTokensHelpText";
-            LLMMaxTokensHelpText.Size = new System.Drawing.Size(20, 15);
-            LLMMaxTokensHelpText.TabIndex = 38;
-            LLMMaxTokensHelpText.Text = "[?]";
-            BBBToolTip.SetToolTip(LLMMaxTokensHelpText, "Tokens are aproximately the amount of words. More tokens means longer words, but might also cost more");
-            // 
-            // LLMTempHelpText
-            // 
-            LLMTempHelpText.AutoSize = true;
-            LLMTempHelpText.BackColor = System.Drawing.Color.Gold;
-            LLMTempHelpText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LLMTempHelpText.Location = new System.Drawing.Point(262, 118);
-            LLMTempHelpText.Name = "LLMTempHelpText";
-            LLMTempHelpText.Size = new System.Drawing.Size(20, 15);
-            LLMTempHelpText.TabIndex = 37;
-            LLMTempHelpText.Text = "[?]";
-            BBBToolTip.SetToolTip(LLMTempHelpText, "The higher the temperature the more likely the answer uses more diverse words, but also is more likely to make mistakes");
-            // 
-            // LLMMaxTokenLabel
-            // 
-            LLMMaxTokenLabel.AutoSize = true;
-            LLMMaxTokenLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LLMMaxTokenLabel.Location = new System.Drawing.Point(307, 116);
-            LLMMaxTokenLabel.Name = "LLMMaxTokenLabel";
-            LLMMaxTokenLabel.Size = new System.Drawing.Size(68, 15);
-            LLMMaxTokenLabel.TabIndex = 36;
-            LLMMaxTokenLabel.Text = "Max tokens";
-            // 
-            // LLMTempLabel
-            // 
-            LLMTempLabel.AutoSize = true;
-            LLMTempLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LLMTempLabel.Location = new System.Drawing.Point(183, 118);
-            LLMTempLabel.Name = "LLMTempLabel";
-            LLMTempLabel.Size = new System.Drawing.Size(73, 15);
-            LLMTempLabel.TabIndex = 35;
-            LLMTempLabel.Text = "Temperature";
-            // 
-            // GPTMaxTokensTextBox
-            // 
-            GPTMaxTokensTextBox.Location = new System.Drawing.Point(307, 136);
-            GPTMaxTokensTextBox.Name = "GPTMaxTokensTextBox";
-            GPTMaxTokensTextBox.Size = new System.Drawing.Size(100, 23);
-            GPTMaxTokensTextBox.TabIndex = 34;
-            GPTMaxTokensTextBox.Text = "100";
-            // 
-            // GPTTemperatureTextBox
-            // 
-            GPTTemperatureTextBox.Location = new System.Drawing.Point(183, 136);
-            GPTTemperatureTextBox.Name = "GPTTemperatureTextBox";
-            GPTTemperatureTextBox.Size = new System.Drawing.Size(100, 23);
-            GPTTemperatureTextBox.TabIndex = 33;
-            GPTTemperatureTextBox.Text = "0";
-            // 
-            // GPTModelComboBox
-            // 
-            GPTModelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            GPTModelComboBox.FormattingEnabled = true;
-            GPTModelComboBox.Items.AddRange(new object[] { "gpt-3.5-turbo" });
-            GPTModelComboBox.Location = new System.Drawing.Point(183, 82);
-            GPTModelComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GPTModelComboBox.Name = "GPTModelComboBox";
-            GPTModelComboBox.Size = new System.Drawing.Size(224, 23);
-            GPTModelComboBox.TabIndex = 32;
-            GPTModelComboBox.UseWaitCursor = true;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label4.Location = new System.Drawing.Point(37, 82);
-            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(65, 15);
-            label4.TabIndex = 31;
-            label4.Text = "GPT Model";
-            // 
-            // GPTTestButton
-            // 
-            GPTTestButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            GPTTestButton.Location = new System.Drawing.Point(437, 47);
-            GPTTestButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GPTTestButton.Name = "GPTTestButton";
-            GPTTestButton.Size = new System.Drawing.Size(88, 27);
-            GPTTestButton.TabIndex = 29;
-            GPTTestButton.Text = "Test";
-            GPTTestButton.UseVisualStyleBackColor = true;
-            GPTTestButton.Click += GPTTestButton_Click;
-            // 
-            // GPTAPIKeyTextBox
-            // 
-            GPTAPIKeyTextBox.Location = new System.Drawing.Point(183, 47);
-            GPTAPIKeyTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GPTAPIKeyTextBox.Name = "GPTAPIKeyTextBox";
-            GPTAPIKeyTextBox.PasswordChar = '*';
-            GPTAPIKeyTextBox.Size = new System.Drawing.Size(224, 23);
-            GPTAPIKeyTextBox.TabIndex = 28;
-            // 
-            // GPTAPIKeyLabel
-            // 
-            GPTAPIKeyLabel.AutoSize = true;
-            GPTAPIKeyLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            GPTAPIKeyLabel.Location = new System.Drawing.Point(37, 51);
-            GPTAPIKeyLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
-            GPTAPIKeyLabel.Size = new System.Drawing.Size(47, 15);
-            GPTAPIKeyLabel.TabIndex = 27;
-            GPTAPIKeyLabel.Text = "API Key";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(213, 9);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(47, 15);
-            label7.TabIndex = 0;
-            label7.Text = "OpenAI";
             // 
             // TwitchPanel
             // 
@@ -911,12 +912,12 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            OpenAIChatGPTPanel.ResumeLayout(false);
+            OpenAIChatGPTPanel.PerformLayout();
             PersonasPanel.ResumeLayout(false);
             PersonasPanel.PerformLayout();
             MicrophonePanel.ResumeLayout(false);
             MicrophonePanel.PerformLayout();
-            OpenAIChatGPTPanel.ResumeLayout(false);
-            OpenAIChatGPTPanel.PerformLayout();
             TwitchPanel.ResumeLayout(false);
             TwitchPanel.PerformLayout();
             EventSubGroupbox.ResumeLayout(false);

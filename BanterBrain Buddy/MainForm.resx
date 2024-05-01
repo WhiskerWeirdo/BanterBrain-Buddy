@@ -119,7 +119,7 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="BroadcasterSelectedPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 43</value>
+    <value>4, 31</value>
   </data>
   <data name="BroadcasterSelectedPersonaComboBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 23</value>
@@ -141,10 +141,10 @@
     <value>0</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 198</value>
+    <value>7, 173</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 100</value>
+    <value>153, 77</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -165,7 +165,7 @@
     <value>0</value>
   </data>
   <data name="STTSelectedComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 40</value>
+    <value>4, 31</value>
   </data>
   <data name="STTSelectedComboBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 23</value>
@@ -189,7 +189,7 @@
     <value>7, 92</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 100</value>
+    <value>153, 75</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -1355,13 +1355,13 @@
     <value>&amp;File</value>
   </data>
   <data name="GithubToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>136, 22</value>
   </data>
   <data name="GithubToolStripMenuItem.Text" xml:space="preserve">
     <value>Github Wiki</value>
   </data>
   <data name="DiscordToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>136, 22</value>
   </data>
   <data name="DiscordToolStripMenuItem.Text" xml:space="preserve">
     <value>Discord</value>
