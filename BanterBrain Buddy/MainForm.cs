@@ -350,7 +350,13 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("STT microphone start.");
             _bBBlog.Debug("Selected audio input device for Audio to Wav: " + Properties.Settings.Default.VoiceInput);
 
-            string tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + $"\\{Guid.NewGuid()}.wav";
+            string tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + $"\\tmp\\{Guid.NewGuid()}.wav";
+            //check if directory exists and if not, create it
+            if (!Directory.Exists(Path.GetDirectoryName(tmpWavFile)))
+            {
+                _bBBlog.Debug("Creating temp directory: " + Path.GetDirectoryName(tmpWavFile));
+                Directory.CreateDirectory(Path.GetDirectoryName(tmpWavFile));
+            }
 
             var recordingDevice = 0;
             for (int i = 0; i < NAudio.Wave.WaveIn.DeviceCount; i++)
