@@ -1,5 +1,5 @@
 # BanterBrain Buddy
-v0.0.5-ALPHA.4
+v0.0.6-ALPHA
 https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.0.5-alpha
 
 ## License
@@ -27,14 +27,13 @@ tldr: use Visual studio 2022 with .net 8.
 - local based LLM's like GPT4All take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
 
 ## Roadmap
+### 0.0.6 ALPHA Google, Elevenlabs TTS support
+- New TwitchLib API release
 
 ### KNOWN ISSUES
 Known issues:
 - [ ] Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
-- [X] Personas cannot be deleted from the interface.
-- [X] No PTT hotkey
 - [ ] No ability to check for Twitch followers
-- [X] Hard closing the Settings screen does not ask to save the persona
 
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT

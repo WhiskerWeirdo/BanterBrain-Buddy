@@ -21,7 +21,7 @@ namespace BanterBrain_Buddy
         //set logger
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private List<Personas> _personas = new List<Personas>();
-        private List<AzureVoices> _azureRegionVoicesList = [];
+        private List<AzureVoices> _tTSAzureVoicesList = [];
         private List<NativeVoices> _nativeRegionVoicesList = [];
 
         private TwitchAPIESub _twitchTestEventSub;
@@ -138,7 +138,9 @@ namespace BanterBrain_Buddy
                 case "Twitch":
                     PanelVisible(TwitchPanel.Name);
                     break;
-
+                case "ElevenLabs":
+                    PanelVisible(ElevenLabsPanel.Name);
+                    break;
                 case "TwitchTriggers":
                     PanelVisible(TwitchPanel.Name);
                     break;
@@ -168,6 +170,7 @@ namespace BanterBrain_Buddy
             GPTAPIKeyTextBox.Text = Properties.Settings.Default.GPTAPIKey;
             GPTMaxTokensTextBox.Text = Properties.Settings.Default.GPTMaxTokens.ToString();
             GPTTemperatureTextBox.Text = Properties.Settings.Default.GPTTemperature.ToString();
+            ElevenlabsAPIKeyTextBox.Text = Properties.Settings.Default.ElevenLabsAPIkey;
             if (Properties.Settings.Default.SelectedLLM == "GPT")
             {
                 UseGPTLLMCheckBox.Checked = true;
@@ -186,6 +189,7 @@ namespace BanterBrain_Buddy
                 {
                     SavePersona_Click(sender, e);
                 }
+                _personaEdited = false;
             }
             _bBBlog.Info("Settings form closing, saving settings");
             Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
@@ -202,6 +206,7 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.GPTAPIKey = GPTAPIKeyTextBox.Text;
             Properties.Settings.Default.GPTMaxTokens = int.Parse(GPTMaxTokensTextBox.Text);
             Properties.Settings.Default.GPTTemperature = float.Parse(GPTTemperatureTextBox.Text);
+            Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
             if (UseGPTLLMCheckBox.Checked)
             {
                 Properties.Settings.Default.SelectedLLM = "GPT";
@@ -239,6 +244,8 @@ namespace BanterBrain_Buddy
                     TTSProviderComboBox.Items.Add("Azure");
                 if (GPTAPIKeyTextBox.Text.Length > 0)
                     TTSProviderComboBox.Items.Add("OpenAI Whisper");
+                if (ElevenlabsAPIKeyTextBox.Text.Length > 0)
+                    TTSProviderComboBox.Items.Add("ElevenLabs");
                 TTSProviderComboBox.SelectedIndex = 0;
 
                 _bBBlog.Debug("Personas panel visible. we need to load the persona's and enable the eventhandlers");
@@ -294,15 +301,47 @@ namespace BanterBrain_Buddy
             if (TTSProviderComboBox.Text == "Native")
             {
                 TTSOutputVoice.Text = "";
-                TTSOutputVoiceOption1.Enabled = false;
+                TTSOutputVoiceOption1.Visible = false;
+                TTSOption1Label.Visible = false;
+                TTSOutputVoiceOption2.Text = "";
+                TTSOutputVoiceOption2.Visible = false;
+                TTSOption2Label.Visible = false;
+                TTSOutputVoiceOption3.Text = "";
+                TTSOutputVoiceOption3.Visible = false;
+                TTSOption3Label.Visible = false;
                 //clear and fill the option box with voices
                 await TTSGetNativeVoices();
                 await TTSFillNativeVoicesList();
+            } else if (TTSProviderComboBox.Text == "ElevenLabs")
+            {
+                TTSOutputVoice.Text = "";
+                TTSOutputVoiceOption1.Visible = true;
+                TTSOption1Label.Visible = true;
+                TTSOutputVoiceOption1.DropDownStyle = ComboBoxStyle.Simple;
+                TTSOption1Label.Text = "Similarity  (0-100)";
+                TTSOutputVoiceOption2.Visible = true;
+                TTSOutputVoiceOption2.DropDownStyle = ComboBoxStyle.Simple;
+                TTSOption2Label.Visible = true;
+                TTSOption2Label.Text = "Stability (0-100)";
+                TTSOutputVoiceOption3.Visible = true;
+                TTSOption3Label.Visible = true;
+                TTSOutputVoiceOption3.DropDownStyle = ComboBoxStyle.Simple;
+                TTSOption3Label.Text = "Style (0-100)";
+                await TTSGetElevenLabsVoices();
             }
             else if (TTSProviderComboBox.Text == "Azure")
             {
                 TTSOutputVoice.Text = "";
-                TTSOutputVoiceOption1.Enabled = true;
+                TTSOutputVoiceOption1.Visible = true;
+                TTSOption1Label.Visible = true;
+                TTSOption1Label.Text = "Style";
+                TTSOutputVoiceOption1.DropDownStyle = ComboBoxStyle.DropDownList;
+                TTSOutputVoiceOption2.Visible = false;
+                TTSOutputVoiceOption2.Text = "";
+                TTSOption2Label.Visible = false;
+                TTSOutputVoiceOption3.Visible = false;
+                TTSOption3Label.Visible = false;
+                TTSOutputVoiceOption3.Text = "";
 
                 if (AzureAPIKeyTextBox.Text.Length > 0 && AzureRegionTextBox.Text.Length > 0)
                 {
@@ -318,7 +357,12 @@ namespace BanterBrain_Buddy
             else if (TTSProviderComboBox.Text == "OpenAI Whisper")
             {
                 TTSOutputVoice.Text = "";
-                TTSOutputVoiceOption1.Enabled = false;
+                TTSOutputVoiceOption1.Visible = false;
+                TTSOption1Label.Visible = false;
+                TTSOutputVoiceOption2.Visible = false;
+                TTSOption2Label.Visible = false;
+                TTSOutputVoiceOption3.Visible = false;
+                TTSOption3Label.Visible = false;
                 //these voices are static
                 //alloy, echo, fable, onyx, nova, and shimmer
                 TTSOutputVoice.Items.Clear();
@@ -415,6 +459,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void SavePersona_Click(object sender, EventArgs e)
         {
+            _personaEdited = false;
             _bBBlog.Debug("Save persona button clicked");
             if (PersonaComboBox.Text == "")
             {
@@ -454,6 +499,14 @@ namespace BanterBrain_Buddy
                     {
                         persona.VoiceOptions.Add(TTSOutputVoiceOption1.Text);
                     }
+                    if (TTSOutputVoiceOption2.Text != "")
+                    {
+                        persona.VoiceOptions.Add(TTSOutputVoiceOption2.Text);
+                    }
+                    if (TTSOutputVoiceOption3.Text != "")
+                    {
+                        persona.VoiceOptions.Add(TTSOutputVoiceOption3.Text);
+                    }
                 }
             }
             if (!personaExists)
@@ -485,13 +538,42 @@ namespace BanterBrain_Buddy
         {
             NativeSpeech nativeSpeech = new();
             _nativeRegionVoicesList = await nativeSpeech.TTSNativeGetVoices();
-            if (_azureRegionVoicesList == null)
+            if (_tTSAzureVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving Native voicelist. Do you have any native voices installed?", "Native No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
                 _bBBlog.Info($"Found {_nativeRegionVoicesList.Count} voices");
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async Task TTSGetElevenLabsVoices()
+        {
+            ElLabs elLabs = new(ElevenlabsAPIKeyTextBox.Text);
+            var _elevenLabsVoicesList = await elLabs.TTSGetElevenLabsVoices();
+            if (_elevenLabsVoicesList == null)
+            {
+                MessageBox.Show("Problem retreiving ElevenLabs voicelist. Is your API key still valid?", "ElevenLabs No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                _bBBlog.Info($"Found {_elevenLabsVoicesList.Count} voices");
+            }
+            TTSOutputVoice.Items.Clear();
+            foreach (var elevenLabsVoice in _elevenLabsVoicesList)
+            {
+                TTSOutputVoice.Items.Add(elevenLabsVoice);
+            }
+            TTSOutputVoice.Sorted = true;
+            TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
+            if (TTSOutputVoiceOption2.Text.Length < 1)
+            {
+                TTSOutputVoiceOption1.Text = "0";
+                TTSOutputVoiceOption2.Text = "0";
+                TTSOutputVoiceOption3.Text = "0";
             }
         }
 
@@ -527,16 +609,16 @@ namespace BanterBrain_Buddy
             }
 
             AzureSpeechAPI AzureSpeech = new(AzureAPIKeyTextBox.Text, AzureRegionTextBox.Text, AzureLanguageComboBox.Text);
-            _azureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
-            _bBBlog.Info($"Found Azure voices: {_azureRegionVoicesList.Count} ");
-            if (_azureRegionVoicesList == null)
+            _tTSAzureVoicesList = await AzureSpeech.TTSGetAzureVoices();
+            _bBBlog.Info($"Found Azure voices: {_tTSAzureVoicesList.Count} ");
+            if (_tTSAzureVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?", "Azure API Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             else
             {
-                _bBBlog.Info($"Found {_azureRegionVoicesList.Count} voices");
+                _bBBlog.Info($"Found {_tTSAzureVoicesList.Count} voices");
                 return true;
             }
         }
@@ -551,7 +633,7 @@ namespace BanterBrain_Buddy
 
             // Locale, Gender, Localname
             TTSOutputVoice.Items.Clear();
-            foreach (var azureRegionVoice in _azureRegionVoicesList)
+            foreach (var azureRegionVoice in _tTSAzureVoicesList)
             {
                 TTSOutputVoice.Items.Add(azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName);
             }
@@ -590,7 +672,7 @@ namespace BanterBrain_Buddy
             TTSOutputVoiceOption1.Items.Clear();
             //the voice is the item in TTSOutputVoice 
             //now to find it in AzureRegionVoicesList
-            foreach (var azureRegionVoice in _azureRegionVoicesList)
+            foreach (var azureRegionVoice in _tTSAzureVoicesList)
             {
                 if (SelectedVoice == (azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName))
                 {
@@ -621,8 +703,9 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TestVoiceButton_Click(object sender, EventArgs e)
         {
-
+            TestVoiceButton.Enabled = false;
             await SayTextTest("Hi, this is a test123");
+            TestVoiceButton.Enabled = true;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -649,6 +732,10 @@ namespace BanterBrain_Buddy
             {
                 await TTSOpenAIWhisperSpeakToOutput(TextToSay);
             }
+            else if (TTSProviderComboBox.Text == "ElevenLabs")
+            {
+                await TTSElevenLabsSpeakToOutput(TextToSay);
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -663,6 +750,17 @@ namespace BanterBrain_Buddy
             }
         }
 
+        [SupportedOSPlatform("windows6.1")]
+        private async Task TTSElevenLabsSpeakToOutput (string TextToSay)
+        {
+            ElLabs elLabs = new(ElevenlabsAPIKeyTextBox.Text);
+            var result = await elLabs.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text));
+            if (!result)
+            {
+                _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
+                MessageBox.Show("ElevenLabs TTS error. Is there a problem with your API key or subscription?", "ElevenLabs TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSNativeSpeakToOutput(String TTSText)
@@ -968,6 +1066,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void PersonaComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
+            PersonasPanel.Enabled = false;
             _bBBlog.Debug($"Persona selected value changed to {PersonaComboBox.Text} index {PersonaComboBox.SelectedIndex}");
             _bBBlog.Debug($"Disable eventhandlers for now while loading the new persona data");
             DisablePersonaEventHandlers();
@@ -1000,11 +1099,22 @@ namespace BanterBrain_Buddy
             if (selectedPersona.VoiceOptions.Count > 0)
             {
                 _bBBlog.Debug("Voice options found, loading them into the combo box");
-                foreach (var voiceOption in selectedPersona.VoiceOptions)
+                if (TTSProviderComboBox.Text == "Azure")
+                    TTSOutputVoiceOption1.SelectedIndex= TTSOutputVoiceOption1.FindStringExact(selectedPersona.VoiceOptions[0]);
+                if (TTSProviderComboBox.Text == "ElevenLabs")
                 {
-                    _bBBlog.Debug("Adding voice option: " + voiceOption);
-                    TTSOutputVoiceOption1.SelectedIndex = TTSOutputVoiceOption1.FindStringExact(voiceOption);
+                    _bBBlog.Debug("Persona Elevenlabs voice options found, loading them into the combo box");
+                    _bBBlog.Debug($"Option1: {selectedPersona.VoiceOptions[0]} option2: {selectedPersona.VoiceOptions[1]} option3: {selectedPersona.VoiceOptions[2]}");
+                    TTSOutputVoiceOption1.Text = selectedPersona.VoiceOptions[0];
+                    TTSOutputVoiceOption2.Text = selectedPersona.VoiceOptions[1];
+                    TTSOutputVoiceOption3.Text = selectedPersona.VoiceOptions[2];
                 }
+                    /*
+            foreach (var voiceOption in selectedPersona.VoiceOptions)
+            {
+                _bBBlog.Debug("Adding voice option: " + voiceOption);
+                TTSOutputVoiceOption1.SelectedIndex = TTSOutputVoiceOption1.FindStringExact(voiceOption);
+            }*/
             }
             if (PersonaComboBox.Text == "Default")
             {
@@ -1016,19 +1126,25 @@ namespace BanterBrain_Buddy
             }
             //enable them again.
             EnablePersonaEventHandlers();
+            PersonasPanel.Enabled = true;
         }
 
         [SupportedOSPlatform("windows6.1")]
         private async void TTSProviderComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
+            PersonasPanel.Enabled = false;
             _bBBlog.Debug("TTSProvider selected value changed");
             if (PersonasPanel.Visible)
             {
                 SavePersona.Enabled = true;
                 _personaEdited = true;
                 _bBBlog.Info("TTS Provider changed to " + TTSProviderComboBox.Text);
+                TTSOutputVoiceOption1.Text = "";
+                TTSOutputVoiceOption2.Text = "";
+                TTSOutputVoiceOption3.Text = "";
                 await FillVoiceBoxes();
             }
+            PersonasPanel.Enabled = true;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1118,6 +1234,24 @@ namespace BanterBrain_Buddy
                     SavePersona_Click(sender, e);
                 }
                 _personaEdited = false;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void ElevenLabsTestButton_Click(object sender, EventArgs e)
+        {
+            //call test api key for elevenlabs
+            ElLabs elevenLabsApi = new(ElevenlabsAPIKeyTextBox.Text);
+           
+            if (await elevenLabsApi.ElevenLabsAPIKeyTest())
+            {
+                _bBBlog.Info("ElevenLabs API key is valid");
+                MessageBox.Show("ElevenLabs API key is valid", "ElevenLabs API Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                _bBBlog.Error("ElevenLabs API key is invalid");
+                MessageBox.Show("ElevenLabs API key is invalid", "ElevenLabs API Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

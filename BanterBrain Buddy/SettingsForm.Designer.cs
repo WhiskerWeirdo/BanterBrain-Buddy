@@ -29,17 +29,43 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Microphone");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Speaker");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode10, treeNode11 });
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Azure");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("OpenAI");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode13, treeNode14 });
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Twitch ");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode16 });
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Persona's");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Microphone");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Speaker");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode11, treeNode12 });
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Azure");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("OpenAI");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("ElevenLabs");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode14, treeNode15, treeNode16 });
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Twitch ");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode18 });
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Persona's");
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
+            PersonasPanel = new System.Windows.Forms.Panel();
+            TTSOutputVoiceOption3 = new System.Windows.Forms.ComboBox();
+            TTSOption3Label = new System.Windows.Forms.Label();
+            TTSOutputVoiceOption2 = new System.Windows.Forms.ComboBox();
+            TTSOption2Label = new System.Windows.Forms.Label();
+            TestVoiceButton = new System.Windows.Forms.Button();
+            DeletePersona = new System.Windows.Forms.Button();
+            SavePersona = new System.Windows.Forms.Button();
+            NewPersona = new System.Windows.Forms.Button();
+            TTSOutputVoiceOption1 = new System.Windows.Forms.ComboBox();
+            TTSOption1Label = new System.Windows.Forms.Label();
+            TTSOutputVoice = new System.Windows.Forms.ComboBox();
+            label16 = new System.Windows.Forms.Label();
+            TTSProviderComboBox = new System.Windows.Forms.ComboBox();
+            label14 = new System.Windows.Forms.Label();
+            label13 = new System.Windows.Forms.Label();
+            PersonaComboBox = new System.Windows.Forms.ComboBox();
+            label12 = new System.Windows.Forms.Label();
+            PersonaRoleTextBox = new System.Windows.Forms.TextBox();
+            label10 = new System.Windows.Forms.Label();
+            ElevenLabsPanel = new System.Windows.Forms.Panel();
+            ElevenLabsTestButton = new System.Windows.Forms.Button();
+            ElevenlabsAPIKeyTextBox = new System.Windows.Forms.TextBox();
+            label11 = new System.Windows.Forms.Label();
+            label8 = new System.Windows.Forms.Label();
             OpenAIChatGPTPanel = new System.Windows.Forms.Panel();
             UseGPTLLMCheckBox = new System.Windows.Forms.CheckBox();
             LLMMaxTokensHelpText = new System.Windows.Forms.Label();
@@ -54,22 +80,6 @@
             GPTAPIKeyTextBox = new System.Windows.Forms.TextBox();
             GPTAPIKeyLabel = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
-            PersonasPanel = new System.Windows.Forms.Panel();
-            TestVoiceButton = new System.Windows.Forms.Button();
-            DeletePersona = new System.Windows.Forms.Button();
-            SavePersona = new System.Windows.Forms.Button();
-            NewPersona = new System.Windows.Forms.Button();
-            TTSOutputVoiceOption1 = new System.Windows.Forms.ComboBox();
-            label15 = new System.Windows.Forms.Label();
-            TTSOutputVoice = new System.Windows.Forms.ComboBox();
-            label16 = new System.Windows.Forms.Label();
-            TTSProviderComboBox = new System.Windows.Forms.ComboBox();
-            label14 = new System.Windows.Forms.Label();
-            label13 = new System.Windows.Forms.Label();
-            PersonaComboBox = new System.Windows.Forms.ComboBox();
-            label12 = new System.Windows.Forms.Label();
-            PersonaRoleTextBox = new System.Windows.Forms.TextBox();
-            label10 = new System.Windows.Forms.Label();
             MicrophonePanel = new System.Windows.Forms.Panel();
             PTTKeyLabel = new System.Windows.Forms.Label();
             MicrophoneHotkeyEditbox = new System.Windows.Forms.TextBox();
@@ -111,8 +121,9 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            OpenAIChatGPTPanel.SuspendLayout();
             PersonasPanel.SuspendLayout();
+            ElevenLabsPanel.SuspendLayout();
+            OpenAIChatGPTPanel.SuspendLayout();
             MicrophonePanel.SuspendLayout();
             TwitchPanel.SuspendLayout();
             EventSubGroupbox.SuspendLayout();
@@ -133,8 +144,9 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(PersonasPanel);
+            splitContainer1.Panel2.Controls.Add(ElevenLabsPanel);
+            splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(MicrophonePanel);
             splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(AzurePanel);
@@ -148,30 +160,305 @@
             MenuTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             MenuTreeView.Location = new System.Drawing.Point(0, 0);
             MenuTreeView.Name = "MenuTreeView";
-            treeNode10.Name = "Microphone";
-            treeNode10.Text = "Microphone";
-            treeNode11.Name = "Speaker";
-            treeNode11.Text = "Speaker";
-            treeNode12.Name = "VoiceSettings";
-            treeNode12.Text = "Sound & Voice settings";
-            treeNode13.Name = "Azure";
-            treeNode13.Text = "Azure";
-            treeNode14.Name = "OpenAIChatGPT";
-            treeNode14.Text = "OpenAI";
-            treeNode15.Name = "APISettings";
-            treeNode15.Text = "API Settings";
-            treeNode16.Name = "Twitch";
-            treeNode16.Text = "Twitch ";
-            treeNode17.Name = "Streaming Settings";
-            treeNode17.Text = "Streaming settings";
-            treeNode18.Name = "Personas";
-            treeNode18.Text = "Persona's";
-            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode12, treeNode15, treeNode17, treeNode18 });
+            treeNode11.Name = "Microphone";
+            treeNode11.Text = "Microphone";
+            treeNode12.Name = "Speaker";
+            treeNode12.Text = "Speaker";
+            treeNode13.Name = "VoiceSettings";
+            treeNode13.Text = "Sound & Voice settings";
+            treeNode14.Name = "Azure";
+            treeNode14.Text = "Azure";
+            treeNode15.Name = "OpenAIChatGPT";
+            treeNode15.Text = "OpenAI";
+            treeNode16.Name = "ElevenLabs";
+            treeNode16.Text = "ElevenLabs";
+            treeNode17.Name = "APISettings";
+            treeNode17.Text = "API Settings";
+            treeNode18.Name = "Twitch";
+            treeNode18.Text = "Twitch ";
+            treeNode19.Name = "Streaming Settings";
+            treeNode19.Text = "Streaming settings";
+            treeNode20.Name = "Personas";
+            treeNode20.Text = "Persona's";
+            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode13, treeNode17, treeNode19, treeNode20 });
             MenuTreeView.PathSeparator = "";
             MenuTreeView.Size = new System.Drawing.Size(203, 450);
             MenuTreeView.TabIndex = 0;
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += treeView1_AfterSelect;
+            // 
+            // PersonasPanel
+            // 
+            PersonasPanel.Controls.Add(TTSOutputVoiceOption3);
+            PersonasPanel.Controls.Add(TTSOption3Label);
+            PersonasPanel.Controls.Add(TTSOutputVoiceOption2);
+            PersonasPanel.Controls.Add(TTSOption2Label);
+            PersonasPanel.Controls.Add(TestVoiceButton);
+            PersonasPanel.Controls.Add(DeletePersona);
+            PersonasPanel.Controls.Add(SavePersona);
+            PersonasPanel.Controls.Add(NewPersona);
+            PersonasPanel.Controls.Add(TTSOutputVoiceOption1);
+            PersonasPanel.Controls.Add(TTSOption1Label);
+            PersonasPanel.Controls.Add(TTSOutputVoice);
+            PersonasPanel.Controls.Add(label16);
+            PersonasPanel.Controls.Add(TTSProviderComboBox);
+            PersonasPanel.Controls.Add(label14);
+            PersonasPanel.Controls.Add(label13);
+            PersonasPanel.Controls.Add(PersonaComboBox);
+            PersonasPanel.Controls.Add(label12);
+            PersonasPanel.Controls.Add(PersonaRoleTextBox);
+            PersonasPanel.Controls.Add(label10);
+            PersonasPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            PersonasPanel.Location = new System.Drawing.Point(0, 0);
+            PersonasPanel.Name = "PersonasPanel";
+            PersonasPanel.Size = new System.Drawing.Size(593, 450);
+            PersonasPanel.TabIndex = 6;
+            PersonasPanel.VisibleChanged += PersonasPanel_VisibleChanged;
+            // 
+            // TTSOutputVoiceOption3
+            // 
+            TTSOutputVoiceOption3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            TTSOutputVoiceOption3.FormattingEnabled = true;
+            TTSOutputVoiceOption3.Location = new System.Drawing.Point(183, 354);
+            TTSOutputVoiceOption3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTSOutputVoiceOption3.Name = "TTSOutputVoiceOption3";
+            TTSOutputVoiceOption3.Size = new System.Drawing.Size(281, 23);
+            TTSOutputVoiceOption3.TabIndex = 36;
+            // 
+            // TTSOption3Label
+            // 
+            TTSOption3Label.AutoSize = true;
+            TTSOption3Label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TTSOption3Label.Location = new System.Drawing.Point(15, 357);
+            TTSOption3Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            TTSOption3Label.Name = "TTSOption3Label";
+            TTSOption3Label.Size = new System.Drawing.Size(146, 15);
+            TTSOption3Label.TabIndex = 35;
+            TTSOption3Label.Text = "TTS Output Voice Option 3";
+            // 
+            // TTSOutputVoiceOption2
+            // 
+            TTSOutputVoiceOption2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            TTSOutputVoiceOption2.FormattingEnabled = true;
+            TTSOutputVoiceOption2.Location = new System.Drawing.Point(183, 325);
+            TTSOutputVoiceOption2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTSOutputVoiceOption2.Name = "TTSOutputVoiceOption2";
+            TTSOutputVoiceOption2.Size = new System.Drawing.Size(281, 23);
+            TTSOutputVoiceOption2.TabIndex = 34;
+            // 
+            // TTSOption2Label
+            // 
+            TTSOption2Label.AutoSize = true;
+            TTSOption2Label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TTSOption2Label.Location = new System.Drawing.Point(13, 328);
+            TTSOption2Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            TTSOption2Label.Name = "TTSOption2Label";
+            TTSOption2Label.Size = new System.Drawing.Size(146, 15);
+            TTSOption2Label.TabIndex = 33;
+            TTSOption2Label.Text = "TTS Output Voice Option 2";
+            // 
+            // TestVoiceButton
+            // 
+            TestVoiceButton.Location = new System.Drawing.Point(488, 229);
+            TestVoiceButton.Name = "TestVoiceButton";
+            TestVoiceButton.Size = new System.Drawing.Size(75, 23);
+            TestVoiceButton.TabIndex = 32;
+            TestVoiceButton.Text = "Test voice";
+            TestVoiceButton.UseVisualStyleBackColor = true;
+            TestVoiceButton.Click += TestVoiceButton_Click;
+            // 
+            // DeletePersona
+            // 
+            DeletePersona.Location = new System.Drawing.Point(506, 52);
+            DeletePersona.Name = "DeletePersona";
+            DeletePersona.Size = new System.Drawing.Size(75, 23);
+            DeletePersona.TabIndex = 31;
+            DeletePersona.Text = "Delete";
+            DeletePersona.UseVisualStyleBackColor = true;
+            DeletePersona.Click += DeletePersona_Click;
+            // 
+            // SavePersona
+            // 
+            SavePersona.Enabled = false;
+            SavePersona.Location = new System.Drawing.Point(426, 51);
+            SavePersona.Name = "SavePersona";
+            SavePersona.Size = new System.Drawing.Size(75, 23);
+            SavePersona.TabIndex = 30;
+            SavePersona.Text = "Save";
+            SavePersona.UseVisualStyleBackColor = true;
+            SavePersona.Click += SavePersona_Click;
+            // 
+            // NewPersona
+            // 
+            NewPersona.Location = new System.Drawing.Point(345, 51);
+            NewPersona.Name = "NewPersona";
+            NewPersona.Size = new System.Drawing.Size(75, 23);
+            NewPersona.TabIndex = 29;
+            NewPersona.Text = "New";
+            NewPersona.UseVisualStyleBackColor = true;
+            NewPersona.Click += NewPersona_Click;
+            // 
+            // TTSOutputVoiceOption1
+            // 
+            TTSOutputVoiceOption1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            TTSOutputVoiceOption1.FormattingEnabled = true;
+            TTSOutputVoiceOption1.Location = new System.Drawing.Point(182, 296);
+            TTSOutputVoiceOption1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTSOutputVoiceOption1.Name = "TTSOutputVoiceOption1";
+            TTSOutputVoiceOption1.Size = new System.Drawing.Size(281, 23);
+            TTSOutputVoiceOption1.TabIndex = 28;
+            TTSOutputVoiceOption1.SelectedIndexChanged += TTSOutputVoiceOption1_SelectedIndexChanged;
+            // 
+            // TTSOption1Label
+            // 
+            TTSOption1Label.AutoSize = true;
+            TTSOption1Label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TTSOption1Label.Location = new System.Drawing.Point(13, 301);
+            TTSOption1Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            TTSOption1Label.Name = "TTSOption1Label";
+            TTSOption1Label.Size = new System.Drawing.Size(146, 15);
+            TTSOption1Label.TabIndex = 27;
+            TTSOption1Label.Text = "TTS Output Voice Option 1";
+            // 
+            // TTSOutputVoice
+            // 
+            TTSOutputVoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            TTSOutputVoice.FormattingEnabled = true;
+            TTSOutputVoice.Location = new System.Drawing.Point(182, 262);
+            TTSOutputVoice.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTSOutputVoice.Name = "TTSOutputVoice";
+            TTSOutputVoice.Size = new System.Drawing.Size(281, 23);
+            TTSOutputVoice.TabIndex = 26;
+            TTSOutputVoice.SelectedValueChanged += TTSOutputVoice_SelectedValueChanged;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label16.Location = new System.Drawing.Point(13, 270);
+            label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label16.Name = "label16";
+            label16.Size = new System.Drawing.Size(97, 15);
+            label16.TabIndex = 25;
+            label16.Text = "TTS Output Voice";
+            // 
+            // TTSProviderComboBox
+            // 
+            TTSProviderComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            TTSProviderComboBox.FormattingEnabled = true;
+            TTSProviderComboBox.Location = new System.Drawing.Point(182, 229);
+            TTSProviderComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTSProviderComboBox.Name = "TTSProviderComboBox";
+            TTSProviderComboBox.Size = new System.Drawing.Size(281, 23);
+            TTSProviderComboBox.TabIndex = 24;
+            TTSProviderComboBox.SelectedValueChanged += TTSProviderComboBox_SelectedValueChanged;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new System.Drawing.Point(15, 232);
+            label14.Name = "label14";
+            label14.Size = new System.Drawing.Size(72, 15);
+            label14.TabIndex = 23;
+            label14.Text = "TTS Provider";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new System.Drawing.Point(15, 55);
+            label13.Name = "label13";
+            label13.Size = new System.Drawing.Size(82, 15);
+            label13.TabIndex = 22;
+            label13.Text = "Persona name";
+            // 
+            // PersonaComboBox
+            // 
+            PersonaComboBox.FormattingEnabled = true;
+            PersonaComboBox.Location = new System.Drawing.Point(110, 52);
+            PersonaComboBox.Name = "PersonaComboBox";
+            PersonaComboBox.Size = new System.Drawing.Size(231, 23);
+            PersonaComboBox.TabIndex = 21;
+            PersonaComboBox.SelectedValueChanged += PersonaComboBox_SelectedValueChanged;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label12.Location = new System.Drawing.Point(15, 107);
+            label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label12.Name = "label12";
+            label12.Size = new System.Drawing.Size(53, 15);
+            label12.TabIndex = 20;
+            label12.Text = "Role text";
+            // 
+            // PersonaRoleTextBox
+            // 
+            PersonaRoleTextBox.Location = new System.Drawing.Point(110, 92);
+            PersonaRoleTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PersonaRoleTextBox.Multiline = true;
+            PersonaRoleTextBox.Name = "PersonaRoleTextBox";
+            PersonaRoleTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            PersonaRoleTextBox.Size = new System.Drawing.Size(472, 116);
+            PersonaRoleTextBox.TabIndex = 19;
+            PersonaRoleTextBox.TabStop = false;
+            PersonaRoleTextBox.Text = "placeholder";
+            PersonaRoleTextBox.TextChanged += PersonaRoleTextBox_TextChanged;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new System.Drawing.Point(234, 9);
+            label10.Name = "label10";
+            label10.Size = new System.Drawing.Size(54, 15);
+            label10.TabIndex = 0;
+            label10.Text = "Personas";
+            // 
+            // ElevenLabsPanel
+            // 
+            ElevenLabsPanel.Controls.Add(ElevenLabsTestButton);
+            ElevenLabsPanel.Controls.Add(ElevenlabsAPIKeyTextBox);
+            ElevenLabsPanel.Controls.Add(label11);
+            ElevenLabsPanel.Controls.Add(label8);
+            ElevenLabsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            ElevenLabsPanel.Location = new System.Drawing.Point(0, 0);
+            ElevenLabsPanel.Name = "ElevenLabsPanel";
+            ElevenLabsPanel.Size = new System.Drawing.Size(593, 450);
+            ElevenLabsPanel.TabIndex = 40;
+            // 
+            // ElevenLabsTestButton
+            // 
+            ElevenLabsTestButton.Location = new System.Drawing.Point(434, 39);
+            ElevenLabsTestButton.Name = "ElevenLabsTestButton";
+            ElevenLabsTestButton.Size = new System.Drawing.Size(75, 23);
+            ElevenLabsTestButton.TabIndex = 3;
+            ElevenLabsTestButton.Text = "Test";
+            ElevenLabsTestButton.UseVisualStyleBackColor = true;
+            ElevenLabsTestButton.Click += ElevenLabsTestButton_Click;
+            // 
+            // ElevenlabsAPIKeyTextBox
+            // 
+            ElevenlabsAPIKeyTextBox.Location = new System.Drawing.Point(182, 39);
+            ElevenlabsAPIKeyTextBox.Name = "ElevenlabsAPIKeyTextBox";
+            ElevenlabsAPIKeyTextBox.Size = new System.Drawing.Size(225, 23);
+            ElevenlabsAPIKeyTextBox.TabIndex = 2;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new System.Drawing.Point(41, 45);
+            label11.Name = "label11";
+            label11.Size = new System.Drawing.Size(47, 15);
+            label11.TabIndex = 1;
+            label11.Text = "API Key";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(179, 10);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(65, 15);
+            label8.TabIndex = 0;
+            label8.Text = "ElevenLabs";
             // 
             // OpenAIChatGPTPanel
             // 
@@ -328,186 +615,6 @@
             label7.Size = new System.Drawing.Size(47, 15);
             label7.TabIndex = 0;
             label7.Text = "OpenAI";
-            // 
-            // PersonasPanel
-            // 
-            PersonasPanel.Controls.Add(TestVoiceButton);
-            PersonasPanel.Controls.Add(DeletePersona);
-            PersonasPanel.Controls.Add(SavePersona);
-            PersonasPanel.Controls.Add(NewPersona);
-            PersonasPanel.Controls.Add(TTSOutputVoiceOption1);
-            PersonasPanel.Controls.Add(label15);
-            PersonasPanel.Controls.Add(TTSOutputVoice);
-            PersonasPanel.Controls.Add(label16);
-            PersonasPanel.Controls.Add(TTSProviderComboBox);
-            PersonasPanel.Controls.Add(label14);
-            PersonasPanel.Controls.Add(label13);
-            PersonasPanel.Controls.Add(PersonaComboBox);
-            PersonasPanel.Controls.Add(label12);
-            PersonasPanel.Controls.Add(PersonaRoleTextBox);
-            PersonasPanel.Controls.Add(label10);
-            PersonasPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            PersonasPanel.Location = new System.Drawing.Point(0, 0);
-            PersonasPanel.Name = "PersonasPanel";
-            PersonasPanel.Size = new System.Drawing.Size(593, 450);
-            PersonasPanel.TabIndex = 6;
-            PersonasPanel.VisibleChanged += PersonasPanel_VisibleChanged;
-            // 
-            // TestVoiceButton
-            // 
-            TestVoiceButton.Location = new System.Drawing.Point(388, 325);
-            TestVoiceButton.Name = "TestVoiceButton";
-            TestVoiceButton.Size = new System.Drawing.Size(75, 23);
-            TestVoiceButton.TabIndex = 32;
-            TestVoiceButton.Text = "Test voice";
-            TestVoiceButton.UseVisualStyleBackColor = true;
-            TestVoiceButton.Click += TestVoiceButton_Click;
-            // 
-            // DeletePersona
-            // 
-            DeletePersona.Location = new System.Drawing.Point(506, 52);
-            DeletePersona.Name = "DeletePersona";
-            DeletePersona.Size = new System.Drawing.Size(75, 23);
-            DeletePersona.TabIndex = 31;
-            DeletePersona.Text = "Delete";
-            DeletePersona.UseVisualStyleBackColor = true;
-            DeletePersona.Click += DeletePersona_Click;
-            // 
-            // SavePersona
-            // 
-            SavePersona.Enabled = false;
-            SavePersona.Location = new System.Drawing.Point(426, 51);
-            SavePersona.Name = "SavePersona";
-            SavePersona.Size = new System.Drawing.Size(75, 23);
-            SavePersona.TabIndex = 30;
-            SavePersona.Text = "Save";
-            SavePersona.UseVisualStyleBackColor = true;
-            SavePersona.Click += SavePersona_Click;
-            // 
-            // NewPersona
-            // 
-            NewPersona.Location = new System.Drawing.Point(345, 51);
-            NewPersona.Name = "NewPersona";
-            NewPersona.Size = new System.Drawing.Size(75, 23);
-            NewPersona.TabIndex = 29;
-            NewPersona.Text = "New";
-            NewPersona.UseVisualStyleBackColor = true;
-            NewPersona.Click += NewPersona_Click;
-            // 
-            // TTSOutputVoiceOption1
-            // 
-            TTSOutputVoiceOption1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            TTSOutputVoiceOption1.FormattingEnabled = true;
-            TTSOutputVoiceOption1.Location = new System.Drawing.Point(182, 296);
-            TTSOutputVoiceOption1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TTSOutputVoiceOption1.Name = "TTSOutputVoiceOption1";
-            TTSOutputVoiceOption1.Size = new System.Drawing.Size(281, 23);
-            TTSOutputVoiceOption1.TabIndex = 28;
-            TTSOutputVoiceOption1.SelectedIndexChanged += TTSOutputVoiceOption1_SelectedIndexChanged;
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label15.Location = new System.Drawing.Point(13, 301);
-            label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label15.Name = "label15";
-            label15.Size = new System.Drawing.Size(146, 15);
-            label15.TabIndex = 27;
-            label15.Text = "TTS Output Voice Option 1";
-            // 
-            // TTSOutputVoice
-            // 
-            TTSOutputVoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            TTSOutputVoice.FormattingEnabled = true;
-            TTSOutputVoice.Location = new System.Drawing.Point(182, 262);
-            TTSOutputVoice.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TTSOutputVoice.Name = "TTSOutputVoice";
-            TTSOutputVoice.Size = new System.Drawing.Size(281, 23);
-            TTSOutputVoice.TabIndex = 26;
-            TTSOutputVoice.SelectedValueChanged += TTSOutputVoice_SelectedValueChanged;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label16.Location = new System.Drawing.Point(13, 270);
-            label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label16.Name = "label16";
-            label16.Size = new System.Drawing.Size(97, 15);
-            label16.TabIndex = 25;
-            label16.Text = "TTS Output Voice";
-            // 
-            // TTSProviderComboBox
-            // 
-            TTSProviderComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            TTSProviderComboBox.FormattingEnabled = true;
-            TTSProviderComboBox.Location = new System.Drawing.Point(182, 229);
-            TTSProviderComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TTSProviderComboBox.Name = "TTSProviderComboBox";
-            TTSProviderComboBox.Size = new System.Drawing.Size(281, 23);
-            TTSProviderComboBox.TabIndex = 24;
-            TTSProviderComboBox.SelectedValueChanged += TTSProviderComboBox_SelectedValueChanged;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Location = new System.Drawing.Point(15, 232);
-            label14.Name = "label14";
-            label14.Size = new System.Drawing.Size(72, 15);
-            label14.TabIndex = 23;
-            label14.Text = "TTS Provider";
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Location = new System.Drawing.Point(15, 55);
-            label13.Name = "label13";
-            label13.Size = new System.Drawing.Size(82, 15);
-            label13.TabIndex = 22;
-            label13.Text = "Persona name";
-            // 
-            // PersonaComboBox
-            // 
-            PersonaComboBox.FormattingEnabled = true;
-            PersonaComboBox.Location = new System.Drawing.Point(110, 52);
-            PersonaComboBox.Name = "PersonaComboBox";
-            PersonaComboBox.Size = new System.Drawing.Size(231, 23);
-            PersonaComboBox.TabIndex = 21;
-            PersonaComboBox.SelectedValueChanged += PersonaComboBox_SelectedValueChanged;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label12.Location = new System.Drawing.Point(15, 107);
-            label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label12.Name = "label12";
-            label12.Size = new System.Drawing.Size(53, 15);
-            label12.TabIndex = 20;
-            label12.Text = "Role text";
-            // 
-            // PersonaRoleTextBox
-            // 
-            PersonaRoleTextBox.Location = new System.Drawing.Point(110, 92);
-            PersonaRoleTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            PersonaRoleTextBox.Multiline = true;
-            PersonaRoleTextBox.Name = "PersonaRoleTextBox";
-            PersonaRoleTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            PersonaRoleTextBox.Size = new System.Drawing.Size(472, 116);
-            PersonaRoleTextBox.TabIndex = 19;
-            PersonaRoleTextBox.TabStop = false;
-            PersonaRoleTextBox.Text = "placeholder";
-            PersonaRoleTextBox.TextChanged += PersonaRoleTextBox_TextChanged;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new System.Drawing.Point(234, 9);
-            label10.Name = "label10";
-            label10.Size = new System.Drawing.Size(54, 15);
-            label10.TabIndex = 0;
-            label10.Text = "Personas";
             // 
             // MicrophonePanel
             // 
@@ -912,10 +1019,12 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            OpenAIChatGPTPanel.ResumeLayout(false);
-            OpenAIChatGPTPanel.PerformLayout();
             PersonasPanel.ResumeLayout(false);
             PersonasPanel.PerformLayout();
+            ElevenLabsPanel.ResumeLayout(false);
+            ElevenLabsPanel.PerformLayout();
+            OpenAIChatGPTPanel.ResumeLayout(false);
+            OpenAIChatGPTPanel.PerformLayout();
             MicrophonePanel.ResumeLayout(false);
             MicrophonePanel.PerformLayout();
             TwitchPanel.ResumeLayout(false);
@@ -961,7 +1070,7 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox TTSProviderComboBox;
         private System.Windows.Forms.ComboBox TTSOutputVoiceOption1;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label TTSOption1Label;
         private System.Windows.Forms.ComboBox TTSOutputVoice;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button DeletePersona;
@@ -1002,5 +1111,14 @@
         private System.Windows.Forms.Label TwitchChannelNameLabel;
         private System.Windows.Forms.Label TwitchAccesstokenLabel;
         private System.Windows.Forms.ToolTip BBBToolTip;
+        private System.Windows.Forms.Panel ElevenLabsPanel;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button ElevenLabsTestButton;
+        private System.Windows.Forms.TextBox ElevenlabsAPIKeyTextBox;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox TTSOutputVoiceOption3;
+        private System.Windows.Forms.Label TTSOption3Label;
+        private System.Windows.Forms.ComboBox TTSOutputVoiceOption2;
+        private System.Windows.Forms.Label TTSOption2Label;
     }
 }

@@ -502,5 +502,17 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchAutoStart"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ElevenLabsAPIkey {
+            get {
+                return ((string)(this["ElevenLabsAPIkey"]));
+            }
+            set {
+                this["ElevenLabsAPIkey"] = value;
+            }
+        }
     }
 }

@@ -547,16 +547,34 @@ namespace BanterBrain_Buddy
             } else if (tmpPersona.VoiceProvider == "OpenAI Whisper")
             {
                 await TTSGPTSpeakToOutput(TextToSay, tmpPersona);
+            } else if (tmpPersona.VoiceProvider == "ElevenLabs")
+            {
+                await TTSElevenLabsSpeakToOutput(TextToSay, tmpPersona);
             }
+
             await Task.Delay(DelayWhenDone);
             _tTSSpeaking = false;
         }
 
         [SupportedOSPlatform("windows6.1")]
+        private async Task TTSElevenLabsSpeakToOutput(string TextToSay, Personas tmpPersona)
+        {
+            UpdateTextLog("Saying text with ElevenLabs TTS\r\n");
+            _bBBlog.Info("Saying text with ElevenLabs TTS");
+            ElLabs elLabs = new(Properties.Settings.Default.ElevenLabsAPIkey);
+            var result = await elLabs.ElevenLabsTTS(TextToSay, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName, int.Parse(tmpPersona.VoiceOptions[0]), int.Parse(tmpPersona.VoiceOptions[1]), int.Parse(tmpPersona.VoiceOptions[2]));
+            if (!result)
+            {
+                _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
+                MessageBox.Show("ElevenLabs TTS error. Is there a problem with your API key or subscription?", "ElevenLabs TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
         private async Task TTSGPTSpeakToOutput(string TextToSpeak, Personas tmpPersona)
         {
-            UpdateTextLog("Saying text with GPT TTS\r\n");
-            _bBBlog.Info("Saying text with GPT TTS");
+            UpdateTextLog("Saying text with OpenAI TTS\r\n");
+            _bBBlog.Info("Saying text with OpenAI TTS");
             OpenAI openAI = new();
             await openAI.OpenAITTS(TextToSpeak, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName);
         }
@@ -728,6 +746,18 @@ namespace BanterBrain_Buddy
             }
             Subscribe();
 
+            //test if teh API key for ElevenLabs is set and valid
+            if (Properties.Settings.Default.ElevenLabsAPIkey.Length > 1)
+            {
+                //call test api key for elevenlabs
+                ElLabs elevenLabsApi = new(Properties.Settings.Default.ElevenLabsAPIkey);
+                if (await elevenLabsApi.ElevenLabsAPIKeyTest())
+                {
+                    _bBBlog.Info("ElevenLabs API key is valid");
+                    UpdateTextLog("ElevenLabs API key is valid.\r\n");
+                }
+            }
+
             //lets check if the selected OpenAI API key is valid   
             if (Properties.Settings.Default.SelectedLLM == "GPT")
             {
@@ -743,8 +773,6 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Error("GPT API is selected but key is invalid invalid. \r\n");
                     UpdateTextLog("OpenAI ChatGPT is selected as LLM but key is invalid. \r\n");
-                 //   _twitchAPIVerified = false;
-                  //  TwitchStartButton.Enabled = false;
                 }
 
             }
@@ -1033,16 +1061,19 @@ namespace BanterBrain_Buddy
         /// To write to TextLog irregardless of thread
         public void UpdateTextLog(string TextToAppend)
         {
-            if (!InvokeRequired)
+            if (!InvokeRequired && TextLog != null)
             {
                 TextLog.AppendText(TextToAppend);
             }
-            else
+            else if (TextLog != null)
             {
                 Invoke(new Action(() =>
                 {
                     TextLog.AppendText(TextToAppend);
                 }));
+            } else if (TextLog == null)
+            {
+                _bBBlog.Error("TextLog is null, cannot write to it");
             }
         }
 

@@ -59,6 +59,7 @@
     <Content Include="frog_119582.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ElevenLabs-DotNet" Version="2.1.1" />
     <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.37.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
@@ -66,7 +67,7 @@
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="OpenAI" Version="1.11.0" />
     <PackageReference Include="System.Speech" Version="9.0.0-preview.3.24172.9" />
-    <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-42dbe49" />
+    <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-aafc9bc" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
     <PackageReference Include="TwitchLib.EventSub.Websockets" Version="0.5.0" />
   </ItemGroup>
