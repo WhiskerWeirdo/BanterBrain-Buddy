@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-
+        [SupportedOSPlatform("windows6.1")]
         public async Task<bool> ElevenLabsTTS(string text, string outputDevice, string tmpVoice, int similarity, int stability, int style)
         {
             var api = new ElevenLabsClient(_elevelLabsAPIKey);

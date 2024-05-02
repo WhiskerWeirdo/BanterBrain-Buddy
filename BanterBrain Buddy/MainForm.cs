@@ -732,6 +732,33 @@ namespace BanterBrain_Buddy
             TwitchSubscriptionPersonaComboBox.SelectedIndex = TwitchSubscriptionPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchSubscriptionPersona);
             TwitchChatPersonaComboBox.SelectedIndex = TwitchChatPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChatPersona);
 
+            //check twitch key
+            _bBBlog.Info("Checking Twitch API key");
+            if (Properties.Settings.Default.TwitchAccessToken.Length > 1)
+            {
+                _bBBlog.Info("Twitch API key is set");
+                UpdateTextLog("Twitch API key is set.\r\n");
+                //lets check if the key is valid
+                TwitchAPIESub twitchAPI = new();
+                if (await twitchAPI.ValidateAccessToken(Properties.Settings.Default.TwitchAccessToken))
+                {
+                    _bBBlog.Info("Twitch API key is valid");
+                    UpdateTextLog("Twitch API key is valid.\r\n");
+                    _twitchAPIVerified = true;
+                    TwitchStartButton.Enabled = true;
+                }
+                else
+                {
+                    _bBBlog.Error("Twitch API key is invalid");
+                    UpdateTextLog("Twitch API key is invalid.\r\n");
+                    TwitchStartButton.Enabled = false;
+                }
+            }
+            else
+            {
+                _bBBlog.Error("Twitch API key is not set");
+                UpdateTextLog("Twitch API key is not set.\r\n");
+            }
 
             //load HotkeyList into _setHotkeys
             //convert string to a list
@@ -1473,6 +1500,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchStartButton_Click(object sender, EventArgs e)
         {
+
             if (!_twitchAPIVerified)
             {
                 MessageBox.Show("Twitch API key is invalid. Please check the settings.", "Twitch API error", MessageBoxButtons.OK, MessageBoxIcon.Error);
