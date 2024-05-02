@@ -75,7 +75,9 @@ namespace BanterBrain_Buddy
             TTSProviderComboBox.SelectedValueChanged -= TTSProviderComboBox_SelectedValueChanged;
             TTSOutputVoice.SelectedValueChanged -= TTSOutputVoice_SelectedValueChanged;
             TTSOutputVoiceOption1.SelectedIndexChanged -= TTSOutputVoiceOption1_SelectedIndexChanged;
-
+            TTSOutputVoiceOption1.TextChanged -= TTSOutputVoiceOption1_TextChanged;
+            TTSOutputVoiceOption2.TextChanged -= TTSOutputVoiceOption2_TextChanged;
+            TTSOutputVoiceOption3.TextChanged -= TTSOutputVoiceOption3_TextChanged;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -88,6 +90,10 @@ namespace BanterBrain_Buddy
             TTSProviderComboBox.SelectedValueChanged += TTSProviderComboBox_SelectedValueChanged;
             TTSOutputVoice.SelectedValueChanged += TTSOutputVoice_SelectedValueChanged;
             TTSOutputVoiceOption1.SelectedIndexChanged += TTSOutputVoiceOption1_SelectedIndexChanged;
+            TTSOutputVoiceOption1.TextChanged += TTSOutputVoiceOption1_TextChanged;
+            TTSOutputVoiceOption2.TextChanged += TTSOutputVoiceOption2_TextChanged;
+            TTSOutputVoiceOption3.TextChanged += TTSOutputVoiceOption3_TextChanged;
+
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -312,7 +318,8 @@ namespace BanterBrain_Buddy
                 //clear and fill the option box with voices
                 await TTSGetNativeVoices();
                 await TTSFillNativeVoicesList();
-            } else if (TTSProviderComboBox.Text == "ElevenLabs")
+            }
+            else if (TTSProviderComboBox.Text == "ElevenLabs")
             {
                 TTSOutputVoice.Text = "";
                 TTSOutputVoiceOption1.Visible = true;
@@ -381,7 +388,7 @@ namespace BanterBrain_Buddy
         private async Task LoadPersonas()
         {
             PersonaComboBox.Items.Clear();
-            var tmpFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\personas.json";
+            var tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\personas.json";
             if (!File.Exists(tmpFile))
             {
                 _bBBlog.Debug("Personas file not found, creating it");
@@ -522,7 +529,7 @@ namespace BanterBrain_Buddy
 
             }
             //and write the file
-            var tmpFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\personas.json";
+            var tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\personas.json";
             _bBBlog.Debug("Writing personas to file: " + _personas.Count);
             using (var sw = new StreamWriter(tmpFile, false))
             {
@@ -751,7 +758,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async Task TTSElevenLabsSpeakToOutput (string TextToSay)
+        private async Task TTSElevenLabsSpeakToOutput(string TextToSay)
         {
             ElLabs elLabs = new(ElevenlabsAPIKeyTextBox.Text);
             var result = await elLabs.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text));
@@ -1100,7 +1107,7 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Debug("Voice options found, loading them into the combo box");
                 if (TTSProviderComboBox.Text == "Azure")
-                    TTSOutputVoiceOption1.SelectedIndex= TTSOutputVoiceOption1.FindStringExact(selectedPersona.VoiceOptions[0]);
+                    TTSOutputVoiceOption1.SelectedIndex = TTSOutputVoiceOption1.FindStringExact(selectedPersona.VoiceOptions[0]);
                 if (TTSProviderComboBox.Text == "ElevenLabs")
                 {
                     _bBBlog.Debug("Persona Elevenlabs voice options found, loading them into the combo box");
@@ -1109,12 +1116,12 @@ namespace BanterBrain_Buddy
                     TTSOutputVoiceOption2.Text = selectedPersona.VoiceOptions[1];
                     TTSOutputVoiceOption3.Text = selectedPersona.VoiceOptions[2];
                 }
-                    /*
-            foreach (var voiceOption in selectedPersona.VoiceOptions)
-            {
-                _bBBlog.Debug("Adding voice option: " + voiceOption);
-                TTSOutputVoiceOption1.SelectedIndex = TTSOutputVoiceOption1.FindStringExact(voiceOption);
-            }*/
+                /*
+        foreach (var voiceOption in selectedPersona.VoiceOptions)
+        {
+            _bBBlog.Debug("Adding voice option: " + voiceOption);
+            TTSOutputVoiceOption1.SelectedIndex = TTSOutputVoiceOption1.FindStringExact(voiceOption);
+        }*/
             }
             if (PersonaComboBox.Text == "Default")
             {
@@ -1242,7 +1249,7 @@ namespace BanterBrain_Buddy
         {
             //call test api key for elevenlabs
             ElLabs elevenLabsApi = new(ElevenlabsAPIKeyTextBox.Text);
-           
+
             if (await elevenLabsApi.ElevenLabsAPIKeyTest())
             {
                 _bBBlog.Info("ElevenLabs API key is valid");
@@ -1252,6 +1259,38 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Error("ElevenLabs API key is invalid");
                 MessageBox.Show("ElevenLabs API key is invalid", "ElevenLabs API Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TTSOutputVoiceOption1_TextChanged(object sender, EventArgs e)
+        {
+            if (PersonasPanel.Visible && TTSOutputVoiceOption1.DropDownStyle == ComboBoxStyle.Simple)
+            {
+                _bBBlog.Debug("Persona voice option1 changed");
+                SavePersona.Enabled = true;
+                _personaEdited = true;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TTSOutputVoiceOption2_TextChanged(object sender, EventArgs e)
+        {
+            if (PersonasPanel.Visible && TTSOutputVoiceOption2.DropDownStyle == ComboBoxStyle.Simple)
+            {
+                _bBBlog.Debug("Persona voice option2 changed");
+                SavePersona.Enabled = true;
+                _personaEdited = true;
+            }
+        }
+
+        private void TTSOutputVoiceOption3_TextChanged(object sender, EventArgs e)
+        {
+            if (PersonasPanel.Visible && TTSOutputVoiceOption3.DropDownStyle == ComboBoxStyle.Simple)
+            {
+                _bBBlog.Debug("Persona voice option3 changed");
+                SavePersona.Enabled = true;
+                _personaEdited = true;
             }
         }
     }

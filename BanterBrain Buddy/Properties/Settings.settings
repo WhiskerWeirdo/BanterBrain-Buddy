@@ -6,7 +6,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="PTTHotkey" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">LControlKey + D</Value>
     </Setting>
     <Setting Name="GPTModel" Type="System.String" Scope="User">
       <Value Profile="(Default)">gpt-3.5-turbo</Value>

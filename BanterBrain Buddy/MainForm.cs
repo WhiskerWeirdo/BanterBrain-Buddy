@@ -74,20 +74,56 @@ namespace BanterBrain_Buddy
             _twitchValidateCheckStarted = false;
 
             InitializeComponent();
+            SetupConfigFiles();
             LoadPersonas();
 
             _bBBlog.Info("Program Starting...");
-
 
             UpdateTextLog("Program Starting...\r\n");
             //TODO: verify API token first
 
             if (TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchAccessToken.Length > 1)
                 SetTwitchValidateTokenTimer(true);
+
             CheckConfiguredSTTProviders();
             LoadSettings();
             SetSelectedSTTProvider();
             Subscribe();
+        }
+
+        //this is to make sure config files are writable, in the correct %APPDATA%\BanterBrain folder and can be read and write
+        [SupportedOSPlatform("windows6.1")]
+        private void SetupConfigFiles()
+        {
+            //check if the folder exists, if not, create it
+ 
+            string appdataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain";
+            if (!Directory.Exists(appdataFolder))
+            {
+                _bBBlog.Info("Creating BanterBrain folder in %APPDATA% because it does not exist");
+                Directory.CreateDirectory(appdataFolder);
+            }
+
+            //copy from install folder to %APPDATA%\BanterBrain
+            string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            //check if the settings file exists, if not, copy it
+            string tmpFile = appdataFolder + "\\settings.json";
+            if (!File.Exists(tmpFile))
+            {
+                _bBBlog.Debug("Copying settings.json file to appdata");
+                File.Copy(sourcefolder + "\\settings.json", tmpFile);
+            }
+            //check if the personas file exists, if not, create it
+            tmpFile = appdataFolder + "\\personas.json";
+            if (!File.Exists(tmpFile) && File.Exists(sourcefolder + "\\personas.json"))
+            {
+                _bBBlog.Debug("Copying personas.json file appdata");
+                File.Copy(sourcefolder + "\\personas.json", tmpFile);
+            } else
+            {
+                _bBBlog.Debug("Personas file not found in install folder. It will be created later.");
+            }
         }
 
         //we need to do this so we fill the default saved value only after the API voices are checked
@@ -128,7 +164,7 @@ namespace BanterBrain_Buddy
         private async void LoadPersonas()
         {
 
-            var tmpFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\personas.json";
+            var tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\personas.json";
             if (!File.Exists(tmpFile))
             {
                 _bBBlog.Debug("Personas file not found, creating it");
@@ -340,8 +376,6 @@ namespace BanterBrain_Buddy
         }
 
 
-        [SupportedOSPlatform("windows6.1")]
-
 
         [SupportedOSPlatform("windows6.1")]
         private async Task InputStreamtoWav()
@@ -350,12 +384,6 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug("Selected audio input device for Audio to Wav: " + Properties.Settings.Default.VoiceInput);
 
             string tmpWavFile = System.IO.Path.GetTempPath() + $"{Guid.NewGuid()}.wav";
-            //check if directory exists and if not, create it
-            if (!Directory.Exists(Path.GetDirectoryName(tmpWavFile)))
-            {
-                _bBBlog.Debug("Creating temp directory: " + Path.GetDirectoryName(tmpWavFile));
-                Directory.CreateDirectory(Path.GetDirectoryName(tmpWavFile));
-            }
 
             var recordingDevice = 0;
             for (int i = 0; i < NAudio.Wave.WaveIn.DeviceCount; i++)
@@ -731,6 +759,26 @@ namespace BanterBrain_Buddy
             TwitchSubscriptionPersonaComboBox.SelectedIndex = TwitchSubscriptionPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchSubscriptionPersona);
             TwitchChatPersonaComboBox.SelectedIndex = TwitchChatPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChatPersona);
 
+            //check if theres a speaker selected if not select the default onne
+            if (Properties.Settings.Default.TTSAudioOutput.Length < 1)
+            {
+                _bBBlog.Info("No audio output selected, setting to default");
+                var enumerator = new MMDeviceEnumerator();
+                enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Console);
+                Properties.Settings.Default.TTSAudioOutput = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Console).FriendlyName;
+                Properties.Settings.Default.Save();
+            }
+
+            //check if thers a default microphone selected, if not, select the default one
+            if (Properties.Settings.Default.VoiceInput.Length < 1)
+            {
+                _bBBlog.Info("No microphone selected, setting to default");
+                var enumerator = new MMDeviceEnumerator();
+                enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Console);
+                Properties.Settings.Default.VoiceInput = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Console).FriendlyName;
+                Properties.Settings.Default.Save();
+            }
+
             //check twitch key
             _bBBlog.Info("Checking Twitch API key");
             if (Properties.Settings.Default.TwitchAccessToken.Length > 1)
@@ -760,18 +808,23 @@ namespace BanterBrain_Buddy
             }
 
             //load HotkeyList into _setHotkeys
-            //convert string to a list
-            //Unsubscribe();
-            _bBBlog.Info($"Loading hotkeys: {Properties.Settings.Default.PTTHotkey}");
-            UpdateTextLog("PPT hotkey: " + Properties.Settings.Default.PTTHotkey + "\r\n");
-            var hotKeys = Properties.Settings.Default.PTTHotkey.Split('+').ToList();
-            _setHotkeys.Clear();
-            foreach (var key in hotKeys)
+            if (Properties.Settings.Default.PTTHotkey.Length < 1)
             {
-                _setHotkeys.Add((Keys)Enum.Parse(typeof(Keys), key));
+                _bBBlog.Info("No hotkey set");
             }
-            Subscribe();
-
+            else
+            {
+                _bBBlog.Info($"Loading hotkeys: {Properties.Settings.Default.PTTHotkey}");
+                UpdateTextLog("PPT hotkey: " + Properties.Settings.Default.PTTHotkey + "\r\n");
+                _bBBlog.Info("Hotkey set");
+                var hotKeys = Properties.Settings.Default.PTTHotkey.Split('+').ToList();
+                _setHotkeys.Clear();
+                foreach (var key in hotKeys)
+                {
+                    _setHotkeys.Add((Keys)Enum.Parse(typeof(Keys), key));
+                }
+                Subscribe();
+            }
             //test if teh API key for ElevenLabs is set and valid
             if (Properties.Settings.Default.ElevenLabsAPIkey.Length > 1)
             {
@@ -855,6 +908,7 @@ namespace BanterBrain_Buddy
             System.Windows.Forms.Application.Exit();
         }
 
+        /*
         [SupportedOSPlatform("windows6.1")]
         public void ShowHotkeyDialogBox()
         {
@@ -891,11 +945,17 @@ namespace BanterBrain_Buddy
             Unsubscribe();
             ShowHotkeyDialogBox();
         }
+        */
 
         [SupportedOSPlatform("windows6.1")]
         //Keyboard hooks
         public void Unsubscribe()
         {
+            if (_setHotkeys.Count < 1)
+            {
+                _bBBlog.Info("No hotkeys set, not unsubscribing");
+                return;
+            }
             m_GlobalHook.KeyDown -= GlobalHookKeyDown;
             m_GlobalHook.KeyUp -= GlobalHookKeyUp;
             //It is recommened to dispose it
@@ -903,8 +963,13 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        public  async void Subscribe()
+        public async void Subscribe()
         {
+            if (_setHotkeys.Count < 1)
+            {
+                _bBBlog.Info("No hotkeys set, not subscribing");
+                return;
+            }
             _bBBlog.Info("Subscribing to hotkeys");
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyDown += GlobalHookKeyDown;
@@ -1088,8 +1153,14 @@ namespace BanterBrain_Buddy
         public void UpdateTextLog(string TextToAppend)
         {
             if (!InvokeRequired && TextLog != null)
-            {
-                TextLog.AppendText(TextToAppend);
+            { try
+                {
+                    TextLog.AppendText(TextToAppend);
+                }
+                catch (Exception ex)
+                {
+                    _bBBlog.Error("Error writing to TextLog: " + ex.Message);
+                }
             }
             else if (TextLog != null)
             {
