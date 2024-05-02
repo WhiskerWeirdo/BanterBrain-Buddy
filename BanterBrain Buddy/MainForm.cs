@@ -341,7 +341,6 @@ namespace BanterBrain_Buddy
 
 
         [SupportedOSPlatform("windows6.1")]
-       // readonly private string _tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\tmp.wav";
 
 
         [SupportedOSPlatform("windows6.1")]
@@ -350,7 +349,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("STT microphone start.");
             _bBBlog.Debug("Selected audio input device for Audio to Wav: " + Properties.Settings.Default.VoiceInput);
 
-            string tmpWavFile = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + $"\\tmp\\{Guid.NewGuid()}.wav";
+            string tmpWavFile = System.IO.Path.GetTempPath() + $"{Guid.NewGuid()}.wav";
             //check if directory exists and if not, create it
             if (!Directory.Exists(Path.GetDirectoryName(tmpWavFile)))
             {
