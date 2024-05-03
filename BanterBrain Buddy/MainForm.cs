@@ -89,6 +89,7 @@ namespace BanterBrain_Buddy
             LoadSettings();
             SetSelectedSTTProvider();
             Subscribe();
+
         }
 
         //this is to make sure config files are writable, in the correct %APPDATA%\BanterBrain folder and can be read and write
@@ -135,7 +136,16 @@ namespace BanterBrain_Buddy
             await Task.Delay(1000);
             try
             {
-                STTSelectedComboBox.SelectedIndex = STTSelectedComboBox.FindStringExact(Properties.Settings.Default.STTSelectedProvider);
+                if (Properties.Settings.Default.STTSelectedProvider.Length < 1 )
+                {
+                    _bBBlog.Debug("Setting STT provider to default");
+                    STTSelectedComboBox.SelectedIndex = 0;
+                    //Oh, we in first install we should reload personas then too just to make sure the mainscreen persona dropdown is filled
+                    LoadPersonas();
+                    if (BroadcasterSelectedPersonaComboBox.SelectedIndex == -1)
+                        BroadcasterSelectedPersonaComboBox.SelectedIndex = 0;
+                } else
+                    STTSelectedComboBox.SelectedIndex = STTSelectedComboBox.FindStringExact(Properties.Settings.Default.STTSelectedProvider);
             }
             catch (Exception ex)
             {
