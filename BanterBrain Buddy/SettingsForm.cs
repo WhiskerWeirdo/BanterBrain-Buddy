@@ -1267,7 +1267,6 @@ namespace BanterBrain_Buddy
         {
             if (PersonasPanel.Visible && TTSOutputVoiceOption1.DropDownStyle == ComboBoxStyle.Simple)
             {
-                _bBBlog.Debug("Persona voice option1 changed");
                 SavePersona.Enabled = true;
                 _personaEdited = true;
             }
@@ -1278,17 +1277,16 @@ namespace BanterBrain_Buddy
         {
             if (PersonasPanel.Visible && TTSOutputVoiceOption2.DropDownStyle == ComboBoxStyle.Simple)
             {
-                _bBBlog.Debug("Persona voice option2 changed");
                 SavePersona.Enabled = true;
                 _personaEdited = true;
             }
         }
 
+        [SupportedOSPlatform("windows6.1")]
         private void TTSOutputVoiceOption3_TextChanged(object sender, EventArgs e)
         {
             if (PersonasPanel.Visible && TTSOutputVoiceOption3.DropDownStyle == ComboBoxStyle.Simple)
             {
-                _bBBlog.Debug("Persona voice option3 changed");
                 SavePersona.Enabled = true;
                 _personaEdited = true;
             }

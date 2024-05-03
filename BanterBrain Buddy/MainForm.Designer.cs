@@ -45,7 +45,7 @@ namespace BanterBrain_Buddy
             TwitchStatusLabel = new Label();
             TextLog = new TextBox();
             BBBTabs = new TabControl();
-            StreaminSettingsTab = new TabPage();
+            StreamingSettingsTab = new TabPage();
             groupBox4 = new GroupBox();
             TwitchAutoStart = new CheckBox();
             TwitchStartButton = new Button();
@@ -89,7 +89,7 @@ namespace BanterBrain_Buddy
             groupBox2.SuspendLayout();
             groupBox7.SuspendLayout();
             BBBTabs.SuspendLayout();
-            StreaminSettingsTab.SuspendLayout();
+            StreamingSettingsTab.SuspendLayout();
             groupBox4.SuspendLayout();
             TwitchChannelPointsSettings.SuspendLayout();
             TwitchSubscriberSettings.SuspendLayout();
@@ -191,16 +191,16 @@ namespace BanterBrain_Buddy
             // 
             resources.ApplyResources(BBBTabs, "BBBTabs");
             BBBTabs.Controls.Add(MainTab);
-            BBBTabs.Controls.Add(StreaminSettingsTab);
+            BBBTabs.Controls.Add(StreamingSettingsTab);
             BBBTabs.Name = "BBBTabs";
             BBBTabs.SelectedIndex = 0;
             // 
-            // StreaminSettingsTab
+            // StreamingSettingsTab
             // 
-            StreaminSettingsTab.Controls.Add(groupBox4);
-            resources.ApplyResources(StreaminSettingsTab, "StreaminSettingsTab");
-            StreaminSettingsTab.Name = "StreaminSettingsTab";
-            StreaminSettingsTab.UseVisualStyleBackColor = true;
+            StreamingSettingsTab.Controls.Add(groupBox4);
+            resources.ApplyResources(StreamingSettingsTab, "StreamingSettingsTab");
+            StreamingSettingsTab.Name = "StreamingSettingsTab";
+            StreamingSettingsTab.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
@@ -251,6 +251,7 @@ namespace BanterBrain_Buddy
             TwitchChannelPointPersonaComboBox.FormattingEnabled = true;
             resources.ApplyResources(TwitchChannelPointPersonaComboBox, "TwitchChannelPointPersonaComboBox");
             TwitchChannelPointPersonaComboBox.Name = "TwitchChannelPointPersonaComboBox";
+            TwitchChannelPointPersonaComboBox.SelectedIndexChanged += TwitchChannelPointPersonaComboBox_SelectedIndexChanged;
             // 
             // label9
             // 
@@ -306,6 +307,7 @@ namespace BanterBrain_Buddy
             TwitchSubscriptionPersonaComboBox.FormattingEnabled = true;
             resources.ApplyResources(TwitchSubscriptionPersonaComboBox, "TwitchSubscriptionPersonaComboBox");
             TwitchSubscriptionPersonaComboBox.Name = "TwitchSubscriptionPersonaComboBox";
+            TwitchSubscriptionPersonaComboBox.SelectedIndexChanged += TwitchSubscriptionPersonaComboBox_SelectedIndexChanged;
             // 
             // TwitchSubscribed
             // 
@@ -337,6 +339,7 @@ namespace BanterBrain_Buddy
             TwitchCheeringPersonaComboBox.FormattingEnabled = true;
             resources.ApplyResources(TwitchCheeringPersonaComboBox, "TwitchCheeringPersonaComboBox");
             TwitchCheeringPersonaComboBox.Name = "TwitchCheeringPersonaComboBox";
+            TwitchCheeringPersonaComboBox.SelectedIndexChanged += TwitchCheeringPersonaComboBox_SelectedIndexChanged;
             // 
             // TwitchCheerCheckBox
             // 
@@ -381,6 +384,7 @@ namespace BanterBrain_Buddy
             TwitchChatPersonaComboBox.FormattingEnabled = true;
             resources.ApplyResources(TwitchChatPersonaComboBox, "TwitchChatPersonaComboBox");
             TwitchChatPersonaComboBox.Name = "TwitchChatPersonaComboBox";
+            TwitchChatPersonaComboBox.SelectedIndexChanged += TwitchChatPersonaComboBox_SelectedIndexChanged;
             // 
             // TwitchReadChatCheckBox
             // 
@@ -479,7 +483,7 @@ namespace BanterBrain_Buddy
             groupBox2.ResumeLayout(false);
             groupBox7.ResumeLayout(false);
             BBBTabs.ResumeLayout(false);
-            StreaminSettingsTab.ResumeLayout(false);
+            StreamingSettingsTab.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             TwitchChannelPointsSettings.ResumeLayout(false);
@@ -507,7 +511,7 @@ namespace BanterBrain_Buddy
         private ToolStripMenuItem GithubToolStripMenuItem;
         private ToolStripMenuItem DiscordToolStripMenuItem;
         private MenuStrip menuStrip1;
-        private TabPage StreaminSettingsTab;
+        private TabPage StreamingSettingsTab;
         private GroupBox groupBox4;
         private TextBox TwitchAPIStatusTextBox;
         private Label TwitchStatusLabel;

@@ -1286,36 +1286,36 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>StreaminSettingsTab</value>
+    <value>StreamingSettingsTab</value>
   </data>
   <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="StreaminSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="StreamingSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 24</value>
   </data>
-  <data name="StreaminSettingsTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="StreamingSettingsTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
-  <data name="StreaminSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="StreamingSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
     <value>686, 477</value>
   </data>
-  <data name="StreaminSettingsTab.TabIndex" type="System.Int32, mscorlib">
+  <data name="StreamingSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="StreaminSettingsTab.Text" xml:space="preserve">
+  <data name="StreamingSettingsTab.Text" xml:space="preserve">
     <value>Streaming Settings</value>
   </data>
-  <data name="&gt;&gt;StreaminSettingsTab.Name" xml:space="preserve">
-    <value>StreaminSettingsTab</value>
+  <data name="&gt;&gt;StreamingSettingsTab.Name" xml:space="preserve">
+    <value>StreamingSettingsTab</value>
   </data>
-  <data name="&gt;&gt;StreaminSettingsTab.Type" xml:space="preserve">
+  <data name="&gt;&gt;StreamingSettingsTab.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;StreaminSettingsTab.Parent" xml:space="preserve">
+  <data name="&gt;&gt;StreamingSettingsTab.Parent" xml:space="preserve">
     <value>BBBTabs</value>
   </data>
-  <data name="&gt;&gt;StreaminSettingsTab.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;StreamingSettingsTab.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="BBBTabs.Location" type="System.Drawing.Point, System.Drawing">
