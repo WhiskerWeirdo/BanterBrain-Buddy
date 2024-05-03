@@ -182,10 +182,11 @@ namespace BanterBrain_Buddy
             ElevenlabsAPIKeyTextBox.Text = Properties.Settings.Default.ElevenLabsAPIkey;
             OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
             UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
-            if (Properties.Settings.Default.SelectedLLM == "GPT")
-            {
-                UseGPTLLMCheckBox.Checked = true;
-            }
+            OllamaResponseLengthComboBox.SelectedIndex = OllamaResponseLengthComboBox.FindStringExact(Properties.Settings.Default.OllamaResponseLengthComboBox);
+            //    if (Properties.Settings.Default.SelectedLLM == "GPT")
+            //   {
+            //       UseGPTLLMCheckBox.Checked = true;
+            //   }
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -220,14 +221,15 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
             Properties.Settings.Default.OllamaSelectedModel = OllamaModelsComboBox.Text;
             Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
-            if (UseGPTLLMCheckBox.Checked)
-            {
-                Properties.Settings.Default.SelectedLLM = "GPT";
-            }
-            else
-            {
-                Properties.Settings.Default.SelectedLLM = "None";
-            }
+            Properties.Settings.Default.OllamaResponseLengthComboBox = OllamaResponseLengthComboBox.Text;
+            /*   if (UseGPTLLMCheckBox.Checked)
+               {
+                   Properties.Settings.Default.SelectedLLM = "GPT";
+               }
+               else
+               {
+                   Properties.Settings.Default.SelectedLLM = "None";
+               }*/
             Properties.Settings.Default.Save();
 
             //we should also close the EventSub client if it is running
@@ -624,7 +626,6 @@ namespace BanterBrain_Buddy
 
             AzureSpeechAPI AzureSpeech = new(AzureAPIKeyTextBox.Text, AzureRegionTextBox.Text, AzureLanguageComboBox.Text);
             _tTSAzureVoicesList = await AzureSpeech.TTSGetAzureVoices();
-            _bBBlog.Info($"Found Azure voices: {_tTSAzureVoicesList.Count} ");
             if (_tTSAzureVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?", "Azure API Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1307,7 +1308,8 @@ namespace BanterBrain_Buddy
                 OllamaTestButton.Enabled = false;
                 OllamaLLM ollama = new(OllamaURITextBox.Text);
                 //var installedModels = ollama.OllamaLLMGetModels();
-                var result = await ollama.OllamaGetResponse("how are you doing?", OllamaModelsComboBox.Text);
+             
+                var result = await ollama.OllamaGetResponse("this is a test!", OllamaModelsComboBox.Text);
                 _bBBlog.Debug("Ollama test result: " + result);
                 OllamaTestButton.Enabled = true;
                 MessageBox.Show("Ollama works!", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -550,5 +550,17 @@ namespace BanterBrain_Buddy.Properties {
                 this["UseOllamaLLMCheckBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public string OllamaResponseLengthComboBox {
+            get {
+                return ((string)(this["OllamaResponseLengthComboBox"]));
+            }
+            set {
+                this["OllamaResponseLengthComboBox"] = value;
+            }
+        }
     }
 }

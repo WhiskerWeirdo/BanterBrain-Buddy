@@ -81,15 +81,103 @@ namespace BanterBrain_Buddy
 
             UpdateTextLog("Program Starting...\r\n");
             //TODO: verify API token first
+            Startup();
 
+
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void Startup()
+        {
+
+            //loading the settings, this might take a bit
+            _bBBlog.Info("Loading settings...");
+            UpdateTextLog("Loading settings...Please wait\r\n");
+            BBBTabs.Enabled = false;
             if (TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchAccessToken.Length > 1)
                 SetTwitchValidateTokenTimer(true);
 
-            CheckConfiguredSTTProviders();
-            LoadSettings();
-            SetSelectedSTTProvider();
+            await CheckConfiguredSTTProviders();
+            await CheckConfiguredLLMProviders();
+            await LoadSettings();
+            await SetSelectedSTTProvider();
+            SetSelectedLLMProvider();
             Subscribe();
+            UpdateTextLog("Settings loaded.\r\n\r\n");
+            BBBTabs.Enabled = true;
+        }
 
+        [SupportedOSPlatform("windows6.1")]
+        private void SetSelectedLLMProvider()
+        {
+            _bBBlog.Debug("Setting selected LLM provider");
+            _bBBlog.Debug("LLM count: " + LLMResponseSelecter.Items.Count);
+            if (Properties.Settings.Default.SelectedLLM.Length > 1)
+            {
+                _bBBlog.Debug("Setting LLM to saved value: " + Properties.Settings.Default.SelectedLLM);
+                LLMResponseSelecter.SelectedIndex = LLMResponseSelecter.FindStringExact(Properties.Settings.Default.SelectedLLM);
+                if (LLMResponseSelecter.SelectedIndex == -1)
+                {
+                    _bBBlog.Error("Selected LLM not found in list, setting to first in list");
+                    LLMResponseSelecter.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                //ok then we just load the first one we can find in the list!
+                if (LLMResponseSelecter.Items.Count > 0)
+                {
+                    _bBBlog.Debug("Setting LLM to first in list");
+                    LLMResponseSelecter.SelectedIndex = 0;
+                }
+            }
+
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        //here we check what LLM's are available and add them to the LLMResponseSelecter list 
+        private async Task CheckConfiguredLLMProviders()
+        {
+            //check GPT
+            if (Properties.Settings.Default.GPTAPIKey.Length > 1)
+            {
+                try
+                {
+                    OpenAI openAI = new();
+                    if (openAI.OpenAICheckAPIKey())
+                    {
+                        LLMResponseSelecter.Items.Add("ChatGPT");
+                        _bBBlog.Info("GPT API setting valid, adding to list");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _bBBlog.Error("Error checking GPT API key: " + ex.Message);
+                }
+            }
+            //check Ollama  
+            if (Properties.Settings.Default.OllamaURI.Length > 1)
+            {
+                try
+                {
+                    OllamaLLM ollamaLLM = new(Properties.Settings.Default.OllamaURI);
+                    if (await ollamaLLM.OllamaVerify())
+                    {
+                        LLMResponseSelecter.Items.Add("Ollama");
+                        _bBBlog.Info("Ollama setting valid, adding to list");
+                        UpdateTextLog("Ollama API setting valid.\r\n");
+                    }
+                    else
+                    {
+                        _bBBlog.Error("Ollama API setting invalid or not running");
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    _bBBlog.Error("Error checking Ollama API key: " + ex.Message);
+                }
+            }
         }
 
         //this is to make sure config files are writable, in the correct %APPDATA%\BanterBrain folder and can be read and write
@@ -130,13 +218,13 @@ namespace BanterBrain_Buddy
 
         //we need to do this so we fill the default saved value only after the API voices are checked
         [SupportedOSPlatform("windows6.1")]
-        private async void SetSelectedSTTProvider()
+        private async Task SetSelectedSTTProvider()
         {
             //TODO: check if the selected provider is still valid
             await Task.Delay(1000);
             try
             {
-                if (Properties.Settings.Default.STTSelectedProvider.Length < 1 )
+                if (Properties.Settings.Default.STTSelectedProvider.Length < 1)
                 {
                     _bBBlog.Debug("Setting STT provider to default");
                     STTSelectedComboBox.SelectedIndex = 0;
@@ -144,7 +232,8 @@ namespace BanterBrain_Buddy
                     LoadPersonas();
                     if (BroadcasterSelectedPersonaComboBox.SelectedIndex == -1)
                         BroadcasterSelectedPersonaComboBox.SelectedIndex = 0;
-                } else
+                }
+                else
                     STTSelectedComboBox.SelectedIndex = STTSelectedComboBox.FindStringExact(Properties.Settings.Default.STTSelectedProvider);
             }
             catch (Exception ex)
@@ -242,7 +331,7 @@ namespace BanterBrain_Buddy
         /// We check the available STT providers and add them to the list for the broadcater selection list
         /// </summary>
         [SupportedOSPlatform("windows6.1")]
-        private async void CheckConfiguredSTTProviders()
+        private async Task CheckConfiguredSTTProviders()
         {
 
             //is there already one from loadsettings?
@@ -262,12 +351,33 @@ namespace BanterBrain_Buddy
             }
 
             //if the Azure API key is set, we can check for voices
+            //we should check in a better way than request all voices every time
             if (Properties.Settings.Default.AzureAPIKeyTextBox.Length > 1)
             {
+
                 List<AzureVoices> azureRegionVoicesList = [];
                 _bBBlog.Info("Finding TTS Azure voices available");
                 AzureSpeechAPI AzureSpeech = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
-                azureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
+                //var test = await AzureSpeech.AzureVerifyAPI();
+                //_bBBlog.Debug(">>Azure API test: " + test);
+
+                try
+                {
+                    azureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
+                }
+                catch (Exception ex)
+                {
+                    _bBBlog.Error("Error checking Azure voices: " + ex.Message);
+                    _bBBlog.Info("Retrying azure voices..");
+                    UpdateTextLog("Error checking Azure voices. Retrying..wait a moment\r\n");
+                    await Task.Delay(2000);
+                    azureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
+                }
+                if (azureRegionVoicesList == null)
+                {
+                    _bBBlog.Error("No Azure voices found, despite what seems to be an API key");
+                    MessageBox.Show("No Azure voices found, despite what seems to be an API key. Try again later?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 if (azureRegionVoicesList.Count > 0)
                 {
                     STTSelectedComboBox.Items.Add("Azure");
@@ -498,6 +608,28 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
+        private async Task TalkToOllama(String UserInput, string tmpPersonaRoletext)
+        {
+            _gPTOutputText = "";
+            UpdateTextLog("Sending to Ollama: " + UserInput + "\r\n");
+            OllamaLLM ollamaLLM = new(Properties.Settings.Default.OllamaURI);
+            var result = await ollamaLLM.OllamaGetResponse(UserInput, tmpPersonaRoletext);
+            if (result == null)
+            {
+                _bBBlog.Error("Ollama API error. Is there a problem with your API key or subscription?");
+                MessageBox.Show("Ollama API error. Is there a problem with your API key or subscription?", "Ollama API error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _bigError = true;
+            }
+            else
+            {
+                UpdateTextLog("Ollama Response: " + result + "\r\n");
+                _gPTOutputText = result;
+                _gPTDone = true;
+            }
+
+        }
+
+        [SupportedOSPlatform("windows6.1")]
         private async Task TalkToOpenAIGPT(String UserInput, string tmpPersonaRoletext)
         {
             _gPTOutputText = "";
@@ -627,11 +759,20 @@ namespace BanterBrain_Buddy
         {
             _gPTOutputText = "";
             _gPTDone = false;
-            if (Properties.Settings.Default.SelectedLLM == "GPT")
+            if (Properties.Settings.Default.SelectedLLM == "ChatGPT")
             {
                 UpdateTextLog("Using ChatGPT\r\n");
                 _bBBlog.Info("Using ChatGPT");
                 await TalkToOpenAIGPT(TextToPass, tmpPersonaRoleText);
+            } else if (Properties.Settings.Default.SelectedLLM == "Ollama")
+            {
+                UpdateTextLog("Using Ollama\r\n");
+                _bBBlog.Info("Using Ollama");
+                await TalkToOllama(TextToPass, tmpPersonaRoleText);
+            }
+            else { 
+                _bBBlog.Error("No LLM selected");
+                MessageBox.Show("No LLM selected. This is bad!", "LLM error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             //lets wait for GPT to be done
             while (!_gPTDone)
@@ -733,7 +874,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void LoadSettings()
+        private async Task LoadSettings()
         {
             TwitchCommandTrigger.Text = Properties.Settings.Default.TwitchCommandTrigger;
             TwitchChatCommandDelay.Text = Properties.Settings.Default.TwitchChatCommandDelay.ToString();
@@ -774,6 +915,7 @@ namespace BanterBrain_Buddy
             TwitchChannelPointPersonaComboBox.SelectedIndex = TwitchChannelPointPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChannelPointPersona);
             TwitchSubscriptionPersonaComboBox.SelectedIndex = TwitchSubscriptionPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchSubscriptionPersona);
             TwitchChatPersonaComboBox.SelectedIndex = TwitchChatPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChatPersona);
+            //LLMResponseSelecter.SelectedIndex = LLMResponseSelecter.FindStringExact(Properties.Settings.Default.SelectedLLM);
 
             //check if theres a speaker selected if not select the default onne
             if (Properties.Settings.Default.TTSAudioOutput.Length < 1)
@@ -854,7 +996,7 @@ namespace BanterBrain_Buddy
             }
 
             //lets check if the selected OpenAI API key is valid   
-            if (Properties.Settings.Default.SelectedLLM == "GPT")
+            if (Properties.Settings.Default.SelectedLLM == "ChatGPT")
             {
                 OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
                 if (await api.Auth.ValidateAPIKey())
@@ -911,7 +1053,7 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchSubscriptionPersona = TwitchSubscriptionPersonaComboBox.Text;
             Properties.Settings.Default.TwitchChatPersona = TwitchChatPersonaComboBox.Text;
             Properties.Settings.Default.TwitchAutoStart = TwitchAutoStart.Checked;
-
+            Properties.Settings.Default.SelectedLLM = LLMResponseSelecter.Text;
             Properties.Settings.Default.Save();
 
             //remove hotkey hooks
@@ -1792,6 +1934,13 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.TwitchChatPersona = TwitchChannelPointPersonaComboBox.Text;
                 Properties.Settings.Default.Save();
             }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void LLMResponseSelecter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.SelectedLLM = LLMResponseSelecter.Text;
+            Properties.Settings.Default.Save();
         }
     }
 }

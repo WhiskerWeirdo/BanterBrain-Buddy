@@ -93,7 +93,7 @@ namespace BanterBrain_Buddy
         public async Task<string> GetOpenAIIGPTResponse(String UserInput, string tmpPersonaRoletext)
         {
             string gPTOutputText = "";
-            _bBBlog.Info("Sending to GPT: " + UserInput);
+            _bBBlog.Info("Sending to OpenAI GPT LLM: " + UserInput);
 
             OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
 

@@ -39,20 +39,51 @@ namespace BanterBrain_Buddy
             return models;
         }
 
-        public async Task<string> OllamaGetResponse(string Text, string selectedModel)
+        public async Task<string> OllamaGetResponse(string Text, string tmpRoleText)
         {
             if (_ollama == null)
             {
                 _bBBlog.Error("OllamaApiClient not initialized");
                 return null;
             }
+
             string response ="";
-            _ollama.SelectedModel = selectedModel;
+            int sentenceLength = 1;
+            switch (Properties.Settings.Default.OllamaResponseLengthComboBox)
+            {
+                case "Short":
+                    _bBBlog.Info("Ollama short response selected");
+                    sentenceLength = 2;
+                    break;
+                case "Normal":
+                    _bBBlog.Info("Ollama normal response selected");
+                    sentenceLength = 4;
+                    break;
+                case "Long":
+                    _bBBlog.Info("Ollama long response selected");
+                    sentenceLength = 8;
+                    break;
+            }
+            string tmpSetupString = tmpRoleText + ". Make your response a maximum of " + sentenceLength + " sentences! How would you then respond to: " + Text;
+            _ollama.SelectedModel = Properties.Settings.Default.OllamaSelectedModel;
+            _bBBlog.Info("Sending to OpenAI GPT LLM: " + Text);
+            _bBBlog.Info("SystemRole: " + tmpRoleText + " Model: " + _ollama.SelectedModel);
             //we start a new context every time
             var chat = _ollama.Chat(stream => response += stream.Message?.Content);
-            _bBBlog.Debug("OllamaGetResponse sending: " + Text + "using model: " + _ollama.SelectedModel);
-            await chat.SendAs("user",Text);
+            await chat.SendAs("user", tmpSetupString);
             return response;
+        }
+
+        public async Task<bool> OllamaVerify()
+        {
+            _bBBlog.Info("OllamaVerify");
+            var result = await OllamaLLMGetModels();
+            if (result.Count == 0)
+            {
+                _bBBlog.Error("OllamaVerify failed");
+                return false;
+            }
+            return true;
         }
 
         public OllamaLLM(string LocalUri)

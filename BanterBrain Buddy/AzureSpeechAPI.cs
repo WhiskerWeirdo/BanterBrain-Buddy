@@ -4,6 +4,7 @@ using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 
 /// <summary>
@@ -33,12 +34,42 @@ namespace BanterBrain_Buddy
         private NAudio.CoreAudioApi.MMDevice outDevice;
         private NAudio.CoreAudioApi.MMDevice inDevice;
 
+        //global list to speed stuff up
+        List<AzureVoices>_azureRegionVoicesList = [];
+
+        public async Task<bool> AzureVerifyAPI()
+        {
+            _bBBlog.Info("Verifying Azure API");
+            SpeechConfig speechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
+            var speechSynthesizer = new SpeechSynthesizer(speechConfig, AudioConfig.FromDefaultSpeakerOutput());
+
+            var result = await speechSynthesizer.SpeakTextAsync("Peter Piper picked a peck of pickled peppers.");
+            var test = result.Reason.ToString();
+            _bBBlog.Debug("Azure API test result: " + test);
+            if (test == AzureRegion)
+            {
+                _bBBlog.Info("Azure API verified");
+                return true;
+            }
+            else
+            {
+                _bBBlog.Error("Azure API verification failed");
+                return false;
+            }
+        }
+
         /// <summary>
         /// This method gets all the voices and styles available for the region and language
+        /// this should load in a global list of voices and styles for the region so we dont have to reload it
         /// </summary>
         /// <returns>List<AzureVoices></returns>
         public async Task<List<AzureVoices>> TTSGetAzureVoices()
         {
+            if (_azureRegionVoicesList.Count > 0)
+            {
+                return _azureRegionVoicesList;
+            }
+            //ok aparently we need to get the voices again
             List<AzureVoices> azureRegionVoicesList = [];
             _bBBlog.Info("Finding TTS Azure voices available");
             //sensitive information
@@ -68,6 +99,7 @@ namespace BanterBrain_Buddy
                     };
                     azureRegionVoicesList.Add(tmpVoice);
                 }
+                _azureRegionVoicesList = azureRegionVoicesList;
                 return azureRegionVoicesList;
             } else //no voices back means something is definately bad
             {

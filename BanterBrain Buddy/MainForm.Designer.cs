@@ -46,6 +46,9 @@ namespace BanterBrain_Buddy
             TextLog = new TextBox();
             BBBTabs = new TabControl();
             StreamingSettingsTab = new TabPage();
+            groupBox1 = new GroupBox();
+            LLMResponseSelecter = new ComboBox();
+            label7 = new Label();
             groupBox4 = new GroupBox();
             TwitchAutoStart = new CheckBox();
             TwitchStartButton = new Button();
@@ -90,6 +93,7 @@ namespace BanterBrain_Buddy
             groupBox7.SuspendLayout();
             BBBTabs.SuspendLayout();
             StreamingSettingsTab.SuspendLayout();
+            groupBox1.SuspendLayout();
             groupBox4.SuspendLayout();
             TwitchChannelPointsSettings.SuspendLayout();
             TwitchSubscriberSettings.SuspendLayout();
@@ -197,10 +201,32 @@ namespace BanterBrain_Buddy
             // 
             // StreamingSettingsTab
             // 
+            StreamingSettingsTab.Controls.Add(groupBox1);
             StreamingSettingsTab.Controls.Add(groupBox4);
             resources.ApplyResources(StreamingSettingsTab, "StreamingSettingsTab");
             StreamingSettingsTab.Name = "StreamingSettingsTab";
             StreamingSettingsTab.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(LLMResponseSelecter);
+            groupBox1.Controls.Add(label7);
+            resources.ApplyResources(groupBox1, "groupBox1");
+            groupBox1.Name = "groupBox1";
+            groupBox1.TabStop = false;
+            // 
+            // LLMResponseSelecter
+            // 
+            LLMResponseSelecter.DropDownStyle = ComboBoxStyle.DropDownList;
+            LLMResponseSelecter.FormattingEnabled = true;
+            resources.ApplyResources(LLMResponseSelecter, "LLMResponseSelecter");
+            LLMResponseSelecter.Name = "LLMResponseSelecter";
+            LLMResponseSelecter.SelectedIndexChanged += LLMResponseSelecter_SelectedIndexChanged;
+            // 
+            // label7
+            // 
+            resources.ApplyResources(label7, "label7");
+            label7.Name = "label7";
             // 
             // groupBox4
             // 
@@ -484,6 +510,8 @@ namespace BanterBrain_Buddy
             groupBox7.ResumeLayout(false);
             BBBTabs.ResumeLayout(false);
             StreamingSettingsTab.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             TwitchChannelPointsSettings.ResumeLayout(false);
@@ -553,6 +581,9 @@ namespace BanterBrain_Buddy
         private ComboBox TwitchCheeringPersonaComboBox;
         private Button TwitchStartButton;
         private CheckBox TwitchAutoStart;
+        private GroupBox groupBox1;
+        private ComboBox LLMResponseSelecter;
+        private Label label7;
     }
 }
 

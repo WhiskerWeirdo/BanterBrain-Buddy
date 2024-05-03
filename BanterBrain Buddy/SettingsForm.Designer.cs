@@ -126,6 +126,8 @@
             TTSAudioOutputLabel = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             BBBToolTip = new System.Windows.Forms.ToolTip(components);
+            label20 = new System.Windows.Forms.Label();
+            OllamaResponseLengthComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -202,6 +204,8 @@
             // 
             // OllamaPanel
             // 
+            OllamaPanel.Controls.Add(OllamaResponseLengthComboBox);
+            OllamaPanel.Controls.Add(label20);
             OllamaPanel.Controls.Add(OllamaTestButton);
             OllamaPanel.Controls.Add(OllamaModelsTextLabel);
             OllamaPanel.Controls.Add(OllamaModelsComboBox);
@@ -1103,6 +1107,25 @@
             label6.TabIndex = 0;
             label6.Text = "Speaker Output settings";
             // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new System.Drawing.Point(65, 137);
+            label20.Name = "label20";
+            label20.Size = new System.Drawing.Size(94, 15);
+            label20.TabIndex = 8;
+            label20.Text = "Response length";
+            // 
+            // OllamaResponseLengthComboBox
+            // 
+            OllamaResponseLengthComboBox.FormattingEnabled = true;
+            OllamaResponseLengthComboBox.Items.AddRange(new object[] { "Short", "Normal", "Long" });
+            OllamaResponseLengthComboBox.Location = new System.Drawing.Point(202, 132);
+            OllamaResponseLengthComboBox.Name = "OllamaResponseLengthComboBox";
+            OllamaResponseLengthComboBox.Size = new System.Drawing.Size(205, 23);
+            OllamaResponseLengthComboBox.TabIndex = 9;
+            OllamaResponseLengthComboBox.Text = "Normal";
+            // 
             // SettingsForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1227,5 +1250,7 @@
         private System.Windows.Forms.ComboBox OllamaModelsComboBox;
         private System.Windows.Forms.CheckBox UseOllamaLLMCheckBox;
         private System.Windows.Forms.Button OllamaTestButton;
+        private System.Windows.Forms.ComboBox OllamaResponseLengthComboBox;
+        private System.Windows.Forms.Label label20;
     }
 }
