@@ -147,6 +147,9 @@ namespace BanterBrain_Buddy
                 case "ElevenLabs":
                     PanelVisible(ElevenLabsPanel.Name);
                     break;
+                case "OllamaLLM":
+                    PanelVisible(OllamaPanel.Name);
+                    break;
                 case "TwitchTriggers":
                     PanelVisible(TwitchPanel.Name);
                     break;
@@ -177,6 +180,8 @@ namespace BanterBrain_Buddy
             GPTMaxTokensTextBox.Text = Properties.Settings.Default.GPTMaxTokens.ToString();
             GPTTemperatureTextBox.Text = Properties.Settings.Default.GPTTemperature.ToString();
             ElevenlabsAPIKeyTextBox.Text = Properties.Settings.Default.ElevenLabsAPIkey;
+            OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
+            UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
             if (Properties.Settings.Default.SelectedLLM == "GPT")
             {
                 UseGPTLLMCheckBox.Checked = true;
@@ -213,6 +218,8 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.GPTMaxTokens = int.Parse(GPTMaxTokensTextBox.Text);
             Properties.Settings.Default.GPTTemperature = float.Parse(GPTTemperatureTextBox.Text);
             Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
+            Properties.Settings.Default.OllamaSelectedModel = OllamaModelsComboBox.Text;
+            Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
             if (UseGPTLLMCheckBox.Checked)
             {
                 Properties.Settings.Default.SelectedLLM = "GPT";
@@ -578,8 +585,8 @@ namespace BanterBrain_Buddy
             TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
             if (TTSOutputVoiceOption2.Text.Length < 1)
             {
-                TTSOutputVoiceOption1.Text = "0";
-                TTSOutputVoiceOption2.Text = "0";
+                TTSOutputVoiceOption1.Text = "100";
+                TTSOutputVoiceOption2.Text = "100";
                 TTSOutputVoiceOption3.Text = "0";
             }
         }
@@ -1290,6 +1297,102 @@ namespace BanterBrain_Buddy
                 SavePersona.Enabled = true;
                 _personaEdited = true;
             }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void OllamaTestButton_Click(object sender, EventArgs e)
+        {
+            if (OllamaURITextBox.Text.Length > 1)
+            {
+                OllamaTestButton.Enabled = false;
+                OllamaLLM ollama = new(OllamaURITextBox.Text);
+                //var installedModels = ollama.OllamaLLMGetModels();
+                var result = await ollama.OllamaGetResponse("how are you doing?", OllamaModelsComboBox.Text);
+                _bBBlog.Debug("Ollama test result: " + result);
+                OllamaTestButton.Enabled = true;
+                MessageBox.Show("Ollama works!", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            else
+            {
+                MessageBox.Show("Ollama URI cannot be empty", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void OllamaPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            //dont bother filling if we dont use the Ollama LLM
+            if (!UseOllamaLLMCheckBox.Checked)
+                return;
+
+            OllamaPanel.Enabled = false;
+            _bBBlog.Info("Ollama panel visible.");
+            _bBBlog.Info("Ollama now we load the Uri");
+            //if theres nothing we use the default for Ollama
+            if (OllamaPanel.Visible && Properties.Settings.Default.OllamaURI.Length < 1)
+            {
+                _bBBlog.Info("Ollama URI is empty, setting to default");
+                OllamaURITextBox.Text = "http://localhost:11434";
+                Properties.Settings.Default.OllamaURI = OllamaURITextBox.Text;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                OllamaURITextBox.Text = Properties.Settings.Default.OllamaURI;
+            }
+
+            if (OllamaPanel.Visible && Properties.Settings.Default.OllamaURI.Length > 1)
+            {
+
+                _bBBlog.Info("Getting available Ollama models");
+                OllamaLLM ollama = new(OllamaURITextBox.Text);
+                var installedModels = await ollama.OllamaLLMGetModels();
+                OllamaModelsComboBox.Items.Clear();
+
+                for (int i = 0; i < installedModels.Count; i++)
+                {
+                    OllamaModelsComboBox.Items.Add(installedModels[i]);
+                }
+                _bBBlog.Info($"Found {installedModels.Count} models");
+
+                // lets set a default if there's none
+                if (Properties.Settings.Default.OllamaSelectedModel.Length < 1)
+                {
+                    _bBBlog.Info("Ollama no model selected, setting to default");
+                    if (OllamaModelsComboBox.Items.Count > 0)
+                        OllamaModelsComboBox.SelectedIndex = 0;
+                    else
+                        _bBBlog.Info("Ollama no models found");
+                    //TODO show throw an error here
+
+                } //else we pre-select the one thats in the settings
+                else
+                {
+                    _bBBlog.Info("Setting selected model to: " + Properties.Settings.Default.OllamaSelectedModel);
+                    OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
+                }
+
+            }
+            else
+            {
+                _bBBlog.Info("Ollama Uri is empty, so we cant preload models");
+            }
+            OllamaPanel.Enabled = true;
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void UseOllamaLLMCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UseOllamaLLMCheckBox.Checked)
+            {
+                _bBBlog.Info("Ollama LLM enabled, loading settings if not yet loaded");
+                if (OllamaModelsComboBox.Items.Count < 1)
+                {
+                    OllamaPanel_VisibleChanged(sender, e);
+                }
+            }
+
         }
     }
 }

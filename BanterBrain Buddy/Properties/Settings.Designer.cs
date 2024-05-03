@@ -514,5 +514,41 @@ namespace BanterBrain_Buddy.Properties {
                 this["ElevenLabsAPIkey"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:11434")]
+        public string OllamaURI {
+            get {
+                return ((string)(this["OllamaURI"]));
+            }
+            set {
+                this["OllamaURI"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string OllamaSelectedModel {
+            get {
+                return ((string)(this["OllamaSelectedModel"]));
+            }
+            set {
+                this["OllamaSelectedModel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseOllamaLLMCheckBox {
+            get {
+                return ((bool)(this["UseOllamaLLMCheckBox"]));
+            }
+            set {
+                this["UseOllamaLLMCheckBox"] = value;
+            }
+        }
     }
 }
