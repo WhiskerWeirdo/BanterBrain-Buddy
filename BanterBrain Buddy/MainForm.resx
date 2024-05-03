@@ -117,15 +117,133 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="BroadcasterSelectedPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 31</value>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="BroadcasterSelectedPersonaComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 23</value>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;groupBox7.Name" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;groupBox7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox7.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;groupBox7.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TwitchEventSubStatusTextBox.Name" xml:space="preserve">
+    <value>TwitchEventSubStatusTextBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchEventSubStatusTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchEventSubStatusTextBox.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;TwitchEventSubStatusTextBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TwitchEventSubStatusLabel.Name" xml:space="preserve">
+    <value>TwitchEventSubStatusLabel</value>
+  </data>
+  <data name="&gt;&gt;TwitchEventSubStatusLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchEventSubStatusLabel.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;TwitchEventSubStatusLabel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;TwitchAPIStatusTextBox.Name" xml:space="preserve">
+    <value>TwitchAPIStatusTextBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchAPIStatusTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchAPIStatusTextBox.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;TwitchAPIStatusTextBox.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusLabel.Name" xml:space="preserve">
+    <value>TwitchStatusLabel</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusLabel.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;TwitchStatusLabel.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;TextLog.Name" xml:space="preserve">
+    <value>TextLog</value>
+  </data>
+  <data name="&gt;&gt;TextLog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextLog.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;TextLog.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="MainTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MainTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="MainTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="MainTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>686, 477</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="BroadcasterSelectedPersonaComboBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="MainTab.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="MainTab.Text" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="&gt;&gt;MainTab.Name" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;MainTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MainTab.Parent" xml:space="preserve">
+    <value>BBBTabs</value>
+  </data>
+  <data name="&gt;&gt;MainTab.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Name" xml:space="preserve">
@@ -164,13 +282,25 @@
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="STTSelectedComboBox.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="BroadcasterSelectedPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 31</value>
   </data>
-  <data name="STTSelectedComboBox.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="BroadcasterSelectedPersonaComboBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 23</value>
   </data>
-  <data name="STTSelectedComboBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="BroadcasterSelectedPersonaComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Name" xml:space="preserve">
+    <value>BroadcasterSelectedPersonaComboBox</value>
+  </data>
+  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;STTSelectedComboBox.Name" xml:space="preserve">
@@ -209,25 +339,26 @@
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="MainRecordingStart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="STTSelectedComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 31</value>
   </data>
-  <data name="MainRecordingStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 31</value>
+  <data name="STTSelectedComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 23</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="MainRecordingStart.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+  <data name="STTSelectedComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="MainRecordingStart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 27</value>
+  <data name="&gt;&gt;STTSelectedComboBox.Name" xml:space="preserve">
+    <value>STTSelectedComboBox</value>
   </data>
-  <data name="MainRecordingStart.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="&gt;&gt;STTSelectedComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="MainRecordingStart.Text" xml:space="preserve">
-    <value>Start</value>
+  <data name="&gt;&gt;STTSelectedComboBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;STTSelectedComboBox.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;MainRecordingStart.Name" xml:space="preserve">
     <value>MainRecordingStart</value>
@@ -264,6 +395,37 @@
   </data>
   <data name="&gt;&gt;groupBox7.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MainRecordingStart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="MainRecordingStart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 31</value>
+  </data>
+  <data name="MainRecordingStart.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="MainRecordingStart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 27</value>
+  </data>
+  <data name="MainRecordingStart.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="MainRecordingStart.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="&gt;&gt;MainRecordingStart.Name" xml:space="preserve">
+    <value>MainRecordingStart</value>
+  </data>
+  <data name="&gt;&gt;MainRecordingStart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MainRecordingStart.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;MainRecordingStart.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="TwitchEventSubStatusTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 389</value>
@@ -409,38 +571,143 @@
   <data name="&gt;&gt;TextLog.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="MainTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="MainTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="MainTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="MainTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>686, 477</value>
-  </data>
-  <data name="MainTab.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="MainTab.Text" xml:space="preserve">
-    <value>Main</value>
-  </data>
-  <data name="&gt;&gt;MainTab.Name" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;MainTab.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MainTab.Parent" xml:space="preserve">
-    <value>BBBTabs</value>
-  </data>
-  <data name="&gt;&gt;MainTab.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="BBBTabs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;StreamingSettingsTab.Name" xml:space="preserve">
+    <value>StreamingSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;StreamingSettingsTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StreamingSettingsTab.Parent" xml:space="preserve">
+    <value>BBBTabs</value>
+  </data>
+  <data name="&gt;&gt;StreamingSettingsTab.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BBBTabs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 27</value>
+  </data>
+  <data name="BBBTabs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="BBBTabs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>694, 505</value>
+  </data>
+  <data name="BBBTabs.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;BBBTabs.Name" xml:space="preserve">
+    <value>BBBTabs</value>
+  </data>
+  <data name="&gt;&gt;BBBTabs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BBBTabs.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BBBTabs.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>StreamingSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>StreamingSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="StreamingSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="StreamingSettingsTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="StreamingSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>686, 477</value>
+  </data>
+  <data name="StreamingSettingsTab.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="StreamingSettingsTab.Text" xml:space="preserve">
+    <value>Streaming Settings</value>
+  </data>
+  <data name="&gt;&gt;StreamingSettingsTab.Name" xml:space="preserve">
+    <value>StreamingSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;StreamingSettingsTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StreamingSettingsTab.Parent" xml:space="preserve">
+    <value>BBBTabs</value>
+  </data>
+  <data name="&gt;&gt;StreamingSettingsTab.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;LLMResponseSelecter.Name" xml:space="preserve">
+    <value>LLMResponseSelecter</value>
+  </data>
+  <data name="&gt;&gt;LLMResponseSelecter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LLMResponseSelecter.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;LLMResponseSelecter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 282</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>295, 65</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>LLM Response provider</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>StreamingSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="LLMResponseSelecter.Location" type="System.Drawing.Point, System.Drawing">
     <value>137, 28</value>
@@ -490,29 +757,119 @@
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 282</value>
+  <data name="&gt;&gt;TwitchAutoStart.Name" xml:space="preserve">
+    <value>TwitchAutoStart</value>
   </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>295, 65</value>
+  <data name="&gt;&gt;TwitchAutoStart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;TwitchAutoStart.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TwitchAutoStart.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TwitchStartButton.Name" xml:space="preserve">
+    <value>TwitchStartButton</value>
+  </data>
+  <data name="&gt;&gt;TwitchStartButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchStartButton.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TwitchStartButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>LLM Response provider</value>
+  <data name="&gt;&gt;TwitchChannelPointsSettings.Name" xml:space="preserve">
+    <value>TwitchChannelPointsSettings</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;TwitchChannelPointsSettings.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TwitchChannelPointsSettings.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointsSettings.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TwitchEnableCheckbox.Name" xml:space="preserve">
+    <value>TwitchEnableCheckbox</value>
+  </data>
+  <data name="&gt;&gt;TwitchEnableCheckbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchEnableCheckbox.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TwitchEnableCheckbox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriberSettings.Name" xml:space="preserve">
+    <value>TwitchSubscriberSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriberSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriberSettings.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriberSettings.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheerSettings.Name" xml:space="preserve">
+    <value>TwitchCheerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheerSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheerSettings.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheerSettings.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;TwitchTriggerSettings.Name" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchTriggerSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchTriggerSettings.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TwitchTriggerSettings.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 3</value>
+  </data>
+  <data name="groupBox4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="groupBox4.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>672, 273</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Twitch Settings</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
     <value>StreamingSettingsTab</value>
   </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="TwitchAutoStart.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -573,6 +930,90 @@
   </data>
   <data name="&gt;&gt;TwitchStartButton.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>TwitchChannelPointsSettings</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointPersonaComboBox.Name" xml:space="preserve">
+    <value>TwitchChannelPointPersonaComboBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointPersonaComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointPersonaComboBox.Parent" xml:space="preserve">
+    <value>TwitchChannelPointsSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointPersonaComboBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>TwitchChannelPointsSettings</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TwitchCustomRewardName.Name" xml:space="preserve">
+    <value>TwitchCustomRewardName</value>
+  </data>
+  <data name="&gt;&gt;TwitchCustomRewardName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchCustomRewardName.Parent" xml:space="preserve">
+    <value>TwitchChannelPointsSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchCustomRewardName.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointCheckBox.Name" xml:space="preserve">
+    <value>TwitchChannelPointCheckBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointCheckBox.Parent" xml:space="preserve">
+    <value>TwitchChannelPointsSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointCheckBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="TwitchChannelPointsSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 162</value>
+  </data>
+  <data name="TwitchChannelPointsSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>281, 97</value>
+  </data>
+  <data name="TwitchChannelPointsSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="TwitchChannelPointsSettings.Text" xml:space="preserve">
+    <value>Channel points</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointsSettings.Name" xml:space="preserve">
+    <value>TwitchChannelPointsSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointsSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointsSettings.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointsSettings.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -700,30 +1141,6 @@
   <data name="&gt;&gt;TwitchChannelPointCheckBox.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="TwitchChannelPointsSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>301, 162</value>
-  </data>
-  <data name="TwitchChannelPointsSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 97</value>
-  </data>
-  <data name="TwitchChannelPointsSettings.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="TwitchChannelPointsSettings.Text" xml:space="preserve">
-    <value>Channel points</value>
-  </data>
-  <data name="&gt;&gt;TwitchChannelPointsSettings.Name" xml:space="preserve">
-    <value>TwitchChannelPointsSettings</value>
-  </data>
-  <data name="&gt;&gt;TwitchChannelPointsSettings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchChannelPointsSettings.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;TwitchChannelPointsSettings.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="TwitchEnableCheckbox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -750,6 +1167,84 @@
   </data>
   <data name="&gt;&gt;TwitchEnableCheckbox.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>TwitchSubscriberSettings</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TwitchGiftedSub.Name" xml:space="preserve">
+    <value>TwitchGiftedSub</value>
+  </data>
+  <data name="&gt;&gt;TwitchGiftedSub.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchGiftedSub.Parent" xml:space="preserve">
+    <value>TwitchSubscriberSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchGiftedSub.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionPersonaComboBox.Name" xml:space="preserve">
+    <value>TwitchSubscriptionPersonaComboBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionPersonaComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionPersonaComboBox.Parent" xml:space="preserve">
+    <value>TwitchSubscriberSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionPersonaComboBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscribed.Name" xml:space="preserve">
+    <value>TwitchSubscribed</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscribed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscribed.Parent" xml:space="preserve">
+    <value>TwitchSubscriberSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscribed.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="TwitchSubscriberSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 183</value>
+  </data>
+  <data name="TwitchSubscriberSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="TwitchSubscriberSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="TwitchSubscriberSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>279, 76</value>
+  </data>
+  <data name="TwitchSubscriberSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="TwitchSubscriberSettings.Text" xml:space="preserve">
+    <value>Subscription Events</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriberSettings.Name" xml:space="preserve">
+    <value>TwitchSubscriberSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriberSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriberSettings.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriberSettings.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -781,6 +1276,9 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="BBBToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>247, 17</value>
+  </metadata>
   <data name="TwitchGiftedSub.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -802,9 +1300,6 @@
   <data name="TwitchGiftedSub.Text" xml:space="preserve">
     <value>Gifted sub(s)</value>
   </data>
-  <metadata name="BBBToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>247, 17</value>
-  </metadata>
   <data name="TwitchGiftedSub.ToolTip" xml:space="preserve">
     <value>Thanks &lt;gift user&gt; for gifting &lt;amount&gt; tier &lt;amount&gt; subs!</value>
   </data>
@@ -874,35 +1369,95 @@
   <data name="&gt;&gt;TwitchSubscribed.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="TwitchSubscriberSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 183</value>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
   </data>
-  <data name="TwitchSubscriberSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>TwitchCheerSettings</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringPersonaComboBox.Name" xml:space="preserve">
+    <value>TwitchCheeringPersonaComboBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringPersonaComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringPersonaComboBox.Parent" xml:space="preserve">
+    <value>TwitchCheerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringPersonaComboBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheerCheckBox.Name" xml:space="preserve">
+    <value>TwitchCheerCheckBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheerCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheerCheckBox.Parent" xml:space="preserve">
+    <value>TwitchCheerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheerCheckBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>TwitchCheerSettings</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TwitchMinBits.Name" xml:space="preserve">
+    <value>TwitchMinBits</value>
+  </data>
+  <data name="&gt;&gt;TwitchMinBits.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchMinBits.Parent" xml:space="preserve">
+    <value>TwitchCheerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchMinBits.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="TwitchCheerSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>302, 42</value>
+  </data>
+  <data name="TwitchCheerSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
-  <data name="TwitchSubscriberSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="TwitchCheerSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
-  <data name="TwitchSubscriberSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>279, 76</value>
+  <data name="TwitchCheerSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>279, 90</value>
   </data>
-  <data name="TwitchSubscriberSettings.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
+  <data name="TwitchCheerSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
   </data>
-  <data name="TwitchSubscriberSettings.Text" xml:space="preserve">
-    <value>Subscription Events</value>
+  <data name="TwitchCheerSettings.Text" xml:space="preserve">
+    <value>Cheering</value>
   </data>
-  <data name="&gt;&gt;TwitchSubscriberSettings.Name" xml:space="preserve">
-    <value>TwitchSubscriberSettings</value>
+  <data name="&gt;&gt;TwitchCheerSettings.Name" xml:space="preserve">
+    <value>TwitchCheerSettings</value>
   </data>
-  <data name="&gt;&gt;TwitchSubscriberSettings.Type" xml:space="preserve">
+  <data name="&gt;&gt;TwitchCheerSettings.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TwitchSubscriberSettings.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TwitchCheerSettings.Parent" xml:space="preserve">
     <value>groupBox4</value>
   </data>
-  <data name="&gt;&gt;TwitchSubscriberSettings.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;TwitchCheerSettings.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1039,35 +1594,131 @@
   <data name="&gt;&gt;TwitchMinBits.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="TwitchCheerSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>302, 42</value>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
   </data>
-  <data name="TwitchCheerSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatPersonaComboBox.Name" xml:space="preserve">
+    <value>TwitchChatPersonaComboBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatPersonaComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatPersonaComboBox.Parent" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatPersonaComboBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TwitchReadChatCheckBox.Name" xml:space="preserve">
+    <value>TwitchReadChatCheckBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchReadChatCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchReadChatCheckBox.Parent" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchReadChatCheckBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatCommandDelay.Name" xml:space="preserve">
+    <value>TwitchChatCommandDelay</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatCommandDelay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatCommandDelay.Parent" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatCommandDelay.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;TwitchNeedsSubscriber.Name" xml:space="preserve">
+    <value>TwitchNeedsSubscriber</value>
+  </data>
+  <data name="&gt;&gt;TwitchNeedsSubscriber.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchNeedsSubscriber.Parent" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchNeedsSubscriber.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;TwitchCommandTrigger.Name" xml:space="preserve">
+    <value>TwitchCommandTrigger</value>
+  </data>
+  <data name="&gt;&gt;TwitchCommandTrigger.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchCommandTrigger.Parent" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchCommandTrigger.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;TwitchCommandTriggerLabel.Name" xml:space="preserve">
+    <value>TwitchCommandTriggerLabel</value>
+  </data>
+  <data name="&gt;&gt;TwitchCommandTriggerLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchCommandTriggerLabel.Parent" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchCommandTriggerLabel.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="TwitchTriggerSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 42</value>
+  </data>
+  <data name="TwitchTriggerSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
-  <data name="TwitchCheerSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="TwitchTriggerSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
-  <data name="TwitchCheerSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>279, 90</value>
+  <data name="TwitchTriggerSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>281, 135</value>
   </data>
-  <data name="TwitchCheerSettings.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+  <data name="TwitchTriggerSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
-  <data name="TwitchCheerSettings.Text" xml:space="preserve">
-    <value>Cheering</value>
+  <data name="TwitchTriggerSettings.Text" xml:space="preserve">
+    <value>Chat Config</value>
   </data>
-  <data name="&gt;&gt;TwitchCheerSettings.Name" xml:space="preserve">
-    <value>TwitchCheerSettings</value>
+  <data name="&gt;&gt;TwitchTriggerSettings.Name" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
   </data>
-  <data name="&gt;&gt;TwitchCheerSettings.Type" xml:space="preserve">
+  <data name="&gt;&gt;TwitchTriggerSettings.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TwitchCheerSettings.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TwitchTriggerSettings.Parent" xml:space="preserve">
     <value>groupBox4</value>
   </data>
-  <data name="&gt;&gt;TwitchCheerSettings.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;TwitchTriggerSettings.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1303,116 +1954,11 @@
   <data name="&gt;&gt;TwitchCommandTriggerLabel.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="TwitchTriggerSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 42</value>
+  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
   </data>
-  <data name="TwitchTriggerSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="TwitchTriggerSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="TwitchTriggerSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 135</value>
-  </data>
-  <data name="TwitchTriggerSettings.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="TwitchTriggerSettings.Text" xml:space="preserve">
-    <value>Chat Config</value>
-  </data>
-  <data name="&gt;&gt;TwitchTriggerSettings.Name" xml:space="preserve">
-    <value>TwitchTriggerSettings</value>
-  </data>
-  <data name="&gt;&gt;TwitchTriggerSettings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchTriggerSettings.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;TwitchTriggerSettings.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 3</value>
-  </data>
-  <data name="groupBox4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="groupBox4.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>672, 273</value>
-  </data>
-  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Twitch Settings</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>StreamingSettingsTab</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="StreamingSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="StreamingSettingsTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="StreamingSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>686, 477</value>
-  </data>
-  <data name="StreamingSettingsTab.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="StreamingSettingsTab.Text" xml:space="preserve">
-    <value>Streaming Settings</value>
-  </data>
-  <data name="&gt;&gt;StreamingSettingsTab.Name" xml:space="preserve">
-    <value>StreamingSettingsTab</value>
-  </data>
-  <data name="&gt;&gt;StreamingSettingsTab.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StreamingSettingsTab.Parent" xml:space="preserve">
-    <value>BBBTabs</value>
-  </data>
-  <data name="&gt;&gt;StreamingSettingsTab.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="BBBTabs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 27</value>
-  </data>
-  <data name="BBBTabs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="BBBTabs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>694, 505</value>
-  </data>
-  <data name="BBBTabs.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;BBBTabs.Name" xml:space="preserve">
-    <value>BBBTabs</value>
-  </data>
-  <data name="&gt;&gt;BBBTabs.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BBBTabs.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BBBTabs.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;File</value>
   </data>
   <data name="ExitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>93, 22</value>
@@ -1420,11 +1966,11 @@
   <data name="ExitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
-  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
   </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;File</value>
+  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Help</value>
   </data>
   <data name="GithubToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 22</value>
@@ -1438,21 +1984,9 @@
   <data name="DiscordToolStripMenuItem.Text" xml:space="preserve">
     <value>Discord</value>
   </data>
-  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>132, 17</value>
   </metadata>
-  <data name="seToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 20</value>
-  </data>
-  <data name="seToolStripMenuItem.Text" xml:space="preserve">
-    <value>Settings</value>
-  </data>
   <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -1480,6 +2014,15 @@
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="seToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 20</value>
+  </data>
+  <data name="seToolStripMenuItem.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <metadata name="BBBToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>247, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -2628,7 +3171,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>BanterBrain Buddy 0.0.6-ALPHA.3</value>
+    <value>BanterBrain Buddy 0.0.7-ALPHA</value>
   </data>
   <data name="&gt;&gt;fileToolStripMenuItem.Name" xml:space="preserve">
     <value>fileToolStripMenuItem</value>
