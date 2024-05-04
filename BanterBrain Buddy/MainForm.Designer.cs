@@ -50,6 +50,16 @@ namespace BanterBrain_Buddy
             LLMResponseSelecter = new ComboBox();
             label7 = new Label();
             groupBox4 = new GroupBox();
+            TwitchSoundsGroupBox = new GroupBox();
+            button1 = new Button();
+            checkBox4 = new CheckBox();
+            checkBox3 = new CheckBox();
+            checkBox2 = new CheckBox();
+            checkBox1 = new CheckBox();
+            textBox4 = new TextBox();
+            textBox3 = new TextBox();
+            textBox2 = new TextBox();
+            TwitchChatSoundTextBox = new TextBox();
             TwitchAutoStart = new CheckBox();
             TwitchStartButton = new Button();
             TwitchChannelPointsSettings = new GroupBox();
@@ -87,6 +97,7 @@ namespace BanterBrain_Buddy
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
+            openFileDialog1 = new OpenFileDialog();
             MainTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -95,6 +106,7 @@ namespace BanterBrain_Buddy
             StreamingSettingsTab.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox4.SuspendLayout();
+            TwitchSoundsGroupBox.SuspendLayout();
             TwitchChannelPointsSettings.SuspendLayout();
             TwitchSubscriberSettings.SuspendLayout();
             TwitchCheerSettings.SuspendLayout();
@@ -230,6 +242,7 @@ namespace BanterBrain_Buddy
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(TwitchSoundsGroupBox);
             groupBox4.Controls.Add(TwitchAutoStart);
             groupBox4.Controls.Add(TwitchStartButton);
             groupBox4.Controls.Add(TwitchChannelPointsSettings);
@@ -240,6 +253,73 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(groupBox4, "groupBox4");
             groupBox4.Name = "groupBox4";
             groupBox4.TabStop = false;
+            // 
+            // TwitchSoundsGroupBox
+            // 
+            TwitchSoundsGroupBox.Controls.Add(button1);
+            TwitchSoundsGroupBox.Controls.Add(checkBox4);
+            TwitchSoundsGroupBox.Controls.Add(checkBox3);
+            TwitchSoundsGroupBox.Controls.Add(checkBox2);
+            TwitchSoundsGroupBox.Controls.Add(checkBox1);
+            TwitchSoundsGroupBox.Controls.Add(textBox4);
+            TwitchSoundsGroupBox.Controls.Add(textBox3);
+            TwitchSoundsGroupBox.Controls.Add(textBox2);
+            TwitchSoundsGroupBox.Controls.Add(TwitchChatSoundTextBox);
+            resources.ApplyResources(TwitchSoundsGroupBox, "TwitchSoundsGroupBox");
+            TwitchSoundsGroupBox.Name = "TwitchSoundsGroupBox";
+            TwitchSoundsGroupBox.TabStop = false;
+            // 
+            // button1
+            // 
+            button1.Image = (System.Drawing.Bitmap)Properties.Resources.ResourceManager.GetObject("fileopen_png");
+            resources.ApplyResources(button1, "button1");
+            button1.Name = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // checkBox4
+            // 
+            resources.ApplyResources(checkBox4, "checkBox4");
+            checkBox4.Name = "checkBox4";
+            checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            resources.ApplyResources(checkBox3, "checkBox3");
+            checkBox3.Name = "checkBox3";
+            checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            resources.ApplyResources(checkBox2, "checkBox2");
+            checkBox2.Name = "checkBox2";
+            checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            resources.ApplyResources(checkBox1, "checkBox1");
+            checkBox1.Name = "checkBox1";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // textBox4
+            // 
+            resources.ApplyResources(textBox4, "textBox4");
+            textBox4.Name = "textBox4";
+            // 
+            // textBox3
+            // 
+            resources.ApplyResources(textBox3, "textBox3");
+            textBox3.Name = "textBox3";
+            // 
+            // textBox2
+            // 
+            resources.ApplyResources(textBox2, "textBox2");
+            textBox2.Name = "textBox2";
+            // 
+            // TwitchChatSoundTextBox
+            // 
+            resources.ApplyResources(TwitchChatSoundTextBox, "TwitchChatSoundTextBox");
+            TwitchChatSoundTextBox.Name = "TwitchChatSoundTextBox";
             // 
             // TwitchAutoStart
             // 
@@ -490,6 +570,10 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += seToolStripMenuItem_Click;
             // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
+            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -514,6 +598,8 @@ namespace BanterBrain_Buddy
             groupBox1.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            TwitchSoundsGroupBox.ResumeLayout(false);
+            TwitchSoundsGroupBox.PerformLayout();
             TwitchChannelPointsSettings.ResumeLayout(false);
             TwitchChannelPointsSettings.PerformLayout();
             TwitchSubscriberSettings.ResumeLayout(false);
@@ -584,6 +670,17 @@ namespace BanterBrain_Buddy
         private GroupBox groupBox1;
         private ComboBox LLMResponseSelecter;
         private Label label7;
+        private GroupBox TwitchSoundsGroupBox;
+        private CheckBox checkBox4;
+        private CheckBox checkBox3;
+        private CheckBox checkBox2;
+        private CheckBox checkBox1;
+        private TextBox textBox4;
+        private TextBox textBox3;
+        private TextBox textBox2;
+        private TextBox TwitchChatSoundTextBox;
+        private Button button1;
+        private OpenFileDialog openFileDialog1;
     }
 }
 

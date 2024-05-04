@@ -16,6 +16,8 @@ using Newtonsoft.Json;
 using NAudio.Wave;
 using NAudio.CoreAudioApi;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Security.Cryptography;
 
 
 /// <summary>
@@ -764,13 +766,15 @@ namespace BanterBrain_Buddy
                 UpdateTextLog("Using ChatGPT\r\n");
                 _bBBlog.Info("Using ChatGPT");
                 await TalkToOpenAIGPT(TextToPass, tmpPersonaRoleText);
-            } else if (Properties.Settings.Default.SelectedLLM == "Ollama")
+            }
+            else if (Properties.Settings.Default.SelectedLLM == "Ollama")
             {
                 UpdateTextLog("Using Ollama\r\n");
                 _bBBlog.Info("Using Ollama");
                 await TalkToOllama(TextToPass, tmpPersonaRoleText);
             }
-            else { 
+            else
+            {
                 _bBBlog.Error("No LLM selected");
                 MessageBox.Show("No LLM selected. This is bad!", "LLM error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1941,6 +1945,28 @@ namespace BanterBrain_Buddy
         {
             Properties.Settings.Default.SelectedLLM = LLMResponseSelecter.Text;
             Properties.Settings.Default.Save();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            openFileDialog1.Filter = "WAV|*.wav";
+            openFileDialog1.Title = "Select a sound file for Twitch chat";
+            //openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+            openFileDialog1.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)+"\\sounds";
+            openFileDialog1.FileName = "";
+            this.openFileDialog1.Multiselect = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                var tmpFile = openFileDialog1.FileName;
+                TwitchChatSoundTextBox.Text = Path.GetFileName(tmpFile);
+            }
+            else
+            {
+                TwitchChatSoundTextBox.Text = "No files selected...";
+            }
         }
     }
 }
