@@ -379,8 +379,7 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Error("No Azure voices found, despite what seems to be an API key");
                     MessageBox.Show("No Azure voices found, despite what seems to be an API key. Try again later?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                if (azureRegionVoicesList.Count > 0)
+                } else if (azureRegionVoicesList.Count > 0)
                 {
                     STTSelectedComboBox.Items.Add("Azure");
                     _bBBlog.Info("Azure voices found, adding to list");

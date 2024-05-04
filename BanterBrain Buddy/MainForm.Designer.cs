@@ -271,7 +271,7 @@ namespace BanterBrain_Buddy
             // 
             // button1
             // 
-            button1.Image = (System.Drawing.Bitmap)Properties.Resources.ResourceManager.GetObject("fileopen_png");
+            button1.Image = Properties.Resources.fileopenicon;
             resources.ApplyResources(button1, "button1");
             button1.Name = "button1";
             button1.UseVisualStyleBackColor = true;
