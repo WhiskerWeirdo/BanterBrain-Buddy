@@ -1,6 +1,7 @@
 # BanterBrain Buddy
-v0.0.5-ALPHA.4
-https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.0.5-alpha
+v0.0.7-ALPHA https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.0.7-alpha
+
+Now supports Ollama!
 
 ## License
 This project uses the GNU General Public License v3.0 as you can read [here](./LICENSE.txt). The TLDR is:
