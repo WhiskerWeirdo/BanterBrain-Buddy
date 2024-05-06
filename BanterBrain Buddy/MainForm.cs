@@ -69,6 +69,7 @@ namespace BanterBrain_Buddy
         private string _gPTOutputText;
 
         private ElLabs _elevenLabsApi;
+        private AzureSpeechAPI _azureSpeech;
 
         private List<Personas> _personas = new List<Personas>();
 
@@ -361,13 +362,15 @@ namespace BanterBrain_Buddy
 
                 List<AzureVoices> azureRegionVoicesList = [];
                 _bBBlog.Info("Finding TTS Azure voices available");
-                AzureSpeechAPI AzureSpeech = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
-                //var test = await AzureSpeech.AzureVerifyAPI();
-                //_bBBlog.Debug(">>Azure API test: " + test);
+                UpdateTextLog("Finding TTS Azure voices available\r\n");
+                if (_azureSpeech == null)
+                {
+                    _azureSpeech = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
+                }
 
                 try
                 {
-                    azureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
+                    azureRegionVoicesList = await _azureSpeech.TTSGetAzureVoices();
                 }
                 catch (Exception ex)
                 {
@@ -375,7 +378,7 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info("Retrying azure voices..");
                     UpdateTextLog("Error checking Azure voices. Retrying..wait a moment\r\n");
                     await Task.Delay(2000);
-                    azureRegionVoicesList = await AzureSpeech.TTSGetAzureVoices();
+                    azureRegionVoicesList = await _azureSpeech.TTSGetAzureVoices();
                 }
                 if (azureRegionVoicesList == null)
                 {
@@ -469,14 +472,17 @@ namespace BanterBrain_Buddy
         private async void AzureConvertVoicetoText()
         {
             _sTTOutputText = "";
-            AzureSpeechAPI azureSpeechAPI = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
+            if (_azureSpeech == null)
+            {
+                _azureSpeech = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
+            }
             //call the Azure STT function with the selected input device
             //first initialize the Azure STT class
-            azureSpeechAPI.AzureSTTInit(Properties.Settings.Default.VoiceInput);
+            _azureSpeech.AzureSTTInit(Properties.Settings.Default.VoiceInput);
             _bBBlog.Info("Azure STT microphone start.");
             while (MainRecordingStart.Text == "Recording" && !_sTTDone && !_bigError)
             {
-                var recognizeResult = await azureSpeechAPI.RecognizeSpeechAsync();
+                var recognizeResult = await _azureSpeech.RecognizeSpeechAsync();
                 if (recognizeResult == "NOMATCH")
                 {
                     UpdateTextLog("Azure Speech-To-Text: NOMATCH: Speech could not be recognized.\r\n");
@@ -678,13 +684,16 @@ namespace BanterBrain_Buddy
         {
             UpdateTextLog("Saying text with Azure TTS\r\n");
             _bBBlog.Info("Saying text with Azure TTS");
-            AzureSpeechAPI azureSpeechAPI = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
+            if (_azureSpeech == null)
+            {
+                _azureSpeech = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
+            }
 
             //set the output voice, gender and locale, and the style
             //this now depends on the selected persona
-            await azureSpeechAPI.AzureTTSInit(tmpPersona.VoiceName, tmpPersona.VoiceOptions[0], Properties.Settings.Default.TTSAudioOutput);
+            await _azureSpeech.AzureTTSInit(tmpPersona.VoiceName, tmpPersona.VoiceOptions[0], Properties.Settings.Default.TTSAudioOutput);
 
-            var result = await azureSpeechAPI.AzureSpeak(TextToSpeak);
+            var result = await _azureSpeech.AzureSpeak(TextToSpeak);
             if (!result)
             {
                 _bBBlog.Error("Azure TTS error. Is there a problem with your API key or subscription?");
@@ -1060,13 +1069,18 @@ namespace BanterBrain_Buddy
             if (Properties.Settings.Default.ElevenLabsAPIkey.Length > 1)
             {
                 //call test api key for elevenlabs
+                if (_elevenLabsApi == null)
+                {
+                    _elevenLabsApi = new(Properties.Settings.Default.ElevenLabsAPIkey);
+                }
                 if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
                 {
                     _bBBlog.Info("ElevenLabs API key is valid, pre-loading voices");
                     UpdateTextLog("ElevenLabs API key is valid, pre-loading voices\r\n");
                     //lets find the voices at startup so we dont have to load them later
-                    _= await _elevenLabsApi.TTSGetElevenLabsVoices();
+                    _ = await _elevenLabsApi.TTSGetElevenLabsVoices();
                 }
+                
             }
 
             //lets check if the selected OpenAI API key is valid   
