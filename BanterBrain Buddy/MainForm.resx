@@ -491,7 +491,7 @@
     <value>1</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 348</value>
+    <value>8, 365</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>295, 65</value>
@@ -514,236 +514,230 @@
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 13</value>
+  <data name="TwitchChatSoundSelectButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>300, 13</value>
   </data>
-  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="TwitchChatSoundSelectButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 23</value>
   </data>
-  <data name="button1.TabIndex" type="System.Int32, mscorlib">
+  <data name="TwitchChatSoundSelectButton.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="&gt;&gt;button1.Name" xml:space="preserve">
-    <value>button1</value>
+  <metadata name="BBBToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>247, 17</value>
+  </metadata>
+  <data name="TwitchChatSoundSelectButton.ToolTip" xml:space="preserve">
+    <value>Open sound directory</value>
   </data>
-  <data name="&gt;&gt;button1.Type" xml:space="preserve">
+  <data name="&gt;&gt;TwitchChatSoundSelectButton.Name" xml:space="preserve">
+    <value>TwitchChatSoundSelectButton</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatSoundSelectButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TwitchChatSoundSelectButton.Parent" xml:space="preserve">
     <value>TwitchSoundsGroupBox</value>
   </data>
-  <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TwitchChatSoundSelectButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="checkBox4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="TwitchSubscriptionSoundTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 122</value>
   </data>
-  <data name="checkBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 99</value>
+  <data name="TwitchSubscriptionSoundTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 23</value>
   </data>
-  <data name="checkBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 19</value>
+  <data name="TwitchSubscriptionSoundTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
   </data>
-  <data name="checkBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+  <data name="&gt;&gt;TwitchSubscriptionSoundTextBox.Name" xml:space="preserve">
+    <value>TwitchSubscriptionSoundTextBox</value>
   </data>
-  <data name="checkBox4.Text" xml:space="preserve">
-    <value>Subscriptons</value>
+  <data name="&gt;&gt;TwitchSubscriptionSoundTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;checkBox4.Name" xml:space="preserve">
-    <value>checkBox4</value>
-  </data>
-  <data name="&gt;&gt;checkBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox4.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TwitchSubscriptionSoundTextBox.Parent" xml:space="preserve">
     <value>TwitchSoundsGroupBox</value>
   </data>
-  <data name="&gt;&gt;checkBox4.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TwitchSubscriptionSoundTextBox.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="checkBox3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="TwitchCheeringSoundTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 93</value>
   </data>
-  <data name="checkBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 73</value>
+  <data name="TwitchCheeringSoundTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 23</value>
   </data>
-  <data name="checkBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 19</value>
+  <data name="TwitchCheeringSoundTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
-  <data name="checkBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="&gt;&gt;TwitchCheeringSoundTextBox.Name" xml:space="preserve">
+    <value>TwitchCheeringSoundTextBox</value>
   </data>
-  <data name="checkBox3.Text" xml:space="preserve">
-    <value>Cheering</value>
+  <data name="&gt;&gt;TwitchCheeringSoundTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;checkBox3.Name" xml:space="preserve">
-    <value>checkBox3</value>
-  </data>
-  <data name="&gt;&gt;checkBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TwitchCheeringSoundTextBox.Parent" xml:space="preserve">
     <value>TwitchSoundsGroupBox</value>
   </data>
-  <data name="&gt;&gt;checkBox3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TwitchCheeringSoundTextBox.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="checkBox2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="TwitchChannelSoundTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 67</value>
   </data>
-  <data name="checkBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 44</value>
+  <data name="TwitchChannelSoundTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 23</value>
   </data>
-  <data name="checkBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 19</value>
+  <data name="TwitchChannelSoundTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
-  <data name="checkBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="&gt;&gt;TwitchChannelSoundTextBox.Name" xml:space="preserve">
+    <value>TwitchChannelSoundTextBox</value>
   </data>
-  <data name="checkBox2.Text" xml:space="preserve">
-    <value>Channel Points</value>
+  <data name="&gt;&gt;TwitchChannelSoundTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;checkBox2.Name" xml:space="preserve">
-    <value>checkBox2</value>
-  </data>
-  <data name="&gt;&gt;checkBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TwitchChannelSoundTextBox.Parent" xml:space="preserve">
     <value>TwitchSoundsGroupBox</value>
   </data>
-  <data name="&gt;&gt;checkBox2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TwitchChannelSoundTextBox.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="checkBox1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 19</value>
-  </data>
-  <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 19</value>
-  </data>
-  <data name="checkBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="checkBox1.Text" xml:space="preserve">
-    <value>Chat</value>
-  </data>
-  <data name="&gt;&gt;checkBox1.Name" xml:space="preserve">
-    <value>checkBox1</value>
-  </data>
-  <data name="&gt;&gt;checkBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox1.Parent" xml:space="preserve">
-    <value>TwitchSoundsGroupBox</value>
-  </data>
-  <data name="&gt;&gt;checkBox1.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="textBox4.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="textBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>123, 99</value>
-  </data>
-  <data name="textBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 23</value>
-  </data>
-  <data name="textBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;textBox4.Name" xml:space="preserve">
-    <value>textBox4</value>
-  </data>
-  <data name="&gt;&gt;textBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox4.Parent" xml:space="preserve">
-    <value>TwitchSoundsGroupBox</value>
-  </data>
-  <data name="&gt;&gt;textBox4.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="textBox3.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="textBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>123, 69</value>
-  </data>
-  <data name="textBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 23</value>
-  </data>
-  <data name="textBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;textBox3.Name" xml:space="preserve">
-    <value>textBox3</value>
-  </data>
-  <data name="&gt;&gt;textBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox3.Parent" xml:space="preserve">
-    <value>TwitchSoundsGroupBox</value>
-  </data>
-  <data name="&gt;&gt;textBox3.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="textBox2.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="textBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>123, 41</value>
-  </data>
-  <data name="textBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 23</value>
-  </data>
-  <data name="textBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;textBox2.Name" xml:space="preserve">
-    <value>textBox2</value>
-  </data>
-  <data name="&gt;&gt;textBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox2.Parent" xml:space="preserve">
-    <value>TwitchSoundsGroupBox</value>
-  </data>
-  <data name="&gt;&gt;textBox2.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="TwitchChatSoundTextBox.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="TwitchChatSoundTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>123, 13</value>
+    <value>135, 42</value>
   </data>
   <data name="TwitchChatSoundTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 23</value>
+    <value>194, 23</value>
   </data>
   <data name="TwitchChatSoundTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;TwitchChatSoundTextBox.Name" xml:space="preserve">
     <value>TwitchChatSoundTextBox</value>
   </data>
   <data name="&gt;&gt;TwitchChatSoundTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TwitchChatSoundTextBox.Parent" xml:space="preserve">
     <value>TwitchSoundsGroupBox</value>
   </data>
   <data name="&gt;&gt;TwitchChatSoundTextBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="TwitchSubscriptionSoundCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchSubscriptionSoundCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 126</value>
+  </data>
+  <data name="TwitchSubscriptionSoundCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 19</value>
+  </data>
+  <data name="TwitchSubscriptionSoundCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="TwitchSubscriptionSoundCheckBox.Text" xml:space="preserve">
+    <value>Subscriptons</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionSoundCheckBox.Name" xml:space="preserve">
+    <value>TwitchSubscriptionSoundCheckBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionSoundCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionSoundCheckBox.Parent" xml:space="preserve">
+    <value>TwitchSoundsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionSoundCheckBox.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="TwitchCheeringSoundCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchCheeringSoundCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 100</value>
+  </data>
+  <data name="TwitchCheeringSoundCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 19</value>
+  </data>
+  <data name="TwitchCheeringSoundCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="TwitchCheeringSoundCheckBox.Text" xml:space="preserve">
+    <value>Cheering</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringSoundCheckBox.Name" xml:space="preserve">
+    <value>TwitchCheeringSoundCheckBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringSoundCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringSoundCheckBox.Parent" xml:space="preserve">
+    <value>TwitchSoundsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringSoundCheckBox.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="TwitchChannelSoundCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchChannelSoundCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 71</value>
+  </data>
+  <data name="TwitchChannelSoundCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 19</value>
+  </data>
+  <data name="TwitchChannelSoundCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="TwitchChannelSoundCheckBox.Text" xml:space="preserve">
+    <value>Channel Points</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelSoundCheckBox.Name" xml:space="preserve">
+    <value>TwitchChannelSoundCheckBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelSoundCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelSoundCheckBox.Parent" xml:space="preserve">
+    <value>TwitchSoundsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelSoundCheckBox.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="TwitchChatSoundCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchChatSoundCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 46</value>
+  </data>
+  <data name="TwitchChatSoundCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 19</value>
+  </data>
+  <data name="TwitchChatSoundCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="TwitchChatSoundCheckBox.Text" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatSoundCheckBox.Name" xml:space="preserve">
+    <value>TwitchChatSoundCheckBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatSoundCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatSoundCheckBox.Parent" xml:space="preserve">
+    <value>TwitchSoundsGroupBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatSoundCheckBox.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
   <data name="TwitchSoundsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>307, 198</value>
   </data>
   <data name="TwitchSoundsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>335, 135</value>
+    <value>335, 151</value>
   </data>
   <data name="TwitchSoundsGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
@@ -1051,9 +1045,6 @@
   <data name="TwitchGiftedSub.Text" xml:space="preserve">
     <value>Gifted sub(s)</value>
   </data>
-  <metadata name="BBBToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>247, 17</value>
-  </metadata>
   <data name="TwitchGiftedSub.ToolTip" xml:space="preserve">
     <value>Thanks &lt;gift user&gt; for gifting &lt;amount&gt; tier &lt;amount&gt; subs!</value>
   </data>
@@ -1592,7 +1583,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>672, 339</value>
+    <value>672, 356</value>
   </data>
   <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1729,9 +1720,6 @@
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>359, 17</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -2923,12 +2911,6 @@
   </data>
   <data name="&gt;&gt;BBBToolTip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;openFileDialog1.Name" xml:space="preserve">
-    <value>openFileDialog1</value>
-  </data>
-  <data name="&gt;&gt;openFileDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>BBB</value>

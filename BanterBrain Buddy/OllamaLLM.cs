@@ -66,21 +66,39 @@ namespace BanterBrain_Buddy
             }
             string tmpSetupString = tmpRoleText + ". Make your response a maximum of " + sentenceLength + " sentences! How would you then respond to: " + Text;
             _ollama.SelectedModel = Properties.Settings.Default.OllamaSelectedModel;
+            if (_ollama.SelectedModel == null)
+            {
+                _bBBlog.Error("OllamaGetResponse failed, no model selected from saved settings.");
+                return null;
+            }
             _bBBlog.Info("Sending to OpenAI GPT LLM: " + Text);
-            _bBBlog.Info("SystemRole: " + tmpRoleText + " Model: " + _ollama.SelectedModel);
+            _bBBlog.Info("SystemRole: " + tmpRoleText + " \r\nModel: " + _ollama.SelectedModel);
             //we start a new context every time
             var chat = _ollama.Chat(stream => response += stream.Message?.Content);
-            await chat.SendAs("user", tmpSetupString);
+            try
+            {
+                await chat.Send(tmpSetupString);
+            }
+            catch (Exception e)
+            {
+                _bBBlog.Error("OllamaGetResponse failed: " + e.Message);
+                return null;
+            }
             return response;
         }
 
         public async Task<bool> OllamaVerify()
         {
-            _bBBlog.Info("OllamaVerify");
+            _bBBlog.Info("OllamaVerify called");
             var result = await OllamaLLMGetModels();
             if (result.Count == 0)
             {
-                _bBBlog.Error("OllamaVerify failed");
+                _bBBlog.Error("OllamaVerify failed, no models found");
+                return false;
+            }
+            if (!result.Contains(Properties.Settings.Default.OllamaSelectedModel))
+            {
+                _bBBlog.Error("OllamaVerify failed, selected model not found");
                 return false;
             }
             return true;

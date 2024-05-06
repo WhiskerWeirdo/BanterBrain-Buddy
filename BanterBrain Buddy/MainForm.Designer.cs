@@ -51,15 +51,15 @@ namespace BanterBrain_Buddy
             label7 = new Label();
             groupBox4 = new GroupBox();
             TwitchSoundsGroupBox = new GroupBox();
-            button1 = new Button();
-            checkBox4 = new CheckBox();
-            checkBox3 = new CheckBox();
-            checkBox2 = new CheckBox();
-            checkBox1 = new CheckBox();
-            textBox4 = new TextBox();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
-            TwitchChatSoundTextBox = new TextBox();
+            TwitchChatSoundSelectButton = new Button();
+            TwitchSubscriptionSoundTextBox = new ComboBox();
+            TwitchCheeringSoundTextBox = new ComboBox();
+            TwitchChannelSoundTextBox = new ComboBox();
+            TwitchChatSoundTextBox = new ComboBox();
+            TwitchSubscriptionSoundCheckBox = new CheckBox();
+            TwitchCheeringSoundCheckBox = new CheckBox();
+            TwitchChannelSoundCheckBox = new CheckBox();
+            TwitchChatSoundCheckBox = new CheckBox();
             TwitchAutoStart = new CheckBox();
             TwitchStartButton = new Button();
             TwitchChannelPointsSettings = new GroupBox();
@@ -97,7 +97,6 @@ namespace BanterBrain_Buddy
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
-            openFileDialog1 = new OpenFileDialog();
             MainTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -256,70 +255,84 @@ namespace BanterBrain_Buddy
             // 
             // TwitchSoundsGroupBox
             // 
-            TwitchSoundsGroupBox.Controls.Add(button1);
-            TwitchSoundsGroupBox.Controls.Add(checkBox4);
-            TwitchSoundsGroupBox.Controls.Add(checkBox3);
-            TwitchSoundsGroupBox.Controls.Add(checkBox2);
-            TwitchSoundsGroupBox.Controls.Add(checkBox1);
-            TwitchSoundsGroupBox.Controls.Add(textBox4);
-            TwitchSoundsGroupBox.Controls.Add(textBox3);
-            TwitchSoundsGroupBox.Controls.Add(textBox2);
+            TwitchSoundsGroupBox.Controls.Add(TwitchChatSoundSelectButton);
+            TwitchSoundsGroupBox.Controls.Add(TwitchSubscriptionSoundTextBox);
+            TwitchSoundsGroupBox.Controls.Add(TwitchCheeringSoundTextBox);
+            TwitchSoundsGroupBox.Controls.Add(TwitchChannelSoundTextBox);
             TwitchSoundsGroupBox.Controls.Add(TwitchChatSoundTextBox);
+            TwitchSoundsGroupBox.Controls.Add(TwitchSubscriptionSoundCheckBox);
+            TwitchSoundsGroupBox.Controls.Add(TwitchCheeringSoundCheckBox);
+            TwitchSoundsGroupBox.Controls.Add(TwitchChannelSoundCheckBox);
+            TwitchSoundsGroupBox.Controls.Add(TwitchChatSoundCheckBox);
             resources.ApplyResources(TwitchSoundsGroupBox, "TwitchSoundsGroupBox");
             TwitchSoundsGroupBox.Name = "TwitchSoundsGroupBox";
             TwitchSoundsGroupBox.TabStop = false;
             // 
-            // button1
+            // TwitchChatSoundSelectButton
             // 
-            button1.Image = Properties.Resources.fileopenicon;
-            resources.ApplyResources(button1, "button1");
-            button1.Name = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            TwitchChatSoundSelectButton.Image = Properties.Resources.fileopenicon;
+            resources.ApplyResources(TwitchChatSoundSelectButton, "TwitchChatSoundSelectButton");
+            TwitchChatSoundSelectButton.Name = "TwitchChatSoundSelectButton";
+            BBBToolTip.SetToolTip(TwitchChatSoundSelectButton, resources.GetString("TwitchChatSoundSelectButton.ToolTip"));
+            TwitchChatSoundSelectButton.UseVisualStyleBackColor = true;
+            TwitchChatSoundSelectButton.Click += TwitchChatSoundSelectButton_Click;
             // 
-            // checkBox4
+            // TwitchSubscriptionSoundTextBox
             // 
-            resources.ApplyResources(checkBox4, "checkBox4");
-            checkBox4.Name = "checkBox4";
-            checkBox4.UseVisualStyleBackColor = true;
+            TwitchSubscriptionSoundTextBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchSubscriptionSoundTextBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchSubscriptionSoundTextBox, "TwitchSubscriptionSoundTextBox");
+            TwitchSubscriptionSoundTextBox.Name = "TwitchSubscriptionSoundTextBox";
             // 
-            // checkBox3
+            // TwitchCheeringSoundTextBox
             // 
-            resources.ApplyResources(checkBox3, "checkBox3");
-            checkBox3.Name = "checkBox3";
-            checkBox3.UseVisualStyleBackColor = true;
+            TwitchCheeringSoundTextBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchCheeringSoundTextBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchCheeringSoundTextBox, "TwitchCheeringSoundTextBox");
+            TwitchCheeringSoundTextBox.Name = "TwitchCheeringSoundTextBox";
             // 
-            // checkBox2
+            // TwitchChannelSoundTextBox
             // 
-            resources.ApplyResources(checkBox2, "checkBox2");
-            checkBox2.Name = "checkBox2";
-            checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            resources.ApplyResources(checkBox1, "checkBox1");
-            checkBox1.Name = "checkBox1";
-            checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // textBox4
-            // 
-            resources.ApplyResources(textBox4, "textBox4");
-            textBox4.Name = "textBox4";
-            // 
-            // textBox3
-            // 
-            resources.ApplyResources(textBox3, "textBox3");
-            textBox3.Name = "textBox3";
-            // 
-            // textBox2
-            // 
-            resources.ApplyResources(textBox2, "textBox2");
-            textBox2.Name = "textBox2";
+            TwitchChannelSoundTextBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchChannelSoundTextBox.FormattingEnabled = true;
+            resources.ApplyResources(TwitchChannelSoundTextBox, "TwitchChannelSoundTextBox");
+            TwitchChannelSoundTextBox.Name = "TwitchChannelSoundTextBox";
             // 
             // TwitchChatSoundTextBox
             // 
+            TwitchChatSoundTextBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchChatSoundTextBox.FormattingEnabled = true;
             resources.ApplyResources(TwitchChatSoundTextBox, "TwitchChatSoundTextBox");
             TwitchChatSoundTextBox.Name = "TwitchChatSoundTextBox";
+            TwitchChatSoundTextBox.Click += TwitchChatSoundTextBox_Click;
+            // 
+            // TwitchSubscriptionSoundCheckBox
+            // 
+            resources.ApplyResources(TwitchSubscriptionSoundCheckBox, "TwitchSubscriptionSoundCheckBox");
+            TwitchSubscriptionSoundCheckBox.Name = "TwitchSubscriptionSoundCheckBox";
+            TwitchSubscriptionSoundCheckBox.UseVisualStyleBackColor = true;
+            TwitchSubscriptionSoundCheckBox.CheckedChanged += TwitchSubscriptionSoundCheckBox_CheckedChanged;
+            // 
+            // TwitchCheeringSoundCheckBox
+            // 
+            resources.ApplyResources(TwitchCheeringSoundCheckBox, "TwitchCheeringSoundCheckBox");
+            TwitchCheeringSoundCheckBox.Name = "TwitchCheeringSoundCheckBox";
+            TwitchCheeringSoundCheckBox.UseVisualStyleBackColor = true;
+            TwitchCheeringSoundCheckBox.CheckedChanged += TwitchCheeringSoundCheckBox_CheckedChanged;
+            // 
+            // TwitchChannelSoundCheckBox
+            // 
+            resources.ApplyResources(TwitchChannelSoundCheckBox, "TwitchChannelSoundCheckBox");
+            TwitchChannelSoundCheckBox.Name = "TwitchChannelSoundCheckBox";
+            TwitchChannelSoundCheckBox.UseVisualStyleBackColor = true;
+            TwitchChannelSoundCheckBox.CheckedChanged += TwitchChannelSoundCheckBox_CheckedChanged;
+            // 
+            // TwitchChatSoundCheckBox
+            // 
+            resources.ApplyResources(TwitchChatSoundCheckBox, "TwitchChatSoundCheckBox");
+            TwitchChatSoundCheckBox.Name = "TwitchChatSoundCheckBox";
+            TwitchChatSoundCheckBox.UseVisualStyleBackColor = true;
+            TwitchChatSoundCheckBox.CheckedChanged += TwitchChatSoundCheckBox_CheckedChanged;
             // 
             // TwitchAutoStart
             // 
@@ -570,10 +583,6 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += seToolStripMenuItem_Click;
             // 
-            // openFileDialog1
-            // 
-            openFileDialog1.FileName = "openFileDialog1";
-            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -671,16 +680,15 @@ namespace BanterBrain_Buddy
         private ComboBox LLMResponseSelecter;
         private Label label7;
         private GroupBox TwitchSoundsGroupBox;
-        private CheckBox checkBox4;
-        private CheckBox checkBox3;
-        private CheckBox checkBox2;
-        private CheckBox checkBox1;
-        private TextBox textBox4;
-        private TextBox textBox3;
-        private TextBox textBox2;
-        private TextBox TwitchChatSoundTextBox;
-        private Button button1;
-        private OpenFileDialog openFileDialog1;
+        private CheckBox TwitchSubscriptionSoundCheckBox;
+        private CheckBox TwitchCheeringSoundCheckBox;
+        private CheckBox TwitchChannelSoundCheckBox;
+        private CheckBox TwitchChatSoundCheckBox;
+        private Button TwitchChatSoundSelectButton;
+        private ComboBox TwitchChatSoundTextBox;
+        private ComboBox TwitchChannelSoundTextBox;
+        private ComboBox TwitchSubscriptionSoundTextBox;
+        private ComboBox TwitchCheeringSoundTextBox;
     }
 }
 

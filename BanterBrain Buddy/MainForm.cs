@@ -379,7 +379,8 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Error("No Azure voices found, despite what seems to be an API key");
                     MessageBox.Show("No Azure voices found, despite what seems to be an API key. Try again later?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                } else if (azureRegionVoicesList.Count > 0)
+                }
+                else if (azureRegionVoicesList.Count > 0)
                 {
                     STTSelectedComboBox.Items.Add("Azure");
                     _bBBlog.Info("Azure voices found, adding to list");
@@ -606,6 +607,16 @@ namespace BanterBrain_Buddy
             //now delete wav file
             _bBBlog.Debug($"Deleting temp wav file: {tmpWavFile}");
             File.Delete(tmpWavFile);
+        }
+
+        //play a wav file to the bots selected audio channel
+        [SupportedOSPlatform("windows6.1")]
+        private async Task PlayWaveFile(string tmpWavFile)
+        {
+            _bBBlog.Debug($"Playing wav file: {tmpWavFile}");
+            NativeSpeech nativeSpeech = new();
+            //get current working directory
+            await nativeSpeech.NativePlayWaveFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "//sounds//" + tmpWavFile);
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -917,8 +928,61 @@ namespace BanterBrain_Buddy
             TwitchCheeringPersonaComboBox.SelectedIndex = TwitchCheeringPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchCheeringPersona);
             TwitchChannelPointPersonaComboBox.SelectedIndex = TwitchChannelPointPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChannelPointPersona);
             TwitchSubscriptionPersonaComboBox.SelectedIndex = TwitchSubscriptionPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchSubscriptionPersona);
+
             TwitchChatPersonaComboBox.SelectedIndex = TwitchChatPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChatPersona);
-            //LLMResponseSelecter.SelectedIndex = LLMResponseSelecter.FindStringExact(Properties.Settings.Default.SelectedLLM);
+
+
+            TwitchChatSoundCheckBox.Checked = Properties.Settings.Default.TwitchChatSoundCheckBox;
+            if (TwitchChatSoundCheckBox.Checked)
+            {
+                TwitchChatSoundTextBox.Enabled = true;
+            }
+            else
+            {
+                TwitchChatSoundTextBox.Enabled = false;
+            }
+            TwitchChatSoundTextBox.Items.Clear();
+            addFilesToDropdown(TwitchChatSoundTextBox);
+            TwitchChatSoundTextBox.SelectedIndex = TwitchChatSoundTextBox.FindStringExact(Properties.Settings.Default.TwitchChatSound);
+
+            TwitchChannelSoundCheckBox.Checked = Properties.Settings.Default.TwitchChannelSoundCheckBox;
+            if (TwitchChannelSoundCheckBox.Checked)
+            {
+                TwitchChannelSoundTextBox.Enabled = true;
+            }
+            else
+            {
+                TwitchChannelSoundTextBox.Enabled = false;
+            }
+            TwitchChannelSoundTextBox.Items.Clear();
+            addFilesToDropdown(TwitchChannelSoundTextBox);
+            TwitchChannelSoundTextBox.SelectedIndex = TwitchChannelSoundTextBox.FindStringExact(Properties.Settings.Default.TwitchChannelSound);
+
+            TwitchCheeringSoundCheckBox.Checked = Properties.Settings.Default.TwitchCheeringSoundCheckBox;
+            if (TwitchCheeringSoundCheckBox.Checked)
+            {
+                TwitchCheeringSoundTextBox.Enabled = true;
+            }
+            else
+            {
+                TwitchCheeringSoundTextBox.Enabled = false;
+            }
+            TwitchCheeringSoundTextBox.Items.Clear();
+            addFilesToDropdown(TwitchCheeringSoundTextBox);
+            TwitchCheeringSoundTextBox.SelectedIndex = TwitchCheeringSoundTextBox.FindStringExact(Properties.Settings.Default.TwitchCheeringSound);
+
+            TwitchSubscriptionSoundCheckBox.Checked = Properties.Settings.Default.TwitchSubscriptionSoundCheckBox;
+            if (TwitchSubscriptionSoundCheckBox.Checked)
+            {
+                TwitchSubscriptionSoundTextBox.Enabled = true;
+            }
+            else
+            {
+                TwitchSubscriptionSoundTextBox.Enabled = false;
+            }
+            TwitchSubscriptionSoundTextBox.Items.Clear();
+            addFilesToDropdown(TwitchSubscriptionSoundTextBox);
+            TwitchSubscriptionSoundTextBox.SelectedIndex = TwitchSubscriptionSoundTextBox.FindStringExact(Properties.Settings.Default.TwitchSubscriptionSoundTextBox);
 
             //check if theres a speaker selected if not select the default onne
             if (Properties.Settings.Default.TTSAudioOutput.Length < 1)
@@ -1057,6 +1121,14 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchChatPersona = TwitchChatPersonaComboBox.Text;
             Properties.Settings.Default.TwitchAutoStart = TwitchAutoStart.Checked;
             Properties.Settings.Default.SelectedLLM = LLMResponseSelecter.Text;
+            Properties.Settings.Default.TwitchChatSoundCheckBox = TwitchChatSoundCheckBox.Checked;
+            Properties.Settings.Default.TwitchChatSound = TwitchChatSoundTextBox.Text;
+            Properties.Settings.Default.TwitchChannelSoundCheckBox = TwitchChannelSoundCheckBox.Checked;
+            Properties.Settings.Default.TwitchChannelSound = TwitchChannelSoundTextBox.Text;
+            Properties.Settings.Default.TwitchCheeringSound = TwitchCheeringSoundTextBox.Text;
+            Properties.Settings.Default.TwitchCheeringSoundCheckBox = TwitchCheeringSoundCheckBox.Checked;
+            Properties.Settings.Default.TwitchSubscriptionSoundTextBox = TwitchSubscriptionSoundTextBox.Text;
+            Properties.Settings.Default.TwitchSubscriptionSoundCheckBox = TwitchSubscriptionSoundCheckBox.Checked;
             Properties.Settings.Default.Save();
 
             //remove hotkey hooks
@@ -1347,7 +1419,17 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
         {
-
+            await InvokeUI(async () =>
+            {
+                if (TwitchCheeringSoundCheckBox.Checked)
+                {
+                    if (TwitchCheeringSoundTextBox.Text.Length > 1)
+                    {
+                        _bBBlog.Info("Playing alert sound for cheer message");
+                        await PlayWaveFile(TwitchCheeringSoundTextBox.Text);
+                    }
+                }
+            });
             string user = e.GetCheerInfo()[0];
             string message = e.GetCheerInfo()[1];
             //we got a valid cheer message, lets see what we can do with it
@@ -1386,6 +1468,18 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubChannelPointRedemption(object sender, TwitchEventhandlers.OnChannelPointCustomRedemptionEventArgs e)
         {
+            await InvokeUI(async () =>
+            {
+                if (TwitchChannelSoundCheckBox.Checked)
+                {
+                    if (TwitchChannelSoundTextBox.Text.Length > 1)
+                    {
+                        _bBBlog.Info("Playing alert sound for channel point redemption message");
+                        await PlayWaveFile(TwitchChannelSoundTextBox.Text);
+                    }
+                }
+            });
+
             string user = e.GetChannelPointCustomRedemptionInfo()[0];
             string message = e.GetChannelPointCustomRedemptionInfo()[1];
             _gPTDone = false;
@@ -1415,6 +1509,18 @@ namespace BanterBrain_Buddy
         //TwitchEventSub_OnESubGiftedSub
         private async void TwitchEventSub_OnESubGiftedSub(object sender, TwitchEventhandlers.OnSubscriptionGiftEventArgs e)
         {
+            await InvokeUI(async () =>
+            {
+                if (TwitchSubscriptionSoundCheckBox.Checked)
+                {
+                    if (TwitchSubscriptionSoundTextBox.Text.Length > 1)
+                    {
+                        _bBBlog.Info("Playing alert sound for subscription message");
+                        await PlayWaveFile(TwitchSubscriptionSoundTextBox.Text);
+                    }
+                }
+            });
+
             string user = e.GetSubscriptionGiftInfo()[0];
             string amount = e.GetSubscriptionGiftInfo()[1];
             string tier = e.GetSubscriptionGiftInfo()[2];
@@ -1433,6 +1539,18 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubSubscribe(object sender, TwitchEventhandlers.OnSubscribeEventArgs e)
         {
+            await InvokeUI(async () =>
+            {
+                if (TwitchSubscriptionSoundCheckBox.Checked)
+                {
+                    if (TwitchSubscriptionSoundTextBox.Text.Length > 1)
+                    {
+                        _bBBlog.Info("Playing alert sound for subscription message");
+                        await PlayWaveFile(TwitchSubscriptionSoundTextBox.Text);
+                    }
+                }
+            });
+
             string user = e.GetSubscribeInfo()[0];
             string broadcaster = e.GetSubscribeInfo()[1];
             _bBBlog.Info($"Valid Twitch Subscription message received: {user} subscribed to {broadcaster}");
@@ -1446,6 +1564,18 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubReSubscribe(object sender, TwitchEventhandlers.OnReSubscribeEventArgs e)
         {
+            await InvokeUI(async () =>
+            {
+                if (TwitchSubscriptionSoundCheckBox.Checked)
+                {
+                    if (TwitchSubscriptionSoundTextBox.Text.Length > 1)
+                    {
+                        _bBBlog.Info("Playing alert sound for subscription message");
+                        await PlayWaveFile(TwitchSubscriptionSoundTextBox.Text);
+                    }
+                }
+            });
+
             string user = e.GetSubscribeInfo()[0];
             string message = e.GetSubscribeInfo()[1];
             string months = e.GetSubscribeInfo()[2];
@@ -1485,6 +1615,18 @@ namespace BanterBrain_Buddy
         //eventhandler for valid chat messages trigger
         private async void TwitchEventSub_OnESubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
         {
+            await InvokeUI(async () =>
+            {
+                if (TwitchChatSoundCheckBox.Checked)
+                {
+                    if (TwitchChatSoundTextBox.Text.Length > 1)
+                    {
+
+                        _bBBlog.Info("Playing alert sound for chat message");
+                        await PlayWaveFile(TwitchChatSoundTextBox.Text);
+                    }
+                }
+            });
 
             string message = e.GetChatInfo()[1].Replace(TwitchCommandTrigger.Text, "");
             string user = e.GetChatInfo()[0];
@@ -1731,6 +1873,9 @@ namespace BanterBrain_Buddy
         {
         }
 
+
+
+
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchStartButton_Click(object sender, EventArgs e)
         {
@@ -1947,25 +2092,79 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void button1_Click(object sender, EventArgs e)
+        private void addFilesToDropdown(ComboBox box)
         {
-
-            openFileDialog1.Filter = "WAV|*.wav";
-            openFileDialog1.Title = "Select a sound file for Twitch chat";
-            //openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-            openFileDialog1.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)+"\\sounds";
-            openFileDialog1.FileName = "";
-            this.openFileDialog1.Multiselect = true;
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            string soundDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/sounds";
+            string[] files = Directory.GetFiles(soundDir, "*.wav");
+            foreach (string file in files)
             {
-                var tmpFile = openFileDialog1.FileName;
-                TwitchChatSoundTextBox.Text = Path.GetFileName(tmpFile);
+                box.Items.Add(Path.GetFileName(file));
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchChatSoundTextBox_Click(object sender, EventArgs e)
+        {
+            TwitchChatSoundTextBox.Items.Clear();
+            addFilesToDropdown(TwitchChatSoundTextBox);
+
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchChatSoundCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (TwitchChatSoundCheckBox.Checked)
+            {
+                TwitchChatSoundTextBox.Enabled = true;
             }
             else
             {
-                TwitchChatSoundTextBox.Text = "No files selected...";
+                TwitchChatSoundTextBox.Enabled = false;
             }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchChannelSoundCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (TwitchChannelSoundCheckBox.Checked)
+            {
+                TwitchChannelSoundTextBox.Enabled = true;
+            }
+            else
+            {
+                TwitchChannelSoundTextBox.Enabled = false;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchCheeringSoundCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (TwitchCheeringSoundCheckBox.Checked)
+            {
+                TwitchCheeringSoundTextBox.Enabled = true;
+            }
+            else
+            {
+                TwitchCheeringSoundTextBox.Enabled = false;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchSubscriptionSoundCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (TwitchSubscriptionSoundCheckBox.Checked)
+            {
+                TwitchSubscriptionSoundTextBox.Enabled = true;
+            }
+            else
+            {
+                TwitchSubscriptionSoundTextBox.Enabled = false;
+            }
+        }
+
+        private void TwitchChatSoundSelectButton_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe",Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/sounds");
         }
     }
 }

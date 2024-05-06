@@ -67,6 +67,21 @@ namespace BanterBrain_Buddy
             return true;
         }
 
+        public async Task<bool> NativePlayWaveFile(string _tmpWavFile)
+        {
+            SetSelectedOutputDevice(Properties.Settings.Default.TTSAudioOutput);
+            _bBBlog.Debug("Playing Native Wave File: " + _tmpWavFile);
+            var waveOut = new WaveOut();
+            waveOut.DeviceNumber = SelectedOutputDevice;
+            var waveStream = new WaveFileReader(_tmpWavFile);
+            waveOut.Init(waveStream);
+            waveOut.Play();
+            while (waveOut.PlaybackState != PlaybackState.Stopped)
+            {
+                await Task.Delay(500);
+            }
+            return true;
+        }
 
         /// <summary>
         /// initialize the native Windows TTS engine

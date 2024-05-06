@@ -562,5 +562,101 @@ namespace BanterBrain_Buddy.Properties {
                 this["OllamaResponseLengthComboBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchChatSound {
+            get {
+                return ((string)(this["TwitchChatSound"]));
+            }
+            set {
+                this["TwitchChatSound"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchChatSoundCheckBox {
+            get {
+                return ((bool)(this["TwitchChatSoundCheckBox"]));
+            }
+            set {
+                this["TwitchChatSoundCheckBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchChannelSoundCheckBox {
+            get {
+                return ((bool)(this["TwitchChannelSoundCheckBox"]));
+            }
+            set {
+                this["TwitchChannelSoundCheckBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchChannelSound {
+            get {
+                return ((string)(this["TwitchChannelSound"]));
+            }
+            set {
+                this["TwitchChannelSound"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchCheeringSoundCheckBox {
+            get {
+                return ((bool)(this["TwitchCheeringSoundCheckBox"]));
+            }
+            set {
+                this["TwitchCheeringSoundCheckBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchCheeringSound {
+            get {
+                return ((string)(this["TwitchCheeringSound"]));
+            }
+            set {
+                this["TwitchCheeringSound"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchSubscriptionSoundCheckBox {
+            get {
+                return ((bool)(this["TwitchSubscriptionSoundCheckBox"]));
+            }
+            set {
+                this["TwitchSubscriptionSoundCheckBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchSubscriptionSoundTextBox {
+            get {
+                return ((string)(this["TwitchSubscriptionSoundTextBox"]));
+            }
+            set {
+                this["TwitchSubscriptionSoundTextBox"] = value;
+            }
+        }
     }
 }

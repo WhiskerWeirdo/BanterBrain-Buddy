@@ -42,7 +42,7 @@ Known issues:
 - [X] 0.0.4 MVP Azure TTS/STT support
 - [X] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
 - [X] 0.0.5.1 ALPHA INSTALLABLE ALPHA BUILD
-- [ ] 0.0.6 ALPHA Google, Elevenlabs TTS support 
+- [X] 0.0.6 ALPHA Elevenlabs TTS support 
 - [ ] 0.0.7 ALPHA Improved Error handling & Code documentation. GUI improvements
 - [	] 0.0.8 ALPHA Other languages than English support
 - [ ] 0.0.9 ALPHA improve Twitch integration with more configurable event responses
