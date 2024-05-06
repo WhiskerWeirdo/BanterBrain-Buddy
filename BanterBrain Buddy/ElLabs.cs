@@ -16,6 +16,8 @@ namespace BanterBrain_Buddy
     {
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public string _elevelLabsAPIKey { get; set; }
+        //private List<string> _elevenLabVoiceList;
+        private Dictionary<string, string> _elevenLabVoiceList;
 
         private int SelectedOutputDevice;
 
@@ -40,21 +42,12 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"ElevenLabsTTS called with voice: {tmpVoice}");
             SetSelectedOutputDevice(outputDevice);
 
-            //we need to find teh voice, and then use the ID to get the voice settings
-            var allVoices = await api.VoicesEndpoint.GetAllVoicesAsync();
-            foreach (var aVoice in allVoices)
-            {
-                if (aVoice.Name == tmpVoice)
-                {
-                    tmpVoice = aVoice.Id;
-                    break;
-                }
-            }
-
-            var voice = await api.VoicesEndpoint.GetVoiceAsync(tmpVoice);
+            _bBBlog.Info($"count of voices: " + _elevenLabVoiceList.Count);
+            var voiceId = _elevenLabVoiceList[tmpVoice];
+            var voice = await api.VoicesEndpoint.GetVoiceAsync(voiceId);
             VoiceSettings voiceSettings = new VoiceSettings(similarity/100f, stability/100f, false, style/100f);
            // var voiceSettings = await api.VoicesEndpoint.GetDefaultVoiceSettingsAsync();
-            var editVoice = api.VoicesEndpoint.EditVoiceSettingsAsync(tmpVoice, voiceSettings);
+            var editVoice = api.VoicesEndpoint.EditVoiceSettingsAsync(voiceId, voiceSettings);
             if (editVoice.Result)
             {
                 _bBBlog.Info($"Voice settings updated for {voice.Name}");
@@ -89,7 +82,18 @@ namespace BanterBrain_Buddy
 
         public async Task<List<string>> TTSGetElevenLabsVoices()
         {
-            List<string> ElevenLabVoiceList = new List<string>();
+            List<string> ElevenLabVoices = [];
+
+            //we dont need to re-do this if its alrready filled
+            if (_elevenLabVoiceList.Count > 0)
+            {
+                foreach (var voice in _elevenLabVoiceList)
+                {
+                    ElevenLabVoices.Add(voice.Key);
+                }
+                return ElevenLabVoices;
+            }
+
             var api = new ElevenLabsClient(_elevelLabsAPIKey);
             var tier = await api.UserEndpoint.GetSubscriptionInfoAsync();
             _bBBlog.Info($"Tier: {tier.Tier} for {tier.VoiceLimit}");
@@ -98,9 +102,17 @@ namespace BanterBrain_Buddy
 
             foreach (var voice in voices)
             {
-                ElevenLabVoiceList.Add(voice.Name);
+                _elevenLabVoiceList.Add(voice.Name, voice.Id);
             }
-            return ElevenLabVoiceList;
+
+            if (_elevenLabVoiceList.Count > 0)
+            {
+                foreach (var voice in _elevenLabVoiceList)
+                {
+                    ElevenLabVoices.Add(voice.Key);
+                }
+            }
+            return ElevenLabVoices;
         }
 
         public async Task<bool> ElevenLabsAPIKeyTest()
@@ -132,6 +144,7 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Info("ElevenLabs called");
             _elevelLabsAPIKey = elevelLabsAPIKey;
+            _elevenLabVoiceList = new Dictionary<string, string>();
         }
     }
 }

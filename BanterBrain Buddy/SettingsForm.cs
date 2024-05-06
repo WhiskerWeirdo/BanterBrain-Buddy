@@ -28,6 +28,7 @@ namespace BanterBrain_Buddy
         private bool _twitchStartedTest = false;
         private bool _twitchAPIVerified = false;
         private bool _personaEdited = false;
+        private ElLabs _elevenLabsApi;
 
         [SupportedOSPlatform("windows6.1")]
         public SettingsForm()
@@ -567,8 +568,10 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSGetElevenLabsVoices()
         {
-            ElLabs elLabs = new(ElevenlabsAPIKeyTextBox.Text);
-            var _elevenLabsVoicesList = await elLabs.TTSGetElevenLabsVoices();
+            if (_elevenLabsApi == null)
+                _elevenLabsApi = new(ElevenlabsAPIKeyTextBox.Text);
+    
+            var _elevenLabsVoicesList = await _elevenLabsApi.TTSGetElevenLabsVoices();
             if (_elevenLabsVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving ElevenLabs voicelist. Is your API key still valid?", "ElevenLabs No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -768,8 +771,10 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSElevenLabsSpeakToOutput(string TextToSay)
         {
-            ElLabs elLabs = new(ElevenlabsAPIKeyTextBox.Text);
-            var result = await elLabs.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text));
+            if (_elevenLabsApi == null)
+                _elevenLabsApi = new(ElevenlabsAPIKeyTextBox.Text);
+
+            var result = await _elevenLabsApi.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text));
             if (!result)
             {
                 _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
@@ -1256,9 +1261,10 @@ namespace BanterBrain_Buddy
         private async void ElevenLabsTestButton_Click(object sender, EventArgs e)
         {
             //call test api key for elevenlabs
-            ElLabs elevenLabsApi = new(ElevenlabsAPIKeyTextBox.Text);
+            if (_elevenLabsApi == null)
+                _elevenLabsApi = new(ElevenlabsAPIKeyTextBox.Text);
 
-            if (await elevenLabsApi.ElevenLabsAPIKeyTest())
+            if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
             {
                 _bBBlog.Info("ElevenLabs API key is valid");
                 MessageBox.Show("ElevenLabs API key is valid", "ElevenLabs API Test", MessageBoxButtons.OK, MessageBoxIcon.Information);

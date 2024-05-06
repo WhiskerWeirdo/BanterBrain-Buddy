@@ -68,6 +68,8 @@ namespace BanterBrain_Buddy
         private string _sTTOutputText;
         private string _gPTOutputText;
 
+        private ElLabs _elevenLabsApi;
+
         private List<Personas> _personas = new List<Personas>();
 
         [SupportedOSPlatform("windows6.1")]
@@ -747,8 +749,12 @@ namespace BanterBrain_Buddy
         {
             UpdateTextLog("Saying text with ElevenLabs TTS\r\n");
             _bBBlog.Info("Saying text with ElevenLabs TTS");
-            ElLabs elLabs = new(Properties.Settings.Default.ElevenLabsAPIkey);
-            var result = await elLabs.ElevenLabsTTS(TextToSay, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName, int.Parse(tmpPersona.VoiceOptions[0]), int.Parse(tmpPersona.VoiceOptions[1]), int.Parse(tmpPersona.VoiceOptions[2]));
+            if (_elevenLabsApi == null)
+            {
+                _elevenLabsApi = new(Properties.Settings.Default.ElevenLabsAPIkey);
+                _ = await _elevenLabsApi.TTSGetElevenLabsVoices();
+            }
+            var result = await _elevenLabsApi.ElevenLabsTTS(TextToSay, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName, int.Parse(tmpPersona.VoiceOptions[0]), int.Parse(tmpPersona.VoiceOptions[1]), int.Parse(tmpPersona.VoiceOptions[2]));
             if (!result)
             {
                 _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
@@ -1054,11 +1060,12 @@ namespace BanterBrain_Buddy
             if (Properties.Settings.Default.ElevenLabsAPIkey.Length > 1)
             {
                 //call test api key for elevenlabs
-                ElLabs elevenLabsApi = new(Properties.Settings.Default.ElevenLabsAPIkey);
-                if (await elevenLabsApi.ElevenLabsAPIKeyTest())
+                if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
                 {
-                    _bBBlog.Info("ElevenLabs API key is valid");
-                    UpdateTextLog("ElevenLabs API key is valid.\r\n");
+                    _bBBlog.Info("ElevenLabs API key is valid, pre-loading voices");
+                    UpdateTextLog("ElevenLabs API key is valid, pre-loading voices\r\n");
+                    //lets find the voices at startup so we dont have to load them later
+                    _= await _elevenLabsApi.TTSGetElevenLabsVoices();
                 }
             }
 
