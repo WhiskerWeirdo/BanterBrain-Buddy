@@ -2057,6 +2057,7 @@ namespace BanterBrain_Buddy
                     TwitchEnableDisableFields();
                 }
             }
+            TwitchEnableDisableFields();
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -2143,7 +2144,14 @@ namespace BanterBrain_Buddy
                 TwitchSubscriptionPersonaComboBox.Enabled = true;
                 TwitchChannelPointPersonaComboBox.Enabled = true;
                 TwitchCustomRewardName.Enabled = true;
-
+                TwitchChannelPointTTSEverythingRadioButton.Enabled = true;
+                TwitchChannelPointTTSResponseOnlyRadioButton.Enabled = true;
+                TwitchSubscriptionTTSEverythingRadioButton.Enabled = true;
+                TwitchSubscriptionTTSResponseOnlyRadioButton.Enabled = true;
+                TwitchCheeringTTSEverythingRadioButton.Enabled = true;
+                TwitchCheeringTTSResponseOnlyRadioButton.Enabled = true;
+                TwitchChatTTSEverythingRadioButton.Enabled = true;
+                TwitchChatTTSResponseOnlyRadioButton.Enabled = true;
             }
         }
 
