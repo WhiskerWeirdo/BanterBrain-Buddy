@@ -204,7 +204,18 @@ namespace BanterBrain_Buddy
             OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
             UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
             OllamaResponseLengthComboBox.SelectedIndex = OllamaResponseLengthComboBox.FindStringExact(Properties.Settings.Default.OllamaResponseLengthComboBox);
-            
+
+            if (Properties.Settings.Default.WhisperSpeechRecognitionComboBox.Length > 1)
+            {
+                WhisperSpeechRecognitionComboBox.SelectedIndex = WhisperSpeechRecognitionComboBox.FindStringExact(Properties.Settings.Default.WhisperSpeechRecognitionComboBox);
+            }
+            else
+            {
+                //ok nothing is set, so lets just select the first one by default
+                _bBBlog.Info("No whisper speech recognition language set, selecting English");
+                WhisperSpeechRecognitionComboBox.SelectedIndex = WhisperSpeechRecognitionComboBox.FindStringExact("English");
+            }
+
             if (Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox.Length >1)
             {
                 NativeSpeechRecognitionLanguageComboBox.SelectedIndex = NativeSpeechRecognitionLanguageComboBox.FindStringExact(Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox);
@@ -255,6 +266,8 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
             Properties.Settings.Default.OllamaResponseLengthComboBox = OllamaResponseLengthComboBox.Text;
             Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox = NativeSpeechRecognitionLanguageComboBox.Text;
+            Properties.Settings.Default.WhisperSpeechRecognitionComboBox = WhisperSpeechRecognitionComboBox.Text;
+
             /*   if (UseGPTLLMCheckBox.Checked)
                {
                    Properties.Settings.Default.SelectedLLM = "GPT";

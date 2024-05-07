@@ -182,5 +182,8 @@
     <Setting Name="NativeSpeechRecognitionLanguageComboBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">en-US</Value>
     </Setting>
+    <Setting Name="WhisperSpeechRecognitionComboBox" Type="System.String" Scope="User">
+      <Value Profile="(Default)">English</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

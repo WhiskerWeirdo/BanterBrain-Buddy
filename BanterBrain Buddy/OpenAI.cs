@@ -48,8 +48,48 @@ namespace BanterBrain_Buddy
         }
         public async Task<string> OpenAISTT(string audioFile)
         {
+            _bBBlog.Info("Sending to OpenAI STT with language: " + Properties.Settings.Default.WhisperSpeechRecognitionComboBox);
+            string ISOLanguage = "";
+            switch (Properties.Settings.Default.WhisperSpeechRecognitionComboBox)
+            {
+                case "Dutch":
+                    ISOLanguage = "nl";
+                    break;
+                case "Danish":
+                    ISOLanguage = "da";
+                    break;
+                case "English":
+                    ISOLanguage = "en";
+                    break;
+                case "French":
+                    ISOLanguage = "fr";
+                    break;
+                case "German":
+                    ISOLanguage = "de";
+                    break;
+                case "Italian":
+                    ISOLanguage = "it";
+                    break;
+                case "Japanese":
+                    ISOLanguage = "ja";
+                    break;
+                case "Norwegian":
+                    ISOLanguage = "no";
+                    break;
+                case "Polish":
+                    ISOLanguage = "pl";
+                    break;
+                case "Swedish":
+                    ISOLanguage = "sv";
+                    break;
+                default:
+                    _bBBlog.Error("OpenAI STT language not supported, using english");
+                    ISOLanguage = "en";
+                    break;
+            }
+
             OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
-            var STTResult = await api.Transcriptions.GetTextAsync(audioFile);
+            var STTResult = await api.Transcriptions.GetTextAsync(audioFile, ISOLanguage);
 
             if (STTResult == null)
             {

@@ -742,5 +742,17 @@ namespace BanterBrain_Buddy.Properties {
                 this["NativeSpeechRecognitionLanguageComboBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("English")]
+        public string WhisperSpeechRecognitionComboBox {
+            get {
+                return ((string)(this["WhisperSpeechRecognitionComboBox"]));
+            }
+            set {
+                this["WhisperSpeechRecognitionComboBox"] = value;
+            }
+        }
     }
 }
