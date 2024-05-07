@@ -419,7 +419,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="MainTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>686, 522</value>
+    <value>668, 522</value>
   </data>
   <data name="MainTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -3240,7 +3240,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>BanterBrain Buddy 0.0.7-ALPHA.1</value>
+    <value>BanterBrain Buddy 0.0.7-ALPHA.2</value>
   </data>
   <data name="&gt;&gt;fileToolStripMenuItem.Name" xml:space="preserve">
     <value>fileToolStripMenuItem</value>

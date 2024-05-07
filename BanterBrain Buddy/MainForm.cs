@@ -481,7 +481,7 @@ namespace BanterBrain_Buddy
             //call the Azure STT function with the selected input device
             //first initialize the Azure STT class
             _azureSpeech.AzureSTTInit(Properties.Settings.Default.VoiceInput);
-            _bBBlog.Info("Azure STT microphone start.");
+            _bBBlog.Info("Azure STT microphone start. Language: " + Properties.Settings.Default.AzureLanguageComboBox );
             while (MainRecordingStart.Text == "Recording" && !_sTTDone && !_bigError)
             {
                 var recognizeResult = await _azureSpeech.RecognizeSpeechAsync();
