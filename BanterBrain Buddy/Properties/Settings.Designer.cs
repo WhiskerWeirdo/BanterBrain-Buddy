@@ -730,5 +730,17 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchChatTTSResponseOnlyRadioButton"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
+        public string NativeSpeechRecognitionLanguageComboBox {
+            get {
+                return ((string)(this["NativeSpeechRecognitionLanguageComboBox"]));
+            }
+            set {
+                this["NativeSpeechRecognitionLanguageComboBox"] = value;
+            }
+        }
     }
 }

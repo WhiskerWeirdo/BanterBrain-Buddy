@@ -29,20 +29,27 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Microphone");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Speaker");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode1, treeNode2 });
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Azure");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("OpenAI");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("ElevenLabs");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Ollama LLM");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode4, treeNode5, treeNode6, treeNode7 });
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Twitch ");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode9 });
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Persona's");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Azure");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("OpenAI");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("ElevenLabs");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Ollama LLM");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4 });
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Native speech");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Persona's");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Microphone");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Speaker");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode8, treeNode9 });
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Twitch ");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
+            NativeSpeechPanel = new System.Windows.Forms.Panel();
+            label22 = new System.Windows.Forms.Label();
+            NativeSpeechRecognitionLanguageComboBox = new System.Windows.Forms.ComboBox();
+            label21 = new System.Windows.Forms.Label();
             OllamaPanel = new System.Windows.Forms.Panel();
+            OllamaResponseLengthComboBox = new System.Windows.Forms.ComboBox();
+            label20 = new System.Windows.Forms.Label();
             OllamaTestButton = new System.Windows.Forms.Button();
             OllamaModelsTextLabel = new System.Windows.Forms.Label();
             OllamaModelsComboBox = new System.Windows.Forms.ComboBox();
@@ -126,12 +133,11 @@
             TTSAudioOutputLabel = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             BBBToolTip = new System.Windows.Forms.ToolTip(components);
-            label20 = new System.Windows.Forms.Label();
-            OllamaResponseLengthComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            NativeSpeechPanel.SuspendLayout();
             OllamaPanel.SuspendLayout();
             ElevenLabsPanel.SuspendLayout();
             OpenAIChatGPTPanel.SuspendLayout();
@@ -156,6 +162,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(NativeSpeechPanel);
             splitContainer1.Panel2.Controls.Add(OllamaPanel);
             splitContainer1.Panel2.Controls.Add(ElevenLabsPanel);
             splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
@@ -173,34 +180,74 @@
             MenuTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             MenuTreeView.Location = new System.Drawing.Point(0, 0);
             MenuTreeView.Name = "MenuTreeView";
-            treeNode1.Name = "Microphone";
-            treeNode1.Text = "Microphone";
-            treeNode2.Name = "Speaker";
-            treeNode2.Text = "Speaker";
-            treeNode3.Name = "VoiceSettings";
-            treeNode3.Text = "Sound & Voice settings";
-            treeNode4.Name = "Azure";
-            treeNode4.Text = "Azure";
-            treeNode5.Name = "OpenAIChatGPT";
-            treeNode5.Text = "OpenAI";
-            treeNode6.Name = "ElevenLabs";
-            treeNode6.Text = "ElevenLabs";
-            treeNode7.Name = "OllamaLLM";
-            treeNode7.Text = "Ollama LLM";
-            treeNode8.Name = "APISettings";
-            treeNode8.Text = "API Settings";
-            treeNode9.Name = "Twitch";
-            treeNode9.Text = "Twitch ";
-            treeNode10.Name = "Streaming Settings";
-            treeNode10.Text = "Streaming settings";
-            treeNode11.Name = "Personas";
-            treeNode11.Text = "Persona's";
-            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode3, treeNode8, treeNode10, treeNode11 });
+            treeNode1.Name = "Azure";
+            treeNode1.Text = "Azure";
+            treeNode2.Name = "OpenAIChatGPT";
+            treeNode2.Text = "OpenAI";
+            treeNode3.Name = "ElevenLabs";
+            treeNode3.Text = "ElevenLabs";
+            treeNode4.Name = "OllamaLLM";
+            treeNode4.Text = "Ollama LLM";
+            treeNode5.Name = "APISettings";
+            treeNode5.Text = "API Settings";
+            treeNode6.Name = "NativeSpeech";
+            treeNode6.Text = "Native speech";
+            treeNode7.Name = "Personas";
+            treeNode7.Text = "Persona's";
+            treeNode8.Name = "Microphone";
+            treeNode8.Text = "Microphone";
+            treeNode9.Name = "Speaker";
+            treeNode9.Text = "Speaker";
+            treeNode10.Name = "VoiceSettings";
+            treeNode10.Text = "Sound & Voice settings";
+            treeNode11.Name = "Twitch";
+            treeNode11.Text = "Twitch ";
+            treeNode12.Name = "StreamingSettings";
+            treeNode12.Text = "Streaming settings";
+            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode5, treeNode6, treeNode7, treeNode10, treeNode12 });
             MenuTreeView.PathSeparator = "";
             MenuTreeView.Size = new System.Drawing.Size(203, 450);
             MenuTreeView.TabIndex = 0;
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += treeView1_AfterSelect;
+            // 
+            // NativeSpeechPanel
+            // 
+            NativeSpeechPanel.Controls.Add(label22);
+            NativeSpeechPanel.Controls.Add(NativeSpeechRecognitionLanguageComboBox);
+            NativeSpeechPanel.Controls.Add(label21);
+            NativeSpeechPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            NativeSpeechPanel.Location = new System.Drawing.Point(0, 0);
+            NativeSpeechPanel.Name = "NativeSpeechPanel";
+            NativeSpeechPanel.Size = new System.Drawing.Size(593, 450);
+            NativeSpeechPanel.TabIndex = 10;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new System.Drawing.Point(30, 51);
+            label22.Name = "label22";
+            label22.Size = new System.Drawing.Size(161, 15);
+            label22.TabIndex = 2;
+            label22.Text = "Speech recognition language";
+            // 
+            // NativeSpeechRecognitionLanguageComboBox
+            // 
+            NativeSpeechRecognitionLanguageComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            NativeSpeechRecognitionLanguageComboBox.FormattingEnabled = true;
+            NativeSpeechRecognitionLanguageComboBox.Location = new System.Drawing.Point(206, 50);
+            NativeSpeechRecognitionLanguageComboBox.Name = "NativeSpeechRecognitionLanguageComboBox";
+            NativeSpeechRecognitionLanguageComboBox.Size = new System.Drawing.Size(121, 23);
+            NativeSpeechRecognitionLanguageComboBox.TabIndex = 1;
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new System.Drawing.Point(245, 11);
+            label21.Name = "label21";
+            label21.Size = new System.Drawing.Size(82, 15);
+            label21.TabIndex = 0;
+            label21.Text = "Native Speech";
             // 
             // OllamaPanel
             // 
@@ -219,6 +266,25 @@
             OllamaPanel.Size = new System.Drawing.Size(593, 450);
             OllamaPanel.TabIndex = 37;
             OllamaPanel.VisibleChanged += OllamaPanel_VisibleChanged;
+            // 
+            // OllamaResponseLengthComboBox
+            // 
+            OllamaResponseLengthComboBox.FormattingEnabled = true;
+            OllamaResponseLengthComboBox.Items.AddRange(new object[] { "Short", "Normal", "Long" });
+            OllamaResponseLengthComboBox.Location = new System.Drawing.Point(202, 132);
+            OllamaResponseLengthComboBox.Name = "OllamaResponseLengthComboBox";
+            OllamaResponseLengthComboBox.Size = new System.Drawing.Size(205, 23);
+            OllamaResponseLengthComboBox.TabIndex = 9;
+            OllamaResponseLengthComboBox.Text = "Normal";
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new System.Drawing.Point(65, 137);
+            label20.Name = "label20";
+            label20.Size = new System.Drawing.Size(94, 15);
+            label20.TabIndex = 8;
+            label20.Text = "Response length";
             // 
             // OllamaTestButton
             // 
@@ -1107,25 +1173,6 @@
             label6.TabIndex = 0;
             label6.Text = "Speaker Output settings";
             // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.Location = new System.Drawing.Point(65, 137);
-            label20.Name = "label20";
-            label20.Size = new System.Drawing.Size(94, 15);
-            label20.TabIndex = 8;
-            label20.Text = "Response length";
-            // 
-            // OllamaResponseLengthComboBox
-            // 
-            OllamaResponseLengthComboBox.FormattingEnabled = true;
-            OllamaResponseLengthComboBox.Items.AddRange(new object[] { "Short", "Normal", "Long" });
-            OllamaResponseLengthComboBox.Location = new System.Drawing.Point(202, 132);
-            OllamaResponseLengthComboBox.Name = "OllamaResponseLengthComboBox";
-            OllamaResponseLengthComboBox.Size = new System.Drawing.Size(205, 23);
-            OllamaResponseLengthComboBox.TabIndex = 9;
-            OllamaResponseLengthComboBox.Text = "Normal";
-            // 
             // SettingsForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1139,6 +1186,8 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            NativeSpeechPanel.ResumeLayout(false);
+            NativeSpeechPanel.PerformLayout();
             OllamaPanel.ResumeLayout(false);
             OllamaPanel.PerformLayout();
             ElevenLabsPanel.ResumeLayout(false);
@@ -1252,5 +1301,9 @@
         private System.Windows.Forms.Button OllamaTestButton;
         private System.Windows.Forms.ComboBox OllamaResponseLengthComboBox;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Panel NativeSpeechPanel;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.ComboBox NativeSpeechRecognitionLanguageComboBox;
+        private System.Windows.Forms.Label label21;
     }
 }

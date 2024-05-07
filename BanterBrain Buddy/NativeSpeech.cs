@@ -164,8 +164,20 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         public async Task<string> NativeSpeechRecognizeStart(string _tmpWavFile)
         {
+
+            string culture = Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox;
+            if (culture.Length > 1 )
+            {
+                _bBBlog.Info("Setting Native Speech Recognition Language to: " + culture);
+            }
+            else
+            {
+                _bBBlog.Info("Nothing set, so setting Native Speech Recognition Language to: en-US");
+                culture = "en-US";
+            }
+            _bBBlog.Info("Starting Native Speech Recognition with language: " + culture);
             // Create an in-process speech recognizer for the en-US locale.  
-            SpeechRecognitionEngine recognizer2 = new(new System.Globalization.CultureInfo("en-US"));
+            SpeechRecognitionEngine recognizer2 = new(new System.Globalization.CultureInfo(culture));
             // Create and load a dictation grammar.  
             recognizer2.LoadGrammar(new DictationGrammar());
             recognizer2.SetInputToWaveFile(_tmpWavFile);

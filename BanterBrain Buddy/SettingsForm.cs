@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
+using System.Speech.Recognition;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -36,6 +37,7 @@ namespace BanterBrain_Buddy
             InitializeComponent();
             DisablePersonaEventHandlers();
             GetAudioDevices();
+            GetInstalledNativeSpeecRecognitionCultures();
             LoadSettings();
             MenuTreeView.ExpandAll();
 
@@ -49,6 +51,15 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Twitch is not running, enabling Twitch settings");
                 TwitchPanel.Enabled = true;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void GetInstalledNativeSpeecRecognitionCultures()
+        {
+            foreach (RecognizerInfo config in SpeechRecognitionEngine.InstalledRecognizers())
+            {
+                NativeSpeechRecognitionLanguageComboBox.Items.Add(config.Culture);
             }
         }
 
@@ -133,6 +144,9 @@ namespace BanterBrain_Buddy
                 case "Microphone":
                     PanelVisible(MicrophonePanel.Name);
                     break;
+                case "APISettings":
+                    PanelVisible(AzurePanel.Name);
+                    break;
                 case "Azure":
                     PanelVisible(AzurePanel.Name);
                     break;
@@ -151,8 +165,14 @@ namespace BanterBrain_Buddy
                 case "OllamaLLM":
                     PanelVisible(OllamaPanel.Name);
                     break;
+                case "StreamingSettings":
+                    PanelVisible(TwitchPanel.Name);
+                    break;
                 case "TwitchTriggers":
                     PanelVisible(TwitchPanel.Name);
+                    break;
+                case "NativeSpeech":
+                    PanelVisible(NativeSpeechPanel.Name);
                     break;
                 case "Personas":
                     PanelVisible(PersonasPanel.Name);
@@ -184,6 +204,17 @@ namespace BanterBrain_Buddy
             OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
             UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
             OllamaResponseLengthComboBox.SelectedIndex = OllamaResponseLengthComboBox.FindStringExact(Properties.Settings.Default.OllamaResponseLengthComboBox);
+            
+            if (Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox.Length >1)
+            {
+                NativeSpeechRecognitionLanguageComboBox.SelectedIndex = NativeSpeechRecognitionLanguageComboBox.FindStringExact(Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox);
+            } else
+            {
+                //ok nothing is set, so lets just select the first one by default
+                _bBBlog.Info("No native speech recognition language set, selecting the first one");
+                NativeSpeechRecognitionLanguageComboBox.SelectedIndex = 0;
+            }
+
             //    if (Properties.Settings.Default.SelectedLLM == "GPT")
             //   {
             //       UseGPTLLMCheckBox.Checked = true;
@@ -223,6 +254,7 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.OllamaSelectedModel = OllamaModelsComboBox.Text;
             Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
             Properties.Settings.Default.OllamaResponseLengthComboBox = OllamaResponseLengthComboBox.Text;
+            Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox = NativeSpeechRecognitionLanguageComboBox.Text;
             /*   if (UseGPTLLMCheckBox.Checked)
                {
                    Properties.Settings.Default.SelectedLLM = "GPT";

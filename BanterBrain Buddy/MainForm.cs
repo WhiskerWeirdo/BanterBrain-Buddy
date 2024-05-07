@@ -99,6 +99,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Loading settings...");
             UpdateTextLog("Loading settings...Please wait\r\n");
             BBBTabs.Enabled = false;
+            menuStrip1.Enabled = false;
             if (TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchAccessToken.Length > 1)
                 SetTwitchValidateTokenTimer(true);
 
@@ -110,6 +111,7 @@ namespace BanterBrain_Buddy
             Subscribe();
             UpdateTextLog("Settings loaded.\r\n\r\n");
             BBBTabs.Enabled = true;
+            menuStrip1.Enabled = true;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1109,7 +1111,7 @@ namespace BanterBrain_Buddy
                 if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
                 {
                     _bBBlog.Info("ElevenLabs API key is valid, pre-loading voices");
-                    UpdateTextLog("ElevenLabs API key is valid, pre-loading voices\r\n");
+                    UpdateTextLog("ElevenLabs API key is valid, pre-loading voices if not loaded yet\r\n");
                     //lets find the voices at startup so we dont have to load them later
                     _ = await _elevenLabsApi.TTSGetElevenLabsVoices();
                 }
@@ -1124,8 +1126,6 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Info("GPT API key is valid");
                     UpdateTextLog("OpenAI key is valid.\r\n");
-                    //  _twitchAPIVerified = true;
-                    //  TwitchStartButton.Enabled = true;
                 }
                 else
                 {
@@ -1203,44 +1203,6 @@ namespace BanterBrain_Buddy
             System.Windows.Forms.Application.Exit();
         }
 
-        /*
-        [SupportedOSPlatform("windows6.1")]
-        public void ShowHotkeyDialogBox()
-        {
-            //local, but a form, so PascalCase is allowed
-            HotkeyForm HotkeyDialog = new();
-
-            var result = HotkeyDialog.ShowDialog(this);
-            // Show testDialog as a modal dialog and determine if DialogResult = OK.
-            if (result == DialogResult.OK && HotkeyDialog.ReturnValue1 != null)
-            {
-                _setHotkeys.Clear();
-                //this.MicrophoneHotkeyEditbox.Text = "";
-                List<Keys> hotKeys = HotkeyDialog.ReturnValue1;
-                //ok now we got the keys, parse them and put them in the index box
-                // and the global list for hotkeys
-
-                for (var i = 0; i < hotKeys.Count; i++)
-                {
-                    //add to the current hotkey list for keyup event checks
-                    _setHotkeys.Add(hotKeys[i]);
-
-                }
-            }
-            //  UpdateTextLog("Hotkey set to " + MicrophoneHotkeyEditbox.Text + "\r\n");
-            //   _bBBlog.Info("Hotkey set to " + MicrophoneHotkeyEditbox.Text);
-            HotkeyDialog.Dispose();
-            //bind the new value 
-            Subscribe();
-        }
-
-        [SupportedOSPlatform("windows6.1")]
-        private void MicrophoneHotkeySet_Click(object sender, EventArgs e)
-        {
-            Unsubscribe();
-            ShowHotkeyDialogBox();
-        }
-        */
 
         [SupportedOSPlatform("windows6.1")]
         //Keyboard hooks
@@ -1351,8 +1313,6 @@ namespace BanterBrain_Buddy
         private async void TwitchEnableCheckbox_Click(object sender, EventArgs e)
         {
             //this turns off and on all twitch options
-
-
             _bBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
         }
 
