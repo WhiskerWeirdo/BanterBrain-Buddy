@@ -587,16 +587,16 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Command trigger is still on timeout, ignoring");
                 return;
-            } else
-                _isCommandTriggered = true;
+            }
 
             var eventData = e.Notification.Payload.Event;
-            _bBBlog.Info($"{eventData.ChatterUserName} said {eventData.Message.Text} in {eventData.BroadcasterUserName}'s chat.");
+            _bBBlog.Debug($"{eventData.ChatterUserName} said {eventData.Message.Text} in {eventData.BroadcasterUserName}'s chat.");
             //TODO: check for the command and then trigger the bot if its the right command and delay has been passed since bot was triggered last
             //we need to also check if the user is a follower or subscriber if that is set
             //also we should check when last time bot was triggered
             if (eventData.Message.Text.StartsWith(command))
             {
+                _isCommandTriggered = true;
                 //if this does not work we need to, when starting, request all follows and store them in a list and kee it updated
                 var result =  await _gTwitchAPI.Helix.Channels.GetChannelFollowersAsync(_twitchChannelID, eventData.ChatterUserId);
 
