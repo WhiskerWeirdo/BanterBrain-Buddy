@@ -67,6 +67,8 @@ namespace BanterBrain_Buddy
             TwitchAutoStart = new CheckBox();
             TwitchStartButton = new Button();
             TwitchChannelPointsSettings = new GroupBox();
+            TwitchChannelPointTTSResponseOnlyRadioButton = new RadioButton();
+            TwitchChannelPointTTSEverythingRadioButton = new RadioButton();
             label4 = new Label();
             TwitchChannelPointPersonaComboBox = new ComboBox();
             label9 = new Label();
@@ -74,17 +76,23 @@ namespace BanterBrain_Buddy
             TwitchChannelPointCheckBox = new CheckBox();
             TwitchEnableCheckbox = new CheckBox();
             TwitchSubscriberSettings = new GroupBox();
+            TwitchSubscriptionTTSResponseOnlyRadioButton = new RadioButton();
+            TwitchSubscriptionTTSEverythingRadioButton = new RadioButton();
             label2 = new Label();
             TwitchGiftedSub = new CheckBox();
             TwitchSubscriptionPersonaComboBox = new ComboBox();
             TwitchSubscribed = new CheckBox();
             TwitchCheerSettings = new GroupBox();
+            TwitchCheeringTTSResponseOnlyRadioButton = new RadioButton();
+            TwitchCheeringTTSEverythingRadioButton = new RadioButton();
             label3 = new Label();
             TwitchCheeringPersonaComboBox = new ComboBox();
             TwitchCheerCheckBox = new CheckBox();
             label5 = new Label();
             TwitchMinBits = new TextBox();
             TwitchTriggerSettings = new GroupBox();
+            TwitchChatTTSResponseOnlyRadioButton = new RadioButton();
+            TwitchChatTTSEverythingRadioButton = new RadioButton();
             label1 = new Label();
             TwitchChatPersonaComboBox = new ComboBox();
             TwitchReadChatCheckBox = new CheckBox();
@@ -383,6 +391,8 @@ namespace BanterBrain_Buddy
             // 
             // TwitchChannelPointsSettings
             // 
+            TwitchChannelPointsSettings.Controls.Add(TwitchChannelPointTTSResponseOnlyRadioButton);
+            TwitchChannelPointsSettings.Controls.Add(TwitchChannelPointTTSEverythingRadioButton);
             TwitchChannelPointsSettings.Controls.Add(label4);
             TwitchChannelPointsSettings.Controls.Add(TwitchChannelPointPersonaComboBox);
             TwitchChannelPointsSettings.Controls.Add(label9);
@@ -391,6 +401,22 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchChannelPointsSettings, "TwitchChannelPointsSettings");
             TwitchChannelPointsSettings.Name = "TwitchChannelPointsSettings";
             TwitchChannelPointsSettings.TabStop = false;
+            // 
+            // TwitchChannelPointTTSResponseOnlyRadioButton
+            // 
+            resources.ApplyResources(TwitchChannelPointTTSResponseOnlyRadioButton, "TwitchChannelPointTTSResponseOnlyRadioButton");
+            TwitchChannelPointTTSResponseOnlyRadioButton.Name = "TwitchChannelPointTTSResponseOnlyRadioButton";
+            TwitchChannelPointTTSResponseOnlyRadioButton.TabStop = true;
+            BBBToolTip.SetToolTip(TwitchChannelPointTTSResponseOnlyRadioButton, resources.GetString("TwitchChannelPointTTSResponseOnlyRadioButton.ToolTip"));
+            TwitchChannelPointTTSResponseOnlyRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // TwitchChannelPointTTSEverythingRadioButton
+            // 
+            resources.ApplyResources(TwitchChannelPointTTSEverythingRadioButton, "TwitchChannelPointTTSEverythingRadioButton");
+            TwitchChannelPointTTSEverythingRadioButton.Name = "TwitchChannelPointTTSEverythingRadioButton";
+            TwitchChannelPointTTSEverythingRadioButton.TabStop = true;
+            BBBToolTip.SetToolTip(TwitchChannelPointTTSEverythingRadioButton, resources.GetString("TwitchChannelPointTTSEverythingRadioButton.ToolTip"));
+            TwitchChannelPointTTSEverythingRadioButton.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -432,6 +458,8 @@ namespace BanterBrain_Buddy
             // 
             // TwitchSubscriberSettings
             // 
+            TwitchSubscriberSettings.Controls.Add(TwitchSubscriptionTTSResponseOnlyRadioButton);
+            TwitchSubscriberSettings.Controls.Add(TwitchSubscriptionTTSEverythingRadioButton);
             TwitchSubscriberSettings.Controls.Add(label2);
             TwitchSubscriberSettings.Controls.Add(TwitchGiftedSub);
             TwitchSubscriberSettings.Controls.Add(TwitchSubscriptionPersonaComboBox);
@@ -439,6 +467,22 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchSubscriberSettings, "TwitchSubscriberSettings");
             TwitchSubscriberSettings.Name = "TwitchSubscriberSettings";
             TwitchSubscriberSettings.TabStop = false;
+            // 
+            // TwitchSubscriptionTTSResponseOnlyRadioButton
+            // 
+            resources.ApplyResources(TwitchSubscriptionTTSResponseOnlyRadioButton, "TwitchSubscriptionTTSResponseOnlyRadioButton");
+            TwitchSubscriptionTTSResponseOnlyRadioButton.Name = "TwitchSubscriptionTTSResponseOnlyRadioButton";
+            TwitchSubscriptionTTSResponseOnlyRadioButton.TabStop = true;
+            BBBToolTip.SetToolTip(TwitchSubscriptionTTSResponseOnlyRadioButton, resources.GetString("TwitchSubscriptionTTSResponseOnlyRadioButton.ToolTip"));
+            TwitchSubscriptionTTSResponseOnlyRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // TwitchSubscriptionTTSEverythingRadioButton
+            // 
+            resources.ApplyResources(TwitchSubscriptionTTSEverythingRadioButton, "TwitchSubscriptionTTSEverythingRadioButton");
+            TwitchSubscriptionTTSEverythingRadioButton.Name = "TwitchSubscriptionTTSEverythingRadioButton";
+            TwitchSubscriptionTTSEverythingRadioButton.TabStop = true;
+            BBBToolTip.SetToolTip(TwitchSubscriptionTTSEverythingRadioButton, resources.GetString("TwitchSubscriptionTTSEverythingRadioButton.ToolTip"));
+            TwitchSubscriptionTTSEverythingRadioButton.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -471,6 +515,8 @@ namespace BanterBrain_Buddy
             // 
             // TwitchCheerSettings
             // 
+            TwitchCheerSettings.Controls.Add(TwitchCheeringTTSResponseOnlyRadioButton);
+            TwitchCheerSettings.Controls.Add(TwitchCheeringTTSEverythingRadioButton);
             TwitchCheerSettings.Controls.Add(label3);
             TwitchCheerSettings.Controls.Add(TwitchCheeringPersonaComboBox);
             TwitchCheerSettings.Controls.Add(TwitchCheerCheckBox);
@@ -479,6 +525,22 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchCheerSettings, "TwitchCheerSettings");
             TwitchCheerSettings.Name = "TwitchCheerSettings";
             TwitchCheerSettings.TabStop = false;
+            // 
+            // TwitchCheeringTTSResponseOnlyRadioButton
+            // 
+            resources.ApplyResources(TwitchCheeringTTSResponseOnlyRadioButton, "TwitchCheeringTTSResponseOnlyRadioButton");
+            TwitchCheeringTTSResponseOnlyRadioButton.Name = "TwitchCheeringTTSResponseOnlyRadioButton";
+            TwitchCheeringTTSResponseOnlyRadioButton.TabStop = true;
+            BBBToolTip.SetToolTip(TwitchCheeringTTSResponseOnlyRadioButton, resources.GetString("TwitchCheeringTTSResponseOnlyRadioButton.ToolTip"));
+            TwitchCheeringTTSResponseOnlyRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // TwitchCheeringTTSEverythingRadioButton
+            // 
+            resources.ApplyResources(TwitchCheeringTTSEverythingRadioButton, "TwitchCheeringTTSEverythingRadioButton");
+            TwitchCheeringTTSEverythingRadioButton.Name = "TwitchCheeringTTSEverythingRadioButton";
+            TwitchCheeringTTSEverythingRadioButton.TabStop = true;
+            BBBToolTip.SetToolTip(TwitchCheeringTTSEverythingRadioButton, resources.GetString("TwitchCheeringTTSEverythingRadioButton.ToolTip"));
+            TwitchCheeringTTSEverythingRadioButton.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -513,6 +575,8 @@ namespace BanterBrain_Buddy
             // 
             // TwitchTriggerSettings
             // 
+            TwitchTriggerSettings.Controls.Add(TwitchChatTTSResponseOnlyRadioButton);
+            TwitchTriggerSettings.Controls.Add(TwitchChatTTSEverythingRadioButton);
             TwitchTriggerSettings.Controls.Add(label1);
             TwitchTriggerSettings.Controls.Add(TwitchChatPersonaComboBox);
             TwitchTriggerSettings.Controls.Add(TwitchReadChatCheckBox);
@@ -524,6 +588,22 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchTriggerSettings, "TwitchTriggerSettings");
             TwitchTriggerSettings.Name = "TwitchTriggerSettings";
             TwitchTriggerSettings.TabStop = false;
+            // 
+            // TwitchChatTTSResponseOnlyRadioButton
+            // 
+            resources.ApplyResources(TwitchChatTTSResponseOnlyRadioButton, "TwitchChatTTSResponseOnlyRadioButton");
+            TwitchChatTTSResponseOnlyRadioButton.Name = "TwitchChatTTSResponseOnlyRadioButton";
+            TwitchChatTTSResponseOnlyRadioButton.TabStop = true;
+            BBBToolTip.SetToolTip(TwitchChatTTSResponseOnlyRadioButton, resources.GetString("TwitchChatTTSResponseOnlyRadioButton.ToolTip"));
+            TwitchChatTTSResponseOnlyRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // TwitchChatTTSEverythingRadioButton
+            // 
+            resources.ApplyResources(TwitchChatTTSEverythingRadioButton, "TwitchChatTTSEverythingRadioButton");
+            TwitchChatTTSEverythingRadioButton.Name = "TwitchChatTTSEverythingRadioButton";
+            TwitchChatTTSEverythingRadioButton.TabStop = true;
+            BBBToolTip.SetToolTip(TwitchChatTTSEverythingRadioButton, resources.GetString("TwitchChatTTSEverythingRadioButton.ToolTip"));
+            TwitchChatTTSEverythingRadioButton.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -728,6 +808,14 @@ namespace BanterBrain_Buddy
         private TextBox TwitchResponseToChatDelayTextBox;
         private Label label8;
         private CheckBox TwitchResponseToChatCheckBox;
+        private RadioButton TwitchSubscriptionTTSResponseOnlyRadioButton;
+        private RadioButton TwitchSubscriptionTTSEverythingRadioButton;
+        private RadioButton TwitchChannelPointTTSResponseOnlyRadioButton;
+        private RadioButton TwitchChannelPointTTSEverythingRadioButton;
+        private RadioButton TwitchCheeringTTSResponseOnlyRadioButton;
+        private RadioButton TwitchCheeringTTSEverythingRadioButton;
+        private RadioButton TwitchChatTTSResponseOnlyRadioButton;
+        private RadioButton TwitchChatTTSEverythingRadioButton;
     }
 }
 

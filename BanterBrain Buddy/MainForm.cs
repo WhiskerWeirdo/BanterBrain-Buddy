@@ -955,6 +955,30 @@ namespace BanterBrain_Buddy
             TwitchResponseToChatDelayTextBox.Text = Properties.Settings.Default.TwitchResponseToChatDelayTextBox;
             TwitchChatPersonaComboBox.SelectedIndex = TwitchChatPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChatPersona);
 
+            //load settings but also have safe defaults
+            TwitchSubscriptionTTSResponseOnlyRadioButton.Checked = Properties.Settings.Default.TwitchSubscriptionTTSResponseOnlyRadioButton;
+            if (!TwitchSubscriptionTTSResponseOnlyRadioButton.Checked)
+            {
+                TwitchSubscriptionTTSEverythingRadioButton.Checked = true;
+            }
+
+            TwitchCheeringTTSResponseOnlyRadioButton.Checked = Properties.Settings.Default.TwitchCheeringTTSResponseOnlyRadioButton;
+            if (!TwitchCheeringTTSResponseOnlyRadioButton.Checked)
+            {
+                TwitchCheeringTTSEverythingRadioButton.Checked = true;
+            }
+
+            TwitchChannelPointTTSResponseOnlyRadioButton.Checked = Properties.Settings.Default.TwitchChannelPointTTSResponseOnlyRadioButton;
+            if (!TwitchChannelPointTTSResponseOnlyRadioButton.Checked)
+            {
+                TwitchChannelPointTTSEverythingRadioButton.Checked = true;
+            }
+
+            TwitchChatTTSResponseOnlyRadioButton.Checked = Properties.Settings.Default.TwitchChatTTSResponseOnlyRadioButton;
+            if (!TwitchChatTTSResponseOnlyRadioButton.Checked)
+            {
+                TwitchChatTTSEverythingRadioButton.Checked = true;
+            }
 
             TwitchChatSoundCheckBox.Checked = Properties.Settings.Default.TwitchChatSoundCheckBox;
             if (TwitchChatSoundCheckBox.Checked)
@@ -1161,6 +1185,12 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchSubscriptionSoundCheckBox = TwitchSubscriptionSoundCheckBox.Checked;
             Properties.Settings.Default.TwitchResponseToChatCheckBox = TwitchResponseToChatCheckBox.Checked;
             Properties.Settings.Default.TwitchResponseToChatDelayTextBox = TwitchResponseToChatDelayTextBox.Text;
+            Properties.Settings.Default.TwitchSubscriptionTTSResponseOnlyRadioButton = TwitchSubscriptionTTSResponseOnlyRadioButton.Checked;
+            Properties.Settings.Default.TwitchCheeringTTSResponseOnlyRadioButton = TwitchCheeringTTSResponseOnlyRadioButton.Checked;
+            Properties.Settings.Default.TwitchChannelPointTTSResponseOnlyRadioButton = TwitchChannelPointTTSResponseOnlyRadioButton.Checked;
+            Properties.Settings.Default.TwitchChatTTSResponseOnlyRadioButton = TwitchChatTTSResponseOnlyRadioButton.Checked;
+
+
             Properties.Settings.Default.Save();
 
             //remove hotkey hooks
@@ -1466,14 +1496,19 @@ namespace BanterBrain_Buddy
             string message = e.GetCheerInfo()[1];
             //we got a valid cheer message, lets see what we can do with it
             _bBBlog.Info("Valid Twitch Cheer message received");
-           // bool _TalkDone = false;
-            await InvokeUI(async () =>
+            // bool _TalkDone = false;
+
+            if (TwitchCheeringTTSEverythingRadioButton.Checked)
             {
-                UpdateTextLog($"Valid Twitch Cheer message received from {user}\r\n");
-                // await SayText($"Thank you for the bits, {user}!");
-                await SayText($"{user} cheered with message {message}", 2000, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
-               // _TalkDone = true;
-            });
+                await InvokeUI(async () =>
+                {
+                    UpdateTextLog($"Valid Twitch Cheer message received from {user}\r\n");
+                    // await SayText($"Thank you for the bits, {user}!");
+                    await SayText($"{user} cheered with message {message}", 2000, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
+                    // _TalkDone = true;
+                });
+            }
+
             await InvokeUI(async () =>
             {
                 if (message.Length >= 1)
@@ -1521,11 +1556,16 @@ namespace BanterBrain_Buddy
             string message = e.GetChannelPointCustomRedemptionInfo()[1];
             _gPTDone = false;
             _bBBlog.Info($"Valid Twitch Channel Point Redemption message received: {user} redeemed with message: {message}");
-            await InvokeUI(async () =>
+
+            if (TwitchChannelPointTTSEverythingRadioButton.Checked)
             {
-                _bBBlog.Info("Lets say a short \"thank you\" for the channel point redemption, and pass the text to the LLM");
-                await SayText($"{user} redeemed with message {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
-            });
+                await InvokeUI(async () =>
+                {
+                    _bBBlog.Info("Lets say a short \"thank you\" for the channel point redemption, and pass the text to the LLM");
+                    await SayText($"{user} redeemed with message {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
+                });
+            }
+            
             await InvokeUI(async () =>
             {
                 await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona).RoleText);
@@ -1571,15 +1611,18 @@ namespace BanterBrain_Buddy
             string amount = e.GetSubscriptionGiftInfo()[1];
             string tier = e.GetSubscriptionGiftInfo()[2];
             _bBBlog.Info($"Valid Twitch Gifted Subscription message received: {user} gifted {amount} subs tier {tier}");
-            await InvokeUI(async () =>
-            {
-                _bBBlog.Info("Lets say a short \"thank you\" for the gifted sub(s)");
-                if (int.Parse(amount) > 1)
-                    await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
-                else
-                    await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
-            });
 
+            if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
+            {
+                await InvokeUI(async () =>
+                {
+                    _bBBlog.Info("Lets say a short \"thank you\" for the gifted sub(s)");
+                    if (int.Parse(amount) > 1)
+                        await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                    else
+                        await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                });
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1600,11 +1643,14 @@ namespace BanterBrain_Buddy
             string user = e.GetSubscribeInfo()[0];
             string broadcaster = e.GetSubscribeInfo()[1];
             _bBBlog.Info($"Valid Twitch Subscription message received: {user} subscribed to {broadcaster}");
-            await InvokeUI(async () =>
+            if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
             {
-                _bBBlog.Info("Lets say a short \"thank you\" for the subscriber");
-                await SayText($"Thanks {user} for subscribing!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
-            });
+                await InvokeUI(async () =>
+                {
+                    _bBBlog.Info("Lets say a short \"thank you\" for the subscriber");
+                    await SayText($"Thanks {user} for subscribing!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                });
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1627,14 +1673,20 @@ namespace BanterBrain_Buddy
             string months = e.GetSubscribeInfo()[2];
             _gPTDone = false;
             _bBBlog.Info($"Valid Twitch Re-Subscription message received: {user} subscribed for {months} months with message: {message}");
-            await InvokeUI(async () =>
-            {
-                if (message.Length >= 1)
-                    await SayText($"{user} has resubscribed for a total of months {months}!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
-                else
-                    await SayText($"{user} has resubscribed for a total of {months} months saying {message}.", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
 
-            });
+            if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
+            {
+                await InvokeUI(async () =>
+                {
+                    if (message.Length <= 1)
+                        await SayText($"{user} has resubscribed for a total of months {months}!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                    else
+                    {
+                        await SayText($"{user} has resubscribed for a total of {months} months saying {message}.", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                    }
+                });
+            }
+
             if (message.Length >= 1)
             {
                 _gPTDone = false;
@@ -1688,11 +1740,15 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Valid Twitch Chat message received from user: " + user + " message: " + message + " using: " + Properties.Settings.Default.TwitchChatPersona);
             _gPTDone = false;
             //we use InvokeUI to make sure we can write to the textlog from another thread that is not the Ui thread.
-            await InvokeUI(async () =>
+            //we only have to say this part if we have to say everything!
+            if (TwitchChatTTSEverythingRadioButton.Checked)
             {
-                UpdateTextLog("Valid Twitch Chat message received from user: " + user + " message: " + message + " using: " + Properties.Settings.Default.TwitchChatPersona + "\r\n");
-                await SayText($"{user} said {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
-            });
+                await InvokeUI(async () =>
+                {
+                    UpdateTextLog("Valid Twitch Chat message received from user: " + user + " message: " + message + " using: " + Properties.Settings.Default.TwitchChatPersona + "\r\n");
+                    await SayText($"{user} said {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
+                });
+            }
             await InvokeUI(async () =>
             {
                 await TalkToLLM($"respond to {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona).RoleText);
@@ -1784,6 +1840,7 @@ namespace BanterBrain_Buddy
                 await _twitchEventSub.EventSubStopCheer();
 
             }
+            TwitchEnableDisableFields();
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1815,6 +1872,7 @@ namespace BanterBrain_Buddy
                 _twitchEventSub.OnESubSubscribe -= TwitchEventSub_OnESubSubscribe;
                 await _twitchEventSub.EventSubStopSubscription();
             }
+            TwitchEnableDisableFields();
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1846,6 +1904,7 @@ namespace BanterBrain_Buddy
                 _twitchEventSub.OnESubSubscriptionGift -= TwitchEventSub_OnESubGiftedSub;
                 await _twitchEventSub.EventSubStopSubscriptionGift();
             }
+            TwitchEnableDisableFields();
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1899,6 +1958,7 @@ namespace BanterBrain_Buddy
                 _twitchEventSub.OnESubChannelPointRedemption -= TwitchEventSub_OnESubChannelPointRedemption;
                 await _twitchEventSub.EventSubStopChannelPointRedemption();
             }
+            TwitchEnableDisableFields();
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -2013,6 +2073,8 @@ namespace BanterBrain_Buddy
                     TwitchCommandTrigger.Enabled = false;
                     TwitchChatCommandDelay.Enabled = false;
                     TwitchChatPersonaComboBox.Enabled = false;
+                    TwitchChatTTSEverythingRadioButton.Enabled = false;
+                    TwitchChatTTSResponseOnlyRadioButton.Enabled = false;
                 }
                 else
                 {
@@ -2020,6 +2082,8 @@ namespace BanterBrain_Buddy
                     TwitchCommandTrigger.Enabled = true;
                     TwitchChatCommandDelay.Enabled = true;
                     TwitchChatPersonaComboBox.Enabled = true;
+                    TwitchChatTTSEverythingRadioButton.Enabled = true;
+                    TwitchChatTTSResponseOnlyRadioButton.Enabled = true;
                 }
 
                 if (TwitchCheerCheckBox.Checked)
@@ -2027,22 +2091,29 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info("Twitch cheers enabled, disabling settings");
                     TwitchMinBits.Enabled = false;
                     TwitchCheeringPersonaComboBox.Enabled = false;
-
+                    TwitchCheeringTTSEverythingRadioButton.Enabled = false;
+                    TwitchCheeringTTSResponseOnlyRadioButton.Enabled = false;
                 }
                 else
                 {
                     TwitchMinBits.Enabled = true;
                     TwitchCheeringPersonaComboBox.Enabled = true;
+                    TwitchCheeringTTSEverythingRadioButton.Enabled = true;
+                    TwitchCheeringTTSResponseOnlyRadioButton.Enabled = true;
                 }
 
                 if (TwitchSubscribed.Checked || TwitchGiftedSub.Checked)
                 {
                     _bBBlog.Info("Twitch subscriptions enabled, disabling settings");
                     TwitchSubscriptionPersonaComboBox.Enabled = false;
+                    TwitchSubscriptionTTSEverythingRadioButton.Enabled = false;
+                    TwitchSubscriptionTTSResponseOnlyRadioButton.Enabled = false;
                 }
                 else
                 {
                     TwitchSubscriptionPersonaComboBox.Enabled = true;
+                    TwitchSubscriptionTTSEverythingRadioButton.Enabled = true;
+                    TwitchSubscriptionTTSResponseOnlyRadioButton.Enabled = true;
                 }
 
                 if (TwitchChannelPointCheckBox.Checked)
@@ -2050,11 +2121,15 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info("Twitch channel points enabled, disabling settings");
                     TwitchChannelPointPersonaComboBox.Enabled = false;
                     TwitchCustomRewardName.Enabled = false;
+                    TwitchChannelPointTTSEverythingRadioButton.Enabled = false;
+                    TwitchChannelPointTTSResponseOnlyRadioButton.Enabled = false;
                 }
                 else
                 {
                     TwitchChannelPointPersonaComboBox.Enabled = true;
                     TwitchCustomRewardName.Enabled = true;
+                    TwitchChannelPointTTSEverythingRadioButton.Enabled = true;
+                    TwitchChannelPointTTSResponseOnlyRadioButton.Enabled = true;
                 }
             }
             else

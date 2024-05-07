@@ -419,7 +419,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="MainTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>686, 477</value>
+    <value>686, 522</value>
   </data>
   <data name="MainTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -491,7 +491,7 @@
     <value>1</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 365</value>
+    <value>9, 441</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>295, 65</value>
@@ -608,7 +608,7 @@
     <value>2</value>
   </data>
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 304</value>
+    <value>12, 368</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
     <value>281, 45</value>
@@ -617,7 +617,7 @@
     <value>28</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
-    <value>Response to chat</value>
+    <value>Post response to chat</value>
   </data>
   <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
     <value>groupBox5</value>
@@ -848,7 +848,7 @@
     <value>8</value>
   </data>
   <data name="TwitchSoundsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>307, 198</value>
+    <value>320, 275</value>
   </data>
   <data name="TwitchSoundsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>335, 151</value>
@@ -931,6 +931,72 @@
   <data name="&gt;&gt;TwitchStartButton.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="TwitchChannelPointTTSResponseOnlyRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchChannelPointTTSResponseOnlyRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TwitchChannelPointTTSResponseOnlyRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>149, 99</value>
+  </data>
+  <data name="TwitchChannelPointTTSResponseOnlyRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 19</value>
+  </data>
+  <data name="TwitchChannelPointTTSResponseOnlyRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="TwitchChannelPointTTSResponseOnlyRadioButton.Text" xml:space="preserve">
+    <value>TTS response only</value>
+  </data>
+  <data name="TwitchChannelPointTTSResponseOnlyRadioButton.ToolTip" xml:space="preserve">
+    <value>TTS *only* the response</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointTTSResponseOnlyRadioButton.Name" xml:space="preserve">
+    <value>TwitchChannelPointTTSResponseOnlyRadioButton</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointTTSResponseOnlyRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointTTSResponseOnlyRadioButton.Parent" xml:space="preserve">
+    <value>TwitchChannelPointsSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointTTSResponseOnlyRadioButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TwitchChannelPointTTSEverythingRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchChannelPointTTSEverythingRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TwitchChannelPointTTSEverythingRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 100</value>
+  </data>
+  <data name="TwitchChannelPointTTSEverythingRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 19</value>
+  </data>
+  <data name="TwitchChannelPointTTSEverythingRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="TwitchChannelPointTTSEverythingRadioButton.Text" xml:space="preserve">
+    <value>TTS everything</value>
+  </data>
+  <data name="TwitchChannelPointTTSEverythingRadioButton.ToolTip" xml:space="preserve">
+    <value>TTS everything: user + message + response</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointTTSEverythingRadioButton.Name" xml:space="preserve">
+    <value>TwitchChannelPointTTSEverythingRadioButton</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointTTSEverythingRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointTTSEverythingRadioButton.Parent" xml:space="preserve">
+    <value>TwitchChannelPointsSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchChannelPointTTSEverythingRadioButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -938,7 +1004,7 @@
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 70</value>
+    <value>6, 70</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>49, 15</value>
@@ -959,7 +1025,7 @@
     <value>TwitchChannelPointsSettings</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="TwitchChannelPointPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>125, 67</value>
@@ -980,7 +1046,7 @@
     <value>TwitchChannelPointsSettings</value>
   </data>
   <data name="&gt;&gt;TwitchChannelPointPersonaComboBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1007,7 +1073,7 @@
     <value>TwitchChannelPointsSettings</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="TwitchCustomRewardName.Location" type="System.Drawing.Point, System.Drawing">
     <value>157, 42</value>
@@ -1028,7 +1094,7 @@
     <value>TwitchChannelPointsSettings</value>
   </data>
   <data name="&gt;&gt;TwitchCustomRewardName.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="TwitchChannelPointCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1055,13 +1121,13 @@
     <value>TwitchChannelPointsSettings</value>
   </data>
   <data name="&gt;&gt;TwitchChannelPointCheckBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="TwitchChannelPointsSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 198</value>
+    <value>12, 228</value>
   </data>
   <data name="TwitchChannelPointsSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 97</value>
+    <value>281, 125</value>
   </data>
   <data name="TwitchChannelPointsSettings.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1108,6 +1174,66 @@
   <data name="&gt;&gt;TwitchEnableCheckbox.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="TwitchSubscriptionTTSResponseOnlyRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchSubscriptionTTSResponseOnlyRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>150, 75</value>
+  </data>
+  <data name="TwitchSubscriptionTTSResponseOnlyRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 19</value>
+  </data>
+  <data name="TwitchSubscriptionTTSResponseOnlyRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="TwitchSubscriptionTTSResponseOnlyRadioButton.Text" xml:space="preserve">
+    <value>TTS response only</value>
+  </data>
+  <data name="TwitchSubscriptionTTSResponseOnlyRadioButton.ToolTip" xml:space="preserve">
+    <value>TTS *only* the response</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionTTSResponseOnlyRadioButton.Name" xml:space="preserve">
+    <value>TwitchSubscriptionTTSResponseOnlyRadioButton</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionTTSResponseOnlyRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionTTSResponseOnlyRadioButton.Parent" xml:space="preserve">
+    <value>TwitchSubscriberSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionTTSResponseOnlyRadioButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TwitchSubscriptionTTSEverythingRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchSubscriptionTTSEverythingRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 76</value>
+  </data>
+  <data name="TwitchSubscriptionTTSEverythingRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 19</value>
+  </data>
+  <data name="TwitchSubscriptionTTSEverythingRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="TwitchSubscriptionTTSEverythingRadioButton.Text" xml:space="preserve">
+    <value>TTS everything</value>
+  </data>
+  <data name="TwitchSubscriptionTTSEverythingRadioButton.ToolTip" xml:space="preserve">
+    <value>TTS everything: user + message + response</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionTTSEverythingRadioButton.Name" xml:space="preserve">
+    <value>TwitchSubscriptionTTSEverythingRadioButton</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionTTSEverythingRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionTTSEverythingRadioButton.Parent" xml:space="preserve">
+    <value>TwitchSubscriberSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchSubscriptionTTSEverythingRadioButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1136,7 +1262,7 @@
     <value>TwitchSubscriberSettings</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="TwitchGiftedSub.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1145,7 +1271,7 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchGiftedSub.Location" type="System.Drawing.Point, System.Drawing">
-    <value>158, 23</value>
+    <value>176, 23</value>
   </data>
   <data name="TwitchGiftedSub.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
@@ -1172,7 +1298,7 @@
     <value>TwitchSubscriberSettings</value>
   </data>
   <data name="&gt;&gt;TwitchGiftedSub.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="TwitchSubscriptionPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>124, 46</value>
@@ -1193,7 +1319,7 @@
     <value>TwitchSubscriberSettings</value>
   </data>
   <data name="&gt;&gt;TwitchSubscriptionPersonaComboBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="TwitchSubscribed.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1226,10 +1352,10 @@
     <value>TwitchSubscriberSettings</value>
   </data>
   <data name="&gt;&gt;TwitchSubscribed.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="TwitchSubscriberSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>307, 107</value>
+    <value>320, 164</value>
   </data>
   <data name="TwitchSubscriberSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
@@ -1238,7 +1364,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="TwitchSubscriberSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>279, 76</value>
+    <value>279, 105</value>
   </data>
   <data name="TwitchSubscriberSettings.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -1257,6 +1383,72 @@
   </data>
   <data name="&gt;&gt;TwitchSubscriberSettings.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="TwitchCheeringTTSResponseOnlyRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchCheeringTTSResponseOnlyRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TwitchCheeringTTSResponseOnlyRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>153, 99</value>
+  </data>
+  <data name="TwitchCheeringTTSResponseOnlyRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 19</value>
+  </data>
+  <data name="TwitchCheeringTTSResponseOnlyRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="TwitchCheeringTTSResponseOnlyRadioButton.Text" xml:space="preserve">
+    <value>TTS response only</value>
+  </data>
+  <data name="TwitchCheeringTTSResponseOnlyRadioButton.ToolTip" xml:space="preserve">
+    <value>TTS *only* the response</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringTTSResponseOnlyRadioButton.Name" xml:space="preserve">
+    <value>TwitchCheeringTTSResponseOnlyRadioButton</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringTTSResponseOnlyRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringTTSResponseOnlyRadioButton.Parent" xml:space="preserve">
+    <value>TwitchCheerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringTTSResponseOnlyRadioButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TwitchCheeringTTSEverythingRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchCheeringTTSEverythingRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TwitchCheeringTTSEverythingRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 100</value>
+  </data>
+  <data name="TwitchCheeringTTSEverythingRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 19</value>
+  </data>
+  <data name="TwitchCheeringTTSEverythingRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="TwitchCheeringTTSEverythingRadioButton.Text" xml:space="preserve">
+    <value>TTS everything</value>
+  </data>
+  <data name="TwitchCheeringTTSEverythingRadioButton.ToolTip" xml:space="preserve">
+    <value>TTS everything: user + message + response</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringTTSEverythingRadioButton.Name" xml:space="preserve">
+    <value>TwitchCheeringTTSEverythingRadioButton</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringTTSEverythingRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringTTSEverythingRadioButton.Parent" xml:space="preserve">
+    <value>TwitchCheerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchCheeringTTSEverythingRadioButton.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1286,7 +1478,7 @@
     <value>TwitchCheerSettings</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="TwitchCheeringPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>129, 62</value>
@@ -1307,7 +1499,7 @@
     <value>TwitchCheerSettings</value>
   </data>
   <data name="&gt;&gt;TwitchCheeringPersonaComboBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="TwitchCheerCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1337,7 +1529,7 @@
     <value>TwitchCheerSettings</value>
   </data>
   <data name="&gt;&gt;TwitchCheerCheckBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1367,7 +1559,7 @@
     <value>TwitchCheerSettings</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="TwitchMinBits.Location" type="System.Drawing.Point, System.Drawing">
     <value>156, 37</value>
@@ -1391,7 +1583,7 @@
     <value>TwitchCheerSettings</value>
   </data>
   <data name="&gt;&gt;TwitchMinBits.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="TwitchCheerSettings.Location" type="System.Drawing.Point, System.Drawing">
     <value>307, 16</value>
@@ -1403,7 +1595,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="TwitchCheerSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>279, 90</value>
+    <value>279, 125</value>
   </data>
   <data name="TwitchCheerSettings.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -1422,6 +1614,72 @@
   </data>
   <data name="&gt;&gt;TwitchCheerSettings.ZOrder" xml:space="preserve">
     <value>7</value>
+  </data>
+  <data name="TwitchChatTTSResponseOnlyRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchChatTTSResponseOnlyRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TwitchChatTTSResponseOnlyRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>149, 127</value>
+  </data>
+  <data name="TwitchChatTTSResponseOnlyRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 19</value>
+  </data>
+  <data name="TwitchChatTTSResponseOnlyRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="TwitchChatTTSResponseOnlyRadioButton.Text" xml:space="preserve">
+    <value>TTS response only</value>
+  </data>
+  <data name="TwitchChatTTSResponseOnlyRadioButton.ToolTip" xml:space="preserve">
+    <value>TTS *only* the response</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatTTSResponseOnlyRadioButton.Name" xml:space="preserve">
+    <value>TwitchChatTTSResponseOnlyRadioButton</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatTTSResponseOnlyRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatTTSResponseOnlyRadioButton.Parent" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatTTSResponseOnlyRadioButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TwitchChatTTSEverythingRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchChatTTSEverythingRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TwitchChatTTSEverythingRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 128</value>
+  </data>
+  <data name="TwitchChatTTSEverythingRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 19</value>
+  </data>
+  <data name="TwitchChatTTSEverythingRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="TwitchChatTTSEverythingRadioButton.Text" xml:space="preserve">
+    <value>TTS everything</value>
+  </data>
+  <data name="TwitchChatTTSEverythingRadioButton.ToolTip" xml:space="preserve">
+    <value>TTS everything: user + message + response</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatTTSEverythingRadioButton.Name" xml:space="preserve">
+    <value>TwitchChatTTSEverythingRadioButton</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatTTSEverythingRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatTTSEverythingRadioButton.Parent" xml:space="preserve">
+    <value>TwitchTriggerSettings</value>
+  </data>
+  <data name="&gt;&gt;TwitchChatTTSEverythingRadioButton.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1448,7 +1706,7 @@
     <value>TwitchTriggerSettings</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="TwitchChatPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>125, 99</value>
@@ -1469,7 +1727,7 @@
     <value>TwitchTriggerSettings</value>
   </data>
   <data name="&gt;&gt;TwitchChatPersonaComboBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="TwitchReadChatCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1502,7 +1760,7 @@
     <value>TwitchTriggerSettings</value>
   </data>
   <data name="&gt;&gt;TwitchReadChatCheckBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1532,7 +1790,7 @@
     <value>TwitchTriggerSettings</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="TwitchChatCommandDelay.Location" type="System.Drawing.Point, System.Drawing">
     <value>159, 70</value>
@@ -1559,7 +1817,7 @@
     <value>TwitchTriggerSettings</value>
   </data>
   <data name="&gt;&gt;TwitchChatCommandDelay.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="TwitchNeedsSubscriber.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1595,7 +1853,7 @@
     <value>TwitchTriggerSettings</value>
   </data>
   <data name="&gt;&gt;TwitchNeedsSubscriber.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="TwitchCommandTrigger.Location" type="System.Drawing.Point, System.Drawing">
     <value>159, 41</value>
@@ -1622,7 +1880,7 @@
     <value>TwitchTriggerSettings</value>
   </data>
   <data name="&gt;&gt;TwitchCommandTrigger.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="TwitchCommandTriggerLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1655,7 +1913,7 @@
     <value>TwitchTriggerSettings</value>
   </data>
   <data name="&gt;&gt;TwitchCommandTriggerLabel.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="TwitchTriggerSettings.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 53</value>
@@ -1667,7 +1925,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="TwitchTriggerSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 135</value>
+    <value>281, 153</value>
   </data>
   <data name="TwitchTriggerSettings.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -1697,7 +1955,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>672, 356</value>
+    <value>672, 432</value>
   </data>
   <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1724,7 +1982,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="StreamingSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>686, 477</value>
+    <value>686, 522</value>
   </data>
   <data name="StreamingSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1751,7 +2009,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="BBBTabs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>694, 505</value>
+    <value>694, 550</value>
   </data>
   <data name="BBBTabs.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1844,7 +2102,7 @@
     <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>694, 538</value>
+    <value>694, 583</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

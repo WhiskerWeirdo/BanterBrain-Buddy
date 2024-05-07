@@ -167,5 +167,17 @@
     <Setting Name="TwitchResponseToChatCheckBox" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="TwitchSubscriptionTTSResponseOnlyRadioButton" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TwitchCheeringTTSResponseOnlyRadioButton" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TwitchChannelPointTTSResponseOnlyRadioButton" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TwitchChatTTSResponseOnlyRadioButton" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -682,5 +682,53 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchResponseToChatCheckBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TwitchSubscriptionTTSResponseOnlyRadioButton {
+            get {
+                return ((bool)(this["TwitchSubscriptionTTSResponseOnlyRadioButton"]));
+            }
+            set {
+                this["TwitchSubscriptionTTSResponseOnlyRadioButton"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TwitchCheeringTTSResponseOnlyRadioButton {
+            get {
+                return ((bool)(this["TwitchCheeringTTSResponseOnlyRadioButton"]));
+            }
+            set {
+                this["TwitchCheeringTTSResponseOnlyRadioButton"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TwitchChannelPointTTSResponseOnlyRadioButton {
+            get {
+                return ((bool)(this["TwitchChannelPointTTSResponseOnlyRadioButton"]));
+            }
+            set {
+                this["TwitchChannelPointTTSResponseOnlyRadioButton"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TwitchChatTTSResponseOnlyRadioButton {
+            get {
+                return ((bool)(this["TwitchChatTTSResponseOnlyRadioButton"]));
+            }
+            set {
+                this["TwitchChatTTSResponseOnlyRadioButton"] = value;
+            }
+        }
     }
 }
