@@ -514,6 +514,123 @@
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="TwitchResponseToChatDelayTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>195, 14</value>
+  </data>
+  <data name="TwitchResponseToChatDelayTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="TwitchResponseToChatDelayTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 23</value>
+  </data>
+  <data name="TwitchResponseToChatDelayTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="TwitchResponseToChatDelayTextBox.Text" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="BBBToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>247, 17</value>
+  </metadata>
+  <data name="TwitchResponseToChatDelayTextBox.ToolTip" xml:space="preserve">
+    <value>Seconds delay between finish speaking and printing in twitch chat</value>
+  </data>
+  <data name="&gt;&gt;TwitchResponseToChatDelayTextBox.Name" xml:space="preserve">
+    <value>TwitchResponseToChatDelayTextBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchResponseToChatDelayTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchResponseToChatDelayTextBox.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;TwitchResponseToChatDelayTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>97, 19</value>
+  </data>
+  <data name="label8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 15</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Delay (seconds)</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TwitchResponseToChatCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchResponseToChatCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 18</value>
+  </data>
+  <data name="TwitchResponseToChatCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 19</value>
+  </data>
+  <data name="TwitchResponseToChatCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TwitchResponseToChatCheckBox.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="&gt;&gt;TwitchResponseToChatCheckBox.Name" xml:space="preserve">
+    <value>TwitchResponseToChatCheckBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchResponseToChatCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchResponseToChatCheckBox.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;TwitchResponseToChatCheckBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 304</value>
+  </data>
+  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>281, 45</value>
+  </data>
+  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Response to chat</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="TwitchChatSoundSelectButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>300, 13</value>
   </data>
@@ -523,9 +640,6 @@
   <data name="TwitchChatSoundSelectButton.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <metadata name="BBBToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>247, 17</value>
-  </metadata>
   <data name="TwitchChatSoundSelectButton.ToolTip" xml:space="preserve">
     <value>Open sound directory</value>
   </data>
@@ -755,7 +869,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TwitchSoundsGroupBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="TwitchAutoStart.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -785,7 +899,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TwitchAutoStart.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="TwitchStartButton.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -815,7 +929,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TwitchStartButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -965,7 +1079,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TwitchChannelPointsSettings.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="TwitchEnableCheckbox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -992,7 +1106,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TwitchEnableCheckbox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1142,7 +1256,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TwitchSubscriberSettings.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1307,7 +1421,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TwitchCheerSettings.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1571,7 +1685,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;TwitchTriggerSettings.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 3</value>

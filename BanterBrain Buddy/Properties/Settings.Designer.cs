@@ -658,5 +658,29 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchSubscriptionSoundTextBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public string TwitchResponseToChatDelayTextBox {
+            get {
+                return ((string)(this["TwitchResponseToChatDelayTextBox"]));
+            }
+            set {
+                this["TwitchResponseToChatDelayTextBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchResponseToChatCheckBox {
+            get {
+                return ((bool)(this["TwitchResponseToChatCheckBox"]));
+            }
+            set {
+                this["TwitchResponseToChatCheckBox"] = value;
+            }
+        }
     }
 }

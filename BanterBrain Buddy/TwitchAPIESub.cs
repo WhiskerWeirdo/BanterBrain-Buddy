@@ -393,6 +393,75 @@ namespace BanterBrain_Buddy
             }
         }
 
+        //for splitting long messages into substring
+        public static void ProcessParts(string message, int partLength, Action<string> processFunction)
+        {
+            int stringLength = message.Length;
+
+            for (int i = 0; i < stringLength; i += partLength)
+            {
+                if (partLength + i > stringLength)
+                    partLength = stringLength - i;
+
+                string part = message.Substring(i, partLength);
+                processFunction(part);
+            }
+        }
+
+
+        public async Task<bool> SendMessage(string messageToSend)
+        {
+            _bBBlog.Info($"Trying to send message: {messageToSend} to channel");
+            //we need to send the message to the channel, so we need the channel id and the user id
+            //we also need the access token
+            if (TwitchAccessToken == null)
+            {
+                _bBBlog.Error("No access token set, cannot send message");
+                return false;
+            } else if (_twitchChannelID == null)
+            {
+                _bBBlog.Error("No channel ID set, cannot send message");
+                return false;
+            }
+            else if (_twitchUserID == null)
+            {
+                _bBBlog.Error("No user ID set, cannot send message");
+                return false;
+            }
+            _bBBlog.Info($"Sending message: {messageToSend} to channel {_twitchChannelID} from user {_twitchUserID}");
+
+            //if this message is longer than 255 characters we need to split it up
+            if (messageToSend.Length > 255)
+            {
+                _bBBlog.Info("Message is longer than 255 characters, splitting it up");
+                try
+                {
+                    ProcessParts(messageToSend, 255, async (part) => await _gTwitchAPI.Helix.Chat.SendChatMessage(_twitchChannelID, _twitchUserID, part, null, TwitchAccessToken));
+                    return true;
+                }
+                catch (TwitchLib.Api.Core.Exceptions.BadRequestException exception)
+                {
+                    _bBBlog.Error("Bad request exception: " + exception.Message);
+                    return false;
+                }
+            }
+            else
+            {
+                //message is shorter than 255 characters, lets just send
+                _bBBlog.Info("Message is shorter than 255 characters, sending it");
+                try
+                {
+                    await _gTwitchAPI.Helix.Chat.SendChatMessage(_twitchChannelID, _twitchUserID, messageToSend, null, TwitchAccessToken);
+                    return true;
+                }
+                catch (TwitchLib.Api.Core.Exceptions.BadRequestException exception)
+                {
+                    _bBBlog.Error("Bad request exception: " + exception.Message);
+                    return false;
+                }
+            }
+        }
+
         /// <summary>
         /// This is the function that will request the auth token from Twitch
         /// </summary>

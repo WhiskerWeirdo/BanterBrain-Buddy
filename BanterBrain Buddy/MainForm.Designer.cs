@@ -50,6 +50,10 @@ namespace BanterBrain_Buddy
             LLMResponseSelecter = new ComboBox();
             label7 = new Label();
             groupBox4 = new GroupBox();
+            groupBox5 = new GroupBox();
+            TwitchResponseToChatDelayTextBox = new TextBox();
+            label8 = new Label();
+            TwitchResponseToChatCheckBox = new CheckBox();
             TwitchSoundsGroupBox = new GroupBox();
             TwitchChatSoundSelectButton = new Button();
             TwitchSubscriptionSoundTextBox = new ComboBox();
@@ -105,6 +109,7 @@ namespace BanterBrain_Buddy
             StreamingSettingsTab.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox4.SuspendLayout();
+            groupBox5.SuspendLayout();
             TwitchSoundsGroupBox.SuspendLayout();
             TwitchChannelPointsSettings.SuspendLayout();
             TwitchSubscriberSettings.SuspendLayout();
@@ -241,6 +246,7 @@ namespace BanterBrain_Buddy
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(groupBox5);
             groupBox4.Controls.Add(TwitchSoundsGroupBox);
             groupBox4.Controls.Add(TwitchAutoStart);
             groupBox4.Controls.Add(TwitchStartButton);
@@ -252,6 +258,33 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(groupBox4, "groupBox4");
             groupBox4.Name = "groupBox4";
             groupBox4.TabStop = false;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(TwitchResponseToChatDelayTextBox);
+            groupBox5.Controls.Add(label8);
+            groupBox5.Controls.Add(TwitchResponseToChatCheckBox);
+            resources.ApplyResources(groupBox5, "groupBox5");
+            groupBox5.Name = "groupBox5";
+            groupBox5.TabStop = false;
+            // 
+            // TwitchResponseToChatDelayTextBox
+            // 
+            resources.ApplyResources(TwitchResponseToChatDelayTextBox, "TwitchResponseToChatDelayTextBox");
+            TwitchResponseToChatDelayTextBox.Name = "TwitchResponseToChatDelayTextBox";
+            BBBToolTip.SetToolTip(TwitchResponseToChatDelayTextBox, resources.GetString("TwitchResponseToChatDelayTextBox.ToolTip"));
+            // 
+            // label8
+            // 
+            resources.ApplyResources(label8, "label8");
+            label8.Name = "label8";
+            // 
+            // TwitchResponseToChatCheckBox
+            // 
+            resources.ApplyResources(TwitchResponseToChatCheckBox, "TwitchResponseToChatCheckBox");
+            TwitchResponseToChatCheckBox.Name = "TwitchResponseToChatCheckBox";
+            TwitchResponseToChatCheckBox.UseVisualStyleBackColor = true;
+            TwitchResponseToChatCheckBox.CheckedChanged += TwitchResponseToChatCheckBox_CheckedChanged;
             // 
             // TwitchSoundsGroupBox
             // 
@@ -607,6 +640,8 @@ namespace BanterBrain_Buddy
             groupBox1.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
             TwitchSoundsGroupBox.ResumeLayout(false);
             TwitchSoundsGroupBox.PerformLayout();
             TwitchChannelPointsSettings.ResumeLayout(false);
@@ -689,6 +724,10 @@ namespace BanterBrain_Buddy
         private ComboBox TwitchChannelSoundTextBox;
         private ComboBox TwitchSubscriptionSoundTextBox;
         private ComboBox TwitchCheeringSoundTextBox;
+        private GroupBox groupBox5;
+        private TextBox TwitchResponseToChatDelayTextBox;
+        private Label label8;
+        private CheckBox TwitchResponseToChatCheckBox;
     }
 }
 

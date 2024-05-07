@@ -700,6 +700,8 @@ namespace BanterBrain_Buddy
                 MessageBox.Show("Azure TTS error. Is there a problem with your API key or subscription?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _bigError = true;
             }
+            _bBBlog.Info("Azure TTS done");
+            UpdateTextLog("Azure TTS done\r\n");
         }
 
 
@@ -712,6 +714,8 @@ namespace BanterBrain_Buddy
             //this now depends on the selected persona
             await nativeSpeech.NativeTTSInit(tmpPersona.VoiceName, Properties.Settings.Default.TTSAudioOutput);
             await nativeSpeech.NativeSpeak(TTSText);
+            UpdateTextLog("Native TTS done\r\n");
+            _bBBlog.Info("Native TTS done");
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -769,6 +773,8 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
                 MessageBox.Show("ElevenLabs TTS error. Is there a problem with your API key or subscription?", "ElevenLabs TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            _bBBlog.Info("ElevenLabs TTS done");
+            UpdateTextLog("ElevenLabs TTS done\r\n");
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -778,6 +784,8 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Saying text with OpenAI TTS");
             OpenAI openAI = new();
             await openAI.OpenAITTS(TextToSpeak, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName);
+            _bBBlog.Info("OpenAI TTS done");
+            UpdateTextLog("OpenAI TTS done\r\n");
         }
 
         //talk to the various LLM's
@@ -943,7 +951,8 @@ namespace BanterBrain_Buddy
             TwitchCheeringPersonaComboBox.SelectedIndex = TwitchCheeringPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchCheeringPersona);
             TwitchChannelPointPersonaComboBox.SelectedIndex = TwitchChannelPointPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChannelPointPersona);
             TwitchSubscriptionPersonaComboBox.SelectedIndex = TwitchSubscriptionPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchSubscriptionPersona);
-
+            TwitchResponseToChatCheckBox.Checked = Properties.Settings.Default.TwitchResponseToChatCheckBox;
+            TwitchResponseToChatDelayTextBox.Text = Properties.Settings.Default.TwitchResponseToChatDelayTextBox;
             TwitchChatPersonaComboBox.SelectedIndex = TwitchChatPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChatPersona);
 
 
@@ -1080,7 +1089,7 @@ namespace BanterBrain_Buddy
                     //lets find the voices at startup so we dont have to load them later
                     _ = await _elevenLabsApi.TTSGetElevenLabsVoices();
                 }
-                
+
             }
 
             //lets check if the selected OpenAI API key is valid   
@@ -1150,6 +1159,8 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchCheeringSoundCheckBox = TwitchCheeringSoundCheckBox.Checked;
             Properties.Settings.Default.TwitchSubscriptionSoundTextBox = TwitchSubscriptionSoundTextBox.Text;
             Properties.Settings.Default.TwitchSubscriptionSoundCheckBox = TwitchSubscriptionSoundCheckBox.Checked;
+            Properties.Settings.Default.TwitchResponseToChatCheckBox = TwitchResponseToChatCheckBox.Checked;
+            Properties.Settings.Default.TwitchResponseToChatDelayTextBox = TwitchResponseToChatDelayTextBox.Text;
             Properties.Settings.Default.Save();
 
             //remove hotkey hooks
@@ -1455,13 +1466,13 @@ namespace BanterBrain_Buddy
             string message = e.GetCheerInfo()[1];
             //we got a valid cheer message, lets see what we can do with it
             _bBBlog.Info("Valid Twitch Cheer message received");
-            bool _TalkDone = false;
+           // bool _TalkDone = false;
             await InvokeUI(async () =>
             {
                 UpdateTextLog($"Valid Twitch Cheer message received from {user}\r\n");
                 // await SayText($"Thank you for the bits, {user}!");
                 await SayText($"{user} cheered with message {message}", 2000, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
-                _TalkDone = true;
+               // _TalkDone = true;
             });
             await InvokeUI(async () =>
             {
@@ -1477,12 +1488,17 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
-                _bBBlog.Info("GPT response received, saying it");
-                while (!_TalkDone)
-                {
-                    await Task.Delay(1000);
-                }
+                _bBBlog.Info("LLM response received, saying it");
                 await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
+                _bBBlog.Info("LLM response said");
+                //do we need to post the response in chat?
+                if (TwitchResponseToChatCheckBox.Checked)
+                {
+                    //first lets wait the delay set in the textbox
+                    await Task.Delay(int.Parse(TwitchResponseToChatDelayTextBox.Text) * 1000);
+                    //then post the response
+                    await _twitchEventSub.SendMessage(_gPTOutputText);
+                }
             });
         }
 
@@ -1523,6 +1539,15 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
+                _bBBlog.Info("LLM response said");
+                //do we need to post the response in chat?
+                if (TwitchResponseToChatCheckBox.Checked)
+                {
+                    //first lets wait the delay set in the textbox
+                    await Task.Delay(int.Parse(TwitchResponseToChatDelayTextBox.Text) * 1000);
+                    //then post the response
+                    await _twitchEventSub.SendMessage(_gPTOutputText);
+                }
             });
         }
 
@@ -1625,8 +1650,16 @@ namespace BanterBrain_Buddy
                 //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
                 await InvokeUI(async () =>
                 {
-                    await Task.Delay(3000);
                     await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                    _bBBlog.Info("LLM response said");
+                    //do we need to post the response in chat?
+                    if (TwitchResponseToChatCheckBox.Checked)
+                    {
+                        //first lets wait the delay set in the textbox
+                        await Task.Delay(int.Parse(TwitchResponseToChatDelayTextBox.Text) * 1000);
+                        //then post the response
+                        await _twitchEventSub.SendMessage(_gPTOutputText);
+                    }
                 });
             }
         }
@@ -1672,7 +1705,18 @@ namespace BanterBrain_Buddy
             //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
             await InvokeUI(async () =>
             {
+
                 await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
+                _bBBlog.Info("LLM response said");
+                //do we need to post the response in chat?
+                if (TwitchResponseToChatCheckBox.Checked)
+                {
+                    //first lets wait the delay set in the textbox
+                    await Task.Delay(int.Parse(TwitchResponseToChatDelayTextBox.Text) * 1000);
+                    //then post the response
+                    await _twitchEventSub.SendMessage(_gPTOutputText);
+                }
+
             });
 
         }
@@ -2185,7 +2229,24 @@ namespace BanterBrain_Buddy
 
         private void TwitchChatSoundSelectButton_Click(object sender, EventArgs e)
         {
-            Process.Start("explorer.exe",Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/sounds");
+            Process.Start("explorer.exe", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/sounds");
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchResponseToChatCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (TwitchResponseToChatCheckBox.Checked)
+            {
+                TwitchResponseToChatDelayTextBox.Enabled = true;
+                Properties.Settings.Default.TwitchResponseToChatCheckBox = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                TwitchResponseToChatDelayTextBox.Enabled = false;
+                Properties.Settings.Default.TwitchResponseToChatCheckBox = false;
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }
