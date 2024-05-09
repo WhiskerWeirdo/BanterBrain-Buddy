@@ -1494,5 +1494,49 @@ namespace BanterBrain_Buddy
                 }
             }
         }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void GPTTemperatureTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void GPTMaxTokensTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void PersonaComboBox_Validating(object sender, CancelEventArgs e)
+        {
+            System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void PersonaRoleTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+            }
+        }
     }
 }

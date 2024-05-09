@@ -1765,6 +1765,13 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"eventsub websocket: {_twitchEventSub._eventSubWebsocketClient.SessionId}");
             if (TwitchReadChatCheckBox.Checked)
             {
+                if (TwitchCommandTrigger.Text.Length < 1)
+                {
+                    MessageBox.Show("You need to set a command trigger to watch for!", "Twitch error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _bBBlog.Error("You need to set a command trigger to watch for!");
+                    TwitchReadChatCheckBox.Checked = false;
+                    return;
+                }
                 _bBBlog.Info("This enables reading chat messages to watch for a command, in busy channels this will cause significant load on your computer");
                 MessageBox.Show("Reading chat creates a high load on busy channels. Be warned!", "Twitch Channel messages enabled", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //just double check its not already enabled
@@ -1798,6 +1805,13 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"eventsub websocket: {_twitchEventSub._eventSubWebsocketClient.SessionId}");
             if (TwitchCheerCheckBox.Checked)
             {
+                if (TwitchMinBits.Text.Length < 1)
+                {
+                    MessageBox.Show("You need to set a minimum amount of bits to trigger the bot", "Twitch error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _bBBlog.Error("You need to set a minimum amount of bits to trigger the bot");
+                    TwitchCheerCheckBox.Checked = false;
+                    return;
+                }
                 _bBBlog.Info("This enables reading cheers and messages when cheered over a certain amount");
                 //just double check its not already enabled
                 if (!_globalTwitchAPI.EventSubCheckCheer)
@@ -1918,6 +1932,13 @@ namespace BanterBrain_Buddy
             }
             if (TwitchChannelPointCheckBox.Checked)
             {
+                if (TwitchCustomRewardName.Text.Length < 1)
+                { //no custom reward name set, so we cant do anything
+                    MessageBox.Show("You need to set a custom reward name in the settings to enable channel point redemptions", "Twitch error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _bBBlog.Error("You need to set a custom reward name in the settings to enable channel point redemptions");
+                    TwitchChannelPointCheckBox.Checked = false;
+                    return;
+                }
                 _bBBlog.Info("This enables reading channel point redemption events");
                 //just double check its not already enabled
                 if (!_globalTwitchAPI.EventSubCheckChannelPointRedemption)
@@ -2334,6 +2355,39 @@ namespace BanterBrain_Buddy
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;  // Ignore the input
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchResponseToChatDelayTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TextBox currenttb = (TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchMinBits_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TextBox currenttb = (TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchChatCommandDelay_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TextBox currenttb = (TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
             }
         }
     }

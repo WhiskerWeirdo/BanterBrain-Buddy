@@ -282,6 +282,7 @@ namespace BanterBrain_Buddy
             TwitchResponseToChatDelayTextBox.Name = "TwitchResponseToChatDelayTextBox";
             BBBToolTip.SetToolTip(TwitchResponseToChatDelayTextBox, resources.GetString("TwitchResponseToChatDelayTextBox.ToolTip"));
             TwitchResponseToChatDelayTextBox.KeyPress += TwitchResponseToChatDelayTextBox_KeyPress;
+            TwitchResponseToChatDelayTextBox.Validating += TwitchResponseToChatDelayTextBox_Validating;
             // 
             // label8
             // 
@@ -574,6 +575,7 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchMinBits, "TwitchMinBits");
             TwitchMinBits.Name = "TwitchMinBits";
             TwitchMinBits.KeyPress += TwitchMinBits_KeyPress;
+            TwitchMinBits.Validating += TwitchMinBits_Validating;
             // 
             // TwitchTriggerSettings
             // 
@@ -638,6 +640,7 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchChatCommandDelay, "TwitchChatCommandDelay");
             TwitchChatCommandDelay.Name = "TwitchChatCommandDelay";
             TwitchChatCommandDelay.KeyPress += TwitchChatCommandDelay_KeyPress;
+            TwitchChatCommandDelay.Validating += TwitchChatCommandDelay_Validating;
             // 
             // TwitchNeedsSubscriber
             // 
