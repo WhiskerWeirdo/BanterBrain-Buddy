@@ -104,13 +104,13 @@ namespace BanterBrain_Buddy
             fileToolStripMenuItem = new ToolStripMenuItem();
             ExitToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
-            GithubToolStripMenuItem = new ToolStripMenuItem();
-            DiscordToolStripMenuItem = new ToolStripMenuItem();
             logfileDirectoryToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripSeparator();
+            DiscordToolStripMenuItem = new ToolStripMenuItem();
+            GithubToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
-            toolStripMenuItem1 = new ToolStripSeparator();
             MainTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -679,11 +679,16 @@ namespace BanterBrain_Buddy
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             resources.ApplyResources(helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
-            // GithubToolStripMenuItem
+            // logfileDirectoryToolStripMenuItem
             // 
-            GithubToolStripMenuItem.Name = "GithubToolStripMenuItem";
-            resources.ApplyResources(GithubToolStripMenuItem, "GithubToolStripMenuItem");
-            GithubToolStripMenuItem.Click += GithubToolStripMenuItem_Click;
+            logfileDirectoryToolStripMenuItem.Name = "logfileDirectoryToolStripMenuItem";
+            resources.ApplyResources(logfileDirectoryToolStripMenuItem, "logfileDirectoryToolStripMenuItem");
+            logfileDirectoryToolStripMenuItem.Click += LogfileDirectoryToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(toolStripMenuItem1, "toolStripMenuItem1");
             // 
             // DiscordToolStripMenuItem
             // 
@@ -691,11 +696,11 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(DiscordToolStripMenuItem, "DiscordToolStripMenuItem");
             DiscordToolStripMenuItem.Click += DiscordToolStripMenuItem_Click;
             // 
-            // logfileDirectoryToolStripMenuItem
+            // GithubToolStripMenuItem
             // 
-            logfileDirectoryToolStripMenuItem.Name = "logfileDirectoryToolStripMenuItem";
-            resources.ApplyResources(logfileDirectoryToolStripMenuItem, "logfileDirectoryToolStripMenuItem");
-            logfileDirectoryToolStripMenuItem.Click += logfileDirectoryToolStripMenuItem_Click;
+            GithubToolStripMenuItem.Name = "GithubToolStripMenuItem";
+            resources.ApplyResources(GithubToolStripMenuItem, "GithubToolStripMenuItem");
+            GithubToolStripMenuItem.Click += GithubToolStripMenuItem_Click;
             // 
             // menuStrip1
             // 
@@ -708,12 +713,7 @@ namespace BanterBrain_Buddy
             // 
             seToolStripMenuItem.Name = "seToolStripMenuItem";
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
-            seToolStripMenuItem.Click += seToolStripMenuItem_Click;
-            // 
-            // toolStripMenuItem1
-            // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            resources.ApplyResources(toolStripMenuItem1, "toolStripMenuItem1");
+            seToolStripMenuItem.Click += SeToolStripMenuItem_Click;
             // 
             // BBB
             // 

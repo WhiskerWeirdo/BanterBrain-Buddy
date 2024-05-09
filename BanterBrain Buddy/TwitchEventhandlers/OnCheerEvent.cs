@@ -8,13 +8,13 @@ namespace BanterBrain_Buddy.TwitchEventhandlers
 {
     public class OnCheerEventsArgs(string userCheered, string cheerMessage) : EventArgs
     {
-        private string EventCheerUser = userCheered;
-        private string EventCheerMessage = cheerMessage;
+        private readonly string EventCheerUser = userCheered;
+        private readonly string EventCheerMessage = cheerMessage;
 
         public string[] GetCheerInfo()
-            {
-                return [EventCheerUser, EventCheerMessage];
-            }
+        {
+            return [EventCheerUser, EventCheerMessage];
+        }
 
     }
 

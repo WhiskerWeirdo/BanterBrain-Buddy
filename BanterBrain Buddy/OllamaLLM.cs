@@ -23,11 +23,11 @@ namespace BanterBrain_Buddy
                 return null;
             }
 
-            List<string> models = new List<string>();
+            List<string> models = [];
             _bBBlog.Debug("OllamaLLMGetModels");
 
             var localModels = await _ollama.ListLocalModels();
-            if (localModels.Count() == 0)
+            if (!localModels.Any())
             {
                 _bBBlog.Error("No local models found");
                 return null;
@@ -47,7 +47,7 @@ namespace BanterBrain_Buddy
                 return null;
             }
 
-            string response ="";
+            string response = "";
             int sentenceLength = 1;
             switch (Properties.Settings.Default.OllamaResponseLengthComboBox)
             {
@@ -106,7 +106,7 @@ namespace BanterBrain_Buddy
 
         public OllamaLLM(string LocalUri)
         {
-            _bBBlog.Info("OllamaLLM init on Uri: "+ LocalUri);
+            _bBBlog.Info("OllamaLLM init on Uri: " + LocalUri);
             _ollama = new OllamaApiClient(new Uri(LocalUri));
         }
     }

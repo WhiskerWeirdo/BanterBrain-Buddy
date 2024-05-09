@@ -22,14 +22,14 @@ namespace BanterBrain_Buddy
     {
         //set logger
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private List<Personas> _personas = new List<Personas>();
+        private readonly List<Personas> _personas = [];
         private List<AzureVoices> _tTSAzureVoicesList = [];
         private List<NativeVoices> _nativeRegionVoicesList = [];
 
         private TwitchAPIESub _twitchTestEventSub;
-        private bool _twitchStartedTest = false;
-        private bool _twitchAPIVerified = false;
-        private bool _personaEdited = false;
+        private bool _twitchStartedTest;
+        private bool _twitchAPIVerified;
+        private bool _personaEdited;
         private ElLabs _elevenLabsApi;
 
         [SupportedOSPlatform("windows6.1")]
@@ -110,9 +110,9 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            showPanels(e.Node.Name);
+            ShowPanels(e.Node.Name);
         }
 
         //show panels based on selected node and hide the others
@@ -134,7 +134,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void showPanels(string selectedNode)
+        private void ShowPanels(string selectedNode)
         {
 
             switch (selectedNode)
@@ -466,8 +466,9 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Debug("Personas file not found, creating it");
                 //there might be a native voice installed, if so we should add it to the list
-                NativeSpeech nativeSpeech = new();
-                var nativeRegionVoicesList = await nativeSpeech.TTSNativeGetVoices();
+                _ = new                //there might be a native voice installed, if so we should add it to the list
+                NativeSpeech();
+                var nativeRegionVoicesList = await NativeSpeech.TTSNativeGetVoices();
                 string tmpNativeVoice = null;
                 if (nativeRegionVoicesList.Count > 0)
                 {
@@ -485,30 +486,28 @@ namespace BanterBrain_Buddy
                     _bBBlog.Debug("No native voices found");
                     tmpNativeVoice = "None";
                 }
-                var newPersonas = new List<Personas>();
-                newPersonas.Add(new Personas { Name = "Default", RoleText = "You are a cheeky streamer assistant with a silly personality.", VoiceProvider = "Native", VoiceName = tmpNativeVoice, VoiceOptions = new List<string>() });
-                string tmpString = JsonConvert.SerializeObject(newPersonas);
-                using (var sw = new StreamWriter(tmpFile, true))
+                var newPersonas = new List<Personas>
                 {
-                    sw.Write(tmpString);
-                }
+                    new() { Name = "Default", RoleText = "You are a cheeky streamer assistant with a silly personality.", VoiceProvider = "Native", VoiceName = tmpNativeVoice, VoiceOptions = [] }
+                };
+                string tmpString = JsonConvert.SerializeObject(newPersonas);
+                using var sw = new StreamWriter(tmpFile, true);
+                sw.Write(tmpString);
             }
             else
             {
                 _bBBlog.Debug("Personas file found, loading it.");
                 _personas.Clear();
                 PersonaComboBox.Items.Clear();
-                using (var sr = new StreamReader(tmpFile))
+                using var sr = new StreamReader(tmpFile);
+                var tmpString = sr.ReadToEnd();
+                //var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
+                var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
+                foreach (var persona in tmpPersonas)
                 {
-                    var tmpString = sr.ReadToEnd();
-                    //var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
-                    var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
-                    foreach (var persona in tmpPersonas)
-                    {
-                        _bBBlog.Debug("Loading persona into available list: " + persona.Name);
-                        _personas.Add(persona);
-                        PersonaComboBox.Items.Add(persona.Name);
-                    }
+                    _bBBlog.Debug("Loading persona into available list: " + persona.Name);
+                    _personas.Add(persona);
+                    PersonaComboBox.Items.Add(persona.Name);
                 }
             }
 
@@ -616,8 +615,8 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSGetNativeVoices()
         {
-            NativeSpeech nativeSpeech = new();
-            _nativeRegionVoicesList = await nativeSpeech.TTSNativeGetVoices();
+            _ = new NativeSpeech();
+            _nativeRegionVoicesList = await NativeSpeech.TTSNativeGetVoices();
             if (_tTSAzureVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving Native voicelist. Do you have any native voices installed?", "Native No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -631,8 +630,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSGetElevenLabsVoices()
         {
-            if (_elevenLabsApi == null)
-                _elevenLabsApi = new(ElevenlabsAPIKeyTextBox.Text);
+            _elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
             var _elevenLabsVoicesList = await _elevenLabsApi.TTSGetElevenLabsVoices();
             if (_elevenLabsVoicesList == null)
@@ -834,8 +832,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSElevenLabsSpeakToOutput(string TextToSay)
         {
-            if (_elevenLabsApi == null)
-                _elevenLabsApi = new(ElevenlabsAPIKeyTextBox.Text);
+            _elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
             var result = await _elevenLabsApi.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text));
             if (!result)
@@ -999,7 +996,7 @@ namespace BanterBrain_Buddy
                 if (TwitchMockEventSub.Checked)
                 {
                     //new subs
-                    _bBBlog.Info($"Twitch TEST subscriptions enabled, calling EventSubHandleSubscription: {_twitchTestEventSub.ToString()}");
+                    _bBBlog.Info($"Twitch TEST subscriptions enabled, calling EventSubHandleSubscription: {_twitchTestEventSub}");
                     _twitchTestEventSub.EventSubHandleSubscription();
                     _twitchTestEventSub.OnESubSubscribe += TwitchEventSub_OnESubSubscribe;
                     _twitchTestEventSub.OnESubReSubscribe += TwitchEventSub_OnESubReSubscribe;
@@ -1105,10 +1102,10 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
         {
-            string user = e.GetCheerInfo()[0];
-            string message = e.GetCheerInfo()[1];
+            //string user = e.GetCheerInfo()[0];
+            // string message = e.GetCheerInfo()[1];
             //we got a valid cheer message, lets see what we can do with it
-            _bBBlog.Info("TEST: Valid Twitch Cheer message received");
+            _bBBlog.Debug("TEST: Valid Twitch Cheer message received");
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1324,8 +1321,7 @@ namespace BanterBrain_Buddy
         private async void ElevenLabsTestButton_Click(object sender, EventArgs e)
         {
             //call test api key for elevenlabs
-            if (_elevenLabsApi == null)
-                _elevenLabsApi = new(ElevenlabsAPIKeyTextBox.Text);
+            _elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
             if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
             {
@@ -1524,7 +1520,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void PersonaComboBox_Validating(object sender, CancelEventArgs e)
         {
-            System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
+            System.Windows.Forms.ComboBox currenttb = (System.Windows.Forms.ComboBox)sender;
             if (string.IsNullOrWhiteSpace(currenttb.Text))
             {
                 MessageBox.Show("This field cannot be empty");
@@ -1593,9 +1589,10 @@ namespace BanterBrain_Buddy
                 OllamaURITextBox.Enabled = false;
                 OllamaModelsComboBox.Enabled = false;
                 OllamaResponseLengthComboBox.Enabled = false;
-                OllamaTestButton.Enabled = false; 
+                OllamaTestButton.Enabled = false;
 
-            } else
+            }
+            else
             {
                 OllamaURITextBox.Enabled = true;
                 OllamaModelsComboBox.Enabled = true;

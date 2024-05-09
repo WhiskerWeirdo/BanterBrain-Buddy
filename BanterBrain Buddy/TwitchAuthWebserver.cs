@@ -14,15 +14,10 @@ using System.Threading.Tasks;
 
 namespace BanterBrain_Buddy
 {
-    
-    public class Authorization
-    {
-        public string Code { get; }
 
-        public Authorization(string code)
-        {
-            Code = code;
-        }
+    public class Authorization(string code)
+    {
+        public string Code { get; } = code;
     }
 
     public class TwitchAuthWebserver
@@ -141,12 +136,12 @@ namespace BanterBrain_Buddy
                 }
                 catch (Exception ex)
                 {
-                    _bBBlog.Error("Webserver: " +ex.ToString());
+                    _bBBlog.Error("Webserver: " + ex.ToString());
                 }
-                
+
             }
             return null;
         }
     }
-  
+
 }

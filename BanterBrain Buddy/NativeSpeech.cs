@@ -51,12 +51,16 @@ namespace BanterBrain_Buddy
             _nativeSynthesizer.Speak(TextToSay);
             //TODO: handle issues with device not being available or not responsive
             //_bBBlog.Info("Device out: " + SelectedOutputDevice);
-            var waveOut = new WaveOut();
-            waveOut.DeviceNumber = SelectedOutputDevice;
+            var waveOut = new WaveOut
+            {
+                DeviceNumber = SelectedOutputDevice
+            };
             //it has to be 24000, 16, 1 for some reason?
-            var waveStream = new RawSourceWaveStream(_nativeAudioStream, new WaveFormat(24000,16,1));
-            //reset the stream to the beginning or you wont hear anything
-            waveStream.Position = 0;
+            var waveStream = new RawSourceWaveStream(_nativeAudioStream, new WaveFormat(24000, 16, 1))
+            {
+                //reset the stream to the beginning or you wont hear anything
+                Position = 0
+            };
             waveOut.Init(waveStream);
 
             waveOut.Play();
@@ -71,8 +75,10 @@ namespace BanterBrain_Buddy
         {
             SetSelectedOutputDevice(Properties.Settings.Default.TTSAudioOutput);
             _bBBlog.Debug("Playing Native Wave File: " + _tmpWavFile);
-            var waveOut = new WaveOut();
-            waveOut.DeviceNumber = SelectedOutputDevice;
+            var waveOut = new WaveOut
+            {
+                DeviceNumber = SelectedOutputDevice
+            };
             var waveStream = new WaveFileReader(_tmpWavFile);
             waveOut.Init(waveStream);
             waveOut.Play();
@@ -95,7 +101,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug("Init Native Output Device: " + OutputDevice + " using: " + VoiceUsed);
             SetSelectedOutputDevice(OutputDevice);
             _nativeSynthesizer = new();
-            string selectedVoice = VoiceUsed.Substring(0, VoiceUsed.IndexOf("-"));
+            string selectedVoice = VoiceUsed[..VoiceUsed.IndexOf('-')];
             _bBBlog.Debug("Init Native Voice: " + selectedVoice);
             _nativeSynthesizer.SelectVoice(selectedVoice);
             _nativeAudioStream = new();
@@ -103,7 +109,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        public async Task<List<NativeVoices>> TTSNativeGetVoices()
+        public static async Task<List<NativeVoices>> TTSNativeGetVoices()
         {
             List<NativeVoices> nativeVoicesList = [];
             var synthesizer = new SpeechSynthesizer();
@@ -142,7 +148,7 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Mative STT recognize Stopped.");
             }
-           
+
             _sTTDone = true;
         }
 
@@ -166,7 +172,7 @@ namespace BanterBrain_Buddy
         {
 
             string culture = Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox;
-            if (culture.Length > 1 )
+            if (culture.Length > 1)
             {
                 _bBBlog.Info("Setting Native Speech Recognition Language to: " + culture);
             }

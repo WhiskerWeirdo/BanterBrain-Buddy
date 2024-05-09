@@ -38,31 +38,35 @@ namespace BanterBrain_Buddy
         private IKeyboardMouseEvents m_GlobalHook;
 
         //used for PTT checking
-        private bool _hotkeyCalled = false;
+        private bool _hotkeyCalled;
         // check if STT is finished yet
-        private bool _sTTDone = false;
+        private bool _sTTDone;
         //check if TTS is finished yet
-        private bool _tTSSpeaking = false;
+        private bool _tTSSpeaking;
 
         [SupportedOSPlatform("windows6.1")]
         //Hotkey Storage
         readonly private List<Keys> _setHotkeys = [];
 
         //check if the GPT LLM is donestop audio capture
-        private bool _gPTDone = false;
+        private bool _gPTDone;
 
         //error checker for async events. If true, stop execution of whatever you're doing
-        private bool _bigError = false;
+        private bool _bigError;
 
-        private bool _twitchStarted = false;
-        private bool _twitchAPIVerified = false;
+        private bool _twitchStarted;
+        private bool _twitchAPIVerified;
 
         //Global Twitch API class
         //we need this for the hourly /validate check
         private TwitchAPIESub _globalTwitchAPI;
         private bool _twitchValidateCheckStarted;
         private TwitchAPIESub _twitchEventSub;
-        public static bool isTwitchRunning = false;
+
+        //this needs to be public because the settings form needs to know
+#pragma warning disable CA2211 // Non-constant fields should not be visible
+        public static bool isTwitchRunning;
+#pragma warning restore CA2211 // Non-constant fields should not be visible
 
         //this will hold the STT output text
         private string _sTTOutputText;
@@ -71,7 +75,7 @@ namespace BanterBrain_Buddy
         private ElLabs _elevenLabsApi;
         private AzureSpeechAPI _azureSpeech;
 
-        private List<Personas> _personas = new List<Personas>();
+        private readonly List<Personas> _personas = [];
 
         [SupportedOSPlatform("windows6.1")]
         public BBB()
@@ -211,7 +215,7 @@ namespace BanterBrain_Buddy
 
         //this is to make sure config files are writable, in the correct %APPDATA%\BanterBrain folder and can be read and write
         [SupportedOSPlatform("windows6.1")]
-        private void SetupConfigFiles()
+        private static void SetupConfigFiles()
         {
             //check if the folder exists, if not, create it
 
@@ -274,7 +278,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private Personas GetSelectedPersona(string personaName)
         {
-            Personas tmpPersona = new();
+            // Personas tmpPersona = new();
             foreach (var persona in _personas)
             {
                 if (persona.Name == personaName)
@@ -298,8 +302,9 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Debug("Personas file not found, creating it");
                 //there might be a native voice installed, if so we should add it to the list
-                NativeSpeech nativeSpeech = new();
-                var nativeRegionVoicesList = await nativeSpeech.TTSNativeGetVoices();
+                _ = new                //there might be a native voice installed, if so we should add it to the list
+                NativeSpeech();
+                var nativeRegionVoicesList = await NativeSpeech.TTSNativeGetVoices();
                 string tmpNativeVoice = null;
                 if (nativeRegionVoicesList.Count > 0)
                 {
@@ -317,13 +322,13 @@ namespace BanterBrain_Buddy
                     _bBBlog.Debug("No native voices found");
                     tmpNativeVoice = "None";
                 }
-                var newPersonas = new List<Personas>();
-                newPersonas.Add(new Personas { Name = "Default", RoleText = "You are a cheeky streamer assistant with a silly personality.", VoiceProvider = "Native", VoiceName = tmpNativeVoice, VoiceOptions = new List<string>() });
-                string tmpString = JsonConvert.SerializeObject(newPersonas);
-                using (var sw = new StreamWriter(tmpFile, true))
+                var newPersonas = new List<Personas>
                 {
-                    sw.Write(tmpString);
-                }
+                    new() { Name = "Default", RoleText = "You are a cheeky streamer assistant with a silly personality.", VoiceProvider = "Native", VoiceName = tmpNativeVoice, VoiceOptions = [] }
+                };
+                string tmpString = JsonConvert.SerializeObject(newPersonas);
+                using var sw = new StreamWriter(tmpFile, true);
+                sw.Write(tmpString);
             }
             else
             {
@@ -334,22 +339,20 @@ namespace BanterBrain_Buddy
                 TwitchChannelPointPersonaComboBox.Items.Clear();
                 TwitchCheeringPersonaComboBox.Items.Clear();
                 TwitchSubscriptionPersonaComboBox.Items.Clear();
-                using (var sr = new StreamReader(tmpFile))
+                using var sr = new StreamReader(tmpFile);
+                var tmpString = sr.ReadToEnd();
+                //var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
+                var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
+                foreach (var persona in tmpPersonas)
                 {
-                    var tmpString = sr.ReadToEnd();
-                    //var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
-                    var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
-                    foreach (var persona in tmpPersonas)
-                    {
-                        _bBBlog.Debug("Loading persona into available list: " + persona.Name);
-                        _personas.Add(persona);
-                        BroadcasterSelectedPersonaComboBox.Items.Add(persona.Name);
-                        TwitchChatPersonaComboBox.Items.Add(persona.Name);
-                        TwitchChannelPointPersonaComboBox.Items.Add(persona.Name);
-                        TwitchCheeringPersonaComboBox.Items.Add(persona.Name);
-                        TwitchSubscriptionPersonaComboBox.Items.Add(persona.Name);
+                    _bBBlog.Debug("Loading persona into available list: " + persona.Name);
+                    _personas.Add(persona);
+                    BroadcasterSelectedPersonaComboBox.Items.Add(persona.Name);
+                    TwitchChatPersonaComboBox.Items.Add(persona.Name);
+                    TwitchChannelPointPersonaComboBox.Items.Add(persona.Name);
+                    TwitchCheeringPersonaComboBox.Items.Add(persona.Name);
+                    TwitchSubscriptionPersonaComboBox.Items.Add(persona.Name);
 
-                    }
                 }
             }
             //alright now lets load up the selected persona if there is one
@@ -371,8 +374,9 @@ namespace BanterBrain_Buddy
                 return;
             }
             //if there's at least one native voice installed, enable the native STT
-            NativeSpeech nativeSpeech = new();
-            var result = await nativeSpeech.TTSNativeGetVoices();
+            _ = new            //if there's at least one native voice installed, enable the native STT
+            NativeSpeech();
+            var result = await NativeSpeech.TTSNativeGetVoices();
             _bBBlog.DebugFormat("Found {0} native voices", result.Count);
             if (result.Count > 0)
             {
@@ -384,13 +388,12 @@ namespace BanterBrain_Buddy
             if (Properties.Settings.Default.AzureAPIKeyTextBox.Length > 1)
             {
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
                 List<AzureVoices> azureRegionVoicesList = [];
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
                 _bBBlog.Info("Finding TTS Azure voices available");
                 UpdateTextLog("Finding TTS Azure voices available\r\n");
-                if (_azureSpeech == null)
-                {
-                    _azureSpeech = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
-                }
+                _azureSpeech ??= new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
 
                 try
                 {
@@ -439,10 +442,7 @@ namespace BanterBrain_Buddy
             if (!_twitchValidateCheckStarted && TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchUsername.Length > 0 && Properties.Settings.Default.TwitchAccessToken.Length > 0 && Properties.Settings.Default.TwitchChannel.Length > 0)
             {
                 //only make a new instance if it's null
-                if (_globalTwitchAPI == null)
-                {
-                    _globalTwitchAPI = new();
-                }
+                _globalTwitchAPI ??= new();
 
                 var result = await _globalTwitchAPI.ValidateAccessToken(Properties.Settings.Default.TwitchAccessToken);
                 if (!result)
@@ -496,10 +496,7 @@ namespace BanterBrain_Buddy
         private async void AzureConvertVoicetoText()
         {
             _sTTOutputText = "";
-            if (_azureSpeech == null)
-            {
-                _azureSpeech = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
-            }
+            _azureSpeech ??= new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
             //call the Azure STT function with the selected input device
             //first initialize the Azure STT class
             _azureSpeech.AzureSTTInit(Properties.Settings.Default.VoiceInput);
@@ -554,9 +551,11 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug("Recording device: " + recordingDevice);
 
             bool writeDone = false;
-            var waveIn = new WaveInEvent();
-            waveIn.DeviceNumber = recordingDevice;
-            waveIn.WaveFormat = new NAudio.Wave.WaveFormat(16000, 16, 1);
+            var waveIn = new WaveInEvent
+            {
+                DeviceNumber = recordingDevice,
+                WaveFormat = new NAudio.Wave.WaveFormat(16000, 16, 1)
+            };
             var writer = new WaveFileWriter(tmpWavFile, waveIn.WaveFormat);
             waveIn.StartRecording();
             waveIn.DataAvailable += (s, a) =>
@@ -643,7 +642,7 @@ namespace BanterBrain_Buddy
 
         //play a wav file to the bots selected audio channel
         [SupportedOSPlatform("windows6.1")]
-        private async Task PlayWaveFile(string tmpWavFile)
+        private static async Task PlayWaveFile(string tmpWavFile)
         {
             _bBBlog.Debug($"Playing wav file: {tmpWavFile}");
             NativeSpeech nativeSpeech = new();
@@ -708,10 +707,7 @@ namespace BanterBrain_Buddy
         {
             UpdateTextLog("Saying text with Azure TTS\r\n");
             _bBBlog.Info("Saying text with Azure TTS");
-            if (_azureSpeech == null)
-            {
-                _azureSpeech = new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
-            }
+            _azureSpeech ??= new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
 
             //set the output voice, gender and locale, and the style
             //this now depends on the selected persona
@@ -1019,7 +1015,7 @@ namespace BanterBrain_Buddy
                 TwitchChatSoundTextBox.Enabled = false;
             }
             TwitchChatSoundTextBox.Items.Clear();
-            addFilesToDropdown(TwitchChatSoundTextBox);
+            AddFilesToDropdown(TwitchChatSoundTextBox);
             TwitchChatSoundTextBox.SelectedIndex = TwitchChatSoundTextBox.FindStringExact(Properties.Settings.Default.TwitchChatSound);
 
             TwitchChannelSoundCheckBox.Checked = Properties.Settings.Default.TwitchChannelSoundCheckBox;
@@ -1032,7 +1028,7 @@ namespace BanterBrain_Buddy
                 TwitchChannelSoundTextBox.Enabled = false;
             }
             TwitchChannelSoundTextBox.Items.Clear();
-            addFilesToDropdown(TwitchChannelSoundTextBox);
+            AddFilesToDropdown(TwitchChannelSoundTextBox);
             TwitchChannelSoundTextBox.SelectedIndex = TwitchChannelSoundTextBox.FindStringExact(Properties.Settings.Default.TwitchChannelSound);
 
             TwitchCheeringSoundCheckBox.Checked = Properties.Settings.Default.TwitchCheeringSoundCheckBox;
@@ -1045,7 +1041,7 @@ namespace BanterBrain_Buddy
                 TwitchCheeringSoundTextBox.Enabled = false;
             }
             TwitchCheeringSoundTextBox.Items.Clear();
-            addFilesToDropdown(TwitchCheeringSoundTextBox);
+            AddFilesToDropdown(TwitchCheeringSoundTextBox);
             TwitchCheeringSoundTextBox.SelectedIndex = TwitchCheeringSoundTextBox.FindStringExact(Properties.Settings.Default.TwitchCheeringSound);
 
             TwitchSubscriptionSoundCheckBox.Checked = Properties.Settings.Default.TwitchSubscriptionSoundCheckBox;
@@ -1058,7 +1054,7 @@ namespace BanterBrain_Buddy
                 TwitchSubscriptionSoundTextBox.Enabled = false;
             }
             TwitchSubscriptionSoundTextBox.Items.Clear();
-            addFilesToDropdown(TwitchSubscriptionSoundTextBox);
+            AddFilesToDropdown(TwitchSubscriptionSoundTextBox);
             TwitchSubscriptionSoundTextBox.SelectedIndex = TwitchSubscriptionSoundTextBox.FindStringExact(Properties.Settings.Default.TwitchSubscriptionSoundTextBox);
 
             //check if theres a speaker selected if not select the default onne
@@ -1131,10 +1127,7 @@ namespace BanterBrain_Buddy
             if (Properties.Settings.Default.ElevenLabsAPIkey.Length > 1)
             {
                 //call test api key for elevenlabs
-                if (_elevenLabsApi == null)
-                {
-                    _elevenLabsApi = new(Properties.Settings.Default.ElevenLabsAPIkey);
-                }
+                _elevenLabsApi ??= new(Properties.Settings.Default.ElevenLabsAPIkey);
                 if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
                 {
                     _bBBlog.Info("ElevenLabs API key is valid, pre-loading voices");
@@ -1392,7 +1385,7 @@ namespace BanterBrain_Buddy
                 if (TwitchSubscribed.Checked)
                 {
                     //new subs
-                    _bBBlog.Info($"Twitch subscriptions enabled, calling EventSubHandleSubscription: {_twitchEventSub.ToString()}");
+                    _bBBlog.Info($"Twitch subscriptions enabled, calling EventSubHandleSubscription: {_twitchEventSub}");
                     _twitchEventSub.EventSubHandleSubscription();
                     _twitchEventSub.OnESubSubscribe += TwitchEventSub_OnESubSubscribe;
                     _twitchEventSub.OnESubReSubscribe += TwitchEventSub_OnESubReSubscribe;
@@ -1986,7 +1979,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void seToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Unsubscribe();
             if (_twitchEventSub != null)
@@ -2275,7 +2268,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void addFilesToDropdown(ComboBox box)
+        private static void AddFilesToDropdown(ComboBox box)
         {
             string soundDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/sounds";
             string[] files = Directory.GetFiles(soundDir, "*.wav");
@@ -2289,7 +2282,7 @@ namespace BanterBrain_Buddy
         private void TwitchChatSoundTextBox_Click(object sender, EventArgs e)
         {
             TwitchChatSoundTextBox.Items.Clear();
-            addFilesToDropdown(TwitchChatSoundTextBox);
+            AddFilesToDropdown(TwitchChatSoundTextBox);
 
         }
 
@@ -2430,7 +2423,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        private void logfileDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LogfileDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _bBBlog.Debug("Opening log directory: " + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs");
             Process.Start("explorer.exe", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs");

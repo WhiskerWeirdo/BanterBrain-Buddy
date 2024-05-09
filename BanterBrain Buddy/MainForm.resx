@@ -2072,7 +2072,7 @@
     <value>61, 20</value>
   </data>
   <data name="seToolStripMenuItem.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>&amp;Settings</value>
   </data>
   <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -3269,11 +3269,17 @@
   <data name="&gt;&gt;helpToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GithubToolStripMenuItem.Name" xml:space="preserve">
-    <value>GithubToolStripMenuItem</value>
+  <data name="&gt;&gt;logfileDirectoryToolStripMenuItem.Name" xml:space="preserve">
+    <value>logfileDirectoryToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;GithubToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;logfileDirectoryToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
+    <value>toolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;DiscordToolStripMenuItem.Name" xml:space="preserve">
     <value>DiscordToolStripMenuItem</value>
@@ -3281,10 +3287,10 @@
   <data name="&gt;&gt;DiscordToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;logfileDirectoryToolStripMenuItem.Name" xml:space="preserve">
-    <value>logfileDirectoryToolStripMenuItem</value>
+  <data name="&gt;&gt;GithubToolStripMenuItem.Name" xml:space="preserve">
+    <value>GithubToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;logfileDirectoryToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;GithubToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;seToolStripMenuItem.Name" xml:space="preserve">
@@ -3298,12 +3304,6 @@
   </data>
   <data name="&gt;&gt;BBBToolTip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
-    <value>toolStripMenuItem1</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>BBB</value>

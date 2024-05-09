@@ -35,7 +35,7 @@ namespace BanterBrain_Buddy
         private NAudio.CoreAudioApi.MMDevice inDevice;
 
         //global list to speed stuff up
-        List<AzureVoices>_azureRegionVoicesList = [];
+        List<AzureVoices> _azureRegionVoicesList = [];
 
         public async Task<bool> AzureVerifyAPI()
         {
@@ -101,7 +101,8 @@ namespace BanterBrain_Buddy
                 }
                 _azureRegionVoicesList = azureRegionVoicesList;
                 return azureRegionVoicesList;
-            } else //no voices back means something is definately bad
+            }
+            else //no voices back means something is definately bad
             {
                 _bBBlog.Error("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?");
             }
@@ -169,13 +170,13 @@ namespace BanterBrain_Buddy
             {
                 if (AzureVoiceParseName == (azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName))
                 {
-                    
+
                     _azureVoiceName = azureRegionVoice.Name;
                     _bBBlog.Debug($"Azure Voice found. Assigning {_azureVoiceName}");
                     return;
                 }
             }
-  
+
         }
 
         /// <summary>
@@ -207,11 +208,13 @@ namespace BanterBrain_Buddy
                 if (result)
                 {
                     return true;
-                } else
+                }
+                else
                 {
                     return false;
                 }
-            } else
+            }
+            else
             {
                 _bBBlog.Error("Cannot find selected voice in the list. Is there a problem with your API key or subscription?");
                 return false;

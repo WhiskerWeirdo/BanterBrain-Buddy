@@ -8,8 +8,8 @@ namespace BanterBrain_Buddy.TwitchEventhandlers
 {
     public class OnChatEventArgs(string userChatted, string chatMessage) : EventArgs
     {
-        private string EventChatUser = userChatted;
-        private string EventChatMessage = chatMessage;
+        private readonly string EventChatUser = userChatted;
+        private readonly string EventChatMessage = chatMessage;
 
         public string[] GetChatInfo()
         {

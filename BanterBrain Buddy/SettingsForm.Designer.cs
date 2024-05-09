@@ -210,7 +210,7 @@
             MenuTreeView.Size = new System.Drawing.Size(203, 450);
             MenuTreeView.TabIndex = 0;
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
-            MenuTreeView.AfterSelect += treeView1_AfterSelect;
+            MenuTreeView.AfterSelect += TreeView1_AfterSelect;
             // 
             // OllamaPanel
             // 

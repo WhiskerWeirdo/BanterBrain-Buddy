@@ -16,7 +16,7 @@ namespace BanterBrain_Buddy
     public partial class HotkeyForm : Form
     {
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private bool _isKeyReleased = false;
+       // private bool _isKeyReleased;
 
         public HotkeyForm()
         {
@@ -33,7 +33,7 @@ namespace BanterBrain_Buddy
             m_GlobalHook.KeyUp += GlobalHookKeyUp;
         }
 
-        List<Keys> KeyCombo = [];
+        readonly List<Keys> KeyCombo = [];
 
         public List<Keys> ReturnValue1 { get; set; }
 
@@ -48,7 +48,7 @@ namespace BanterBrain_Buddy
             {
                 KeyCombo.Add(e.KeyCode);
                 _bBBlog.Info($"KeyCombo: {KeyCombo}");
-               // CombiText.Text += (char)e.KeyValue;
+                // CombiText.Text += (char)e.KeyValue;
                 CombiText.Text += e.KeyCode + " ";
             }
             //Escape
@@ -73,7 +73,7 @@ namespace BanterBrain_Buddy
         public void GlobalHookKeyUp(object sender, KeyEventArgs e)
         {
             _bBBlog.Info("Key Up event");
-            _isKeyReleased = true;
+           // _isKeyReleased = true;
 
             //CombiText.Text += (char)e.KeyValue;
             this.ReturnValue1 = KeyCombo;

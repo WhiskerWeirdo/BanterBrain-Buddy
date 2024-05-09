@@ -17,7 +17,7 @@ namespace BanterBrain_Buddy
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public string _elevelLabsAPIKey { get; set; }
         //private List<string> _elevenLabVoiceList;
-        private Dictionary<string, string> _elevenLabVoiceList;
+        private readonly Dictionary<string, string> _elevenLabVoiceList;
 
         private int SelectedOutputDevice;
 
@@ -45,8 +45,8 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"count of voices: " + _elevenLabVoiceList.Count);
             var voiceId = _elevenLabVoiceList[tmpVoice];
             var voice = await api.VoicesEndpoint.GetVoiceAsync(voiceId);
-            VoiceSettings voiceSettings = new VoiceSettings(similarity/100f, stability/100f, false, style/100f);
-           // var voiceSettings = await api.VoicesEndpoint.GetDefaultVoiceSettingsAsync();
+            VoiceSettings voiceSettings = new(similarity / 100f, stability / 100f, false, style / 100f);
+            // var voiceSettings = await api.VoicesEndpoint.GetDefaultVoiceSettingsAsync();
             var editVoice = api.VoicesEndpoint.EditVoiceSettingsAsync(voiceId, voiceSettings);
             if (editVoice.Result)
             {
@@ -60,16 +60,21 @@ namespace BanterBrain_Buddy
             //this returns in mp3 format...pfft
             var convertedText = await api.TextToSpeechEndpoint.TextToSpeechAsync(text, voice, voiceSettings);
             var mp3Data = convertedText.ClipData.ToArray();
-            MemoryStream ms = new MemoryStream(mp3Data);
-            ms.Position = 0;
+            MemoryStream ms = new(mp3Data)
+            {
+                Position = 0
+            };
             var WavStream = WaveFormatConversionStream.CreatePcmStream(new Mp3FileReader(ms));
-            var waveOut = new WaveOut();
-            waveOut.DeviceNumber = SelectedOutputDevice;
+            var waveOut = new WaveOut
+            {
+                DeviceNumber = SelectedOutputDevice
+            };
             //it has to be 24000, 16, 1 for some reason?
-            var waveStream = new RawSourceWaveStream(WavStream, new WaveFormat(44100, 16, 1));
-          
-            //reset the stream to the beginning or you wont hear anything
-            waveStream.Position = 0;
+            var waveStream = new RawSourceWaveStream(WavStream, new WaveFormat(44100, 16, 1))
+            {
+                //reset the stream to the beginning or you wont hear anything
+                Position = 0
+            };
             waveOut.Init(waveStream);
 
             waveOut.Play();
@@ -98,7 +103,7 @@ namespace BanterBrain_Buddy
             var tier = await api.UserEndpoint.GetSubscriptionInfoAsync();
             _bBBlog.Info($"Tier: {tier.Tier} for {tier.VoiceLimit}");
             var voices = await api.VoicesEndpoint.GetAllVoicesAsync();
-            _bBBlog.Info($"Voices found: {voices.Count()}");
+            _bBBlog.Info($"Voices found: {voices.Count}");
 
             foreach (var voice in voices)
             {
@@ -120,13 +125,12 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("ElevenLabsAPIKeyTest called");
             if (_elevelLabsAPIKey.Length > 1)
             {
-
                 var api = new ElevenLabsClient(_elevelLabsAPIKey);
-                SubscriptionInfo result = null;
                 try
                 {
-                    result = await api.UserEndpoint.GetSubscriptionInfoAsync();
-                } catch (Exception ex)
+                    SubscriptionInfo result = await api.UserEndpoint.GetSubscriptionInfoAsync();
+                }
+                catch (Exception ex)
                 {
                     _bBBlog.Error($"ElevenLabsAPIKeyTest failed, no key added. {ex.Message}");
                     return false;
@@ -144,7 +148,7 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Info("ElevenLabs called");
             _elevelLabsAPIKey = elevelLabsAPIKey;
-            _elevenLabVoiceList = new Dictionary<string, string>();
+            _elevenLabVoiceList = [];
         }
     }
 }

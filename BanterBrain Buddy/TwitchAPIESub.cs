@@ -36,9 +36,9 @@ namespace BanterBrain_Buddy
     //eventhandler for re-subscriptions
     public delegate void ESubReSubscribeEventHandler(object source, OnReSubscribeEventArgs e);
     //eventhandler for subscription gifts
-    public delegate void EsubSubscriptionGiftEventHandler (object source, OnSubscriptionGiftEventArgs e);
+    public delegate void EsubSubscriptionGiftEventHandler(object source, OnSubscriptionGiftEventArgs e);
     //eventhandler for custom channel point redemptions
-    public delegate void ESubChannelPointRedemptionEventHandler (object source, OnChannelPointCustomRedemptionEventArgs e);
+    public delegate void ESubChannelPointRedemptionEventHandler(object source, OnChannelPointCustomRedemptionEventArgs e);
 
     public class TwitchAPIESub
     {
@@ -57,7 +57,7 @@ namespace BanterBrain_Buddy
         //the eventhandler for custom channel poitn redemptions it returns the username as [0] and the message as [1] in a string array
         public event ESubChannelPointRedemptionEventHandler OnESubChannelPointRedemption;
 
-        public string TwitchAccessToken { get;  private set; }
+        public string TwitchAccessToken { get; private set; }
         private bool TwitchAuthRequestResult { get; set; }
 
         private static string _twitchAuthRedirect { get; set; }
@@ -79,7 +79,7 @@ namespace BanterBrain_Buddy
         public bool EventSubCheckSubscriptionGift { get; private set; }
         public bool EventSubCheckChannelPointRedemption { get; private set; }
 
-        private Dictionary<string, string> _eventSubIllist;  
+        private readonly Dictionary<string, string> _eventSubIllist;
 
         private Dictionary<string, string> _conditions;
 
@@ -124,10 +124,11 @@ namespace BanterBrain_Buddy
                 _eventSubWebsocketClient.WebsocketReconnected += EventSubOnWebsocketReconnected;
                 _eventSubWebsocketClient.ErrorOccurred += EventSubOnErrorOccurred;
 
-                
+
                 _bBBlog.Info("TwitchEventSub eventhandlers setting done");
                 return true;
-            } else
+            }
+            else
             {
                 _bBBlog.Error("TwitchEventSub failed to initialize. Most likely due to failing key");
                 return false;
@@ -175,7 +176,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Setting EventSubHandleReadchat");
             _bBBlog.Debug($"SessionID: {_eventSubWebsocketClient.SessionId}");
             EventSubReadChatMessages = true;
-            _eventSubWebsocketClient.ChannelChatMessage += (sender,e) => EventSubOnChannelChatMessage(sender, e, command, delay, follower, subscriber);
+            _eventSubWebsocketClient.ChannelChatMessage += (sender, e) => EventSubOnChannelChatMessage(e, command, delay, follower, subscriber);
             //we can call this function multile times, so we need to check if we are already connected
             if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
             {
@@ -198,7 +199,8 @@ namespace BanterBrain_Buddy
                 await EventSubSubscribe("channel.subscribe", _conditions);
                 _bBBlog.Info("Subscribing to resubscription events");
                 await EventSubSubscribe("channel.subscription.message", _conditions);
-            } else
+            }
+            else
             {
                 _bBBlog.Error("EventSubWebsocket is not connected, cannot subscribe to subscriptions");
             }
@@ -223,7 +225,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Setting EventSubHandleCheer");
             _bBBlog.Debug($"SessionID: {_eventSubWebsocketClient.SessionId}");
             EventSubCheckCheer = true;
-            _eventSubWebsocketClient.ChannelCheer += (sender, e) => EventSubOnChannelCheer(sender, e, minbits);
+            _eventSubWebsocketClient.ChannelCheer += (sender, e) => EventSubOnChannelCheer(e, minbits);
             if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
             {
                 _bBBlog.Info("Subscribing to cheers");
@@ -236,7 +238,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Setting EventSubHandleChannelPointCustomRedemption");
             _bBBlog.Debug($"SessionID: {_eventSubWebsocketClient.SessionId}");
             EventSubCheckChannelPointRedemption = true;
-            _eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionAdd += (sender, e) => EventSubOnChannelPointRedemption(sender, e, redemptionName);
+            _eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionAdd += (sender, e) => EventSubOnChannelPointRedemption(e, redemptionName);
             if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
             {
                 _bBBlog.Info("Subscribing to channel point redemptions");
@@ -280,7 +282,7 @@ namespace BanterBrain_Buddy
         private static void TwitchReadSettings()
         {
             //todo: error handling
-            using StreamReader r = new( Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json");
+            using StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json");
             //lets read the file and parse the json safely ;)
             //need to do error handling if file does not exist
             var JsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(r.ReadToEnd());
@@ -359,11 +361,11 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Trying to see if I can getting the current user using Helix call.");
                 await Task.Delay(500);
-                var broadCaster = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwChannelName] )).Users;
-                var messageSender = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwUsername] )).Users;
+                var broadCaster = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwChannelName])).Users;
+                var messageSender = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwUsername])).Users;
                 _twitchUserID = messageSender[0].Id;
                 _twitchChannelID = broadCaster[0].Id;
-                _bBBlog.Info("Broadcaster: " + broadCaster[0].Login +" id:"+ broadCaster[0].Id);
+                _bBBlog.Info("Broadcaster: " + broadCaster[0].Login + " id:" + broadCaster[0].Id);
                 _bBBlog.Info("Message sender: " + messageSender[0].Login + " id:" + messageSender[0].Id);
 
                 //set the global, we need this for the EventSub
@@ -384,9 +386,10 @@ namespace BanterBrain_Buddy
             }
             catch (TwitchLib.Api.Core.Exceptions.BadScopeException exception)
             {
-                _bBBlog.Error("Bad scope Issue with access token: " +exception.Message);
+                _bBBlog.Error("Bad scope Issue with access token: " + exception.Message);
                 return false;
-            } catch (HttpRequestException exception)
+            }
+            catch (HttpRequestException exception)
             {
                 _bBBlog.Error("HTTPrequest Issue with access token: " + exception.Message);
                 return false;
@@ -418,7 +421,8 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Error("No access token set, cannot send message");
                 return false;
-            } else if (_twitchChannelID == null)
+            }
+            else if (_twitchChannelID == null)
             {
                 _bBBlog.Error("No channel ID set, cannot send message");
                 return false;
@@ -477,7 +481,7 @@ namespace BanterBrain_Buddy
             //implicit flow is rather simple compared to client cred
             var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetOAUTHCodeUrl(_twitchAuthClientId, _twitchAuthRedirect, scopes, "Implicit")}") { UseShellExecute = true }));
             tImplicit.Start();
-            
+
             var authImplicit = await server.ImplicitListen();
 
             if (authImplicit != null)
@@ -494,9 +498,10 @@ namespace BanterBrain_Buddy
 
                 // print out all the data we've got
                 _bBBlog.Info($"Authorization success! User: {user.DisplayName} (id: {user.Id})");
-            } else
+            }
+            else
             {
-                TwitchAuthRequestResult =false;
+                TwitchAuthRequestResult = false;
             }
         }
 
@@ -505,7 +510,7 @@ namespace BanterBrain_Buddy
             string scopesStr = String.Join("+", scopes);
             string responseType;
 
-            if (string.Equals(OAUTHType,"auth", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(OAUTHType, "auth", StringComparison.OrdinalIgnoreCase))
                 responseType = "code";
             else if (string.Equals(OAUTHType, "implicit", StringComparison.OrdinalIgnoreCase))
                 responseType = "token";
@@ -568,7 +573,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Error($"Websocket {_eventSubWebsocketClient.SessionId} - Error occurred!");
         }
 
-        private async Task EventSubOnChannelFollow(object sender, ChannelFollowArgs e)
+        private static async Task EventSubOnChannelFollow(object sender, ChannelFollowArgs e)
         {
             var eventData = e.Notification.Payload.Event;
 
@@ -578,12 +583,12 @@ namespace BanterBrain_Buddy
 
         //eventhandler for reading chat messages.
         //This receives: string command, int delay, bool follower, bool subscriber
-        private async Task EventSubOnChannelChatMessage(object sender, ChannelChatMessageArgs e, string command, int delay, bool follower, bool subscriber)
+        private async Task EventSubOnChannelChatMessage(ChannelChatMessageArgs e, string command, int delay, bool follower, bool subscriber)
         {
-
+            bool tmpFol = follower;
             _bBBlog.Debug($"Chat message websocket {_eventSubWebsocketClient.SessionId}");
             //if the command is still on timeout, ignore else set it to true
-            if ( _isCommandTriggered)
+            if (_isCommandTriggered)
             {
                 _bBBlog.Info("Command trigger is still on timeout, ignoring");
                 return;
@@ -598,9 +603,9 @@ namespace BanterBrain_Buddy
             {
                 _isCommandTriggered = true;
                 //if this does not work we need to, when starting, request all follows and store them in a list and kee it updated
-                var result =  await _gTwitchAPI.Helix.Channels.GetChannelFollowersAsync(_twitchChannelID, eventData.ChatterUserId);
+                var result = await _gTwitchAPI.Helix.Channels.GetChannelFollowersAsync(_twitchChannelID, eventData.ChatterUserId);
 
-                 _bBBlog.Info($"Followerscheck length: {result.Data.Length} channel: {_twitchChannelID} chatter: {eventData.ChatterUserId}");
+                _bBBlog.Info($"Followerscheck length: {result.Data.Length} channel: {_twitchChannelID} chatter: {eventData.ChatterUserId}");
 
                 //user needs to be a subscriber but is not
                 _bBBlog.Info($"{eventData.ChatterUserName} issubscriber: {eventData.IsSubscriber}");
@@ -641,7 +646,7 @@ namespace BanterBrain_Buddy
         }
 
         //eventhandler for checking cheers and amoun tof min bits
-        private async Task EventSubOnChannelCheer(object sender, ChannelCheerArgs e, int minbits)
+        private async Task EventSubOnChannelCheer(ChannelCheerArgs e, int minbits)
         {
             _bBBlog.Debug($"Cheer websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
@@ -656,9 +661,10 @@ namespace BanterBrain_Buddy
                     return;
                 }
                 OnESubCheerMessage(this, new TwitchEventhandlers.OnCheerEventsArgs(eventData.UserName, eventData.Message));
-            } else 
-            { 
-                _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat, but it was not enough to trigger the bot"); 
+            }
+            else
+            {
+                _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat, but it was not enough to trigger the bot");
             }
         }
 
@@ -673,7 +679,7 @@ namespace BanterBrain_Buddy
             var message = "";
             if (eventData.Message != null)
                 message = eventData.Message.Text;
-                    
+
             _bBBlog.Info($"{eventData.UserName} re-subscribed to {eventData.BroadcasterUserName} for {eventData.CumulativeMonths} months with message {eventData.Message}");
 
             if (OnESubReSubscribe == null)
@@ -707,7 +713,7 @@ namespace BanterBrain_Buddy
 
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
-            var tierSub = int.Parse(eventData.Tier)/1000;
+            var tierSub = int.Parse(eventData.Tier) / 1000;
             _bBBlog.Info($"{eventData.UserName} gifted {eventData.Total} tier {tierSub} subscription(s) to a total of {eventData.CumulativeTotal}");
             if (OnESubSubscriptionGift == null)
             {
@@ -719,7 +725,7 @@ namespace BanterBrain_Buddy
         }
 
         //eventhandler for custom channel point redemptions
-        private async Task EventSubOnChannelPointRedemption(object sender, ChannelPointsCustomRewardRedemptionArgs e, string redemptionName)
+        private async Task EventSubOnChannelPointRedemption(ChannelPointsCustomRewardRedemptionArgs e, string redemptionName)
         {
 
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
@@ -729,11 +735,13 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Debug("Redemption trigger is null, no eventhandler set. Cannot continue");
                 return;
-            } else if (redemptionName.ToLower() == eventData.Reward.Title.ToLower())
+            }
+            else if (redemptionName.Equals(eventData.Reward.Title, StringComparison.CurrentCultureIgnoreCase))
             {
                 _bBBlog.Debug($"Channel point redemption triggered: {OnESubChannelPointRedemption}");
                 OnESubChannelPointRedemption(this, new TwitchEventhandlers.OnChannelPointCustomRedemptionEventArgs(eventData.UserName, eventData.UserInput));
-            } else
+            }
+            else
             {
                 _bBBlog.Debug($"Redemption name {redemptionName} does not match the redemption name {eventData.Reward.Title} so ignoring it.");
             }
@@ -770,13 +778,13 @@ namespace BanterBrain_Buddy
                 {
 
                     _bBBlog.Info($"Subscribing to chat messages. WebsocketSessionId: {_eventSubWebsocketClient.SessionId}");
-                     await EventSubSubscribe("channel.chat.message", _conditions);
+                    await EventSubSubscribe("channel.chat.message", _conditions);
                 }
 
                 if (EventSubCheckCheer)
                 {
                     _bBBlog.Info($"Subscribing to cheers. WebsocketSessionId: {_eventSubWebsocketClient.SessionId}");
-                     await EventSubSubscribe("channel.cheer", _conditions);
+                    await EventSubSubscribe("channel.cheer", _conditions);
                 }
 
                 if (EventSubCheckSubscriptions)
@@ -817,7 +825,8 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Debug($"Active subscriptions: {item.Key} with id {item.Value}");
                 }
-            } catch (TwitchLib.Api.Core.Exceptions.BadRequestException exception)
+            }
+            catch (TwitchLib.Api.Core.Exceptions.BadRequestException exception)
             {
                 _bBBlog.Error($"Bad request exception: {exception.Message}");
             }
@@ -834,7 +843,7 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info($"Unsubscribed from {type} with id {subId}");
                     //remove the subscription from the list
                     _eventSubIllist.Remove(type);
-                } 
+                }
                 else
                     _bBBlog.Error($"Could not unsubscribe from {type} with id {subId}");
             }

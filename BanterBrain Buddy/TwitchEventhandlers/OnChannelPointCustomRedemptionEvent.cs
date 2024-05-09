@@ -8,8 +8,8 @@ namespace BanterBrain_Buddy.TwitchEventhandlers
 {
     public class OnChannelPointCustomRedemptionEventArgs(string userRedeemed, string redeemedMessage) : EventArgs
     {
-        private string EventChannelPointRedemptionUser = userRedeemed;
-        private string EventChannelPointRedemptionMessage = redeemedMessage;
+        private readonly string EventChannelPointRedemptionUser = userRedeemed;
+        private readonly string EventChannelPointRedemptionMessage = redeemedMessage;
 
         public string[] GetChannelPointCustomRedemptionInfo()
         {

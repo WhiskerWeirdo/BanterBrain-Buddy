@@ -8,8 +8,8 @@ namespace BanterBrain_Buddy.TwitchEventhandlers
 {
     public class OnSubscribeEventArgs(string userSubscribed, string data) : EventArgs
     {
-        private string EventSubscriptionUser = userSubscribed;
-        private string EventSubscriptionData = data;
+        private readonly string EventSubscriptionUser = userSubscribed;
+        private readonly string EventSubscriptionData = data;
 
         public string[] GetSubscribeInfo()
         {

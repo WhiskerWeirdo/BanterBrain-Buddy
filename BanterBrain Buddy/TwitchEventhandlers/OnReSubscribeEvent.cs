@@ -8,9 +8,9 @@ namespace BanterBrain_Buddy.TwitchEventhandlers
 {
     public class OnReSubscribeEventArgs(string userReSubscribed, string message, string monthsSubbed) : EventArgs
     {
-        private string EventSubscriptionUser = userReSubscribed;
-        private string EventSubscriptionMessage = message;
-        private string EventSubscriptionMonths = monthsSubbed;
+        private readonly string EventSubscriptionUser = userReSubscribed;
+        private readonly string EventSubscriptionMessage = message;
+        private readonly string EventSubscriptionMonths = monthsSubbed;
 
         public string[] GetSubscribeInfo()
         {

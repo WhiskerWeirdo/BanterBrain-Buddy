@@ -37,19 +37,23 @@ namespace BanterBrain_Buddy
                 }
             }
         }
+#pragma warning disable CA1822 // Mark members as static
         public bool OpenAICheckAPIKey()
+#pragma warning restore CA1822 // Mark members as static
         {
             if (string.IsNullOrEmpty(Properties.Settings.Default.GPTAPIKey))
             {
                 _bBBlog.Error("OpenAI API Key is missing or bad");
-                return false ;
+                return false;
             }
             return true;
         }
+#pragma warning disable CA1822 // Mark members as static
         public async Task<string> OpenAISTT(string audioFile)
+#pragma warning restore CA1822 // Mark members as static
         {
             _bBBlog.Info("Sending to OpenAI STT with language: " + Properties.Settings.Default.WhisperSpeechRecognitionComboBox);
-            string ISOLanguage = "";
+            string ISOLanguage;
             switch (Properties.Settings.Default.WhisperSpeechRecognitionComboBox)
             {
                 case "Dutch":
@@ -113,12 +117,16 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("OpenAI TTS failed");
                 return false;
             }
-            var waveOut = new WaveOut();
-            waveOut.DeviceNumber = SelectedOutputDevice;
+            var waveOut = new WaveOut
+            {
+                DeviceNumber = SelectedOutputDevice
+            };
             //it has to be 24000, 16, 1 for some reason?
-            var waveStream = new RawSourceWaveStream(TTSResult, new WaveFormat(24000, 16, 1));
-            //reset the stream to the beginning or you wont hear anything
-            waveStream.Position = 0;
+            var waveStream = new RawSourceWaveStream(TTSResult, new WaveFormat(24000, 16, 1))
+            {
+                //reset the stream to the beginning or you wont hear anything
+                Position = 0
+            };
             waveOut.Init(waveStream);
 
             waveOut.Play();
@@ -130,7 +138,9 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
+#pragma warning disable CA1822 // Mark members as static
         public async Task<string> GetOpenAIIGPTResponse(String UserInput, string tmpPersonaRoletext)
+#pragma warning restore CA1822 // Mark members as static
         {
             string gPTOutputText = "";
             _bBBlog.Info("Sending to OpenAI GPT LLM: " + UserInput);
