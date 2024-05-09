@@ -106,9 +106,11 @@ namespace BanterBrain_Buddy
             helpToolStripMenuItem = new ToolStripMenuItem();
             GithubToolStripMenuItem = new ToolStripMenuItem();
             DiscordToolStripMenuItem = new ToolStripMenuItem();
+            logfileDirectoryToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
+            toolStripMenuItem1 = new ToolStripSeparator();
             MainTab.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -673,7 +675,7 @@ namespace BanterBrain_Buddy
             // 
             // helpToolStripMenuItem
             // 
-            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { GithubToolStripMenuItem, DiscordToolStripMenuItem });
+            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { logfileDirectoryToolStripMenuItem, toolStripMenuItem1, DiscordToolStripMenuItem, GithubToolStripMenuItem });
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             resources.ApplyResources(helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
@@ -689,6 +691,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(DiscordToolStripMenuItem, "DiscordToolStripMenuItem");
             DiscordToolStripMenuItem.Click += DiscordToolStripMenuItem_Click;
             // 
+            // logfileDirectoryToolStripMenuItem
+            // 
+            logfileDirectoryToolStripMenuItem.Name = "logfileDirectoryToolStripMenuItem";
+            resources.ApplyResources(logfileDirectoryToolStripMenuItem, "logfileDirectoryToolStripMenuItem");
+            logfileDirectoryToolStripMenuItem.Click += logfileDirectoryToolStripMenuItem_Click;
+            // 
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
@@ -701,6 +709,11 @@ namespace BanterBrain_Buddy
             seToolStripMenuItem.Name = "seToolStripMenuItem";
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += seToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(toolStripMenuItem1, "toolStripMenuItem1");
             // 
             // BBB
             // 
@@ -822,6 +835,8 @@ namespace BanterBrain_Buddy
         private RadioButton TwitchCheeringTTSEverythingRadioButton;
         private RadioButton TwitchChatTTSResponseOnlyRadioButton;
         private RadioButton TwitchChatTTSEverythingRadioButton;
+        private ToolStripMenuItem logfileDirectoryToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem1;
     }
 }
 

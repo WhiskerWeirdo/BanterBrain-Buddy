@@ -130,14 +130,15 @@ namespace BanterBrain_Buddy
                     {
                         _bBBlog.Debug("Setting LLM to first in list");
                         LLMResponseSelecter.SelectedIndex = 0;
-                    } else
+                    }
+                    else
                     {
                         MainRecordingStart.Enabled = false;
                         TwitchStartButton.Enabled = false;
                         LLMGroupSettings.Enabled = false;
                         _bBBlog.Error("No LLM's found. You need at least one. Please check your settings.");
-                        UpdateTextLog("No LLM's found. You need at least one. Please check your settings.\r\n");    
-                      //  MessageBox.Show("No LLM's found. You need at least one. Please check your settings.", "LLM error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        UpdateTextLog("No LLM's found. You need at least one. Please check your settings.\r\n");
+                        //  MessageBox.Show("No LLM's found. You need at least one. Please check your settings.", "LLM error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 UpdateTextLog("Selected LLM: " + LLMResponseSelecter.Text + "\r\n");
@@ -149,7 +150,8 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Debug("Setting LLM to first in list");
                     LLMResponseSelecter.SelectedIndex = 0;
-                } else
+                }
+                else
                 {
                     MainRecordingStart.Enabled = false;
                     TwitchStartButton.Enabled = false;
@@ -646,7 +648,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"Playing wav file: {tmpWavFile}");
             NativeSpeech nativeSpeech = new();
             //get current working directory
-            await nativeSpeech.NativePlayWaveFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "//sounds//" + tmpWavFile);
+            await nativeSpeech.NativePlayWaveFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\sounds\\" + tmpWavFile);
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -2345,7 +2347,7 @@ namespace BanterBrain_Buddy
 
         private void TwitchChatSoundSelectButton_Click(object sender, EventArgs e)
         {
-            Process.Start("explorer.exe", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/sounds");
+            Process.Start("explorer.exe", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\sounds");
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -2426,6 +2428,12 @@ namespace BanterBrain_Buddy
                 MessageBox.Show("This field cannot be empty");
                 e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
             }
+        }
+
+        private void logfileDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _bBBlog.Debug("Opening log directory: " + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs");
+            Process.Start("explorer.exe", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs");
         }
     }
 }
