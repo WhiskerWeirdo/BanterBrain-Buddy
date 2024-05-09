@@ -249,6 +249,7 @@
             TTSOutputVoiceOption3.Size = new System.Drawing.Size(281, 23);
             TTSOutputVoiceOption3.TabIndex = 36;
             TTSOutputVoiceOption3.TextChanged += TTSOutputVoiceOption3_TextChanged;
+            TTSOutputVoiceOption3.Validating += TTSOutputVoiceOption3_Validating;
             // 
             // TTSOption3Label
             // 
@@ -271,6 +272,7 @@
             TTSOutputVoiceOption2.Size = new System.Drawing.Size(281, 23);
             TTSOutputVoiceOption2.TabIndex = 34;
             TTSOutputVoiceOption2.TextChanged += TTSOutputVoiceOption2_TextChanged;
+            TTSOutputVoiceOption2.Validating += TTSOutputVoiceOption2_Validating;
             // 
             // TTSOption2Label
             // 
@@ -335,6 +337,7 @@
             TTSOutputVoiceOption1.TabIndex = 28;
             TTSOutputVoiceOption1.SelectedIndexChanged += TTSOutputVoiceOption1_SelectedIndexChanged;
             TTSOutputVoiceOption1.TextChanged += TTSOutputVoiceOption1_TextChanged;
+            TTSOutputVoiceOption1.Validating += TTSOutputVoiceOption1_Validating;
             // 
             // TTSOption1Label
             // 

@@ -1538,5 +1538,47 @@ namespace BanterBrain_Buddy
                 e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
             }
         }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TTSOutputVoiceOption1_Validating(object sender, CancelEventArgs e)
+        {
+            if (TTSOutputVoiceOption1.Enabled)
+            {
+                System.Windows.Forms.ComboBox currenttb = (System.Windows.Forms.ComboBox)sender;
+                if (string.IsNullOrWhiteSpace(currenttb.Text))
+                {
+                    MessageBox.Show("This field cannot be empty");
+                    e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+                }
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TTSOutputVoiceOption2_Validating(object sender, CancelEventArgs e)
+        {
+            if (TTSOutputVoiceOption2.Enabled)
+            {
+                System.Windows.Forms.ComboBox currenttb = (System.Windows.Forms.ComboBox)sender;
+                if (string.IsNullOrWhiteSpace(currenttb.Text))
+                {
+                    MessageBox.Show("This field cannot be empty");
+                    e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+                }
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TTSOutputVoiceOption3_Validating(object sender, CancelEventArgs e)
+        {
+            if (TTSOutputVoiceOption3.Enabled)
+            {
+                System.Windows.Forms.ComboBox currenttb = (System.Windows.Forms.ComboBox)sender;
+                if (string.IsNullOrWhiteSpace(currenttb.Text))
+                {
+                    MessageBox.Show("This field cannot be empty");
+                    e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+                }
+            }
+        }
     }
 }
