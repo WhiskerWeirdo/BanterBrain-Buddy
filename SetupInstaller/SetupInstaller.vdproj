@@ -245,7 +245,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:BanterBrain"
         "ProductCode" = "8:{82C70AED-BC5E-4426-B7AF-A1AD2E23BAE0}"
-        "PackageCode" = "8:{5BF50B5C-09BA-435D-977D-B7BFF7D730BE}"
+        "PackageCode" = "8:{A349A17B-462B-44F3-A0C8-E94E6FDDD938}"
         "UpgradeCode" = "8:{4B635E66-0C4A-48F5-B28C-7107F31B1F77}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -367,7 +367,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B68703FE51CE4A3381865F2AA0D42EDF"
             {
-            "Name" = "8:BanterBrain Buddy 0.0.5 ALPHA"
+            "Name" = "8:BanterBrain Buddy 0.1.0 BETA"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -381,7 +381,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D4305EE2531B457AA4244C75EC4E0A7C"
             {
-            "Name" = "8:BanterBrain Buddy 0.0.5 ALPHA"
+            "Name" = "8:BanterBrain Buddy 0.1.0 BETA"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"

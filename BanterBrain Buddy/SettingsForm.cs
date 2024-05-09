@@ -204,7 +204,8 @@ namespace BanterBrain_Buddy
             ElevenlabsAPIKeyTextBox.Text = Properties.Settings.Default.ElevenLabsAPIkey;
             OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
             OllamaResponseLengthComboBox.SelectedIndex = OllamaResponseLengthComboBox.FindStringExact(Properties.Settings.Default.OllamaResponseLengthComboBox);
-
+            OllamaURITextBox.Text = Properties.Settings.Default.OllamaURI;
+            UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
             if (Properties.Settings.Default.WhisperSpeechRecognitionComboBox.Length > 1)
             {
                 WhisperSpeechRecognitionComboBox.SelectedIndex = WhisperSpeechRecognitionComboBox.FindStringExact(Properties.Settings.Default.WhisperSpeechRecognitionComboBox);
@@ -227,10 +228,13 @@ namespace BanterBrain_Buddy
                 NativeSpeechRecognitionLanguageComboBox.SelectedIndex = 0;
             }
 
-            //    if (Properties.Settings.Default.SelectedLLM == "GPT")
-            //   {
-            //       UseGPTLLMCheckBox.Checked = true;
-            //   }
+            if (!UseOllamaLLMCheckBox.Checked)
+            {
+                OllamaURITextBox.Enabled = false;
+                OllamaModelsComboBox.Enabled = false;
+                OllamaResponseLengthComboBox.Enabled = false;
+                OllamaTestButton.Enabled = false;
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -282,10 +286,13 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.OllamaSelectedModel = OllamaModelsComboBox.Text;
             if (OllamaResponseLengthComboBox.Text.Length > 0)
                 Properties.Settings.Default.OllamaResponseLengthComboBox = OllamaResponseLengthComboBox.Text;
+            if (OllamaURITextBox.Text.Length > 0)
+                Properties.Settings.Default.OllamaURI = OllamaURITextBox.Text;
             if (NativeSpeechRecognitionLanguageComboBox.Text.Length > 1)
                 Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox = NativeSpeechRecognitionLanguageComboBox.Text;
             if (WhisperSpeechRecognitionComboBox.Text.Length > 1)
                 Properties.Settings.Default.WhisperSpeechRecognitionComboBox = WhisperSpeechRecognitionComboBox.Text;
+            Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
 
             Properties.Settings.Default.Save();
 
@@ -1387,9 +1394,9 @@ namespace BanterBrain_Buddy
         private async void OllamaPanel_VisibleChanged(object sender, EventArgs e)
         {
             //dont bother filling if we dont use the Ollama LLM
-            /*  if (!UseOllamaLLMCheckBox.Checked)
-                  return;
-            */
+            if (!UseOllamaLLMCheckBox.Checked)
+                return;
+
             OllamaPanel.Enabled = false;
             _bBBlog.Info("Ollama panel visible.");
             _bBBlog.Info("Ollama now we load the Uri");
@@ -1409,17 +1416,15 @@ namespace BanterBrain_Buddy
             if (OllamaPanel.Visible && Properties.Settings.Default.OllamaURI.Length > 1)
             {
 
-                _bBBlog.Info("Getting available Ollama models");
+                _bBBlog.Info("Getting available Ollama models, but first lets see if it runs");
                 OllamaLLM ollama = new(OllamaURITextBox.Text);
                 var installedModels = await ollama.OllamaLLMGetModels();
                 OllamaModelsComboBox.Items.Clear();
-
                 for (int i = 0; i < installedModels.Count; i++)
                 {
                     OllamaModelsComboBox.Items.Add(installedModels[i]);
                 }
                 _bBBlog.Info($"Found {installedModels.Count} models");
-
                 // lets set a default if there's none
                 if (Properties.Settings.Default.OllamaSelectedModel.Length < 1)
                 {
@@ -1429,7 +1434,6 @@ namespace BanterBrain_Buddy
                     else
                         _bBBlog.Info("Ollama no models found");
                     //TODO show throw an error here
-
                 } //else we pre-select the one thats in the settings
                 else
                 {
@@ -1578,6 +1582,26 @@ namespace BanterBrain_Buddy
                     MessageBox.Show("This field cannot be empty");
                     e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
                 }
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void UseOllamaLLMCheckBox_Click(object sender, EventArgs e)
+        {
+            if (!UseOllamaLLMCheckBox.Checked)
+            {
+                OllamaURITextBox.Enabled = false;
+                OllamaModelsComboBox.Enabled = false;
+                OllamaResponseLengthComboBox.Enabled = false;
+                OllamaTestButton.Enabled = false; 
+
+            } else
+            {
+                OllamaURITextBox.Enabled = true;
+                OllamaModelsComboBox.Enabled = true;
+                OllamaResponseLengthComboBox.Enabled = true;
+                OllamaTestButton.Enabled = true;
+                OllamaPanel_VisibleChanged(sender, e);
             }
         }
     }

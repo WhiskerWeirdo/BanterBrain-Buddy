@@ -126,8 +126,21 @@ namespace BanterBrain_Buddy
                 if (LLMResponseSelecter.SelectedIndex == -1)
                 {
                     _bBBlog.Error("Selected LLM not found in list, setting to first in list");
-                    LLMResponseSelecter.SelectedIndex = 0;
+                    if (LLMResponseSelecter.Items.Count > 0)
+                    {
+                        _bBBlog.Debug("Setting LLM to first in list");
+                        LLMResponseSelecter.SelectedIndex = 0;
+                    } else
+                    {
+                        MainRecordingStart.Enabled = false;
+                        TwitchStartButton.Enabled = false;
+                        LLMGroupSettings.Enabled = false;
+                        _bBBlog.Error("No LLM's found. You need at least one. Please check your settings.");
+                        UpdateTextLog("No LLM's found. You need at least one. Please check your settings.\r\n");    
+                      //  MessageBox.Show("No LLM's found. You need at least one. Please check your settings.", "LLM error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
+                UpdateTextLog("Selected LLM: " + LLMResponseSelecter.Text + "\r\n");
             }
             else
             {
@@ -136,6 +149,12 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Debug("Setting LLM to first in list");
                     LLMResponseSelecter.SelectedIndex = 0;
+                } else
+                {
+                    MainRecordingStart.Enabled = false;
+                    TwitchStartButton.Enabled = false;
+                    LLMGroupSettings.Enabled = false;
+                    //MessageBox.Show("No LLM's found. You need at least one. Please check your settings.", "LLM error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
@@ -145,6 +164,7 @@ namespace BanterBrain_Buddy
         //here we check what LLM's are available and add them to the LLMResponseSelecter list 
         private async Task CheckConfiguredLLMProviders()
         {
+            LLMResponseSelecter.Items.Clear();
             //check GPT
             if (Properties.Settings.Default.GPTAPIKey.Length > 1)
             {
@@ -163,7 +183,7 @@ namespace BanterBrain_Buddy
                 }
             }
             //check Ollama  
-            if (Properties.Settings.Default.OllamaURI.Length > 1)
+            if (Properties.Settings.Default.OllamaURI.Length > 1 && Properties.Settings.Default.UseOllamaLLMCheckBox)
             {
                 try
                 {
@@ -811,6 +831,7 @@ namespace BanterBrain_Buddy
             else
             {
                 _bBBlog.Error("No LLM selected");
+                LLMGroupSettings.Enabled = false;
                 MessageBox.Show("No LLM selected. This is bad!", "LLM error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             //lets wait for GPT to be done
@@ -933,6 +954,8 @@ namespace BanterBrain_Buddy
                 TwitchSubscriberSettings.Enabled = true;
                 TwitchChannelPointsSettings.Enabled = true;
                 TwitchAutoStart.Enabled = true;
+                TwitchSoundsSettings.Enabled = true;
+                TwitchResponseSettings.Enabled = true;
             }
             else
             {
@@ -942,6 +965,8 @@ namespace BanterBrain_Buddy
                 TwitchSubscriberSettings.Enabled = false;
                 TwitchChannelPointsSettings.Enabled = false;
                 TwitchAutoStart.Enabled = false;
+                TwitchSoundsSettings.Enabled = false;
+                TwitchResponseSettings.Enabled = false;
             }
 
             TwitchReadChatCheckBox.Checked = Properties.Settings.Default.TwitchReadChatCheckBox;
@@ -1137,6 +1162,7 @@ namespace BanterBrain_Buddy
             else if (Properties.Settings.Default.SelectedLLM == "None" || Properties.Settings.Default.SelectedLLM == "")
             {
                 UpdateTextLog("No LLM selected. You should set one in the settings first\r\n");
+                LLMGroupSettings.Enabled = false;
             }
 
             if (TwitchAutoStart.Checked)
@@ -1976,12 +2002,14 @@ namespace BanterBrain_Buddy
 
         //handle the settings form closing and be sure to reload the new settings
         [SupportedOSPlatform("windows6.1")]
-        private void BBB_Test_FormClosing(object sender, FormClosingEventArgs e)
+        private async void BBB_Test_FormClosing(object sender, FormClosingEventArgs e)
         {
             UpdateTextLog("Settings closed. We loaded settings!\r\n");
             _bBBlog.Info("Settings form closed. We should load the new settings!");
             LoadPersonas();
             LoadSettings();
+            await CheckConfiguredLLMProviders();
+            SetSelectedLLMProvider();
         }
 
         private void BBB_VisibleChanged(object sender, EventArgs e)
@@ -2170,6 +2198,8 @@ namespace BanterBrain_Buddy
                 TwitchSubscriberSettings.Enabled = true;
                 TwitchChannelPointsSettings.Enabled = true;
                 TwitchAutoStart.Enabled = true;
+                TwitchSoundsSettings.Enabled = true;
+                TwitchResponseSettings.Enabled = true;
             }
             else
             {
@@ -2181,6 +2211,8 @@ namespace BanterBrain_Buddy
                 TwitchSubscriberSettings.Enabled = false;
                 TwitchChannelPointsSettings.Enabled = false;
                 TwitchAutoStart.Enabled = false;
+                TwitchSoundsSettings.Enabled = false;
+                TwitchResponseSettings.Enabled = false;
             }
         }
 
@@ -2231,8 +2263,13 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void LLMResponseSelecter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.SelectedLLM = LLMResponseSelecter.Text;
-            Properties.Settings.Default.Save();
+            if (Properties.Settings.Default.SelectedLLM != LLMResponseSelecter.Text)
+            {
+                _bBBlog.Info("Selected LLM changed to: " + LLMResponseSelecter.Text);
+                Properties.Settings.Default.SelectedLLM = LLMResponseSelecter.Text;
+                Properties.Settings.Default.Save();
+            }
+
         }
 
         [SupportedOSPlatform("windows6.1")]

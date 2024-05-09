@@ -46,15 +46,15 @@ namespace BanterBrain_Buddy
             TextLog = new TextBox();
             BBBTabs = new TabControl();
             StreamingSettingsTab = new TabPage();
-            groupBox1 = new GroupBox();
+            LLMGroupSettings = new GroupBox();
             LLMResponseSelecter = new ComboBox();
             label7 = new Label();
             groupBox4 = new GroupBox();
-            groupBox5 = new GroupBox();
+            TwitchResponseSettings = new GroupBox();
             TwitchResponseToChatDelayTextBox = new TextBox();
             label8 = new Label();
             TwitchResponseToChatCheckBox = new CheckBox();
-            TwitchSoundsGroupBox = new GroupBox();
+            TwitchSoundsSettings = new GroupBox();
             TwitchChatSoundSelectButton = new Button();
             TwitchSubscriptionSoundTextBox = new ComboBox();
             TwitchCheeringSoundTextBox = new ComboBox();
@@ -115,10 +115,10 @@ namespace BanterBrain_Buddy
             groupBox7.SuspendLayout();
             BBBTabs.SuspendLayout();
             StreamingSettingsTab.SuspendLayout();
-            groupBox1.SuspendLayout();
+            LLMGroupSettings.SuspendLayout();
             groupBox4.SuspendLayout();
-            groupBox5.SuspendLayout();
-            TwitchSoundsGroupBox.SuspendLayout();
+            TwitchResponseSettings.SuspendLayout();
+            TwitchSoundsSettings.SuspendLayout();
             TwitchChannelPointsSettings.SuspendLayout();
             TwitchSubscriberSettings.SuspendLayout();
             TwitchCheerSettings.SuspendLayout();
@@ -225,19 +225,19 @@ namespace BanterBrain_Buddy
             // 
             // StreamingSettingsTab
             // 
-            StreamingSettingsTab.Controls.Add(groupBox1);
+            StreamingSettingsTab.Controls.Add(LLMGroupSettings);
             StreamingSettingsTab.Controls.Add(groupBox4);
             resources.ApplyResources(StreamingSettingsTab, "StreamingSettingsTab");
             StreamingSettingsTab.Name = "StreamingSettingsTab";
             StreamingSettingsTab.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // LLMGroupSettings
             // 
-            groupBox1.Controls.Add(LLMResponseSelecter);
-            groupBox1.Controls.Add(label7);
-            resources.ApplyResources(groupBox1, "groupBox1");
-            groupBox1.Name = "groupBox1";
-            groupBox1.TabStop = false;
+            LLMGroupSettings.Controls.Add(LLMResponseSelecter);
+            LLMGroupSettings.Controls.Add(label7);
+            resources.ApplyResources(LLMGroupSettings, "LLMGroupSettings");
+            LLMGroupSettings.Name = "LLMGroupSettings";
+            LLMGroupSettings.TabStop = false;
             // 
             // LLMResponseSelecter
             // 
@@ -254,8 +254,8 @@ namespace BanterBrain_Buddy
             // 
             // groupBox4
             // 
-            groupBox4.Controls.Add(groupBox5);
-            groupBox4.Controls.Add(TwitchSoundsGroupBox);
+            groupBox4.Controls.Add(TwitchResponseSettings);
+            groupBox4.Controls.Add(TwitchSoundsSettings);
             groupBox4.Controls.Add(TwitchAutoStart);
             groupBox4.Controls.Add(TwitchStartButton);
             groupBox4.Controls.Add(TwitchChannelPointsSettings);
@@ -267,14 +267,14 @@ namespace BanterBrain_Buddy
             groupBox4.Name = "groupBox4";
             groupBox4.TabStop = false;
             // 
-            // groupBox5
+            // TwitchResponseSettings
             // 
-            groupBox5.Controls.Add(TwitchResponseToChatDelayTextBox);
-            groupBox5.Controls.Add(label8);
-            groupBox5.Controls.Add(TwitchResponseToChatCheckBox);
-            resources.ApplyResources(groupBox5, "groupBox5");
-            groupBox5.Name = "groupBox5";
-            groupBox5.TabStop = false;
+            TwitchResponseSettings.Controls.Add(TwitchResponseToChatDelayTextBox);
+            TwitchResponseSettings.Controls.Add(label8);
+            TwitchResponseSettings.Controls.Add(TwitchResponseToChatCheckBox);
+            resources.ApplyResources(TwitchResponseSettings, "TwitchResponseSettings");
+            TwitchResponseSettings.Name = "TwitchResponseSettings";
+            TwitchResponseSettings.TabStop = false;
             // 
             // TwitchResponseToChatDelayTextBox
             // 
@@ -296,20 +296,20 @@ namespace BanterBrain_Buddy
             TwitchResponseToChatCheckBox.UseVisualStyleBackColor = true;
             TwitchResponseToChatCheckBox.CheckedChanged += TwitchResponseToChatCheckBox_CheckedChanged;
             // 
-            // TwitchSoundsGroupBox
+            // TwitchSoundsSettings
             // 
-            TwitchSoundsGroupBox.Controls.Add(TwitchChatSoundSelectButton);
-            TwitchSoundsGroupBox.Controls.Add(TwitchSubscriptionSoundTextBox);
-            TwitchSoundsGroupBox.Controls.Add(TwitchCheeringSoundTextBox);
-            TwitchSoundsGroupBox.Controls.Add(TwitchChannelSoundTextBox);
-            TwitchSoundsGroupBox.Controls.Add(TwitchChatSoundTextBox);
-            TwitchSoundsGroupBox.Controls.Add(TwitchSubscriptionSoundCheckBox);
-            TwitchSoundsGroupBox.Controls.Add(TwitchCheeringSoundCheckBox);
-            TwitchSoundsGroupBox.Controls.Add(TwitchChannelSoundCheckBox);
-            TwitchSoundsGroupBox.Controls.Add(TwitchChatSoundCheckBox);
-            resources.ApplyResources(TwitchSoundsGroupBox, "TwitchSoundsGroupBox");
-            TwitchSoundsGroupBox.Name = "TwitchSoundsGroupBox";
-            TwitchSoundsGroupBox.TabStop = false;
+            TwitchSoundsSettings.Controls.Add(TwitchChatSoundSelectButton);
+            TwitchSoundsSettings.Controls.Add(TwitchSubscriptionSoundTextBox);
+            TwitchSoundsSettings.Controls.Add(TwitchCheeringSoundTextBox);
+            TwitchSoundsSettings.Controls.Add(TwitchChannelSoundTextBox);
+            TwitchSoundsSettings.Controls.Add(TwitchChatSoundTextBox);
+            TwitchSoundsSettings.Controls.Add(TwitchSubscriptionSoundCheckBox);
+            TwitchSoundsSettings.Controls.Add(TwitchCheeringSoundCheckBox);
+            TwitchSoundsSettings.Controls.Add(TwitchChannelSoundCheckBox);
+            TwitchSoundsSettings.Controls.Add(TwitchChatSoundCheckBox);
+            resources.ApplyResources(TwitchSoundsSettings, "TwitchSoundsSettings");
+            TwitchSoundsSettings.Name = "TwitchSoundsSettings";
+            TwitchSoundsSettings.TabStop = false;
             // 
             // TwitchChatSoundSelectButton
             // 
@@ -722,14 +722,14 @@ namespace BanterBrain_Buddy
             groupBox7.ResumeLayout(false);
             BBBTabs.ResumeLayout(false);
             StreamingSettingsTab.ResumeLayout(false);
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
+            LLMGroupSettings.ResumeLayout(false);
+            LLMGroupSettings.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
-            groupBox5.ResumeLayout(false);
-            groupBox5.PerformLayout();
-            TwitchSoundsGroupBox.ResumeLayout(false);
-            TwitchSoundsGroupBox.PerformLayout();
+            TwitchResponseSettings.ResumeLayout(false);
+            TwitchResponseSettings.PerformLayout();
+            TwitchSoundsSettings.ResumeLayout(false);
+            TwitchSoundsSettings.PerformLayout();
             TwitchChannelPointsSettings.ResumeLayout(false);
             TwitchChannelPointsSettings.PerformLayout();
             TwitchSubscriberSettings.ResumeLayout(false);
@@ -797,10 +797,10 @@ namespace BanterBrain_Buddy
         private ComboBox TwitchCheeringPersonaComboBox;
         private Button TwitchStartButton;
         private CheckBox TwitchAutoStart;
-        private GroupBox groupBox1;
+        private GroupBox LLMGroupSettings;
         private ComboBox LLMResponseSelecter;
         private Label label7;
-        private GroupBox TwitchSoundsGroupBox;
+        private GroupBox TwitchSoundsSettings;
         private CheckBox TwitchSubscriptionSoundCheckBox;
         private CheckBox TwitchCheeringSoundCheckBox;
         private CheckBox TwitchChannelSoundCheckBox;
@@ -810,7 +810,7 @@ namespace BanterBrain_Buddy
         private ComboBox TwitchChannelSoundTextBox;
         private ComboBox TwitchSubscriptionSoundTextBox;
         private ComboBox TwitchCheeringSoundTextBox;
-        private GroupBox groupBox5;
+        private GroupBox TwitchResponseSettings;
         private TextBox TwitchResponseToChatDelayTextBox;
         private Label label8;
         private CheckBox TwitchResponseToChatCheckBox;

@@ -105,7 +105,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SelectedLLM" Type="System.String" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TwitchChatPersona" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
