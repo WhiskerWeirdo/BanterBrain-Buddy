@@ -22,15 +22,15 @@ namespace BanterBrain_Buddy
     {
         //set logger
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly List<Personas> _personas = [];
-        private List<AzureVoices> _tTSAzureVoicesList = [];
-        private List<NativeVoices> _nativeRegionVoicesList = [];
+        private readonly List<Personas> personas = [];
+        private List<AzureVoices> tTSAzureVoicesList = [];
+        private List<NativeVoices> nativeRegionVoicesList = [];
 
-        private TwitchAPIESub _twitchTestEventSub;
-        private bool _twitchStartedTest;
-        private bool _twitchAPIVerified;
-        private bool _personaEdited;
-        private ElLabs _elevenLabsApi;
+        private TwitchAPIESub twitchTestEventSub;
+        private bool twitchStartedTest;
+        private bool twitchAPIVerified;
+        private bool personaEdited;
+        private ElLabs elevenLabsApi;
 
         [SupportedOSPlatform("windows6.1")]
         public SettingsForm()
@@ -184,7 +184,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void LoadSettings()
+        private void LoadSettings()
         {
             _bBBlog.Info("Loading settings");
             TwitchUsername.Text = Properties.Settings.Default.TwitchUsername;
@@ -240,7 +240,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_personaEdited)
+            if (personaEdited)
             {
                 _bBBlog.Debug("Personas panel hidden. we should save the persona's if anything changed");
                 //ask if we need to save the persona
@@ -249,7 +249,7 @@ namespace BanterBrain_Buddy
                 {
                     SavePersona_Click(sender, e);
                 }
-                _personaEdited = false;
+                personaEdited = false;
             }
             _bBBlog.Info("Settings form closing, saving settings");
             //only save if theres actual data to be saved
@@ -297,10 +297,10 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.Save();
 
             //we should also close the EventSub client if it is running
-            if (_twitchStartedTest)
+            if (twitchStartedTest)
             {
                 _bBBlog.Info("Closing EventSub client");
-                await _twitchTestEventSub.EventSubStopAsync();
+                await twitchTestEventSub.EventSubStopAsync();
             }
         }
 
@@ -337,14 +337,14 @@ namespace BanterBrain_Buddy
 
                 //TODO: set the originally selected persona for now just load the first one
                 PersonaComboBox.SelectedIndex = 0;
-                var selectedPersona = _personas[PersonaComboBox.SelectedIndex];
+                var selectedPersona = personas[PersonaComboBox.SelectedIndex];
                 PersonaRoleTextBox.Text = selectedPersona.RoleText;
                 TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
                 //we need to fill the combo box with the voices available. We do that here cos provider needs to be loaded first.
                 await FillVoiceBoxes();
                 _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
                 TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
-                _personaEdited = false;
+                personaEdited = false;
 
                 //prevent deleting of Default persona
                 if (PersonaComboBox.Text == "Default")
@@ -359,7 +359,7 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                if (_personaEdited)
+                if (personaEdited)
                 {
                     _bBBlog.Debug("Personas panel hidden. we should save the persona's if anything changed");
                     //ask if we need to save the persona
@@ -390,7 +390,7 @@ namespace BanterBrain_Buddy
                 TTSOption3Label.Visible = false;
                 //clear and fill the option box with voices
                 await TTSGetNativeVoices();
-                await TTSFillNativeVoicesList();
+                TTSFillNativeVoicesList();
             }
             else if (TTSProviderComboBox.Text == "ElevenLabs")
             {
@@ -497,7 +497,7 @@ namespace BanterBrain_Buddy
             else
             {
                 _bBBlog.Debug("Personas file found, loading it.");
-                _personas.Clear();
+                personas.Clear();
                 PersonaComboBox.Items.Clear();
                 using var sr = new StreamReader(tmpFile);
                 var tmpString = sr.ReadToEnd();
@@ -506,7 +506,7 @@ namespace BanterBrain_Buddy
                 foreach (var persona in tmpPersonas)
                 {
                     _bBBlog.Debug("Loading persona into available list: " + persona.Name);
-                    _personas.Add(persona);
+                    personas.Add(persona);
                     PersonaComboBox.Items.Add(persona.Name);
                 }
             }
@@ -518,7 +518,7 @@ namespace BanterBrain_Buddy
         private void NewPersona_Click(object sender, EventArgs e)
         {
             //if the persona is changed we first need to check if the persona was edited if so we need to ask to save it
-            if (_personaEdited && PersonasPanel.Visible)
+            if (personaEdited && PersonasPanel.Visible)
             {
                 var result = MessageBox.Show("New Persona. Do you want to save the persona?", "Save Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
@@ -526,7 +526,7 @@ namespace BanterBrain_Buddy
                     SavePersona_Click(sender, e);
 
                 }
-                _personaEdited = false;
+                personaEdited = false;
             }
             PersonaRoleTextBox.Text = "";
             TTSProviderComboBox.Text = "";
@@ -538,7 +538,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void SavePersona_Click(object sender, EventArgs e)
         {
-            _personaEdited = false;
+            personaEdited = false;
             _bBBlog.Debug("Save persona button clicked");
             if (PersonaComboBox.Text == "")
             {
@@ -564,7 +564,7 @@ namespace BanterBrain_Buddy
             //if the persona.name is already in the file, we need to update it not add
             //else we do add it
             bool personaExists = false;
-            foreach (var persona in _personas)
+            foreach (var persona in personas)
             {
                 if (persona.Name == PersonaComboBox.Text)
                 {
@@ -597,17 +597,17 @@ namespace BanterBrain_Buddy
                 {
                     tmpVoiceOptions.Add(TTSOutputVoiceOption1.Text);
                 }
-                _personas.Add(new Personas { Name = PersonaComboBox.Text, RoleText = PersonaRoleTextBox.Text, VoiceProvider = TTSProviderComboBox.Text, VoiceName = TTSOutputVoice.Text, VoiceOptions = tmpVoiceOptions });
+                personas.Add(new Personas { Name = PersonaComboBox.Text, RoleText = PersonaRoleTextBox.Text, VoiceProvider = TTSProviderComboBox.Text, VoiceName = TTSOutputVoice.Text, VoiceOptions = tmpVoiceOptions });
 
             }
             //and write the file
             var tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\personas.json";
-            _bBBlog.Debug("Writing personas to file: " + _personas.Count);
+            _bBBlog.Debug("Writing personas to file: " + personas.Count);
             using (var sw = new StreamWriter(tmpFile, false))
             {
-                sw.Write(JsonConvert.SerializeObject(_personas));
+                sw.Write(JsonConvert.SerializeObject(personas));
             }
-            _personaEdited = false;
+            personaEdited = false;
             SavePersona.Enabled = false;
             return;
         }
@@ -616,23 +616,23 @@ namespace BanterBrain_Buddy
         private async Task TTSGetNativeVoices()
         {
             _ = new NativeSpeech();
-            _nativeRegionVoicesList = await NativeSpeech.TTSNativeGetVoices();
-            if (_tTSAzureVoicesList == null)
+            nativeRegionVoicesList = await NativeSpeech.TTSNativeGetVoices();
+            if (tTSAzureVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving Native voicelist. Do you have any native voices installed?", "Native No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                _bBBlog.Info($"Found {_nativeRegionVoicesList.Count} voices");
+                _bBBlog.Info($"Found {nativeRegionVoicesList.Count} voices");
             }
         }
 
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSGetElevenLabsVoices()
         {
-            _elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
+            elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
-            var _elevenLabsVoicesList = await _elevenLabsApi.TTSGetElevenLabsVoices();
+            var _elevenLabsVoicesList = await elevenLabsApi.TTSGetElevenLabsVoices();
             if (_elevenLabsVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving ElevenLabs voicelist. Is your API key still valid?", "ElevenLabs No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -658,12 +658,12 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async Task TTSFillNativeVoicesList()
+        private void TTSFillNativeVoicesList()
         {
             _bBBlog.Info("Fill Native voice list");
             //no need to clear we only add if we find new things
             TTSOutputVoice.Items.Clear();
-            foreach (var nativeVoice in _nativeRegionVoicesList)
+            foreach (var nativeVoice in nativeRegionVoicesList)
             {
                 string OutputVoice = nativeVoice.Name + "-" + nativeVoice.Gender + "-" + nativeVoice.Culture;
                 TTSOutputVoice.Items.Add(OutputVoice);
@@ -689,15 +689,15 @@ namespace BanterBrain_Buddy
             }
 
             AzureSpeechAPI AzureSpeech = new(AzureAPIKeyTextBox.Text, AzureRegionTextBox.Text, AzureLanguageComboBox.Text);
-            _tTSAzureVoicesList = await AzureSpeech.TTSGetAzureVoices();
-            if (_tTSAzureVoicesList == null)
+            tTSAzureVoicesList = await AzureSpeech.TTSGetAzureVoices();
+            if (tTSAzureVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?", "Azure API Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             else
             {
-                _bBBlog.Info($"Found {_tTSAzureVoicesList.Count} voices");
+                _bBBlog.Info($"Found {tTSAzureVoicesList.Count} voices");
                 return true;
             }
         }
@@ -712,7 +712,7 @@ namespace BanterBrain_Buddy
 
             // Locale, Gender, Localname
             TTSOutputVoice.Items.Clear();
-            foreach (var azureRegionVoice in _tTSAzureVoicesList)
+            foreach (var azureRegionVoice in tTSAzureVoicesList)
             {
                 TTSOutputVoice.Items.Add(azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName);
             }
@@ -751,7 +751,7 @@ namespace BanterBrain_Buddy
             TTSOutputVoiceOption1.Items.Clear();
             //the voice is the item in TTSOutputVoice 
             //now to find it in AzureRegionVoicesList
-            foreach (var azureRegionVoice in _tTSAzureVoicesList)
+            foreach (var azureRegionVoice in tTSAzureVoicesList)
             {
                 if (SelectedVoice == (azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName))
                 {
@@ -832,9 +832,9 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSElevenLabsSpeakToOutput(string TextToSay)
         {
-            _elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
+            elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
-            var result = await _elevenLabsApi.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text));
+            var result = await elevenLabsApi.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text));
             if (!result)
             {
                 _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
@@ -908,7 +908,7 @@ namespace BanterBrain_Buddy
         private async void TwitchTestButton_Click(object sender, EventArgs e)
         {
             //first lets make sure people cant click too often
-            _twitchAPIVerified = false;
+            twitchAPIVerified = false;
             TwitchAPITestButton.Enabled = false;
             //first we check if the Authorization key is fine, using the API
             TwitchAPIESub twAPITest = new();
@@ -928,14 +928,14 @@ namespace BanterBrain_Buddy
                 //  TextLog.Text += "Problem verifying Access token, invalid access token\r\n";
                 MessageBox.Show("Problem verifying Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 TwitchAPITestButton.Enabled = true;
-                _twitchAPIVerified = false;
+                twitchAPIVerified = false;
                 TwitchEventSubTestButton.Enabled = false;
                 return;
             }
             else
             {
                 _bBBlog.Info($"Twitch Access token verified success!");
-                _twitchAPIVerified = true;
+                twitchAPIVerified = true;
                 TwitchEventSubTestButton.Enabled = true;
                 MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -947,7 +947,7 @@ namespace BanterBrain_Buddy
         private async void EventSubTest_Click(object sender, EventArgs e)
         {
             //This only works once API access-token is verified
-            if (!_twitchAPIVerified)
+            if (!twitchAPIVerified)
             {
                 MessageBox.Show("You need to verify the API key first.", "Twitch EventSub error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -967,11 +967,11 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task<bool> EventSubStartWebsocketClientTest()
         {
-            _twitchTestEventSub = new();
+            twitchTestEventSub = new();
             bool eventSubStart = false;
             //we should set here what eventhandlers we want to have enabled based on the twitch Settings
 
-            if (await _twitchTestEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
+            if (await twitchTestEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
             {
                 //we need to first set the event handlers we want to use
 
@@ -979,68 +979,68 @@ namespace BanterBrain_Buddy
                 if (TwitchMockEventSub.Checked)
                 {
                     _bBBlog.Info("Twitch TEST read chat enabled, calling eventsubhandlereadchat. Command set to $BBB for test");
-                    _twitchTestEventSub.EventSubHandleReadchat("$BBB", 300, false, true);
+                    twitchTestEventSub.EventSubHandleReadchat("$BBB", 300, false, true);
                     //set local eventhanlder for valid chat messages to trigger the bot
-                    _twitchTestEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
+                    twitchTestEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
                 }
 
                 //do we want to check cheer messages?
                 if (TwitchMockEventSub.Checked)
                 {
                     _bBBlog.Info("Twitch TEST cheers enabled, calling EventSubHandleCheer with the min amount of bits needed to trigger. Set to 10 for test");
-                    _twitchTestEventSub.EventSubHandleCheer(10);
-                    _twitchTestEventSub.OnESubCheerMessage += TwitchEventSub_OnESubCheerMessage;
+                    twitchTestEventSub.EventSubHandleCheer(10);
+                    twitchTestEventSub.OnESubCheerMessage += TwitchEventSub_OnESubCheerMessage;
                 }
 
                 //do we want to check for subscription events?
                 if (TwitchMockEventSub.Checked)
                 {
                     //new subs
-                    _bBBlog.Info($"Twitch TEST subscriptions enabled, calling EventSubHandleSubscription: {_twitchTestEventSub}");
-                    _twitchTestEventSub.EventSubHandleSubscription();
-                    _twitchTestEventSub.OnESubSubscribe += TwitchEventSub_OnESubSubscribe;
-                    _twitchTestEventSub.OnESubReSubscribe += TwitchEventSub_OnESubReSubscribe;
+                    _bBBlog.Info($"Twitch TEST subscriptions enabled, calling EventSubHandleSubscription: {twitchTestEventSub}");
+                    twitchTestEventSub.EventSubHandleSubscription();
+                    twitchTestEventSub.OnESubSubscribe += TwitchEventSub_OnESubSubscribe;
+                    twitchTestEventSub.OnESubReSubscribe += TwitchEventSub_OnESubReSubscribe;
                     //todo set eventhandler being thrown when a new sub is detected or resub
                 }
                 //TODO: gifted subs TwitchGiftedSub.Checked
                 if (TwitchMockEventSub.Checked)
                 {
                     _bBBlog.Info("Twitch TEST gifted subs enabled, calling EventSubHandleGiftedSubs");
-                    _twitchTestEventSub.EventSubHandleSubscriptionGift();
-                    _twitchTestEventSub.OnESubSubscriptionGift += TwitchEventSub_OnESubGiftedSub;
+                    twitchTestEventSub.EventSubHandleSubscriptionGift();
+                    twitchTestEventSub.OnESubSubscriptionGift += TwitchEventSub_OnESubGiftedSub;
                 }
 
                 //do we want to check for channel point redemptions?
                 if (TwitchMockEventSub.Checked)
                 {
                     _bBBlog.Info("Twitch TEST channel points enabled, calling EventSubHandleChannelPoints");
-                    _twitchTestEventSub.EventSubHandleChannelPointRedemption("rewardtest");
-                    _twitchTestEventSub.OnESubChannelPointRedemption += TwitchEventSub_OnESubChannelPointRedemption;
+                    twitchTestEventSub.EventSubHandleChannelPointRedemption("rewardtest");
+                    twitchTestEventSub.OnESubChannelPointRedemption += TwitchEventSub_OnESubChannelPointRedemption;
                 }
 
                 if (!TwitchMockEventSub.Checked)
                 {
                     //if we are not in mock mode, we can start the client
-                    eventSubStart = await _twitchTestEventSub.EventSubStartAsync();
+                    eventSubStart = await twitchTestEventSub.EventSubStartAsync();
                 }
                 else
                 { //we are in mock mode, so we just say we started
                     _bBBlog.Info("Twitch EventSub client  starting successfully in mock mode");
-                    eventSubStart = await _twitchTestEventSub.EventSubStartAsyncMock();
+                    eventSubStart = await twitchTestEventSub.EventSubStartAsyncMock();
 
-                    _twitchStartedTest = true;
+                    twitchStartedTest = true;
                 }
 
                 if (eventSubStart)
                 {
                     _bBBlog.Info("Twitch EventSub client  started successfully");
 
-                    _twitchStartedTest = true;
+                    twitchStartedTest = true;
                 }
                 else
                 {
                     _bBBlog.Error("Issue with starting Twitch EventSub server. Check logs for more information.");
-                    _twitchStartedTest = false;
+                    twitchStartedTest = false;
                     return false;
                 }
                 return true;
@@ -1048,13 +1048,13 @@ namespace BanterBrain_Buddy
             else
             {
                 _bBBlog.Error("Issue with starting Twitch EventSub server. Check logs for more information.");
-                _twitchStartedTest = false;
+                twitchStartedTest = false;
                 return false;
             }
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void TwitchEventSub_OnESubChannelPointRedemption(object sender, TwitchEventhandlers.OnChannelPointCustomRedemptionEventArgs e)
+        private void TwitchEventSub_OnESubChannelPointRedemption(object sender, TwitchEventhandlers.OnChannelPointCustomRedemptionEventArgs e)
         {
             string user = e.GetChannelPointCustomRedemptionInfo()[0];
             string message = e.GetChannelPointCustomRedemptionInfo()[1];
@@ -1063,7 +1063,7 @@ namespace BanterBrain_Buddy
 
         [SupportedOSPlatform("windows6.1")]
         //TwitchEventSub_OnESubGiftedSub
-        private async void TwitchEventSub_OnESubGiftedSub(object sender, TwitchEventhandlers.OnSubscriptionGiftEventArgs e)
+        private void TwitchEventSub_OnESubGiftedSub(object sender, TwitchEventhandlers.OnSubscriptionGiftEventArgs e)
         {
             string user = e.GetSubscriptionGiftInfo()[0];
             string amount = e.GetSubscriptionGiftInfo()[1];
@@ -1072,7 +1072,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void TwitchEventSub_OnESubSubscribe(object sender, TwitchEventhandlers.OnSubscribeEventArgs e)
+        private void TwitchEventSub_OnESubSubscribe(object sender, TwitchEventhandlers.OnSubscribeEventArgs e)
         {
             string user = e.GetSubscribeInfo()[0];
             string broadcaster = e.GetSubscribeInfo()[1];
@@ -1080,7 +1080,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void TwitchEventSub_OnESubReSubscribe(object sender, TwitchEventhandlers.OnReSubscribeEventArgs e)
+        private void TwitchEventSub_OnESubReSubscribe(object sender, TwitchEventhandlers.OnReSubscribeEventArgs e)
         {
             string user = e.GetSubscribeInfo()[0];
             string message = e.GetSubscribeInfo()[1];
@@ -1090,7 +1090,7 @@ namespace BanterBrain_Buddy
 
         [SupportedOSPlatform("windows6.1")]
         //eventhandler for valid chat messages trigger
-        private async void TwitchEventSub_OnESubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
+        private void TwitchEventSub_OnESubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
         {
 
             string message = e.GetChatInfo()[1].Replace("$BBB", "");
@@ -1100,7 +1100,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
+        private void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
         {
             //string user = e.GetCheerInfo()[0];
             // string message = e.GetCheerInfo()[1];
@@ -1111,7 +1111,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void TwitchPanel_VisibleChanged(object sender, EventArgs e)
         {
-            if (_twitchAPIVerified)
+            if (twitchAPIVerified)
             {
                 TwitchEventSubTestButton.Enabled = true;
             }
@@ -1127,7 +1127,7 @@ namespace BanterBrain_Buddy
             if (PersonasPanel.Visible)
             {
                 _bBBlog.Debug("Persona role text changed");
-                _personaEdited = true;
+                personaEdited = true;
                 SavePersona.Enabled = true;
             }
         }
@@ -1138,7 +1138,7 @@ namespace BanterBrain_Buddy
             if (PersonasPanel.Visible)
             {
                 _bBBlog.Debug("Persona voice option changed");
-                _personaEdited = true;
+                personaEdited = true;
                 SavePersona.Enabled = true;
             }
         }
@@ -1151,7 +1151,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"Disable eventhandlers for now while loading the new persona data");
             DisablePersonaEventHandlers();
             //if the persona is changed we first need to check if the persona was edited if so we need to ask to save it
-            if (_personaEdited && PersonasPanel.Visible)
+            if (personaEdited && PersonasPanel.Visible)
             {
                 var result = MessageBox.Show("Persona Changed. Do you want to save the persona?", "Save Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
@@ -1159,12 +1159,12 @@ namespace BanterBrain_Buddy
                     SavePersona_Click(sender, e);
 
                 }
-                _personaEdited = false;
+                personaEdited = false;
                 SavePersona.Enabled = false;
             }
 
             //alright index is changed! We need to load the persona into the form
-            var selectedPersona = _personas[PersonaComboBox.SelectedIndex];
+            var selectedPersona = personas[PersonaComboBox.SelectedIndex];
             _bBBlog.Debug($"Loading persona into form. Personaname: {selectedPersona.VoiceName} VoiceProvider: {selectedPersona.VoiceProvider} TTSOutputvoice: {selectedPersona.VoiceName}  Amount of options: {selectedPersona.VoiceOptions.Count}");
             PersonaRoleTextBox.Text = selectedPersona.RoleText;
             //now lets load the one thats part of the selected persona
@@ -1217,7 +1217,7 @@ namespace BanterBrain_Buddy
             if (PersonasPanel.Visible)
             {
                 SavePersona.Enabled = true;
-                _personaEdited = true;
+                personaEdited = true;
                 _bBBlog.Info("TTS Provider changed to " + TTSProviderComboBox.Text);
                 TTSOutputVoiceOption1.Text = "";
                 TTSOutputVoiceOption2.Text = "";
@@ -1233,7 +1233,7 @@ namespace BanterBrain_Buddy
             if (PersonasPanel.Visible)
             {
                 SavePersona.Enabled = true;
-                _personaEdited = true;
+                personaEdited = true;
                 if (TTSProviderComboBox.Text == "Azure")
                 {
                     _bBBlog.Info($"Azure voice changed, filling options on {TTSOutputVoice.Text}");
@@ -1246,7 +1246,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void MenuTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
-            if (_personaEdited)
+            if (personaEdited)
             {
                 _bBBlog.Debug("Personas panel hidden. we should save the persona's if anything changed");
                 //ask if we need to save the persona
@@ -1255,12 +1255,12 @@ namespace BanterBrain_Buddy
                 {
                     SavePersona_Click(sender, e);
                 }
-                _personaEdited = false;
+                personaEdited = false;
             }
         }
 
         [SupportedOSPlatform("windows6.1")]
-        public async Task ShowHotkeyDialogBox()
+        public void ShowHotkeyDialogBox()
         {
             HotkeyForm HotkeyDialog = new();
 
@@ -1289,9 +1289,9 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void MicrophoneHotkeySet_Click(object sender, EventArgs e)
+        private void MicrophoneHotkeySet_Click(object sender, EventArgs e)
         {
-            await ShowHotkeyDialogBox();
+            ShowHotkeyDialogBox();
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1308,12 +1308,12 @@ namespace BanterBrain_Buddy
                 var result = MessageBox.Show("Delete Persona. Do you want to delete the persona?", "Delete Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    _personas.Remove(_personas[PersonaComboBox.SelectedIndex]);
+                    personas.Remove(personas[PersonaComboBox.SelectedIndex]);
                     PersonaComboBox.Items.Remove(PersonaComboBox.SelectedItem);
                     PersonaComboBox.SelectedIndex = 0;
                     SavePersona_Click(sender, e);
                 }
-                _personaEdited = false;
+                personaEdited = false;
             }
         }
 
@@ -1321,9 +1321,9 @@ namespace BanterBrain_Buddy
         private async void ElevenLabsTestButton_Click(object sender, EventArgs e)
         {
             //call test api key for elevenlabs
-            _elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
+            elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
-            if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
+            if (await elevenLabsApi.ElevenLabsAPIKeyTest())
             {
                 _bBBlog.Info("ElevenLabs API key is valid");
                 MessageBox.Show("ElevenLabs API key is valid", "ElevenLabs API Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1341,7 +1341,7 @@ namespace BanterBrain_Buddy
             if (PersonasPanel.Visible && TTSOutputVoiceOption1.DropDownStyle == ComboBoxStyle.Simple)
             {
                 SavePersona.Enabled = true;
-                _personaEdited = true;
+                personaEdited = true;
             }
         }
 
@@ -1351,7 +1351,7 @@ namespace BanterBrain_Buddy
             if (PersonasPanel.Visible && TTSOutputVoiceOption2.DropDownStyle == ComboBoxStyle.Simple)
             {
                 SavePersona.Enabled = true;
-                _personaEdited = true;
+                personaEdited = true;
             }
         }
 
@@ -1361,7 +1361,7 @@ namespace BanterBrain_Buddy
             if (PersonasPanel.Visible && TTSOutputVoiceOption3.DropDownStyle == ComboBoxStyle.Simple)
             {
                 SavePersona.Enabled = true;
-                _personaEdited = true;
+                personaEdited = true;
             }
         }
 

@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 /// CODING RULES:
 /// •	Local variables, private instance, static fields and method parameters should be camelCase.
 /// •	Methods, constants, properties, events and classes should be PascalCase.
-/// •	Global private instance fields should be in camelCase prefixed with an underscore.
 /// </summary>
 
 namespace BanterBrain_Buddy
@@ -28,8 +27,8 @@ namespace BanterBrain_Buddy
         private AudioConfig _azureAudioConfig;
 
         private Microsoft.CognitiveServices.Speech.SpeechRecognizer _azureSpeechRecognizer;
-        private string _azureVoiceName { get; set; }
-        private string _azureVoiceOptions { get; set; }
+        private string AzureVoiceName { get; set; }
+        private string AzureVoiceOptions { get; set; }
 
         private NAudio.CoreAudioApi.MMDevice outDevice;
         private NAudio.CoreAudioApi.MMDevice inDevice;
@@ -159,7 +158,7 @@ namespace BanterBrain_Buddy
             _azureSpeechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
 
             //set the options that we can just pass along, this holds the style of the voice
-            _azureVoiceOptions = TTSVoiceOptions;
+            AzureVoiceOptions = TTSVoiceOptions;
 
             //now find the correct name associated with the selected voice
             var azureRegionVoicesList = await TTSGetAzureVoices();
@@ -171,8 +170,8 @@ namespace BanterBrain_Buddy
                 if (AzureVoiceParseName == (azureRegionVoice.LocaleDisplayname + "-" + azureRegionVoice.Gender + "-" + azureRegionVoice.LocalName))
                 {
 
-                    _azureVoiceName = azureRegionVoice.Name;
-                    _bBBlog.Debug($"Azure Voice found. Assigning {_azureVoiceName}");
+                    AzureVoiceName = azureRegionVoice.Name;
+                    _bBBlog.Debug($"Azure Voice found. Assigning {AzureVoiceName}");
                     return;
                 }
             }
@@ -186,20 +185,20 @@ namespace BanterBrain_Buddy
         /// <returns>True if no error, False if error</returns>
         public async Task<bool> AzureSpeak(string TextToSay)
         {
-            _bBBlog.Info($"Starting Azure Text To Speech, Speaking with: {_azureVoiceName}");
-            if (!string.IsNullOrEmpty(_azureVoiceName))
+            _bBBlog.Info($"Starting Azure Text To Speech, Speaking with: {AzureVoiceName}");
+            if (!string.IsNullOrEmpty(AzureVoiceName))
             {
                 string SSMLText =
                 "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"zh-CN\">\r\n   " +
-                $" <voice name=\"{_azureVoiceName}\">\r\n       " +
-                $" <mstts:express-as style=\"{_azureVoiceOptions}\" styledegree=\"2\">\r\n            " +
+                $" <voice name=\"{AzureVoiceName}\">\r\n       " +
+                $" <mstts:express-as style=\"{AzureVoiceOptions}\" styledegree=\"2\">\r\n            " +
                 $"{TextToSay}\r\n        " +
                 "</mstts:express-as>\r\n    " +
                 "</voice>\r\n" +
                 "</speak>";
 
                 //now lets speak the SSML and handle the result 
-                _azureSpeechConfig.SpeechSynthesisVoiceName = _azureVoiceName;
+                _azureSpeechConfig.SpeechSynthesisVoiceName = AzureVoiceName;
                 _bBBlog.Debug($"SelectedOutputdevice: {outDevice.ID}");
                 var tmpAudioConfig = AudioConfig.FromSpeakerOutput(outDevice.ID);
                 var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(_azureSpeechConfig, tmpAudioConfig);

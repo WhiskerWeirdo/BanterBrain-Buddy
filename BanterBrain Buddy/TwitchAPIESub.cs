@@ -22,7 +22,6 @@ using System.Runtime.CompilerServices;
 /// CODING RULES:
 /// •	Local variables, private instance, static fields and method parameters should be camelCase.
 /// •	Public instance fields, methods, constants, properties, events and classes should be PascalCase.
-/// •	Global private instance fields should be in camelCase prefixed with an underscore. Static fields not.
 /// </summary>
 
 namespace BanterBrain_Buddy
@@ -60,20 +59,20 @@ namespace BanterBrain_Buddy
         public string TwitchAccessToken { get; private set; }
         private bool TwitchAuthRequestResult { get; set; }
 
-        private static string _twitchAuthRedirect { get; set; }
-        private static string _twitchAuthClientId { get; set; }
+        private static string TwitchAuthRedirect { get; set; }
+        private static string TwitchAuthClientId { get; set; }
 
-        private static string _twitchUserID { get; set; }
-        private static string _twitchChannelID { get; set; }
+        private static string TwitchUserID { get; set; }
+        private static string TwitchChannelID { get; set; }
 
-        private bool _twitchDoAutomatedCheck { get; set; }
+        private bool TwitchDoAutomatedCheck { get; set; }
 
-        private bool _twitchMock { get; set; }
+        private bool TwitchMock { get; set; }
 
         public bool EventSubReadChatMessages { get; private set; }
 
         //needed for timeout of command trigger
-        private bool _isCommandTriggered { get; set; }
+        private bool IsCommandTriggered { get; set; }
         public bool EventSubCheckCheer { get; private set; }
         public bool EventSubCheckSubscriptions { get; private set; }
         public bool EventSubCheckSubscriptionGift { get; private set; }
@@ -96,7 +95,7 @@ namespace BanterBrain_Buddy
             TwitchAccessToken = "";
             TwitchAuthRequestResult = false;
             TwitchReadSettings();
-            _twitchDoAutomatedCheck = true;
+            TwitchDoAutomatedCheck = true;
             _eventSubIllist = [];
             _gTwitchAPI = new TwitchLib.Api.TwitchAPI();
             _eventSubWebsocketClient = new EventSubWebsocketClient();
@@ -108,15 +107,15 @@ namespace BanterBrain_Buddy
         public async Task<bool> EventSubInit(string TwAuthToken, string TwUsername, string TwChannelName)
         {
             _bBBlog.Info("Set required globals for EventSub");
-            _isCommandTriggered = false;
+            IsCommandTriggered = false;
             TwitchAccessToken = TwAuthToken;
 
             if (await ValidateAccessToken(TwitchAccessToken))
             {
                 var broadCaster = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwChannelName])).Users;
                 var messageSender = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwUsername])).Users;
-                _twitchUserID = messageSender[0].Id;
-                _twitchChannelID = broadCaster[0].Id;
+                TwitchUserID = messageSender[0].Id;
+                TwitchChannelID = broadCaster[0].Id;
 
                 _bBBlog.Info("TwitchEventSub eventhandlers Errors start");
                 _eventSubWebsocketClient.WebsocketConnected += EventSubOnWebsocketConnected;
@@ -178,7 +177,7 @@ namespace BanterBrain_Buddy
             EventSubReadChatMessages = true;
             _eventSubWebsocketClient.ChannelChatMessage += (sender, e) => EventSubOnChannelChatMessage(e, command, delay, follower, subscriber);
             //we can call this function multile times, so we need to check if we are already connected
-            if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
+            if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
                 _bBBlog.Info("Subscribing to chat messages");
                 await EventSubSubscribe("channel.chat.message", _conditions);
@@ -193,7 +192,7 @@ namespace BanterBrain_Buddy
             EventSubCheckSubscriptions = true;
             _eventSubWebsocketClient.ChannelSubscribe += EventSubOnChannelSubscriber;
             _eventSubWebsocketClient.ChannelSubscriptionMessage += EventSubOnChannelReSubscriber;
-            if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
+            if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
                 _bBBlog.Info("Subscribing to new subscription events");
                 await EventSubSubscribe("channel.subscribe", _conditions);
@@ -213,7 +212,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"SessionID: {_eventSubWebsocketClient.SessionId}");
             EventSubCheckSubscriptionGift = true;
             _eventSubWebsocketClient.ChannelSubscriptionGift += EventSubOnChannelSubscriptionGift;
-            if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
+            if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
                 _bBBlog.Info("Subscribing to subscription gifts");
                 await EventSubSubscribe("channel.subscription.gift", _conditions);
@@ -226,7 +225,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"SessionID: {_eventSubWebsocketClient.SessionId}");
             EventSubCheckCheer = true;
             _eventSubWebsocketClient.ChannelCheer += (sender, e) => EventSubOnChannelCheer(e, minbits);
-            if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
+            if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
                 _bBBlog.Info("Subscribing to cheers");
                 await EventSubSubscribe("channel.cheer", _conditions);
@@ -239,7 +238,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"SessionID: {_eventSubWebsocketClient.SessionId}");
             EventSubCheckChannelPointRedemption = true;
             _eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionAdd += (sender, e) => EventSubOnChannelPointRedemption(e, redemptionName);
-            if (_eventSubWebsocketClient.SessionId != null && !_twitchMock)
+            if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
                 _bBBlog.Info("Subscribing to channel point redemptions");
                 await EventSubSubscribe("channel.channel_points_custom_reward_redemption.add", _conditions);
@@ -250,7 +249,7 @@ namespace BanterBrain_Buddy
         //this is a Twitch rule, see https://dev.twitch.tv/docs/authentication/validate-tokens/
         public async Task<bool> CheckHourlyAccessToken()
         {
-            while (_twitchDoAutomatedCheck)
+            while (TwitchDoAutomatedCheck)
             {
                 //45 minutes = 2700000
                 await Task.Delay(2700000);
@@ -269,7 +268,7 @@ namespace BanterBrain_Buddy
         public void StopHourlyAccessTokenCheck()
         {
             _bBBlog.Info("Stopping hourly Twitch access token validation");
-            _twitchDoAutomatedCheck = false;
+            TwitchDoAutomatedCheck = false;
         }
 
         public async Task<bool> GetTwitchAuthToken(List<string> scopes)
@@ -293,7 +292,7 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                _twitchAuthRedirect = tmpVal;
+                TwitchAuthRedirect = tmpVal;
             }
 
             test = JsonData.TryGetValue("TwitchAuthClientId", out tmpVal);
@@ -303,7 +302,7 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                _twitchAuthClientId = tmpVal;
+                TwitchAuthClientId = tmpVal;
             }
         }
 
@@ -315,7 +314,7 @@ namespace BanterBrain_Buddy
         public async Task<bool> ValidateAccessToken(string TwAuthToken)
         {
 
-            _gTwitchAPI.Settings.ClientId = _twitchAuthClientId;
+            _gTwitchAPI.Settings.ClientId = TwitchAuthClientId;
             _gTwitchAPI.Settings.AccessToken = TwAuthToken;
             var validateTokenTest = await _gTwitchAPI.Auth.ValidateAccessTokenAsync(TwAuthToken);
             if (validateTokenTest == null)
@@ -343,7 +342,7 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Info($"Checking Authorization code using the API");
 
-            _gTwitchAPI.Settings.ClientId = _twitchAuthClientId;
+            _gTwitchAPI.Settings.ClientId = TwitchAuthClientId;
             _gTwitchAPI.Settings.AccessToken = TwAuthToken;
             _bBBlog.Debug($"clientid: {_gTwitchAPI.Settings.ClientId} ");
             //sensitive information 
@@ -363,16 +362,16 @@ namespace BanterBrain_Buddy
                 await Task.Delay(500);
                 var broadCaster = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwChannelName])).Users;
                 var messageSender = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwUsername])).Users;
-                _twitchUserID = messageSender[0].Id;
-                _twitchChannelID = broadCaster[0].Id;
+                TwitchUserID = messageSender[0].Id;
+                TwitchChannelID = broadCaster[0].Id;
                 _bBBlog.Info("Broadcaster: " + broadCaster[0].Login + " id:" + broadCaster[0].Id);
                 _bBBlog.Info("Message sender: " + messageSender[0].Login + " id:" + messageSender[0].Id);
 
                 //set the global, we need this for the EventSub
                 _conditions = new()
                 {
-                    { "broadcaster_user_id", _twitchChannelID },
-                             { "user_id", _twitchUserID },
+                    { "broadcaster_user_id", TwitchChannelID },
+                             { "user_id", TwitchUserID },
                 };
 
                 //do we need to send a message also?
@@ -422,17 +421,17 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("No access token set, cannot send message");
                 return false;
             }
-            else if (_twitchChannelID == null)
+            else if (TwitchChannelID == null)
             {
                 _bBBlog.Error("No channel ID set, cannot send message");
                 return false;
             }
-            else if (_twitchUserID == null)
+            else if (TwitchUserID == null)
             {
                 _bBBlog.Error("No user ID set, cannot send message");
                 return false;
             }
-            _bBBlog.Info($"Sending message: {messageToSend} to channel {_twitchChannelID} from user {_twitchUserID}");
+            _bBBlog.Info($"Sending message: {messageToSend} to channel {TwitchChannelID} from user {TwitchUserID}");
 
             //if this message is longer than 255 characters we need to split it up
             if (messageToSend.Length > 255)
@@ -440,7 +439,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info("Message is longer than 255 characters, splitting it up");
                 try
                 {
-                    ProcessParts(messageToSend, 255, async (part) => await _gTwitchAPI.Helix.Chat.SendChatMessage(_twitchChannelID, _twitchUserID, part, null, TwitchAccessToken));
+                    ProcessParts(messageToSend, 255, async (part) => await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchUserID, part, null, TwitchAccessToken));
                     return true;
                 }
                 catch (TwitchLib.Api.Core.Exceptions.BadRequestException exception)
@@ -455,7 +454,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info("Message is shorter than 255 characters, sending it");
                 try
                 {
-                    await _gTwitchAPI.Helix.Chat.SendChatMessage(_twitchChannelID, _twitchUserID, messageToSend, null, TwitchAccessToken);
+                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchUserID, messageToSend, null, TwitchAccessToken);
                     return true;
                 }
                 catch (TwitchLib.Api.Core.Exceptions.BadRequestException exception)
@@ -473,13 +472,13 @@ namespace BanterBrain_Buddy
         private async Task ReqTwitchAuthToken(List<string> scopes)
         {
             // create twitch api instance
-            _gTwitchAPI.Settings.ClientId = _twitchAuthClientId;
+            _gTwitchAPI.Settings.ClientId = TwitchAuthClientId;
 
             // start local web server
-            var server = new TwitchAuthWebserver(_twitchAuthRedirect);
+            var server = new TwitchAuthWebserver(TwitchAuthRedirect);
 
             //implicit flow is rather simple compared to client cred
-            var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetOAUTHCodeUrl(_twitchAuthClientId, _twitchAuthRedirect, scopes, "Implicit")}") { UseShellExecute = true }));
+            var tImplicit = new Thread(() => Process.Start(new ProcessStartInfo($"{GetOAUTHCodeUrl(TwitchAuthClientId, TwitchAuthRedirect, scopes, "Implicit")}") { UseShellExecute = true }));
             tImplicit.Start();
 
             var authImplicit = await server.ImplicitListen();
@@ -547,7 +546,7 @@ namespace BanterBrain_Buddy
         public async Task<bool> EventSubStartAsyncMock()
         {
             //we just faking it ;)
-            _twitchMock = true;
+            TwitchMock = true;
             var result = await _eventSubWebsocketClient.ConnectAsync(new Uri("ws://127.0.0.1:8080/ws"));
             if (result)
             {
@@ -571,6 +570,7 @@ namespace BanterBrain_Buddy
         {
 
             _bBBlog.Error($"Websocket {_eventSubWebsocketClient.SessionId} - Error occurred!");
+            await Task.Delay(1);
         }
 
         private static async Task EventSubOnChannelFollow(object sender, ChannelFollowArgs e)
@@ -578,6 +578,7 @@ namespace BanterBrain_Buddy
             var eventData = e.Notification.Payload.Event;
 
             _bBBlog.Info($"{eventData.UserName} followed {eventData.BroadcasterUserName} at {eventData.FollowedAt}");
+            await Task.Delay(1);
         }
 
 
@@ -588,7 +589,7 @@ namespace BanterBrain_Buddy
             bool tmpFol = follower;
             _bBBlog.Debug($"Chat message websocket {_eventSubWebsocketClient.SessionId}");
             //if the command is still on timeout, ignore else set it to true
-            if (_isCommandTriggered)
+            if (IsCommandTriggered)
             {
                 _bBBlog.Info("Command trigger is still on timeout, ignoring");
                 return;
@@ -601,11 +602,11 @@ namespace BanterBrain_Buddy
             //also we should check when last time bot was triggered
             if (eventData.Message.Text.StartsWith(command))
             {
-                _isCommandTriggered = true;
+                IsCommandTriggered = true;
                 //if this does not work we need to, when starting, request all follows and store them in a list and kee it updated
-                var result = await _gTwitchAPI.Helix.Channels.GetChannelFollowersAsync(_twitchChannelID, eventData.ChatterUserId);
+                var result = await _gTwitchAPI.Helix.Channels.GetChannelFollowersAsync(TwitchChannelID, eventData.ChatterUserId);
 
-                _bBBlog.Info($"Followerscheck length: {result.Data.Length} channel: {_twitchChannelID} chatter: {eventData.ChatterUserId}");
+                _bBBlog.Info($"Followerscheck length: {result.Data.Length} channel: {TwitchChannelID} chatter: {eventData.ChatterUserId}");
 
                 //user needs to be a subscriber but is not
                 _bBBlog.Info($"{eventData.ChatterUserName} issubscriber: {eventData.IsSubscriber}");
@@ -640,7 +641,7 @@ namespace BanterBrain_Buddy
                 //not sure if this works ;)
                 _bBBlog.Debug($"Disabling eventhandler for chatmessage");
                 await Task.Delay(delay * 1000);
-                _isCommandTriggered = false;
+                IsCommandTriggered = false;
                 _bBBlog.Debug($"Enabling eventhandler for chatmessage");
             }
         }
@@ -666,6 +667,7 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat, but it was not enough to trigger the bot");
             }
+            await Task.Delay(1);
         }
 
         //eventhandler for RE-subscriptions
@@ -689,6 +691,7 @@ namespace BanterBrain_Buddy
             }
             _bBBlog.Debug($"Re-Subscriber eventhandler triggered: {OnESubReSubscribe}");
             OnESubReSubscribe(this, new TwitchEventhandlers.OnReSubscribeEventArgs(eventData.UserName, message, eventData.CumulativeMonths.ToString()));
+            await Task.Delay(1);
         }
 
         //eventhandler for NEW subscriptions
@@ -705,6 +708,7 @@ namespace BanterBrain_Buddy
             }
             _bBBlog.Debug($"Subscriber eventhandler triggered: {OnESubSubscribe}");
             OnESubSubscribe(this, new TwitchEventhandlers.OnSubscribeEventArgs(eventData.UserName, eventData.BroadcasterUserName));
+            await Task.Delay(1);
         }
 
         //eventhandler for subscription gifts
@@ -722,6 +726,7 @@ namespace BanterBrain_Buddy
             }
             _bBBlog.Debug($"Subscriber gift triggered: {OnESubSubscriptionGift}");
             OnESubSubscriptionGift(this, new TwitchEventhandlers.OnSubscriptionGiftEventArgs(eventData.UserName, eventData.Total.ToString(), tierSub.ToString()));
+            await Task.Delay(1);
         }
 
         //eventhandler for custom channel point redemptions
@@ -745,13 +750,14 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Debug($"Redemption name {redemptionName} does not match the redemption name {eventData.Reward.Title} so ignoring it.");
             }
+            await Task.Delay(1);
         }
 
         private async Task EventSubOnWebsocketConnected(object sender, WebsocketConnectedArgs e)
         {
             _bBBlog.Info($"Websocket {_eventSubWebsocketClient.SessionId} connected!");
             //if mock dont subscribe
-            if (_twitchMock)
+            if (TwitchMock)
             {
                 _bBBlog.Info("Mock is set, not subscribing to topics");
                 return;
@@ -764,12 +770,12 @@ namespace BanterBrain_Buddy
                 // the ID of the bot (username of the bot)
                 // the client ID (_twitchAuthClientId)
                 // the access token
-                _bBBlog.Info($"Subscribing to topics. - ClientID: {_twitchAuthClientId} -BroadcasterID: {_twitchChannelID} -UserID {_twitchUserID} "); // -Accesstoken {TwitchAccessToken}");
+                _bBBlog.Info($"Subscribing to topics. - ClientID: {TwitchAuthClientId} -BroadcasterID: {TwitchChannelID} -UserID {TwitchUserID} "); // -Accesstoken {TwitchAccessToken}");
 
                 _conditions = new()
                 {
-                    { "broadcaster_user_id", _twitchChannelID },
-                             { "user_id", _twitchUserID },
+                    { "broadcaster_user_id", TwitchChannelID },
+                             { "user_id", TwitchUserID },
                 };
 
                 //we have to wait to subscribe to the topics until the websocket is connected
@@ -815,7 +821,7 @@ namespace BanterBrain_Buddy
             try
             {
                 var response = await _gTwitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync(type, "1", conditions,
-                               TwitchLib.Api.Core.Enums.EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, clientId: _twitchAuthClientId, accessToken: TwitchAccessToken);
+                               TwitchLib.Api.Core.Enums.EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, clientId: TwitchAuthClientId, accessToken: TwitchAccessToken);
                 foreach (var sub in response.Subscriptions)
                 {
                     _bBBlog.Info($"Sub Type: {sub.Type} is {sub.Status} with {sub.Id}");
@@ -837,7 +843,7 @@ namespace BanterBrain_Buddy
         {
             if (_eventSubIllist.TryGetValue(type, out string subId))
             {
-                var result = await _gTwitchAPI.Helix.EventSub.DeleteEventSubSubscriptionAsync(subId, _twitchAuthClientId, TwitchAccessToken);
+                var result = await _gTwitchAPI.Helix.EventSub.DeleteEventSubSubscriptionAsync(subId, TwitchAuthClientId, TwitchAccessToken);
                 if (result)
                 {
                     _bBBlog.Info($"Unsubscribed from {type} with id {subId}");
@@ -871,6 +877,7 @@ namespace BanterBrain_Buddy
         private async Task EventSubOnWebsocketReconnected(object sender, EventArgs e)
         {
             _bBBlog.Warn($"Websocket {_eventSubWebsocketClient.SessionId} reconnected");
+            await Task.Delay(1);
         }
     }
 

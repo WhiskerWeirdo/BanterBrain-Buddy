@@ -14,7 +14,6 @@ using System.Windows.Forms;
 /// CODING RULES:
 /// •	Local variables, private instance, static fields and method parameters should be camelCase.
 /// •	Methods, constants, properties, events and classes should be PascalCase.
-/// •	Global private instance fields should be in camelCase prefixed with an underscore.
 /// </summary>
 
 namespace BanterBrain_Buddy
@@ -95,7 +94,7 @@ namespace BanterBrain_Buddy
         /// <param name="OutputDevice">The text of the selected output device. Limited to 32 characters (Windows limition)</param>
         /// <returns></returns>
         [SupportedOSPlatform("windows6.1")]
-        public async Task NativeTTSInit(string VoiceUsed, string OutputDevice)
+        public Task NativeTTSInit(string VoiceUsed, string OutputDevice)
         {
             _bBBlog.Info("Starting Native Text To Speech, Initializing");
             _bBBlog.Debug("Init Native Output Device: " + OutputDevice + " using: " + VoiceUsed);
@@ -106,10 +105,11 @@ namespace BanterBrain_Buddy
             _nativeSynthesizer.SelectVoice(selectedVoice);
             _nativeAudioStream = new();
             _nativeSynthesizer.SetOutputToWaveStream(_nativeAudioStream);
+            return Task.CompletedTask;
         }
 
         [SupportedOSPlatform("windows6.1")]
-        public static async Task<List<NativeVoices>> TTSNativeGetVoices()
+        public static Task<List<NativeVoices>> TTSNativeGetVoices()
         {
             List<NativeVoices> nativeVoicesList = [];
             var synthesizer = new SpeechSynthesizer();
@@ -125,9 +125,8 @@ namespace BanterBrain_Buddy
                     Gender = info.Gender.ToString()
                 };
                 nativeVoicesList.Add(tmpVoice);
-
             }
-            return nativeVoicesList;
+            return Task.FromResult(nativeVoicesList);
         }
 
 

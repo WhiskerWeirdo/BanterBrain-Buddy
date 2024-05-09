@@ -24,7 +24,6 @@ using System.Security.Cryptography;
 /// CODING RULES:
 /// •	Local variables, private instance, static fields and method parameters should be camelCase.
 /// •	Methods, constants, properties, events and classes should be PascalCase.
-/// •	Global private instance fields should be in camelCase prefixed with an underscore.
 /// </summary>
 
 namespace BanterBrain_Buddy
@@ -1256,7 +1255,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        public async void Subscribe()
+        public void Subscribe()
         {
             if (_setHotkeys.Count < 1)
             {
@@ -1346,7 +1345,7 @@ namespace BanterBrain_Buddy
 
 
         [SupportedOSPlatform("windows6.1")]
-        private async void TwitchEnableCheckbox_Click(object sender, EventArgs e)
+        private void TwitchEnableCheckbox_Click(object sender, EventArgs e)
         {
             //this turns off and on all twitch options
             _bBBlog.Debug("Twitch enable checkbox changed to " + TwitchEnableCheckbox.Checked);
@@ -1471,7 +1470,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task InvokeUI(Action a)
         {
-            this.BeginInvoke(new System.Windows.Forms.MethodInvoker(a));
+            await Task.Run(() => this.BeginInvoke(new System.Windows.Forms.MethodInvoker(a)));
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1918,7 +1917,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async void BBB_Load(object sender, EventArgs e)
+        private void BBB_Load(object sender, EventArgs e)
         {
             _bBBlog.Info("BanterBrain Buddy started");
             MessageBox.Show("This is a beta version of BanterBrain Buddy. Please report any bugs to the discord!", "BanterBrain Buddy Beta", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -2002,7 +2001,7 @@ namespace BanterBrain_Buddy
             UpdateTextLog("Settings closed. We loaded settings!\r\n");
             _bBBlog.Info("Settings form closed. We should load the new settings!");
             LoadPersonas();
-            LoadSettings();
+            await LoadSettings();
             await CheckConfiguredLLMProviders();
             SetSelectedLLMProvider();
         }

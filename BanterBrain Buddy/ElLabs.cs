@@ -15,7 +15,7 @@ namespace BanterBrain_Buddy
     internal class ElLabs
     {
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public string _elevelLabsAPIKey { get; set; }
+        public string ElevelLabsAPIKey { get; set; }
         //private List<string> _elevenLabVoiceList;
         private readonly Dictionary<string, string> _elevenLabVoiceList;
 
@@ -38,7 +38,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         public async Task<bool> ElevenLabsTTS(string text, string outputDevice, string tmpVoice, int similarity, int stability, int style)
         {
-            var api = new ElevenLabsClient(_elevelLabsAPIKey);
+            var api = new ElevenLabsClient(ElevelLabsAPIKey);
             _bBBlog.Info($"ElevenLabsTTS called with voice: {tmpVoice}");
             SetSelectedOutputDevice(outputDevice);
 
@@ -99,7 +99,7 @@ namespace BanterBrain_Buddy
                 return ElevenLabVoices;
             }
 
-            var api = new ElevenLabsClient(_elevelLabsAPIKey);
+            var api = new ElevenLabsClient(ElevelLabsAPIKey);
             var tier = await api.UserEndpoint.GetSubscriptionInfoAsync();
             _bBBlog.Info($"Tier: {tier.Tier} for {tier.VoiceLimit}");
             var voices = await api.VoicesEndpoint.GetAllVoicesAsync();
@@ -123,9 +123,9 @@ namespace BanterBrain_Buddy
         public async Task<bool> ElevenLabsAPIKeyTest()
         {
             _bBBlog.Info("ElevenLabsAPIKeyTest called");
-            if (_elevelLabsAPIKey.Length > 1)
+            if (ElevelLabsAPIKey.Length > 1)
             {
-                var api = new ElevenLabsClient(_elevelLabsAPIKey);
+                var api = new ElevenLabsClient(ElevelLabsAPIKey);
                 try
                 {
                     SubscriptionInfo result = await api.UserEndpoint.GetSubscriptionInfoAsync();
@@ -147,7 +147,7 @@ namespace BanterBrain_Buddy
         public ElLabs(string elevelLabsAPIKey)
         {
             _bBBlog.Info("ElevenLabs called");
-            _elevelLabsAPIKey = elevelLabsAPIKey;
+            this.ElevelLabsAPIKey = elevelLabsAPIKey;
             _elevenLabVoiceList = [];
         }
     }

@@ -8,7 +8,6 @@ using System.Windows.Forms;
 /// CODING RULES:
 /// •	Local variables, private instance, static fields and method parameters should be camelCase.
 /// •	Methods, constants, properties, events and classes should be PascalCase.
-/// •	Global private instance fields should be in camelCase prefixed with an underscore.
 /// </summary>
 
 namespace BanterBrain_Buddy
