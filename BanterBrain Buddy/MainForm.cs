@@ -481,7 +481,7 @@ namespace BanterBrain_Buddy
             //call the Azure STT function with the selected input device
             //first initialize the Azure STT class
             _azureSpeech.AzureSTTInit(Properties.Settings.Default.VoiceInput);
-            _bBBlog.Info("Azure STT microphone start. Language: " + Properties.Settings.Default.AzureLanguageComboBox );
+            _bBBlog.Info("Azure STT microphone start. Language: " + Properties.Settings.Default.AzureLanguageComboBox);
             while (MainRecordingStart.Text == "Recording" && !_sTTDone && !_bigError)
             {
                 var recognizeResult = await _azureSpeech.RecognizeSpeechAsync();
@@ -1540,7 +1540,7 @@ namespace BanterBrain_Buddy
                     await SayText($"{user} redeemed with message {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
                 });
             }
-            
+
             await InvokeUI(async () =>
             {
                 await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona).RoleText);
@@ -2304,6 +2304,36 @@ namespace BanterBrain_Buddy
                 TwitchResponseToChatDelayTextBox.Enabled = false;
                 Properties.Settings.Default.TwitchResponseToChatCheckBox = false;
                 Properties.Settings.Default.Save();
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchChatCommandDelay_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Check if the input is not a digit or control (like backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;  // Ignore the input
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchResponseToChatDelayTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Check if the input is not a digit or control (like backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;  // Ignore the input
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchMinBits_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Check if the input is not a digit or control (like backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;  // Ignore the input
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -202,7 +203,6 @@ namespace BanterBrain_Buddy
             GPTTemperatureTextBox.Text = Properties.Settings.Default.GPTTemperature.ToString();
             ElevenlabsAPIKeyTextBox.Text = Properties.Settings.Default.ElevenLabsAPIkey;
             OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
-            UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
             OllamaResponseLengthComboBox.SelectedIndex = OllamaResponseLengthComboBox.FindStringExact(Properties.Settings.Default.OllamaResponseLengthComboBox);
 
             if (Properties.Settings.Default.WhisperSpeechRecognitionComboBox.Length > 1)
@@ -216,10 +216,11 @@ namespace BanterBrain_Buddy
                 WhisperSpeechRecognitionComboBox.SelectedIndex = WhisperSpeechRecognitionComboBox.FindStringExact("English");
             }
 
-            if (Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox.Length >1)
+            if (Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox.Length > 1)
             {
                 NativeSpeechRecognitionLanguageComboBox.SelectedIndex = NativeSpeechRecognitionLanguageComboBox.FindStringExact(Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox);
-            } else
+            }
+            else
             {
                 //ok nothing is set, so lets just select the first one by default
                 _bBBlog.Info("No native speech recognition language set, selecting the first one");
@@ -248,7 +249,7 @@ namespace BanterBrain_Buddy
             }
             _bBBlog.Info("Settings form closing, saving settings");
             //only save if theres actual data to be saved
-            if (TwitchUsername.Text.Length > 0 )
+            if (TwitchUsername.Text.Length > 0)
                 Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
             if (TwitchAccessToken.Text.Length > 0)
                 Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
@@ -279,7 +280,6 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
             if (OllamaModelsComboBox.Text.Length > 0)
                 Properties.Settings.Default.OllamaSelectedModel = OllamaModelsComboBox.Text;
-            Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
             if (OllamaResponseLengthComboBox.Text.Length > 0)
                 Properties.Settings.Default.OllamaResponseLengthComboBox = OllamaResponseLengthComboBox.Text;
             if (NativeSpeechRecognitionLanguageComboBox.Text.Length > 1)
@@ -626,7 +626,7 @@ namespace BanterBrain_Buddy
         {
             if (_elevenLabsApi == null)
                 _elevenLabsApi = new(ElevenlabsAPIKeyTextBox.Text);
-    
+
             var _elevenLabsVoicesList = await _elevenLabsApi.TTSGetElevenLabsVoices();
             if (_elevenLabsVoicesList == null)
             {
@@ -1370,7 +1370,7 @@ namespace BanterBrain_Buddy
                 OllamaTestButton.Enabled = false;
                 OllamaLLM ollama = new(OllamaURITextBox.Text);
                 //var installedModels = ollama.OllamaLLMGetModels();
-             
+
                 var result = await ollama.OllamaGetResponse("this is a test!", OllamaModelsComboBox.Text);
                 _bBBlog.Debug("Ollama test result: " + result);
                 OllamaTestButton.Enabled = true;
@@ -1387,9 +1387,9 @@ namespace BanterBrain_Buddy
         private async void OllamaPanel_VisibleChanged(object sender, EventArgs e)
         {
             //dont bother filling if we dont use the Ollama LLM
-            if (!UseOllamaLLMCheckBox.Checked)
-                return;
-
+            /*  if (!UseOllamaLLMCheckBox.Checked)
+                  return;
+            */
             OllamaPanel.Enabled = false;
             _bBBlog.Info("Ollama panel visible.");
             _bBBlog.Info("Ollama now we load the Uri");
@@ -1448,15 +1448,51 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void UseOllamaLLMCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (UseOllamaLLMCheckBox.Checked)
-            {
-                _bBBlog.Info("Ollama LLM enabled, loading settings if not yet loaded");
-                if (OllamaModelsComboBox.Items.Count < 1)
+            /*    if (UseOllamaLLMCheckBox.Checked)
                 {
-                    OllamaPanel_VisibleChanged(sender, e);
+                    _bBBlog.Info("Ollama LLM enabled, loading settings if not yet loaded");
+                    if (OllamaModelsComboBox.Items.Count < 1)
+                    {
+                        OllamaPanel_VisibleChanged(sender, e);
+                    }
+                }
+            */
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void GPTMaxTokensTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Check if the input is not a digit or control (like backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;  // Ignore the input
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void GPTTemperatureTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            string decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
+            // Check if the input is not a digit, not a control (like backspace), and not the decimal separator
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar.ToString() != decimalSeparator)
+            {
+                e.Handled = true;  // Ignore the input
+            }
+            // Check if it's the decimal separator, and if so, check if there's already one in the text box
+            else if (e.KeyChar.ToString() == decimalSeparator && (sender as System.Windows.Forms.TextBox).Text.IndexOf(decimalSeparator) > -1)
+            {
+                e.Handled = true;  // Ignore the input
+            }
+            else
+            {
+                // Check if the resulting value would be higher than 2
+                string newText = (sender as System.Windows.Forms.TextBox).Text + e.KeyChar;
+                if (float.TryParse(newText, NumberStyles.Float, CultureInfo.CurrentCulture, out float result) && result > 2)
+                {
+                    e.Handled = true;  // Ignore the input
                 }
             }
-
         }
     }
 }
