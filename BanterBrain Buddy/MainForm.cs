@@ -1155,42 +1155,57 @@ namespace BanterBrain_Buddy
 
             if (_twitchEventSub != null)
                 await _twitchEventSub.EventSubStopAsync();
+            //only save if theres something to be saved!
 
-            Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
-            Properties.Settings.Default.TwitchChatCommandDelay = int.Parse(TwitchChatCommandDelay.Text);
+            if (TwitchCommandTrigger.Text.Length > 0)
+                Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
+            if (TwitchChatCommandDelay.Text.Length > 0)
+                Properties.Settings.Default.TwitchChatCommandDelay = int.Parse(TwitchChatCommandDelay.Text);
             Properties.Settings.Default.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
-            Properties.Settings.Default.TwitchMinBits = int.Parse(TwitchMinBits.Text);
+            if (TwitchMinBits.Text.Length > 0)
+                Properties.Settings.Default.TwitchMinBits = int.Parse(TwitchMinBits.Text);
             Properties.Settings.Default.TwitchSubscribed = TwitchSubscribed.Checked;
             Properties.Settings.Default.TwitchGiftedSub = TwitchGiftedSub.Checked;
             Properties.Settings.Default.TwitchEnable = TwitchEnableCheckbox.Checked;
             Properties.Settings.Default.TwitchReadChatCheckBox = TwitchReadChatCheckBox.Checked;
             Properties.Settings.Default.TwitchCheerCheckbox = TwitchCheerCheckBox.Checked;
-            Properties.Settings.Default.TwitchCustomRewardName = TwitchCustomRewardName.Text;
+            if (TwitchCustomRewardName.Text.Length > 0)
+                Properties.Settings.Default.TwitchCustomRewardName = TwitchCustomRewardName.Text;
             Properties.Settings.Default.TwitchChannelPointCheckBox = TwitchChannelPointCheckBox.Checked;
-            Properties.Settings.Default.STTSelectedProvider = STTSelectedComboBox.Text;
-            Properties.Settings.Default.MainSelectedPersona = BroadcasterSelectedPersonaComboBox.Text;
-            Properties.Settings.Default.TwitchChannelPointPersona = TwitchChannelPointPersonaComboBox.Text;
-            Properties.Settings.Default.TwitchCheeringPersona = TwitchCheeringPersonaComboBox.Text;
-            Properties.Settings.Default.TwitchSubscriptionPersona = TwitchSubscriptionPersonaComboBox.Text;
-            Properties.Settings.Default.TwitchChatPersona = TwitchChatPersonaComboBox.Text;
+            if (STTSelectedComboBox.Text.Length > 0)
+                Properties.Settings.Default.STTSelectedProvider = STTSelectedComboBox.Text;
+            if (BroadcasterSelectedPersonaComboBox.Text.Length > 0)
+                Properties.Settings.Default.MainSelectedPersona = BroadcasterSelectedPersonaComboBox.Text;
+            if (TwitchChannelPointPersonaComboBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchChannelPointPersona = TwitchChannelPointPersonaComboBox.Text;
+            if (TwitchCheeringPersonaComboBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchCheeringPersona = TwitchCheeringPersonaComboBox.Text;
+            if (TwitchSubscriptionPersonaComboBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchSubscriptionPersona = TwitchSubscriptionPersonaComboBox.Text;
+            if (TwitchChatPersonaComboBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchChatPersona = TwitchChatPersonaComboBox.Text;
             Properties.Settings.Default.TwitchAutoStart = TwitchAutoStart.Checked;
-            Properties.Settings.Default.SelectedLLM = LLMResponseSelecter.Text;
+            if (LLMResponseSelecter.Text.Length > 0)
+                Properties.Settings.Default.SelectedLLM = LLMResponseSelecter.Text;
             Properties.Settings.Default.TwitchChatSoundCheckBox = TwitchChatSoundCheckBox.Checked;
-            Properties.Settings.Default.TwitchChatSound = TwitchChatSoundTextBox.Text;
+            if (TwitchChatSoundTextBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchChatSound = TwitchChatSoundTextBox.Text;
             Properties.Settings.Default.TwitchChannelSoundCheckBox = TwitchChannelSoundCheckBox.Checked;
-            Properties.Settings.Default.TwitchChannelSound = TwitchChannelSoundTextBox.Text;
-            Properties.Settings.Default.TwitchCheeringSound = TwitchCheeringSoundTextBox.Text;
+            if (TwitchChannelSoundTextBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchChannelSound = TwitchChannelSoundTextBox.Text;
+            if (TwitchCheeringSoundTextBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchCheeringSound = TwitchCheeringSoundTextBox.Text;
             Properties.Settings.Default.TwitchCheeringSoundCheckBox = TwitchCheeringSoundCheckBox.Checked;
-            Properties.Settings.Default.TwitchSubscriptionSoundTextBox = TwitchSubscriptionSoundTextBox.Text;
+            if (TwitchSubscriptionSoundTextBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchSubscriptionSoundTextBox = TwitchSubscriptionSoundTextBox.Text;
             Properties.Settings.Default.TwitchSubscriptionSoundCheckBox = TwitchSubscriptionSoundCheckBox.Checked;
             Properties.Settings.Default.TwitchResponseToChatCheckBox = TwitchResponseToChatCheckBox.Checked;
-            Properties.Settings.Default.TwitchResponseToChatDelayTextBox = TwitchResponseToChatDelayTextBox.Text;
+            if (TwitchResponseToChatDelayTextBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchResponseToChatDelayTextBox = TwitchResponseToChatDelayTextBox.Text;
             Properties.Settings.Default.TwitchSubscriptionTTSResponseOnlyRadioButton = TwitchSubscriptionTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchCheeringTTSResponseOnlyRadioButton = TwitchCheeringTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChannelPointTTSResponseOnlyRadioButton = TwitchChannelPointTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChatTTSResponseOnlyRadioButton = TwitchChatTTSResponseOnlyRadioButton.Checked;
-
-
             Properties.Settings.Default.Save();
 
             //remove hotkey hooks

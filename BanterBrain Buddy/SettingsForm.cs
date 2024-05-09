@@ -247,35 +247,46 @@ namespace BanterBrain_Buddy
                 _personaEdited = false;
             }
             _bBBlog.Info("Settings form closing, saving settings");
-            Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
-            Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
-            Properties.Settings.Default.TwitchChannel = TwitchChannel.Text;
+            //only save if theres actual data to be saved
+            if (TwitchUsername.Text.Length > 0 )
+                Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
+            if (TwitchAccessToken.Text.Length > 0)
+                Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
+            if (TwitchChannel.Text.Length > 0)
+                Properties.Settings.Default.TwitchChannel = TwitchChannel.Text;
             Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
-            Properties.Settings.Default.VoiceInput = SoundInputDevices.Text;
-            Properties.Settings.Default.PTTHotkey = MicrophoneHotkeyEditbox.Text;
-            Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
-            Properties.Settings.Default.AzureAPIKeyTextBox = AzureAPIKeyTextBox.Text;
-            Properties.Settings.Default.AzureRegionTextBox = AzureRegionTextBox.Text;
-            Properties.Settings.Default.AzureLanguageComboBox = AzureLanguageComboBox.Text;
-            Properties.Settings.Default.GPTModel = GPTModelComboBox.Text;
-            Properties.Settings.Default.GPTAPIKey = GPTAPIKeyTextBox.Text;
-            Properties.Settings.Default.GPTMaxTokens = int.Parse(GPTMaxTokensTextBox.Text);
-            Properties.Settings.Default.GPTTemperature = float.Parse(GPTTemperatureTextBox.Text);
-            Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
-            Properties.Settings.Default.OllamaSelectedModel = OllamaModelsComboBox.Text;
+            if (SoundInputDevices.Text.Length > 0)
+                Properties.Settings.Default.VoiceInput = SoundInputDevices.Text;
+            if (MicrophoneHotkeyEditbox.Text.Length > 0)
+                Properties.Settings.Default.PTTHotkey = MicrophoneHotkeyEditbox.Text;
+            if (TTSAudioOutputComboBox.Text.Length > 0)
+                Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
+            if (AzureAPIKeyTextBox.Text.Length > 0)
+                Properties.Settings.Default.AzureAPIKeyTextBox = AzureAPIKeyTextBox.Text;
+            if (AzureRegionTextBox.Text.Length > 0)
+                Properties.Settings.Default.AzureRegionTextBox = AzureRegionTextBox.Text;
+            if (AzureLanguageComboBox.Text.Length > 0)
+                Properties.Settings.Default.AzureLanguageComboBox = AzureLanguageComboBox.Text;
+            if (GPTModelComboBox.Text.Length > 0)
+                Properties.Settings.Default.GPTModel = GPTModelComboBox.Text;
+            if (GPTAPIKeyTextBox.Text.Length > 0)
+                Properties.Settings.Default.GPTAPIKey = GPTAPIKeyTextBox.Text;
+            if (GPTMaxTokensTextBox.Text.Length > 0)
+                Properties.Settings.Default.GPTMaxTokens = int.Parse(GPTMaxTokensTextBox.Text);
+            if (GPTTemperatureTextBox.Text.Length > 0)
+                Properties.Settings.Default.GPTTemperature = float.Parse(GPTTemperatureTextBox.Text);
+            if (ElevenlabsAPIKeyTextBox.Text.Length > 0)
+                Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
+            if (OllamaModelsComboBox.Text.Length > 0)
+                Properties.Settings.Default.OllamaSelectedModel = OllamaModelsComboBox.Text;
             Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
-            Properties.Settings.Default.OllamaResponseLengthComboBox = OllamaResponseLengthComboBox.Text;
-            Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox = NativeSpeechRecognitionLanguageComboBox.Text;
-            Properties.Settings.Default.WhisperSpeechRecognitionComboBox = WhisperSpeechRecognitionComboBox.Text;
+            if (OllamaResponseLengthComboBox.Text.Length > 0)
+                Properties.Settings.Default.OllamaResponseLengthComboBox = OllamaResponseLengthComboBox.Text;
+            if (NativeSpeechRecognitionLanguageComboBox.Text.Length > 1)
+                Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox = NativeSpeechRecognitionLanguageComboBox.Text;
+            if (WhisperSpeechRecognitionComboBox.Text.Length > 1)
+                Properties.Settings.Default.WhisperSpeechRecognitionComboBox = WhisperSpeechRecognitionComboBox.Text;
 
-            /*   if (UseGPTLLMCheckBox.Checked)
-               {
-                   Properties.Settings.Default.SelectedLLM = "GPT";
-               }
-               else
-               {
-                   Properties.Settings.Default.SelectedLLM = "None";
-               }*/
             Properties.Settings.Default.Save();
 
             //we should also close the EventSub client if it is running
