@@ -106,7 +106,7 @@ namespace BanterBrain_Buddy
             var getAllVoicesTask = api.VoicesEndpoint.GetAllVoicesAsync();
 
             //lets wait 10 seconds for the voices to come back
-            var timeoutTask = Task.Delay(10000);
+            var timeoutTask = Task.Delay(15000);
 
             var completedTask = await Task.WhenAny(getAllVoicesTask, timeoutTask);
 
@@ -133,7 +133,7 @@ namespace BanterBrain_Buddy
             {
                 // Timeout occurred
                 // Handle the timeout scenario...
-                _bBBlog.Error("Timeout after 10 seconds occurred while fetching ElevenLab voices");
+                _bBBlog.Error("Timeout after 15 seconds occurred while fetching ElevenLab voices");
                 return null; // or return null, throw an exception, etc.
             }
         }
