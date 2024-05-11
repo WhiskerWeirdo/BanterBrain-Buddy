@@ -1132,7 +1132,12 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info("ElevenLabs API key is valid, pre-loading voices");
                     UpdateTextLog("ElevenLabs API key is valid, pre-loading voices if not loaded yet\r\n");
                     //lets find the voices at startup so we dont have to load them later
-                    _ = await _elevenLabsApi.TTSGetElevenLabsVoices();
+                    var result = await _elevenLabsApi.TTSGetElevenLabsVoices();
+                    if (result == null)
+                    {
+                        _bBBlog.Error("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works");
+                        UpdateTextLog("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works\r\n");
+                    }
                 }
 
             }

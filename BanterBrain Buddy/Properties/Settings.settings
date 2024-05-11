@@ -188,5 +188,11 @@
     <Setting Name="TwitchAuthServerConfig" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://localhost:8080</Value>
     </Setting>
+    <Setting Name="WebsourceServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost:9138</Value>
+    </Setting>
+    <Setting Name="WebsourceServerEnable" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

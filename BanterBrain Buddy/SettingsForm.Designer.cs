@@ -43,10 +43,16 @@
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
+            OBSPanel = new System.Windows.Forms.Panel();
+            WebsourceServerEnable = new System.Windows.Forms.CheckBox();
+            label27 = new System.Windows.Forms.Label();
+            TwitchChatSoundSelectButton = new System.Windows.Forms.Button();
+            label26 = new System.Windows.Forms.Label();
+            label25 = new System.Windows.Forms.Label();
+            WebsourceServer = new System.Windows.Forms.TextBox();
             TwitchPanel = new System.Windows.Forms.Panel();
             groupBox1 = new System.Windows.Forms.GroupBox();
             label24 = new System.Windows.Forms.Label();
-            textBox2 = new System.Windows.Forms.TextBox();
             TwitchAuthServerConfig = new System.Windows.Forms.TextBox();
             label5 = new System.Windows.Forms.Label();
             TwitchUsername = new System.Windows.Forms.TextBox();
@@ -138,11 +144,11 @@
             TTSAudioOutputLabel = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             BBBToolTip = new System.Windows.Forms.ToolTip(components);
-            label25 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            OBSPanel.SuspendLayout();
             TwitchPanel.SuspendLayout();
             groupBox1.SuspendLayout();
             EventSubGroupbox.SuspendLayout();
@@ -169,6 +175,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(OBSPanel);
             splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(OllamaPanel);
             splitContainer1.Panel2.Controls.Add(PersonasPanel);
@@ -218,6 +225,79 @@
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += TreeView1_AfterSelect;
             // 
+            // OBSPanel
+            // 
+            OBSPanel.Controls.Add(WebsourceServerEnable);
+            OBSPanel.Controls.Add(label27);
+            OBSPanel.Controls.Add(TwitchChatSoundSelectButton);
+            OBSPanel.Controls.Add(label26);
+            OBSPanel.Controls.Add(label25);
+            OBSPanel.Controls.Add(WebsourceServer);
+            OBSPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            OBSPanel.Location = new System.Drawing.Point(0, 0);
+            OBSPanel.Name = "OBSPanel";
+            OBSPanel.Size = new System.Drawing.Size(593, 450);
+            OBSPanel.TabIndex = 36;
+            OBSPanel.VisibleChanged += OBSPanel_VisibleChanged;
+            // 
+            // WebsourceServerEnable
+            // 
+            WebsourceServerEnable.AutoSize = true;
+            WebsourceServerEnable.Location = new System.Drawing.Point(68, 39);
+            WebsourceServerEnable.Name = "WebsourceServerEnable";
+            WebsourceServerEnable.Size = new System.Drawing.Size(61, 19);
+            WebsourceServerEnable.TabIndex = 11;
+            WebsourceServerEnable.Text = "Enable";
+            WebsourceServerEnable.UseVisualStyleBackColor = true;
+            WebsourceServerEnable.Click += WebsourceServerEnable_Click;
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new System.Drawing.Point(66, 96);
+            label27.Name = "label27";
+            label27.Size = new System.Drawing.Size(88, 15);
+            label27.TabIndex = 10;
+            label27.Text = "Webserver Files";
+            // 
+            // TwitchChatSoundSelectButton
+            // 
+            TwitchChatSoundSelectButton.Image = Properties.Resources.fileopenicon;
+            TwitchChatSoundSelectButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TwitchChatSoundSelectButton.Location = new System.Drawing.Point(224, 92);
+            TwitchChatSoundSelectButton.Name = "TwitchChatSoundSelectButton";
+            TwitchChatSoundSelectButton.Size = new System.Drawing.Size(29, 23);
+            TwitchChatSoundSelectButton.TabIndex = 9;
+            BBBToolTip.SetToolTip(TwitchChatSoundSelectButton, "Open sound directory");
+            TwitchChatSoundSelectButton.UseVisualStyleBackColor = true;
+            TwitchChatSoundSelectButton.Click += TwitchChatSoundSelectButton_Click;
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new System.Drawing.Point(226, 16);
+            label26.Name = "label26";
+            label26.Size = new System.Drawing.Size(29, 15);
+            label26.TabIndex = 6;
+            label26.Text = "OBS";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new System.Drawing.Point(66, 68);
+            label25.Name = "label25";
+            label25.Size = new System.Drawing.Size(100, 15);
+            label25.TabIndex = 5;
+            label25.Text = "Websource server";
+            // 
+            // WebsourceServer
+            // 
+            WebsourceServer.Location = new System.Drawing.Point(224, 63);
+            WebsourceServer.Name = "WebsourceServer";
+            WebsourceServer.Size = new System.Drawing.Size(168, 23);
+            WebsourceServer.TabIndex = 4;
+            WebsourceServer.Validating += WebsourceServer_Validating;
+            // 
             // TwitchPanel
             // 
             TwitchPanel.Controls.Add(groupBox1);
@@ -240,13 +320,11 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(label25);
             groupBox1.Controls.Add(label24);
-            groupBox1.Controls.Add(textBox2);
             groupBox1.Controls.Add(TwitchAuthServerConfig);
-            groupBox1.Location = new System.Drawing.Point(52, 178);
+            groupBox1.Location = new System.Drawing.Point(52, 187);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(344, 96);
+            groupBox1.Size = new System.Drawing.Size(344, 69);
             groupBox1.TabIndex = 35;
             groupBox1.TabStop = false;
             groupBox1.Text = "Webserver Config";
@@ -260,19 +338,13 @@
             label24.TabIndex = 2;
             label24.Text = "Twitch Auth Webserver";
             // 
-            // textBox2
-            // 
-            textBox2.Location = new System.Drawing.Point(161, 55);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new System.Drawing.Size(168, 23);
-            textBox2.TabIndex = 1;
-            // 
             // TwitchAuthServerConfig
             // 
             TwitchAuthServerConfig.Location = new System.Drawing.Point(161, 22);
             TwitchAuthServerConfig.Name = "TwitchAuthServerConfig";
             TwitchAuthServerConfig.Size = new System.Drawing.Size(168, 23);
             TwitchAuthServerConfig.TabIndex = 0;
+            TwitchAuthServerConfig.Leave += TwitchAuthServerConfig_Leave;
             TwitchAuthServerConfig.Validating += TwitchAuthServerConfig_Validating;
             // 
             // label5
@@ -1238,15 +1310,6 @@
             label6.TabIndex = 0;
             label6.Text = "Speaker Output settings";
             // 
-            // label25
-            // 
-            label25.AutoSize = true;
-            label25.Location = new System.Drawing.Point(11, 59);
-            label25.Name = "label25";
-            label25.Size = new System.Drawing.Size(135, 15);
-            label25.TabIndex = 3;
-            label25.Text = "Twitch websource server";
-            // 
             // SettingsForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1260,6 +1323,8 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            OBSPanel.ResumeLayout(false);
+            OBSPanel.PerformLayout();
             TwitchPanel.ResumeLayout(false);
             TwitchPanel.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -1384,8 +1449,13 @@
         private System.Windows.Forms.CheckBox UseOllamaLLMCheckBox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox TwitchAuthServerConfig;
+        private System.Windows.Forms.Panel OBSPanel;
+        private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox WebsourceServer;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Button TwitchChatSoundSelectButton;
+        private System.Windows.Forms.CheckBox WebsourceServerEnable;
     }
 }

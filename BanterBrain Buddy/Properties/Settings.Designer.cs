@@ -766,5 +766,29 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchAuthServerConfig"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:9138")]
+        public string WebsourceServer {
+            get {
+                return ((string)(this["WebsourceServer"]));
+            }
+            set {
+                this["WebsourceServer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WebsourceServerEnable {
+            get {
+                return ((bool)(this["WebsourceServerEnable"]));
+            }
+            set {
+                this["WebsourceServerEnable"] = value;
+            }
+        }
     }
 }

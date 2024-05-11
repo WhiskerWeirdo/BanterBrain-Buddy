@@ -102,23 +102,62 @@ namespace BanterBrain_Buddy
             var api = new ElevenLabsClient(ElevelLabsAPIKey);
             var tier = await api.UserEndpoint.GetSubscriptionInfoAsync();
             _bBBlog.Info($"Tier: {tier.Tier} for {tier.VoiceLimit}");
-            var voices = await api.VoicesEndpoint.GetAllVoicesAsync();
-            _bBBlog.Info($"Voices found: {voices.Count}");
+            //get all the voices but, lets also accept a timeout incase theres issues
+            var getAllVoicesTask = api.VoicesEndpoint.GetAllVoicesAsync();
 
-            foreach (var voice in voices)
-            {
-                _elevenLabVoiceList.Add(voice.Name, voice.Id);
-            }
+            //lets wait 10 seconds for the voices to come back
+            var timeoutTask = Task.Delay(10000);
 
-            if (_elevenLabVoiceList.Count > 0)
+            var completedTask = await Task.WhenAny(getAllVoicesTask, timeoutTask);
+
+            if (completedTask == getAllVoicesTask)
             {
-                foreach (var voice in _elevenLabVoiceList)
+                var voices = await getAllVoicesTask;
+                _bBBlog.Info($"Voices found: {voices.Count}");
+                // Process the voices...
+                foreach (var voice in voices)
                 {
-                    ElevenLabVoices.Add(voice.Key);
+                    _elevenLabVoiceList.Add(voice.Name, voice.Id);
                 }
+
+                if (_elevenLabVoiceList.Count > 0)
+                {
+                    foreach (var voice in _elevenLabVoiceList)
+                    {
+                        ElevenLabVoices.Add(voice.Key);
+                    }
+                }
+                return ElevenLabVoices;
             }
-            return ElevenLabVoices;
+            else
+            {
+                // Timeout occurred
+                // Handle the timeout scenario...
+                _bBBlog.Error("Timeout after 10 seconds occurred while fetching ElevenLab voices");
+                return null; // or return null, throw an exception, etc.
+            }
         }
+
+        /*
+        var voices = await api.VoicesEndpoint.GetAllVoicesAsync();
+        _bBBlog.Info($"Voices found: {voices.Count}");
+
+        foreach (var voice in voices)
+        {
+            _elevenLabVoiceList.Add(voice.Name, voice.Id);
+        }
+
+        if (_elevenLabVoiceList.Count > 0)
+        {
+            foreach (var voice in _elevenLabVoiceList)
+            {
+                ElevenLabVoices.Add(voice.Key);
+            }
+        }
+        return ElevenLabVoices;
+    }
+        */
+  
 
         public async Task<bool> ElevenLabsAPIKeyTest()
         {

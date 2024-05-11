@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -178,6 +179,9 @@ namespace BanterBrain_Buddy
                 case "Personas":
                     PanelVisible(PersonasPanel.Name);
                     break;
+                case "OBS":
+                    PanelVisible(OBSPanel.Name);
+                    break;
                 default:
                     break;
             }
@@ -207,10 +211,17 @@ namespace BanterBrain_Buddy
             OllamaURITextBox.Text = Properties.Settings.Default.OllamaURI;
             UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
             TwitchAuthServerConfig.Text = Properties.Settings.Default.TwitchAuthServerConfig;
+            WebsourceServerEnable.Checked = Properties.Settings.Default.WebsourceServerEnable;
             //if empty set default
             if (Properties.Settings.Default.TwitchAuthServerConfig.Length < 1)
             {
                 TwitchAuthServerConfig.Text = "http://localhost:8080";
+            }
+            WebsourceServer.Text = Properties.Settings.Default.WebsourceServer;
+            //if empty set default
+            if (Properties.Settings.Default.WebsourceServer.Length < 1)
+            {
+                WebsourceServer.Text = "http://localhost:9138";
             }
             if (Properties.Settings.Default.WhisperSpeechRecognitionComboBox.Length > 1)
             {
@@ -300,8 +311,10 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.WhisperSpeechRecognitionComboBox = WhisperSpeechRecognitionComboBox.Text;
             if (TwitchAuthServerConfig.Text.Length > 1)
                 Properties.Settings.Default.TwitchAuthServerConfig = TwitchAuthServerConfig.Text;
+            if (WebsourceServer.Text.Length > 1)
+                Properties.Settings.Default.WebsourceServer = WebsourceServer.Text;
             Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
-
+            Properties.Settings.Default.WebsourceServerEnable = WebsourceServerEnable.Checked;
             Properties.Settings.Default.Save();
 
             //we should also close the EventSub client if it is running
@@ -1612,6 +1625,60 @@ namespace BanterBrain_Buddy
 
         [SupportedOSPlatform("windows6.1")]
         private void TwitchAuthServerConfig_Validating(object sender, CancelEventArgs e)
+        {
+            System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+            }
+
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchAuthServerConfig_Leave(object sender, EventArgs e)
+        {
+            //if something new entered, save it.
+            if (TwitchAuthServerConfig.Text.Length > 1 && TwitchAuthServerConfig.Text != Properties.Settings.Default.TwitchAuthServerConfig)
+            {
+                Properties.Settings.Default.TwitchAuthServerConfig = TwitchAuthServerConfig.Text;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void TwitchChatSoundSelectButton_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\html");
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void OBSPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (WebsourceServerEnable.Checked)
+            {
+                WebsourceServer.Enabled = true;
+            }
+            else
+            {
+                WebsourceServer.Enabled = false;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void WebsourceServerEnable_Click(object sender, EventArgs e)
+        {
+            if (WebsourceServerEnable.Checked)
+            {
+                WebsourceServer.Enabled = true;
+            }
+            else
+            {
+                WebsourceServer.Enabled = false;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void WebsourceServer_Validating(object sender, CancelEventArgs e)
         {
             System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
             if (string.IsNullOrWhiteSpace(currenttb.Text))

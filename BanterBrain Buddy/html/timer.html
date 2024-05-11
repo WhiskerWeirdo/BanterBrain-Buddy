@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Countdown Timer</title>
+</head>
+<body>
+    <h1 style="font-size: 18px;">Chat command timer</h1>
+    <div style="font-size: 18px;" id="countdown">10</div>
+
+<script>
+    var countdownElement = document.getElementById('countdown');
+    var countdown = 10;  // For example, 90 seconds
+    var countdownInterval = setInterval(function () {
+        countdown--;
+        if (countdown >= 0) {
+            var minutes = Math.floor(countdown / 60);
+            var seconds = countdown % 60;
+            countdownElement.innerText = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        } else {
+            countdownElement.innerHTML = "Command <b>off</b> cooldown!";
+            clearInterval(countdownInterval);
+        }
+    }, 1000);
+
+    // Poll the server every 5 seconds
+    setInterval(function () {
+        fetch('/updatetimer').then(function (response) {
+            if (response.ok) {
+                // If the server sends a response, refresh the page
+                location.reload();
+            }
+        });
+    }, 5000);
+</script>
+
+</body>
+</html>
