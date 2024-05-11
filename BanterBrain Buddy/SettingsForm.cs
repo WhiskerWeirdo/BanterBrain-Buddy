@@ -206,6 +206,12 @@ namespace BanterBrain_Buddy
             OllamaResponseLengthComboBox.SelectedIndex = OllamaResponseLengthComboBox.FindStringExact(Properties.Settings.Default.OllamaResponseLengthComboBox);
             OllamaURITextBox.Text = Properties.Settings.Default.OllamaURI;
             UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
+            TwitchAuthServerConfig.Text = Properties.Settings.Default.TwitchAuthServerConfig;
+            //if empty set default
+            if (Properties.Settings.Default.TwitchAuthServerConfig.Length < 1)
+            {
+                TwitchAuthServerConfig.Text = "http://localhost:8080";
+            }
             if (Properties.Settings.Default.WhisperSpeechRecognitionComboBox.Length > 1)
             {
                 WhisperSpeechRecognitionComboBox.SelectedIndex = WhisperSpeechRecognitionComboBox.FindStringExact(Properties.Settings.Default.WhisperSpeechRecognitionComboBox);
@@ -292,6 +298,8 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox = NativeSpeechRecognitionLanguageComboBox.Text;
             if (WhisperSpeechRecognitionComboBox.Text.Length > 1)
                 Properties.Settings.Default.WhisperSpeechRecognitionComboBox = WhisperSpeechRecognitionComboBox.Text;
+            if (TwitchAuthServerConfig.Text.Length > 1)
+                Properties.Settings.Default.TwitchAuthServerConfig = TwitchAuthServerConfig.Text;
             Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
 
             Properties.Settings.Default.Save();
@@ -1599,6 +1607,17 @@ namespace BanterBrain_Buddy
                 OllamaResponseLengthComboBox.Enabled = true;
                 OllamaTestButton.Enabled = true;
                 OllamaPanel_VisibleChanged(sender, e);
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchAuthServerConfig_Validating(object sender, CancelEventArgs e)
+        {
+            System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
             }
         }
     }

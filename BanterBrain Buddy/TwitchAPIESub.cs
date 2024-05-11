@@ -280,22 +280,25 @@ namespace BanterBrain_Buddy
         //read the config file into globals
         private static void TwitchReadSettings()
         {
-            //todo: error handling
+            if (Properties.Settings.Default.TwitchAuthServerConfig.Length < 1)
+            {
+                _bBBlog.Error("TwitchAuthRedirect not found in Settings this should nto happen so lets use default");
+                TwitchAuthRedirect = "http://localhost:8080";
+                Properties.Settings.Default.TwitchAuthServerConfig = TwitchAuthRedirect;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                TwitchAuthRedirect = Properties.Settings.Default.TwitchAuthServerConfig;
+            }
+
             using StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json");
             //lets read the file and parse the json safely ;)
             //need to do error handling if file does not exist
             var JsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(r.ReadToEnd());
-            bool test = JsonData.TryGetValue("TwitchAuthRedirect", out string tmpVal);
-            if (!test)
-            {
-                _bBBlog.Error("TwitchAuthRedirect not found in settings.json");
-            }
-            else
-            {
-                TwitchAuthRedirect = tmpVal;
-            }
 
-            test = JsonData.TryGetValue("TwitchAuthClientId", out tmpVal);
+            string tmpVal;
+            bool test = JsonData.TryGetValue("TwitchAuthClientId", out tmpVal);
             if (!test)
             {
                 _bBBlog.Error("TwitchAuthClientId not found in settings.json");

@@ -754,5 +754,17 @@ namespace BanterBrain_Buddy.Properties {
                 this["WhisperSpeechRecognitionComboBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:8080")]
+        public string TwitchAuthServerConfig {
+            get {
+                return ((string)(this["TwitchAuthServerConfig"]));
+            }
+            set {
+                this["TwitchAuthServerConfig"] = value;
+            }
+        }
     }
 }

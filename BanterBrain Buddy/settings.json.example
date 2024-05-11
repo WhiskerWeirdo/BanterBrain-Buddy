@@ -1,4 +1,3 @@
 {
 "TwitchAuthClientId":"<insert clientid from dev.twitch.tv>",
-"TwitchAuthRedirect":"http://localhost:8080/redirect/"
 }

@@ -185,5 +185,8 @@
     <Setting Name="WhisperSpeechRecognitionComboBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">English</Value>
     </Setting>
+    <Setting Name="TwitchAuthServerConfig" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost:8080</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
