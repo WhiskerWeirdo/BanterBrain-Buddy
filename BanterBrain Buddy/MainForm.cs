@@ -73,6 +73,7 @@ namespace BanterBrain_Buddy
 
         private ElLabs _elevenLabsApi;
         private AzureSpeechAPI _azureSpeech;
+        private OllamaLLM _ollamaLLM;
 
         private readonly List<Personas> _personas = [];
 
@@ -192,8 +193,11 @@ namespace BanterBrain_Buddy
             {
                 try
                 {
-                    OllamaLLM ollamaLLM = new(Properties.Settings.Default.OllamaURI);
-                    if (await ollamaLLM.OllamaVerify())
+                    if (_ollamaLLM == null)
+                    {
+                        _ollamaLLM = new(Properties.Settings.Default.OllamaURI);
+                    }
+                    if (await _ollamaLLM.OllamaVerify())
                     {
                         LLMResponseSelecter.Items.Add("Ollama");
                         _bBBlog.Info("Ollama setting valid, adding to list");
@@ -426,7 +430,7 @@ namespace BanterBrain_Buddy
                     var elresult = await _elevenLabsApi.TTSGetElevenLabsVoices();
                     if (elresult == null)
                     {
-                        _bBBlog.Error("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works");
+                       _bBBlog.Error("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works");
                         UpdateTextLog("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works\r\n");
                     }
                 } else
@@ -668,8 +672,12 @@ namespace BanterBrain_Buddy
         {
             _gPTOutputText = "";
             UpdateTextLog("Sending to Ollama: " + UserInput + "\r\n");
-            OllamaLLM ollamaLLM = new(Properties.Settings.Default.OllamaURI);
-            var result = await ollamaLLM.OllamaGetResponse(UserInput, tmpPersonaRoletext);
+            if (_ollamaLLM == null)
+            {
+                _ollamaLLM = new(Properties.Settings.Default.OllamaURI);
+            }
+
+            var result = await _ollamaLLM.OllamaGetResponse(UserInput, tmpPersonaRoletext);
             if (result == null)
             {
                 _bBBlog.Error("Ollama API error. Is there a problem with your API key or subscription?");

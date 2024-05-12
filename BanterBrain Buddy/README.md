@@ -1,6 +1,5 @@
 # BanterBrain Buddy
-v0.0.5-ALPHA
-https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.0.5-alpha
+v0.1.0-BETA
 
 ## License
 This project uses the GNU General Public License v3.0 as you can read [here](./LICENSE.txt). The TLDR is:
@@ -27,13 +26,8 @@ tldr: use Visual studio 2022 with .net 8.
 
 ### KNOWN ISSUES
 Known issues:
-- [ ] Native TTS Wav file in use error sometimes on TTS
-- [ ] Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
-- [ ] Persona's cannot be deleted from the interface.
-- [ ] No PTT hotkey
 - [ ] No ability to check for Twitch followers
-- [ ] If you are connected to Twitch and got into the settings and close the settings window Twitch will disconnect.
-
+- [ ] Ollama doesn't remember the last message
 
 ### Short term roadmap
 - [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
@@ -42,10 +36,10 @@ Known issues:
 - [X] 0.0.4 MVP Azure TTS/STT support
 - [X] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
 - [X] 0.0.5.1 ALPHA INSTALLABLE ALPHA BUILD
-- [ ] 0.0.6 ALPHA Google, Elevenlabs & OpenAI Whisper TTS support 
-- [ ] 0.0.7 ALPHA Improved Error handling & Code documentation. GUI improvements
-- [	] 0.0.8 ALPHA Other languages than English support
-- [ ] 0.0.9 ALPHA define persona's. A linked Role text with a specific voice setup.
+- [X] 0.0.6 ALPHA Google, Elevenlabs & OpenAI Whisper TTS support 
+- [X] 0.0.7 ALPHA Improved Error handling & Code documentation. GUI improvements
+- [X] 0.0.8 ALPHA Other languages than English support
+- [X] 0.0.9 ALPHA define persona's. A linked Role text with a specific voice setup.
 - [ ] 0.1.0 BETA Installable Beta build release
 
 

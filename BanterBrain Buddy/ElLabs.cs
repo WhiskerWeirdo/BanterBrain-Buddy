@@ -42,7 +42,14 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"ElevenLabsTTS called with voice: {tmpVoice}");
             SetSelectedOutputDevice(outputDevice);
 
+            if (_elevenLabVoiceList.Count == 0)
+            {
+                _bBBlog.Error("No voices found, calling TTSGetElevenLabsVoices first");
+                await TTSGetElevenLabsVoices();
+
+            }
             _bBBlog.Info($"count of voices: " + _elevenLabVoiceList.Count);
+            tmpVoice = tmpVoice.Split(';')[1];
             var voiceId = _elevenLabVoiceList[tmpVoice];
             var voice = await api.VoicesEndpoint.GetVoiceAsync(voiceId);
             VoiceSettings voiceSettings = new(similarity / 100f, stability / 100f, false, style / 100f);
@@ -120,15 +127,6 @@ namespace BanterBrain_Buddy
                     _elevenLabVoiceList.Add(voice.Name, voice.Id);
                     ElevenLabVoices.Add(voice.Id + ";" + voice.Name);
                 }
-
-                /*
-                if (_elevenLabVoiceList.Count > 0)
-                {
-                    foreach (var voice in _elevenLabVoiceList)
-                    {
-                        ElevenLabVoices.Add(voice.Id +";"+ voice.Key);
-                    }
-                }*/
                 return ElevenLabVoices;
             }
             else

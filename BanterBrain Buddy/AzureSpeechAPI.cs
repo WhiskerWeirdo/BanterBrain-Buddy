@@ -36,11 +36,11 @@ namespace BanterBrain_Buddy
         //global list to speed stuff up
         List<AzureVoices> _azureRegionVoicesList = [];
 
+        //this is a test to see if the API is working, it tries to say something to a null device but the result is what matters
         public async Task<bool> AzureVerifyAPI()
         {
             _bBBlog.Info("Verifying Azure API");
             SpeechConfig speechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
-            //var speechSynthesizer = new SpeechSynthesizer(speechConfig, AudioConfig.FromDefaultSpeakerOutput());
             var speechSynthesizer = new SpeechSynthesizer(speechConfig, null);
 
             var result = await speechSynthesizer.SpeakTextAsync("test");

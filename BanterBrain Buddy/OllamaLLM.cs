@@ -1,12 +1,15 @@
-﻿using OllamaSharp;
+﻿using ElevenLabs.History;
+using OllamaSharp;
 using OllamaSharp.Models.Chat;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TwitchLib.Api.Core.Extensions.System;
 
 namespace BanterBrain_Buddy
 {
@@ -14,6 +17,8 @@ namespace BanterBrain_Buddy
     {
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly OllamaApiClient _ollama;
+        private Chat chat;
+        private IEnumerable<Message> history;
 
         public async Task<List<string>> OllamaLLMGetModels()
         {
@@ -73,17 +78,24 @@ namespace BanterBrain_Buddy
             }
             _bBBlog.Info("Sending to OpenAI GPT LLM: " + Text);
             _bBBlog.Info("SystemRole: " + tmpRoleText + " \r\nModel: " + _ollama.SelectedModel);
-            //we start a new context every time
-            var chat = _ollama.Chat(stream => response += stream.Message?.Content);
+            
+            if (chat == null)
+            {
+                chat = _ollama.Chat(stream => response += stream.Message?.Content);
+            }
+            //if we have an existing conversation
             try
             {
-                await chat.Send(tmpSetupString);
+                history = await chat.Send(Text);
+                response = history.LastOrDefault().Content.ToString();
             }
             catch (Exception e)
             {
                 _bBBlog.Error("OllamaGetResponse failed: " + e.Message);
                 return null;
             }
+            
+            _bBBlog.Info("Ollama response: " + response);
             return response;
         }
 
