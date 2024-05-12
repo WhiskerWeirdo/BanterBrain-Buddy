@@ -297,8 +297,7 @@ namespace BanterBrain_Buddy
             //need to do error handling if file does not exist
             var JsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(r.ReadToEnd());
 
-            string tmpVal;
-            bool test = JsonData.TryGetValue("TwitchAuthClientId", out tmpVal);
+            bool test = JsonData.TryGetValue("TwitchAuthClientId", out string tmpVal);
             if (!test)
             {
                 _bBBlog.Error("TwitchAuthClientId not found in settings.json");

@@ -79,10 +79,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Sending to OpenAI GPT LLM: " + Text);
             _bBBlog.Info("SystemRole: " + tmpRoleText + " \r\nModel: " + _ollama.SelectedModel);
             
-            if (chat == null)
-            {
-                chat = _ollama.Chat(stream => response += stream.Message?.Content);
-            }
+            chat ??= _ollama.Chat(stream => response += stream.Message?.Content);
             //if we have an existing conversation
             try
             {

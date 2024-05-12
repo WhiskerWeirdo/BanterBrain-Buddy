@@ -193,10 +193,7 @@ namespace BanterBrain_Buddy
             {
                 try
                 {
-                    if (_ollamaLLM == null)
-                    {
-                        _ollamaLLM = new(Properties.Settings.Default.OllamaURI);
-                    }
+                    _ollamaLLM ??= new(Properties.Settings.Default.OllamaURI);
                     if (await _ollamaLLM.OllamaVerify())
                     {
                         LLMResponseSelecter.Items.Add("Ollama");
@@ -672,10 +669,7 @@ namespace BanterBrain_Buddy
         {
             _gPTOutputText = "";
             UpdateTextLog("Sending to Ollama: " + UserInput + "\r\n");
-            if (_ollamaLLM == null)
-            {
-                _ollamaLLM = new(Properties.Settings.Default.OllamaURI);
-            }
+            _ollamaLLM ??= new(Properties.Settings.Default.OllamaURI);
 
             var result = await _ollamaLLM.OllamaGetResponse(UserInput, tmpPersonaRoletext);
             if (result == null)
