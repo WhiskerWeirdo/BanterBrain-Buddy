@@ -40,19 +40,20 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Info("Verifying Azure API");
             SpeechConfig speechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
-            var speechSynthesizer = new SpeechSynthesizer(speechConfig, AudioConfig.FromDefaultSpeakerOutput());
+            //var speechSynthesizer = new SpeechSynthesizer(speechConfig, AudioConfig.FromDefaultSpeakerOutput());
+            var speechSynthesizer = new SpeechSynthesizer(speechConfig, null);
 
-            var result = await speechSynthesizer.SpeakTextAsync("Peter Piper picked a peck of pickled peppers.");
+            var result = await speechSynthesizer.SpeakTextAsync("test");
             var test = result.Reason.ToString();
             _bBBlog.Debug("Azure API test result: " + test);
-            if (test == AzureRegion)
+            if (test == "SynthesizingAudioCompleted")
             {
-                _bBBlog.Info("Azure API verified");
+                _bBBlog.Info("Azure API verified by speech SUCCESS");
                 return true;
             }
             else
             {
-                _bBBlog.Error("Azure API verification failed");
+                _bBBlog.Error("Azure API verification FAILED by speech");
                 return false;
             }
         }

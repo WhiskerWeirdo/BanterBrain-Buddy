@@ -382,47 +382,61 @@ namespace BanterBrain_Buddy
                 STTSelectedComboBox.Items.Add("Native");
             }
 
-            //if the Azure API key is set, we can check for voices
-            //we should check in a better way than request all voices every time
+            //if the Azure API key is set, we verify if the key can be used to synthesize voice
             if (Properties.Settings.Default.AzureAPIKeyTextBox.Length > 1)
             {
-
-#pragma warning disable IDE0059 // Unnecessary assignment of a value
-                List<AzureVoices> azureRegionVoicesList = [];
-#pragma warning restore IDE0059 // Unnecessary assignment of a value
-                _bBBlog.Info("Finding TTS Azure voices available");
-                UpdateTextLog("Finding TTS Azure voices available\r\n");
+                //holds the result of the API test
+                bool APIResult = false;
+                _bBBlog.Info("Checking Azure API key");
+                UpdateTextLog("Checking Azure API key\r\n");
                 _azureSpeech ??= new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
 
                 try
                 {
-                    azureRegionVoicesList = await _azureSpeech.TTSGetAzureVoices();
+                    APIResult = await _azureSpeech.AzureVerifyAPI();
                 }
                 catch (Exception ex)
                 {
                     _bBBlog.Error("Error checking Azure voices: " + ex.Message);
                     _bBBlog.Info("Retrying azure voices..");
                     UpdateTextLog("Error checking Azure voices. Retrying..wait a moment\r\n");
-                    await Task.Delay(2000);
-                    azureRegionVoicesList = await _azureSpeech.TTSGetAzureVoices();
                 }
-                if (azureRegionVoicesList == null)
+                if (!APIResult)
                 {
                     _bBBlog.Error("No Azure voices found, despite what seems to be an API key");
                     MessageBox.Show("No Azure voices found, despite what seems to be an API key. Try again later?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if (azureRegionVoicesList.Count > 0)
+                else 
                 {
                     STTSelectedComboBox.Items.Add("Azure");
-                    _bBBlog.Info("Azure voices found, adding to list");
+                    _bBBlog.Info("Azure API setting valid");
                     UpdateTextLog("Azure API setting valid.\r\n");
                 }
-                else
+            }
+            //test if teh API key for ElevenLabs is set and valid
+            if (Properties.Settings.Default.ElevenLabsAPIkey.Length > 1)
+            {
+                //call test api key for elevenlabs
+                _elevenLabsApi ??= new(Properties.Settings.Default.ElevenLabsAPIkey);
+                if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
                 {
-                    _bBBlog.Error("No Azure voices found, despite what seems to be an API key");
+                    _bBBlog.Info("ElevenLabs API key is valid, pre-loading voices");
+                    UpdateTextLog("ElevenLabs API key is valid, pre-loading voices if not loaded yet\r\n");
+                    //lets find the voices at startup so we dont have to load them later
+                    var elresult = await _elevenLabsApi.TTSGetElevenLabsVoices();
+                    if (elresult == null)
+                    {
+                        _bBBlog.Error("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works");
+                        UpdateTextLog("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works\r\n");
+                    }
+                } else
+                {
+                    _bBBlog.Error("ElevenLabs API key is invalid. Please check your settings");
+                    UpdateTextLog("ElevenLabs API key is invalid. Please check your settings\r\n");
                 }
             }
 
+            //ok so not really an STT provider, but we need to check if the OpenAI API key is valid
             OpenAI openAI = new();
             if (openAI.OpenAICheckAPIKey())
             {
@@ -1121,25 +1135,6 @@ namespace BanterBrain_Buddy
                     _setHotkeys.Add((Keys)Enum.Parse(typeof(Keys), key));
                 }
                 Subscribe();
-            }
-            //test if teh API key for ElevenLabs is set and valid
-            if (Properties.Settings.Default.ElevenLabsAPIkey.Length > 1)
-            {
-                //call test api key for elevenlabs
-                _elevenLabsApi ??= new(Properties.Settings.Default.ElevenLabsAPIkey);
-                if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
-                {
-                    _bBBlog.Info("ElevenLabs API key is valid, pre-loading voices");
-                    UpdateTextLog("ElevenLabs API key is valid, pre-loading voices if not loaded yet\r\n");
-                    //lets find the voices at startup so we dont have to load them later
-                    var result = await _elevenLabsApi.TTSGetElevenLabsVoices();
-                    if (result == null)
-                    {
-                        _bBBlog.Error("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works");
-                        UpdateTextLog("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works\r\n");
-                    }
-                }
-
             }
 
             //lets check if the selected OpenAI API key is valid   

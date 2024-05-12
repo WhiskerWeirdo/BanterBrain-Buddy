@@ -138,27 +138,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        /*
-        var voices = await api.VoicesEndpoint.GetAllVoicesAsync();
-        _bBBlog.Info($"Voices found: {voices.Count}");
-
-        foreach (var voice in voices)
-        {
-            _elevenLabVoiceList.Add(voice.Name, voice.Id);
-        }
-
-        if (_elevenLabVoiceList.Count > 0)
-        {
-            foreach (var voice in _elevenLabVoiceList)
-            {
-                ElevenLabVoices.Add(voice.Key);
-            }
-        }
-        return ElevenLabVoices;
-    }
-        */
   
-
         public async Task<bool> ElevenLabsAPIKeyTest()
         {
             _bBBlog.Info("ElevenLabsAPIKeyTest called");
