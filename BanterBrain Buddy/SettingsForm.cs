@@ -3,6 +3,7 @@ using OpenAI_API;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -32,6 +33,7 @@ namespace BanterBrain_Buddy
         private bool twitchAPIVerified;
         private bool personaEdited;
         private ElLabs elevenLabsApi;
+        private List<string> _elevenLabsVoicesList;
 
         [SupportedOSPlatform("windows6.1")]
         public SettingsForm()
@@ -522,7 +524,6 @@ namespace BanterBrain_Buddy
                 PersonaComboBox.Items.Clear();
                 using var sr = new StreamReader(tmpFile);
                 var tmpString = sr.ReadToEnd();
-                //var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
                 var tmpPersonas = JsonConvert.DeserializeObject<List<Personas>>(tmpString);
                 foreach (var persona in tmpPersonas)
                 {
@@ -531,13 +532,14 @@ namespace BanterBrain_Buddy
                     PersonaComboBox.Items.Add(persona.Name);
                 }
             }
-
+            DeletePersona.Enabled = true;
         }
 
 
         [SupportedOSPlatform("windows6.1")]
         private void NewPersona_Click(object sender, EventArgs e)
         {
+            _bBBlog.Debug("New persona button clicked");
             //if the persona is changed we first need to check if the persona was edited if so we need to ask to save it
             if (personaEdited && PersonasPanel.Visible)
             {
@@ -553,11 +555,11 @@ namespace BanterBrain_Buddy
             TTSProviderComboBox.Text = "";
             TTSOutputVoice.Text = "";
             PersonaComboBox.Text = "";
-            TTSOutputVoiceOption1.Text = "";
+            DeletePersona.Enabled = false;
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private void SavePersona_Click(object sender, EventArgs e)
+        private async void SavePersona_Click(object sender, EventArgs e)
         {
             personaEdited = false;
             _bBBlog.Debug("Save persona button clicked");
@@ -582,6 +584,7 @@ namespace BanterBrain_Buddy
                 return;
             }
 
+
             //if the persona.name is already in the file, we need to update it not add
             //else we do add it
             bool personaExists = false;
@@ -593,7 +596,17 @@ namespace BanterBrain_Buddy
                     _bBBlog.Debug("Persona already exists, updating it");
                     persona.RoleText = PersonaRoleTextBox.Text;
                     persona.VoiceProvider = TTSProviderComboBox.Text;
-                    persona.VoiceName = TTSOutputVoice.Text;
+
+                    //we need to add the voiceID for the ElevenLabs API
+                    if (TTSProviderComboBox.Text == "ElevenLabs")
+                    {
+                        persona.VoiceName = ElevenlabIDbyVoice(TTSOutputVoice.Text);
+                    }
+                    else
+                    {
+                        persona.VoiceName = TTSOutputVoice.Text;
+                    }
+
                     persona.VoiceOptions.Clear();
                     if (TTSOutputVoiceOption1.Text != "")
                     {
@@ -618,6 +631,12 @@ namespace BanterBrain_Buddy
                 {
                     tmpVoiceOptions.Add(TTSOutputVoiceOption1.Text);
                 }
+
+                if (TTSProviderComboBox.Text == "ElevenLabs")
+                {
+                    tmpVoiceOptions.Add(TTSOutputVoiceOption2.Text);
+                    tmpVoiceOptions.Add(TTSOutputVoiceOption3.Text);
+                }
                 personas.Add(new Personas { Name = PersonaComboBox.Text, RoleText = PersonaRoleTextBox.Text, VoiceProvider = TTSProviderComboBox.Text, VoiceName = TTSOutputVoice.Text, VoiceOptions = tmpVoiceOptions });
 
             }
@@ -630,7 +649,27 @@ namespace BanterBrain_Buddy
             }
             personaEdited = false;
             SavePersona.Enabled = false;
+            await LoadPersonas();
             return;
+        }
+
+        //finds the voiceID for the selected voice and adds it to the string
+        //so that we have both the ID and the voice name in a string that can be stored
+        [SupportedOSPlatform("windows6.1")]
+        private string ElevenlabIDbyVoice(string voiceName)
+        {
+            foreach (var elevenLabsVoice in _elevenLabsVoicesList)
+            {
+                //we find the voiceID for the selected voice and add it to the string
+                //so we save both the ID and the name
+                string[] tmpVoice = elevenLabsVoice.Split(";");
+                if (tmpVoice[1] == voiceName)
+                {
+                    _bBBlog.Debug("Adding voiceID to persona: " + elevenLabsVoice);
+                    return tmpVoice[0] + ";" + tmpVoice[1];
+                }
+            }
+            return null;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -653,7 +692,7 @@ namespace BanterBrain_Buddy
         {
             elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
-            var _elevenLabsVoicesList = await elevenLabsApi.TTSGetElevenLabsVoices();
+            _elevenLabsVoicesList = await elevenLabsApi.TTSGetElevenLabsVoices();
             if (_elevenLabsVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving ElevenLabs voicelist. Is your API key still valid?", "ElevenLabs No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -666,7 +705,10 @@ namespace BanterBrain_Buddy
             TTSOutputVoice.Items.Clear();
             foreach (var elevenLabsVoice in _elevenLabsVoicesList)
             {
-                TTSOutputVoice.Items.Add(elevenLabsVoice);
+                _bBBlog.Debug("Adding voice: " + elevenLabsVoice);
+                //we only want to add the name, not the id
+                string[] tmpVoice = elevenLabsVoice.Split(";");
+                TTSOutputVoice.Items.Add(tmpVoice[1]);
             }
             TTSOutputVoice.Sorted = true;
             TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
@@ -1193,7 +1235,10 @@ namespace BanterBrain_Buddy
             //the provider can be different from the one before so we need to load teh voices
             await FillVoiceBoxes();
             _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
+
             TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
+            _bBBlog.Debug($"Elevenlabs voice selected: {TTSOutputVoice.SelectedIndex}");
+
             //now to fill the options field
             if (TTSProviderComboBox.Text == "Azure")
                 TTSAzureFillOptions(TTSOutputVoice.Text);
@@ -1210,12 +1255,6 @@ namespace BanterBrain_Buddy
                     TTSOutputVoiceOption2.Text = selectedPersona.VoiceOptions[1];
                     TTSOutputVoiceOption3.Text = selectedPersona.VoiceOptions[2];
                 }
-                /*
-        foreach (var voiceOption in selectedPersona.VoiceOptions)
-        {
-            _bBBlog.Debug("Adding voice option: " + voiceOption);
-            TTSOutputVoiceOption1.SelectedIndex = TTSOutputVoiceOption1.FindStringExact(voiceOption);
-        }*/
             }
             if (PersonaComboBox.Text == "Default")
             {
@@ -1327,6 +1366,15 @@ namespace BanterBrain_Buddy
                 }
 
                 var result = MessageBox.Show("Delete Persona. Do you want to delete the persona?", "Delete Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                //new persona's wont have a selectedindex yet.
+                if (PersonaComboBox.SelectedIndex == -1)
+                    PersonaComboBox.SelectedIndex = PersonaComboBox.FindStringExact(PersonaComboBox.Text);
+                _bBBlog.Info("Delete persona selected: " + PersonaComboBox.SelectedIndex + " " + PersonaComboBox.Text);
+
+                foreach (var persona in personas)
+                {
+                    _bBBlog.Info("Personas available : " + persona.Name);
+                }
                 if (result == DialogResult.Yes)
                 {
                     personas.Remove(personas[PersonaComboBox.SelectedIndex]);

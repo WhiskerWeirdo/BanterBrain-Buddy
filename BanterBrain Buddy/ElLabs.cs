@@ -118,15 +118,17 @@ namespace BanterBrain_Buddy
                 foreach (var voice in voices)
                 {
                     _elevenLabVoiceList.Add(voice.Name, voice.Id);
+                    ElevenLabVoices.Add(voice.Id + ";" + voice.Name);
                 }
 
+                /*
                 if (_elevenLabVoiceList.Count > 0)
                 {
                     foreach (var voice in _elevenLabVoiceList)
                     {
-                        ElevenLabVoices.Add(voice.Key);
+                        ElevenLabVoices.Add(voice.Id +";"+ voice.Key);
                     }
-                }
+                }*/
                 return ElevenLabVoices;
             }
             else
