@@ -2075,6 +2075,7 @@ namespace BanterBrain_Buddy
                     TwitchEventSubStatusTextBox.Text = "DISABLED";
                     TwitchEventSubStatusTextBox.BackColor = Color.Red;
                     TwitchEnableDisableFields();
+                    _twitchEventSub = null;
                 }
             }
             TwitchEnableDisableFields();
