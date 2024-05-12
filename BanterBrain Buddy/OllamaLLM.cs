@@ -86,7 +86,7 @@ namespace BanterBrain_Buddy
             //if we have an existing conversation
             try
             {
-                history = await chat.Send(Text);
+                history = await chat.Send(tmpSetupString);
                 response = history.LastOrDefault().Content.ToString();
             }
             catch (Exception e)
