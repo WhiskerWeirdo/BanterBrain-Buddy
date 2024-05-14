@@ -813,6 +813,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("ElevenLabs TTS done");
             UpdateTextLog("ElevenLabs TTS done\r\n");
             MainRecordingStart.Enabled = true;
+
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -867,11 +868,11 @@ namespace BanterBrain_Buddy
             //selected STT provider
             String selectedProvider = STTSelectedComboBox.Text;
             //first, lets call STT
+
             _sTTDone = false;
             if (MainRecordingStart.Text == "Start")
             {
                 _sTTOutputText = "";
-                MainRecordingStart.Enabled = false;
                 MainRecordingStart.Text = "Recording";
                 if (selectedProvider == "Native")
                 {
@@ -906,7 +907,6 @@ namespace BanterBrain_Buddy
                     {
                         UpdateTextLog("Error! API Key or region cannot be empty!\r\n");
                         _bBBlog.Error("Error! API Key or region cannot be empty!");
-                        MainRecordingStart.Enabled = true;
                         MainRecordingStart.Text = "Start";
                     }
                     else
@@ -925,11 +925,11 @@ namespace BanterBrain_Buddy
                 {
                     UpdateTextLog("Theres an error, stopping execution!\r\n");
                     _bBBlog.Error("Theres an error, stopping execution");
-                    MainRecordingStart.Enabled = true;
                     MainRecordingStart.Text = "Start";
                     return;
                 }
 
+                MainRecordingStart.Enabled = false;
                 Thread.Sleep(500);
 
                 //now the STT text is in _sTTOutputText, lets pass that to ChatGPT
@@ -946,10 +946,12 @@ namespace BanterBrain_Buddy
                 {
                     UpdateTextLog("No audio recorded");
                     _bBBlog.Info("No audio recorded");
+                    MainRecordingStart.Enabled = true;
                 }
             }
             else
             {
+
                 MainRecordingStart.Text = "Start";
 
             }
@@ -1296,7 +1298,7 @@ namespace BanterBrain_Buddy
         {
             if (!_hotkeyCalled && BBB.ActiveForm.Name != "SettingsForm")
             {
-                if (MainRecordingStart.Text == "Start" && MainRecordingStart.Enabled)
+                if (MainRecordingStart.Text == "Start")
                 {
                     MainRecordingStart_Click(null, null);
                     _hotkeyCalled = true;
