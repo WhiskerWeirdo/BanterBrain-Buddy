@@ -1249,11 +1249,15 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("No hotkeys set, not unsubscribing");
                 return;
+            } else
+            {
+                _bBBlog.Info("Unsubscribing from hotkeys");
             }
             m_GlobalHook.KeyDown -= GlobalHookKeyDown;
             m_GlobalHook.KeyUp -= GlobalHookKeyUp;
             //It is recommened to dispose it
             m_GlobalHook.Dispose();
+            m_GlobalHook = null;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1277,11 +1281,11 @@ namespace BanterBrain_Buddy
             m_GlobalHook.OnCombination(map);
 
         }
-
+        
         [SupportedOSPlatform("windows6.1")]
         private async Task HandleHotkeyButton()
         {
-            if (!_hotkeyCalled)
+            if (!_hotkeyCalled && BBB.ActiveForm.Name != "SettingsForm")
             {
                 if (MainRecordingStart.Text == "Start")
                 {

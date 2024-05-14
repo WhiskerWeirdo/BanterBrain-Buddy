@@ -216,6 +216,7 @@ namespace BanterBrain_Buddy
             TextLog.BorderStyle = BorderStyle.None;
             resources.ApplyResources(TextLog, "TextLog");
             TextLog.Name = "TextLog";
+            TextLog.ReadOnly = true;
             // 
             // BBBTabs
             // 

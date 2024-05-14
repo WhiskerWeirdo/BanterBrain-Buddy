@@ -212,7 +212,8 @@ namespace BanterBrain_Buddy
             OllamaResponseLengthComboBox.SelectedIndex = OllamaResponseLengthComboBox.FindStringExact(Properties.Settings.Default.OllamaResponseLengthComboBox);
             OllamaURITextBox.Text = Properties.Settings.Default.OllamaURI;
             UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
-            TwitchAuthServerConfig.Text = Properties.Settings.Default.TwitchAuthServerConfig;
+            TwitchAuthServerConfig.SelectedIndex = TwitchAuthServerConfig.FindStringExact(Properties.Settings.Default.TwitchAuthServerConfig);
+            
             WebsourceServerEnable.Checked = Properties.Settings.Default.WebsourceServerEnable;
             //if empty set default
             if (Properties.Settings.Default.TwitchAuthServerConfig.Length < 1)

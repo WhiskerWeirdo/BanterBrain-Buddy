@@ -510,6 +510,7 @@ namespace BanterBrain_Buddy
         {
             string scopesStr = String.Join("+", scopes);
             string responseType;
+            redirectUri += "/redirect/";
 
             if (string.Equals(OAUTHType, "auth", StringComparison.OrdinalIgnoreCase))
                 responseType = "code";
@@ -521,11 +522,13 @@ namespace BanterBrain_Buddy
                 return null;
             }
 
-            return "https://id.twitch.tv/oauth2/authorize?" +
+            string returnStr = "https://id.twitch.tv/oauth2/authorize?" +
                     $"client_id={clientId}&" +
                     $"redirect_uri={redirectUri}&" +
                     $"response_type={responseType}&" +
                     $"scope={scopesStr}";
+            _bBBlog.Info("OAUTH URL: " + returnStr);
+            return returnStr;
         }
 
         public async Task<bool> EventSubStartAsync()

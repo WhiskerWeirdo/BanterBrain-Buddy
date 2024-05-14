@@ -28,6 +28,11 @@ namespace BanterBrain_Buddy
         public TwitchAuthWebserver(string uri)
         {
             _listener = new HttpListener();
+            if (uri.Last() != '/')
+            {
+                uri += "/redirect/";
+            }
+            _bBBlog.Info("Listening on: " + uri);
             _listener.Prefixes.Add(uri);
         }
 
@@ -42,6 +47,11 @@ namespace BanterBrain_Buddy
         public async Task<Authorization> ImplicitListen()
         {
             _bBBlog.Info("Implicit grant OAUTH starting");
+            if (_listener.IsListening)
+            {
+                _bBBlog.Error("HttpListener not supported on this platform");
+                _listener.Stop();
+            }
             _listener.Start();
             var result = await OnImplicitRequest();
             return result;
