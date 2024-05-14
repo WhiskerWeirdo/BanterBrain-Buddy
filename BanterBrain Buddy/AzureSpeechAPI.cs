@@ -157,7 +157,7 @@ namespace BanterBrain_Buddy
             SetSelectedOutputDevice(OutputDevice);
 
             _azureSpeechConfig = SpeechConfig.FromSubscription(AzureAPIKey, AzureRegion);
-
+            
             //set the options that we can just pass along, this holds the style of the voice
             AzureVoiceOptions = TTSVoiceOptions;
 

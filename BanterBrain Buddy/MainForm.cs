@@ -371,18 +371,20 @@ namespace BanterBrain_Buddy
             if (tmpProvider.Length > 0)
             {
                 _bBBlog.Debug("STT provider already set: " + tmpProvider);
-                return;
-            }
-            //if there's at least one native voice installed, enable the native STT
-            _ = new            //if there's at least one native voice installed, enable the native STT
-            NativeSpeech();
-            var result = await NativeSpeech.TTSNativeGetVoices();
-            _bBBlog.DebugFormat("Found {0} native voices", result.Count);
-            if (result.Count > 0)
-            {
-                STTSelectedComboBox.Items.Add("Native");
-            }
 
+            }
+            else
+            {
+                //if there's at least one native voice installed, enable the native STT
+                _ = new            //if there's at least one native voice installed, enable the native STT
+                NativeSpeech();
+                var result = await NativeSpeech.TTSNativeGetVoices();
+                _bBBlog.DebugFormat("Found {0} native voices", result.Count);
+                if (result.Count > 0)
+                {
+                    STTSelectedComboBox.Items.Add("Native");
+                }
+            }
             //if the Azure API key is set, we verify if the key can be used to synthesize voice
             if (Properties.Settings.Default.AzureAPIKeyTextBox.Length > 1)
             {
@@ -404,8 +406,11 @@ namespace BanterBrain_Buddy
                 }
                 if (!APIResult)
                 {
-                    _bBBlog.Error("No Azure voices found, despite what seems to be an API key");
-                    MessageBox.Show("No Azure voices found, despite what seems to be an API key. Try again later?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _bBBlog.Error("No valid Azure API key found. Value cleared, please fix in settings");
+                    UpdateTextLog("No valid Azure API key found. Value cleared, please fix in settings\r\n");
+                    Properties.Settings.Default.AzureAPIKeyTextBox = "";
+                    Properties.Settings.Default.Save();
+                    MessageBox.Show("No valid Azure API key found. Value cleared, please fix in settings", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
@@ -721,6 +726,14 @@ namespace BanterBrain_Buddy
         //Azure Text-To-Speach
         private async Task TTSAzureSpeakToOutput(string TextToSpeak, Personas tmpPersona)
         {
+            if (Properties.Settings.Default.AzureAPIKeyTextBox.Length < 1)
+            {
+                _bBBlog.Error("Azure TTS error. No API key found but this persona uses it. Please check your settings");
+                UpdateTextLog("Azure TTS error. No API key found but this persona uses it. Please check your settings\r\n");
+                MainRecordingStart.Enabled = true;
+                return;
+            }
+
             UpdateTextLog("Saying text with Azure TTS\r\n");
             _bBBlog.Info("Saying text with Azure TTS");
             _azureSpeech ??= new(Properties.Settings.Default.AzureAPIKeyTextBox, Properties.Settings.Default.AzureRegionTextBox, Properties.Settings.Default.AzureLanguageComboBox);
@@ -728,6 +741,14 @@ namespace BanterBrain_Buddy
             //set the output voice, gender and locale, and the style
             //this now depends on the selected persona
             await _azureSpeech.AzureTTSInit(tmpPersona.VoiceName, tmpPersona.VoiceOptions[0], Properties.Settings.Default.TTSAudioOutput);
+            if (!await _azureSpeech.AzureVerifyAPI())
+            {
+                _bBBlog.Error("Azure TTS error. Is there a problem with your API key or subscription?");
+                UpdateTextLog("Azure TTS error. Is there a problem with your API key or subscription?\r\n");
+                _bigError = true;
+                MainRecordingStart.Enabled = true;
+                return;
+            }
 
             var result = await _azureSpeech.AzureSpeak(TextToSpeak);
             if (!result)
@@ -2030,8 +2051,10 @@ namespace BanterBrain_Buddy
             UpdateTextLog("Settings closed. We loaded settings!\r\n");
             _bBBlog.Info("Settings form closed. We should load the new settings!");
             LoadPersonas();
-            await LoadSettings();
+            await CheckConfiguredSTTProviders();
             await CheckConfiguredLLMProviders();
+            await LoadSettings();
+            await SetSelectedSTTProvider();
             SetSelectedLLMProvider();
         }
 
