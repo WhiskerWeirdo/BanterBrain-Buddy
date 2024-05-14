@@ -365,7 +365,8 @@ namespace BanterBrain_Buddy
                 PersonaRoleTextBox.Text = selectedPersona.RoleText;
                 TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
                 //we need to fill the combo box with the voices available. We do that here cos provider needs to be loaded first.
-                await FillVoiceBoxes();
+                if (!await FillVoiceBoxes())
+                    return;
                 _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
                 TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
                 personaEdited = false;
@@ -398,7 +399,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async Task FillVoiceBoxes()
+        private async Task<bool> FillVoiceBoxes()
         {
             _bBBlog.Info("Fill voice boxes: " + TTSProviderComboBox.Text);
             if (TTSProviderComboBox.Text == "Native")
@@ -415,6 +416,7 @@ namespace BanterBrain_Buddy
                 //clear and fill the option box with voices
                 await TTSGetNativeVoices();
                 TTSFillNativeVoicesList();
+                return true;
             }
             else if (TTSProviderComboBox.Text == "ElevenLabs")
             {
@@ -432,6 +434,7 @@ namespace BanterBrain_Buddy
                 TTSOutputVoiceOption3.DropDownStyle = ComboBoxStyle.Simple;
                 TTSOption3Label.Text = "Style (0-100)";
                 await TTSGetElevenLabsVoices();
+                return true;
             }
             else if (TTSProviderComboBox.Text == "Azure")
             {
@@ -449,9 +452,14 @@ namespace BanterBrain_Buddy
 
                 if (AzureAPIKeyTextBox.Text.Length > 0 && AzureRegionTextBox.Text.Length > 0)
                 {
-                    await TTSGetAzureVoices();
-                    //fill the listboxes
-                    TTSFillAzureVoicesList();
+                    if (await TTSGetAzureVoices())
+                    {
+                        //fill the listboxes
+                        TTSFillAzureVoicesList();
+                        return true;
+                    }
+                    else
+                        return false;
                 }
                 else
                 {
@@ -478,7 +486,9 @@ namespace BanterBrain_Buddy
                 TTSOutputVoice.Items.Add("shimmer");
                 TTSOutputVoice.Sorted = true;
                 TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
+                return true;
             }
+            return false;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -678,7 +688,7 @@ namespace BanterBrain_Buddy
         {
             _ = new NativeSpeech();
             nativeRegionVoicesList = await NativeSpeech.TTSNativeGetVoices();
-            if (tTSAzureVoicesList == null)
+            if (nativeRegionVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving Native voicelist. Do you have any native voices installed?", "Native No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -749,6 +759,8 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Error("API Key or region cannot be empty!");
                 MessageBox.Show("API Key or region cannot be empty!", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PersonasPanel.Enabled = true;
+                EnablePersonaEventHandlers();
                 return false;
             }
 
@@ -757,6 +769,8 @@ namespace BanterBrain_Buddy
             if (tTSAzureVoicesList == null)
             {
                 MessageBox.Show("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?", "Azure API Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PersonasPanel.Enabled = true;
+                EnablePersonaEventHandlers();
                 return false;
             }
             else
@@ -802,6 +816,7 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Error("Azure TTS error. Is there a problem with your API key or subscription?");
                 MessageBox.Show("Azure TTS error. Is there a problem with your API key or subscription?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PersonasPanel.Enabled= true;
             }
         }
 
@@ -866,8 +881,14 @@ namespace BanterBrain_Buddy
                 //then the options
                 if (TTSOutputVoice.Items.Count < 1 || TTSOutputVoice.Text == "placeholder")
                 {
-                    await TTSGetAzureVoices();
-                    TTSFillAzureVoicesList();
+                    if (await TTSGetAzureVoices())
+                    {
+                        TTSFillAzureVoicesList();
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 await TTSAzureSpeakToOutput(TextToSay);
             }
@@ -1228,13 +1249,24 @@ namespace BanterBrain_Buddy
             }
 
             //alright index is changed! We need to load the persona into the form
+            if (PersonaComboBox.SelectedIndex == -1)
+            {
+                _bBBlog.Debug("Persona index is -1, setting to default (0)");
+                PersonaComboBox.SelectedIndex = 0;
+            }
+
             var selectedPersona = personas[PersonaComboBox.SelectedIndex];
             _bBBlog.Debug($"Loading persona into form. Personaname: {selectedPersona.VoiceName} VoiceProvider: {selectedPersona.VoiceProvider} TTSOutputvoice: {selectedPersona.VoiceName}  Amount of options: {selectedPersona.VoiceOptions.Count}");
             PersonaRoleTextBox.Text = selectedPersona.RoleText;
             //now lets load the one thats part of the selected persona
             TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
             //the provider can be different from the one before so we need to load teh voices
-            await FillVoiceBoxes();
+            if (!await FillVoiceBoxes())
+            {
+                TTSOutputVoice.Text = "";
+                TTSOutputVoice.Items.Clear();
+                return;
+            }
             _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
 
             TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
@@ -1280,10 +1312,13 @@ namespace BanterBrain_Buddy
                 SavePersona.Enabled = true;
                 personaEdited = true;
                 _bBBlog.Info("TTS Provider changed to " + TTSProviderComboBox.Text);
+                TTSOutputVoice.Items.Clear();
+
                 TTSOutputVoiceOption1.Text = "";
                 TTSOutputVoiceOption2.Text = "";
                 TTSOutputVoiceOption3.Text = "";
-                await FillVoiceBoxes();
+                if (!await FillVoiceBoxes())
+                    return;
             }
             PersonasPanel.Enabled = true;
         }
