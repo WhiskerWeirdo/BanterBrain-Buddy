@@ -1457,6 +1457,8 @@ namespace BanterBrain_Buddy
         /// To write to TextLog irregardless of thread
         public void UpdateTextLog(string TextToAppend)
         {
+            string timestamp = DateTime.Now.ToString("HH:mm:ss");
+            TextToAppend = timestamp + " " + TextToAppend;
             if (!InvokeRequired && TextLog != null)
             {
                 try
