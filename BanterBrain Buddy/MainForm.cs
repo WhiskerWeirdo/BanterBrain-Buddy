@@ -737,6 +737,7 @@ namespace BanterBrain_Buddy
             }
             _bBBlog.Info("Azure TTS done");
             UpdateTextLog("Azure TTS done\r\n");
+            MainRecordingStart.Enabled = true;
         }
 
 
@@ -751,6 +752,7 @@ namespace BanterBrain_Buddy
             await nativeSpeech.NativeSpeak(TTSText);
             UpdateTextLog("Native TTS done\r\n");
             _bBBlog.Info("Native TTS done");
+            MainRecordingStart.Enabled = true;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -810,6 +812,7 @@ namespace BanterBrain_Buddy
             }
             _bBBlog.Info("ElevenLabs TTS done");
             UpdateTextLog("ElevenLabs TTS done\r\n");
+            MainRecordingStart.Enabled = true;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -821,6 +824,7 @@ namespace BanterBrain_Buddy
             await openAI.OpenAITTS(TextToSpeak, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName);
             _bBBlog.Info("OpenAI TTS done");
             UpdateTextLog("OpenAI TTS done\r\n");
+            MainRecordingStart.Enabled = true;
         }
 
         //talk to the various LLM's
@@ -867,6 +871,7 @@ namespace BanterBrain_Buddy
             if (MainRecordingStart.Text == "Start")
             {
                 _sTTOutputText = "";
+                MainRecordingStart.Enabled = false;
                 MainRecordingStart.Text = "Recording";
                 if (selectedProvider == "Native")
                 {
@@ -877,9 +882,11 @@ namespace BanterBrain_Buddy
                     {
                         await Task.Delay(500);
                     }
+
                 }
                 else if (selectedProvider == "OpenAI Whisper")
                 {
+
                     UpdateTextLog("OpenAI Whisper STT calling\r\n");
                     _bBBlog.Info("OpenAI Whisper STT calling");
                     await InputStreamtoWav();
@@ -899,6 +906,7 @@ namespace BanterBrain_Buddy
                     {
                         UpdateTextLog("Error! API Key or region cannot be empty!\r\n");
                         _bBBlog.Error("Error! API Key or region cannot be empty!");
+                        MainRecordingStart.Enabled = true;
                         MainRecordingStart.Text = "Start";
                     }
                     else
@@ -917,6 +925,7 @@ namespace BanterBrain_Buddy
                 {
                     UpdateTextLog("Theres an error, stopping execution!\r\n");
                     _bBBlog.Error("Theres an error, stopping execution");
+                    MainRecordingStart.Enabled = true;
                     MainRecordingStart.Text = "Start";
                     return;
                 }
@@ -942,7 +951,7 @@ namespace BanterBrain_Buddy
             else
             {
                 MainRecordingStart.Text = "Start";
-                _bBBlog.Info("FAKE: Recording stopped");
+
             }
         }
 
@@ -1287,7 +1296,7 @@ namespace BanterBrain_Buddy
         {
             if (!_hotkeyCalled && BBB.ActiveForm.Name != "SettingsForm")
             {
-                if (MainRecordingStart.Text == "Start")
+                if (MainRecordingStart.Text == "Start" && MainRecordingStart.Enabled)
                 {
                     MainRecordingStart_Click(null, null);
                     _hotkeyCalled = true;
