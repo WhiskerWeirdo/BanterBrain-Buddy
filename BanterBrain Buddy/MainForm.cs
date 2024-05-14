@@ -407,7 +407,7 @@ namespace BanterBrain_Buddy
                     _bBBlog.Error("No Azure voices found, despite what seems to be an API key");
                     MessageBox.Show("No Azure voices found, despite what seems to be an API key. Try again later?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else 
+                else
                 {
                     STTSelectedComboBox.Items.Add("Azure");
                     _bBBlog.Info("Azure API setting valid");
@@ -427,10 +427,11 @@ namespace BanterBrain_Buddy
                     var elresult = await _elevenLabsApi.TTSGetElevenLabsVoices();
                     if (elresult == null)
                     {
-                       _bBBlog.Error("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works");
+                        _bBBlog.Error("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works");
                         UpdateTextLog("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works\r\n");
                     }
-                } else
+                }
+                else
                 {
                     _bBBlog.Error("ElevenLabs API key is invalid. Please check your settings");
                     UpdateTextLog("ElevenLabs API key is invalid. Please check your settings\r\n");
@@ -1260,7 +1261,8 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("No hotkeys set, not unsubscribing");
                 return;
-            } else
+            }
+            else
             {
                 _bBBlog.Info("Unsubscribing from hotkeys");
             }
@@ -1292,12 +1294,20 @@ namespace BanterBrain_Buddy
             m_GlobalHook.OnCombination(map);
 
         }
-        
+
         [SupportedOSPlatform("windows6.1")]
         private async Task HandleHotkeyButton()
         {
-            if (!_hotkeyCalled && BBB.ActiveForm.Name != "SettingsForm")
+            if (!_hotkeyCalled)
             {
+                if (BBB.ActiveForm != null)
+                    if (BBB.ActiveForm.Name == "SettingsForm")
+                    {
+                        _bBBlog.Debug("activeform: " + BBB.ActiveForm.Name + " has focus so ignoring hotkey");
+                        return;
+                    }
+                
+                //&& BBB.ActiveForm.Name != "SettingsForm"
                 if (MainRecordingStart.Text == "Start")
                 {
                     MainRecordingStart_Click(null, null);
@@ -2033,6 +2043,13 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void BroadcasterSelectedPersonaComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            if (Properties.Settings.Default.MainSelectedPersona != BroadcasterSelectedPersonaComboBox.SelectedItem.ToString())
+            {
+                _bBBlog.Info("Broadcaster selected persona changed to: " + BroadcasterSelectedPersonaComboBox.SelectedItem.ToString());
+                Properties.Settings.Default.MainSelectedPersona = BroadcasterSelectedPersonaComboBox.SelectedItem.ToString();
+                Properties.Settings.Default.Save();
+            }
         }
 
 
@@ -2446,6 +2463,17 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Debug("Opening log directory: " + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs");
             Process.Start("explorer.exe", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs");
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void STTSelectedComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.STTSelectedProvider != STTSelectedComboBox.Text)
+            {
+                _bBBlog.Info("STT provider changed to: " + STTSelectedComboBox.Text);
+                Properties.Settings.Default.STTSelectedProvider = STTSelectedComboBox.Text;
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }

@@ -170,6 +170,7 @@ namespace BanterBrain_Buddy
             STTSelectedComboBox.FormattingEnabled = true;
             resources.ApplyResources(STTSelectedComboBox, "STTSelectedComboBox");
             STTSelectedComboBox.Name = "STTSelectedComboBox";
+            STTSelectedComboBox.SelectedIndexChanged += STTSelectedComboBox_SelectedIndexChanged;
             // 
             // groupBox7
             // 
