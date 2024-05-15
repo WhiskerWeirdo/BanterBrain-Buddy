@@ -43,25 +43,30 @@
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
-            TwitchPanel = new System.Windows.Forms.Panel();
-            groupBox1 = new System.Windows.Forms.GroupBox();
-            TwitchAuthServerConfig = new System.Windows.Forms.ComboBox();
-            label24 = new System.Windows.Forms.Label();
-            label5 = new System.Windows.Forms.Label();
-            TwitchUsername = new System.Windows.Forms.TextBox();
-            EventSubGroupbox = new System.Windows.Forms.GroupBox();
-            TwitchMockEventSub = new System.Windows.Forms.CheckBox();
-            TwitchEventSubTestButton = new System.Windows.Forms.Button();
-            TwitchAPITestGroupBox = new System.Windows.Forms.GroupBox();
-            TwitchTestSendText = new System.Windows.Forms.TextBox();
-            TwitchSendTextCheckBox = new System.Windows.Forms.CheckBox();
-            TwitchAPITestButton = new System.Windows.Forms.Button();
-            TwitchAuthorizeButton = new System.Windows.Forms.Button();
-            TwitchChannel = new System.Windows.Forms.TextBox();
-            TwitchAccessToken = new System.Windows.Forms.TextBox();
-            TwitchChannelNameLabel = new System.Windows.Forms.Label();
-            TwitchAccesstokenLabel = new System.Windows.Forms.Label();
-            label9 = new System.Windows.Forms.Label();
+            AzurePanel = new System.Windows.Forms.Panel();
+            label2 = new System.Windows.Forms.Label();
+            AzureLanguageComboBox = new System.Windows.Forms.ComboBox();
+            TestAzureAPISettings = new System.Windows.Forms.Button();
+            label17 = new System.Windows.Forms.Label();
+            AzureRegionTextBox = new System.Windows.Forms.TextBox();
+            label18 = new System.Windows.Forms.Label();
+            AzureAPIKeyTextBox = new System.Windows.Forms.TextBox();
+            label3 = new System.Windows.Forms.Label();
+            OpenAIChatGPTPanel = new System.Windows.Forms.Panel();
+            WhisperSpeechRecognitionComboBox = new System.Windows.Forms.ComboBox();
+            label23 = new System.Windows.Forms.Label();
+            LLMMaxTokensHelpText = new System.Windows.Forms.Label();
+            LLMTempHelpText = new System.Windows.Forms.Label();
+            LLMMaxTokenLabel = new System.Windows.Forms.Label();
+            LLMTempLabel = new System.Windows.Forms.Label();
+            GPTMaxTokensTextBox = new System.Windows.Forms.TextBox();
+            GPTTemperatureTextBox = new System.Windows.Forms.TextBox();
+            GPTModelComboBox = new System.Windows.Forms.ComboBox();
+            label4 = new System.Windows.Forms.Label();
+            GPTTestButton = new System.Windows.Forms.Button();
+            GPTAPIKeyTextBox = new System.Windows.Forms.TextBox();
+            GPTAPIKeyLabel = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
             PersonasPanel = new System.Windows.Forms.Panel();
             TTSOutputVoiceOption3 = new System.Windows.Forms.ComboBox();
             TTSOption3Label = new System.Windows.Forms.Label();
@@ -82,6 +87,25 @@
             label12 = new System.Windows.Forms.Label();
             PersonaRoleTextBox = new System.Windows.Forms.TextBox();
             label10 = new System.Windows.Forms.Label();
+            TwitchPanel = new System.Windows.Forms.Panel();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            TwitchAuthServerConfig = new System.Windows.Forms.ComboBox();
+            label24 = new System.Windows.Forms.Label();
+            label5 = new System.Windows.Forms.Label();
+            TwitchUsername = new System.Windows.Forms.TextBox();
+            EventSubGroupbox = new System.Windows.Forms.GroupBox();
+            TwitchMockEventSub = new System.Windows.Forms.CheckBox();
+            TwitchEventSubTestButton = new System.Windows.Forms.Button();
+            TwitchAPITestGroupBox = new System.Windows.Forms.GroupBox();
+            TwitchTestSendText = new System.Windows.Forms.TextBox();
+            TwitchSendTextCheckBox = new System.Windows.Forms.CheckBox();
+            TwitchAPITestButton = new System.Windows.Forms.Button();
+            TwitchAuthorizeButton = new System.Windows.Forms.Button();
+            TwitchChannel = new System.Windows.Forms.TextBox();
+            TwitchAccessToken = new System.Windows.Forms.TextBox();
+            TwitchChannelNameLabel = new System.Windows.Forms.Label();
+            TwitchAccesstokenLabel = new System.Windows.Forms.Label();
+            label9 = new System.Windows.Forms.Label();
             OBSPanel = new System.Windows.Forms.Panel();
             WebsourceServerEnable = new System.Windows.Forms.CheckBox();
             label27 = new System.Windows.Forms.Label();
@@ -99,21 +123,6 @@
             OllamaURITextBox = new System.Windows.Forms.TextBox();
             label19 = new System.Windows.Forms.Label();
             label15 = new System.Windows.Forms.Label();
-            OpenAIChatGPTPanel = new System.Windows.Forms.Panel();
-            WhisperSpeechRecognitionComboBox = new System.Windows.Forms.ComboBox();
-            label23 = new System.Windows.Forms.Label();
-            LLMMaxTokensHelpText = new System.Windows.Forms.Label();
-            LLMTempHelpText = new System.Windows.Forms.Label();
-            LLMMaxTokenLabel = new System.Windows.Forms.Label();
-            LLMTempLabel = new System.Windows.Forms.Label();
-            GPTMaxTokensTextBox = new System.Windows.Forms.TextBox();
-            GPTTemperatureTextBox = new System.Windows.Forms.TextBox();
-            GPTModelComboBox = new System.Windows.Forms.ComboBox();
-            label4 = new System.Windows.Forms.Label();
-            GPTTestButton = new System.Windows.Forms.Button();
-            GPTAPIKeyTextBox = new System.Windows.Forms.TextBox();
-            GPTAPIKeyLabel = new System.Windows.Forms.Label();
-            label7 = new System.Windows.Forms.Label();
             ElevenLabsPanel = new System.Windows.Forms.Panel();
             ElevenLabsTestButton = new System.Windows.Forms.Button();
             ElevenlabsAPIKeyTextBox = new System.Windows.Forms.TextBox();
@@ -123,15 +132,6 @@
             label22 = new System.Windows.Forms.Label();
             NativeSpeechRecognitionLanguageComboBox = new System.Windows.Forms.ComboBox();
             label21 = new System.Windows.Forms.Label();
-            AzurePanel = new System.Windows.Forms.Panel();
-            label2 = new System.Windows.Forms.Label();
-            AzureLanguageComboBox = new System.Windows.Forms.ComboBox();
-            TestAzureAPISettings = new System.Windows.Forms.Button();
-            label17 = new System.Windows.Forms.Label();
-            AzureRegionTextBox = new System.Windows.Forms.TextBox();
-            label18 = new System.Windows.Forms.Label();
-            AzureAPIKeyTextBox = new System.Windows.Forms.TextBox();
-            label3 = new System.Windows.Forms.Label();
             MicrophonePanel = new System.Windows.Forms.Panel();
             PTTKeyLabel = new System.Windows.Forms.Label();
             MicrophoneHotkeyEditbox = new System.Windows.Forms.TextBox();
@@ -148,17 +148,17 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            AzurePanel.SuspendLayout();
+            OpenAIChatGPTPanel.SuspendLayout();
+            PersonasPanel.SuspendLayout();
             TwitchPanel.SuspendLayout();
             groupBox1.SuspendLayout();
             EventSubGroupbox.SuspendLayout();
             TwitchAPITestGroupBox.SuspendLayout();
-            PersonasPanel.SuspendLayout();
             OBSPanel.SuspendLayout();
             OllamaPanel.SuspendLayout();
-            OpenAIChatGPTPanel.SuspendLayout();
             ElevenLabsPanel.SuspendLayout();
             NativeSpeechPanel.SuspendLayout();
-            AzurePanel.SuspendLayout();
             MicrophonePanel.SuspendLayout();
             SpeakerPanel.SuspendLayout();
             SuspendLayout();
@@ -175,14 +175,14 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(ElevenLabsPanel);
+            splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
+            splitContainer1.Panel2.Controls.Add(AzurePanel);
             splitContainer1.Panel2.Controls.Add(PersonasPanel);
             splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(OBSPanel);
             splitContainer1.Panel2.Controls.Add(OllamaPanel);
-            splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
-            splitContainer1.Panel2.Controls.Add(ElevenLabsPanel);
             splitContainer1.Panel2.Controls.Add(NativeSpeechPanel);
-            splitContainer1.Panel2.Controls.Add(AzurePanel);
             splitContainer1.Panel2.Controls.Add(MicrophonePanel);
             splitContainer1.Panel2.Controls.Add(SpeakerPanel);
             splitContainer1.Size = new System.Drawing.Size(800, 450);
@@ -225,215 +225,270 @@
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += TreeView1_AfterSelect;
             // 
-            // TwitchPanel
+            // AzurePanel
             // 
-            TwitchPanel.Controls.Add(groupBox1);
-            TwitchPanel.Controls.Add(label5);
-            TwitchPanel.Controls.Add(TwitchUsername);
-            TwitchPanel.Controls.Add(EventSubGroupbox);
-            TwitchPanel.Controls.Add(TwitchAPITestGroupBox);
-            TwitchPanel.Controls.Add(TwitchAuthorizeButton);
-            TwitchPanel.Controls.Add(TwitchChannel);
-            TwitchPanel.Controls.Add(TwitchAccessToken);
-            TwitchPanel.Controls.Add(TwitchChannelNameLabel);
-            TwitchPanel.Controls.Add(TwitchAccesstokenLabel);
-            TwitchPanel.Controls.Add(label9);
-            TwitchPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            TwitchPanel.Location = new System.Drawing.Point(0, 0);
-            TwitchPanel.Name = "TwitchPanel";
-            TwitchPanel.Size = new System.Drawing.Size(593, 450);
-            TwitchPanel.TabIndex = 5;
-            TwitchPanel.VisibleChanged += TwitchPanel_VisibleChanged;
+            AzurePanel.Controls.Add(label2);
+            AzurePanel.Controls.Add(AzureLanguageComboBox);
+            AzurePanel.Controls.Add(TestAzureAPISettings);
+            AzurePanel.Controls.Add(label17);
+            AzurePanel.Controls.Add(AzureRegionTextBox);
+            AzurePanel.Controls.Add(label18);
+            AzurePanel.Controls.Add(AzureAPIKeyTextBox);
+            AzurePanel.Controls.Add(label3);
+            AzurePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            AzurePanel.Location = new System.Drawing.Point(0, 0);
+            AzurePanel.Name = "AzurePanel";
+            AzurePanel.Size = new System.Drawing.Size(593, 450);
+            AzurePanel.TabIndex = 1;
+            AzurePanel.Validating += AzurePanel_Validating;
             // 
-            // groupBox1
+            // label2
             // 
-            groupBox1.Controls.Add(TwitchAuthServerConfig);
-            groupBox1.Controls.Add(label24);
-            groupBox1.Location = new System.Drawing.Point(52, 187);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(344, 69);
-            groupBox1.TabIndex = 35;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Webserver Config";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(13, 105);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(59, 15);
+            label2.TabIndex = 24;
+            label2.Text = "Language";
             // 
-            // TwitchAuthServerConfig
+            // AzureLanguageComboBox
             // 
-            TwitchAuthServerConfig.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            TwitchAuthServerConfig.FormattingEnabled = true;
-            TwitchAuthServerConfig.Items.AddRange(new object[] { "http://localhost:8080", "http://localhost:9080", "http://localhost:8888", "http://localhost:9088", "http://localhost:2384" });
-            TwitchAuthServerConfig.Location = new System.Drawing.Point(150, 22);
-            TwitchAuthServerConfig.Name = "TwitchAuthServerConfig";
-            TwitchAuthServerConfig.Size = new System.Drawing.Size(177, 23);
-            TwitchAuthServerConfig.TabIndex = 3;
+            AzureLanguageComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            AzureLanguageComboBox.FormattingEnabled = true;
+            AzureLanguageComboBox.Items.AddRange(new object[] { "da-DK", "de-AT", "de-CH", "de-DE", "en-GB", "en-US", "es-ES", "fr-BE", "fr-CA", "fr-FR", "ga-IE", "it-IT", "ja-JP", "nl-BE", "nl-NL", "pl-PL", "pt-PT", "sv-SE" });
+            AzureLanguageComboBox.Location = new System.Drawing.Point(107, 99);
+            AzureLanguageComboBox.Name = "AzureLanguageComboBox";
+            AzureLanguageComboBox.Size = new System.Drawing.Size(202, 23);
+            AzureLanguageComboBox.TabIndex = 23;
             // 
-            // label24
+            // TestAzureAPISettings
             // 
-            label24.AutoSize = true;
-            label24.Location = new System.Drawing.Point(11, 25);
-            label24.Name = "label24";
-            label24.Size = new System.Drawing.Size(128, 15);
-            label24.TabIndex = 2;
-            label24.Text = "Twitch Auth Webserver";
+            TestAzureAPISettings.Location = new System.Drawing.Point(327, 32);
+            TestAzureAPISettings.Name = "TestAzureAPISettings";
+            TestAzureAPISettings.Size = new System.Drawing.Size(75, 23);
+            TestAzureAPISettings.TabIndex = 22;
+            TestAzureAPISettings.Text = "Test";
+            TestAzureAPISettings.UseVisualStyleBackColor = true;
+            TestAzureAPISettings.Click += TestAzureAPISettings_Click;
             // 
-            // label5
+            // label17
             // 
-            label5.AutoSize = true;
-            label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label5.Location = new System.Drawing.Point(48, 55);
-            label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(60, 15);
-            label5.TabIndex = 34;
-            label5.Text = "Username";
+            label17.AutoSize = true;
+            label17.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label17.Location = new System.Drawing.Point(11, 63);
+            label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label17.Name = "label17";
+            label17.Size = new System.Drawing.Size(44, 15);
+            label17.TabIndex = 18;
+            label17.Text = "Region";
             // 
-            // TwitchUsername
+            // AzureRegionTextBox
             // 
-            TwitchUsername.Location = new System.Drawing.Point(144, 52);
-            TwitchUsername.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TwitchUsername.Name = "TwitchUsername";
-            TwitchUsername.Size = new System.Drawing.Size(190, 23);
-            TwitchUsername.TabIndex = 33;
+            AzureRegionTextBox.Location = new System.Drawing.Point(107, 63);
+            AzureRegionTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            AzureRegionTextBox.Name = "AzureRegionTextBox";
+            AzureRegionTextBox.Size = new System.Drawing.Size(202, 23);
+            AzureRegionTextBox.TabIndex = 19;
             // 
-            // EventSubGroupbox
+            // label18
             // 
-            EventSubGroupbox.Controls.Add(TwitchMockEventSub);
-            EventSubGroupbox.Controls.Add(TwitchEventSubTestButton);
-            EventSubGroupbox.Location = new System.Drawing.Point(52, 383);
-            EventSubGroupbox.Name = "EventSubGroupbox";
-            EventSubGroupbox.Size = new System.Drawing.Size(344, 56);
-            EventSubGroupbox.TabIndex = 32;
-            EventSubGroupbox.TabStop = false;
-            EventSubGroupbox.Text = "EventSub Test";
+            label18.AutoSize = true;
+            label18.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label18.Location = new System.Drawing.Point(12, 33);
+            label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label18.Name = "label18";
+            label18.Size = new System.Drawing.Size(47, 15);
+            label18.TabIndex = 20;
+            label18.Text = "API Key";
             // 
-            // TwitchMockEventSub
+            // AzureAPIKeyTextBox
             // 
-            TwitchMockEventSub.AutoSize = true;
-            TwitchMockEventSub.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TwitchMockEventSub.Location = new System.Drawing.Point(213, 22);
-            TwitchMockEventSub.Name = "TwitchMockEventSub";
-            TwitchMockEventSub.Size = new System.Drawing.Size(113, 19);
-            TwitchMockEventSub.TabIndex = 2;
-            TwitchMockEventSub.Text = "MOCK EventSub";
-            TwitchMockEventSub.UseVisualStyleBackColor = true;
+            AzureAPIKeyTextBox.Location = new System.Drawing.Point(107, 33);
+            AzureAPIKeyTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            AzureAPIKeyTextBox.Name = "AzureAPIKeyTextBox";
+            AzureAPIKeyTextBox.PasswordChar = '*';
+            AzureAPIKeyTextBox.Size = new System.Drawing.Size(202, 23);
+            AzureAPIKeyTextBox.TabIndex = 21;
             // 
-            // TwitchEventSubTestButton
+            // label3
             // 
-            TwitchEventSubTestButton.Enabled = false;
-            TwitchEventSubTestButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TwitchEventSubTestButton.Location = new System.Drawing.Point(6, 22);
-            TwitchEventSubTestButton.Name = "TwitchEventSubTestButton";
-            TwitchEventSubTestButton.Size = new System.Drawing.Size(87, 23);
-            TwitchEventSubTestButton.TabIndex = 1;
-            TwitchEventSubTestButton.Text = "Test";
-            TwitchEventSubTestButton.UseVisualStyleBackColor = true;
-            TwitchEventSubTestButton.Click += EventSubTest_Click;
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(211, 9);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(102, 15);
+            label3.TabIndex = 0;
+            label3.Text = "Azure API settings";
             // 
-            // TwitchAPITestGroupBox
+            // OpenAIChatGPTPanel
             // 
-            TwitchAPITestGroupBox.Controls.Add(TwitchTestSendText);
-            TwitchAPITestGroupBox.Controls.Add(TwitchSendTextCheckBox);
-            TwitchAPITestGroupBox.Controls.Add(TwitchAPITestButton);
-            TwitchAPITestGroupBox.Location = new System.Drawing.Point(52, 280);
-            TwitchAPITestGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TwitchAPITestGroupBox.Name = "TwitchAPITestGroupBox";
-            TwitchAPITestGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TwitchAPITestGroupBox.Size = new System.Drawing.Size(344, 92);
-            TwitchAPITestGroupBox.TabIndex = 31;
-            TwitchAPITestGroupBox.TabStop = false;
-            TwitchAPITestGroupBox.Text = "API Test";
+            OpenAIChatGPTPanel.Controls.Add(WhisperSpeechRecognitionComboBox);
+            OpenAIChatGPTPanel.Controls.Add(label23);
+            OpenAIChatGPTPanel.Controls.Add(LLMMaxTokensHelpText);
+            OpenAIChatGPTPanel.Controls.Add(LLMTempHelpText);
+            OpenAIChatGPTPanel.Controls.Add(LLMMaxTokenLabel);
+            OpenAIChatGPTPanel.Controls.Add(LLMTempLabel);
+            OpenAIChatGPTPanel.Controls.Add(GPTMaxTokensTextBox);
+            OpenAIChatGPTPanel.Controls.Add(GPTTemperatureTextBox);
+            OpenAIChatGPTPanel.Controls.Add(GPTModelComboBox);
+            OpenAIChatGPTPanel.Controls.Add(label4);
+            OpenAIChatGPTPanel.Controls.Add(GPTTestButton);
+            OpenAIChatGPTPanel.Controls.Add(GPTAPIKeyTextBox);
+            OpenAIChatGPTPanel.Controls.Add(GPTAPIKeyLabel);
+            OpenAIChatGPTPanel.Controls.Add(label7);
+            OpenAIChatGPTPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            OpenAIChatGPTPanel.Location = new System.Drawing.Point(0, 0);
+            OpenAIChatGPTPanel.Name = "OpenAIChatGPTPanel";
+            OpenAIChatGPTPanel.Size = new System.Drawing.Size(593, 450);
+            OpenAIChatGPTPanel.TabIndex = 3;
+            OpenAIChatGPTPanel.Validating += OpenAIChatGPTPanel_Validating;
             // 
-            // TwitchTestSendText
+            // WhisperSpeechRecognitionComboBox
             // 
-            TwitchTestSendText.Location = new System.Drawing.Point(18, 58);
-            TwitchTestSendText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TwitchTestSendText.Name = "TwitchTestSendText";
-            TwitchTestSendText.Size = new System.Drawing.Size(307, 23);
-            TwitchTestSendText.TabIndex = 20;
-            TwitchTestSendText.Text = "Hello! I am BanterBrain Buddy https://banterbrain.tv";
+            WhisperSpeechRecognitionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            WhisperSpeechRecognitionComboBox.FormattingEnabled = true;
+            WhisperSpeechRecognitionComboBox.Items.AddRange(new object[] { "Dutch", "Danish", "English", "French", "German", "Italian", "Japanese", "Norwegian", "Polish", "Swedish" });
+            WhisperSpeechRecognitionComboBox.Location = new System.Drawing.Point(224, 180);
+            WhisperSpeechRecognitionComboBox.Name = "WhisperSpeechRecognitionComboBox";
+            WhisperSpeechRecognitionComboBox.Size = new System.Drawing.Size(183, 23);
+            WhisperSpeechRecognitionComboBox.TabIndex = 41;
             // 
-            // TwitchSendTextCheckBox
+            // label23
             // 
-            TwitchSendTextCheckBox.AutoSize = true;
-            TwitchSendTextCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TwitchSendTextCheckBox.Location = new System.Drawing.Point(7, 20);
-            TwitchSendTextCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TwitchSendTextCheckBox.Name = "TwitchSendTextCheckBox";
-            TwitchSendTextCheckBox.Size = new System.Drawing.Size(186, 19);
-            TwitchSendTextCheckBox.TabIndex = 19;
-            TwitchSendTextCheckBox.Text = "Send Message on join channel";
-            TwitchSendTextCheckBox.UseVisualStyleBackColor = true;
+            label23.AutoSize = true;
+            label23.Location = new System.Drawing.Point(37, 183);
+            label23.Name = "label23";
+            label23.Size = new System.Drawing.Size(161, 15);
+            label23.TabIndex = 40;
+            label23.Text = "Speech recognition language";
             // 
-            // TwitchAPITestButton
+            // LLMMaxTokensHelpText
             // 
-            TwitchAPITestButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TwitchAPITestButton.Location = new System.Drawing.Point(238, 15);
-            TwitchAPITestButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TwitchAPITestButton.Name = "TwitchAPITestButton";
-            TwitchAPITestButton.Size = new System.Drawing.Size(88, 27);
-            TwitchAPITestButton.TabIndex = 18;
-            TwitchAPITestButton.Text = "Test Credentials";
-            TwitchAPITestButton.UseVisualStyleBackColor = true;
-            TwitchAPITestButton.Click += TwitchTestButton_Click;
+            LLMMaxTokensHelpText.AutoSize = true;
+            LLMMaxTokensHelpText.BackColor = System.Drawing.Color.Gold;
+            LLMMaxTokensHelpText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LLMMaxTokensHelpText.Location = new System.Drawing.Point(387, 116);
+            LLMMaxTokensHelpText.Name = "LLMMaxTokensHelpText";
+            LLMMaxTokensHelpText.Size = new System.Drawing.Size(20, 15);
+            LLMMaxTokensHelpText.TabIndex = 38;
+            LLMMaxTokensHelpText.Text = "[?]";
+            BBBToolTip.SetToolTip(LLMMaxTokensHelpText, "Default: 100. Max: 4096. Tokens are aproximately the amount of words. More tokens means longer words, but might also cost more");
             // 
-            // TwitchAuthorizeButton
+            // LLMTempHelpText
             // 
-            TwitchAuthorizeButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TwitchAuthorizeButton.Location = new System.Drawing.Point(52, 145);
-            TwitchAuthorizeButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TwitchAuthorizeButton.Name = "TwitchAuthorizeButton";
-            TwitchAuthorizeButton.Size = new System.Drawing.Size(122, 27);
-            TwitchAuthorizeButton.TabIndex = 30;
-            TwitchAuthorizeButton.Text = "Authorize to Twitch";
-            TwitchAuthorizeButton.UseVisualStyleBackColor = true;
-            TwitchAuthorizeButton.Click += TwitchAuthorizeButton_Click;
+            LLMTempHelpText.AutoSize = true;
+            LLMTempHelpText.BackColor = System.Drawing.Color.Gold;
+            LLMTempHelpText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LLMTempHelpText.Location = new System.Drawing.Point(262, 118);
+            LLMTempHelpText.Name = "LLMTempHelpText";
+            LLMTempHelpText.Size = new System.Drawing.Size(20, 15);
+            LLMTempHelpText.TabIndex = 37;
+            LLMTempHelpText.Text = "[?]";
+            BBBToolTip.SetToolTip(LLMTempHelpText, "Default: 0. Suggested: 0,9. Max: 2. The higher the temperature the more likely the answer uses more diverse words, but also is more likely to make mistakes");
             // 
-            // TwitchChannel
+            // LLMMaxTokenLabel
             // 
-            TwitchChannel.Location = new System.Drawing.Point(144, 114);
-            TwitchChannel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TwitchChannel.Name = "TwitchChannel";
-            TwitchChannel.Size = new System.Drawing.Size(190, 23);
-            TwitchChannel.TabIndex = 29;
+            LLMMaxTokenLabel.AutoSize = true;
+            LLMMaxTokenLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LLMMaxTokenLabel.Location = new System.Drawing.Point(307, 116);
+            LLMMaxTokenLabel.Name = "LLMMaxTokenLabel";
+            LLMMaxTokenLabel.Size = new System.Drawing.Size(68, 15);
+            LLMMaxTokenLabel.TabIndex = 36;
+            LLMMaxTokenLabel.Text = "Max tokens";
             // 
-            // TwitchAccessToken
+            // LLMTempLabel
             // 
-            TwitchAccessToken.Location = new System.Drawing.Point(144, 84);
-            TwitchAccessToken.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TwitchAccessToken.Name = "TwitchAccessToken";
-            TwitchAccessToken.PasswordChar = '*';
-            TwitchAccessToken.Size = new System.Drawing.Size(190, 23);
-            TwitchAccessToken.TabIndex = 28;
+            LLMTempLabel.AutoSize = true;
+            LLMTempLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LLMTempLabel.Location = new System.Drawing.Point(183, 118);
+            LLMTempLabel.Name = "LLMTempLabel";
+            LLMTempLabel.Size = new System.Drawing.Size(73, 15);
+            LLMTempLabel.TabIndex = 35;
+            LLMTempLabel.Text = "Temperature";
             // 
-            // TwitchChannelNameLabel
+            // GPTMaxTokensTextBox
             // 
-            TwitchChannelNameLabel.AutoSize = true;
-            TwitchChannelNameLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TwitchChannelNameLabel.Location = new System.Drawing.Point(48, 122);
-            TwitchChannelNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            TwitchChannelNameLabel.Name = "TwitchChannelNameLabel";
-            TwitchChannelNameLabel.Size = new System.Drawing.Size(51, 15);
-            TwitchChannelNameLabel.TabIndex = 27;
-            TwitchChannelNameLabel.Text = "Channel";
+            GPTMaxTokensTextBox.Location = new System.Drawing.Point(307, 136);
+            GPTMaxTokensTextBox.Name = "GPTMaxTokensTextBox";
+            GPTMaxTokensTextBox.Size = new System.Drawing.Size(100, 23);
+            GPTMaxTokensTextBox.TabIndex = 34;
+            GPTMaxTokensTextBox.Text = "100";
+            GPTMaxTokensTextBox.KeyPress += GPTMaxTokensTextBox_KeyPress;
+            GPTMaxTokensTextBox.Validating += GPTMaxTokensTextBox_Validating;
             // 
-            // TwitchAccesstokenLabel
+            // GPTTemperatureTextBox
             // 
-            TwitchAccesstokenLabel.AutoSize = true;
-            TwitchAccesstokenLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TwitchAccesstokenLabel.Location = new System.Drawing.Point(48, 88);
-            TwitchAccesstokenLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            TwitchAccesstokenLabel.Name = "TwitchAccesstokenLabel";
-            TwitchAccesstokenLabel.Size = new System.Drawing.Size(77, 15);
-            TwitchAccesstokenLabel.TabIndex = 26;
-            TwitchAccesstokenLabel.Text = "Access Token";
+            GPTTemperatureTextBox.Location = new System.Drawing.Point(183, 136);
+            GPTTemperatureTextBox.Name = "GPTTemperatureTextBox";
+            GPTTemperatureTextBox.Size = new System.Drawing.Size(100, 23);
+            GPTTemperatureTextBox.TabIndex = 33;
+            GPTTemperatureTextBox.Text = "0";
+            BBBToolTip.SetToolTip(GPTTemperatureTextBox, "Default: 0. Maximum 2");
+            GPTTemperatureTextBox.KeyPress += GPTTemperatureTextBox_KeyPress;
+            GPTTemperatureTextBox.Validating += GPTTemperatureTextBox_Validating;
             // 
-            // label9
+            // GPTModelComboBox
             // 
-            label9.AutoSize = true;
-            label9.Location = new System.Drawing.Point(213, 9);
-            label9.Name = "label9";
-            label9.Size = new System.Drawing.Size(86, 15);
-            label9.TabIndex = 0;
-            label9.Text = "Twitch Settings";
+            GPTModelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            GPTModelComboBox.FormattingEnabled = true;
+            GPTModelComboBox.Items.AddRange(new object[] { "gpt-3.5-turbo" });
+            GPTModelComboBox.Location = new System.Drawing.Point(183, 82);
+            GPTModelComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GPTModelComboBox.Name = "GPTModelComboBox";
+            GPTModelComboBox.Size = new System.Drawing.Size(224, 23);
+            GPTModelComboBox.TabIndex = 32;
+            GPTModelComboBox.UseWaitCursor = true;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label4.Location = new System.Drawing.Point(37, 82);
+            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(65, 15);
+            label4.TabIndex = 31;
+            label4.Text = "GPT Model";
+            // 
+            // GPTTestButton
+            // 
+            GPTTestButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            GPTTestButton.Location = new System.Drawing.Point(437, 47);
+            GPTTestButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GPTTestButton.Name = "GPTTestButton";
+            GPTTestButton.Size = new System.Drawing.Size(88, 27);
+            GPTTestButton.TabIndex = 29;
+            GPTTestButton.Text = "Test";
+            GPTTestButton.UseVisualStyleBackColor = true;
+            GPTTestButton.Click += GPTTestButton_Click;
+            // 
+            // GPTAPIKeyTextBox
+            // 
+            GPTAPIKeyTextBox.Location = new System.Drawing.Point(183, 47);
+            GPTAPIKeyTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GPTAPIKeyTextBox.Name = "GPTAPIKeyTextBox";
+            GPTAPIKeyTextBox.PasswordChar = '*';
+            GPTAPIKeyTextBox.Size = new System.Drawing.Size(224, 23);
+            GPTAPIKeyTextBox.TabIndex = 28;
+            // 
+            // GPTAPIKeyLabel
+            // 
+            GPTAPIKeyLabel.AutoSize = true;
+            GPTAPIKeyLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            GPTAPIKeyLabel.Location = new System.Drawing.Point(37, 51);
+            GPTAPIKeyLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
+            GPTAPIKeyLabel.Size = new System.Drawing.Size(47, 15);
+            GPTAPIKeyLabel.TabIndex = 27;
+            GPTAPIKeyLabel.Text = "API Key";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(213, 9);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(47, 15);
+            label7.TabIndex = 0;
+            label7.Text = "OpenAI";
             // 
             // PersonasPanel
             // 
@@ -669,6 +724,216 @@
             label10.TabIndex = 0;
             label10.Text = "Personas";
             // 
+            // TwitchPanel
+            // 
+            TwitchPanel.Controls.Add(groupBox1);
+            TwitchPanel.Controls.Add(label5);
+            TwitchPanel.Controls.Add(TwitchUsername);
+            TwitchPanel.Controls.Add(EventSubGroupbox);
+            TwitchPanel.Controls.Add(TwitchAPITestGroupBox);
+            TwitchPanel.Controls.Add(TwitchAuthorizeButton);
+            TwitchPanel.Controls.Add(TwitchChannel);
+            TwitchPanel.Controls.Add(TwitchAccessToken);
+            TwitchPanel.Controls.Add(TwitchChannelNameLabel);
+            TwitchPanel.Controls.Add(TwitchAccesstokenLabel);
+            TwitchPanel.Controls.Add(label9);
+            TwitchPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            TwitchPanel.Location = new System.Drawing.Point(0, 0);
+            TwitchPanel.Name = "TwitchPanel";
+            TwitchPanel.Size = new System.Drawing.Size(593, 450);
+            TwitchPanel.TabIndex = 5;
+            TwitchPanel.VisibleChanged += TwitchPanel_VisibleChanged;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(TwitchAuthServerConfig);
+            groupBox1.Controls.Add(label24);
+            groupBox1.Location = new System.Drawing.Point(52, 187);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new System.Drawing.Size(344, 69);
+            groupBox1.TabIndex = 35;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Webserver Config";
+            // 
+            // TwitchAuthServerConfig
+            // 
+            TwitchAuthServerConfig.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            TwitchAuthServerConfig.FormattingEnabled = true;
+            TwitchAuthServerConfig.Items.AddRange(new object[] { "http://localhost:8080", "http://localhost:9080", "http://localhost:8888", "http://localhost:9088", "http://localhost:2384" });
+            TwitchAuthServerConfig.Location = new System.Drawing.Point(150, 22);
+            TwitchAuthServerConfig.Name = "TwitchAuthServerConfig";
+            TwitchAuthServerConfig.Size = new System.Drawing.Size(177, 23);
+            TwitchAuthServerConfig.TabIndex = 3;
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new System.Drawing.Point(11, 25);
+            label24.Name = "label24";
+            label24.Size = new System.Drawing.Size(128, 15);
+            label24.TabIndex = 2;
+            label24.Text = "Twitch Auth Webserver";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label5.Location = new System.Drawing.Point(48, 55);
+            label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(60, 15);
+            label5.TabIndex = 34;
+            label5.Text = "Username";
+            // 
+            // TwitchUsername
+            // 
+            TwitchUsername.Location = new System.Drawing.Point(144, 52);
+            TwitchUsername.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TwitchUsername.Name = "TwitchUsername";
+            TwitchUsername.Size = new System.Drawing.Size(190, 23);
+            TwitchUsername.TabIndex = 33;
+            // 
+            // EventSubGroupbox
+            // 
+            EventSubGroupbox.Controls.Add(TwitchMockEventSub);
+            EventSubGroupbox.Controls.Add(TwitchEventSubTestButton);
+            EventSubGroupbox.Location = new System.Drawing.Point(52, 383);
+            EventSubGroupbox.Name = "EventSubGroupbox";
+            EventSubGroupbox.Size = new System.Drawing.Size(344, 56);
+            EventSubGroupbox.TabIndex = 32;
+            EventSubGroupbox.TabStop = false;
+            EventSubGroupbox.Text = "EventSub Test";
+            // 
+            // TwitchMockEventSub
+            // 
+            TwitchMockEventSub.AutoSize = true;
+            TwitchMockEventSub.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TwitchMockEventSub.Location = new System.Drawing.Point(213, 22);
+            TwitchMockEventSub.Name = "TwitchMockEventSub";
+            TwitchMockEventSub.Size = new System.Drawing.Size(113, 19);
+            TwitchMockEventSub.TabIndex = 2;
+            TwitchMockEventSub.Text = "MOCK EventSub";
+            TwitchMockEventSub.UseVisualStyleBackColor = true;
+            // 
+            // TwitchEventSubTestButton
+            // 
+            TwitchEventSubTestButton.Enabled = false;
+            TwitchEventSubTestButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TwitchEventSubTestButton.Location = new System.Drawing.Point(6, 22);
+            TwitchEventSubTestButton.Name = "TwitchEventSubTestButton";
+            TwitchEventSubTestButton.Size = new System.Drawing.Size(87, 23);
+            TwitchEventSubTestButton.TabIndex = 1;
+            TwitchEventSubTestButton.Text = "Test";
+            TwitchEventSubTestButton.UseVisualStyleBackColor = true;
+            TwitchEventSubTestButton.Click += EventSubTest_Click;
+            // 
+            // TwitchAPITestGroupBox
+            // 
+            TwitchAPITestGroupBox.Controls.Add(TwitchTestSendText);
+            TwitchAPITestGroupBox.Controls.Add(TwitchSendTextCheckBox);
+            TwitchAPITestGroupBox.Controls.Add(TwitchAPITestButton);
+            TwitchAPITestGroupBox.Location = new System.Drawing.Point(52, 280);
+            TwitchAPITestGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TwitchAPITestGroupBox.Name = "TwitchAPITestGroupBox";
+            TwitchAPITestGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TwitchAPITestGroupBox.Size = new System.Drawing.Size(344, 92);
+            TwitchAPITestGroupBox.TabIndex = 31;
+            TwitchAPITestGroupBox.TabStop = false;
+            TwitchAPITestGroupBox.Text = "API Test";
+            // 
+            // TwitchTestSendText
+            // 
+            TwitchTestSendText.Location = new System.Drawing.Point(18, 58);
+            TwitchTestSendText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TwitchTestSendText.Name = "TwitchTestSendText";
+            TwitchTestSendText.Size = new System.Drawing.Size(307, 23);
+            TwitchTestSendText.TabIndex = 20;
+            TwitchTestSendText.Text = "Hello! I am BanterBrain Buddy https://banterbrain.tv";
+            // 
+            // TwitchSendTextCheckBox
+            // 
+            TwitchSendTextCheckBox.AutoSize = true;
+            TwitchSendTextCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TwitchSendTextCheckBox.Location = new System.Drawing.Point(7, 20);
+            TwitchSendTextCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TwitchSendTextCheckBox.Name = "TwitchSendTextCheckBox";
+            TwitchSendTextCheckBox.Size = new System.Drawing.Size(186, 19);
+            TwitchSendTextCheckBox.TabIndex = 19;
+            TwitchSendTextCheckBox.Text = "Send Message on join channel";
+            TwitchSendTextCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TwitchAPITestButton
+            // 
+            TwitchAPITestButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TwitchAPITestButton.Location = new System.Drawing.Point(238, 15);
+            TwitchAPITestButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TwitchAPITestButton.Name = "TwitchAPITestButton";
+            TwitchAPITestButton.Size = new System.Drawing.Size(88, 27);
+            TwitchAPITestButton.TabIndex = 18;
+            TwitchAPITestButton.Text = "Test Credentials";
+            TwitchAPITestButton.UseVisualStyleBackColor = true;
+            TwitchAPITestButton.Click += TwitchTestButton_Click;
+            // 
+            // TwitchAuthorizeButton
+            // 
+            TwitchAuthorizeButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TwitchAuthorizeButton.Location = new System.Drawing.Point(52, 145);
+            TwitchAuthorizeButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TwitchAuthorizeButton.Name = "TwitchAuthorizeButton";
+            TwitchAuthorizeButton.Size = new System.Drawing.Size(122, 27);
+            TwitchAuthorizeButton.TabIndex = 30;
+            TwitchAuthorizeButton.Text = "Authorize to Twitch";
+            TwitchAuthorizeButton.UseVisualStyleBackColor = true;
+            TwitchAuthorizeButton.Click += TwitchAuthorizeButton_Click;
+            // 
+            // TwitchChannel
+            // 
+            TwitchChannel.Location = new System.Drawing.Point(144, 114);
+            TwitchChannel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TwitchChannel.Name = "TwitchChannel";
+            TwitchChannel.Size = new System.Drawing.Size(190, 23);
+            TwitchChannel.TabIndex = 29;
+            // 
+            // TwitchAccessToken
+            // 
+            TwitchAccessToken.Location = new System.Drawing.Point(144, 84);
+            TwitchAccessToken.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TwitchAccessToken.Name = "TwitchAccessToken";
+            TwitchAccessToken.PasswordChar = '*';
+            TwitchAccessToken.Size = new System.Drawing.Size(190, 23);
+            TwitchAccessToken.TabIndex = 28;
+            // 
+            // TwitchChannelNameLabel
+            // 
+            TwitchChannelNameLabel.AutoSize = true;
+            TwitchChannelNameLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TwitchChannelNameLabel.Location = new System.Drawing.Point(48, 122);
+            TwitchChannelNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            TwitchChannelNameLabel.Name = "TwitchChannelNameLabel";
+            TwitchChannelNameLabel.Size = new System.Drawing.Size(51, 15);
+            TwitchChannelNameLabel.TabIndex = 27;
+            TwitchChannelNameLabel.Text = "Channel";
+            // 
+            // TwitchAccesstokenLabel
+            // 
+            TwitchAccesstokenLabel.AutoSize = true;
+            TwitchAccesstokenLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TwitchAccesstokenLabel.Location = new System.Drawing.Point(48, 88);
+            TwitchAccesstokenLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            TwitchAccesstokenLabel.Name = "TwitchAccesstokenLabel";
+            TwitchAccesstokenLabel.Size = new System.Drawing.Size(77, 15);
+            TwitchAccesstokenLabel.TabIndex = 26;
+            TwitchAccesstokenLabel.Text = "Access Token";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new System.Drawing.Point(213, 9);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(86, 15);
+            label9.TabIndex = 0;
+            label9.Text = "Twitch Settings";
+            // 
             // OBSPanel
             // 
             OBSPanel.Controls.Add(WebsourceServerEnable);
@@ -843,176 +1108,6 @@
             label15.TabIndex = 0;
             label15.Text = "Ollama";
             // 
-            // OpenAIChatGPTPanel
-            // 
-            OpenAIChatGPTPanel.Controls.Add(WhisperSpeechRecognitionComboBox);
-            OpenAIChatGPTPanel.Controls.Add(label23);
-            OpenAIChatGPTPanel.Controls.Add(LLMMaxTokensHelpText);
-            OpenAIChatGPTPanel.Controls.Add(LLMTempHelpText);
-            OpenAIChatGPTPanel.Controls.Add(LLMMaxTokenLabel);
-            OpenAIChatGPTPanel.Controls.Add(LLMTempLabel);
-            OpenAIChatGPTPanel.Controls.Add(GPTMaxTokensTextBox);
-            OpenAIChatGPTPanel.Controls.Add(GPTTemperatureTextBox);
-            OpenAIChatGPTPanel.Controls.Add(GPTModelComboBox);
-            OpenAIChatGPTPanel.Controls.Add(label4);
-            OpenAIChatGPTPanel.Controls.Add(GPTTestButton);
-            OpenAIChatGPTPanel.Controls.Add(GPTAPIKeyTextBox);
-            OpenAIChatGPTPanel.Controls.Add(GPTAPIKeyLabel);
-            OpenAIChatGPTPanel.Controls.Add(label7);
-            OpenAIChatGPTPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            OpenAIChatGPTPanel.Location = new System.Drawing.Point(0, 0);
-            OpenAIChatGPTPanel.Name = "OpenAIChatGPTPanel";
-            OpenAIChatGPTPanel.Size = new System.Drawing.Size(593, 450);
-            OpenAIChatGPTPanel.TabIndex = 3;
-            // 
-            // WhisperSpeechRecognitionComboBox
-            // 
-            WhisperSpeechRecognitionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            WhisperSpeechRecognitionComboBox.FormattingEnabled = true;
-            WhisperSpeechRecognitionComboBox.Items.AddRange(new object[] { "Dutch", "Danish", "English", "French", "German", "Italian", "Japanese", "Norwegian", "Polish", "Swedish" });
-            WhisperSpeechRecognitionComboBox.Location = new System.Drawing.Point(224, 180);
-            WhisperSpeechRecognitionComboBox.Name = "WhisperSpeechRecognitionComboBox";
-            WhisperSpeechRecognitionComboBox.Size = new System.Drawing.Size(183, 23);
-            WhisperSpeechRecognitionComboBox.TabIndex = 41;
-            // 
-            // label23
-            // 
-            label23.AutoSize = true;
-            label23.Location = new System.Drawing.Point(37, 183);
-            label23.Name = "label23";
-            label23.Size = new System.Drawing.Size(161, 15);
-            label23.TabIndex = 40;
-            label23.Text = "Speech recognition language";
-            // 
-            // LLMMaxTokensHelpText
-            // 
-            LLMMaxTokensHelpText.AutoSize = true;
-            LLMMaxTokensHelpText.BackColor = System.Drawing.Color.Gold;
-            LLMMaxTokensHelpText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LLMMaxTokensHelpText.Location = new System.Drawing.Point(387, 116);
-            LLMMaxTokensHelpText.Name = "LLMMaxTokensHelpText";
-            LLMMaxTokensHelpText.Size = new System.Drawing.Size(20, 15);
-            LLMMaxTokensHelpText.TabIndex = 38;
-            LLMMaxTokensHelpText.Text = "[?]";
-            BBBToolTip.SetToolTip(LLMMaxTokensHelpText, "Default: 100. Max: 4096. Tokens are aproximately the amount of words. More tokens means longer words, but might also cost more");
-            // 
-            // LLMTempHelpText
-            // 
-            LLMTempHelpText.AutoSize = true;
-            LLMTempHelpText.BackColor = System.Drawing.Color.Gold;
-            LLMTempHelpText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LLMTempHelpText.Location = new System.Drawing.Point(262, 118);
-            LLMTempHelpText.Name = "LLMTempHelpText";
-            LLMTempHelpText.Size = new System.Drawing.Size(20, 15);
-            LLMTempHelpText.TabIndex = 37;
-            LLMTempHelpText.Text = "[?]";
-            BBBToolTip.SetToolTip(LLMTempHelpText, "Default: 0. Suggested: 0,9. Max: 2. The higher the temperature the more likely the answer uses more diverse words, but also is more likely to make mistakes");
-            // 
-            // LLMMaxTokenLabel
-            // 
-            LLMMaxTokenLabel.AutoSize = true;
-            LLMMaxTokenLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LLMMaxTokenLabel.Location = new System.Drawing.Point(307, 116);
-            LLMMaxTokenLabel.Name = "LLMMaxTokenLabel";
-            LLMMaxTokenLabel.Size = new System.Drawing.Size(68, 15);
-            LLMMaxTokenLabel.TabIndex = 36;
-            LLMMaxTokenLabel.Text = "Max tokens";
-            // 
-            // LLMTempLabel
-            // 
-            LLMTempLabel.AutoSize = true;
-            LLMTempLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LLMTempLabel.Location = new System.Drawing.Point(183, 118);
-            LLMTempLabel.Name = "LLMTempLabel";
-            LLMTempLabel.Size = new System.Drawing.Size(73, 15);
-            LLMTempLabel.TabIndex = 35;
-            LLMTempLabel.Text = "Temperature";
-            // 
-            // GPTMaxTokensTextBox
-            // 
-            GPTMaxTokensTextBox.Location = new System.Drawing.Point(307, 136);
-            GPTMaxTokensTextBox.Name = "GPTMaxTokensTextBox";
-            GPTMaxTokensTextBox.Size = new System.Drawing.Size(100, 23);
-            GPTMaxTokensTextBox.TabIndex = 34;
-            GPTMaxTokensTextBox.Text = "100";
-            GPTMaxTokensTextBox.KeyPress += GPTMaxTokensTextBox_KeyPress;
-            GPTMaxTokensTextBox.Validating += GPTMaxTokensTextBox_Validating;
-            // 
-            // GPTTemperatureTextBox
-            // 
-            GPTTemperatureTextBox.Location = new System.Drawing.Point(183, 136);
-            GPTTemperatureTextBox.Name = "GPTTemperatureTextBox";
-            GPTTemperatureTextBox.Size = new System.Drawing.Size(100, 23);
-            GPTTemperatureTextBox.TabIndex = 33;
-            GPTTemperatureTextBox.Text = "0";
-            BBBToolTip.SetToolTip(GPTTemperatureTextBox, "Default: 0. Maximum 2");
-            GPTTemperatureTextBox.KeyPress += GPTTemperatureTextBox_KeyPress;
-            GPTTemperatureTextBox.Validating += GPTTemperatureTextBox_Validating;
-            // 
-            // GPTModelComboBox
-            // 
-            GPTModelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            GPTModelComboBox.FormattingEnabled = true;
-            GPTModelComboBox.Items.AddRange(new object[] { "gpt-3.5-turbo" });
-            GPTModelComboBox.Location = new System.Drawing.Point(183, 82);
-            GPTModelComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GPTModelComboBox.Name = "GPTModelComboBox";
-            GPTModelComboBox.Size = new System.Drawing.Size(224, 23);
-            GPTModelComboBox.TabIndex = 32;
-            GPTModelComboBox.UseWaitCursor = true;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label4.Location = new System.Drawing.Point(37, 82);
-            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(65, 15);
-            label4.TabIndex = 31;
-            label4.Text = "GPT Model";
-            // 
-            // GPTTestButton
-            // 
-            GPTTestButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            GPTTestButton.Location = new System.Drawing.Point(437, 47);
-            GPTTestButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GPTTestButton.Name = "GPTTestButton";
-            GPTTestButton.Size = new System.Drawing.Size(88, 27);
-            GPTTestButton.TabIndex = 29;
-            GPTTestButton.Text = "Test";
-            GPTTestButton.UseVisualStyleBackColor = true;
-            GPTTestButton.Click += GPTTestButton_Click;
-            // 
-            // GPTAPIKeyTextBox
-            // 
-            GPTAPIKeyTextBox.Location = new System.Drawing.Point(183, 47);
-            GPTAPIKeyTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GPTAPIKeyTextBox.Name = "GPTAPIKeyTextBox";
-            GPTAPIKeyTextBox.PasswordChar = '*';
-            GPTAPIKeyTextBox.Size = new System.Drawing.Size(224, 23);
-            GPTAPIKeyTextBox.TabIndex = 28;
-            // 
-            // GPTAPIKeyLabel
-            // 
-            GPTAPIKeyLabel.AutoSize = true;
-            GPTAPIKeyLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            GPTAPIKeyLabel.Location = new System.Drawing.Point(37, 51);
-            GPTAPIKeyLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            GPTAPIKeyLabel.Name = "GPTAPIKeyLabel";
-            GPTAPIKeyLabel.Size = new System.Drawing.Size(47, 15);
-            GPTAPIKeyLabel.TabIndex = 27;
-            GPTAPIKeyLabel.Text = "API Key";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(213, 9);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(47, 15);
-            label7.TabIndex = 0;
-            label7.Text = "OpenAI";
-            // 
             // ElevenLabsPanel
             // 
             ElevenLabsPanel.Controls.Add(ElevenLabsTestButton);
@@ -1024,6 +1119,7 @@
             ElevenLabsPanel.Name = "ElevenLabsPanel";
             ElevenLabsPanel.Size = new System.Drawing.Size(593, 450);
             ElevenLabsPanel.TabIndex = 40;
+            ElevenLabsPanel.Validating += ElevenLabsPanel_Validating;
             // 
             // ElevenLabsTestButton
             // 
@@ -1099,99 +1195,6 @@
             label21.Size = new System.Drawing.Size(82, 15);
             label21.TabIndex = 0;
             label21.Text = "Native Speech";
-            // 
-            // AzurePanel
-            // 
-            AzurePanel.Controls.Add(label2);
-            AzurePanel.Controls.Add(AzureLanguageComboBox);
-            AzurePanel.Controls.Add(TestAzureAPISettings);
-            AzurePanel.Controls.Add(label17);
-            AzurePanel.Controls.Add(AzureRegionTextBox);
-            AzurePanel.Controls.Add(label18);
-            AzurePanel.Controls.Add(AzureAPIKeyTextBox);
-            AzurePanel.Controls.Add(label3);
-            AzurePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            AzurePanel.Location = new System.Drawing.Point(0, 0);
-            AzurePanel.Name = "AzurePanel";
-            AzurePanel.Size = new System.Drawing.Size(593, 450);
-            AzurePanel.TabIndex = 1;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(13, 105);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(59, 15);
-            label2.TabIndex = 24;
-            label2.Text = "Language";
-            // 
-            // AzureLanguageComboBox
-            // 
-            AzureLanguageComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            AzureLanguageComboBox.FormattingEnabled = true;
-            AzureLanguageComboBox.Items.AddRange(new object[] { "da-DK", "de-AT", "de-CH", "de-DE", "en-GB", "en-US", "es-ES", "fr-BE", "fr-CA", "fr-FR", "ga-IE", "it-IT", "ja-JP", "nl-BE", "nl-NL", "pl-PL", "pt-PT", "sv-SE" });
-            AzureLanguageComboBox.Location = new System.Drawing.Point(107, 99);
-            AzureLanguageComboBox.Name = "AzureLanguageComboBox";
-            AzureLanguageComboBox.Size = new System.Drawing.Size(202, 23);
-            AzureLanguageComboBox.TabIndex = 23;
-            // 
-            // TestAzureAPISettings
-            // 
-            TestAzureAPISettings.Location = new System.Drawing.Point(234, 138);
-            TestAzureAPISettings.Name = "TestAzureAPISettings";
-            TestAzureAPISettings.Size = new System.Drawing.Size(75, 23);
-            TestAzureAPISettings.TabIndex = 22;
-            TestAzureAPISettings.Text = "Test";
-            TestAzureAPISettings.UseVisualStyleBackColor = true;
-            TestAzureAPISettings.Click += TestAzureAPISettings_Click;
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label17.Location = new System.Drawing.Point(11, 63);
-            label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label17.Name = "label17";
-            label17.Size = new System.Drawing.Size(44, 15);
-            label17.TabIndex = 18;
-            label17.Text = "Region";
-            // 
-            // AzureRegionTextBox
-            // 
-            AzureRegionTextBox.Location = new System.Drawing.Point(107, 63);
-            AzureRegionTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            AzureRegionTextBox.Name = "AzureRegionTextBox";
-            AzureRegionTextBox.Size = new System.Drawing.Size(202, 23);
-            AzureRegionTextBox.TabIndex = 19;
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            label18.Location = new System.Drawing.Point(12, 33);
-            label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label18.Name = "label18";
-            label18.Size = new System.Drawing.Size(47, 15);
-            label18.TabIndex = 20;
-            label18.Text = "API Key";
-            // 
-            // AzureAPIKeyTextBox
-            // 
-            AzureAPIKeyTextBox.Location = new System.Drawing.Point(107, 33);
-            AzureAPIKeyTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            AzureAPIKeyTextBox.Name = "AzureAPIKeyTextBox";
-            AzureAPIKeyTextBox.PasswordChar = '*';
-            AzureAPIKeyTextBox.Size = new System.Drawing.Size(202, 23);
-            AzureAPIKeyTextBox.TabIndex = 21;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(211, 9);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(102, 15);
-            label3.TabIndex = 0;
-            label3.Text = "Azure API settings";
             // 
             // MicrophonePanel
             // 
@@ -1324,6 +1327,12 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            AzurePanel.ResumeLayout(false);
+            AzurePanel.PerformLayout();
+            OpenAIChatGPTPanel.ResumeLayout(false);
+            OpenAIChatGPTPanel.PerformLayout();
+            PersonasPanel.ResumeLayout(false);
+            PersonasPanel.PerformLayout();
             TwitchPanel.ResumeLayout(false);
             TwitchPanel.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -1332,20 +1341,14 @@
             EventSubGroupbox.PerformLayout();
             TwitchAPITestGroupBox.ResumeLayout(false);
             TwitchAPITestGroupBox.PerformLayout();
-            PersonasPanel.ResumeLayout(false);
-            PersonasPanel.PerformLayout();
             OBSPanel.ResumeLayout(false);
             OBSPanel.PerformLayout();
             OllamaPanel.ResumeLayout(false);
             OllamaPanel.PerformLayout();
-            OpenAIChatGPTPanel.ResumeLayout(false);
-            OpenAIChatGPTPanel.PerformLayout();
             ElevenLabsPanel.ResumeLayout(false);
             ElevenLabsPanel.PerformLayout();
             NativeSpeechPanel.ResumeLayout(false);
             NativeSpeechPanel.PerformLayout();
-            AzurePanel.ResumeLayout(false);
-            AzurePanel.PerformLayout();
             MicrophonePanel.ResumeLayout(false);
             MicrophonePanel.PerformLayout();
             SpeakerPanel.ResumeLayout(false);

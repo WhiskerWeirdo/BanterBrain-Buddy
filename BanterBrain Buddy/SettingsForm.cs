@@ -213,7 +213,7 @@ namespace BanterBrain_Buddy
             OllamaURITextBox.Text = Properties.Settings.Default.OllamaURI;
             UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
             TwitchAuthServerConfig.SelectedIndex = TwitchAuthServerConfig.FindStringExact(Properties.Settings.Default.TwitchAuthServerConfig);
-            
+
             WebsourceServerEnable.Checked = Properties.Settings.Default.WebsourceServerEnable;
             //if empty set default
             if (Properties.Settings.Default.TwitchAuthServerConfig.Length < 1)
@@ -820,7 +820,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("Azure TTS error. Is there a problem with your API key or subscription?");
                 MessageBox.Show("Azure TTS error. Is there a problem with your API key or subscription?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 EnablePersonaEventHandlers();
-                PersonasPanel.Enabled= true;
+                PersonasPanel.Enabled = true;
             }
         }
 
@@ -1434,6 +1434,8 @@ namespace BanterBrain_Buddy
         private async void ElevenLabsTestButton_Click(object sender, EventArgs e)
         {
             //call test api key for elevenlabs
+            if (elevenLabsApi != null)
+                elevenLabsApi = null;
             elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
             if (await elevenLabsApi.ElevenLabsAPIKeyTest())
@@ -1777,6 +1779,102 @@ namespace BanterBrain_Buddy
             {
                 MessageBox.Show("This field cannot be empty");
                 e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void OpenAIChatGPTPanel_Validating(object sender, CancelEventArgs e)
+        {
+            if (OpenAIChatGPTPanel.Visible)
+            {
+                if (GPTAPIKeyTextBox.Text.Length > 1)
+                {
+                    //we need to see if the entered key is valid
+                    OpenAIAPI api = new(GPTAPIKeyTextBox.Text);
+                    if (!await api.Auth.ValidateAPIKey())
+                    {
+                        MessageBox.Show("Invalid OpenAI API key. Value cleared", "OpenAI API key error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        GPTAPIKeyTextBox.Text = "";
+                        e.Cancel = true;
+                    }
+                    else
+                    {
+                        //might as well save since its a valid key
+                        Properties.Settings.Default.GPTAPIKey = GPTAPIKeyTextBox.Text;
+                        Properties.Settings.Default.Save();
+                    }
+                } else
+                {
+                    //its empty so lets save it
+                    Properties.Settings.Default.GPTAPIKey = "";
+                    Properties.Settings.Default.Save();
+                }
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void AzurePanel_Validating(object sender, CancelEventArgs e)
+        {
+            if (AzurePanel.Visible)
+            {
+                if (AzureAPIKeyTextBox.Text.Length > 1)
+                {
+                    if (!await TTSGetAzureVoices())
+                    {
+                        MessageBox.Show("Invalid Azure API key. Value cleared", "Azure API key error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        AzureAPIKeyTextBox.Text = "";
+                        e.Cancel = true;
+                    }
+                    else
+                    {
+                        //might as well save since its a valid key
+                        Properties.Settings.Default.AzureAPIKeyTextBox = AzureAPIKeyTextBox.Text;
+                        Properties.Settings.Default.Save();
+                    }
+                }
+                else
+                {
+                    //its empty so lets save it
+                    Properties.Settings.Default.AzureAPIKeyTextBox = "";
+                    Properties.Settings.Default.Save();
+                }
+
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void ElevenLabsPanel_Validating(object sender, CancelEventArgs e)
+        {
+            if (ElevenLabsPanel.Visible)
+            {
+                if (ElevenlabsAPIKeyTextBox.Text.Length > 1)
+                {
+                    //we need to see if the entered key is valid
+                    //call test api key for elevenlabs
+                    //we also need a reset
+                    if  (elevenLabsApi != null)
+                        elevenLabsApi = null;
+                    elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
+
+                    if (!await elevenLabsApi.ElevenLabsAPIKeyTest())
+                    {
+
+                        MessageBox.Show("Invalid ElevenLabs API key. Value cleared", "ElevenLabs API key error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ElevenlabsAPIKeyTextBox.Text = "";
+                        e.Cancel = true;
+                    }
+                    else
+                    {
+                        //might as well save since its a valid key
+                        Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
+                        Properties.Settings.Default.Save();
+                    }
+                } else
+                {
+                    //its empty so lets save it 
+                    Properties.Settings.Default.ElevenLabsAPIkey = "";
+                    Properties.Settings.Default.Save();
+                }
             }
         }
     }

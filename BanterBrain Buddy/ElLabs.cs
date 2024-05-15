@@ -2,6 +2,7 @@
 using ElevenLabs.User;
 using ElevenLabs.Voices;
 using NAudio.Wave;
+using OpenAI_API.Moderation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -148,6 +149,12 @@ namespace BanterBrain_Buddy
                 try
                 {
                     SubscriptionInfo result = await api.UserEndpoint.GetSubscriptionInfoAsync();
+                    _bBBlog.Debug("ElevenLab API subscription test: " +result.Status);
+                    if (result.Status == "invalid_api_key")
+                    {
+                        _bBBlog.Error("ElevenLabsAPIKeyTest failed, no key added");
+                        return false;
+                    }
                 }
                 catch (Exception ex)
                 {
