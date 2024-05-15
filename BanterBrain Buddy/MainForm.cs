@@ -2128,6 +2128,7 @@ namespace BanterBrain_Buddy
             UpdateTextLog("Settings closed. We loaded settings!\r\n");
             _bBBlog.Info("Settings form closed. We should load the new settings!");
             //we should clear the global TTS/STT and reload the settings
+            //we cant do this for twitch though. 
             _azureSpeech = null;
             _elevenLabsApi = null;
             _openAI = null;

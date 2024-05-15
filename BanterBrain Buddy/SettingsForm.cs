@@ -366,7 +366,10 @@ namespace BanterBrain_Buddy
                 TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
                 //we need to fill the combo box with the voices available. We do that here cos provider needs to be loaded first.
                 if (!await FillVoiceBoxes())
+                {
+                    _bBBlog.Error("Error filling voice boxes does the TTS provider " + selectedPersona.VoiceProvider + ". No connection or no valid API?");
                     return;
+                }
                 _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
                 TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
                 personaEdited = false;
@@ -816,6 +819,7 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Error("Azure TTS error. Is there a problem with your API key or subscription?");
                 MessageBox.Show("Azure TTS error. Is there a problem with your API key or subscription?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                EnablePersonaEventHandlers();
                 PersonasPanel.Enabled= true;
             }
         }
@@ -1263,8 +1267,12 @@ namespace BanterBrain_Buddy
             //the provider can be different from the one before so we need to load teh voices
             if (!await FillVoiceBoxes())
             {
+                _bBBlog.Error("Error connecting to TTS provider " + selectedPersona.VoiceProvider + ". No connection or no valid API?");
                 TTSOutputVoice.Text = "";
                 TTSOutputVoice.Items.Clear();
+                PersonasPanel.Enabled = true;
+                EnablePersonaEventHandlers();
+                MessageBox.Show("Persona uses " + selectedPersona.VoiceProvider + " But no connection or no valid API key", "TTS Provider error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
