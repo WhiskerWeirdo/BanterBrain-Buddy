@@ -69,7 +69,7 @@ namespace BanterBrain_Buddy
                     sentenceLength = 8;
                     break;
             }
-            string tmpSetupString = tmpRoleText + ". Make your response a maximum of " + sentenceLength + " sentences! How would you then respond to: " + Text;
+            string tmpSetupString = tmpRoleText + ". Make your response a maximum of " + sentenceLength + " sentences! Absolutely not longer! How would you then respond to: " + Text;
             _ollama.SelectedModel = Properties.Settings.Default.OllamaSelectedModel;
             if (_ollama.SelectedModel == null)
             {

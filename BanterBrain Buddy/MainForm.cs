@@ -430,7 +430,9 @@ namespace BanterBrain_Buddy
                 _elevenLabsApi ??= new(Properties.Settings.Default.ElevenLabsAPIkey);
                 if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
                 {
-                    _bBBlog.Info("ElevenLabs API key is valid, pre-loading voices");
+                    UpdateTextLog("ElevenLabs API key is valid\r\n");
+                    _bBBlog.Info("ElevenLabs API key is valid");
+                 /*   _bBBlog.Info("ElevenLabs API key is valid, pre-loading voices");
                     UpdateTextLog("ElevenLabs API key is valid, pre-loading voices if not loaded yet\r\n");
                     //lets find the voices at startup so we dont have to load them later
                     var elresult = await _elevenLabsApi.TTSGetElevenLabsVoices();
@@ -438,7 +440,7 @@ namespace BanterBrain_Buddy
                     {
                         _bBBlog.Error("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works");
                         UpdateTextLog("ElevenLabs timeout, no results after 10 seconds. Try the settings to see if everything works\r\n");
-                    }
+                    }*/
                 }
                 else
                 {
@@ -2127,12 +2129,14 @@ namespace BanterBrain_Buddy
         {
             UpdateTextLog("Settings closed. We loaded settings!\r\n");
             _bBBlog.Info("Settings form closed. We should load the new settings!");
-            //we should clear the global TTS/STT and reload the settings
+            //we should clear the global TTS/STT and reload the possible new API settings
             //we cant do this for twitch though. 
-            _azureSpeech = null;
-            _elevenLabsApi = null;
-            _openAI = null;
-
+            if (_azureSpeech != null)
+                _azureSpeech.AzureAPIKey = Properties.Settings.Default.AzureAPIKeyTextBox;
+            if (_elevenLabsApi != null)
+                _elevenLabsApi.ElevelLabsAPIKey = Properties.Settings.Default.ElevenLabsAPIkey;
+            if (_openAI != null)
+                _openAI.OpenAIAPIKey = Properties.Settings.Default.GPTAPIKey;
 
             LoadPersonas();
             await CheckConfiguredSTTProviders();

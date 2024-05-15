@@ -24,6 +24,7 @@ namespace BanterBrain_Buddy
         private int SelectedOutputDevice;
         private OpenAIAPI _OpenAPI;
         private OpenAI_API.Chat.Conversation _Chat;
+        public string OpenAIAPIKey { get; set; }
 
         private void SetSelectedOutputDevice(string OutputDevice)
         {
@@ -42,14 +43,16 @@ namespace BanterBrain_Buddy
         public async Task<bool> OpenAICheckAPIKey()
 #pragma warning restore CA1822 // Mark members as static
         {
+            
             if (string.IsNullOrEmpty(Properties.Settings.Default.GPTAPIKey))
             {
                 _bBBlog.Error("OpenAI API Key is missing or bad");
                 return false;
             } else
             {
+                OpenAIAPIKey = Properties.Settings.Default.GPTAPIKey;
                 if (_OpenAPI == null)
-                    _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
+                    _OpenAPI = new(OpenAIAPIKey);
                 //do actual api key check here
                 if (await _OpenAPI.Auth.ValidateAPIKey())
                 {
@@ -59,10 +62,10 @@ namespace BanterBrain_Buddy
                 else
                 {
                     _bBBlog.Error("OpenAI API Key is invalid");
+                    OpenAIAPIKey = null;
                     return false;
                 }
             }
-            return true;
         }
 #pragma warning disable CA1822 // Mark members as static
         public async Task<string> OpenAISTT(string audioFile)
@@ -109,7 +112,10 @@ namespace BanterBrain_Buddy
             }
 
             if (_OpenAPI == null)
-                _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
+            { 
+            _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
+            OpenAIAPIKey = _OpenAPI.Auth.ApiKey;
+            }
             var STTResult = await _OpenAPI.Transcriptions.GetTextAsync(audioFile, ISOLanguage);
 
             if (STTResult == null)
@@ -124,8 +130,11 @@ namespace BanterBrain_Buddy
         {
             SetSelectedOutputDevice(outputDevice);
             if (_OpenAPI == null)
+            {
                 _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
-            //alloy, echo, fable, onyx, nova, and shimmer
+                OpenAIAPIKey = _OpenAPI.Auth.ApiKey;
+            }
+                //alloy, echo, fable, onyx, nova, and shimmer
             _OpenAPI.TextToSpeech.DefaultTTSRequestArgs.Voice = voice;
             //we use WAV streams format
             _OpenAPI.TextToSpeech.DefaultTTSRequestArgs.ResponseFormat = "wav";

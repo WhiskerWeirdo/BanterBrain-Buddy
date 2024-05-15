@@ -16,6 +16,7 @@ using System.Speech.Recognition;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace BanterBrain_Buddy
@@ -921,9 +922,21 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task TTSElevenLabsSpeakToOutput(string TextToSay)
         {
+            string outputVoice = TTSOutputVoice.Text;
+            //output voice text has to be in the format of voiceID;voiceName we need to find it in _elevenLabsVoicesList
+            for (int i = 0; i < _elevenLabsVoicesList.Count; i++)
+            {
+                if (_elevenLabsVoicesList[i].Contains(outputVoice))
+                {
+                    outputVoice = _elevenLabsVoicesList[i];
+                    break;
+                }
+            }
+
+
             elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
-            var result = await elevenLabsApi.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text));
+            var result = await elevenLabsApi.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, outputVoice, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text));
             if (!result)
             {
                 _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
@@ -1277,8 +1290,16 @@ namespace BanterBrain_Buddy
             }
             _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
 
-            TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
-            _bBBlog.Debug($"Elevenlabs voice selected: {TTSOutputVoice.SelectedIndex}");
+            //if provider is elevenlabs we need to select the voice by the split part not the voice name
+            if (TTSProviderComboBox.Text == "ElevenLabs")
+            {
+                string[] tmpVoice = selectedPersona.VoiceName.Split(";");
+                _bBBlog.Debug($"Elevenlabs voice selected: {tmpVoice[1]}");
+                TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(tmpVoice[1]);
+            }
+            else
+                TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
+
 
             //now to fill the options field
             if (TTSProviderComboBox.Text == "Azure")

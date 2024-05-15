@@ -42,16 +42,7 @@ namespace BanterBrain_Buddy
             var api = new ElevenLabsClient(ElevelLabsAPIKey);
             _bBBlog.Info($"ElevenLabsTTS called with voice: {tmpVoice}");
             SetSelectedOutputDevice(outputDevice);
-
-            if (_elevenLabVoiceList.Count == 0)
-            {
-                _bBBlog.Error("No voices found, calling TTSGetElevenLabsVoices first");
-                await TTSGetElevenLabsVoices();
-
-            }
-            _bBBlog.Info($"count of voices: " + _elevenLabVoiceList.Count);
-            tmpVoice = tmpVoice.Split(';')[1];
-            var voiceId = _elevenLabVoiceList[tmpVoice];
+            var voiceId = tmpVoice.Split(';')[0]; 
             var voice = await api.VoicesEndpoint.GetVoiceAsync(voiceId);
             VoiceSettings voiceSettings = new(similarity / 100f, stability / 100f, false, style / 100f);
             // var voiceSettings = await api.VoicesEndpoint.GetDefaultVoiceSettingsAsync();
