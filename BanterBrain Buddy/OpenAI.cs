@@ -22,6 +22,8 @@ namespace BanterBrain_Buddy
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private int SelectedOutputDevice;
+        private OpenAIAPI _OpenAPI;
+        private OpenAI_API.Chat.Conversation _Chat;
 
         private void SetSelectedOutputDevice(string OutputDevice)
         {
@@ -37,13 +39,28 @@ namespace BanterBrain_Buddy
             }
         }
 #pragma warning disable CA1822 // Mark members as static
-        public bool OpenAICheckAPIKey()
+        public async Task<bool> OpenAICheckAPIKey()
 #pragma warning restore CA1822 // Mark members as static
         {
             if (string.IsNullOrEmpty(Properties.Settings.Default.GPTAPIKey))
             {
                 _bBBlog.Error("OpenAI API Key is missing or bad");
                 return false;
+            } else
+            {
+                if (_OpenAPI == null)
+                    _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
+                //do actual api key check here
+                if (await _OpenAPI.Auth.ValidateAPIKey())
+                {
+                    _bBBlog.Info("OpenAI API Key is valid");
+                    return true;
+                    }
+                else
+                {
+                    _bBBlog.Error("OpenAI API Key is invalid");
+                    return false;
+                }
             }
             return true;
         }
@@ -91,8 +108,9 @@ namespace BanterBrain_Buddy
                     break;
             }
 
-            OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
-            var STTResult = await api.Transcriptions.GetTextAsync(audioFile, ISOLanguage);
+            if (_OpenAPI == null)
+                _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
+            var STTResult = await _OpenAPI.Transcriptions.GetTextAsync(audioFile, ISOLanguage);
 
             if (STTResult == null)
             {
@@ -105,12 +123,13 @@ namespace BanterBrain_Buddy
         public async Task<bool> OpenAITTS(string text, string outputDevice, string voice)
         {
             SetSelectedOutputDevice(outputDevice);
-            OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
+            if (_OpenAPI == null)
+                _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
             //alloy, echo, fable, onyx, nova, and shimmer
-            api.TextToSpeech.DefaultTTSRequestArgs.Voice = voice;
+            _OpenAPI.TextToSpeech.DefaultTTSRequestArgs.Voice = voice;
             //we use WAV streams format
-            api.TextToSpeech.DefaultTTSRequestArgs.ResponseFormat = "wav";
-            var TTSResult = await api.TextToSpeech.GetSpeechAsStreamAsync(text);
+            _OpenAPI.TextToSpeech.DefaultTTSRequestArgs.ResponseFormat = "wav";
+            var TTSResult = await _OpenAPI.TextToSpeech.GetSpeechAsStreamAsync(text);
             if (TTSResult == null)
             {
                 _bBBlog.Error("OpenAI TTS failed");
@@ -144,23 +163,27 @@ namespace BanterBrain_Buddy
             string gPTOutputText = "";
             _bBBlog.Info("Sending to OpenAI GPT LLM: " + UserInput);
 
-            OpenAIAPI api = new(Properties.Settings.Default.GPTAPIKey);
+            if (_OpenAPI == null)
+                _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
 
-            var chat = api.Chat.CreateConversation();
-            chat.Model = Model.ChatGPTTurbo;
-            chat.RequestParameters.Temperature = Properties.Settings.Default.GPTTemperature;
-            chat.RequestParameters.MaxTokens = Properties.Settings.Default.GPTMaxTokens;
+            if (_Chat == null)
+            {
+                _Chat = _OpenAPI.Chat.CreateConversation();
 
+            }
+            _Chat.Model = Model.ChatGPTTurbo;
+            _Chat.RequestParameters.Temperature = Properties.Settings.Default.GPTTemperature;
+            _Chat.RequestParameters.MaxTokens = Properties.Settings.Default.GPTMaxTokens;
             //mood is setting the system text description
             //this is the persona role
             _bBBlog.Info("SystemRole: " + tmpPersonaRoletext);
-            chat.AppendSystemMessage(tmpPersonaRoletext);
+            _Chat.AppendSystemMessage(tmpPersonaRoletext);
 
-            chat.AppendUserInput(UserInput);
+            _Chat.AppendUserInput(UserInput);
             try
             {
                 _bBBlog.Info("ChatGPT response: ");
-                await chat.StreamResponseFromChatbotAsync(res =>
+                await _Chat.StreamResponseFromChatbotAsync(res =>
                 {
                     gPTOutputText += res;
                 });

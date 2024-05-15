@@ -177,7 +177,7 @@ namespace BanterBrain_Buddy
                 try
                 {
                     OpenAI openAI = new();
-                    if (openAI.OpenAICheckAPIKey())
+                    if (await openAI.OpenAICheckAPIKey())
                     {
                         LLMResponseSelecter.Items.Add("ChatGPT");
                         _bBBlog.Info("GPT API setting valid, adding to list");
@@ -445,12 +445,23 @@ namespace BanterBrain_Buddy
                 }
             }
 
-            //ok so not really an STT provider, but we need to check if the OpenAI API key is valid
-            OpenAI openAI = new();
-            if (openAI.OpenAICheckAPIKey())
+            if (Properties.Settings.Default.GPTAPIKey.Length > 1)
             {
-                STTSelectedComboBox.Items.Add("OpenAI Whisper");
-                _bBBlog.Info("OpenAI API setting valid, adding Whisper to list");
+                // we need to check if the OpenAI API key is valid
+                OpenAI openAI = new();
+                if (await openAI.OpenAICheckAPIKey())
+                {
+                    STTSelectedComboBox.Items.Add("OpenAI Whisper");
+                    _bBBlog.Info("OpenAI API setting valid, adding Whisper to list");
+                }
+                else
+                {
+                    _bBBlog.Error("OpenAI API setting invalid! Value cleared, please fix in settings.");
+                    UpdateTextLog("OpenAI API setting invalid!Value cleared, please fix in settings. \r\n");
+                    Properties.Settings.Default.GPTAPIKey = "";
+                    Properties.Settings.Default.Save();
+                    MessageBox.Show("OpenAI API setting invalid! Value cleared, please fix in settings.", "OpenAI Whisper error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -807,7 +818,7 @@ namespace BanterBrain_Buddy
             }
             else if (tmpPersona.VoiceProvider == "OpenAI Whisper")
             {
-                await TTSGPTSpeakToOutput(TextToSay, tmpPersona);
+                await TTSOpenAISpeakToOutput(TextToSay, tmpPersona);
             }
             else if (tmpPersona.VoiceProvider == "ElevenLabs")
             {
@@ -868,11 +879,24 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        private async Task TTSGPTSpeakToOutput(string TextToSpeak, Personas tmpPersona)
+        private async Task TTSOpenAISpeakToOutput(string TextToSpeak, Personas tmpPersona)
         {
+            if (Properties.Settings.Default.GPTAPIKey.Length < 1)
+            {
+                _bBBlog.Error("OpenAI TTS error. No API key found but this persona uses it. Please check your settings");
+                UpdateTextLog("OpenAI TTS error. No API key found but this persona uses it. Please check your settings\r\n");
+                MainRecordingStart.Enabled = true;
+                return;
+            }
             UpdateTextLog("Saying text with OpenAI TTS\r\n");
             _bBBlog.Info("Saying text with OpenAI TTS");
             OpenAI openAI = new();
+            //test the available key
+            if (!await openAI.OpenAICheckAPIKey())
+            {
+
+            }
+
             await openAI.OpenAITTS(TextToSpeak, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName);
             _bBBlog.Info("OpenAI TTS done");
             UpdateTextLog("OpenAI TTS done\r\n");
@@ -919,7 +943,13 @@ namespace BanterBrain_Buddy
             //selected STT provider
             String selectedProvider = STTSelectedComboBox.Text;
             //first, lets call STT
-
+            if (STTSelectedComboBox.Text.Length < 1)
+            {
+                UpdateTextLog("Error! No STT provider selected!\r\n");
+                _bBBlog.Error("Error! No STT provider selected!");
+                MainRecordingStart.Text = "Start";
+                return;
+            }
             _sTTDone = false;
             if (MainRecordingStart.Text == "Start")
             {
@@ -1049,6 +1079,11 @@ namespace BanterBrain_Buddy
             TwitchCustomRewardName.Text = Properties.Settings.Default.TwitchCustomRewardName;
             TwitchChannelPointCheckBox.Checked = Properties.Settings.Default.TwitchChannelPointCheckBox;
             STTSelectedComboBox.SelectedIndex = STTSelectedComboBox.FindStringExact(Properties.Settings.Default.STTSelectedProvider);
+            if (STTSelectedComboBox.SelectedIndex == -1)
+            {
+                STTSelectedComboBox.SelectedIndex = 0;
+            }
+
             BroadcasterSelectedPersonaComboBox.SelectedIndex = BroadcasterSelectedPersonaComboBox.FindStringExact(Properties.Settings.Default.MainSelectedPersona);
             TwitchCheeringPersonaComboBox.SelectedIndex = TwitchCheeringPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchCheeringPersona);
             TwitchChannelPointPersonaComboBox.SelectedIndex = TwitchChannelPointPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChannelPointPersona);
@@ -1214,6 +1249,7 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Error("GPT API is selected but key is invalid invalid. \r\n");
                     UpdateTextLog("OpenAI ChatGPT is selected as LLM but key is invalid. \r\n");
+                    MessageBox.Show("OpenAI ChatGPT is selected as LLM but key is invalid. \r\n", "OpenAI ChatGPT error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
             }
