@@ -74,7 +74,7 @@ namespace BanterBrain_Buddy
         private ElLabs _elevenLabsApi;
         private AzureSpeechAPI _azureSpeech;
         private OllamaLLM _ollamaLLM;
-
+        private OpenAI _openAI;
         private readonly List<Personas> _personas = [];
 
         [SupportedOSPlatform("windows6.1")]
@@ -176,11 +176,16 @@ namespace BanterBrain_Buddy
             {
                 try
                 {
-                    OpenAI openAI = new();
-                    if (await openAI.OpenAICheckAPIKey())
+                    if (_openAI == null )
+                        _openAI = new();
+
+                    if (await _openAI.OpenAICheckAPIKey())
                     {
                         LLMResponseSelecter.Items.Add("ChatGPT");
                         _bBBlog.Info("GPT API setting valid, adding to list");
+                    } else
+                    {
+                        _bBBlog.Error("GPT API setting invalid");
                     }
                 }
                 catch (Exception ex)
@@ -448,8 +453,9 @@ namespace BanterBrain_Buddy
             if (Properties.Settings.Default.GPTAPIKey.Length > 1)
             {
                 // we need to check if the OpenAI API key is valid
-                OpenAI openAI = new();
-                if (await openAI.OpenAICheckAPIKey())
+                if (_openAI == null)
+                    _openAI = new();
+                if (await _openAI.OpenAICheckAPIKey())
                 {
                     STTSelectedComboBox.Items.Add("OpenAI Whisper");
                     _bBBlog.Info("OpenAI API setting valid, adding Whisper to list");
@@ -633,9 +639,10 @@ namespace BanterBrain_Buddy
         private async void WhisperSTTfromWAV(string tmpWavFile)
         {
             _sTTOutputText = "";
-            OpenAI openAI = new();
+            if (_openAI == null)
+                _openAI = new();
             _bBBlog.Info("Starting OpenAI STT from WAV");
-            _sTTOutputText = await openAI.OpenAISTT(tmpWavFile);
+            _sTTOutputText = await _openAI.OpenAISTT(tmpWavFile);
             if (_sTTOutputText == null)
             {
                 _bBBlog.Error("OpenAI STT failed");
@@ -714,8 +721,9 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Sending to GPT: " + UserInput);
             _gPTDone = false;
 
-            OpenAI openAI = new();
-            var result = await openAI.GetOpenAIIGPTResponse(UserInput, tmpPersonaRoletext);
+            if (_openAI == null)
+                _openAI = new();
+            var result = await _openAI.GetOpenAIIGPTResponse(UserInput, tmpPersonaRoletext);
             if (result == null)
             {
                 _bBBlog.Error("GPT API error. Is there a problem with your API key or subscription?");
@@ -890,14 +898,18 @@ namespace BanterBrain_Buddy
             }
             UpdateTextLog("Saying text with OpenAI TTS\r\n");
             _bBBlog.Info("Saying text with OpenAI TTS");
-            OpenAI openAI = new();
+            if (_openAI == null)
+                _openAI = new();
             //test the available key
-            if (!await openAI.OpenAICheckAPIKey())
+            if (!await _openAI.OpenAICheckAPIKey())
             {
-
+                _bBBlog.Error("OpenAI TTS error. Is there a problem with your API key or subscription?");
+                MessageBox.Show("OpenAI TTS error. Is there a problem with your API key or subscription?", "OpenAI TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MainRecordingStart.Enabled = true;
+                return;
             }
 
-            await openAI.OpenAITTS(TextToSpeak, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName);
+            await _openAI.OpenAITTS(TextToSpeak, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName);
             _bBBlog.Info("OpenAI TTS done");
             UpdateTextLog("OpenAI TTS done\r\n");
             MainRecordingStart.Enabled = true;
@@ -2115,6 +2127,12 @@ namespace BanterBrain_Buddy
         {
             UpdateTextLog("Settings closed. We loaded settings!\r\n");
             _bBBlog.Info("Settings form closed. We should load the new settings!");
+            //we should clear the global TTS/STT and reload the settings
+            _azureSpeech = null;
+            _elevenLabsApi = null;
+            _openAI = null;
+
+
             LoadPersonas();
             await CheckConfiguredSTTProviders();
             await CheckConfiguredLLMProviders();
