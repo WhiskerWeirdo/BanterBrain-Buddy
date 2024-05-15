@@ -400,9 +400,8 @@ namespace BanterBrain_Buddy
                 }
                 catch (Exception ex)
                 {
-                    _bBBlog.Error("Error checking Azure voices: " + ex.Message);
-                    _bBBlog.Info("Retrying azure voices..");
-                    UpdateTextLog("Error checking Azure voices. Retrying..wait a moment\r\n");
+                    _bBBlog.Error("Error checking Azure API: " + ex.Message);
+                    UpdateTextLog("Error checking Azure API configuration. See logfile for details\r\n");
                 }
                 if (!APIResult)
                 {
