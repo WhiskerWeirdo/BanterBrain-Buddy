@@ -437,8 +437,11 @@ namespace BanterBrain_Buddy
                 }
                 else
                 {
-                    _bBBlog.Error("ElevenLabs API key is invalid. Please check your settings");
-                    UpdateTextLog("ElevenLabs API key is invalid. Please check your settings\r\n");
+                    _bBBlog.Error("ElevenLabs API key is invalid.Value cleared, please fix in settings.");
+                    UpdateTextLog("ElevenLabs API key is invalid. Value cleared, please fix in settings.\r\n");
+                    Properties.Settings.Default.ElevenLabsAPIkey = "";
+                    Properties.Settings.Default.Save();
+                    MessageBox.Show("ElevenLabs API key is invalid. Value cleared, please fix in settings.", "ElevenLabs TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
@@ -820,12 +823,39 @@ namespace BanterBrain_Buddy
         {
             UpdateTextLog("Saying text with ElevenLabs TTS\r\n");
             _bBBlog.Info("Saying text with ElevenLabs TTS");
+
+            if (Properties.Settings.Default.ElevenLabsAPIkey.Length < 1)
+            {
+                _bBBlog.Error("ElevenLabs TTS error. No API key found but this persona uses it. Please check your settings");
+                UpdateTextLog("Elevenlans TTS error. No API key found but this persona uses it. Please check your settings\r\n");
+                MainRecordingStart.Enabled = true;
+                return;
+            }
+
             if (_elevenLabsApi == null)
             {
                 _elevenLabsApi = new(Properties.Settings.Default.ElevenLabsAPIkey);
                 _ = await _elevenLabsApi.TTSGetElevenLabsVoices();
+            } else
+            {
+                //we check if length is > 1 and if the key is different
+                //if so we need to update the key
+                if (Properties.Settings.Default.ElevenLabsAPIkey != _elevenLabsApi.ElevelLabsAPIKey )
+                {
+                    _elevenLabsApi.ElevelLabsAPIKey = Properties.Settings.Default.ElevenLabsAPIkey;
+                } 
+            }
+
+            //test the current key
+            if (! await _elevenLabsApi.ElevenLabsAPIKeyTest())
+            {
+                _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
+                MessageBox.Show("ElevenLabs TTS error. Is there a problem with your API key or subscription?", "ElevenLabs TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MainRecordingStart.Enabled = true;
+                return;
             }
             var result = await _elevenLabsApi.ElevenLabsTTS(TextToSay, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName, int.Parse(tmpPersona.VoiceOptions[0]), int.Parse(tmpPersona.VoiceOptions[1]), int.Parse(tmpPersona.VoiceOptions[2]));
+           
             if (!result)
             {
                 _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
