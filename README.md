@@ -1,4 +1,4 @@
-### v0.1.0-BETA release of BanterBrain Buddy.
+### v0.1.2-BETA release of BanterBrain Buddy.
 Download: https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.1.0-beta
 
 **This BETA requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
@@ -14,7 +14,13 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 - Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
-- Invalid API keys are not handled well and generate errors. See https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/42 for a workaround to fix the crashing if you cannot supply a valid API key. You will still have to after that fix the persona's and/or pick different ones that don't use the now-invalid API key.
+
+### RELEASE V0.1.2 BETA
+- Elevenlabs speed optimization. It only needs to load the voices when you are busy editing persona's that use Elevenlabs and not in other events.
+
+### RELEASE V0.1.1 BETA
+- Fixes and validations for invalid or empty API keys so that the program does not crash. It fails gracefully and tells you the key is invalid.
+ 
 
 ### RELEASE V0.1.0 BETA
 - many fixes for text input issues, like saving on the correct time or not allowing empty fields
