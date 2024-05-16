@@ -1,4 +1,4 @@
-### v0.1.2-BETA release of BanterBrain Buddy.
+### v0.1.3-BETA release of BanterBrain Buddy.
 Download: https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.1.0-beta
 
 **This BETA requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
@@ -15,6 +15,9 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
 
+### RELEASE V0.1.3 BETA
+- Enabling Ollama in the settings screen while its not running now handled gracefully instead of crashing. Testing Ollama now also handles issues more gracefully instead of crashing.
+- 
 ### RELEASE V0.1.2 BETA
 - Elevenlabs speed optimization. It only needs to load the voices when you are busy editing persona's that use Elevenlabs and not in other events.
 
