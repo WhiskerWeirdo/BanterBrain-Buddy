@@ -31,8 +31,17 @@ namespace BanterBrain_Buddy
             List<string> models = [];
             _bBBlog.Debug("OllamaLLMGetModels");
 
-            var localModels = await _ollama.ListLocalModels();
-            if (!localModels.Any())
+            IEnumerable<OllamaSharp.Models.Model> localModels = null;
+            try
+            {
+                localModels = await _ollama.ListLocalModels();
+            }
+            catch (Exception e)
+            {
+                _bBBlog.Error("OllamaLLMGetModels failed: " + e.Message);
+                return null;
+            }
+                if (!localModels.Any())
             {
                 _bBBlog.Error("No local models found");
                 return null;
@@ -99,10 +108,12 @@ namespace BanterBrain_Buddy
         public async Task<bool> OllamaVerify()
         {
             _bBBlog.Info("OllamaVerify called");
+
             var result = await OllamaLLMGetModels();
-            if (result.Count == 0)
+            
+            if (result == null || result.Count == 0)
             {
-                _bBBlog.Error("OllamaVerify failed, no models found");
+                _bBBlog.Error("OllamaVerify failed, no models found or not running on URI");
                 return false;
             }
             if (!result.Contains(Properties.Settings.Default.OllamaSelectedModel))

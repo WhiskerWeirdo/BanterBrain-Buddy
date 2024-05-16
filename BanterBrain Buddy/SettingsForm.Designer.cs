@@ -43,7 +43,6 @@
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
-            ElevenLabsPanel = new System.Windows.Forms.Panel();
             PersonasPanel = new System.Windows.Forms.Panel();
             TTSOutputVoiceOption3 = new System.Windows.Forms.ComboBox();
             TTSOption3Label = new System.Windows.Forms.Label();
@@ -64,6 +63,7 @@
             label12 = new System.Windows.Forms.Label();
             PersonaRoleTextBox = new System.Windows.Forms.TextBox();
             label10 = new System.Windows.Forms.Label();
+            ElevenLabsPanel = new System.Windows.Forms.Panel();
             ElevenLabsTestButton = new System.Windows.Forms.Button();
             ElevenlabsAPIKeyTextBox = new System.Windows.Forms.TextBox();
             label11 = new System.Windows.Forms.Label();
@@ -148,8 +148,8 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            ElevenLabsPanel.SuspendLayout();
             PersonasPanel.SuspendLayout();
+            ElevenLabsPanel.SuspendLayout();
             OpenAIChatGPTPanel.SuspendLayout();
             AzurePanel.SuspendLayout();
             TwitchPanel.SuspendLayout();
@@ -175,13 +175,13 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(OllamaPanel);
             splitContainer1.Panel2.Controls.Add(PersonasPanel);
             splitContainer1.Panel2.Controls.Add(ElevenLabsPanel);
             splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(AzurePanel);
             splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(OBSPanel);
-            splitContainer1.Panel2.Controls.Add(OllamaPanel);
             splitContainer1.Panel2.Controls.Add(NativeSpeechPanel);
             splitContainer1.Panel2.Controls.Add(MicrophonePanel);
             splitContainer1.Panel2.Controls.Add(SpeakerPanel);
@@ -224,19 +224,6 @@
             MenuTreeView.TabIndex = 0;
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += TreeView1_AfterSelect;
-            // 
-            // ElevenLabsPanel
-            // 
-            ElevenLabsPanel.Controls.Add(ElevenLabsTestButton);
-            ElevenLabsPanel.Controls.Add(ElevenlabsAPIKeyTextBox);
-            ElevenLabsPanel.Controls.Add(label11);
-            ElevenLabsPanel.Controls.Add(label8);
-            ElevenLabsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            ElevenLabsPanel.Location = new System.Drawing.Point(0, 0);
-            ElevenLabsPanel.Name = "ElevenLabsPanel";
-            ElevenLabsPanel.Size = new System.Drawing.Size(593, 450);
-            ElevenLabsPanel.TabIndex = 40;
-            ElevenLabsPanel.Validating += ElevenLabsPanel_Validating;
             // 
             // PersonasPanel
             // 
@@ -471,6 +458,19 @@
             label10.Size = new System.Drawing.Size(54, 15);
             label10.TabIndex = 0;
             label10.Text = "Personas";
+            // 
+            // ElevenLabsPanel
+            // 
+            ElevenLabsPanel.Controls.Add(ElevenLabsTestButton);
+            ElevenLabsPanel.Controls.Add(ElevenlabsAPIKeyTextBox);
+            ElevenLabsPanel.Controls.Add(label11);
+            ElevenLabsPanel.Controls.Add(label8);
+            ElevenLabsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            ElevenLabsPanel.Location = new System.Drawing.Point(0, 0);
+            ElevenLabsPanel.Name = "ElevenLabsPanel";
+            ElevenLabsPanel.Size = new System.Drawing.Size(593, 450);
+            ElevenLabsPanel.TabIndex = 40;
+            ElevenLabsPanel.Validating += ElevenLabsPanel_Validating;
             // 
             // ElevenLabsTestButton
             // 
@@ -1327,10 +1327,10 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            ElevenLabsPanel.ResumeLayout(false);
-            ElevenLabsPanel.PerformLayout();
             PersonasPanel.ResumeLayout(false);
             PersonasPanel.PerformLayout();
+            ElevenLabsPanel.ResumeLayout(false);
+            ElevenLabsPanel.PerformLayout();
             OpenAIChatGPTPanel.ResumeLayout(false);
             OpenAIChatGPTPanel.PerformLayout();
             AzurePanel.ResumeLayout(false);

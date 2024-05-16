@@ -1547,10 +1547,18 @@ namespace BanterBrain_Buddy
 
             if (OllamaPanel.Visible && Properties.Settings.Default.OllamaURI.Length > 1)
             {
-
-                _bBBlog.Info("Getting available Ollama models, but first lets see if it runs");
                 OllamaLLM ollama = new(OllamaURITextBox.Text);
-                var installedModels = await ollama.OllamaLLMGetModels();
+                List<string> installedModels = await ollama.OllamaLLMGetModels();
+                if (installedModels == null)
+                {
+                    _bBBlog.Info("Ollama no models found");
+                    MessageBox.Show("Ollama no models found. You installed none or Ollama is not running on the selected URI", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    OllamaPanel.Enabled = true;
+                    if (UseOllamaLLMCheckBox.Checked)
+                        UseOllamaLLMCheckBox.Checked = false;
+                    return;
+                }
+
                 OllamaModelsComboBox.Items.Clear();
                 for (int i = 0; i < installedModels.Count; i++)
                 {
