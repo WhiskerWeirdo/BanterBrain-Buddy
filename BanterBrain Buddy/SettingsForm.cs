@@ -249,13 +249,6 @@ namespace BanterBrain_Buddy
                 NativeSpeechRecognitionLanguageComboBox.SelectedIndex = 0;
             }
 
-            if (!UseOllamaLLMCheckBox.Checked)
-            {
-                OllamaURITextBox.Enabled = false;
-                OllamaModelsComboBox.Enabled = false;
-                OllamaResponseLengthComboBox.Enabled = false;
-                OllamaTestButton.Enabled = false;
-            }
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1508,13 +1501,59 @@ namespace BanterBrain_Buddy
             {
                 OllamaTestButton.Enabled = false;
                 OllamaLLM ollama = new(OllamaURITextBox.Text);
-                //var installedModels = ollama.OllamaLLMGetModels();
 
+                if (await ollama.OllamaVerify())
+                {
+                    _bBBlog.Debug("Ollama LLM is running on the URI you selected");
+                }
+                else
+                {
+                    _bBBlog.Error("Ollama LLM is not running on the URI you selected");
+                    MessageBox.Show("Ollama LLM is not running on the URI you selected", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UseOllamaLLMCheckBox.Checked =false;
+                    OllamaTestButton.Enabled = true;
+                    return;
+                }
+                var installedModels = await ollama.OllamaLLMGetModels();
+
+                if (installedModels == null || installedModels.Count < 1)
+                {
+                    _bBBlog.Error("Ollama model error. Is Ollama running on the URI you selected?");
+                    MessageBox.Show("Ollama model error. Is there a problem with your API key or subscription?", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UseOllamaLLMCheckBox.Checked = false;
+                    OllamaTestButton.Enabled = true;
+                    return;
+                }
+                //add the installed models
+                OllamaModelsComboBox.Items.Clear();
+                for (int i = 0; i < installedModels.Count; i++)
+                {
+                    OllamaModelsComboBox.Items.Add(installedModels[i]);
+                }
+                //if theres models but none is yet loaded, use the default one
+                if (OllamaModelsComboBox.SelectedIndex == -1)
+                    OllamaModelsComboBox.SelectedIndex = 0;
                 var result = await ollama.OllamaGetResponse("this is a test!", OllamaModelsComboBox.Text);
+                if (result == null)
+                {
+                    _bBBlog.Error("Ollama response error. Is Ollama running on the URI you selected?");
+                    MessageBox.Show("Ollama response error. Is there a problem with your API key or subscription?", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UseOllamaLLMCheckBox.Checked = false;
+                    OllamaTestButton.Enabled = true;
+                    return;
+                }
                 _bBBlog.Debug("Ollama test result: " + result);
                 OllamaTestButton.Enabled = true;
+                if (result == null || result.Length <1)
+                {
+                    _bBBlog.Error("Ollama error.Is Ollama running on the URI you selected?");
+                    MessageBox.Show("Ollama error. Is there a problem with your API key or subscription?", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UseOllamaLLMCheckBox.Checked = false;
+                    OllamaTestButton.Enabled = true;
+                    return;
+                }
                 MessageBox.Show("Ollama works!", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                OllamaTestButton.Enabled = true;
             }
             else
             {
@@ -1526,12 +1565,16 @@ namespace BanterBrain_Buddy
         private async void OllamaPanel_VisibleChanged(object sender, EventArgs e)
         {
             //dont bother filling if we dont use the Ollama LLM
-            if (!UseOllamaLLMCheckBox.Checked)
+            if (OllamaPanel.Visible && !UseOllamaLLMCheckBox.Checked)
+            {
+                _bBBlog.Info("Ollama not enabled dont bother loading anything.");
                 return;
+            }
 
             OllamaPanel.Enabled = false;
             _bBBlog.Info("Ollama panel visible.");
             _bBBlog.Info("Ollama now we load the Uri");
+
             //if theres nothing we use the default for Ollama
             if (OllamaPanel.Visible && Properties.Settings.Default.OllamaURI.Length < 1)
             {
@@ -1547,6 +1590,7 @@ namespace BanterBrain_Buddy
 
             if (OllamaPanel.Visible && Properties.Settings.Default.OllamaURI.Length > 1)
             {
+
                 OllamaLLM ollama = new(OllamaURITextBox.Text);
                 List<string> installedModels = await ollama.OllamaLLMGetModels();
                 if (installedModels == null)
@@ -1728,22 +1772,15 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void UseOllamaLLMCheckBox_Click(object sender, EventArgs e)
         {
-            if (!UseOllamaLLMCheckBox.Checked)
+            OllamaURITextBox.Enabled = true;
+            OllamaModelsComboBox.Enabled = true;
+            OllamaResponseLengthComboBox.Enabled = true;
+            OllamaTestButton.Enabled = true;
+            if (UseOllamaLLMCheckBox.Checked)
             {
-                OllamaURITextBox.Enabled = false;
-                OllamaModelsComboBox.Enabled = false;
-                OllamaResponseLengthComboBox.Enabled = false;
-                OllamaTestButton.Enabled = false;
-
-            }
-            else
-            {
-                OllamaURITextBox.Enabled = true;
-                OllamaModelsComboBox.Enabled = true;
-                OllamaResponseLengthComboBox.Enabled = true;
-                OllamaTestButton.Enabled = true;
                 OllamaPanel_VisibleChanged(sender, e);
             }
+
         }
 
         [SupportedOSPlatform("windows6.1")]
