@@ -115,7 +115,13 @@ namespace BanterBrain_Buddy
                 var broadCaster = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwChannelName])).Users;
                 var messageSender = (await _gTwitchAPI.Helix.Users.GetUsersAsync(null, [TwUsername])).Users;
                 TwitchUserID = messageSender[0].Id;
+                //this works great for validating
                 TwitchChannelID = broadCaster[0].Id;
+                //monitor channel ID, if the authorization user is not the same as the channel ID, we need to let the user know
+                if (TwitchUserID != TwitchChannelID)
+                {
+                    _bBBlog.Debug("Authorization user is not the same as the channel ID");
+                }
 
                 _bBBlog.Info("TwitchEventSub eventhandlers Errors start");
                 _eventSubWebsocketClient.WebsocketConnected += EventSubOnWebsocketConnected;
@@ -605,13 +611,14 @@ namespace BanterBrain_Buddy
             //TODO: check for the command and then trigger the bot if its the right command and delay has been passed since bot was triggered last
             //we need to also check if the user is a follower or subscriber if that is set
             //also we should check when last time bot was triggered
-            if (eventData.Message.Text.StartsWith(command))
+            if (eventData.Message.Text.StartsWith(command, StringComparison.OrdinalIgnoreCase))
             {
+                _bBBlog.Info($"{eventData.ChatterUserName} triggered the bot with command {command}");
                 IsCommandTriggered = true;
                 //if this does not work we need to, when starting, request all follows and store them in a list and kee it updated
-                var result = await _gTwitchAPI.Helix.Channels.GetChannelFollowersAsync(TwitchChannelID, eventData.ChatterUserId);
+                //var result = await _gTwitchAPI.Helix.Channels.GetChannelFollowersAsync(TwitchChannelID, eventData.ChatterUserId);
 
-                _bBBlog.Info($"Followerscheck length: {result.Data.Length} channel: {TwitchChannelID} chatter: {eventData.ChatterUserId}");
+               // _bBBlog.Info($"Followerscheck length: {result.Data.Length} channel: {TwitchChannelID} chatter: {eventData.ChatterUserId}");
 
                 //user needs to be a subscriber but is not
                 _bBBlog.Info($"{eventData.ChatterUserName} issubscriber: {eventData.IsSubscriber}");
@@ -630,6 +637,9 @@ namespace BanterBrain_Buddy
                     {
                         _bBBlog.Info($"{eventData.ChatterUserName} is not a subscriber but is a broadcaster so its allowed");
                     }
+                } else
+                {
+                    _bBBlog.Info($"{eventData.ChatterUserName} is not a subscriber, but the command does not require it. Executing!");
                 }
 
                 if (OnESubChatMessage == null)
@@ -775,7 +785,7 @@ namespace BanterBrain_Buddy
                 // the ID of the bot (username of the bot)
                 // the client ID (_twitchAuthClientId)
                 // the access token
-                _bBBlog.Info($"Subscribing to topics. - ClientID: {TwitchAuthClientId} -BroadcasterID: {TwitchChannelID} -UserID {TwitchUserID} "); // -Accesstoken {TwitchAccessToken}");
+                _bBBlog.Info($"Subscribing to topics. - ClientID: {TwitchAuthClientId} -ChannelID: {TwitchChannelID} -UserID {TwitchUserID} "); // -Accesstoken {TwitchAccessToken}");
 
                 _conditions = new()
                 {

@@ -1497,7 +1497,7 @@ namespace BanterBrain_Buddy
             bool eventSubStart = false;
             //we should set here what eventhandlers we want to have enabled based on the twitch Settings
 
-            if (await _twitchEventSub.EventSubInit(Properties.Settings.Default.TwitchAccessToken, Properties.Settings.Default.TwitchUsername, Properties.Settings.Default.TwitchUsername))
+            if (await _twitchEventSub.EventSubInit(Properties.Settings.Default.TwitchAccessToken, Properties.Settings.Default.TwitchUsername, Properties.Settings.Default.TwitchChannel))
             {
                 //we need to first set the event handlers we want to use
 
@@ -1872,7 +1872,7 @@ namespace BanterBrain_Buddy
             string message = e.GetChatInfo()[1].Replace(TwitchCommandTrigger.Text, "");
             string user = e.GetChatInfo()[0];
             //we got a valid chat message, lets see what we can do with it
-            _bBBlog.Info("Valid Twitch Chat message received from user: " + user + " message: " + message + " using: " + Properties.Settings.Default.TwitchChatPersona);
+            _bBBlog.Info("Valid Twitch Chat message received from user: " + user + " message: " + message + " using: " + Properties.Settings.Default.TwitchChatPersona + "\r\n");
             _gPTDone = false;
             //we use InvokeUI to make sure we can write to the textlog from another thread that is not the Ui thread.
             //we only have to say this part if we have to say everything!
@@ -1880,7 +1880,7 @@ namespace BanterBrain_Buddy
             {
                 await InvokeUI(async () =>
                 {
-                    UpdateTextLog("Valid Twitch Chat message received from user: " + user + " message: " + message + " using: " + Properties.Settings.Default.TwitchChatPersona + "\r\n");
+                    UpdateTextLog("Valid Twitch Chat message received from user: " + user + " message: " + message + ". Using trigger persona: " + Properties.Settings.Default.TwitchChatPersona + "\r\n");
                     await SayText($"{user} said {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
                 });
             }
