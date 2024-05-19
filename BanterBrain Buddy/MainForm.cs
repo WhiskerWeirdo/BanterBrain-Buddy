@@ -1021,8 +1021,16 @@ namespace BanterBrain_Buddy
                 Thread.Sleep(500);
 
                 //now the STT text is in _sTTOutputText, lets pass that to ChatGPT
+
                 if (_sTTOutputText.Length > 1)
                 {
+                    // in this case we need to add the streamer name if entered
+                    if (Properties.Settings.Default.TwitchUsername.Length > 0)
+                    {
+                        _bBBlog.Debug("Adding streamer name to STT text");
+                        _sTTOutputText = Properties.Settings.Default.TwitchUsername + " says: " + _sTTOutputText;
+                    }
+                    
                     await TalkToLLM(_sTTOutputText, GetSelectedPersona(BroadcasterSelectedPersonaComboBox.Text).RoleText);
 
                     //this depends on the selected persona now
@@ -1276,6 +1284,7 @@ namespace BanterBrain_Buddy
 
         }
 
+        [SupportedOSPlatform("windows6.1")]
         private void SaveALLSettings()
         {
             if (TwitchCommandTrigger.Text.Length > 0)

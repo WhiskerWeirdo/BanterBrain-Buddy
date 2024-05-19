@@ -43,6 +43,16 @@
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
+            OllamaPanel = new System.Windows.Forms.Panel();
+            UseOllamaLLMCheckBox = new System.Windows.Forms.CheckBox();
+            OllamaResponseLengthComboBox = new System.Windows.Forms.ComboBox();
+            label20 = new System.Windows.Forms.Label();
+            OllamaTestButton = new System.Windows.Forms.Button();
+            OllamaModelsTextLabel = new System.Windows.Forms.Label();
+            OllamaModelsComboBox = new System.Windows.Forms.ComboBox();
+            OllamaURITextBox = new System.Windows.Forms.TextBox();
+            label19 = new System.Windows.Forms.Label();
+            label15 = new System.Windows.Forms.Label();
             PersonasPanel = new System.Windows.Forms.Panel();
             TTSOutputVoiceOption3 = new System.Windows.Forms.ComboBox();
             TTSOption3Label = new System.Windows.Forms.Label();
@@ -118,16 +128,6 @@
             label26 = new System.Windows.Forms.Label();
             label25 = new System.Windows.Forms.Label();
             WebsourceServer = new System.Windows.Forms.TextBox();
-            OllamaPanel = new System.Windows.Forms.Panel();
-            UseOllamaLLMCheckBox = new System.Windows.Forms.CheckBox();
-            OllamaResponseLengthComboBox = new System.Windows.Forms.ComboBox();
-            label20 = new System.Windows.Forms.Label();
-            OllamaTestButton = new System.Windows.Forms.Button();
-            OllamaModelsTextLabel = new System.Windows.Forms.Label();
-            OllamaModelsComboBox = new System.Windows.Forms.ComboBox();
-            OllamaURITextBox = new System.Windows.Forms.TextBox();
-            label19 = new System.Windows.Forms.Label();
-            label15 = new System.Windows.Forms.Label();
             NativeSpeechPanel = new System.Windows.Forms.Panel();
             label22 = new System.Windows.Forms.Label();
             NativeSpeechRecognitionLanguageComboBox = new System.Windows.Forms.ComboBox();
@@ -148,6 +148,7 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            OllamaPanel.SuspendLayout();
             PersonasPanel.SuspendLayout();
             ElevenLabsPanel.SuspendLayout();
             OpenAIChatGPTPanel.SuspendLayout();
@@ -157,7 +158,6 @@
             EventSubGroupbox.SuspendLayout();
             TwitchAPITestGroupBox.SuspendLayout();
             OBSPanel.SuspendLayout();
-            OllamaPanel.SuspendLayout();
             NativeSpeechPanel.SuspendLayout();
             MicrophonePanel.SuspendLayout();
             SpeakerPanel.SuspendLayout();
@@ -175,12 +175,12 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(OllamaPanel);
             splitContainer1.Panel2.Controls.Add(PersonasPanel);
             splitContainer1.Panel2.Controls.Add(ElevenLabsPanel);
             splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(AzurePanel);
-            splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(OBSPanel);
             splitContainer1.Panel2.Controls.Add(NativeSpeechPanel);
             splitContainer1.Panel2.Controls.Add(MicrophonePanel);
@@ -224,6 +224,107 @@
             MenuTreeView.TabIndex = 0;
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += TreeView1_AfterSelect;
+            // 
+            // OllamaPanel
+            // 
+            OllamaPanel.Controls.Add(UseOllamaLLMCheckBox);
+            OllamaPanel.Controls.Add(OllamaResponseLengthComboBox);
+            OllamaPanel.Controls.Add(label20);
+            OllamaPanel.Controls.Add(OllamaTestButton);
+            OllamaPanel.Controls.Add(OllamaModelsTextLabel);
+            OllamaPanel.Controls.Add(OllamaModelsComboBox);
+            OllamaPanel.Controls.Add(OllamaURITextBox);
+            OllamaPanel.Controls.Add(label19);
+            OllamaPanel.Controls.Add(label15);
+            OllamaPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            OllamaPanel.Location = new System.Drawing.Point(0, 0);
+            OllamaPanel.Name = "OllamaPanel";
+            OllamaPanel.Size = new System.Drawing.Size(593, 450);
+            OllamaPanel.TabIndex = 37;
+            OllamaPanel.VisibleChanged += OllamaPanel_VisibleChanged;
+            // 
+            // UseOllamaLLMCheckBox
+            // 
+            UseOllamaLLMCheckBox.AutoSize = true;
+            UseOllamaLLMCheckBox.Location = new System.Drawing.Point(62, 19);
+            UseOllamaLLMCheckBox.Name = "UseOllamaLLMCheckBox";
+            UseOllamaLLMCheckBox.Size = new System.Drawing.Size(102, 19);
+            UseOllamaLLMCheckBox.TabIndex = 10;
+            UseOllamaLLMCheckBox.Text = "Enable Ollama";
+            UseOllamaLLMCheckBox.UseVisualStyleBackColor = true;
+            UseOllamaLLMCheckBox.Click += UseOllamaLLMCheckBox_Click;
+            // 
+            // OllamaResponseLengthComboBox
+            // 
+            OllamaResponseLengthComboBox.FormattingEnabled = true;
+            OllamaResponseLengthComboBox.Items.AddRange(new object[] { "Short", "Normal", "Long" });
+            OllamaResponseLengthComboBox.Location = new System.Drawing.Point(202, 132);
+            OllamaResponseLengthComboBox.Name = "OllamaResponseLengthComboBox";
+            OllamaResponseLengthComboBox.Size = new System.Drawing.Size(205, 23);
+            OllamaResponseLengthComboBox.TabIndex = 9;
+            OllamaResponseLengthComboBox.Text = "Normal";
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new System.Drawing.Point(65, 137);
+            label20.Name = "label20";
+            label20.Size = new System.Drawing.Size(94, 15);
+            label20.TabIndex = 8;
+            label20.Text = "Response length";
+            // 
+            // OllamaTestButton
+            // 
+            OllamaTestButton.Location = new System.Drawing.Point(456, 63);
+            OllamaTestButton.Name = "OllamaTestButton";
+            OllamaTestButton.Size = new System.Drawing.Size(75, 23);
+            OllamaTestButton.TabIndex = 7;
+            OllamaTestButton.Text = "Test";
+            OllamaTestButton.UseVisualStyleBackColor = true;
+            OllamaTestButton.Click += OllamaTestButton_Click;
+            // 
+            // OllamaModelsTextLabel
+            // 
+            OllamaModelsTextLabel.AutoSize = true;
+            OllamaModelsTextLabel.Location = new System.Drawing.Point(62, 104);
+            OllamaModelsTextLabel.Name = "OllamaModelsTextLabel";
+            OllamaModelsTextLabel.Size = new System.Drawing.Size(46, 15);
+            OllamaModelsTextLabel.TabIndex = 5;
+            OllamaModelsTextLabel.Text = "Models";
+            // 
+            // OllamaModelsComboBox
+            // 
+            OllamaModelsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            OllamaModelsComboBox.FormattingEnabled = true;
+            OllamaModelsComboBox.Location = new System.Drawing.Point(202, 100);
+            OllamaModelsComboBox.Name = "OllamaModelsComboBox";
+            OllamaModelsComboBox.Size = new System.Drawing.Size(205, 23);
+            OllamaModelsComboBox.TabIndex = 4;
+            // 
+            // OllamaURITextBox
+            // 
+            OllamaURITextBox.Location = new System.Drawing.Point(200, 61);
+            OllamaURITextBox.Name = "OllamaURITextBox";
+            OllamaURITextBox.Size = new System.Drawing.Size(207, 23);
+            OllamaURITextBox.TabIndex = 2;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new System.Drawing.Point(59, 66);
+            label19.Name = "label19";
+            label19.Size = new System.Drawing.Size(66, 15);
+            label19.TabIndex = 1;
+            label19.Text = "Ollama URI";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new System.Drawing.Point(268, 12);
+            label15.Name = "label15";
+            label15.Size = new System.Drawing.Size(45, 15);
+            label15.TabIndex = 0;
+            label15.Text = "Ollama";
             // 
             // PersonasPanel
             // 
@@ -1056,107 +1157,6 @@
             WebsourceServer.TabIndex = 4;
             WebsourceServer.Validating += WebsourceServer_Validating;
             // 
-            // OllamaPanel
-            // 
-            OllamaPanel.Controls.Add(UseOllamaLLMCheckBox);
-            OllamaPanel.Controls.Add(OllamaResponseLengthComboBox);
-            OllamaPanel.Controls.Add(label20);
-            OllamaPanel.Controls.Add(OllamaTestButton);
-            OllamaPanel.Controls.Add(OllamaModelsTextLabel);
-            OllamaPanel.Controls.Add(OllamaModelsComboBox);
-            OllamaPanel.Controls.Add(OllamaURITextBox);
-            OllamaPanel.Controls.Add(label19);
-            OllamaPanel.Controls.Add(label15);
-            OllamaPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            OllamaPanel.Location = new System.Drawing.Point(0, 0);
-            OllamaPanel.Name = "OllamaPanel";
-            OllamaPanel.Size = new System.Drawing.Size(593, 450);
-            OllamaPanel.TabIndex = 37;
-            OllamaPanel.VisibleChanged += OllamaPanel_VisibleChanged;
-            // 
-            // UseOllamaLLMCheckBox
-            // 
-            UseOllamaLLMCheckBox.AutoSize = true;
-            UseOllamaLLMCheckBox.Location = new System.Drawing.Point(62, 19);
-            UseOllamaLLMCheckBox.Name = "UseOllamaLLMCheckBox";
-            UseOllamaLLMCheckBox.Size = new System.Drawing.Size(102, 19);
-            UseOllamaLLMCheckBox.TabIndex = 10;
-            UseOllamaLLMCheckBox.Text = "Enable Ollama";
-            UseOllamaLLMCheckBox.UseVisualStyleBackColor = true;
-            UseOllamaLLMCheckBox.Click += UseOllamaLLMCheckBox_Click;
-            // 
-            // OllamaResponseLengthComboBox
-            // 
-            OllamaResponseLengthComboBox.FormattingEnabled = true;
-            OllamaResponseLengthComboBox.Items.AddRange(new object[] { "Short", "Normal", "Long" });
-            OllamaResponseLengthComboBox.Location = new System.Drawing.Point(202, 132);
-            OllamaResponseLengthComboBox.Name = "OllamaResponseLengthComboBox";
-            OllamaResponseLengthComboBox.Size = new System.Drawing.Size(205, 23);
-            OllamaResponseLengthComboBox.TabIndex = 9;
-            OllamaResponseLengthComboBox.Text = "Normal";
-            // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.Location = new System.Drawing.Point(65, 137);
-            label20.Name = "label20";
-            label20.Size = new System.Drawing.Size(94, 15);
-            label20.TabIndex = 8;
-            label20.Text = "Response length";
-            // 
-            // OllamaTestButton
-            // 
-            OllamaTestButton.Location = new System.Drawing.Point(456, 63);
-            OllamaTestButton.Name = "OllamaTestButton";
-            OllamaTestButton.Size = new System.Drawing.Size(75, 23);
-            OllamaTestButton.TabIndex = 7;
-            OllamaTestButton.Text = "Test";
-            OllamaTestButton.UseVisualStyleBackColor = true;
-            OllamaTestButton.Click += OllamaTestButton_Click;
-            // 
-            // OllamaModelsTextLabel
-            // 
-            OllamaModelsTextLabel.AutoSize = true;
-            OllamaModelsTextLabel.Location = new System.Drawing.Point(62, 104);
-            OllamaModelsTextLabel.Name = "OllamaModelsTextLabel";
-            OllamaModelsTextLabel.Size = new System.Drawing.Size(46, 15);
-            OllamaModelsTextLabel.TabIndex = 5;
-            OllamaModelsTextLabel.Text = "Models";
-            // 
-            // OllamaModelsComboBox
-            // 
-            OllamaModelsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            OllamaModelsComboBox.FormattingEnabled = true;
-            OllamaModelsComboBox.Location = new System.Drawing.Point(202, 100);
-            OllamaModelsComboBox.Name = "OllamaModelsComboBox";
-            OllamaModelsComboBox.Size = new System.Drawing.Size(205, 23);
-            OllamaModelsComboBox.TabIndex = 4;
-            // 
-            // OllamaURITextBox
-            // 
-            OllamaURITextBox.Location = new System.Drawing.Point(200, 61);
-            OllamaURITextBox.Name = "OllamaURITextBox";
-            OllamaURITextBox.Size = new System.Drawing.Size(207, 23);
-            OllamaURITextBox.TabIndex = 2;
-            // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.Location = new System.Drawing.Point(59, 66);
-            label19.Name = "label19";
-            label19.Size = new System.Drawing.Size(66, 15);
-            label19.TabIndex = 1;
-            label19.Text = "Ollama URI";
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Location = new System.Drawing.Point(268, 12);
-            label15.Name = "label15";
-            label15.Size = new System.Drawing.Size(45, 15);
-            label15.TabIndex = 0;
-            label15.Text = "Ollama";
-            // 
             // NativeSpeechPanel
             // 
             NativeSpeechPanel.Controls.Add(label22);
@@ -1327,6 +1327,8 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            OllamaPanel.ResumeLayout(false);
+            OllamaPanel.PerformLayout();
             PersonasPanel.ResumeLayout(false);
             PersonasPanel.PerformLayout();
             ElevenLabsPanel.ResumeLayout(false);
@@ -1345,8 +1347,6 @@
             TwitchAPITestGroupBox.PerformLayout();
             OBSPanel.ResumeLayout(false);
             OBSPanel.PerformLayout();
-            OllamaPanel.ResumeLayout(false);
-            OllamaPanel.PerformLayout();
             NativeSpeechPanel.ResumeLayout(false);
             NativeSpeechPanel.PerformLayout();
             MicrophonePanel.ResumeLayout(false);
