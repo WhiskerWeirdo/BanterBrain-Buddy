@@ -176,14 +176,15 @@ namespace BanterBrain_Buddy
             {
                 try
                 {
-                    if (_openAI == null )
+                    if (_openAI == null)
                         _openAI = new();
 
                     if (await _openAI.OpenAICheckAPIKey())
                     {
                         LLMResponseSelecter.Items.Add("ChatGPT");
                         _bBBlog.Info("GPT API setting valid, adding to list");
-                    } else
+                    }
+                    else
                     {
                         _bBBlog.Error("GPT API setting invalid");
                     }
@@ -393,7 +394,7 @@ namespace BanterBrain_Buddy
             //if the Azure API key is set, we verify if the key can be used to synthesize voice
             if (Properties.Settings.Default.AzureAPIKeyTextBox.Length > 1)
             {
-                //holds the result of the API test
+                //holds the result of the API ShowSettingsForm
                 bool APIResult = false;
                 _bBBlog.Info("Checking Azure API key");
                 UpdateTextLog("Checking Azure API key\r\n");
@@ -423,10 +424,10 @@ namespace BanterBrain_Buddy
                     UpdateTextLog("Azure API setting valid.\r\n");
                 }
             }
-            //test if teh API key for ElevenLabs is set and valid
+            //ShowSettingsForm if teh API key for ElevenLabs is set and valid
             if (Properties.Settings.Default.ElevenLabsAPIkey.Length > 1)
             {
-                //call test api key for elevenlabs
+                //call ShowSettingsForm api key for elevenlabs
                 _elevenLabsApi ??= new(Properties.Settings.Default.ElevenLabsAPIkey);
                 if (await _elevenLabsApi.ElevenLabsAPIKeyTest())
                 {
@@ -793,7 +794,7 @@ namespace BanterBrain_Buddy
 
         [SupportedOSPlatform("windows6.1")]
         //this is the generic caller for TTS function that makes sure the TTS is done before continuing
-        //we make this public so we can call it to test
+        //we make this public so we can call it to ShowSettingsForm
         private async Task SayText(string TextToSay, int DelayWhenDone, Personas tmpPersona)
         {
             while (_tTSSpeaking)
@@ -848,18 +849,19 @@ namespace BanterBrain_Buddy
             {
                 _elevenLabsApi = new(Properties.Settings.Default.ElevenLabsAPIkey);
                 _ = await _elevenLabsApi.TTSGetElevenLabsVoices();
-            } else
+            }
+            else
             {
                 //we check if length is > 1 and if the key is different
                 //if so we need to update the key
-                if (Properties.Settings.Default.ElevenLabsAPIkey != _elevenLabsApi.ElevelLabsAPIKey )
+                if (Properties.Settings.Default.ElevenLabsAPIkey != _elevenLabsApi.ElevelLabsAPIKey)
                 {
                     _elevenLabsApi.ElevelLabsAPIKey = Properties.Settings.Default.ElevenLabsAPIkey;
-                } 
+                }
             }
 
-            //test the current key
-            if (! await _elevenLabsApi.ElevenLabsAPIKeyTest())
+            //ShowSettingsForm the current key
+            if (!await _elevenLabsApi.ElevenLabsAPIKeyTest())
             {
                 _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
                 MessageBox.Show("ElevenLabs TTS error. Is there a problem with your API key or subscription?", "ElevenLabs TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -867,7 +869,7 @@ namespace BanterBrain_Buddy
                 return;
             }
             var result = await _elevenLabsApi.ElevenLabsTTS(TextToSay, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName, int.Parse(tmpPersona.VoiceOptions[0]), int.Parse(tmpPersona.VoiceOptions[1]), int.Parse(tmpPersona.VoiceOptions[2]));
-           
+
             if (!result)
             {
                 _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
@@ -893,7 +895,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Saying text with OpenAI TTS");
             if (_openAI == null)
                 _openAI = new();
-            //test the available key
+            //ShowSettingsForm the available key
             if (!await _openAI.OpenAICheckAPIKey())
             {
                 _bBBlog.Error("OpenAI TTS error. Is there a problem with your API key or subscription?");
@@ -1195,8 +1197,9 @@ namespace BanterBrain_Buddy
             }
 
             //check twitch key
-            _bBBlog.Info("Checking Twitch API key");
-            if (Properties.Settings.Default.TwitchAccessToken.Length > 1)
+            _bBBlog.Info("Checking Twitch API key if Twitch not active");
+            //if Twitch is already running, we dont need to check the key
+            if (Properties.Settings.Default.TwitchAccessToken.Length > 1 && TwitchAPIStatusTextBox.Text == "DISABLED" && TwitchEventSubStatusTextBox.Text == "DISABLED")
             {
                 _bBBlog.Info("Twitch API key is set");
                 UpdateTextLog("Twitch API key is set.\r\n");
@@ -1264,24 +1267,17 @@ namespace BanterBrain_Buddy
                 LLMGroupSettings.Enabled = false;
             }
 
-            if (TwitchAutoStart.Checked)
+            if (TwitchAutoStart.Checked && TwitchAPIStatusTextBox.Text == "DISABLED" && TwitchEventSubStatusTextBox.Text == "DISABLED")
             {
+                _bBBlog.Info("Auto starting Twitch");
+                UpdateTextLog("Auto starting Twitch\r\n");
                 TwitchStartButton_Click(null, null);
             }
 
         }
 
-        [SupportedOSPlatform("windows6.1")]
-        private async void BBB_FormClosing(object sender, FormClosingEventArgs e)
+        private void SaveALLSettings()
         {
-            //turn off potentionally running Twitch stuff
-            if (_globalTwitchAPI != null)
-                await _globalTwitchAPI.EventSubStopAsync();
-
-            if (_twitchEventSub != null)
-                await _twitchEventSub.EventSubStopAsync();
-            //only save if theres something to be saved!
-
             if (TwitchCommandTrigger.Text.Length > 0)
                 Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
             if (TwitchChatCommandDelay.Text.Length > 0)
@@ -1332,6 +1328,21 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchChannelPointTTSResponseOnlyRadioButton = TwitchChannelPointTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChatTTSResponseOnlyRadioButton = TwitchChatTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void BBB_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //turn off potentionally running Twitch stuff
+            if (_globalTwitchAPI != null)
+                await _globalTwitchAPI.EventSubStopAsync();
+
+            if (_twitchEventSub != null)
+                await _twitchEventSub.EventSubStopAsync();
+            //only save if theres something to be saved!
+
+            SaveALLSettings();
+
 
             //remove hotkey hooks
             Unsubscribe();
@@ -1397,7 +1408,7 @@ namespace BanterBrain_Buddy
                         _bBBlog.Debug("activeform: " + BBB.ActiveForm.Name + " has focus so ignoring hotkey");
                         return;
                     }
-                
+
                 //&& BBB.ActiveForm.Name != "SettingsForm"
                 if (MainRecordingStart.Text == "Start")
                 {
@@ -2100,6 +2111,8 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void SeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            _bBBlog.Info(">>BanterBrain Buddy leaving main form, saving settings (just in case)");
+            SaveALLSettings();
             Unsubscribe();
             if (_twitchEventSub != null)
             {
@@ -2109,9 +2122,9 @@ namespace BanterBrain_Buddy
             else
                 isTwitchRunning = false;
 
-            SettingsForm test = new();
-            test.FormClosing += BBB_Test_FormClosing;
-            test.ShowDialog();
+            SettingsForm ShowSettingsForm = new();
+            ShowSettingsForm.FormClosing += BBB_Test_FormClosing;
+            ShowSettingsForm.ShowDialog();
         }
 
         //handle the settings form closing and be sure to reload the new settings
@@ -2160,7 +2173,8 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchStartButton_Click(object sender, EventArgs e)
         {
-
+            //lets at least save the settings before we start
+            SaveALLSettings();
             if (!_twitchAPIVerified)
             {
                 MessageBox.Show("Twitch API key is invalid. Please check the settings.", "Twitch API error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2559,6 +2573,12 @@ namespace BanterBrain_Buddy
                 MessageBox.Show("This field cannot be empty");
                 e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
             }
+            else
+            {
+                Properties.Settings.Default.TwitchChatCommandDelay = int.Parse(currenttb.Text);
+                Properties.Settings.Default.Save();
+            }
+
         }
 
         private void LogfileDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2576,6 +2596,15 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.STTSelectedProvider = STTSelectedComboBox.Text;
                 Properties.Settings.Default.Save();
             }
+        }
+
+
+        [SupportedOSPlatform("windows6.1")]
+        private void BBBTabs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _bBBlog.Debug("Tab changed to: " + BBBTabs.SelectedTab.Name);
+            _bBBlog.Debug("Leaving Main Window settings, saving");
+            SaveALLSettings();
         }
     }
 }

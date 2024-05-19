@@ -226,6 +226,7 @@ namespace BanterBrain_Buddy
             BBBTabs.Controls.Add(StreamingSettingsTab);
             BBBTabs.Name = "BBBTabs";
             BBBTabs.SelectedIndex = 0;
+            BBBTabs.SelectedIndexChanged += BBBTabs_SelectedIndexChanged;
             // 
             // StreamingSettingsTab
             // 
