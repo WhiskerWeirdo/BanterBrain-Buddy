@@ -195,7 +195,7 @@
     <value>13</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>Speech-To-Text</value>
+    <value>Streamer Speech-To-Text</value>
   </data>
   <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
     <value>groupBox2</value>

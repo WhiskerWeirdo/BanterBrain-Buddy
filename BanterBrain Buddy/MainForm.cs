@@ -2111,7 +2111,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void SeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _bBBlog.Info(">>BanterBrain Buddy leaving main form, saving settings (just in case)");
+            _bBBlog.Debug("BanterBrain Buddy leaving main form, saving settings (just in case)");
             SaveALLSettings();
             Unsubscribe();
             if (_twitchEventSub != null)
