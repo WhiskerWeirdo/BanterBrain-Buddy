@@ -190,9 +190,9 @@ namespace BanterBrain_Buddy
             if (!string.IsNullOrEmpty(AzureVoiceName))
             {
                 string SSMLText =
-                "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"zh-CN\">\r\n   " +
-                $" <voice name=\"{AzureVoiceName}\">\r\n       " +
-                $" <mstts:express-as style=\"{AzureVoiceOptions}\" styledegree=\"2\">\r\n            " +
+                $"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"{Properties.Settings.Default.AzureLanguageComboBox}\">\r\n   " +
+                $" <voice name=\"{AzureVoiceName}\">\r\n" +
+                $" <mstts:express-as style=\"{AzureVoiceOptions}\" styledegree=\"1\"> \r\n" + 
                 $"{TextToSay}\r\n        " +
                 "</mstts:express-as>\r\n    " +
                 "</voice>\r\n" +
@@ -200,9 +200,13 @@ namespace BanterBrain_Buddy
 
                 //now lets speak the SSML and handle the result 
                 _azureSpeechConfig.SpeechSynthesisVoiceName = AzureVoiceName;
+                _azureSpeechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm);
+
                 _bBBlog.Debug($"SelectedOutputdevice: {outDevice.ID}");
                 var tmpAudioConfig = AudioConfig.FromSpeakerOutput(outDevice.ID);
+
                 var speechSynthesizer = new Microsoft.CognitiveServices.Speech.SpeechSynthesizer(_azureSpeechConfig, tmpAudioConfig);
+                
                 var speechSynthesisResult = await speechSynthesizer.SpeakSsmlAsync(SSMLText);
                 var result = TTSAzureOutputSpeechSynthesisResult(speechSynthesisResult, TextToSay);
                 if (result)
