@@ -194,5 +194,11 @@
     <Setting Name="WebsourceServerEnable" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="DelayFinishToChatcCheckBox" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchDelayMessageTextBox" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Cooldown ended. GO! GO! GO!</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

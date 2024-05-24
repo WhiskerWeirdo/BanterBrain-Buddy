@@ -386,7 +386,16 @@ namespace BanterBrain_Buddy
                 if (TwitchSendTestMessageOnJoin != null)
                 {
                     _bBBlog.Info("Sending message to channel");
-                    await _gTwitchAPI.Helix.Chat.SendChatMessage(broadCaster[0].Id.ToString(), messageSender[0].Id.ToString(), TwitchSendTestMessageOnJoin, null, TwAuthToken);
+                    try
+                    {
+                        await _gTwitchAPI.Helix.Chat.SendChatMessage(broadCaster[0].Id.ToString(), messageSender[0].Id.ToString(), TwitchSendTestMessageOnJoin, null, TwAuthToken);
+                    }
+                    catch (TwitchLib.Api.Core.Exceptions.TooManyRequestsException exception)
+                    {
+                        _bBBlog.Error("Waiting 2 seconds. Rate limit exceeded: " + exception.Message);
+                        await Task.Delay(2000);
+                        await _gTwitchAPI.Helix.Chat.SendChatMessage(broadCaster[0].Id.ToString(), messageSender[0].Id.ToString(), TwitchSendTestMessageOnJoin, null, TwAuthToken);
+                    }
                 }
                 _bBBlog.Info("Authorization succeeded can read user so acces token is valid");
                 return true;
@@ -501,6 +510,13 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Error("Bad request exception: " + exception.Message);
                     return false;
+                }
+                catch (TwitchLib.Api.Core.Exceptions.TooManyRequestsException exception)
+                {
+                    _bBBlog.Error("Rate limit exceeded: " + exception.Message);
+                    await Task.Delay(2000);
+                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchUserID, messageToSend, null, TwitchAccessToken);
+                    return true;
                 }
             }
         }
@@ -690,6 +706,10 @@ namespace BanterBrain_Buddy
                 await Task.Delay(delay * 1000);
                 IsCommandTriggered = false;
                 _bBBlog.Debug($"Enabling eventhandler for chatmessage");
+                if (Properties.Settings.Default.DelayFinishToChatcCheckBox)
+                {
+                    await SendMessageWithDelay(Properties.Settings.Default.TwitchDelayMessageTextBox, 1000);
+                }
             }
         }
 

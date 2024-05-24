@@ -1030,7 +1030,7 @@ namespace BanterBrain_Buddy
                         _bBBlog.Debug("Adding streamer name to STT text");
                         _sTTOutputText = Properties.Settings.Default.TwitchUsername + " says: " + _sTTOutputText;
                     }
-                    
+
                     await TalkToLLM(_sTTOutputText, GetSelectedPersona(BroadcasterSelectedPersonaComboBox.Text).RoleText);
 
                     //this depends on the selected persona now
@@ -1063,6 +1063,16 @@ namespace BanterBrain_Buddy
             TwitchSubscribed.Checked = Properties.Settings.Default.TwitchSubscribed;
             TwitchGiftedSub.Checked = Properties.Settings.Default.TwitchGiftedSub;
             TwitchAutoStart.Checked = Properties.Settings.Default.TwitchAutoStart;
+            TwitchDelayFinishToChatcCheckBox.Checked = Properties.Settings.Default.DelayFinishToChatcCheckBox;
+            if (TwitchDelayFinishToChatcCheckBox.Checked)
+            {
+                TwitchDelayMessageTextBox.Enabled = true;
+            }
+            else
+            {
+                TwitchDelayMessageTextBox.Enabled = false;
+            }
+            TwitchDelayMessageTextBox.Text = Properties.Settings.Default.TwitchDelayMessageTextBox;
             //todo: change to button
             TwitchEnableCheckbox.Checked = Properties.Settings.Default.TwitchEnable;
             //setting the Twitch items enabled/disabled based on the checkbox
@@ -1332,6 +1342,9 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchResponseToChatCheckBox = TwitchResponseToChatCheckBox.Checked;
             if (TwitchResponseToChatDelayTextBox.Text.Length > 0)
                 Properties.Settings.Default.TwitchResponseToChatDelayTextBox = TwitchResponseToChatDelayTextBox.Text;
+            if (TwitchDelayMessageTextBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchDelayMessageTextBox = TwitchDelayMessageTextBox.Text;
+            Properties.Settings.Default.DelayFinishToChatcCheckBox = TwitchDelayFinishToChatcCheckBox.Checked;
             Properties.Settings.Default.TwitchSubscriptionTTSResponseOnlyRadioButton = TwitchSubscriptionTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchCheeringTTSResponseOnlyRadioButton = TwitchCheeringTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChannelPointTTSResponseOnlyRadioButton = TwitchChannelPointTTSResponseOnlyRadioButton.Checked;
@@ -2614,6 +2627,38 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug("Tab changed to: " + BBBTabs.SelectedTab.Name);
             _bBBlog.Debug("Leaving Main Window settings, saving");
             SaveALLSettings();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchDelayMessageTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TextBox currenttb = (TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+            } else
+            {
+                Properties.Settings.Default.TwitchDelayMessageTextBox = currenttb.Text;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchDelayFinishToChatcCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (TwitchDelayFinishToChatcCheckBox.Checked)
+            {
+                TwitchDelayMessageTextBox.Enabled = true;
+                Properties.Settings.Default.DelayFinishToChatcCheckBox = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                TwitchDelayMessageTextBox.Enabled = false;
+                Properties.Settings.Default.DelayFinishToChatcCheckBox = false;
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }

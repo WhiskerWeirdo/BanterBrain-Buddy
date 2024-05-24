@@ -91,6 +91,9 @@ namespace BanterBrain_Buddy
             label5 = new Label();
             TwitchMinBits = new TextBox();
             TwitchTriggerSettings = new GroupBox();
+            label10 = new Label();
+            TwitchDelayMessageTextBox = new TextBox();
+            TwitchDelayFinishToChatcCheckBox = new CheckBox();
             TwitchChatTTSResponseOnlyRadioButton = new RadioButton();
             TwitchChatTTSEverythingRadioButton = new RadioButton();
             label1 = new Label();
@@ -584,6 +587,9 @@ namespace BanterBrain_Buddy
             // 
             // TwitchTriggerSettings
             // 
+            TwitchTriggerSettings.Controls.Add(label10);
+            TwitchTriggerSettings.Controls.Add(TwitchDelayMessageTextBox);
+            TwitchTriggerSettings.Controls.Add(TwitchDelayFinishToChatcCheckBox);
             TwitchTriggerSettings.Controls.Add(TwitchChatTTSResponseOnlyRadioButton);
             TwitchTriggerSettings.Controls.Add(TwitchChatTTSEverythingRadioButton);
             TwitchTriggerSettings.Controls.Add(label1);
@@ -597,6 +603,24 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchTriggerSettings, "TwitchTriggerSettings");
             TwitchTriggerSettings.Name = "TwitchTriggerSettings";
             TwitchTriggerSettings.TabStop = false;
+            // 
+            // label10
+            // 
+            resources.ApplyResources(label10, "label10");
+            label10.Name = "label10";
+            // 
+            // TwitchDelayMessageTextBox
+            // 
+            resources.ApplyResources(TwitchDelayMessageTextBox, "TwitchDelayMessageTextBox");
+            TwitchDelayMessageTextBox.Name = "TwitchDelayMessageTextBox";
+            TwitchDelayMessageTextBox.Validating += TwitchDelayMessageTextBox_Validating;
+            // 
+            // TwitchDelayFinishToChatcCheckBox
+            // 
+            resources.ApplyResources(TwitchDelayFinishToChatcCheckBox, "TwitchDelayFinishToChatcCheckBox");
+            TwitchDelayFinishToChatcCheckBox.Name = "TwitchDelayFinishToChatcCheckBox";
+            TwitchDelayFinishToChatcCheckBox.UseVisualStyleBackColor = true;
+            TwitchDelayFinishToChatcCheckBox.CheckedChanged += TwitchDelayFinishToChatcCheckBox_CheckedChanged;
             // 
             // TwitchChatTTSResponseOnlyRadioButton
             // 
@@ -840,6 +864,9 @@ namespace BanterBrain_Buddy
         private RadioButton TwitchChatTTSEverythingRadioButton;
         private ToolStripMenuItem logfileDirectoryToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem1;
+        private CheckBox TwitchDelayFinishToChatcCheckBox;
+        private Label label10;
+        private TextBox TwitchDelayMessageTextBox;
     }
 }
 
