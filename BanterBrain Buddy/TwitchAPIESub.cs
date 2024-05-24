@@ -418,6 +418,38 @@ namespace BanterBrain_Buddy
             }
         }
 
+        //send split up message with delay to Twitch
+        private async Task SendMessageWithDelay(string messageToSend, int delay)
+        {
+            var parts = SplitMessage(messageToSend, 254);
+            foreach (var part in parts)
+            {
+                try
+                {
+                    _bBBlog.Info($"Sending message: {part} to channel {TwitchChannelID} from user {TwitchUserID}");
+                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchUserID, part, null, TwitchAccessToken);
+                    await Task.Delay(delay);
+                }
+                catch (TwitchLib.Api.Core.Exceptions.TooManyRequestsException exception)
+                {
+                    _bBBlog.Error("Rate limit exceeded: " + exception.Message);
+                    await Task.Delay(10000);
+                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchUserID, part, null, TwitchAccessToken);
+                    await Task.Delay(delay);
+                }
+            }
+        }
+
+        //this just splits a message in its seperate parts and puts it in a stringlist
+        private List<string> SplitMessage(string message, int partLength)
+        {
+            var parts = new List<string>();
+            for (int i = 0; i < message.Length; i += partLength)
+            {
+                parts.Add(message.Substring(i, Math.Min(partLength, message.Length - i)));
+            }
+            return parts;
+        }
 
         public async Task<bool> SendMessage(string messageToSend)
         {
@@ -442,12 +474,12 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"Sending message: {messageToSend} to channel {TwitchChannelID} from user {TwitchUserID}");
 
             //if this message is longer than 255 characters we need to split it up
-            if (messageToSend.Length > 255)
+            if (messageToSend.Length > 254)
             {
-                _bBBlog.Info("Message is longer than 255 characters, splitting it up");
+                _bBBlog.Info("Message is longer than 254 characters, splitting it up");
                 try
                 {
-                    ProcessParts(messageToSend, 255, async (part) => await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchUserID, part, null, TwitchAccessToken));
+                    await SendMessageWithDelay(messageToSend, 1000);
                     return true;
                 }
                 catch (TwitchLib.Api.Core.Exceptions.BadRequestException exception)
