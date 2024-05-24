@@ -16,9 +16,13 @@ namespace BanterBrain_Buddy
     /// •	Local variables, private instance, static fields and method parameters should be camelCase.
     /// •	Methods, constants, properties, events and classes should be PascalCase.
     /// </summary>
+    /// 
+
+    public class AIModelExtended : Model { public static Model GPT4_Omni => new Model("gpt-4o") { OwnedBy = "openai" }; }
 
     internal class OpenAI
     {
+
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private int SelectedOutputDevice;
@@ -180,7 +184,22 @@ namespace BanterBrain_Buddy
                 _Chat = _OpenAPI.Chat.CreateConversation();
 
             }
-            _Chat.Model = Model.ChatGPTTurbo;
+           // _Chat.RequestParameters.Model = AIModelExtended.GPT4_Omni;
+            switch (Properties.Settings.Default.GPTModel)
+            {
+                case "gpt-3.5-turbo":
+                    _Chat.Model = Model.ChatGPTTurbo;
+                    break;
+                case "gpt-4-omni":
+                    _Chat.Model = AIModelExtended.GPT4_Omni;
+                    break;
+                default:
+                    _Chat.Model = Model.ChatGPTTurbo;
+                    _bBBlog.Info("Switch default GPT-3.5 Turbo selected");
+                    break;
+            }
+            //_Chat.Model = Model.ChatGPTTurbo;
+            _bBBlog.Info("GPT Model: " + _Chat.Model);
             _Chat.RequestParameters.Temperature = Properties.Settings.Default.GPTTemperature;
             _Chat.RequestParameters.MaxTokens = Properties.Settings.Default.GPTMaxTokens;
             //mood is setting the system text description
