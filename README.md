@@ -1,4 +1,4 @@
-### v0.1.4-BETA release of BanterBrain Buddy.
+### v0.1.6-BETA release of BanterBrain Buddy.
 Download: https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.1.0-beta
 
 **This BETA requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
@@ -14,6 +14,25 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 - Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
+
+### RELEASE V0.1.6 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed:
+- Save dialog when you edit the default persona should not popup now all the time
+
+not fixed:
+- Added additional logging to eventsub subscription errors.
+
+### RELEASE V0.1.5 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed: 
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/50 by adding a small delay and a check for ratelimits
+- (hopefully) Azure voice quality should be improved
+
+Added:
+- Ability to post the chat command cooldown being over in Twitch chat.
 
 ### RELEASE V0.1.4 BETA
 Thank you @max aka Dadflaps#1337 for your bug reports and feedback
