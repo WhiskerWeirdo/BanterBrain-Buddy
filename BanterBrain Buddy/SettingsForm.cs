@@ -377,7 +377,10 @@ namespace BanterBrain_Buddy
                 {
                     DeletePersona.Enabled = true;
                 }
-                EnablePersonaEventHandlers();
+                if (PersonasPanel.Visible)
+                {
+                    EnablePersonaEventHandlers();
+                }
             }
             else
             {
@@ -757,7 +760,10 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("API Key or region cannot be empty!");
                 MessageBox.Show("API Key or region cannot be empty!", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 PersonasPanel.Enabled = true;
-                EnablePersonaEventHandlers();
+                if (PersonasPanel.Visible)
+                {
+                    EnablePersonaEventHandlers();
+                }
                 return false;
             }
 
@@ -767,7 +773,10 @@ namespace BanterBrain_Buddy
             {
                 MessageBox.Show("Problem retreiving Azure API voicelist. Is your API key or subscription information still valid?", "Azure API Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 PersonasPanel.Enabled = true;
-                EnablePersonaEventHandlers();
+                if (PersonasPanel.Visible)
+                {
+                    EnablePersonaEventHandlers();
+                }
                 return false;
             }
             else
@@ -813,7 +822,11 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Error("Azure TTS error. Is there a problem with your API key or subscription?");
                 MessageBox.Show("Azure TTS error. Is there a problem with your API key or subscription?", "Azure TTS error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                EnablePersonaEventHandlers();
+                if (PersonasPanel.Visible)
+                {
+                    EnablePersonaEventHandlers();
+                }
+
                 PersonasPanel.Enabled = true;
             }
         }
@@ -1277,7 +1290,10 @@ namespace BanterBrain_Buddy
                 TTSOutputVoice.Text = "";
                 TTSOutputVoice.Items.Clear();
                 PersonasPanel.Enabled = true;
-                EnablePersonaEventHandlers();
+                if (PersonasPanel.Visible)
+                {
+                    EnablePersonaEventHandlers();
+                }
                 MessageBox.Show("Persona uses " + selectedPersona.VoiceProvider + " But no connection or no valid API key", "TTS Provider error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -1319,9 +1335,12 @@ namespace BanterBrain_Buddy
             {
                 DeletePersona.Enabled = true;
             }
-            //enable them again.
-            EnablePersonaEventHandlers();
-            PersonasPanel.Enabled = true;
+            //enable them again but only if visible
+            if (PersonasPanel.Visible)
+            {
+                EnablePersonaEventHandlers();
+                PersonasPanel.Enabled = true;
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]
