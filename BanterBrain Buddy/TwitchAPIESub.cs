@@ -185,6 +185,15 @@ namespace BanterBrain_Buddy
             //we can call this function multile times, so we need to check if we are already connected
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
+                if (_conditions == null)
+                {
+                    //set the global, we need this for the EventSub
+                    _conditions = new()
+                    {
+                    { "broadcaster_user_id", TwitchChannelID },
+                             { "user_id", TwitchUserID },
+                    };
+                }
                 _bBBlog.Info("Subscribing to chat messages");
                 await EventSubSubscribe("channel.chat.message", _conditions);
             }
@@ -200,6 +209,15 @@ namespace BanterBrain_Buddy
             _eventSubWebsocketClient.ChannelSubscriptionMessage += EventSubOnChannelReSubscriber;
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
+                if (_conditions == null)
+                {
+                    //set the global, we need this for the EventSub
+                    _conditions = new()
+                    {
+                    { "broadcaster_user_id", TwitchChannelID },
+                             { "user_id", TwitchUserID },
+                    };
+                }
                 _bBBlog.Info("Subscribing to new subscription events");
                 await EventSubSubscribe("channel.subscribe", _conditions);
                 _bBBlog.Info("Subscribing to resubscription events");
@@ -220,6 +238,15 @@ namespace BanterBrain_Buddy
             _eventSubWebsocketClient.ChannelSubscriptionGift += EventSubOnChannelSubscriptionGift;
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
+                if (_conditions == null)
+                {
+                    //set the global, we need this for the EventSub
+                    _conditions = new()
+                    {
+                    { "broadcaster_user_id", TwitchChannelID },
+                             { "user_id", TwitchUserID },
+                    };
+                }
                 _bBBlog.Info("Subscribing to subscription gifts");
                 await EventSubSubscribe("channel.subscription.gift", _conditions);
             }
@@ -233,6 +260,15 @@ namespace BanterBrain_Buddy
             _eventSubWebsocketClient.ChannelCheer += (sender, e) => EventSubOnChannelCheer(e, minbits);
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
+                if (_conditions == null)
+                {
+                    //set the global, we need this for the EventSub
+                    _conditions = new()
+                    {
+                    { "broadcaster_user_id", TwitchChannelID },
+                             { "user_id", TwitchUserID },
+                    };
+                }
                 _bBBlog.Info("Subscribing to cheers");
                 await EventSubSubscribe("channel.cheer", _conditions);
             }
@@ -246,6 +282,15 @@ namespace BanterBrain_Buddy
             _eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionAdd += (sender, e) => EventSubOnChannelPointRedemption(e, redemptionName);
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
+                if (_conditions == null)
+                {
+                    //set the global, we need this for the EventSub
+                    _conditions = new()
+                    {
+                    { "broadcaster_user_id", TwitchChannelID },
+                             { "user_id", TwitchUserID },
+                    };
+                }
                 _bBBlog.Info("Subscribing to channel point redemptions");
                 await EventSubSubscribe("channel.channel_points_custom_reward_redemption.add", _conditions);
             }
@@ -902,6 +947,44 @@ namespace BanterBrain_Buddy
             catch (TwitchLib.Api.Core.Exceptions.BadRequestException exception)
             {
                 _bBBlog.Error($"Bad request exception: {exception.Message}");
+            }
+            catch (TwitchLib.Api.Core.Exceptions.BadParameterException exception)
+            {
+                _bBBlog.Error($"Bad parameter exception: {exception.Message}");
+            } 
+            catch (TwitchLib.Api.Core.Exceptions.BadResourceException exception)
+                        {
+                _bBBlog.Error($"Bad resource exception: {exception.Message}");
+            }
+            catch (TwitchLib.Api.Core.Exceptions.BadScopeException exception)
+            {
+                _bBBlog.Error($"Bad scope exception: {exception.Message}");
+            }
+            catch (TwitchLib.Api.Core.Exceptions.TooManyRequestsException exception)
+            {
+                _bBBlog.Error($"Rate limit exceeded: {exception.Message}");
+                await Task.Delay(3000);
+                await EventSubSubscribe(type, conditions);
+            }
+            catch (TwitchLib.Api.Core.Exceptions.BadTokenException exception)
+            {
+                _bBBlog.Error($"Bad token exception: {exception.Message}");
+            }
+            catch (TwitchLib.Api.Core.Exceptions.TokenExpiredException exception)
+            {
+                _bBBlog.Error($"token expired exception: {exception.Message}");
+            }
+            catch (TwitchLib.Api.Core.Exceptions.UnexpectedResponseException exception)
+            {
+                _bBBlog.Error($"unexecpted response exception: {exception.Message}");
+            }
+            catch (TwitchLib.Api.Core.Exceptions.HttpResponseException exception)
+            {
+                _bBBlog.Error($"http response exception: {exception.Message}");
+            }
+            catch (TwitchLib.Api.Core.Exceptions.InvalidCredentialException exception)
+            {
+                _bBBlog.Error($"invalid credential response exception: {exception.Message}");
             }
         }
 
