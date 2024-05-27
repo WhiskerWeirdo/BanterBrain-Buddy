@@ -117,147 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;StreamerTTSNameGroupBox.Name" xml:space="preserve">
-    <value>StreamerTTSNameGroupBox</value>
-  </data>
-  <data name="&gt;&gt;StreamerTTSNameGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StreamerTTSNameGroupBox.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;StreamerTTSNameGroupBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;StreamerPersonaGroupBox.Name" xml:space="preserve">
-    <value>StreamerPersonaGroupBox</value>
-  </data>
-  <data name="&gt;&gt;StreamerPersonaGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StreamerPersonaGroupBox.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;StreamerPersonaGroupBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;StreamerSTTGroupBox.Name" xml:space="preserve">
-    <value>StreamerSTTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;StreamerSTTGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StreamerSTTGroupBox.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;StreamerSTTGroupBox.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneRecordGroupBox.Name" xml:space="preserve">
-    <value>MicrophoneRecordGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneRecordGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneRecordGroupBox.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;MicrophoneRecordGroupBox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;TwitchEventSubStatusTextBox.Name" xml:space="preserve">
-    <value>TwitchEventSubStatusTextBox</value>
-  </data>
-  <data name="&gt;&gt;TwitchEventSubStatusTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchEventSubStatusTextBox.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TwitchEventSubStatusTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;TwitchEventSubStatusLabel.Name" xml:space="preserve">
-    <value>TwitchEventSubStatusLabel</value>
-  </data>
-  <data name="&gt;&gt;TwitchEventSubStatusLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchEventSubStatusLabel.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TwitchEventSubStatusLabel.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;TwitchAPIStatusTextBox.Name" xml:space="preserve">
-    <value>TwitchAPIStatusTextBox</value>
-  </data>
-  <data name="&gt;&gt;TwitchAPIStatusTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchAPIStatusTextBox.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TwitchAPIStatusTextBox.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.Name" xml:space="preserve">
-    <value>TwitchStatusLabel</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TwitchStatusLabel.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Name" xml:space="preserve">
-    <value>TextLog</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TextLog.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="MainTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="MainTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="MainTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="MainTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>668, 522</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="MainTab.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="MainTab.Text" xml:space="preserve">
-    <value>Main</value>
-  </data>
-  <data name="&gt;&gt;MainTab.Name" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;MainTab.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MainTab.Parent" xml:space="preserve">
-    <value>BBBTabs</value>
-  </data>
-  <data name="&gt;&gt;MainTab.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <metadata name="BBBToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>247, 17</value>
   </metadata>
@@ -273,12 +132,14 @@
   <data name="&gt;&gt;StreamerNameTextBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="StreamerTTSNameGroupBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 261</value>
   </data>
   <data name="StreamerTTSNameGroupBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>151, 64</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="StreamerTTSNameGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
@@ -298,30 +159,6 @@
     <value>MainTab</value>
   </data>
   <data name="&gt;&gt;StreamerTTSNameGroupBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="StreamerNameTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 22</value>
-  </data>
-  <data name="StreamerNameTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 23</value>
-  </data>
-  <data name="StreamerNameTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="StreamerNameTextBox.Text" xml:space="preserve">
-    <value>Streamer</value>
-  </data>
-  <data name="&gt;&gt;StreamerNameTextBox.Name" xml:space="preserve">
-    <value>StreamerNameTextBox</value>
-  </data>
-  <data name="&gt;&gt;StreamerNameTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StreamerNameTextBox.Parent" xml:space="preserve">
-    <value>StreamerTTSNameGroupBox</value>
-  </data>
-  <data name="&gt;&gt;StreamerNameTextBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Name" xml:space="preserve">
@@ -360,27 +197,6 @@
   <data name="&gt;&gt;StreamerPersonaGroupBox.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="BroadcasterSelectedPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 31</value>
-  </data>
-  <data name="BroadcasterSelectedPersonaComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 23</value>
-  </data>
-  <data name="BroadcasterSelectedPersonaComboBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Name" xml:space="preserve">
-    <value>BroadcasterSelectedPersonaComboBox</value>
-  </data>
-  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Parent" xml:space="preserve">
-    <value>StreamerPersonaGroupBox</value>
-  </data>
-  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;STTSelectedComboBox.Name" xml:space="preserve">
     <value>STTSelectedComboBox</value>
   </data>
@@ -416,27 +232,6 @@
   </data>
   <data name="&gt;&gt;StreamerSTTGroupBox.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="STTSelectedComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 31</value>
-  </data>
-  <data name="STTSelectedComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 23</value>
-  </data>
-  <data name="STTSelectedComboBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;STTSelectedComboBox.Name" xml:space="preserve">
-    <value>STTSelectedComboBox</value>
-  </data>
-  <data name="&gt;&gt;STTSelectedComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STTSelectedComboBox.Parent" xml:space="preserve">
-    <value>StreamerSTTGroupBox</value>
-  </data>
-  <data name="&gt;&gt;STTSelectedComboBox.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;MainRecordingStart.Name" xml:space="preserve">
     <value>MainRecordingStart</value>
@@ -474,37 +269,6 @@
   <data name="&gt;&gt;MicrophoneRecordGroupBox.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="MainRecordingStart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="MainRecordingStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 31</value>
-  </data>
-  <data name="MainRecordingStart.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="MainRecordingStart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 27</value>
-  </data>
-  <data name="MainRecordingStart.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="MainRecordingStart.Text" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="&gt;&gt;MainRecordingStart.Name" xml:space="preserve">
-    <value>MainRecordingStart</value>
-  </data>
-  <data name="&gt;&gt;MainRecordingStart.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MainRecordingStart.Parent" xml:space="preserve">
-    <value>MicrophoneRecordGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MainRecordingStart.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="TwitchEventSubStatusTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 431</value>
   </data>
@@ -517,6 +281,7 @@
   <data name="TwitchEventSubStatusTextBox.Text" xml:space="preserve">
     <value>DISABLED</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TwitchEventSubStatusTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
   </data>
@@ -562,6 +327,7 @@
   <data name="TwitchAPIStatusTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 373</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TwitchAPIStatusTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
@@ -649,44 +415,134 @@
   <data name="&gt;&gt;TextLog.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="BBBTabs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="MainTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
   </data>
-  <data name="&gt;&gt;StreamingSettingsTab.Name" xml:space="preserve">
-    <value>StreamingSettingsTab</value>
-  </data>
-  <data name="&gt;&gt;StreamingSettingsTab.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StreamingSettingsTab.Parent" xml:space="preserve">
-    <value>BBBTabs</value>
-  </data>
-  <data name="&gt;&gt;StreamingSettingsTab.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="BBBTabs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 27</value>
-  </data>
-  <data name="BBBTabs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="MainTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
-  <data name="BBBTabs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>676, 550</value>
+  <data name="MainTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
-  <data name="BBBTabs.TabIndex" type="System.Int32, mscorlib">
+  <data name="MainTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>688, 528</value>
+  </data>
+  <data name="MainTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;BBBTabs.Name" xml:space="preserve">
+  <data name="MainTab.Text" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="&gt;&gt;MainTab.Name" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;MainTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MainTab.Parent" xml:space="preserve">
     <value>BBBTabs</value>
   </data>
-  <data name="&gt;&gt;BBBTabs.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BBBTabs.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BBBTabs.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;MainTab.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="StreamerNameTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 22</value>
+  </data>
+  <data name="StreamerNameTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 23</value>
+  </data>
+  <data name="StreamerNameTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="StreamerNameTextBox.Text" xml:space="preserve">
+    <value>Streamer</value>
+  </data>
+  <data name="&gt;&gt;StreamerNameTextBox.Name" xml:space="preserve">
+    <value>StreamerNameTextBox</value>
+  </data>
+  <data name="&gt;&gt;StreamerNameTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StreamerNameTextBox.Parent" xml:space="preserve">
+    <value>StreamerTTSNameGroupBox</value>
+  </data>
+  <data name="&gt;&gt;StreamerNameTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BroadcasterSelectedPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 31</value>
+  </data>
+  <data name="BroadcasterSelectedPersonaComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 23</value>
+  </data>
+  <data name="BroadcasterSelectedPersonaComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Name" xml:space="preserve">
+    <value>BroadcasterSelectedPersonaComboBox</value>
+  </data>
+  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.Parent" xml:space="preserve">
+    <value>StreamerPersonaGroupBox</value>
+  </data>
+  <data name="&gt;&gt;BroadcasterSelectedPersonaComboBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="STTSelectedComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 31</value>
+  </data>
+  <data name="STTSelectedComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 23</value>
+  </data>
+  <data name="STTSelectedComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;STTSelectedComboBox.Name" xml:space="preserve">
+    <value>STTSelectedComboBox</value>
+  </data>
+  <data name="&gt;&gt;STTSelectedComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STTSelectedComboBox.Parent" xml:space="preserve">
+    <value>StreamerSTTGroupBox</value>
+  </data>
+  <data name="&gt;&gt;STTSelectedComboBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="MainRecordingStart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="MainRecordingStart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 31</value>
+  </data>
+  <data name="MainRecordingStart.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="MainRecordingStart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 27</value>
+  </data>
+  <data name="MainRecordingStart.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="MainRecordingStart.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="&gt;&gt;MainRecordingStart.Name" xml:space="preserve">
+    <value>MainRecordingStart</value>
+  </data>
+  <data name="&gt;&gt;MainRecordingStart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MainRecordingStart.Parent" xml:space="preserve">
+    <value>MicrophoneRecordGroupBox</value>
+  </data>
+  <data name="&gt;&gt;MainRecordingStart.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BBBTabs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="&gt;&gt;LLMGroupSettingsGroupBox.Name" xml:space="preserve">
     <value>LLMGroupSettingsGroupBox</value>
@@ -719,7 +575,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="StreamingSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>668, 522</value>
+    <value>688, 528</value>
   </data>
   <data name="StreamingSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -738,6 +594,30 @@
   </data>
   <data name="&gt;&gt;StreamingSettingsTab.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="BBBTabs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 27</value>
+  </data>
+  <data name="BBBTabs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="BBBTabs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>696, 556</value>
+  </data>
+  <data name="BBBTabs.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;BBBTabs.Name" xml:space="preserve">
+    <value>BBBTabs</value>
+  </data>
+  <data name="&gt;&gt;BBBTabs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BBBTabs.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BBBTabs.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;LLMResponseSelecter.Name" xml:space="preserve">
     <value>LLMResponseSelecter</value>
@@ -3068,7 +2948,7 @@
     <value>7, 2, 0, 2</value>
   </data>
   <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>676, 24</value>
+    <value>696, 24</value>
   </data>
   <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -3107,7 +2987,7 @@
     <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>676, 583</value>
+    <value>696, 589</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

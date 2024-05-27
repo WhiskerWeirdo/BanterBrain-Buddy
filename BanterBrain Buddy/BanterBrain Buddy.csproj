@@ -35,6 +35,11 @@
     <SignAssembly>False</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="localization\**" />
+    <EmbeddedResource Remove="localization\**" />
+    <None Remove="localization\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="html\test.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -100,7 +105,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="localization\" />
     <Folder Include="sounds\" />
     <Folder Include="tmp\" />
   </ItemGroup>

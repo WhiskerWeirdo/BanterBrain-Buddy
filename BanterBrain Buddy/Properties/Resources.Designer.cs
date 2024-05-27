@@ -69,5 +69,14 @@ namespace BanterBrain_Buddy.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microphone record.
+        /// </summary>
+        internal static string MicrophoneRecordGroupBox {
+            get {
+                return ResourceManager.GetString("MicrophoneRecordGroupBox", resourceCulture);
+            }
+        }
     }
 }

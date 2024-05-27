@@ -18,6 +18,8 @@ using NAudio.CoreAudioApi;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Security.Cryptography;
+using BanterBrain_Buddy.Properties;
+using System.Globalization;
 
 
 /// <summary>
@@ -83,6 +85,7 @@ namespace BanterBrain_Buddy
             _twitchValidateCheckStarted = false;
 
             InitializeComponent();
+            LoadLanguageStuff();
             SetupConfigFiles();
             LoadPersonas();
 
@@ -94,6 +97,16 @@ namespace BanterBrain_Buddy
 
 
         }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void LoadLanguageStuff()
+        {
+            CultureInfo currentUICulture = CultureInfo.CurrentUICulture;
+            _bBBlog.Debug("Current UI Culture: " + currentUICulture);
+            UpdateTextLog("Current UI Language: " + currentUICulture + "\r\n");
+        //  MicrophoneRecordGroupBox.Text = Resources.ResourceManager.GetString("MicrophoneRecordGroupBox" , CultureInfo.CurrentUICulture);
+        }
+
 
         [SupportedOSPlatform("windows6.1")]
         private async void Startup()
