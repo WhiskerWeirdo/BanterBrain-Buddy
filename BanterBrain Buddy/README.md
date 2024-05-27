@@ -1,4 +1,4 @@
-### v0.1.4-BETA release of BanterBrain Buddy.
+### v0.1.7-BETA release of BanterBrain Buddy.
 Download: https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.1.4-beta
 
 **This BETA requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
@@ -15,6 +15,38 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
 
+- ### RELEASE V0.1.6 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed:
+- Save dialog when you edit the default persona should not popup now all the time
+
+not fixed:
+- Added additional logging to eventsub subscription errors.
+
+### RELEASE V0.1.5 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed: 
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/50 by adding a small delay and a check for ratelimits
+- (hopefully) Azure voice quality should be improved
+
+Added:
+- Ability to post the chat command cooldown being over in Twitch chat.
+### RELEASE V0.1.4 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed:
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/45 fixed; due to logic error whenn the authorized API key and monitoring channel were different people
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/46 fixed; in combination with autostart checked, after the settings window Twitch would disconnect
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/49 fixed; username of broadcaster was not used in streamer/local STT recordings
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/47 fixed; setting was not saved when opening Settings panel.
+
+Improvement:
+- Switching windows now saves settings more often to prevent setting-data loss
+- Main window now calls "Persona"  "Streamer Persona" to make it more obvious that's only used for the Speech-To-Text/streamer.
+
+ 
 ### RELEASE V0.1.3 BETA
 - Fixed https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/47
 - added more times to save settings to make it less likely to miss something when switching screens
