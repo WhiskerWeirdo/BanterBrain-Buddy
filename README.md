@@ -1,6 +1,74 @@
-# BanterBrain Buddy
-v0.0.6-ALPHA
-https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.0.5-alpha
+### v0.1.6-BETA release of BanterBrain Buddy.
+Download: https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.1.0-beta
+
+**This BETA requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
+
+This is a beta, please report all bugs to the discord or here on github. 
+
+### Requisites to run
+This release depends on .NET Runtime Desktop 8. After installation and trying to run BBB you will be asked to download and install this from the Microsoft website if you do not have it installed yet.
+
+You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.4-windows-x64-installer)
+
+### KNOWN ISSUES
+- Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
+- No ability to check for Twitch followers
+- ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
+
+### RELEASE V0.1.6 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed:
+- Save dialog when you edit the default persona should not popup now all the time
+
+not fixed:
+- Added additional logging to eventsub subscription errors.
+
+### RELEASE V0.1.5 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed: 
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/50 by adding a small delay and a check for ratelimits
+- (hopefully) Azure voice quality should be improved
+
+Added:
+- Ability to post the chat command cooldown being over in Twitch chat.
+
+### RELEASE V0.1.4 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed:
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/45 fixed; due to logic error whenn the authorized API key and monitoring channel were different people
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/46 fixed; in combination with autostart checked, after the settings window Twitch would disconnect
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/49 fixed; username of broadcaster was not used in streamer/local STT recordings
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/47 fixed; setting was not saved when opening Settings panel.
+
+Improvement:
+- Switching windows now saves settings more often to prevent setting-data loss
+- Main window now calls "Persona"  "Streamer Persona" to make it more obvious that's only used for the Speech-To-Text/streamer.
+
+### RELEASE V0.1.3 BETA
+- Enabling Ollama in the settings screen while its not running now handled gracefully instead of crashing. Testing Ollama now also handles issues more gracefully instead of crashing.
+- 
+### RELEASE V0.1.2 BETA
+- Elevenlabs speed optimization. It only needs to load the voices when you are busy editing persona's that use Elevenlabs and not in other events.
+
+### RELEASE V0.1.1 BETA
+- Fixes and validations for invalid or empty API keys so that the program does not crash. It fails gracefully and tells you the key is invalid.
+ 
+### RELEASE V0.1.0 BETA
+- many fixes for text input issues, like saving on the correct time or not allowing empty fields
+- Twitch OAUTH fix to allow configurable redirect if default port is occupied
+- Elevenlabs optimizations
+- Fixes to PTT button
+- Fixes to Hotkeys
+- Added timestamps to Main text window 
+- many code hygiene fixes
+- Ollama roletext fix & now Ollama supports and remembers previous content
+- Optimization of API verifications 
+- added more logging to help debugging
+- Added a HELP setting that opens the logfile directory
+- New Elevenlabs library
 
 ## License
 This project uses the GNU General Public License v3.0 as you can read [here](./LICENSE.txt). The TLDR is:
@@ -30,12 +98,21 @@ tldr: use Visual studio 2022 with .net 8.
 ### 0.1.0
 Beta testing, bugfixing and stability improvements
 
-### KNOWN ISSUES
-Known issues:
-- [ ] Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
+- [X] No PTT hotkey
 - [ ] No ability to check for Twitch followers
+- make beta stable
 
 ### Short term roadmap
+- [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
+- [X] 0.0.2 MVP use non-default audio devices for input/output
+- [X] 0.0.3 MVP ability to read Twitch chat and react to specifyable chat command
+- [X] 0.0.4 MVP Azure TTS/STT support
+- [X] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
+- [X] 0.0.5.1 ALPHA INSTALLABLE ALPHA BUILD
+- [ ] 0.0.6 ALPHA Google, Elevenlabs TTS support 
+- [ ] 0.0.7 ALPHA Improved Error handling & Code documentation. GUI improvements
+- [	] 0.0.8 ALPHA Other languages than English support
+- [ ] 0.0.9 ALPHA improve Twitch integration with more configurable event responses
 - [ ] 0.1.0 BETA Installable Beta build release
 
 
