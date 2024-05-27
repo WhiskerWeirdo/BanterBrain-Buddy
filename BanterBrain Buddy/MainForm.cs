@@ -1629,8 +1629,30 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
         {
+
+            string user = e.GetCheerInfo()[0];
+            string message = e.GetCheerInfo()[1];
+            //we got a valid cheer message, lets see what we can do with it
+            _bBBlog.Info("Valid Twitch Cheer message received");
+
             await InvokeUI(async () =>
             {
+                if (message.Length >= 1)
+                    await TalkToLLM($"Respond to the message of {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona).RoleText);
+                else
+                {
+                    message = "no message";
+                    _gPTOutputText = "Thank you for the cheer, next time submit a message!";
+                }
+
+                //we have to await the GPT response, due to running this from another thread await alone is not enough.
+                 while (!_gPTDone)
+                {
+                    await Task.Delay(500);
+                }
+
+                //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
+
                 if (TwitchCheeringSoundCheckBox.Checked)
                 {
                     if (TwitchCheeringSoundTextBox.Text.Length > 1)
@@ -1639,38 +1661,13 @@ namespace BanterBrain_Buddy
                         await PlayWaveFile(TwitchCheeringSoundTextBox.Text);
                     }
                 }
-            });
-            string user = e.GetCheerInfo()[0];
-            string message = e.GetCheerInfo()[1];
-            //we got a valid cheer message, lets see what we can do with it
-            _bBBlog.Info("Valid Twitch Cheer message received");
-            // bool _TalkDone = false;
 
-            if (TwitchCheeringTTSEverythingRadioButton.Checked)
-            {
-                await InvokeUI(async () =>
+                if (TwitchCheeringTTSEverythingRadioButton.Checked)
                 {
                     UpdateTextLog($"Valid Twitch Cheer message received from {user}\r\n");
-                    // await SayText($"Thank you for the bits, {user}!");
-                    await SayText($"{user} cheered with message {message}", 2000, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
-                    // _TalkDone = true;
-                });
-            }
+                    await SayText($"{user} cheered with message {message}", 1000, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
+                }
 
-            await InvokeUI(async () =>
-            {
-                if (message.Length >= 1)
-                    await TalkToLLM($"Respond to the message of {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona).RoleText);
-                //no message is no text
-            });
-            //we have to await the GPT response, due to running this from another thread await alone is not enough.
-            while (!_gPTDone)
-            {
-                await Task.Delay(500);
-            }
-            //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
-            await InvokeUI(async () =>
-            {
                 _bBBlog.Info("LLM response received, saying it");
                 await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
                 _bBBlog.Info("LLM response said");
@@ -1688,8 +1685,26 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubChannelPointRedemption(object sender, TwitchEventhandlers.OnChannelPointCustomRedemptionEventArgs e)
         {
+            string user = e.GetChannelPointCustomRedemptionInfo()[0];
+            string message = e.GetChannelPointCustomRedemptionInfo()[1];
+            _gPTDone = false;
+            _bBBlog.Info($"Valid Twitch Channel Point Redemption message received: {user} redeemed with message: {message}");
+
             await InvokeUI(async () =>
             {
+                if (message.Length >= 1)
+                    await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona).RoleText);
+                else
+                {
+                    message = "no message";
+                    _gPTOutputText = "Thank you for the redeem, next time submit a message!";
+                }
+
+                while (!_gPTDone)
+                {
+                    await Task.Delay(500);
+                }
+                
                 if (TwitchChannelSoundCheckBox.Checked)
                 {
                     if (TwitchChannelSoundTextBox.Text.Length > 1)
@@ -1698,34 +1713,14 @@ namespace BanterBrain_Buddy
                         await PlayWaveFile(TwitchChannelSoundTextBox.Text);
                     }
                 }
-            });
-
-            string user = e.GetChannelPointCustomRedemptionInfo()[0];
-            string message = e.GetChannelPointCustomRedemptionInfo()[1];
-            _gPTDone = false;
-            _bBBlog.Info($"Valid Twitch Channel Point Redemption message received: {user} redeemed with message: {message}");
-
-            if (TwitchChannelPointTTSEverythingRadioButton.Checked)
-            {
-                await InvokeUI(async () =>
+                
+                if (TwitchChannelPointTTSEverythingRadioButton.Checked)
                 {
                     _bBBlog.Info("Lets say a short \"thank you\" for the channel point redemption, and pass the text to the LLM");
                     await SayText($"{user} redeemed with message {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
-                });
-            }
+                }
 
-            await InvokeUI(async () =>
-            {
-                await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona).RoleText);
-            });
-            //we have to await the GPT response, due to running this from another thread await alone is not enough.
-            while (!_gPTDone)
-            {
-                await Task.Delay(500);
-            }
-            //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
-            await InvokeUI(async () =>
-            {
+                //ok we waited, lets say the response, but we need a small delay to not sound unnatural
                 await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
                 _bBBlog.Info("LLM response said");
                 //do we need to post the response in chat?
@@ -1743,6 +1738,11 @@ namespace BanterBrain_Buddy
         //TwitchEventSub_OnESubGiftedSub
         private async void TwitchEventSub_OnESubGiftedSub(object sender, TwitchEventhandlers.OnSubscriptionGiftEventArgs e)
         {
+            string user = e.GetSubscriptionGiftInfo()[0];
+            string amount = e.GetSubscriptionGiftInfo()[1];
+            string tier = e.GetSubscriptionGiftInfo()[2];
+            _bBBlog.Info($"Valid Twitch Gifted Subscription message received: {user} gifted {amount} subs tier {tier}");
+
             await InvokeUI(async () =>
             {
                 if (TwitchSubscriptionSoundCheckBox.Checked)
@@ -1753,29 +1753,25 @@ namespace BanterBrain_Buddy
                         await PlayWaveFile(TwitchSubscriptionSoundTextBox.Text);
                     }
                 }
-            });
-
-            string user = e.GetSubscriptionGiftInfo()[0];
-            string amount = e.GetSubscriptionGiftInfo()[1];
-            string tier = e.GetSubscriptionGiftInfo()[2];
-            _bBBlog.Info($"Valid Twitch Gifted Subscription message received: {user} gifted {amount} subs tier {tier}");
-
-            if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
-            {
-                await InvokeUI(async () =>
+                if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
                 {
                     _bBBlog.Info("Lets say a short \"thank you\" for the gifted sub(s)");
                     if (int.Parse(amount) > 1)
                         await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                     else
                         await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
-                });
-            }
+                }
+            });
+
         }
 
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubSubscribe(object sender, TwitchEventhandlers.OnSubscribeEventArgs e)
         {
+            string user = e.GetSubscribeInfo()[0];
+            string broadcaster = e.GetSubscribeInfo()[1];
+            _bBBlog.Info($"Valid Twitch Subscription message received: {user} subscribed to {broadcaster}");
+
             await InvokeUI(async () =>
             {
                 if (TwitchSubscriptionSoundCheckBox.Checked)
@@ -1786,54 +1782,24 @@ namespace BanterBrain_Buddy
                         await PlayWaveFile(TwitchSubscriptionSoundTextBox.Text);
                     }
                 }
-            });
 
-            string user = e.GetSubscribeInfo()[0];
-            string broadcaster = e.GetSubscribeInfo()[1];
-            _bBBlog.Info($"Valid Twitch Subscription message received: {user} subscribed to {broadcaster}");
-            if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
-            {
-                await InvokeUI(async () =>
+
+                if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
                 {
                     _bBBlog.Info("Lets say a short \"thank you\" for the subscriber");
                     await SayText($"Thanks {user} for subscribing!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
-                });
-            }
+                }
+            });
         }
 
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchEventSub_OnESubReSubscribe(object sender, TwitchEventhandlers.OnReSubscribeEventArgs e)
         {
-            await InvokeUI(async () =>
-            {
-                if (TwitchSubscriptionSoundCheckBox.Checked)
-                {
-                    if (TwitchSubscriptionSoundTextBox.Text.Length > 1)
-                    {
-                        _bBBlog.Info("Playing alert sound for subscription message");
-                        await PlayWaveFile(TwitchSubscriptionSoundTextBox.Text);
-                    }
-                }
-            });
-
             string user = e.GetSubscribeInfo()[0];
             string message = e.GetSubscribeInfo()[1];
             string months = e.GetSubscribeInfo()[2];
             _gPTDone = false;
             _bBBlog.Info($"Valid Twitch Re-Subscription message received: {user} subscribed for {months} months with message: {message}");
-
-            if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
-            {
-                await InvokeUI(async () =>
-                {
-                    if (message.Length <= 1)
-                        await SayText($"{user} has resubscribed for a total of months {months}!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
-                    else
-                    {
-                        await SayText($"{user} has resubscribed for a total of {months} months saying {message}.", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
-                    }
-                });
-            }
 
             if (message.Length >= 1)
             {
@@ -1841,15 +1807,35 @@ namespace BanterBrain_Buddy
                 await InvokeUI(async () =>
                 {
                     await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona).RoleText);
-                });
-                //we have to await the GPT response, due to running this from another thread await alone is not enough.
-                while (!_gPTDone)
-                {
-                    await Task.Delay(500);
-                }
-                //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
-                await InvokeUI(async () =>
-                {
+ 
+                     //we have to await the GPT response, due to running this from another thread await alone is not enough.
+                    while (!_gPTDone)
+                    {
+                        await Task.Delay(500);
+                    }
+                
+                    //do we need to play a sound?
+                    if (TwitchSubscriptionSoundCheckBox.Checked)
+                    {
+                        if (TwitchSubscriptionSoundTextBox.Text.Length > 1)
+                        {
+                            _bBBlog.Info("Playing alert sound for subscription message");
+                            await PlayWaveFile(TwitchSubscriptionSoundTextBox.Text);
+                        }
+                    }
+
+                    //do we need to TTS everything?
+                    if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
+                    {
+                        if (message.Length <= 1)
+                            await SayText($"{user} has resubscribed for a total of months {months}!", 1000, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                        else
+                        {
+                            await SayText($"{user} has resubscribed for a total of {months} months saying {message}.", 1000, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                        }
+                    }
+
+                    //ok we waited, lets say the response, but we need a small delay to not sound unnatural   
                     await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                     _bBBlog.Info("LLM response said");
                     //do we need to post the response in chat?
@@ -1869,18 +1855,6 @@ namespace BanterBrain_Buddy
         //eventhandler for valid chat messages trigger
         private async void TwitchEventSub_OnESubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
         {
-            await InvokeUI(async () =>
-            {
-                if (TwitchChatSoundCheckBox.Checked)
-                {
-                    if (TwitchChatSoundTextBox.Text.Length > 1)
-                    {
-
-                        _bBBlog.Info("Playing alert sound for chat message");
-                        await PlayWaveFile(TwitchChatSoundTextBox.Text);
-                    }
-                }
-            });
 
             string message = e.GetChatInfo()[1].Replace(TwitchCommandTrigger.Text, "");
             string user = e.GetChatInfo()[0];
@@ -1889,28 +1863,38 @@ namespace BanterBrain_Buddy
             _gPTDone = false;
             //we use InvokeUI to make sure we can write to the textlog from another thread that is not the Ui thread.
             //we only have to say this part if we have to say everything!
-            if (TwitchChatTTSEverythingRadioButton.Checked)
-            {
-                await InvokeUI(async () =>
-                {
-                    UpdateTextLog("Valid Twitch Chat message received from user: " + user + " message: " + message + ". Using trigger persona: " + Properties.Settings.Default.TwitchChatPersona + "\r\n");
-                    await SayText($"{user} said {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
-                });
-            }
-            await InvokeUI(async () =>
-            {
-                await TalkToLLM($"respond to {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona).RoleText);
-            });
-            //we have to await the GPT response, due to running this from another thread await alone is not enough.
-            while (!_gPTDone)
-            {
-                await Task.Delay(500);
-            }
-            //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
-            await InvokeUI(async () =>
-            {
 
+            await InvokeUI(async () =>
+            {
+                UpdateTextLog("Valid Twitch Chat message received from user: " + user + " message: " + message + ". Using trigger persona: " + Properties.Settings.Default.TwitchChatPersona + "\r\n");
+                await TalkToLLM($"respond to {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona).RoleText);
+
+                //we have to await the GPT response, due to running this from another thread await alone is not enough.
+                while (!_gPTDone)
+                {
+                    await Task.Delay(500);
+                }
+
+                //do we need to play the sound?
+                if (TwitchChatSoundCheckBox.Checked)
+                {
+                    if (TwitchChatSoundTextBox.Text.Length > 1)
+                    {
+
+                        _bBBlog.Info("Playing alert sound for chat message");
+                        await PlayWaveFile(TwitchChatSoundTextBox.Text);
+
+                    }
+                }
+                //do we need to TTS everything?
+                if (TwitchChatTTSEverythingRadioButton.Checked)
+                {
+                    await SayText($"{user} said {message}", 0, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
+                }
+
+                //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
                 await SayText(_gPTOutputText, 0, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
+
                 _bBBlog.Info("LLM response said");
                 //do we need to post the response in chat?
                 if (TwitchResponseToChatCheckBox.Checked)
@@ -1920,11 +1904,9 @@ namespace BanterBrain_Buddy
                     //then post the response
                     await _twitchEventSub.SendMessage(_gPTOutputText);
                 }
-
             });
 
         }
-
 
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchReadChatCheckBox_Click(object sender, EventArgs e)
