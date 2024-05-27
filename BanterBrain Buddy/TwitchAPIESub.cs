@@ -176,12 +176,12 @@ namespace BanterBrain_Buddy
             await EventSubUnsubscribe("channel.subscription.message");
         }
 
-        public async void EventSubHandleReadchat(string command, int delay, bool follower, bool subscriber)
+        public async void EventSubHandleReadchat(string command, bool follower, bool subscriber)
         {
             _bBBlog.Info("Setting EventSubHandleReadchat");
             _bBBlog.Debug($"SessionID: {_eventSubWebsocketClient.SessionId}");
             EventSubReadChatMessages = true;
-            _eventSubWebsocketClient.ChannelChatMessage += (sender, e) => EventSubOnChannelChatMessage(e, command, delay, follower, subscriber);
+            _eventSubWebsocketClient.ChannelChatMessage += (sender, e) => EventSubOnChannelChatMessage(e, command, follower, subscriber);
             //we can call this function multile times, so we need to check if we are already connected
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
@@ -688,7 +688,7 @@ namespace BanterBrain_Buddy
 
         //eventhandler for reading chat messages.
         //This receives: string command, int delay, bool follower, bool subscriber
-        private async Task EventSubOnChannelChatMessage(ChannelChatMessageArgs e, string command, int delay, bool follower, bool subscriber)
+        private async Task EventSubOnChannelChatMessage(ChannelChatMessageArgs e, string command, bool follower, bool subscriber)
         {
             bool tmpFol = follower;
             _bBBlog.Debug($"Chat message websocket {_eventSubWebsocketClient.SessionId}");
@@ -748,13 +748,18 @@ namespace BanterBrain_Buddy
                 //We need to set a delay before the bot can be triggered again, waiting delay seconds 
                 //not sure if this works ;)
                 _bBBlog.Debug($"Disabling eventhandler for chatmessage");
-                await Task.Delay(delay * 1000);
-                IsCommandTriggered = false;
-                _bBBlog.Debug($"Enabling eventhandler for chatmessage");
-                if (Properties.Settings.Default.DelayFinishToChatcCheckBox)
-                {
-                    await SendMessageWithDelay(Properties.Settings.Default.TwitchDelayMessageTextBox, 1000);
-                }
+                
+            }
+        }
+
+        public async Task EventSubEnableChatMessageHandlerAfterDelay(int delay)
+        {
+            await Task.Delay(delay * 1000);
+            IsCommandTriggered = false;
+            _bBBlog.Debug($"Enabling eventhandler for chatmessage");
+            if (Properties.Settings.Default.DelayFinishToChatcCheckBox)
+            {
+                await SendMessageWithDelay(Properties.Settings.Default.TwitchDelayMessageTextBox, 1000);
             }
         }
 

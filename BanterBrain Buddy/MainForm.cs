@@ -221,8 +221,41 @@ namespace BanterBrain_Buddy
 
         //this is to make sure config files are writable, in the correct %APPDATA%\BanterBrain folder and can be read and write
         [SupportedOSPlatform("windows6.1")]
-        private static void SetupConfigFiles()
+        private void SetupConfigFiles()
         {
+            _bBBlog.Debug("Checking log file");
+            //can we write to the logfile folder?
+            string logdir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs";
+            if (!Directory.Exists(logdir))
+            {
+                _bBBlog.Debug("Creating log directory: " + logdir);
+                Directory.CreateDirectory(logdir);
+            }
+            //test if you can write there
+            _bBBlog.Debug("Testing log directory for file creation rights");
+            if (!File.Exists(logdir + "\\BanterBrainBuddy.log"))
+            {
+                _bBBlog.Debug("Creating BanterBrain.log in logs folder because it does not exist");
+                try
+                {
+                    File.Create(logdir + "\\BanterBrainBuddy.log").Close();
+                } catch (IOException ex)
+                {
+                    UpdateTextLog("IOException access Error creating log file: " + ex.Message + "\r\n");
+                    MessageBox.Show("IOError creating log file. Please check your permissions. " + ex.Message, "Log file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } catch (Exception ex)
+                {
+                    UpdateTextLog("Error creating log file: " + ex.Message + "\r\n");
+                    MessageBox.Show("Error creating log file. Please check your permissions. " + ex.Message, "Log file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                _bBBlog.Debug("Log file exists and should be in: " + logdir);
+                UpdateTextLog("Log file exists and should be in: " + logdir + "\r\n");
+            }
+
+
             //check if the folder exists, if not, create it
 
             string appdataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain";
@@ -1518,7 +1551,7 @@ namespace BanterBrain_Buddy
                 if (TwitchReadChatCheckBox.Checked)
                 {
                     _bBBlog.Info("Twitch read chat enabled, calling eventsubhandlereadchat");
-                    _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), false, TwitchNeedsSubscriber.Checked);
+                    _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, false, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
                     _twitchEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
                 }
@@ -1904,6 +1937,11 @@ namespace BanterBrain_Buddy
                     //then post the response
                     await _twitchEventSub.SendMessage(_gPTOutputText);
                 }
+
+                //we need to call the eventhandler again for chat messages to have its delay and continue.
+                UpdateTextLog($"Starting command cooldown for next chat messageof : {TwitchChatCommandDelay.Text} seconds\r\n");
+                await _twitchEventSub.EventSubEnableChatMessageHandlerAfterDelay(int.Parse(TwitchChatCommandDelay.Text));
+                UpdateTextLog("Cooldown ended listening again for next chat message\r\n");
             });
 
         }
@@ -1934,7 +1972,7 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Info("Twitch read chat enabled.");
                     TwitchEnableDisableFields();
-                    _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, int.Parse(TwitchChatCommandDelay.Text), false, TwitchNeedsSubscriber.Checked);
+                    _twitchEventSub.EventSubHandleReadchat(TwitchCommandTrigger.Text, false, TwitchNeedsSubscriber.Checked);
                     //set local eventhanlder for valid chat messages to trigger the bot
                     _twitchEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
                 }

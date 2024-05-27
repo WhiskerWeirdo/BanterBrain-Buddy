@@ -1087,7 +1087,7 @@ namespace BanterBrain_Buddy
                 if (TwitchMockEventSub.Checked)
                 {
                     _bBBlog.Info("Twitch TEST read chat enabled, calling eventsubhandlereadchat. Command set to $BBB for test");
-                    twitchTestEventSub.EventSubHandleReadchat("$BBB", 300, false, true);
+                    twitchTestEventSub.EventSubHandleReadchat("$BBB", false, true);
                     //set local eventhanlder for valid chat messages to trigger the bot
                     twitchTestEventSub.OnESubChatMessage += TwitchEventSub_OnESubChatMessage;
                 }
