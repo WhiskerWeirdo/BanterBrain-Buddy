@@ -367,7 +367,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B68703FE51CE4A3381865F2AA0D42EDF"
             {
-            "Name" = "8:BanterBrain Buddy 0.1.0 BETA"
+            "Name" = "8:BanterBrain Buddy 0.1.7 BETA"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -381,7 +381,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D4305EE2531B457AA4244C75EC4E0A7C"
             {
-            "Name" = "8:BanterBrain Buddy 0.1.0 BETA"
+            "Name" = "8:BanterBrain Buddy 0.1.7 BETA"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
