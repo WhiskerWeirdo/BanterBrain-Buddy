@@ -2163,7 +2163,7 @@ namespace BanterBrain_Buddy
                 _elevenLabsApi.ElevelLabsAPIKey = Properties.Settings.Default.ElevenLabsAPIkey;
             if (_openAI != null)
                 _openAI.OpenAIAPIKey = Properties.Settings.Default.GPTAPIKey;
-
+            STTSelectedComboBox.Items.Clear();
             LoadPersonas();
             await CheckConfiguredSTTProviders();
             await CheckConfiguredLLMProviders();
