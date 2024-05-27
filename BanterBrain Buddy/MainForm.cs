@@ -650,7 +650,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"Deleting temp wav file: {tmpWavFile}");
             File.Delete(tmpWavFile);
         }
-
+        
         [SupportedOSPlatform("windows6.1")]
         private async void NativeSTTfromWAV(string tmpWavFile)
         {
