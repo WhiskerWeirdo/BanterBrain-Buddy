@@ -33,13 +33,13 @@ namespace BanterBrain_Buddy
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BBB));
             MainTab = new TabPage();
-            groupBox1 = new GroupBox();
+            StreamerTTSNameGroupBox = new GroupBox();
             StreamerNameTextBox = new TextBox();
-            groupBox3 = new GroupBox();
+            StreamerPersonaGroupBox = new GroupBox();
             BroadcasterSelectedPersonaComboBox = new ComboBox();
-            groupBox2 = new GroupBox();
+            StreamerSTTGroupBox = new GroupBox();
             STTSelectedComboBox = new ComboBox();
-            groupBox7 = new GroupBox();
+            MicrophoneRecordGroupBox = new GroupBox();
             MainRecordingStart = new Button();
             TwitchEventSubStatusTextBox = new TextBox();
             TwitchEventSubStatusLabel = new Label();
@@ -48,13 +48,13 @@ namespace BanterBrain_Buddy
             TextLog = new TextBox();
             BBBTabs = new TabControl();
             StreamingSettingsTab = new TabPage();
-            LLMGroupSettings = new GroupBox();
+            LLMGroupSettingsGroupBox = new GroupBox();
             LLMResponseSelecter = new ComboBox();
             label7 = new Label();
-            groupBox4 = new GroupBox();
+            TwitchSettingsGroupBox = new GroupBox();
             TwitchResponseSettings = new GroupBox();
             TwitchResponseToChatDelayTextBox = new TextBox();
-            label8 = new Label();
+            TwitchPostResponseToChatDelayLabel = new Label();
             TwitchResponseToChatCheckBox = new CheckBox();
             TwitchSoundsSettings = new GroupBox();
             TwitchChatSoundSelectButton = new Button();
@@ -71,37 +71,37 @@ namespace BanterBrain_Buddy
             TwitchChannelPointsSettings = new GroupBox();
             TwitchChannelPointTTSResponseOnlyRadioButton = new RadioButton();
             TwitchChannelPointTTSEverythingRadioButton = new RadioButton();
-            label4 = new Label();
+            TwitchChannelPointPersonaLabel = new Label();
             TwitchChannelPointPersonaComboBox = new ComboBox();
-            label9 = new Label();
+            TwitchCustomChannelPointNameLabel = new Label();
             TwitchCustomRewardName = new TextBox();
             TwitchChannelPointCheckBox = new CheckBox();
             TwitchEnableCheckbox = new CheckBox();
             TwitchSubscriberSettings = new GroupBox();
             TwitchSubscriptionTTSResponseOnlyRadioButton = new RadioButton();
             TwitchSubscriptionTTSEverythingRadioButton = new RadioButton();
-            label2 = new Label();
+            TwitchSubscriptionPersonaLabel = new Label();
             TwitchGiftedSub = new CheckBox();
             TwitchSubscriptionPersonaComboBox = new ComboBox();
             TwitchSubscribed = new CheckBox();
             TwitchCheerSettings = new GroupBox();
             TwitchCheeringTTSResponseOnlyRadioButton = new RadioButton();
             TwitchCheeringTTSEverythingRadioButton = new RadioButton();
-            label3 = new Label();
+            TwitchBitsPersonaLabel = new Label();
             TwitchCheeringPersonaComboBox = new ComboBox();
             TwitchCheerCheckBox = new CheckBox();
-            label5 = new Label();
+            TwitchMinimumBitsLabel = new Label();
             TwitchMinBits = new TextBox();
-            TwitchTriggerSettings = new GroupBox();
-            label10 = new Label();
+            TwitchChatTriggerSettings = new GroupBox();
+            TwitchMessageToChatLabel = new Label();
             TwitchDelayMessageTextBox = new TextBox();
             TwitchDelayFinishToChatcCheckBox = new CheckBox();
             TwitchChatTTSResponseOnlyRadioButton = new RadioButton();
             TwitchChatTTSEverythingRadioButton = new RadioButton();
-            label1 = new Label();
+            TwitchChatPersonaLabel = new Label();
             TwitchChatPersonaComboBox = new ComboBox();
             TwitchReadChatCheckBox = new CheckBox();
-            label6 = new Label();
+            TwitchCommandDelayLabel = new Label();
             TwitchChatCommandDelay = new TextBox();
             TwitchNeedsSubscriber = new CheckBox();
             TwitchCommandTrigger = new TextBox();
@@ -117,29 +117,29 @@ namespace BanterBrain_Buddy
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
             MainTab.SuspendLayout();
-            groupBox1.SuspendLayout();
-            groupBox3.SuspendLayout();
-            groupBox2.SuspendLayout();
-            groupBox7.SuspendLayout();
+            StreamerTTSNameGroupBox.SuspendLayout();
+            StreamerPersonaGroupBox.SuspendLayout();
+            StreamerSTTGroupBox.SuspendLayout();
+            MicrophoneRecordGroupBox.SuspendLayout();
             BBBTabs.SuspendLayout();
             StreamingSettingsTab.SuspendLayout();
-            LLMGroupSettings.SuspendLayout();
-            groupBox4.SuspendLayout();
+            LLMGroupSettingsGroupBox.SuspendLayout();
+            TwitchSettingsGroupBox.SuspendLayout();
             TwitchResponseSettings.SuspendLayout();
             TwitchSoundsSettings.SuspendLayout();
             TwitchChannelPointsSettings.SuspendLayout();
             TwitchSubscriberSettings.SuspendLayout();
             TwitchCheerSettings.SuspendLayout();
-            TwitchTriggerSettings.SuspendLayout();
+            TwitchChatTriggerSettings.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // MainTab
             // 
-            MainTab.Controls.Add(groupBox1);
-            MainTab.Controls.Add(groupBox3);
-            MainTab.Controls.Add(groupBox2);
-            MainTab.Controls.Add(groupBox7);
+            MainTab.Controls.Add(StreamerTTSNameGroupBox);
+            MainTab.Controls.Add(StreamerPersonaGroupBox);
+            MainTab.Controls.Add(StreamerSTTGroupBox);
+            MainTab.Controls.Add(MicrophoneRecordGroupBox);
             MainTab.Controls.Add(TwitchEventSubStatusTextBox);
             MainTab.Controls.Add(TwitchEventSubStatusLabel);
             MainTab.Controls.Add(TwitchAPIStatusTextBox);
@@ -149,13 +149,13 @@ namespace BanterBrain_Buddy
             MainTab.Name = "MainTab";
             MainTab.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // StreamerTTSNameGroupBox
             // 
-            groupBox1.Controls.Add(StreamerNameTextBox);
-            resources.ApplyResources(groupBox1, "groupBox1");
-            groupBox1.Name = "groupBox1";
-            groupBox1.TabStop = false;
-            BBBToolTip.SetToolTip(groupBox1, resources.GetString("groupBox1.ToolTip"));
+            StreamerTTSNameGroupBox.Controls.Add(StreamerNameTextBox);
+            resources.ApplyResources(StreamerTTSNameGroupBox, "StreamerTTSNameGroupBox");
+            StreamerTTSNameGroupBox.Name = "StreamerTTSNameGroupBox";
+            StreamerTTSNameGroupBox.TabStop = false;
+            BBBToolTip.SetToolTip(StreamerTTSNameGroupBox, resources.GetString("StreamerTTSNameGroupBox.ToolTip"));
             // 
             // StreamerNameTextBox
             // 
@@ -163,12 +163,12 @@ namespace BanterBrain_Buddy
             StreamerNameTextBox.Name = "StreamerNameTextBox";
             StreamerNameTextBox.Validating += StreamerNameTextBox_Validating;
             // 
-            // groupBox3
+            // StreamerPersonaGroupBox
             // 
-            groupBox3.Controls.Add(BroadcasterSelectedPersonaComboBox);
-            resources.ApplyResources(groupBox3, "groupBox3");
-            groupBox3.Name = "groupBox3";
-            groupBox3.TabStop = false;
+            StreamerPersonaGroupBox.Controls.Add(BroadcasterSelectedPersonaComboBox);
+            resources.ApplyResources(StreamerPersonaGroupBox, "StreamerPersonaGroupBox");
+            StreamerPersonaGroupBox.Name = "StreamerPersonaGroupBox";
+            StreamerPersonaGroupBox.TabStop = false;
             // 
             // BroadcasterSelectedPersonaComboBox
             // 
@@ -178,12 +178,12 @@ namespace BanterBrain_Buddy
             BroadcasterSelectedPersonaComboBox.Name = "BroadcasterSelectedPersonaComboBox";
             BroadcasterSelectedPersonaComboBox.SelectedIndexChanged += BroadcasterSelectedPersonaComboBox_SelectedIndexChanged;
             // 
-            // groupBox2
+            // StreamerSTTGroupBox
             // 
-            groupBox2.Controls.Add(STTSelectedComboBox);
-            resources.ApplyResources(groupBox2, "groupBox2");
-            groupBox2.Name = "groupBox2";
-            groupBox2.TabStop = false;
+            StreamerSTTGroupBox.Controls.Add(STTSelectedComboBox);
+            resources.ApplyResources(StreamerSTTGroupBox, "StreamerSTTGroupBox");
+            StreamerSTTGroupBox.Name = "StreamerSTTGroupBox";
+            StreamerSTTGroupBox.TabStop = false;
             // 
             // STTSelectedComboBox
             // 
@@ -193,12 +193,12 @@ namespace BanterBrain_Buddy
             STTSelectedComboBox.Name = "STTSelectedComboBox";
             STTSelectedComboBox.SelectedIndexChanged += STTSelectedComboBox_SelectedIndexChanged;
             // 
-            // groupBox7
+            // MicrophoneRecordGroupBox
             // 
-            groupBox7.Controls.Add(MainRecordingStart);
-            resources.ApplyResources(groupBox7, "groupBox7");
-            groupBox7.Name = "groupBox7";
-            groupBox7.TabStop = false;
+            MicrophoneRecordGroupBox.Controls.Add(MainRecordingStart);
+            resources.ApplyResources(MicrophoneRecordGroupBox, "MicrophoneRecordGroupBox");
+            MicrophoneRecordGroupBox.Name = "MicrophoneRecordGroupBox";
+            MicrophoneRecordGroupBox.TabStop = false;
             // 
             // MainRecordingStart
             // 
@@ -251,19 +251,19 @@ namespace BanterBrain_Buddy
             // 
             // StreamingSettingsTab
             // 
-            StreamingSettingsTab.Controls.Add(LLMGroupSettings);
-            StreamingSettingsTab.Controls.Add(groupBox4);
+            StreamingSettingsTab.Controls.Add(LLMGroupSettingsGroupBox);
+            StreamingSettingsTab.Controls.Add(TwitchSettingsGroupBox);
             resources.ApplyResources(StreamingSettingsTab, "StreamingSettingsTab");
             StreamingSettingsTab.Name = "StreamingSettingsTab";
             StreamingSettingsTab.UseVisualStyleBackColor = true;
             // 
-            // LLMGroupSettings
+            // LLMGroupSettingsGroupBox
             // 
-            LLMGroupSettings.Controls.Add(LLMResponseSelecter);
-            LLMGroupSettings.Controls.Add(label7);
-            resources.ApplyResources(LLMGroupSettings, "LLMGroupSettings");
-            LLMGroupSettings.Name = "LLMGroupSettings";
-            LLMGroupSettings.TabStop = false;
+            LLMGroupSettingsGroupBox.Controls.Add(LLMResponseSelecter);
+            LLMGroupSettingsGroupBox.Controls.Add(label7);
+            resources.ApplyResources(LLMGroupSettingsGroupBox, "LLMGroupSettingsGroupBox");
+            LLMGroupSettingsGroupBox.Name = "LLMGroupSettingsGroupBox";
+            LLMGroupSettingsGroupBox.TabStop = false;
             // 
             // LLMResponseSelecter
             // 
@@ -278,25 +278,25 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(label7, "label7");
             label7.Name = "label7";
             // 
-            // groupBox4
+            // TwitchSettingsGroupBox
             // 
-            groupBox4.Controls.Add(TwitchResponseSettings);
-            groupBox4.Controls.Add(TwitchSoundsSettings);
-            groupBox4.Controls.Add(TwitchAutoStart);
-            groupBox4.Controls.Add(TwitchStartButton);
-            groupBox4.Controls.Add(TwitchChannelPointsSettings);
-            groupBox4.Controls.Add(TwitchEnableCheckbox);
-            groupBox4.Controls.Add(TwitchSubscriberSettings);
-            groupBox4.Controls.Add(TwitchCheerSettings);
-            groupBox4.Controls.Add(TwitchTriggerSettings);
-            resources.ApplyResources(groupBox4, "groupBox4");
-            groupBox4.Name = "groupBox4";
-            groupBox4.TabStop = false;
+            TwitchSettingsGroupBox.Controls.Add(TwitchResponseSettings);
+            TwitchSettingsGroupBox.Controls.Add(TwitchSoundsSettings);
+            TwitchSettingsGroupBox.Controls.Add(TwitchAutoStart);
+            TwitchSettingsGroupBox.Controls.Add(TwitchStartButton);
+            TwitchSettingsGroupBox.Controls.Add(TwitchChannelPointsSettings);
+            TwitchSettingsGroupBox.Controls.Add(TwitchEnableCheckbox);
+            TwitchSettingsGroupBox.Controls.Add(TwitchSubscriberSettings);
+            TwitchSettingsGroupBox.Controls.Add(TwitchCheerSettings);
+            TwitchSettingsGroupBox.Controls.Add(TwitchChatTriggerSettings);
+            resources.ApplyResources(TwitchSettingsGroupBox, "TwitchSettingsGroupBox");
+            TwitchSettingsGroupBox.Name = "TwitchSettingsGroupBox";
+            TwitchSettingsGroupBox.TabStop = false;
             // 
             // TwitchResponseSettings
             // 
             TwitchResponseSettings.Controls.Add(TwitchResponseToChatDelayTextBox);
-            TwitchResponseSettings.Controls.Add(label8);
+            TwitchResponseSettings.Controls.Add(TwitchPostResponseToChatDelayLabel);
             TwitchResponseSettings.Controls.Add(TwitchResponseToChatCheckBox);
             resources.ApplyResources(TwitchResponseSettings, "TwitchResponseSettings");
             TwitchResponseSettings.Name = "TwitchResponseSettings";
@@ -310,10 +310,10 @@ namespace BanterBrain_Buddy
             TwitchResponseToChatDelayTextBox.KeyPress += TwitchResponseToChatDelayTextBox_KeyPress;
             TwitchResponseToChatDelayTextBox.Validating += TwitchResponseToChatDelayTextBox_Validating;
             // 
-            // label8
+            // TwitchPostResponseToChatDelayLabel
             // 
-            resources.ApplyResources(label8, "label8");
-            label8.Name = "label8";
+            resources.ApplyResources(TwitchPostResponseToChatDelayLabel, "TwitchPostResponseToChatDelayLabel");
+            TwitchPostResponseToChatDelayLabel.Name = "TwitchPostResponseToChatDelayLabel";
             // 
             // TwitchResponseToChatCheckBox
             // 
@@ -421,9 +421,9 @@ namespace BanterBrain_Buddy
             // 
             TwitchChannelPointsSettings.Controls.Add(TwitchChannelPointTTSResponseOnlyRadioButton);
             TwitchChannelPointsSettings.Controls.Add(TwitchChannelPointTTSEverythingRadioButton);
-            TwitchChannelPointsSettings.Controls.Add(label4);
+            TwitchChannelPointsSettings.Controls.Add(TwitchChannelPointPersonaLabel);
             TwitchChannelPointsSettings.Controls.Add(TwitchChannelPointPersonaComboBox);
-            TwitchChannelPointsSettings.Controls.Add(label9);
+            TwitchChannelPointsSettings.Controls.Add(TwitchCustomChannelPointNameLabel);
             TwitchChannelPointsSettings.Controls.Add(TwitchCustomRewardName);
             TwitchChannelPointsSettings.Controls.Add(TwitchChannelPointCheckBox);
             resources.ApplyResources(TwitchChannelPointsSettings, "TwitchChannelPointsSettings");
@@ -446,10 +446,10 @@ namespace BanterBrain_Buddy
             BBBToolTip.SetToolTip(TwitchChannelPointTTSEverythingRadioButton, resources.GetString("TwitchChannelPointTTSEverythingRadioButton.ToolTip"));
             TwitchChannelPointTTSEverythingRadioButton.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // TwitchChannelPointPersonaLabel
             // 
-            resources.ApplyResources(label4, "label4");
-            label4.Name = "label4";
+            resources.ApplyResources(TwitchChannelPointPersonaLabel, "TwitchChannelPointPersonaLabel");
+            TwitchChannelPointPersonaLabel.Name = "TwitchChannelPointPersonaLabel";
             // 
             // TwitchChannelPointPersonaComboBox
             // 
@@ -459,10 +459,10 @@ namespace BanterBrain_Buddy
             TwitchChannelPointPersonaComboBox.Name = "TwitchChannelPointPersonaComboBox";
             TwitchChannelPointPersonaComboBox.SelectedIndexChanged += TwitchChannelPointPersonaComboBox_SelectedIndexChanged;
             // 
-            // label9
+            // TwitchCustomChannelPointNameLabel
             // 
-            resources.ApplyResources(label9, "label9");
-            label9.Name = "label9";
+            resources.ApplyResources(TwitchCustomChannelPointNameLabel, "TwitchCustomChannelPointNameLabel");
+            TwitchCustomChannelPointNameLabel.Name = "TwitchCustomChannelPointNameLabel";
             // 
             // TwitchCustomRewardName
             // 
@@ -488,7 +488,7 @@ namespace BanterBrain_Buddy
             // 
             TwitchSubscriberSettings.Controls.Add(TwitchSubscriptionTTSResponseOnlyRadioButton);
             TwitchSubscriberSettings.Controls.Add(TwitchSubscriptionTTSEverythingRadioButton);
-            TwitchSubscriberSettings.Controls.Add(label2);
+            TwitchSubscriberSettings.Controls.Add(TwitchSubscriptionPersonaLabel);
             TwitchSubscriberSettings.Controls.Add(TwitchGiftedSub);
             TwitchSubscriberSettings.Controls.Add(TwitchSubscriptionPersonaComboBox);
             TwitchSubscriberSettings.Controls.Add(TwitchSubscribed);
@@ -512,10 +512,10 @@ namespace BanterBrain_Buddy
             BBBToolTip.SetToolTip(TwitchSubscriptionTTSEverythingRadioButton, resources.GetString("TwitchSubscriptionTTSEverythingRadioButton.ToolTip"));
             TwitchSubscriptionTTSEverythingRadioButton.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // TwitchSubscriptionPersonaLabel
             // 
-            resources.ApplyResources(label2, "label2");
-            label2.Name = "label2";
+            resources.ApplyResources(TwitchSubscriptionPersonaLabel, "TwitchSubscriptionPersonaLabel");
+            TwitchSubscriptionPersonaLabel.Name = "TwitchSubscriptionPersonaLabel";
             // 
             // TwitchGiftedSub
             // 
@@ -545,10 +545,10 @@ namespace BanterBrain_Buddy
             // 
             TwitchCheerSettings.Controls.Add(TwitchCheeringTTSResponseOnlyRadioButton);
             TwitchCheerSettings.Controls.Add(TwitchCheeringTTSEverythingRadioButton);
-            TwitchCheerSettings.Controls.Add(label3);
+            TwitchCheerSettings.Controls.Add(TwitchBitsPersonaLabel);
             TwitchCheerSettings.Controls.Add(TwitchCheeringPersonaComboBox);
             TwitchCheerSettings.Controls.Add(TwitchCheerCheckBox);
-            TwitchCheerSettings.Controls.Add(label5);
+            TwitchCheerSettings.Controls.Add(TwitchMinimumBitsLabel);
             TwitchCheerSettings.Controls.Add(TwitchMinBits);
             resources.ApplyResources(TwitchCheerSettings, "TwitchCheerSettings");
             TwitchCheerSettings.Name = "TwitchCheerSettings";
@@ -570,10 +570,10 @@ namespace BanterBrain_Buddy
             BBBToolTip.SetToolTip(TwitchCheeringTTSEverythingRadioButton, resources.GetString("TwitchCheeringTTSEverythingRadioButton.ToolTip"));
             TwitchCheeringTTSEverythingRadioButton.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // TwitchBitsPersonaLabel
             // 
-            resources.ApplyResources(label3, "label3");
-            label3.Name = "label3";
+            resources.ApplyResources(TwitchBitsPersonaLabel, "TwitchBitsPersonaLabel");
+            TwitchBitsPersonaLabel.Name = "TwitchBitsPersonaLabel";
             // 
             // TwitchCheeringPersonaComboBox
             // 
@@ -591,10 +591,10 @@ namespace BanterBrain_Buddy
             TwitchCheerCheckBox.UseVisualStyleBackColor = true;
             TwitchCheerCheckBox.Click += TwitchCheerCheckbox_Click;
             // 
-            // label5
+            // TwitchMinimumBitsLabel
             // 
-            resources.ApplyResources(label5, "label5");
-            label5.Name = "label5";
+            resources.ApplyResources(TwitchMinimumBitsLabel, "TwitchMinimumBitsLabel");
+            TwitchMinimumBitsLabel.Name = "TwitchMinimumBitsLabel";
             // 
             // TwitchMinBits
             // 
@@ -603,29 +603,29 @@ namespace BanterBrain_Buddy
             TwitchMinBits.KeyPress += TwitchMinBits_KeyPress;
             TwitchMinBits.Validating += TwitchMinBits_Validating;
             // 
-            // TwitchTriggerSettings
+            // TwitchChatTriggerSettings
             // 
-            TwitchTriggerSettings.Controls.Add(label10);
-            TwitchTriggerSettings.Controls.Add(TwitchDelayMessageTextBox);
-            TwitchTriggerSettings.Controls.Add(TwitchDelayFinishToChatcCheckBox);
-            TwitchTriggerSettings.Controls.Add(TwitchChatTTSResponseOnlyRadioButton);
-            TwitchTriggerSettings.Controls.Add(TwitchChatTTSEverythingRadioButton);
-            TwitchTriggerSettings.Controls.Add(label1);
-            TwitchTriggerSettings.Controls.Add(TwitchChatPersonaComboBox);
-            TwitchTriggerSettings.Controls.Add(TwitchReadChatCheckBox);
-            TwitchTriggerSettings.Controls.Add(label6);
-            TwitchTriggerSettings.Controls.Add(TwitchChatCommandDelay);
-            TwitchTriggerSettings.Controls.Add(TwitchNeedsSubscriber);
-            TwitchTriggerSettings.Controls.Add(TwitchCommandTrigger);
-            TwitchTriggerSettings.Controls.Add(TwitchCommandTriggerLabel);
-            resources.ApplyResources(TwitchTriggerSettings, "TwitchTriggerSettings");
-            TwitchTriggerSettings.Name = "TwitchTriggerSettings";
-            TwitchTriggerSettings.TabStop = false;
+            TwitchChatTriggerSettings.Controls.Add(TwitchMessageToChatLabel);
+            TwitchChatTriggerSettings.Controls.Add(TwitchDelayMessageTextBox);
+            TwitchChatTriggerSettings.Controls.Add(TwitchDelayFinishToChatcCheckBox);
+            TwitchChatTriggerSettings.Controls.Add(TwitchChatTTSResponseOnlyRadioButton);
+            TwitchChatTriggerSettings.Controls.Add(TwitchChatTTSEverythingRadioButton);
+            TwitchChatTriggerSettings.Controls.Add(TwitchChatPersonaLabel);
+            TwitchChatTriggerSettings.Controls.Add(TwitchChatPersonaComboBox);
+            TwitchChatTriggerSettings.Controls.Add(TwitchReadChatCheckBox);
+            TwitchChatTriggerSettings.Controls.Add(TwitchCommandDelayLabel);
+            TwitchChatTriggerSettings.Controls.Add(TwitchChatCommandDelay);
+            TwitchChatTriggerSettings.Controls.Add(TwitchNeedsSubscriber);
+            TwitchChatTriggerSettings.Controls.Add(TwitchCommandTrigger);
+            TwitchChatTriggerSettings.Controls.Add(TwitchCommandTriggerLabel);
+            resources.ApplyResources(TwitchChatTriggerSettings, "TwitchChatTriggerSettings");
+            TwitchChatTriggerSettings.Name = "TwitchChatTriggerSettings";
+            TwitchChatTriggerSettings.TabStop = false;
             // 
-            // label10
+            // TwitchMessageToChatLabel
             // 
-            resources.ApplyResources(label10, "label10");
-            label10.Name = "label10";
+            resources.ApplyResources(TwitchMessageToChatLabel, "TwitchMessageToChatLabel");
+            TwitchMessageToChatLabel.Name = "TwitchMessageToChatLabel";
             // 
             // TwitchDelayMessageTextBox
             // 
@@ -656,10 +656,10 @@ namespace BanterBrain_Buddy
             BBBToolTip.SetToolTip(TwitchChatTTSEverythingRadioButton, resources.GetString("TwitchChatTTSEverythingRadioButton.ToolTip"));
             TwitchChatTTSEverythingRadioButton.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // TwitchChatPersonaLabel
             // 
-            resources.ApplyResources(label1, "label1");
-            label1.Name = "label1";
+            resources.ApplyResources(TwitchChatPersonaLabel, "TwitchChatPersonaLabel");
+            TwitchChatPersonaLabel.Name = "TwitchChatPersonaLabel";
             // 
             // TwitchChatPersonaComboBox
             // 
@@ -677,10 +677,10 @@ namespace BanterBrain_Buddy
             TwitchReadChatCheckBox.UseVisualStyleBackColor = true;
             TwitchReadChatCheckBox.Click += TwitchReadChatCheckBox_Click;
             // 
-            // label6
+            // TwitchCommandDelayLabel
             // 
-            resources.ApplyResources(label6, "label6");
-            label6.Name = "label6";
+            resources.ApplyResources(TwitchCommandDelayLabel, "TwitchCommandDelayLabel");
+            TwitchCommandDelayLabel.Name = "TwitchCommandDelayLabel";
             // 
             // TwitchChatCommandDelay
             // 
@@ -775,17 +775,17 @@ namespace BanterBrain_Buddy
             VisibleChanged += BBB_VisibleChanged;
             MainTab.ResumeLayout(false);
             MainTab.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            groupBox3.ResumeLayout(false);
-            groupBox2.ResumeLayout(false);
-            groupBox7.ResumeLayout(false);
+            StreamerTTSNameGroupBox.ResumeLayout(false);
+            StreamerTTSNameGroupBox.PerformLayout();
+            StreamerPersonaGroupBox.ResumeLayout(false);
+            StreamerSTTGroupBox.ResumeLayout(false);
+            MicrophoneRecordGroupBox.ResumeLayout(false);
             BBBTabs.ResumeLayout(false);
             StreamingSettingsTab.ResumeLayout(false);
-            LLMGroupSettings.ResumeLayout(false);
-            LLMGroupSettings.PerformLayout();
-            groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
+            LLMGroupSettingsGroupBox.ResumeLayout(false);
+            LLMGroupSettingsGroupBox.PerformLayout();
+            TwitchSettingsGroupBox.ResumeLayout(false);
+            TwitchSettingsGroupBox.PerformLayout();
             TwitchResponseSettings.ResumeLayout(false);
             TwitchResponseSettings.PerformLayout();
             TwitchSoundsSettings.ResumeLayout(false);
@@ -796,8 +796,8 @@ namespace BanterBrain_Buddy
             TwitchSubscriberSettings.PerformLayout();
             TwitchCheerSettings.ResumeLayout(false);
             TwitchCheerSettings.PerformLayout();
-            TwitchTriggerSettings.ResumeLayout(false);
-            TwitchTriggerSettings.PerformLayout();
+            TwitchChatTriggerSettings.ResumeLayout(false);
+            TwitchChatTriggerSettings.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -816,48 +816,48 @@ namespace BanterBrain_Buddy
         private ToolStripMenuItem DiscordToolStripMenuItem;
         private MenuStrip menuStrip1;
         private TabPage StreamingSettingsTab;
-        private GroupBox groupBox4;
+        private GroupBox TwitchSettingsGroupBox;
         private TextBox TwitchAPIStatusTextBox;
         private Label TwitchStatusLabel;
         private GroupBox TwitchCheerSettings;
-        private GroupBox TwitchTriggerSettings;
+        private GroupBox TwitchChatTriggerSettings;
         private CheckBox TwitchNeedsSubscriber;
         private TextBox TwitchCommandTrigger;
         private Label TwitchCommandTriggerLabel;
         private GroupBox TwitchSubscriberSettings;
         private CheckBox TwitchSubscribed;
-        private Label label5;
+        private Label TwitchMinimumBitsLabel;
         private TextBox TwitchMinBits;
-        private Label label6;
+        private Label TwitchCommandDelayLabel;
         private TextBox TwitchChatCommandDelay;
         private CheckBox TwitchGiftedSub;
         private CheckBox TwitchEnableCheckbox;
         private Label TwitchEventSubStatusLabel;
         private TextBox TwitchEventSubStatusTextBox;
         private CheckBox TwitchReadChatCheckBox;
-        private GroupBox groupBox7;
+        private GroupBox MicrophoneRecordGroupBox;
         private CheckBox TwitchCheerCheckBox;
         private GroupBox TwitchChannelPointsSettings;
-        private Label label9;
+        private Label TwitchCustomChannelPointNameLabel;
         private TextBox TwitchCustomRewardName;
         private CheckBox TwitchChannelPointCheckBox;
         private ToolTip BBBToolTip;
         private ToolStripMenuItem seToolStripMenuItem;
-        private GroupBox groupBox2;
+        private GroupBox StreamerSTTGroupBox;
         private ComboBox STTSelectedComboBox;
-        private GroupBox groupBox3;
+        private GroupBox StreamerPersonaGroupBox;
         private ComboBox BroadcasterSelectedPersonaComboBox;
-        private Label label1;
+        private Label TwitchChatPersonaLabel;
         private ComboBox TwitchChatPersonaComboBox;
-        private Label label4;
+        private Label TwitchChannelPointPersonaLabel;
         private ComboBox TwitchChannelPointPersonaComboBox;
-        private Label label2;
+        private Label TwitchSubscriptionPersonaLabel;
         private ComboBox TwitchSubscriptionPersonaComboBox;
-        private Label label3;
+        private Label TwitchBitsPersonaLabel;
         private ComboBox TwitchCheeringPersonaComboBox;
         private Button TwitchStartButton;
         private CheckBox TwitchAutoStart;
-        private GroupBox LLMGroupSettings;
+        private GroupBox LLMGroupSettingsGroupBox;
         private ComboBox LLMResponseSelecter;
         private Label label7;
         private GroupBox TwitchSoundsSettings;
@@ -872,7 +872,7 @@ namespace BanterBrain_Buddy
         private ComboBox TwitchCheeringSoundTextBox;
         private GroupBox TwitchResponseSettings;
         private TextBox TwitchResponseToChatDelayTextBox;
-        private Label label8;
+        private Label TwitchPostResponseToChatDelayLabel;
         private CheckBox TwitchResponseToChatCheckBox;
         private RadioButton TwitchSubscriptionTTSResponseOnlyRadioButton;
         private RadioButton TwitchSubscriptionTTSEverythingRadioButton;
@@ -885,9 +885,9 @@ namespace BanterBrain_Buddy
         private ToolStripMenuItem logfileDirectoryToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem1;
         private CheckBox TwitchDelayFinishToChatcCheckBox;
-        private Label label10;
+        private Label TwitchMessageToChatLabel;
         private TextBox TwitchDelayMessageTextBox;
-        private GroupBox groupBox1;
+        private GroupBox StreamerTTSNameGroupBox;
         private TextBox StreamerNameTextBox;
     }
 }

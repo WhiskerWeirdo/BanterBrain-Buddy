@@ -139,7 +139,7 @@ namespace BanterBrain_Buddy
                     {
                         MainRecordingStart.Enabled = false;
                         TwitchStartButton.Enabled = false;
-                        LLMGroupSettings.Enabled = false;
+                        LLMGroupSettingsGroupBox.Enabled = false;
                         _bBBlog.Error("No LLM's found. You need at least one. Please check your settings.");
                         UpdateTextLog("No LLM's found. You need at least one. Please check your settings.\r\n");
                         //  MessageBox.Show("No LLM's found. You need at least one. Please check your settings.", "LLM error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -159,7 +159,7 @@ namespace BanterBrain_Buddy
                 {
                     MainRecordingStart.Enabled = false;
                     TwitchStartButton.Enabled = false;
-                    LLMGroupSettings.Enabled = false;
+                    LLMGroupSettingsGroupBox.Enabled = false;
                     //MessageBox.Show("No LLM's found. You need at least one. Please check your settings.", "LLM error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -966,7 +966,7 @@ namespace BanterBrain_Buddy
             else
             {
                 _bBBlog.Error("No LLM selected");
-                LLMGroupSettings.Enabled = false;
+                LLMGroupSettingsGroupBox.Enabled = false;
                 MessageBox.Show("No LLM selected. This is bad!", "LLM error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             //lets wait for GPT to be done
@@ -1114,7 +1114,7 @@ namespace BanterBrain_Buddy
             if (Properties.Settings.Default.TwitchEnable)
             {
                 TwitchStartButton.Enabled = true;
-                TwitchTriggerSettings.Enabled = true;
+                TwitchChatTriggerSettings.Enabled = true;
                 TwitchCheerSettings.Enabled = true;
                 TwitchSubscriberSettings.Enabled = true;
                 TwitchChannelPointsSettings.Enabled = true;
@@ -1125,7 +1125,7 @@ namespace BanterBrain_Buddy
             else
             {
                 TwitchStartButton.Enabled = false;
-                TwitchTriggerSettings.Enabled = false;
+                TwitchChatTriggerSettings.Enabled = false;
                 TwitchCheerSettings.Enabled = false;
                 TwitchSubscriberSettings.Enabled = false;
                 TwitchChannelPointsSettings.Enabled = false;
@@ -1318,7 +1318,7 @@ namespace BanterBrain_Buddy
             else if (Properties.Settings.Default.SelectedLLM == "None" || Properties.Settings.Default.SelectedLLM == "")
             {
                 UpdateTextLog("No LLM selected. You should set one in the settings first\r\n");
-                LLMGroupSettings.Enabled = false;
+                LLMGroupSettingsGroupBox.Enabled = false;
             }
 
             if (TwitchAutoStart.Checked && TwitchAPIStatusTextBox.Text == "DISABLED" && TwitchEventSubStatusTextBox.Text == "DISABLED")
@@ -2391,7 +2391,7 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Twitch enabled. Enabling all settings");
                 TwitchStartButton.Enabled = true;
-                TwitchTriggerSettings.Enabled = true;
+                TwitchChatTriggerSettings.Enabled = true;
                 TwitchCheerSettings.Enabled = true;
                 TwitchSubscriberSettings.Enabled = true;
                 TwitchChannelPointsSettings.Enabled = true;
@@ -2404,7 +2404,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info("Twitch disabled. Stopping API and EventSub");
                 //do same as stop also disable stuff
                 TwitchStartButton.Enabled = false;
-                TwitchTriggerSettings.Enabled = false;
+                TwitchChatTriggerSettings.Enabled = false;
                 TwitchCheerSettings.Enabled = false;
                 TwitchSubscriberSettings.Enabled = false;
                 TwitchChannelPointsSettings.Enabled = false;

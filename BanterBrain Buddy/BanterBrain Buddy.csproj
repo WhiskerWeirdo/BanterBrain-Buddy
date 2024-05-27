@@ -100,7 +100,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Folder Include="localization\" />
     <Folder Include="sounds\" />
     <Folder Include="tmp\" />
   </ItemGroup>
