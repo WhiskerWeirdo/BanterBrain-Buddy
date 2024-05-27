@@ -239,11 +239,13 @@ namespace BanterBrain_Buddy
                 try
                 {
                     File.Create(logdir + "\\BanterBrainBuddy.log").Close();
-                } catch (IOException ex)
+                }
+                catch (IOException ex)
                 {
                     UpdateTextLog("IOException access Error creating log file: " + ex.Message + "\r\n");
                     MessageBox.Show("IOError creating log file. Please check your permissions. " + ex.Message, "Log file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     UpdateTextLog("Error creating log file: " + ex.Message + "\r\n");
                     MessageBox.Show("Error creating log file. Please check your permissions. " + ex.Message, "Log file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1061,7 +1063,7 @@ namespace BanterBrain_Buddy
                     if (Properties.Settings.Default.TwitchUsername.Length > 0)
                     {
                         _bBBlog.Debug("Adding streamer name to STT text");
-                        _sTTOutputText = Properties.Settings.Default.TwitchUsername + " says: " + _sTTOutputText;
+                        _sTTOutputText = Properties.Settings.Default.StreamerNameTextBox + " says: " + _sTTOutputText;
                     }
 
                     await TalkToLLM(_sTTOutputText, GetSelectedPersona(BroadcasterSelectedPersonaComboBox.Text).RoleText);
@@ -1149,6 +1151,7 @@ namespace BanterBrain_Buddy
             TwitchResponseToChatCheckBox.Checked = Properties.Settings.Default.TwitchResponseToChatCheckBox;
             TwitchResponseToChatDelayTextBox.Text = Properties.Settings.Default.TwitchResponseToChatDelayTextBox;
             TwitchChatPersonaComboBox.SelectedIndex = TwitchChatPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChatPersona);
+
 
             //load settings but also have safe defaults
             TwitchSubscriptionTTSResponseOnlyRadioButton.Checked = Properties.Settings.Default.TwitchSubscriptionTTSResponseOnlyRadioButton;
@@ -1325,6 +1328,11 @@ namespace BanterBrain_Buddy
                 TwitchStartButton_Click(null, null);
             }
 
+            if (Properties.Settings.Default.StreamerNameTextBox.Length > 1)
+                StreamerNameTextBox.Text = Properties.Settings.Default.StreamerNameTextBox;
+            else
+                StreamerNameTextBox.Text = "Streamer";
+
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1382,6 +1390,7 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchCheeringTTSResponseOnlyRadioButton = TwitchCheeringTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChannelPointTTSResponseOnlyRadioButton = TwitchChannelPointTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChatTTSResponseOnlyRadioButton = TwitchChatTTSResponseOnlyRadioButton.Checked;
+            Properties.Settings.Default.StreamerNameTextBox = StreamerNameTextBox.Text;
             Properties.Settings.Default.Save();
         }
 
@@ -1679,7 +1688,7 @@ namespace BanterBrain_Buddy
                 }
 
                 //we have to await the GPT response, due to running this from another thread await alone is not enough.
-                 while (!_gPTDone)
+                while (!_gPTDone)
                 {
                     await Task.Delay(500);
                 }
@@ -1737,7 +1746,7 @@ namespace BanterBrain_Buddy
                 {
                     await Task.Delay(500);
                 }
-                
+
                 if (TwitchChannelSoundCheckBox.Checked)
                 {
                     if (TwitchChannelSoundTextBox.Text.Length > 1)
@@ -1746,7 +1755,7 @@ namespace BanterBrain_Buddy
                         await PlayWaveFile(TwitchChannelSoundTextBox.Text);
                     }
                 }
-                
+
                 if (TwitchChannelPointTTSEverythingRadioButton.Checked)
                 {
                     _bBBlog.Info("Lets say a short \"thank you\" for the channel point redemption, and pass the text to the LLM");
@@ -1840,13 +1849,13 @@ namespace BanterBrain_Buddy
                 await InvokeUI(async () =>
                 {
                     await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona).RoleText);
- 
-                     //we have to await the GPT response, due to running this from another thread await alone is not enough.
+
+                    //we have to await the GPT response, due to running this from another thread await alone is not enough.
                     while (!_gPTDone)
                     {
                         await Task.Delay(500);
                     }
-                
+
                     //do we need to play a sound?
                     if (TwitchSubscriptionSoundCheckBox.Checked)
                     {
@@ -2657,7 +2666,8 @@ namespace BanterBrain_Buddy
             {
                 MessageBox.Show("This field cannot be empty");
                 e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
-            } else
+            }
+            else
             {
                 Properties.Settings.Default.TwitchDelayMessageTextBox = currenttb.Text;
                 Properties.Settings.Default.Save();
@@ -2677,6 +2687,21 @@ namespace BanterBrain_Buddy
             {
                 TwitchDelayMessageTextBox.Enabled = false;
                 Properties.Settings.Default.DelayFinishToChatcCheckBox = false;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void StreamerNameTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TextBox currenttb = (TextBox)sender;
+            if (string.IsNullOrWhiteSpace(currenttb.Text))
+            {
+                MessageBox.Show("This field cannot be empty");
+                e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
+            } else
+            {
+                Properties.Settings.Default.StreamerNameTextBox = StreamerNameTextBox.Text;
                 Properties.Settings.Default.Save();
             }
         }

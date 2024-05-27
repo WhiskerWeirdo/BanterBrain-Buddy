@@ -200,5 +200,8 @@
     <Setting Name="TwitchDelayMessageTextBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">Cooldown ended. GO! GO! GO!</Value>
     </Setting>
+    <Setting Name="StreamerNameTextBox" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Streamer</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

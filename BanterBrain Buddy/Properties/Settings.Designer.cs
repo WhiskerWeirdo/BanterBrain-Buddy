@@ -814,5 +814,17 @@ namespace BanterBrain_Buddy.Properties {
                 this["TwitchDelayMessageTextBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Streamer")]
+        public string StreamerNameTextBox {
+            get {
+                return ((string)(this["StreamerNameTextBox"]));
+            }
+            set {
+                this["StreamerNameTextBox"] = value;
+            }
+        }
     }
 }

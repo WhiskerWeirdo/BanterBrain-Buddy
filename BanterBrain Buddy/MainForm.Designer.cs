@@ -33,6 +33,8 @@ namespace BanterBrain_Buddy
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BBB));
             MainTab = new TabPage();
+            groupBox1 = new GroupBox();
+            StreamerNameTextBox = new TextBox();
             groupBox3 = new GroupBox();
             BroadcasterSelectedPersonaComboBox = new ComboBox();
             groupBox2 = new GroupBox();
@@ -115,6 +117,7 @@ namespace BanterBrain_Buddy
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
             MainTab.SuspendLayout();
+            groupBox1.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox7.SuspendLayout();
@@ -133,6 +136,7 @@ namespace BanterBrain_Buddy
             // 
             // MainTab
             // 
+            MainTab.Controls.Add(groupBox1);
             MainTab.Controls.Add(groupBox3);
             MainTab.Controls.Add(groupBox2);
             MainTab.Controls.Add(groupBox7);
@@ -144,6 +148,20 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(MainTab, "MainTab");
             MainTab.Name = "MainTab";
             MainTab.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(StreamerNameTextBox);
+            resources.ApplyResources(groupBox1, "groupBox1");
+            groupBox1.Name = "groupBox1";
+            groupBox1.TabStop = false;
+            BBBToolTip.SetToolTip(groupBox1, resources.GetString("groupBox1.ToolTip"));
+            // 
+            // StreamerNameTextBox
+            // 
+            resources.ApplyResources(StreamerNameTextBox, "StreamerNameTextBox");
+            StreamerNameTextBox.Name = "StreamerNameTextBox";
+            StreamerNameTextBox.Validating += StreamerNameTextBox_Validating;
             // 
             // groupBox3
             // 
@@ -757,6 +775,8 @@ namespace BanterBrain_Buddy
             VisibleChanged += BBB_VisibleChanged;
             MainTab.ResumeLayout(false);
             MainTab.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox7.ResumeLayout(false);
@@ -867,6 +887,8 @@ namespace BanterBrain_Buddy
         private CheckBox TwitchDelayFinishToChatcCheckBox;
         private Label label10;
         private TextBox TwitchDelayMessageTextBox;
+        private GroupBox groupBox1;
+        private TextBox StreamerNameTextBox;
     }
 }
 
