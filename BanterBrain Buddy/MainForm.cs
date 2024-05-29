@@ -110,7 +110,7 @@ namespace BanterBrain_Buddy
             if (Properties.Settings.Default.LogDir.Length < 1)
             {
                 TextLog.AppendText("No log directory found, setting to default\r\n");
-                Properties.Settings.Default.LogDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs";
+                Properties.Settings.Default.LogDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
                 Properties.Settings.Default.Save();
             }
 
@@ -131,11 +131,7 @@ namespace BanterBrain_Buddy
                 }
                 catch (Exception ex)
                 {
-                    string appdataLogFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
-                    TextLog.AppendText("Error creating log directory in " + logdir + ". Setting to " + appdataLogFolder + "\r\n");
-                    logdir = appdataLogFolder; //to use for the rset of the rpgram
-                    Properties.Settings.Default.LogDir = appdataLogFolder;
-                    Properties.Settings.Default.Save();
+                    TextLog.AppendText("Error creating log directory in " + logdir + ". This should not happen.\r\n");
                 }
 
             } else
@@ -155,20 +151,13 @@ namespace BanterBrain_Buddy
                 catch (IOException ex)
                 {
                     TextLog.AppendText("IOException access Error creating log file: " + ex.Message + "\r\n");
-                    string appdataLogFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
-                    TextLog.AppendText("Error creating log directory in " + logdir + ". Setting to " + appdataLogFolder + "\r\n");
-                    logdir = appdataLogFolder; //to use for the rset of the rpgram
-                    Properties.Settings.Default.LogDir = appdataLogFolder;
-                    Properties.Settings.Default.Save();
+                    TextLog.AppendText("Error creating log directory in " + logdir + "\r\n");
+
                 }
                 catch (Exception ex)
                 {
                     TextLog.AppendText("Error creating log file: " + ex.Message + "\r\n");
-                    string appdataLogFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
-                    TextLog.AppendText("Error creating log directory in " + logdir + ". Setting to " + appdataLogFolder + "\r\n");
-                    logdir = appdataLogFolder; //to use for the rset of the rpgram
-                    Properties.Settings.Default.LogDir = appdataLogFolder;
-                    Properties.Settings.Default.Save();
+                    TextLog.AppendText("Error creating log directory in " + logdir + "\r\n");
                 }
             }
             else
@@ -188,10 +177,7 @@ namespace BanterBrain_Buddy
             catch (Exception ex)
             {
                 TextLog.AppendText("Error writing to log file: " + ex.Message + "\r\n");
-                string appdataLogFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
-                TextLog.AppendText("Error creating log directory in " + logdir + ". Setting to " + appdataLogFolder + "\r\n");
-                Properties.Settings.Default.LogDir = appdataLogFolder;
-                Properties.Settings.Default.Save();
+                TextLog.AppendText("Error creating log directory in " + logdir + "\r\n");
             }
 
             //set logger file to where we have rights for writing
