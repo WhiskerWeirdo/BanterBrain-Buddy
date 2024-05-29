@@ -201,7 +201,11 @@ namespace BanterBrain_Buddy
                 //now lets speak the SSML and handle the result 
                 _azureSpeechConfig.SpeechSynthesisVoiceName = AzureVoiceName;
                 _azureSpeechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm);
-
+                if (outDevice == null)
+                {
+                    _bBBlog.Error("No output device selected for Azure TTS. Please select an output device in the settings.");
+                    return false;
+                }
                 _bBBlog.Debug($"SelectedOutputdevice: {outDevice.ID}");
                 var tmpAudioConfig = AudioConfig.FromSpeakerOutput(outDevice.ID);
 
