@@ -62,7 +62,9 @@ namespace BanterBrain_Buddy
         //Global Twitch API class
         //we need this for the hourly /validate check
         private TwitchAPIESub _globalTwitchAPI;
-        private bool _twitchValidateCheckStarted;
+        private TwitchAPIESub _globalTwitchBotAPI;
+        private bool _twitchValidateBroadcasterCheckStarted;
+        private bool _twitchValidateBotCheckStarted;
         private TwitchAPIESub _twitchEventSub;
         private TwitchAPIESub _twitchChatUser;
 
@@ -84,8 +86,8 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         public BBB()
         {
-            _twitchValidateCheckStarted = false;
-
+            _twitchValidateBroadcasterCheckStarted = false;
+            _twitchValidateBotCheckStarted = false;
             InitializeComponent();
             SetLogger();
             LoadLanguageStuff();
@@ -599,10 +601,40 @@ namespace BanterBrain_Buddy
         /// Twitch requires you to validate your access token every hour. This starts this timer when Twitch is enabled.
         /// </summary>
         [SupportedOSPlatform("windows6.1")]
+        public async void SetTwitchValidateBotTokenTimer()
+        {
+            if (!_twitchValidateBotCheckStarted && TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchBotAuthKey.Length > 0 && Properties.Settings.Default.TwitchBotName.Length > 0)
+            {
+                //only make a new instance if it's null
+                _globalTwitchBotAPI ??= new();
+
+                var result = await _globalTwitchBotAPI.ValidateAccessToken(Properties.Settings.Default.TwitchBotAuthKey);
+                if (!result)
+                {
+                    _bBBlog.Error("Twitch access bot token is invalid, please re-authenticate");
+                    MessageBox.Show("Twitch access bot token is invalid, please re-authenticate", "Twitch Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UpdateTextLog("Twitch access bot token is invalid, please re-authenticate\r\n");
+                    _twitchValidateBotCheckStarted = false;
+                    _bigError = true;
+                }
+                else
+                {
+                    _bBBlog.Info("Twitch access bot token is valid. Starting automated /validate call");
+                    UpdateTextLog("Twitch access bot token is valid. Starting automated /validate call\r\n");
+                    _twitchValidateBotCheckStarted = true;
+                    await _globalTwitchBotAPI.CheckHourlyAccessToken();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Twitch requires you to validate your access token every hour. This starts this timer when Twitch is enabled.
+        /// </summary>
+        [SupportedOSPlatform("windows6.1")]
         /// <summary>
         public async void SetTwitchValidateBroadcasterTokenTimer(bool StartEventSubClient)
         {
-            if (!_twitchValidateCheckStarted && TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchBotName.Length > 0 && Properties.Settings.Default.TwitchAccessToken.Length > 0 && Properties.Settings.Default.TwitchChannel.Length > 0)
+            if (!_twitchValidateBroadcasterCheckStarted && TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchAccessToken.Length > 0 && Properties.Settings.Default.TwitchChannel.Length > 0)
             {
                 //only make a new instance if it's null
                 _globalTwitchAPI ??= new();
@@ -613,7 +645,7 @@ namespace BanterBrain_Buddy
                     _bBBlog.Error("Twitch access broadcaster token is invalid, please re-authenticate");
                     MessageBox.Show("Twitch access broadcaster token is invalid, please re-authenticate", "Twitch Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     UpdateTextLog("Twitch access broadcaster token is invalid, please re-authenticate\r\n");
-                    _twitchValidateCheckStarted = false;
+                    _twitchValidateBroadcasterCheckStarted = false;
                     TwitchAPIStatusTextBox.Text = "DISABLED";
                     TwitchAPIStatusTextBox.BackColor = Color.Red;
                     _bigError = true;
@@ -622,7 +654,7 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Info("Twitch access broadcaster token is valid. Starting automated /validate call" );
                     UpdateTextLog("Twitch access broadcaster token is valid. Starting automated /validate call\r\n");
-                    _twitchValidateCheckStarted = true;
+                    _twitchValidateBroadcasterCheckStarted = true;
                     TwitchAPIStatusTextBox.Text = "ENABLED";
                     TwitchAPIStatusTextBox.BackColor = Color.Green;
 
@@ -1346,33 +1378,61 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.Save();
             }
 
-            //check twitch key
-            _bBBlog.Info("Checking Twitch API key if Twitch not active");
+            //check twitch Broadcaster key
+            _bBBlog.Info("Checking Twitch Broadcaster API key if Twitch not active");
             //if Twitch is already running, we dont need to check the key
             if (Properties.Settings.Default.TwitchAccessToken.Length > 1 && TwitchAPIStatusTextBox.Text == "DISABLED" && TwitchEventSubStatusTextBox.Text == "DISABLED")
             {
-                _bBBlog.Info("Twitch API key is set");
-                UpdateTextLog("Twitch API key is set.\r\n");
+                _bBBlog.Info("Twitch Broadcaster API key is set");
+                UpdateTextLog("Twitch Broadcaster API key is set.\r\n");
                 //lets check if the key is valid
                 TwitchAPIESub twitchAPI = new();
                 if (await twitchAPI.ValidateAccessToken(Properties.Settings.Default.TwitchAccessToken))
                 {
-                    _bBBlog.Info("Twitch API key is valid");
-                    UpdateTextLog("Twitch API key is valid.\r\n");
+                    _bBBlog.Info("Twitch Broadcaster API key is valid");
+                    UpdateTextLog("Twitch Broadcaster API key is valid.\r\n");
                     _twitchAPIVerified = true;
                     TwitchStartButton.Enabled = true;
                 }
                 else
                 {
-                    _bBBlog.Error("Twitch API key is invalid");
-                    UpdateTextLog("Twitch API key is invalid.\r\n");
+                    _bBBlog.Error("Twitch Broadcaster API key is invalid");
+                    UpdateTextLog("Twitch Broadcaster API key is invalid.\r\n");
                     TwitchStartButton.Enabled = false;
                 }
             }
             else
             {
-                _bBBlog.Error("Twitch API key is not set");
-                UpdateTextLog("Twitch API key is not set.\r\n");
+                _bBBlog.Error("Twitch Broadcaster API key is not set");
+                UpdateTextLog("Twitch Broadcaster API key is not set.\r\n");
+            }
+
+            // check twitch bot key
+            //if Twitch is already running, we dont need to check the key
+            if (Properties.Settings.Default.TwitchBotAuthKey.Length > 1 && TwitchAPIStatusTextBox.Text == "DISABLED" && TwitchEventSubStatusTextBox.Text == "DISABLED")
+            {
+                _bBBlog.Info("Twitch Bot API key is set");
+                UpdateTextLog("Twitch Bot API key is set.\r\n");
+                //lets check if the key is valid
+                TwitchAPIESub twitchAPI = new();
+                if (await twitchAPI.ValidateAccessToken(Properties.Settings.Default.TwitchBotAuthKey))
+                {
+                    _bBBlog.Info("Twitch Bot API key is valid");
+                    UpdateTextLog("Twitch Bot API key is valid.\r\n");
+                  //  _twitchAPIVerified = true;
+                //    TwitchStartButton.Enabled = true;
+                }
+                else
+                {
+                    _bBBlog.Error("Twitch Bot API key is invalid");
+                    UpdateTextLog("Twitch Bot API key is invalid.\r\n");
+                //    TwitchStartButton.Enabled = false;
+                }
+            }
+            else
+            {
+                _bBBlog.Error("Twitch Bot API key is not set");
+                UpdateTextLog("Twitch Bot API key is not set.\r\n");
             }
 
             //load HotkeyList into _setHotkeys
@@ -2357,8 +2417,13 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Twitch enabled. Starting API and EventSub");
                 SetTwitchValidateBroadcasterTokenTimer(true);
+                SetTwitchValidateBotTokenTimer();
                 //we need to wait till the eventsub is started before we can enable the fields
-                while (!_twitchValidateCheckStarted)
+                while (!_twitchValidateBroadcasterCheckStarted)
+                {
+                    await Task.Delay(500);
+                }
+                while (!_twitchValidateBotCheckStarted)
                 {
                     await Task.Delay(500);
                 }
@@ -2379,7 +2444,8 @@ namespace BanterBrain_Buddy
 
                     if (_twitchEventSub != null)
                         await _twitchEventSub.EventSubStopAsync();
-                    _twitchValidateCheckStarted = false;
+                    _twitchValidateBroadcasterCheckStarted = false;
+                    _twitchValidateBotCheckStarted = false;
                     TwitchAPIStatusTextBox.Text = "DISABLED";
                     TwitchAPIStatusTextBox.BackColor = Color.Red;
                     TwitchEventSubStatusTextBox.Text = "DISABLED";
@@ -2394,9 +2460,9 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void TwitchEnableDisableFields()
         {
-            _bBBlog.Info($"Twitch enable/disable fields. Twitch started: {_twitchValidateCheckStarted}");
+            _bBBlog.Info($"Twitch enable/disable fields. Twitch started: {_twitchValidateBroadcasterCheckStarted}");
             //we need to disable the ability to change settings of eventlisteners that are active
-            if (_twitchValidateCheckStarted)
+            if (_twitchValidateBroadcasterCheckStarted)
             {
                 if (TwitchReadChatCheckBox.Checked)
                 {

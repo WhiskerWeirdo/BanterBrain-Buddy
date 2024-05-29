@@ -307,14 +307,16 @@ namespace BanterBrain_Buddy
             {
                 //45 minutes = 2700000
                 await Task.Delay(2700000);
+                //5 mins = 300000
+                //await Task.Delay(300000);
                 if (!await ValidateAccessToken(TwitchAccessToken))
                 {
                     //technically sensitive data, so we need to log this as an error, even if its invalid lets not log it
-                    _bBBlog.Error($"Hourly check! Access token is invalid, please re-authenticate");
+                    _bBBlog.Error($"Hourly check! Access token {TwitchAccessToken} is invalid, please re-authenticate");
                     return false;
                 }
                 else
-                    _bBBlog.Info("Hourly check! Access Token is validated and valid");
+                    _bBBlog.Info($"Hourly check! Access Token {TwitchAccessToken} is validated and valid");
             }
             return true;
         }
