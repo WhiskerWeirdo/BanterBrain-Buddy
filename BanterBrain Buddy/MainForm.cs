@@ -192,16 +192,22 @@ namespace BanterBrain_Buddy
             }
 
             //set logger file to where we have rights for writing
-            log4net.Appender.FileAppender appender = new log4net.Appender.FileAppender();
-            appender.Name = "FileAppender";
-            appender.File = System.IO.Path.Combine(Properties.Settings.Default.LogDir, logFile);
-            appender.AppendToFile = true;
-            appender.Layout = new log4net.Layout.PatternLayout("%date [%thread] %-5level %logger - %message%newline");
-            appender.ActivateOptions();
+            log4net.Appender.DebugAppender consoleAppender = new log4net.Appender.DebugAppender();
+            consoleAppender.Name = "ConsoleAppender";
+            consoleAppender.Layout = new log4net.Layout.PatternLayout("%date [%thread] %-5level %logger - %message%newline");
+            consoleAppender.ActivateOptions();
+
+            log4net.Appender.FileAppender fileAppender = new log4net.Appender.FileAppender();
+            fileAppender.Name = "FileAppender";
+            fileAppender.File = System.IO.Path.Combine(Properties.Settings.Default.LogDir, logFile);
+            fileAppender.AppendToFile = true;
+            fileAppender.Layout = new log4net.Layout.PatternLayout("%date [%thread] %-5level %logger - %message%newline");
+            fileAppender.ActivateOptions();
 
             log4net.Repository.Hierarchy.Hierarchy hierarchy =
                 (log4net.Repository.Hierarchy.Hierarchy)log4net.LogManager.GetRepository();
-            hierarchy.Root.AddAppender(appender);
+            hierarchy.Root.AddAppender(consoleAppender);
+            hierarchy.Root.AddAppender(fileAppender);
             hierarchy.Configured = true;
             _bBBlog = log4net.LogManager.GetLogger(typeof(BBB));
         }
@@ -595,7 +601,7 @@ namespace BanterBrain_Buddy
         /// <summary>
         public async void SetTwitchValidateTokenTimer(bool StartEventSubClient)
         {
-            if (!_twitchValidateCheckStarted && TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchUsername.Length > 0 && Properties.Settings.Default.TwitchAccessToken.Length > 0 && Properties.Settings.Default.TwitchChannel.Length > 0)
+            if (!_twitchValidateCheckStarted && TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchBotName.Length > 0 && Properties.Settings.Default.TwitchAccessToken.Length > 0 && Properties.Settings.Default.TwitchChannel.Length > 0)
             {
                 //only make a new instance if it's null
                 _globalTwitchAPI ??= new();
@@ -1148,7 +1154,7 @@ namespace BanterBrain_Buddy
                 if (_sTTOutputText.Length > 1)
                 {
                     // in this case we need to add the streamer name if entered
-                    if (Properties.Settings.Default.TwitchUsername.Length > 0)
+                    if (Properties.Settings.Default.TwitchBotName.Length > 0)
                     {
                         _bBBlog.Debug("Adding streamer name to STT text");
                         _sTTOutputText = Properties.Settings.Default.StreamerNameTextBox + " says: " + _sTTOutputText;
@@ -1641,7 +1647,7 @@ namespace BanterBrain_Buddy
             bool eventSubStart = false;
             //we should set here what eventhandlers we want to have enabled based on the twitch Settings
 
-            if (await _twitchEventSub.EventSubInit(Properties.Settings.Default.TwitchAccessToken, Properties.Settings.Default.TwitchUsername, Properties.Settings.Default.TwitchChannel))
+            if (await _twitchEventSub.EventSubInit(Properties.Settings.Default.TwitchAccessToken, Properties.Settings.Default.TwitchBotName, Properties.Settings.Default.TwitchChannel))
             {
                 //we need to first set the event handlers we want to use
 
@@ -2470,7 +2476,7 @@ namespace BanterBrain_Buddy
         private void TwitchEnableCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             //first we check if theres actually info in the API settings or else lets not even bother
-            if (Properties.Settings.Default.TwitchAccessToken.Length < 1 && Properties.Settings.Default.TwitchChannel.Length < 1 && Properties.Settings.Default.TwitchUsername.Length < 1)
+            if (Properties.Settings.Default.TwitchAccessToken.Length < 1 && Properties.Settings.Default.TwitchChannel.Length < 1 && Properties.Settings.Default.TwitchBotName.Length < 1)
             {
                 MessageBox.Show("Twitch API settings are not filled in. Please check the settings.", "Twitch API error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _bBBlog.Error("Twitch API settings are not filled in. Please check the settings.");

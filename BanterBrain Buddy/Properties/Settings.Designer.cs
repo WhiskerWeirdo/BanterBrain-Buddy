@@ -74,12 +74,12 @@ namespace BanterBrain_Buddy.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TwitchUsername {
+        public string TwitchBotName {
             get {
-                return ((string)(this["TwitchUsername"]));
+                return ((string)(this["TwitchBotName"]));
             }
             set {
-                this["TwitchUsername"] = value;
+                this["TwitchBotName"] = value;
             }
         }
         
@@ -836,6 +836,18 @@ namespace BanterBrain_Buddy.Properties {
             }
             set {
                 this["LogDir"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TwitchBotAuthKey {
+            get {
+                return ((string)(this["TwitchBotAuthKey"]));
+            }
+            set {
+                this["TwitchBotAuthKey"] = value;
             }
         }
     }

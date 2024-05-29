@@ -194,9 +194,11 @@ namespace BanterBrain_Buddy
         private void LoadSettings()
         {
             _bBBlog.Info("Loading settings");
-            TwitchUsername.Text = Properties.Settings.Default.TwitchUsername;
-            TwitchAccessToken.Text = Properties.Settings.Default.TwitchAccessToken;
-            TwitchChannel.Text = Properties.Settings.Default.TwitchChannel;
+            //TwitchUsername.Text = Properties.Settings.Default.TwitchUsername;
+            TwitchBroadcasterAccessToken.Text = Properties.Settings.Default.TwitchAccessToken;
+            TwitchBroadcasterChannel.Text = Properties.Settings.Default.TwitchChannel;
+            TwitchBotAuthKey.Text = Properties.Settings.Default.TwitchBotAuthKey;
+            TwitchBotName.Text = Properties.Settings.Default.TwitchBotName;
             TwitchSendTextCheckBox.Checked = Properties.Settings.Default.TwitchSendTextCheckBox;
             SoundInputDevices.SelectedIndex = SoundInputDevices.FindStringExact(Properties.Settings.Default.VoiceInput);
             MicrophoneHotkeyEditbox.Text = Properties.Settings.Default.PTTHotkey;
@@ -267,12 +269,14 @@ namespace BanterBrain_Buddy
             }
             _bBBlog.Info("Settings form closing, saving settings");
             //only save if theres actual data to be saved
-            if (TwitchUsername.Text.Length > 0)
-                Properties.Settings.Default.TwitchUsername = TwitchUsername.Text;
-            if (TwitchAccessToken.Text.Length > 0)
-                Properties.Settings.Default.TwitchAccessToken = TwitchAccessToken.Text;
-            if (TwitchChannel.Text.Length > 0)
-                Properties.Settings.Default.TwitchChannel = TwitchChannel.Text;
+            //these can be empty
+            Properties.Settings.Default.TwitchBotName = TwitchBotName.Text;
+            Properties.Settings.Default.TwitchBotAuthKey = TwitchBotAuthKey.Text;
+            //these cannot be empty
+            if (TwitchBroadcasterAccessToken.Text.Length > 0)
+                Properties.Settings.Default.TwitchAccessToken = TwitchBroadcasterAccessToken.Text;
+            if (TwitchBroadcasterChannel.Text.Length > 0)
+                Properties.Settings.Default.TwitchChannel = TwitchBroadcasterChannel.Text;
             Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
             if (SoundInputDevices.Text.Length > 0)
                 Properties.Settings.Default.VoiceInput = SoundInputDevices.Text;
@@ -1008,7 +1012,7 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                TwitchAccessToken.Text = twitchAPI.TwitchAccessToken;
+                TwitchBroadcasterAccessToken.Text = twitchAPI.TwitchAccessToken;
             }
         }
 
@@ -1022,19 +1026,19 @@ namespace BanterBrain_Buddy
             TwitchAPIESub twAPITest = new();
 
             //check to see if we need to send a message on join
-            if (TwitchSendTextCheckBox.Checked)
+            //only if there is no bot account authorized. If there is a bot account authorized we will send a message on join wiht that account
+            if (TwitchSendTextCheckBox.Checked && TwitchBotAuthKey.Text.Length < 1)
             {
-                twAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
+                    twAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
             }
 
             //we need the username AND channel name to get the broadcasterid which is needed for sending a message via the API
-            //we need both since the username of the bot and teh channel it joins can be different.
-            var VerifyOk = await twAPITest.CheckAuthCodeAPI(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text);
+            var VerifyOk = await twAPITest.CheckAuthCodeAPI(TwitchBroadcasterAccessToken.Text, TwitchBroadcasterChannel.Text, TwitchBroadcasterChannel.Text);
             if (!VerifyOk)
             {
-                _bBBlog.Error("Problem verifying Access token, something is wrong with the access token!");
+                _bBBlog.Error("Problem verifying Broadcaster Access token, something is wrong with the access token!");
                 //  TextLog.Text += "Problem verifying Access token, invalid access token\r\n";
-                MessageBox.Show("Problem verifying Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Problem verifying Broadcaster Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 TwitchAPITestButton.Enabled = true;
                 twitchAPIVerified = false;
                 TwitchEventSubTestButton.Enabled = false;
@@ -1042,10 +1046,39 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                _bBBlog.Info($"Twitch Access token verified success!");
+                _bBBlog.Info($"Twitch Broadcaster Access token verified success!");
                 twitchAPIVerified = true;
                 TwitchEventSubTestButton.Enabled = true;
-                MessageBox.Show($"Twitch Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Twitch Broadcaster Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            //alright now we need to test the bot IF it has been verified
+            if (TwitchBotAuthKey.Text.Length > 0)
+            {
+                //check to see if we need to send a message on join
+                if (TwitchSendTextCheckBox.Checked)
+                {
+                        twAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
+                }
+
+                VerifyOk = await twAPITest.CheckAuthCodeAPI(TwitchBotAuthKey.Text, TwitchBotName.Text, TwitchBroadcasterChannel.Text);
+                if (!VerifyOk)
+                {
+                    _bBBlog.Error("Problem verifying Bot Access token, something is wrong with the access token!");
+                    //  TextLog.Text += "Problem verifying Access token, invalid access token\r\n";
+                    MessageBox.Show("Problem verifying Bot Access token, invalid access token", "Twitch Access Token veryfication result", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    TwitchAPITestButton.Enabled = true;
+                    twitchAPIVerified = false;
+                    TwitchEventSubTestButton.Enabled = false;
+                    return;
+                }
+                else
+                {
+                    _bBBlog.Info($"Twitch Bot Access token verified success!");
+                    twitchAPIVerified = true;
+                    TwitchEventSubTestButton.Enabled = true;
+                    MessageBox.Show($"Twitch Bot Access token verified success!", "Twitch Access Token verification result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
 
             TwitchAPITestButton.Enabled = true;
@@ -1079,7 +1112,7 @@ namespace BanterBrain_Buddy
             bool eventSubStart = false;
             //we should set here what eventhandlers we want to have enabled based on the twitch Settings
 
-            if (await twitchTestEventSub.EventSubInit(TwitchAccessToken.Text, TwitchUsername.Text, TwitchChannel.Text))
+            if (await twitchTestEventSub.EventSubInit(TwitchBroadcasterAccessToken.Text, TwitchBroadcasterChannel.Text, TwitchBroadcasterChannel.Text))
             {
                 //we need to first set the event handlers we want to use
 
@@ -1529,7 +1562,7 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Error("Ollama LLM is not running on the URI you selected");
                     MessageBox.Show("Ollama LLM is not running on the URI you selected", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    UseOllamaLLMCheckBox.Checked =false;
+                    UseOllamaLLMCheckBox.Checked = false;
                     OllamaTestButton.Enabled = true;
                     return;
                 }
@@ -1563,7 +1596,7 @@ namespace BanterBrain_Buddy
                 }
                 _bBBlog.Debug("Ollama test result: " + result);
                 OllamaTestButton.Enabled = true;
-                if (result == null || result.Length <1)
+                if (result == null || result.Length < 1)
                 {
                     _bBBlog.Error("Ollama error.Is Ollama running on the URI you selected?");
                     MessageBox.Show("Ollama error. Is there a problem with your API key or subscription?", "Ollama Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1888,7 +1921,8 @@ namespace BanterBrain_Buddy
                         Properties.Settings.Default.GPTAPIKey = GPTAPIKeyTextBox.Text;
                         Properties.Settings.Default.Save();
                     }
-                } else
+                }
+                else
                 {
                     //its empty so lets save it
                     Properties.Settings.Default.GPTAPIKey = "";
@@ -1937,7 +1971,7 @@ namespace BanterBrain_Buddy
                     //we need to see if the entered key is valid
                     //call test api key for elevenlabs
                     //we also need a reset
-                    if  (elevenLabsApi != null)
+                    if (elevenLabsApi != null)
                         elevenLabsApi = null;
                     elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
@@ -1954,12 +1988,50 @@ namespace BanterBrain_Buddy
                         Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
                         Properties.Settings.Default.Save();
                     }
-                } else
+                }
+                else
                 {
                     //its empty so lets save it 
                     Properties.Settings.Default.ElevenLabsAPIkey = "";
                     Properties.Settings.Default.Save();
                 }
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private async void AuthorizeBotTwitch_Click(object sender, EventArgs e)
+        {
+            //lets not block everything, but lets try get a Twitch Auth token.
+            //This is done by spawning a browser where the user has to authorize (implicit grant) 
+            //the application. 
+            TwitchAPIESub twitchAPI = new();
+            //see https://dev.twitch.tv/docs/authentication/scopes/ and https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/#channelchatmessage
+            //API events:
+            //channel.send.message ("user:write:chat")
+            //eventsub events:
+            //channel.chat.message (user:read:chat) to read chat
+            //channel.subscribe (channel:read:subscriptions) to get subscription events
+            //channel.subscription.gift (channel:read:subscriptions) to get gifted sub events
+            //channel.subscription.message (channel:read:subscriptions) to get sub message events
+            //channel.cheer (bits:read) to get information on cheered bits
+            //channel.follow (moderator:read:followers) to get who followed a channel
+            //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by viewers
+            //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by viewers
+
+            var twitchAPIResult = await twitchAPI.GetTwitchAuthToken([
+                    //API scope to send text to chat
+                    "user:write:chat"
+                //EventSub scopes for subscription types to read chat, get subscription events, read when people cheer (bits) and follower events
+                ]);
+
+            if (!twitchAPIResult)
+            {
+                _bBBlog.Error("Issue with getting auth token. Check logs for more information.");
+                MessageBox.Show($"Issue with getting Auth token. Check logs for more information.", "Twitch Authorization Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                TwitchBotAuthKey.Text = twitchAPI.TwitchAccessToken;
             }
         }
     }

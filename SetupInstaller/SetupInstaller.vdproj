@@ -244,19 +244,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:BanterBrain"
-        "ProductCode" = "8:{39B01CE6-5A0C-40FD-9D05-C9CB708FC853}"
-        "PackageCode" = "8:{72311CDC-1745-4190-97F7-DDCA7909846B}"
+        "ProductCode" = "8:{743F0913-37BE-4DF2-8C41-65BF00277D87}"
+        "PackageCode" = "8:{A78CAF39-2CC5-448B-BC88-FFD0EE108BB0}"
         "UpgradeCode" = "8:{4B635E66-0C4A-48F5-B28C-7107F31B1F77}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.1.7"
+        "ProductVersion" = "8:0.1.8"
         "Manufacturer" = "8:BanterBrain"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://discord.banterbrain.tv"
-        "Title" = "8:BanterBrain Buddy 0.1.7 Beta"
+        "Title" = "8:BanterBrain Buddy 0.1.8 Beta"
         "Subject" = "8:"
         "ARPCONTACT" = "8:WhiskerWeirdo"
         "Keywords" = "8:"
@@ -367,7 +367,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B68703FE51CE4A3381865F2AA0D42EDF"
             {
-            "Name" = "8:BanterBrain Buddy 0.1.7 BETA"
+            "Name" = "8:BanterBrain Buddy 0.1.8 BETA"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -381,7 +381,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D4305EE2531B457AA4244C75EC4E0A7C"
             {
-            "Name" = "8:BanterBrain Buddy 0.1.7 BETA"
+            "Name" = "8:BanterBrain Buddy 0.1.8 BETA"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"

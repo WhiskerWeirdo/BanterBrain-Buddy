@@ -47,15 +47,16 @@ namespace BanterBrain_Buddy
         public async Task<Authorization> ImplicitListen()
         {
             _bBBlog.Info("Implicit grant OAUTH starting");
-            if (_listener.IsListening)
-            {
-                _bBBlog.Error("HttpListener not supported on this platform");
-                _listener.Stop();
-            }
             _listener.Start();
             var result = await OnImplicitRequest();
             return result;
         }
+
+        public void Stop()
+        {
+            _bBBlog.Debug("Stopping listener");
+            _listener.Stop();
+        }   
 
         private async Task<Authorization> OnImplicitRequest()
         {
@@ -96,7 +97,7 @@ namespace BanterBrain_Buddy
                     }
                     else if (req.QueryString.AllKeys.Any("access_token".Contains) && !firstTime)
                     {
-                        writer.WriteLine("Implicit grant started! Check your application! You can close this window!");
+                        writer.WriteLine("Implicit grant started! Check your application! You can close this window! Remember to log out on Twitch if you want to authorize other accounts");
                         _bBBlog.Info("OAUTH Implcit grant started! Check your application!");
                         writer.Flush();
                         return new Authorization(req.QueryString["access_token"]);
@@ -111,6 +112,7 @@ namespace BanterBrain_Buddy
                 catch (Exception ex)
                 {
                     _bBBlog.Error("Webserver: " + ex.ToString());
+                    _listener.Stop();
                 }
 
             }
@@ -146,6 +148,7 @@ namespace BanterBrain_Buddy
                 catch (Exception ex)
                 {
                     _bBBlog.Error("Webserver: " + ex.ToString());
+                    _listener.Stop();
                 }
 
             }

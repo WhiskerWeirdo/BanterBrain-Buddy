@@ -14,7 +14,7 @@
     <Setting Name="GPTAPIKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="TwitchUsername" Type="System.String" Scope="User">
+    <Setting Name="TwitchBotName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TwitchAccessToken" Type="System.String" Scope="User">
@@ -204,6 +204,9 @@
       <Value Profile="(Default)">Streamer</Value>
     </Setting>
     <Setting Name="LogDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TwitchBotAuthKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

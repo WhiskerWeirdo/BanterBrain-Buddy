@@ -64,6 +64,7 @@ namespace BanterBrain_Buddy
 
         private static string TwitchUserID { get; set; }
         private static string TwitchChannelID { get; set; }
+        private static string TwitchChatUserID { get; set; }
 
         private bool TwitchDoAutomatedCheck { get; set; }
 
@@ -393,7 +394,7 @@ namespace BanterBrain_Buddy
         /// <returns>true if both tests pass, false if not</returns>
         public async Task<bool> CheckAuthCodeAPI(string TwAuthToken, string TwUsername, string TwChannelName)
         {
-            _bBBlog.Info($"Checking Authorization code using the API");
+            _bBBlog.Info($"Checking Authorization code using the API for " + TwUsername);
 
             _gTwitchAPI.Settings.ClientId = TwitchAuthClientId;
             _gTwitchAPI.Settings.AccessToken = TwAuthToken;
@@ -408,6 +409,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("Access token is invalid, please re-authenticate");
                 return false;
             }
+
             //assuming token itself is valid, lets continue
             try
             {
@@ -419,6 +421,12 @@ namespace BanterBrain_Buddy
                 TwitchChannelID = broadCaster[0].Id;
                 _bBBlog.Info("Broadcaster: " + broadCaster[0].Login + " id:" + broadCaster[0].Id);
                 _bBBlog.Info("Message sender: " + messageSender[0].Login + " id:" + messageSender[0].Id);
+                
+                //this is the user that sends that, if one is defined
+                if (Properties.Settings.Default.TwitchBotAuthKey == TwAuthToken)
+                {
+                    TwitchChatUserID = messageSender[0].Id;
+                }
 
                 //set the global, we need this for the EventSub
                 _conditions = new()
@@ -570,6 +578,7 @@ namespace BanterBrain_Buddy
         /// This is the function that will request the auth token from Twitch
         /// </summary>
         /// <param name="scopes"></param>
+        [System.Runtime.Versioning.SupportedOSPlatform("windows6.1")]
         private async Task ReqTwitchAuthToken(List<string> scopes)
         {
             // create twitch api instance
@@ -598,9 +607,12 @@ namespace BanterBrain_Buddy
 
                 // print out all the data we've got
                 _bBBlog.Info($"Authorization success! User: {user.DisplayName} (id: {user.Id})");
+                server.Stop();
+                MessageBox.Show($"Authorization success! User: {user.DisplayName}. Remember to log out if you want to authorize the other account also.");
             }
             else
             {
+                server.Stop();
                 TwitchAuthRequestResult = false;
             }
         }
