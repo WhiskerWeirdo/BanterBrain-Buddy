@@ -64,6 +64,7 @@ namespace BanterBrain_Buddy
         private TwitchAPIESub _globalTwitchAPI;
         private bool _twitchValidateCheckStarted;
         private TwitchAPIESub _twitchEventSub;
+        private TwitchAPIESub _twitchChatUser;
 
         //this needs to be public because the settings form needs to know
 #pragma warning disable CA2211 // Non-constant fields should not be visible
@@ -232,7 +233,7 @@ namespace BanterBrain_Buddy
             BBBTabs.Enabled = false;
             menuStrip1.Enabled = false;
             if (TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchAccessToken.Length > 1)
-                SetTwitchValidateTokenTimer(true);
+                SetTwitchValidateBroadcasterTokenTimer(true);
 
             await CheckConfiguredSTTProviders();
             await CheckConfiguredLLMProviders();
@@ -599,7 +600,7 @@ namespace BanterBrain_Buddy
         /// </summary>
         [SupportedOSPlatform("windows6.1")]
         /// <summary>
-        public async void SetTwitchValidateTokenTimer(bool StartEventSubClient)
+        public async void SetTwitchValidateBroadcasterTokenTimer(bool StartEventSubClient)
         {
             if (!_twitchValidateCheckStarted && TwitchEnableCheckbox.Checked && Properties.Settings.Default.TwitchBotName.Length > 0 && Properties.Settings.Default.TwitchAccessToken.Length > 0 && Properties.Settings.Default.TwitchChannel.Length > 0)
             {
@@ -609,9 +610,9 @@ namespace BanterBrain_Buddy
                 var result = await _globalTwitchAPI.ValidateAccessToken(Properties.Settings.Default.TwitchAccessToken);
                 if (!result)
                 {
-                    _bBBlog.Error("Twitch access token is invalid, please re-authenticate");
-                    MessageBox.Show("Twitch access token is invalid, please re-authenticate", "Twitch Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    UpdateTextLog("Twitch access token is invalid, please re-authenticate\r\n");
+                    _bBBlog.Error("Twitch access broadcaster token is invalid, please re-authenticate");
+                    MessageBox.Show("Twitch access broadcaster token is invalid, please re-authenticate", "Twitch Auth error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UpdateTextLog("Twitch access broadcaster token is invalid, please re-authenticate\r\n");
                     _twitchValidateCheckStarted = false;
                     TwitchAPIStatusTextBox.Text = "DISABLED";
                     TwitchAPIStatusTextBox.BackColor = Color.Red;
@@ -619,8 +620,8 @@ namespace BanterBrain_Buddy
                 }
                 else
                 {
-                    _bBBlog.Info("Twitch access token is valid. Starting automated /validate call");
-                    UpdateTextLog("Twitch access token is valid. Starting automated /validate call\r\n");
+                    _bBBlog.Info("Twitch access broadcaster token is valid. Starting automated /validate call" );
+                    UpdateTextLog("Twitch access broadcaster token is valid. Starting automated /validate call\r\n");
                     _twitchValidateCheckStarted = true;
                     TwitchAPIStatusTextBox.Text = "ENABLED";
                     TwitchAPIStatusTextBox.BackColor = Color.Green;
@@ -1645,9 +1646,21 @@ namespace BanterBrain_Buddy
         {
             _twitchEventSub = new();
             bool eventSubStart = false;
-            //we should set here what eventhandlers we want to have enabled based on the twitch Settings
 
-            if (await _twitchEventSub.EventSubInit(Properties.Settings.Default.TwitchAccessToken, Properties.Settings.Default.TwitchBotName, Properties.Settings.Default.TwitchChannel))
+            //we set the channel chat sender and auth key using the API verification
+            //this is due to that if we use a bot account, it is seperate from teh account we use for subscribing to eventsub
+            if (Properties.Settings.Default.TwitchBotAuthKey.Length > 1)
+            {
+                _twitchChatUser = new();
+                //CheckAuthCodeAPI(TwitchBotAuthKey.Text, TwitchBotName.Text, TwitchBroadcasterChannel.Text);
+                await _twitchChatUser.CheckAuthCodeAPI(Properties.Settings.Default.TwitchBotAuthKey, Properties.Settings.Default.TwitchBotName, Properties.Settings.Default.TwitchChannel);
+            }
+            else
+            {
+                await _twitchEventSub.CheckAuthCodeAPI(Properties.Settings.Default.TwitchAccessToken, Properties.Settings.Default.TwitchChannel, Properties.Settings.Default.TwitchChannel);
+            }
+
+            if (await _twitchEventSub.EventSubInit(Properties.Settings.Default.TwitchAccessToken, Properties.Settings.Default.TwitchChannel, Properties.Settings.Default.TwitchChannel))
             {
                 //we need to first set the event handlers we want to use
 
@@ -2072,6 +2085,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info("This enables reading chat messages to watch for a command, in busy channels this will cause significant load on your computer");
                 MessageBox.Show("Reading chat creates a high load on busy channels. Be warned!", "Twitch Channel messages enabled", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //just double check its not already enabled
+                //_globalTwitchAPI
                 if (!_globalTwitchAPI.EventSubReadChatMessages)
                 {
                     _bBBlog.Info("Twitch read chat enabled.");
@@ -2342,7 +2356,7 @@ namespace BanterBrain_Buddy
             if (TwitchStartButton.Text == "Start")
             {
                 _bBBlog.Info("Twitch enabled. Starting API and EventSub");
-                SetTwitchValidateTokenTimer(true);
+                SetTwitchValidateBroadcasterTokenTimer(true);
                 //we need to wait till the eventsub is started before we can enable the fields
                 while (!_twitchValidateCheckStarted)
                 {

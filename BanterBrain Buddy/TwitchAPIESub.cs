@@ -64,7 +64,9 @@ namespace BanterBrain_Buddy
 
         private static string TwitchUserID { get; set; }
         private static string TwitchChannelID { get; set; }
+
         private static string TwitchChatUserID { get; set; }
+        private static string TwitchChatAccessToken { get; set; }
 
         private bool TwitchDoAutomatedCheck { get; set; }
 
@@ -423,9 +425,14 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info("Message sender: " + messageSender[0].Login + " id:" + messageSender[0].Id);
                 
                 //this is the user that sends that, if one is defined
-                if (Properties.Settings.Default.TwitchBotAuthKey == TwAuthToken)
+                if (TwUsername != TwChannelName)
                 {
                     TwitchChatUserID = messageSender[0].Id;
+                    TwitchChatAccessToken = TwAuthToken;
+                } else
+                {
+                    TwitchChatUserID = broadCaster[0].Id;
+                    TwitchChatAccessToken = TwAuthToken;
                 }
 
                 //set the global, we need this for the EventSub
@@ -488,15 +495,15 @@ namespace BanterBrain_Buddy
             {
                 try
                 {
-                    _bBBlog.Info($"Sending message: {part} to channel {TwitchChannelID} from user {TwitchUserID}");
-                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchUserID, part, null, TwitchAccessToken);
+                    _bBBlog.Info($"Sending message: {part} to channel {TwitchChannelID} from user {TwitchChatUserID}");
+                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchChatUserID, part, null, TwitchChatAccessToken);
                     await Task.Delay(delay);
                 }
                 catch (TwitchLib.Api.Core.Exceptions.TooManyRequestsException exception)
                 {
                     _bBBlog.Error("Rate limit exceeded: " + exception.Message);
                     await Task.Delay(10000);
-                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchUserID, part, null, TwitchAccessToken);
+                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchChatUserID, part, null, TwitchChatAccessToken);
                     await Task.Delay(delay);
                 }
             }
@@ -533,7 +540,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("No user ID set, cannot send message");
                 return false;
             }
-            _bBBlog.Info($"Sending message: {messageToSend} to channel {TwitchChannelID} from user {TwitchUserID}");
+            _bBBlog.Info($"Sending to channel {TwitchChannelID} from user {TwitchChatUserID}. Message: {messageToSend}");
 
             //if this message is longer than 255 characters we need to split it up
             if (messageToSend.Length > 254)
@@ -556,7 +563,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info("Message is shorter than 255 characters, sending it");
                 try
                 {
-                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchUserID, messageToSend, null, TwitchAccessToken);
+                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchChatUserID, messageToSend, null, TwitchChatAccessToken);
                     return true;
                 }
                 catch (TwitchLib.Api.Core.Exceptions.BadRequestException exception)
@@ -568,7 +575,7 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Error("Rate limit exceeded: " + exception.Message);
                     await Task.Delay(2000);
-                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchUserID, messageToSend, null, TwitchAccessToken);
+                    await _gTwitchAPI.Helix.Chat.SendChatMessage(TwitchChannelID, TwitchChatUserID, messageToSend, null, TwitchChatAccessToken);
                     return true;
                 }
             }
