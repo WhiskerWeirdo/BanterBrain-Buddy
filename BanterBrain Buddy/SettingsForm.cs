@@ -1267,7 +1267,7 @@ namespace BanterBrain_Buddy
         {
             if (PersonasPanel.Visible)
             {
-                _bBBlog.Debug("Persona role text changed");
+               // _bBBlog.Debug("Persona role text changed");
                 personaEdited = true;
                 SavePersona.Enabled = true;
             }
