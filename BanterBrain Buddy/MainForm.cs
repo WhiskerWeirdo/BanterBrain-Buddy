@@ -1401,7 +1401,7 @@ namespace BanterBrain_Buddy
                     TwitchStartButton.Enabled = false;
                 }
             }
-            else
+            else if (Properties.Settings.Default.TwitchAccessToken.Length < 1)
             {
                 _bBBlog.Error("Twitch Broadcaster API key is not set");
                 UpdateTextLog("Twitch Broadcaster API key is not set.\r\n");
@@ -1429,7 +1429,7 @@ namespace BanterBrain_Buddy
                 //    TwitchStartButton.Enabled = false;
                 }
             }
-            else
+            else if (Properties.Settings.Default.TwitchBotAuthKey.Length < 1)
             {
                 _bBBlog.Error("Twitch Bot API key is not set");
                 UpdateTextLog("Twitch Bot API key is not set.\r\n");
