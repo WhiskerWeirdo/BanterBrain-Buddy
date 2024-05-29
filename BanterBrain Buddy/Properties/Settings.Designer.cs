@@ -826,5 +826,17 @@ namespace BanterBrain_Buddy.Properties {
                 this["StreamerNameTextBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LogDir {
+            get {
+                return ((string)(this["LogDir"]));
+            }
+            set {
+                this["LogDir"] = value;
+            }
+        }
     }
 }

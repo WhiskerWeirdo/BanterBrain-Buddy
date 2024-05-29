@@ -203,5 +203,8 @@
     <Setting Name="StreamerNameTextBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">Streamer</Value>
     </Setting>
+    <Setting Name="LogDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

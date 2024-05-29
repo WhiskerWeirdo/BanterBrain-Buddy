@@ -20,6 +20,7 @@ using System.Reflection.Emit;
 using System.Security.Cryptography;
 using BanterBrain_Buddy.Properties;
 using System.Globalization;
+using Microsoft.VisualBasic.Logging;
 
 
 /// <summary>
@@ -33,7 +34,7 @@ namespace BanterBrain_Buddy
     public partial class BBB : Form
     {
         //set logger
-        private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static log4net.ILog _bBBlog;
 
         //PTT hotkey hook
         private IKeyboardMouseEvents m_GlobalHook;
@@ -85,6 +86,7 @@ namespace BanterBrain_Buddy
             _twitchValidateCheckStarted = false;
 
             InitializeComponent();
+            SetLogger();
             LoadLanguageStuff();
             SetupConfigFiles();
             LoadPersonas();
@@ -96,6 +98,112 @@ namespace BanterBrain_Buddy
             Startup();
 
 
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void SetLogger()
+        {
+            //default log dir
+            if (Properties.Settings.Default.LogDir.Length < 1)
+            {
+                TextLog.AppendText("No log directory found, setting to default\r\n");
+                Properties.Settings.Default.LogDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs";
+                Properties.Settings.Default.Save();
+            }
+
+            //ok so we need to check if we have rights to create or use the log file
+            //if not, we need to set it to the appdata folder
+            TextLog.AppendText("Checking logs file" + "\r\n");
+            //can we write to the logfile folder?
+            string logdir = Properties.Settings.Default.LogDir;
+            string logFile = "BanterBrainBuddy.log";   
+         
+            if (!Directory.Exists(logdir))
+            {
+                TextLog.AppendText("Creating log directory: " + logdir + "\r\n");
+                //if this cannot be created, we need to move this to the app dir
+                try
+                {
+                    Directory.CreateDirectory(logdir);
+                }
+                catch (Exception ex)
+                {
+                    string appdataLogFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
+                    TextLog.AppendText("Error creating log directory in " + logdir + ". Setting to " + appdataLogFolder + "\r\n");
+                    logdir = appdataLogFolder; //to use for the rset of the rpgram
+                    Properties.Settings.Default.LogDir = appdataLogFolder;
+                    Properties.Settings.Default.Save();
+                }
+
+            } else
+            {
+                TextLog.AppendText("Log directory found: " + logdir + "\r\n");
+            }
+
+            //if file doesnt exit, try create it, if that fails
+            //change the logdir to the appdata folder
+            if (!File.Exists(logdir + $"\\{logFile}"))
+            {
+                TextLog.AppendText($"Creating {logFile} in logs folder because it does not exist" + "\r\n");
+                try
+                {
+                    File.Create(logdir + $"\\{logFile}").Close();
+                }
+                catch (IOException ex)
+                {
+                    TextLog.AppendText("IOException access Error creating log file: " + ex.Message + "\r\n");
+                    string appdataLogFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
+                    TextLog.AppendText("Error creating log directory in " + logdir + ". Setting to " + appdataLogFolder + "\r\n");
+                    logdir = appdataLogFolder; //to use for the rset of the rpgram
+                    Properties.Settings.Default.LogDir = appdataLogFolder;
+                    Properties.Settings.Default.Save();
+                }
+                catch (Exception ex)
+                {
+                    TextLog.AppendText("Error creating log file: " + ex.Message + "\r\n");
+                    string appdataLogFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
+                    TextLog.AppendText("Error creating log directory in " + logdir + ". Setting to " + appdataLogFolder + "\r\n");
+                    logdir = appdataLogFolder; //to use for the rset of the rpgram
+                    Properties.Settings.Default.LogDir = appdataLogFolder;
+                    Properties.Settings.Default.Save();
+                }
+            }
+            else
+            {
+                TextLog.AppendText("Log file exists and should be in: " + logdir + "\r\n");
+            }
+
+            //can we write to the file?
+            //again if not, we move to appdata
+            try
+            {
+                using (StreamWriter sw = File.AppendText(logdir + $"\\{logFile}"))
+                {
+                    sw.WriteLine("Log file created at: " + DateTime.Now);
+                }
+            }
+            catch (Exception ex)
+            {
+                TextLog.AppendText("Error writing to log file: " + ex.Message + "\r\n");
+                string appdataLogFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
+                TextLog.AppendText("Error creating log directory in " + logdir + ". Setting to " + appdataLogFolder + "\r\n");
+                Properties.Settings.Default.LogDir = appdataLogFolder;
+                Properties.Settings.Default.Save();
+            }
+
+            //set logger file to where we have rights for writing
+            log4net.Appender.FileAppender appender = new log4net.Appender.FileAppender();
+            appender.Name = "FileAppender";
+            appender.File = System.IO.Path.Combine(Properties.Settings.Default.LogDir, logFile);
+            appender.AppendToFile = true;
+            appender.Layout = new log4net.Layout.PatternLayout("%date [%thread] %-5level %logger - %message%newline");
+            appender.ActivateOptions();
+
+            log4net.Repository.Hierarchy.Hierarchy hierarchy =
+                (log4net.Repository.Hierarchy.Hierarchy)log4net.LogManager.GetRepository();
+            hierarchy.Root.AddAppender(appender);
+            hierarchy.Configured = true;
+            _bBBlog = log4net.LogManager.GetLogger(typeof(BBB));
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -232,44 +340,11 @@ namespace BanterBrain_Buddy
             }
         }
 
+
         //this is to make sure config files are writable, in the correct %APPDATA%\BanterBrain folder and can be read and write
         [SupportedOSPlatform("windows6.1")]
         private void SetupConfigFiles()
         {
-            _bBBlog.Debug("Checking log file");
-            //can we write to the logfile folder?
-            string logdir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs";
-            if (!Directory.Exists(logdir))
-            {
-                _bBBlog.Debug("Creating log directory: " + logdir);
-                Directory.CreateDirectory(logdir);
-            }
-            //test if you can write there
-            _bBBlog.Debug("Testing log directory for file creation rights");
-            if (!File.Exists(logdir + "\\BanterBrainBuddy.log"))
-            {
-                _bBBlog.Debug("Creating BanterBrain.log in logs folder because it does not exist");
-                try
-                {
-                    File.Create(logdir + "\\BanterBrainBuddy.log").Close();
-                }
-                catch (IOException ex)
-                {
-                    UpdateTextLog("IOException access Error creating log file: " + ex.Message + "\r\n");
-                    MessageBox.Show("IOError creating log file. Please check your permissions. " + ex.Message, "Log file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                catch (Exception ex)
-                {
-                    UpdateTextLog("Error creating log file: " + ex.Message + "\r\n");
-                    MessageBox.Show("Error creating log file. Please check your permissions. " + ex.Message, "Log file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                _bBBlog.Debug("Log file exists and should be in: " + logdir);
-                UpdateTextLog("Log file exists and should be in: " + logdir + "\r\n");
-            }
-
 
             //check if the folder exists, if not, create it
 
@@ -1104,6 +1179,7 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async Task LoadSettings()
         {
+
             TwitchCommandTrigger.Text = Properties.Settings.Default.TwitchCommandTrigger;
             TwitchChatCommandDelay.Text = Properties.Settings.Default.TwitchChatCommandDelay.ToString();
             TwitchNeedsSubscriber.Checked = Properties.Settings.Default.TwitchNeedsSubscriber;
@@ -2647,8 +2723,8 @@ namespace BanterBrain_Buddy
 
         private void LogfileDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Opening log directory: " + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs");
-            Process.Start("explorer.exe", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs");
+            _bBBlog.Debug("Opening log directory: " + Properties.Settings.Default.LogDir);
+            Process.Start("explorer.exe", Properties.Settings.Default.LogDir);
         }
 
         [SupportedOSPlatform("windows6.1")]
