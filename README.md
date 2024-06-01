@@ -1,5 +1,4 @@
-### v0.1.6-BETA release of BanterBrain Buddy.
-Download: https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.1.0-beta
+### v0.1.8-BETA release of BanterBrain Buddy.
 
 **This BETA requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
 
@@ -14,6 +13,23 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 - Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
+
+### RELEASE V0.1.8 BETA
+Fixed: 
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/57 now uses a broadcaster account to verify channel issues while a bot account can be used for talking in chat. The bot account is optional.
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/55 now throws an error when there is an audio device selected that's active but unusable with Azure Speech
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/58 logfile is now being created in appdata, The same directory where some application settings files are being written to. Also some more error handling incase there's issues writing.
+
+
+### RELEASE V0.1.7 BETA
+
+Fixed:
+- Streamer listbox STT was not cleared when coming back from settings https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/59
+- Chat command cooldown timer for Twitch started at the beginning, not at the end of TTS https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/54
+
+Need feedback:
+ - Lower delay between notification sound and saying response in TTS https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/61
+ - Log file not being created, added extra notification and testing https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/58
 
 ### RELEASE V0.1.6 BETA
 Thank you @max aka Dadflaps#1337 for your bug reports and feedback
