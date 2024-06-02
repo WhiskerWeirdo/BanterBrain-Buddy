@@ -82,7 +82,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MouseKeyHook" Version="5.7.1" />
     <PackageReference Include="NAudio" Version="2.2.1" />
-    <PackageReference Include="OllamaSharp" Version="1.1.9" />
+    <PackageReference Include="OllamaSharp" Version="1.1.10" />
     <PackageReference Include="OpenAI" Version="1.11.0" />
     <PackageReference Include="System.Speech" Version="9.0.0-preview.4.24266.19" />
     <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-aafc9bc" />
