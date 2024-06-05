@@ -877,7 +877,14 @@ namespace BanterBrain_Buddy
         private async void TestVoiceButton_Click(object sender, EventArgs e)
         {
             TestVoiceButton.Enabled = false;
-            await SayTextTest("Hi, this is a test123");
+            if (PersonaRoleTextBox.Text.Length < 1)
+            {
+                await SayTextTest("Hi, this is a test123");
+            } else 
+                           {
+                await SayTextTest(PersonaRoleTextBox.Text);
+            }
+
             TestVoiceButton.Enabled = true;
         }
 
@@ -1336,8 +1343,22 @@ namespace BanterBrain_Buddy
             if (TTSProviderComboBox.Text == "ElevenLabs")
             {
                 string[] tmpVoice = selectedPersona.VoiceName.Split(";");
-                _bBBlog.Debug($"Elevenlabs voice selected: {tmpVoice[1]}");
-                TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(tmpVoice[1]);
+                try
+                {
+                    _bBBlog.Debug($"Elevenlabs voice selected: {tmpVoice[1]}");
+                    TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(tmpVoice[1]);
+                } catch (Exception ex)
+                {
+                    _bBBlog.Error("Error loading persona voice, no voiceID found in persona");
+                    MessageBox.Show("Error loading persona voice, no voiceID found in persona", "Persona voice error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    TTSOutputVoice.SelectedIndex = 0;   
+                    PersonasPanel.Enabled = true;
+                    if (PersonasPanel.Visible)
+                    {
+                        EnablePersonaEventHandlers();
+                    }
+                    return;
+                }
             }
             else
                 TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);

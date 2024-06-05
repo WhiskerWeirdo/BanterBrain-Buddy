@@ -182,8 +182,8 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(PersonasPanel);
+            splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(AzurePanel);
             splitContainer1.Panel2.Controls.Add(OllamaPanel);
