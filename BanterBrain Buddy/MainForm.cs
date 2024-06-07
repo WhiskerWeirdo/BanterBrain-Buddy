@@ -2257,7 +2257,7 @@ namespace BanterBrain_Buddy
         private void BBB_Load(object sender, EventArgs e)
         {
             _bBBlog.Info("BanterBrain Buddy started");
-            MessageBox.Show("This is a beta version of BanterBrain Buddy. Please report any bugs to the discord!", "BanterBrain Buddy Beta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show("This is a beta version of BanterBrain Buddy. Please report any bugs to the discord!", "BanterBrain Buddy Beta", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         [SupportedOSPlatform("windows6.1")]
