@@ -203,8 +203,8 @@ namespace BanterBrain_Buddy
                 _azureSpeechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm);
                 if (outDevice == null)
                 {
-                    _bBBlog.Error("No output device selected for Azure TTS. Please select an output device in the settings.");
-                    return false;
+                    _bBBlog.Error("No output device selected for Azure TTS. It should be set to: " + Properties.Settings.Default.TTSAudioOutput);
+                    SetSelectedOutputDevice(Properties.Settings.Default.TTSAudioOutput);
                 }
                 _bBBlog.Debug($"SelectedOutputdevice: {outDevice.ID}");
                 var tmpAudioConfig = AudioConfig.FromSpeakerOutput(outDevice.ID);

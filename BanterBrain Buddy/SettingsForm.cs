@@ -819,7 +819,7 @@ namespace BanterBrain_Buddy
             AzureSpeechAPI azureSpeechAPI = new(AzureAPIKeyTextBox.Text, AzureRegionTextBox.Text, AzureLanguageComboBox.Text);
 
             //set the output voice, gender and locale, and the style
-            await azureSpeechAPI.AzureTTSInit(TTSOutputVoice.Text, TTSOutputVoiceOption1.Text, Properties.Settings.Default.TTSAudioOutput);
+            await azureSpeechAPI.AzureTTSInit(TTSOutputVoice.Text, TTSOutputVoiceOption1.Text, TTSOutputVoice.Text);
 
             var result = await azureSpeechAPI.AzureSpeak(TextToSpeak);
             if (!result)
@@ -880,8 +880,9 @@ namespace BanterBrain_Buddy
             if (PersonaRoleTextBox.Text.Length < 1)
             {
                 await SayTextTest("Hi, this is a test123");
-            } else 
-                           {
+            }
+            else
+            {
                 await SayTextTest(PersonaRoleTextBox.Text);
             }
 
@@ -1036,7 +1037,7 @@ namespace BanterBrain_Buddy
             //only if there is no bot account authorized. If there is a bot account authorized we will send a message on join wiht that account
             if (TwitchSendTextCheckBox.Checked && TwitchBotAuthKey.Text.Length < 1)
             {
-                    twAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
+                twAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
             }
 
             //we need the username AND channel name to get the broadcasterid which is needed for sending a message via the API
@@ -1065,7 +1066,7 @@ namespace BanterBrain_Buddy
                 //check to see if we need to send a message on join
                 if (TwitchSendTextCheckBox.Checked)
                 {
-                        twAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
+                    twAPITest.TwitchSendTestMessageOnJoin = TwitchTestSendText.Text;
                 }
 
                 VerifyOk = await twAPITest.CheckAuthCodeAPI(TwitchBotAuthKey.Text, TwitchBotName.Text, TwitchBroadcasterChannel.Text);
@@ -1274,7 +1275,7 @@ namespace BanterBrain_Buddy
         {
             if (PersonasPanel.Visible)
             {
-               // _bBBlog.Debug("Persona role text changed");
+                // _bBBlog.Debug("Persona role text changed");
                 personaEdited = true;
                 SavePersona.Enabled = true;
             }
@@ -1347,11 +1348,12 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Debug($"Elevenlabs voice selected: {tmpVoice[1]}");
                     TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(tmpVoice[1]);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     _bBBlog.Error("Error loading persona voice, no voiceID found in persona");
                     MessageBox.Show("Error loading persona voice, no voiceID found in persona", "Persona voice error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    TTSOutputVoice.SelectedIndex = 0;   
+                    TTSOutputVoice.SelectedIndex = 0;
                     PersonasPanel.Enabled = true;
                     if (PersonasPanel.Visible)
                     {
@@ -2054,6 +2056,13 @@ namespace BanterBrain_Buddy
             {
                 TwitchBotAuthKey.Text = twitchAPI.TwitchAccessToken;
             }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TTSAudioOutputComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
+            Properties.Settings.Default.Save();
         }
     }
 }
