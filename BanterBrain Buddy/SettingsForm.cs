@@ -35,6 +35,7 @@ namespace BanterBrain_Buddy
         private bool personaEdited;
         private ElLabs elevenLabsApi;
         private List<string> _elevenLabsVoicesList;
+        private int previousPersonaSelectedIndex;
 
         [SupportedOSPlatform("windows6.1")]
         public SettingsForm()
@@ -338,6 +339,7 @@ namespace BanterBrain_Buddy
             //we dont need the eventhandlers when its becoming visible
             if (PersonasPanel.Visible)
             {
+                DisablePersonaEventHandlers();
                 //TTSProvider combobox needs to be filled with the available providers
                 TTSProviderComboBox.Items.Clear();
                 TTSProviderComboBox.Items.Add("Native");
@@ -356,22 +358,6 @@ namespace BanterBrain_Buddy
                     await Task.Delay(1000);
                 }
 
-
-                //TODO: set the originally selected persona for now just load the first one
-                PersonaComboBox.SelectedIndex = 0;
-                var selectedPersona = personas[PersonaComboBox.SelectedIndex];
-                PersonaRoleTextBox.Text = selectedPersona.RoleText;
-                TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
-                //we need to fill the combo box with the voices available. We do that here cos provider needs to be loaded first.
-                if (!await FillVoiceBoxes())
-                {
-                    _bBBlog.Error("Error filling voice boxes does the TTS provider " + selectedPersona.VoiceProvider + ". No connection or no valid API?");
-                    return;
-                }
-                _bBBlog.Debug($"Voice boxes filled, now to select the voice. Personavoice: {selectedPersona.VoiceName} ");
-                TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(selectedPersona.VoiceName);
-                personaEdited = false;
-
                 //prevent deleting of Default persona
                 if (PersonaComboBox.Text == "Default")
                 {
@@ -381,11 +367,9 @@ namespace BanterBrain_Buddy
                 {
                     DeletePersona.Enabled = true;
                 }
-                if (PersonasPanel.Visible)
-                {
-                    EnablePersonaEventHandlers();
-                }
-            }
+
+                PersonaComboBox_SelectedValueChanged(sender, e);
+             }
             else
             {
                 if (personaEdited)
@@ -608,7 +592,7 @@ namespace BanterBrain_Buddy
                 if (persona.Name == PersonaComboBox.Text)
                 {
                     personaExists = true;
-                    _bBBlog.Debug("Persona already exists, updating it");
+                    _bBBlog.Debug($"Persona {persona.Name} already exists, updating it");
                     persona.RoleText = PersonaRoleTextBox.Text;
                     persona.VoiceProvider = TTSProviderComboBox.Text;
 
@@ -723,10 +707,11 @@ namespace BanterBrain_Buddy
                 _bBBlog.Debug("Adding voice: " + elevenLabsVoice);
                 //we only want to add the name, not the id
                 string[] tmpVoice = elevenLabsVoice.Split(";");
-                TTSOutputVoice.Items.Add(tmpVoice[1]);
+                if (tmpVoice.Length > 1)
+                    TTSOutputVoice.Items.Add(tmpVoice[1]);
             }
             TTSOutputVoice.Sorted = true;
-            TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
+            //TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
             if (TTSOutputVoiceOption2.Text.Length < 1)
             {
                 TTSOutputVoiceOption1.Text = "100";
@@ -1297,15 +1282,22 @@ namespace BanterBrain_Buddy
         {
             PersonasPanel.Enabled = false;
             _bBBlog.Debug($"Persona selected value changed to {PersonaComboBox.Text} index {PersonaComboBox.SelectedIndex}");
+            var tmpNewPersonaIndex = PersonaComboBox.SelectedIndex;
             _bBBlog.Debug($"Disable eventhandlers for now while loading the new persona data");
             DisablePersonaEventHandlers();
+
             //if the persona is changed we first need to check if the persona was edited if so we need to ask to save it
             if (personaEdited && PersonasPanel.Visible)
             {
+                _bBBlog.Debug($"Persona {personas[previousPersonaSelectedIndex].Name} was edited, asking to save it");
                 var result = MessageBox.Show("Persona Changed. Do you want to save the persona?", "Save Persona", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
+                    //we need to save the previous persona index with the values, not the current one otherwise we save the wrong tts info with the wrong persona
+                    PersonaComboBox.SelectedIndex = previousPersonaSelectedIndex;
                     SavePersona_Click(sender, e);
+                    //now we return to the newly selected persona index
+                    PersonaComboBox.SelectedIndex = tmpNewPersonaIndex;
 
                 }
                 personaEdited = false;
@@ -1313,14 +1305,19 @@ namespace BanterBrain_Buddy
             }
 
             //alright index is changed! We need to load the persona into the form
-            if (PersonaComboBox.SelectedIndex == -1)
+            //To make sure we get back to the actual selected persona index, we need to re-assign it incase savepersona was called
+            //but on the first load, it might also be empty so we need to check for that and load the default persona if so.
+            if (tmpNewPersonaIndex == -1)
             {
                 _bBBlog.Debug("Persona index is -1, setting to default (0)");
                 PersonaComboBox.SelectedIndex = 0;
+            } else
+            {
+                PersonaComboBox.SelectedIndex = tmpNewPersonaIndex;
             }
 
             var selectedPersona = personas[PersonaComboBox.SelectedIndex];
-            _bBBlog.Debug($"Loading persona into form. Personaname: {selectedPersona.VoiceName} VoiceProvider: {selectedPersona.VoiceProvider} TTSOutputvoice: {selectedPersona.VoiceName}  Amount of options: {selectedPersona.VoiceOptions.Count}");
+            _bBBlog.Debug($"Loading persona into form. Personaname: {selectedPersona.Name} VoiceProvider: {selectedPersona.VoiceProvider} TTSOutputvoice: {selectedPersona.VoiceName}  Amount of options: {selectedPersona.VoiceOptions.Count}");
             PersonaRoleTextBox.Text = selectedPersona.RoleText;
             //now lets load the one thats part of the selected persona
             TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
@@ -1397,6 +1394,7 @@ namespace BanterBrain_Buddy
                 EnablePersonaEventHandlers();
                 PersonasPanel.Enabled = true;
             }
+            previousPersonaSelectedIndex = PersonaComboBox.SelectedIndex;
         }
 
         [SupportedOSPlatform("windows6.1")]

@@ -1574,11 +1574,14 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Unsubscribing from hotkeys");
             }
-            m_GlobalHook.KeyDown -= GlobalHookKeyDown;
-            m_GlobalHook.KeyUp -= GlobalHookKeyUp;
-            //It is recommened to dispose it
-            m_GlobalHook.Dispose();
-            m_GlobalHook = null;
+            if (m_GlobalHook != null)
+            {
+                m_GlobalHook.KeyDown -= GlobalHookKeyDown;
+                m_GlobalHook.KeyUp -= GlobalHookKeyUp;
+                //It is recommened to dispose it
+                m_GlobalHook.Dispose();
+                m_GlobalHook = null;
+            }
         }
 
         [SupportedOSPlatform("windows6.1")]

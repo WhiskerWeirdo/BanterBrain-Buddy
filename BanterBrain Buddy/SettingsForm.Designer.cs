@@ -43,10 +43,6 @@
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
-            SpeakerPanel = new System.Windows.Forms.Panel();
-            TTSAudioOutputComboBox = new System.Windows.Forms.ComboBox();
-            TTSAudioOutputLabel = new System.Windows.Forms.Label();
-            label6 = new System.Windows.Forms.Label();
             PersonasPanel = new System.Windows.Forms.Panel();
             TTSOutputVoiceOption3 = new System.Windows.Forms.ComboBox();
             TTSOption3Label = new System.Windows.Forms.Label();
@@ -67,6 +63,10 @@
             label12 = new System.Windows.Forms.Label();
             PersonaRoleTextBox = new System.Windows.Forms.TextBox();
             label10 = new System.Windows.Forms.Label();
+            SpeakerPanel = new System.Windows.Forms.Panel();
+            TTSAudioOutputComboBox = new System.Windows.Forms.ComboBox();
+            TTSAudioOutputLabel = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
             TwitchPanel = new System.Windows.Forms.Panel();
             groupBox3 = new System.Windows.Forms.GroupBox();
             AuthorizeBotTwitch = new System.Windows.Forms.Button();
@@ -153,8 +153,8 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            SpeakerPanel.SuspendLayout();
             PersonasPanel.SuspendLayout();
+            SpeakerPanel.SuspendLayout();
             TwitchPanel.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -232,48 +232,6 @@
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += TreeView1_AfterSelect;
             // 
-            // SpeakerPanel
-            // 
-            SpeakerPanel.Controls.Add(TTSAudioOutputComboBox);
-            SpeakerPanel.Controls.Add(TTSAudioOutputLabel);
-            SpeakerPanel.Controls.Add(label6);
-            SpeakerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            SpeakerPanel.Location = new System.Drawing.Point(0, 0);
-            SpeakerPanel.Name = "SpeakerPanel";
-            SpeakerPanel.Size = new System.Drawing.Size(593, 450);
-            SpeakerPanel.TabIndex = 2;
-            // 
-            // TTSAudioOutputComboBox
-            // 
-            TTSAudioOutputComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            TTSAudioOutputComboBox.FormattingEnabled = true;
-            TTSAudioOutputComboBox.Location = new System.Drawing.Point(180, 55);
-            TTSAudioOutputComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TTSAudioOutputComboBox.Name = "TTSAudioOutputComboBox";
-            TTSAudioOutputComboBox.Size = new System.Drawing.Size(299, 23);
-            TTSAudioOutputComboBox.TabIndex = 19;
-            TTSAudioOutputComboBox.SelectedIndexChanged += TTSAudioOutputComboBox_SelectedIndexChanged;
-            // 
-            // TTSAudioOutputLabel
-            // 
-            TTSAudioOutputLabel.AutoSize = true;
-            TTSAudioOutputLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TTSAudioOutputLabel.Location = new System.Drawing.Point(49, 58);
-            TTSAudioOutputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            TTSAudioOutputLabel.Name = "TTSAudioOutputLabel";
-            TTSAudioOutputLabel.Size = new System.Drawing.Size(80, 15);
-            TTSAudioOutputLabel.TabIndex = 18;
-            TTSAudioOutputLabel.Text = "Audio Output";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(224, 8);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(133, 15);
-            label6.TabIndex = 0;
-            label6.Text = "Speaker Output settings";
-            // 
             // PersonasPanel
             // 
             PersonasPanel.Controls.Add(TTSOutputVoiceOption3);
@@ -300,6 +258,7 @@
             PersonasPanel.Name = "PersonasPanel";
             PersonasPanel.Size = new System.Drawing.Size(593, 450);
             PersonasPanel.TabIndex = 6;
+            PersonasPanel.Visible = false;
             PersonasPanel.VisibleChanged += PersonasPanel_VisibleChanged;
             // 
             // TTSOutputVoiceOption3
@@ -507,6 +466,48 @@
             label10.Size = new System.Drawing.Size(54, 15);
             label10.TabIndex = 0;
             label10.Text = "Personas";
+            // 
+            // SpeakerPanel
+            // 
+            SpeakerPanel.Controls.Add(TTSAudioOutputComboBox);
+            SpeakerPanel.Controls.Add(TTSAudioOutputLabel);
+            SpeakerPanel.Controls.Add(label6);
+            SpeakerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            SpeakerPanel.Location = new System.Drawing.Point(0, 0);
+            SpeakerPanel.Name = "SpeakerPanel";
+            SpeakerPanel.Size = new System.Drawing.Size(593, 450);
+            SpeakerPanel.TabIndex = 2;
+            // 
+            // TTSAudioOutputComboBox
+            // 
+            TTSAudioOutputComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            TTSAudioOutputComboBox.FormattingEnabled = true;
+            TTSAudioOutputComboBox.Location = new System.Drawing.Point(180, 55);
+            TTSAudioOutputComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTSAudioOutputComboBox.Name = "TTSAudioOutputComboBox";
+            TTSAudioOutputComboBox.Size = new System.Drawing.Size(299, 23);
+            TTSAudioOutputComboBox.TabIndex = 19;
+            TTSAudioOutputComboBox.SelectedIndexChanged += TTSAudioOutputComboBox_SelectedIndexChanged;
+            // 
+            // TTSAudioOutputLabel
+            // 
+            TTSAudioOutputLabel.AutoSize = true;
+            TTSAudioOutputLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TTSAudioOutputLabel.Location = new System.Drawing.Point(49, 58);
+            TTSAudioOutputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            TTSAudioOutputLabel.Name = "TTSAudioOutputLabel";
+            TTSAudioOutputLabel.Size = new System.Drawing.Size(80, 15);
+            TTSAudioOutputLabel.TabIndex = 18;
+            TTSAudioOutputLabel.Text = "Audio Output";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(224, 8);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(133, 15);
+            label6.TabIndex = 0;
+            label6.Text = "Speaker Output settings";
             // 
             // TwitchPanel
             // 
@@ -1391,10 +1392,10 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            SpeakerPanel.ResumeLayout(false);
-            SpeakerPanel.PerformLayout();
             PersonasPanel.ResumeLayout(false);
             PersonasPanel.PerformLayout();
+            SpeakerPanel.ResumeLayout(false);
+            SpeakerPanel.PerformLayout();
             TwitchPanel.ResumeLayout(false);
             TwitchPanel.PerformLayout();
             groupBox3.ResumeLayout(false);
