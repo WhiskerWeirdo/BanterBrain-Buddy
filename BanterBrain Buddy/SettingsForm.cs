@@ -694,13 +694,22 @@ namespace BanterBrain_Buddy
             _elevenLabsVoicesList = await elevenLabsApi.TTSGetElevenLabsVoices();
             if (_elevenLabsVoicesList == null)
             {
-                MessageBox.Show("Problem retreiving ElevenLabs voicelist. Is your API key still valid?", "ElevenLabs No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                _bBBlog.Debug("ElevenLabs API error, can be a timeout lets try once more");
+                await Task.Delay(2000);
+                _elevenLabsVoicesList = await elevenLabsApi.TTSGetElevenLabsVoices();
+                if (_elevenLabsVoicesList == null)
+                {
+                    _bBBlog.Error("ElevenLabs API error, can be a timeout");
+                    MessageBox.Show("Problem retreiving ElevenLabs voicelist. Is your API key still valid or was it a timeout? Cycle back to try again", "ElevenLabs No voices", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    TTSOutputVoice.Items.Clear();
+                    return;
+                }
             }
             else
             {
                 _bBBlog.Info($"Found {_elevenLabsVoicesList.Count} voices");
             }
+            int tmpIndex = TTSOutputVoice.SelectedIndex;
             TTSOutputVoice.Items.Clear();
             foreach (var elevenLabsVoice in _elevenLabsVoicesList)
             {
@@ -708,9 +717,16 @@ namespace BanterBrain_Buddy
                 //we only want to add the name, not the id
                 string[] tmpVoice = elevenLabsVoice.Split(";");
                 if (tmpVoice.Length > 1)
+                {
                     TTSOutputVoice.Items.Add(tmpVoice[1]);
+                    TTSOutputVoice.SelectedIndex = 0;
+                } 
+                else
+                    TTSOutputVoice.Items.Add(tmpVoice[0]);
+                    TTSOutputVoice.SelectedIndex = TTSOutputVoice.Items.IndexOf(tmpVoice[0]);
             }
             TTSOutputVoice.Sorted = true;
+
             //TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
             if (TTSOutputVoiceOption2.Text.Length < 1)
             {
@@ -931,6 +947,7 @@ namespace BanterBrain_Buddy
             {
                 if (_elevenLabsVoicesList[i].Contains(outputVoice))
                 {
+                    _bBBlog.Debug("Found voice in list: " + _elevenLabsVoicesList[i]);
                     outputVoice = _elevenLabsVoicesList[i];
                     break;
                 }

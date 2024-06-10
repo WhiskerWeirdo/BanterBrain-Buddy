@@ -93,7 +93,7 @@ namespace BanterBrain_Buddy
             {
                 foreach (var voice in _elevenLabVoiceList)
                 {
-                    ElevenLabVoices.Add(voice.Key);
+                    ElevenLabVoices.Add(voice.Value +";" + voice.Key);
                 }
                 return ElevenLabVoices;
             }
