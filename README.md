@@ -1,8 +1,8 @@
-### v0.1.8-BETA release of BanterBrain Buddy.
+### v1.0.0 release of BanterBrain Buddy.
 
-**This BETA requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
+**This program requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
 
-This is a beta, please report all bugs to the discord or here on github. 
+Please report all bugs to the [Discord](https://discord.banterbrain.tv/) or here on [Github](https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues). 
 
 ### Requisites to run
 This release depends on .NET Runtime Desktop 8. After installation and trying to run BBB you will be asked to download and install this from the Microsoft website if you do not have it installed yet.
@@ -14,12 +14,16 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
 
+### RELEASE V1.0.0 RELEASE
+Fixed:
+- Some small logic errors for Elevenlabs fixed when loading twice in personas
+- Some small logic errors fixed when switching personas and saving from dialog window
+
 ### RELEASE V0.1.8 BETA
 Fixed: 
 - https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/57 now uses a broadcaster account to verify channel issues while a bot account can be used for talking in chat. The bot account is optional.
 - https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/55 now throws an error when there is an audio device selected that's active but unusable with Azure Speech
 - https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/58 logfile is now being created in appdata, The same directory where some application settings files are being written to. Also some more error handling incase there's issues writing.
-
 
 ### RELEASE V0.1.7 BETA
 
@@ -108,27 +112,6 @@ tldr: use Visual studio 2022 with .net 8.
 
 ## Resources for local and API
 - for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
-- local based LLM's like GPT4All take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
-
-## Roadmap
-### 0.1.0
-Beta testing, bugfixing and stability improvements
-
-- [X] No PTT hotkey
-- [ ] No ability to check for Twitch followers
-- make beta stable
-
-### Short term roadmap
-- [X] 0.0.1 MVP where STT-> ChatGPT ->TTS works with PTT
-- [X] 0.0.2 MVP use non-default audio devices for input/output
-- [X] 0.0.3 MVP ability to read Twitch chat and react to specifyable chat command
-- [X] 0.0.4 MVP Azure TTS/STT support
-- [X] 0.0.5 ALPHA make Twitch client in a class, react to alerts in TTS (read out alert and give reaction) & use bits and channel points for events (pubsub probably)
-- [X] 0.0.5.1 ALPHA INSTALLABLE ALPHA BUILD
-- [ ] 0.0.6 ALPHA Google, Elevenlabs TTS support 
-- [ ] 0.0.7 ALPHA Improved Error handling & Code documentation. GUI improvements
-- [	] 0.0.8 ALPHA Other languages than English support
-- [ ] 0.0.9 ALPHA improve Twitch integration with more configurable event responses
-- [ ] 0.1.0 BETA Installable Beta build release
+- local based LLM's like Ollama take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
 
 
