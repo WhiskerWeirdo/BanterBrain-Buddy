@@ -978,7 +978,7 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Info("Saying text with Native TTS");
             NativeSpeech nativeSpeech = new();
-            await nativeSpeech.NativeTTSInit(TTSOutputVoice.Text, TTSAudioOutputComboBox.Text);
+            await nativeSpeech.NativeTTSInit(TTSOutputVoice.Text, TTSAudioOutputComboBox.Text, int.Parse(TTSVoiceLevel.Text), int.Parse(TTSSpeedLevel.Text));
             await nativeSpeech.NativeSpeak(TTSText);
         }
 

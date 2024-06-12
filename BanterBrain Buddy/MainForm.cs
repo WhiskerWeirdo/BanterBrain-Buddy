@@ -933,7 +933,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Saying text with Native TTS");
             NativeSpeech nativeSpeech = new();
             //this now depends on the selected persona
-            await nativeSpeech.NativeTTSInit(tmpPersona.VoiceName, Properties.Settings.Default.TTSAudioOutput);
+            await nativeSpeech.NativeTTSInit(tmpPersona.VoiceName, Properties.Settings.Default.TTSAudioOutput, tmpPersona.Volume, tmpPersona.Rate);
             await nativeSpeech.NativeSpeak(TTSText);
             UpdateTextLog("Native TTS done\r\n");
             _bBBlog.Info("Native TTS done");

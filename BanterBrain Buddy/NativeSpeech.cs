@@ -28,6 +28,8 @@ namespace BanterBrain_Buddy
         private int SelectedOutputDevice;
         private string _sTTOutputText;
         private bool _sTTDone;
+        private int _voiceVolume;
+        private int _voiceRate;
 
 
         private void SetSelectedOutputDevice(string OutputDevice)
@@ -47,7 +49,15 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         public async Task<bool> NativeSpeak(string TextToSay)
         {
-            _nativeSynthesizer.Speak(TextToSay);
+            //use promptbuilder for native SSML
+            _voiceRate += 100;
+            _voiceVolume += 100;
+            var tmpSSML = "<voice xml:lang=\"en-US\">" + 
+                $"<prosody rate=\"{_voiceRate}%\" volume=\"{_voiceVolume}%\">{TextToSay}</prosody>" + "</voice>";
+            _bBBlog.Debug("Native SSML: " + tmpSSML);
+            PromptBuilder pb = new PromptBuilder();
+            pb.AppendSsmlMarkup(tmpSSML);
+            _nativeSynthesizer.Speak(pb);
             //TODO: handle issues with device not being available or not responsive
             //_bBBlog.Info("Device out: " + SelectedOutputDevice);
             var waveOut = new WaveOut
@@ -94,7 +104,7 @@ namespace BanterBrain_Buddy
         /// <param name="OutputDevice">The text of the selected output device. Limited to 32 characters (Windows limition)</param>
         /// <returns></returns>
         [SupportedOSPlatform("windows6.1")]
-        public Task NativeTTSInit(string VoiceUsed, string OutputDevice)
+        public Task NativeTTSInit(string VoiceUsed, string OutputDevice, int VoiceVolume, int VoiceRate)
         {
             _bBBlog.Info("Starting Native Text To Speech, Initializing");
             _bBBlog.Debug("Init Native Output Device: " + OutputDevice + " using: " + VoiceUsed);
@@ -102,7 +112,10 @@ namespace BanterBrain_Buddy
             _nativeSynthesizer = new();
             string selectedVoice = VoiceUsed[..VoiceUsed.IndexOf('-')];
             _bBBlog.Debug("Init Native Voice: " + selectedVoice);
+
             _nativeSynthesizer.SelectVoice(selectedVoice);
+            _voiceVolume = VoiceVolume;
+            _voiceRate = VoiceRate;
             _nativeAudioStream = new();
             _nativeSynthesizer.SetOutputToWaveStream(_nativeAudioStream);
             return Task.CompletedTask;
