@@ -30,6 +30,7 @@ namespace BanterBrain_Buddy
         private bool _sTTDone;
         private int _voiceVolume;
         private int _voiceRate;
+        private string _voiceCulture;
 
 
         private void SetSelectedOutputDevice(string OutputDevice)
@@ -52,7 +53,7 @@ namespace BanterBrain_Buddy
             //use promptbuilder for native SSML
             _voiceRate += 100;
             _voiceVolume += 100;
-            var tmpSSML = "<voice xml:lang=\"en-US\">" + 
+            var tmpSSML = $"<voice xml:lang=\"{_voiceCulture}\">" + 
                 $"<prosody rate=\"{_voiceRate}%\" volume=\"{_voiceVolume}%\">{TextToSay}</prosody>" + "</voice>";
             _bBBlog.Debug("Native SSML: " + tmpSSML);
             PromptBuilder pb = new PromptBuilder();
@@ -108,6 +109,10 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Info("Starting Native Text To Speech, Initializing");
             _bBBlog.Debug("Init Native Output Device: " + OutputDevice + " using: " + VoiceUsed);
+            //we get the culture from teh VoiceUsed string
+            //which is basically the last part of the string after the second last -
+            _voiceCulture = VoiceUsed[(VoiceUsed.LastIndexOf('-')-2)..];
+            _bBBlog.Debug("Init Native Culture: " + _voiceCulture);
             SetSelectedOutputDevice(OutputDevice);
             _nativeSynthesizer = new();
             string selectedVoice = VoiceUsed[..VoiceUsed.IndexOf('-')];
