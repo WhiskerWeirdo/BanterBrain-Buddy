@@ -9,6 +9,9 @@ This release depends on .NET Runtime Desktop 8. After installation and trying to
 
 You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.4-windows-x64-installer)
 
+### See it work!
+[![BanterBrain Introduction](https://img.youtube.com/vi/3U-PzTrTVyo/0.jpg)](https://www.youtube.com/watch?v=3U-PzTrTVyo)
+
 ### KNOWN ISSUES
 - Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
 - No ability to check for Twitch followers
