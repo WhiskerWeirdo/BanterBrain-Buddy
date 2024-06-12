@@ -78,14 +78,14 @@
   <ItemGroup>
     <PackageReference Include="ElevenLabs-DotNet" Version="2.2.1" />
     <PackageReference Include="log4net" Version="2.0.17" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.37.0" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.38.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MouseKeyHook" Version="5.7.1" />
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="OllamaSharp" Version="2.0.1" />
     <PackageReference Include="OpenAI" Version="1.11.0" />
-    <PackageReference Include="System.Speech" Version="9.0.0-preview.4.24266.19" />
-    <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-aafc9bc" />
+    <PackageReference Include="System.Speech" Version="9.0.0-preview.5.24306.7" />
+    <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-7deef4b" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="8.0.0-preview.7.23375.6" />
     <PackageReference Include="TwitchLib.EventSub.Websockets" Version="0.5.0" />
   </ItemGroup>

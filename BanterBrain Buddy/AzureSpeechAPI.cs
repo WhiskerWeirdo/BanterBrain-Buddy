@@ -22,6 +22,8 @@ namespace BanterBrain_Buddy
         public string AzureAPIKey { get; set; }
         public string AzureRegion { get; set; }
         public string AzureLanguage { get; set; }
+        private int AzureVoiceRate; 
+        private int AzureVoiceVolume;
 
         private SpeechConfig _azureSpeechConfig;
         private AudioConfig _azureAudioConfig;
@@ -147,11 +149,11 @@ namespace BanterBrain_Buddy
         /// <param name="AzureVoiceName">This holds the azure voice. This need to be parsed to be usable for Azure</param>
         /// <param name="TTSVoiceOptions">This holds the style of the voice (if available)</param>
         /// <param name="OutputDevice">This is the output device selected in the GUI</param>
-        public async Task AzureTTSInit(string AzureVoiceParseName, string TTSVoiceOptions, string OutputDevice)
+        public async Task AzureTTSInit(string AzureVoiceParseName, string TTSVoiceOptions, string OutputDevice, int VolumeLevel, int RateLevel)
         {
             _bBBlog.Info("Starting Azure Text To Speech, Initializing");
-            //sensitive information
-            //_bBBlog.Debug("Init Azure API Key: " + AzureAPIKey);
+            AzureVoiceRate = RateLevel;
+            AzureVoiceVolume = VolumeLevel;
             _bBBlog.Debug("Init Azure Region: " + AzureRegion);
             _bBBlog.Debug("Init Azure Output Device: " + OutputDevice);
             SetSelectedOutputDevice(OutputDevice);
@@ -184,20 +186,26 @@ namespace BanterBrain_Buddy
         /// </summary>
         /// <param name="TextToSay">The text to be spoken by the Azure TTS</param>
         /// <returns>True if no error, False if error</returns>
+        
+        /// speed and volume can be set in the SSML
         public async Task<bool> AzureSpeak(string TextToSay)
         {
             _bBBlog.Info($"Starting Azure Text To Speech, Speaking with: {AzureVoiceName}");
             if (!string.IsNullOrEmpty(AzureVoiceName))
             {
                 string SSMLText =
-                $"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"{Properties.Settings.Default.AzureLanguageComboBox}\">\r\n   " +
+               
+                $"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xmlns:emo=\"http://www.w3.org/2009/10/emotionml\" xml:lang=\"{Properties.Settings.Default.AzureLanguageComboBox}\">\r\n   " +
                 $" <voice name=\"{AzureVoiceName}\">\r\n" +
+                $"<prosody rate=\"{AzureVoiceRate}%\" volume=\"{AzureVoiceVolume}%\"> \r\n" +
                 $" <mstts:express-as style=\"{AzureVoiceOptions}\" styledegree=\"1\"> \r\n" + 
                 $"{TextToSay}\r\n        " +
                 "</mstts:express-as>\r\n    " +
+                "</prosody>" +
                 "</voice>\r\n" +
                 "</speak>";
 
+                _bBBlog.Debug("SSML: " + SSMLText);
                 //now lets speak the SSML and handle the result 
                 _azureSpeechConfig.SpeechSynthesisVoiceName = AzureVoiceName;
                 _azureSpeechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm);

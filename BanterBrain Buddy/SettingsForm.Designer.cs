@@ -29,21 +29,27 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Azure");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("OpenAI");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("ElevenLabs");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Ollama LLM");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4 });
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Native speech");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Personas");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Microphone");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Speaker");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode8, treeNode9 });
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Twitch ");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Azure");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("OpenAI");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("ElevenLabs");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Ollama LLM");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode13, treeNode14, treeNode15, treeNode16 });
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Native speech");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Personas");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Microphone");
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Speaker");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode20, treeNode21 });
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Twitch ");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode23 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
             PersonasPanel = new System.Windows.Forms.Panel();
+            TTSSpeedLevel = new System.Windows.Forms.Label();
+            TTSVoiceLevel = new System.Windows.Forms.Label();
+            label28 = new System.Windows.Forms.Label();
+            RateTrackBar = new System.Windows.Forms.TrackBar();
+            label5 = new System.Windows.Forms.Label();
+            VolumeTrackBar = new System.Windows.Forms.TrackBar();
             TTSOutputVoiceOption3 = new System.Windows.Forms.ComboBox();
             TTSOption3Label = new System.Windows.Forms.Label();
             TTSOutputVoiceOption2 = new System.Windows.Forms.ComboBox();
@@ -154,6 +160,8 @@
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             PersonasPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)RateTrackBar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)VolumeTrackBar).BeginInit();
             SpeakerPanel.SuspendLayout();
             TwitchPanel.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -201,31 +209,31 @@
             MenuTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             MenuTreeView.Location = new System.Drawing.Point(0, 0);
             MenuTreeView.Name = "MenuTreeView";
-            treeNode1.Name = "Azure";
-            treeNode1.Text = "Azure";
-            treeNode2.Name = "OpenAIChatGPT";
-            treeNode2.Text = "OpenAI";
-            treeNode3.Name = "ElevenLabs";
-            treeNode3.Text = "ElevenLabs";
-            treeNode4.Name = "OllamaLLM";
-            treeNode4.Text = "Ollama LLM";
-            treeNode5.Name = "APISettings";
-            treeNode5.Text = "API Settings";
-            treeNode6.Name = "NativeSpeech";
-            treeNode6.Text = "Native speech";
-            treeNode7.Name = "Personas";
-            treeNode7.Text = "Personas";
-            treeNode8.Name = "Microphone";
-            treeNode8.Text = "Microphone";
-            treeNode9.Name = "Speaker";
-            treeNode9.Text = "Speaker";
-            treeNode10.Name = "VoiceSettings";
-            treeNode10.Text = "Sound & Voice settings";
-            treeNode11.Name = "Twitch";
-            treeNode11.Text = "Twitch ";
-            treeNode12.Name = "StreamingSettings";
-            treeNode12.Text = "Streaming settings";
-            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode5, treeNode6, treeNode7, treeNode10, treeNode12 });
+            treeNode13.Name = "Azure";
+            treeNode13.Text = "Azure";
+            treeNode14.Name = "OpenAIChatGPT";
+            treeNode14.Text = "OpenAI";
+            treeNode15.Name = "ElevenLabs";
+            treeNode15.Text = "ElevenLabs";
+            treeNode16.Name = "OllamaLLM";
+            treeNode16.Text = "Ollama LLM";
+            treeNode17.Name = "APISettings";
+            treeNode17.Text = "API Settings";
+            treeNode18.Name = "NativeSpeech";
+            treeNode18.Text = "Native speech";
+            treeNode19.Name = "Personas";
+            treeNode19.Text = "Personas";
+            treeNode20.Name = "Microphone";
+            treeNode20.Text = "Microphone";
+            treeNode21.Name = "Speaker";
+            treeNode21.Text = "Speaker";
+            treeNode22.Name = "VoiceSettings";
+            treeNode22.Text = "Sound & Voice settings";
+            treeNode23.Name = "Twitch";
+            treeNode23.Text = "Twitch ";
+            treeNode24.Name = "StreamingSettings";
+            treeNode24.Text = "Streaming settings";
+            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode17, treeNode18, treeNode19, treeNode22, treeNode24 });
             MenuTreeView.PathSeparator = "";
             MenuTreeView.Size = new System.Drawing.Size(203, 450);
             MenuTreeView.TabIndex = 0;
@@ -234,6 +242,12 @@
             // 
             // PersonasPanel
             // 
+            PersonasPanel.Controls.Add(TTSSpeedLevel);
+            PersonasPanel.Controls.Add(TTSVoiceLevel);
+            PersonasPanel.Controls.Add(label28);
+            PersonasPanel.Controls.Add(RateTrackBar);
+            PersonasPanel.Controls.Add(label5);
+            PersonasPanel.Controls.Add(VolumeTrackBar);
             PersonasPanel.Controls.Add(TTSOutputVoiceOption3);
             PersonasPanel.Controls.Add(TTSOption3Label);
             PersonasPanel.Controls.Add(TTSOutputVoiceOption2);
@@ -260,6 +274,62 @@
             PersonasPanel.TabIndex = 6;
             PersonasPanel.Visible = false;
             PersonasPanel.VisibleChanged += PersonasPanel_VisibleChanged;
+            // 
+            // TTSSpeedLevel
+            // 
+            TTSSpeedLevel.AutoSize = true;
+            TTSSpeedLevel.Location = new System.Drawing.Point(518, 387);
+            TTSSpeedLevel.Name = "TTSSpeedLevel";
+            TTSSpeedLevel.Size = new System.Drawing.Size(13, 15);
+            TTSSpeedLevel.TabIndex = 42;
+            TTSSpeedLevel.Text = "0";
+            // 
+            // TTSVoiceLevel
+            // 
+            TTSVoiceLevel.AutoSize = true;
+            TTSVoiceLevel.Location = new System.Drawing.Point(518, 310);
+            TTSVoiceLevel.Name = "TTSVoiceLevel";
+            TTSVoiceLevel.Size = new System.Drawing.Size(13, 15);
+            TTSVoiceLevel.TabIndex = 41;
+            TTSVoiceLevel.Text = "0";
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new System.Drawing.Point(477, 336);
+            label28.Name = "label28";
+            label28.Size = new System.Drawing.Size(91, 15);
+            label28.TabIndex = 40;
+            label28.Text = "TTS Voice Speed";
+            // 
+            // RateTrackBar
+            // 
+            RateTrackBar.Location = new System.Drawing.Point(470, 357);
+            RateTrackBar.Maximum = 100;
+            RateTrackBar.Minimum = -100;
+            RateTrackBar.Name = "RateTrackBar";
+            RateTrackBar.Size = new System.Drawing.Size(111, 45);
+            RateTrackBar.TabIndex = 39;
+            RateTrackBar.ValueChanged += RateTrackBar_ValueChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(472, 262);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(109, 15);
+            label5.TabIndex = 38;
+            label5.Text = "TTS Output volume";
+            // 
+            // VolumeTrackBar
+            // 
+            VolumeTrackBar.Location = new System.Drawing.Point(473, 280);
+            VolumeTrackBar.Maximum = 100;
+            VolumeTrackBar.Minimum = -100;
+            VolumeTrackBar.Name = "VolumeTrackBar";
+            VolumeTrackBar.Size = new System.Drawing.Size(109, 45);
+            VolumeTrackBar.TabIndex = 37;
+            VolumeTrackBar.ValueChanged += VolumeTrackBar_ValueChanged;
             // 
             // TTSOutputVoiceOption3
             // 
@@ -1394,6 +1464,8 @@
             splitContainer1.ResumeLayout(false);
             PersonasPanel.ResumeLayout(false);
             PersonasPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)RateTrackBar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)VolumeTrackBar).EndInit();
             SpeakerPanel.ResumeLayout(false);
             SpeakerPanel.PerformLayout();
             TwitchPanel.ResumeLayout(false);
@@ -1535,5 +1607,11 @@
         private System.Windows.Forms.TextBox TwitchBotAuthKey;
         private System.Windows.Forms.Label TwitchBotNameLabel;
         private System.Windows.Forms.Label TwitchBotAccessTokenLabel;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TrackBar RateTrackBar;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TrackBar VolumeTrackBar;
+        private System.Windows.Forms.Label TTSSpeedLevel;
+        private System.Windows.Forms.Label TTSVoiceLevel;
     }
 }

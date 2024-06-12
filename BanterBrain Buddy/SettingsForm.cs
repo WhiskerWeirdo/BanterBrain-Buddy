@@ -96,6 +96,8 @@ namespace BanterBrain_Buddy
             TTSOutputVoiceOption1.TextChanged -= TTSOutputVoiceOption1_TextChanged;
             TTSOutputVoiceOption2.TextChanged -= TTSOutputVoiceOption2_TextChanged;
             TTSOutputVoiceOption3.TextChanged -= TTSOutputVoiceOption3_TextChanged;
+            VolumeTrackBar.ValueChanged -= VolumeTrackBar_ValueChanged;
+            RateTrackBar.ValueChanged -= RateTrackBar_ValueChanged;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -111,7 +113,8 @@ namespace BanterBrain_Buddy
             TTSOutputVoiceOption1.TextChanged += TTSOutputVoiceOption1_TextChanged;
             TTSOutputVoiceOption2.TextChanged += TTSOutputVoiceOption2_TextChanged;
             TTSOutputVoiceOption3.TextChanged += TTSOutputVoiceOption3_TextChanged;
-
+            VolumeTrackBar.ValueChanged += VolumeTrackBar_ValueChanged;
+            RateTrackBar.ValueChanged += RateTrackBar_ValueChanged;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -366,10 +369,11 @@ namespace BanterBrain_Buddy
                 else
                 {
                     DeletePersona.Enabled = true;
+
                 }
 
                 PersonaComboBox_SelectedValueChanged(sender, e);
-             }
+            }
             else
             {
                 if (personaEdited)
@@ -510,7 +514,7 @@ namespace BanterBrain_Buddy
                 }
                 var newPersonas = new List<Personas>
                 {
-                    new() { Name = "Default", RoleText = "You are a cheeky streamer assistant with a silly personality.", VoiceProvider = "Native", VoiceName = tmpNativeVoice, VoiceOptions = [] }
+                    new() { Name = "Default", RoleText = "You are a cheeky streamer assistant with a silly personality.", VoiceProvider = "Native", VoiceName = tmpNativeVoice, VoiceOptions = [], Volume = 0, Rate = 0 }
                 };
                 string tmpString = JsonConvert.SerializeObject(newPersonas);
                 using var sw = new StreamWriter(tmpFile, true);
@@ -595,6 +599,8 @@ namespace BanterBrain_Buddy
                     _bBBlog.Debug($"Persona {persona.Name} already exists, updating it");
                     persona.RoleText = PersonaRoleTextBox.Text;
                     persona.VoiceProvider = TTSProviderComboBox.Text;
+                    persona.Rate = int.Parse(TTSSpeedLevel.Text);
+                    persona.Volume = int.Parse(TTSVoiceLevel.Text);
 
                     //we need to add the voiceID for the ElevenLabs API
                     if (TTSProviderComboBox.Text == "ElevenLabs")
@@ -646,9 +652,11 @@ namespace BanterBrain_Buddy
             {
                 sw.Write(JsonConvert.SerializeObject(personas));
             }
+            await LoadPersonas();
             personaEdited = false;
             SavePersona.Enabled = false;
-            await LoadPersonas();
+            if (PersonaComboBox.Text == "Default")
+                DeletePersona.Enabled = false;
             return;
         }
 
@@ -720,10 +728,10 @@ namespace BanterBrain_Buddy
                 {
                     TTSOutputVoice.Items.Add(tmpVoice[1]);
                     TTSOutputVoice.SelectedIndex = 0;
-                } 
+                }
                 else
                     TTSOutputVoice.Items.Add(tmpVoice[0]);
-                    TTSOutputVoice.SelectedIndex = TTSOutputVoice.Items.IndexOf(tmpVoice[0]);
+                TTSOutputVoice.SelectedIndex = TTSOutputVoice.Items.IndexOf(tmpVoice[0]);
             }
             TTSOutputVoice.Sorted = true;
 
@@ -820,7 +828,8 @@ namespace BanterBrain_Buddy
             AzureSpeechAPI azureSpeechAPI = new(AzureAPIKeyTextBox.Text, AzureRegionTextBox.Text, AzureLanguageComboBox.Text);
 
             //set the output voice, gender and locale, and the style
-            await azureSpeechAPI.AzureTTSInit(TTSOutputVoice.Text, TTSOutputVoiceOption1.Text, TTSOutputVoice.Text);
+            _bBBlog.Info("Setting up Azure TTS: " + int.Parse(TTSVoiceLevel.Text));
+            await azureSpeechAPI.AzureTTSInit(TTSOutputVoice.Text, TTSOutputVoiceOption1.Text, TTSOutputVoice.Text, int.Parse(TTSVoiceLevel.Text), int.Parse(TTSSpeedLevel.Text));
 
             var result = await azureSpeechAPI.AzureSpeak(TextToSpeak);
             if (!result)
@@ -1303,6 +1312,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"Disable eventhandlers for now while loading the new persona data");
             DisablePersonaEventHandlers();
 
+
             //if the persona is changed we first need to check if the persona was edited if so we need to ask to save it
             if (personaEdited && PersonasPanel.Visible)
             {
@@ -1328,7 +1338,8 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Debug("Persona index is -1, setting to default (0)");
                 PersonaComboBox.SelectedIndex = 0;
-            } else
+            }
+            else
             {
                 PersonaComboBox.SelectedIndex = tmpNewPersonaIndex;
             }
@@ -1336,6 +1347,13 @@ namespace BanterBrain_Buddy
             var selectedPersona = personas[PersonaComboBox.SelectedIndex];
             _bBBlog.Debug($"Loading persona into form. Personaname: {selectedPersona.Name} VoiceProvider: {selectedPersona.VoiceProvider} TTSOutputvoice: {selectedPersona.VoiceName}  Amount of options: {selectedPersona.VoiceOptions.Count}");
             PersonaRoleTextBox.Text = selectedPersona.RoleText;
+            //we should set the volume and rate of the voice
+            _bBBlog.Debug($"Setting rate and volume to {selectedPersona.Rate} and {selectedPersona.Volume}");
+            RateTrackBar.Value = selectedPersona.Rate;
+            VolumeTrackBar.Value = selectedPersona.Volume;
+            TTSVoiceLevel.Text = selectedPersona.Volume.ToString();
+            TTSSpeedLevel.Text = selectedPersona.Rate.ToString();
+
             //now lets load the one thats part of the selected persona
             TTSProviderComboBox.SelectedIndex = TTSProviderComboBox.FindStringExact(selectedPersona.VoiceProvider);
             //the provider can be different from the one before so we need to load teh voices
@@ -2078,6 +2096,22 @@ namespace BanterBrain_Buddy
         {
             Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
             Properties.Settings.Default.Save();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void VolumeTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            personaEdited = true;
+            SavePersona.Enabled = true;
+            TTSVoiceLevel.Text = VolumeTrackBar.Value.ToString();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void RateTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            personaEdited = true;
+            SavePersona.Enabled = true;
+            TTSSpeedLevel.Text = RateTrackBar.Value.ToString();
         }
     }
 }

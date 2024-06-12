@@ -13,5 +13,7 @@ namespace BanterBrain_Buddy
         public string VoiceProvider { get; set; }
         public string VoiceName { get; set; }
         public List<string> VoiceOptions { get; set; }
+        public int Volume { get; set; }
+        public int Rate { get; set; }
     }
 }
