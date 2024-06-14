@@ -29,29 +29,24 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Azure");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("OpenAI");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("ElevenLabs");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Ollama LLM");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode13, treeNode14, treeNode15, treeNode16 });
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Native speech");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Personas");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Microphone");
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Speaker");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode20, treeNode21 });
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Twitch ");
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode23 });
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Azure");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("OpenAI");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("ElevenLabs");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Ollama LLM");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4 });
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Native speech");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Personas");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Microphone");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Speaker");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode8, treeNode9 });
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Twitch ");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
-            SpeakerPanel = new System.Windows.Forms.Panel();
-            OutputVolumeLabel = new System.Windows.Forms.Label();
-            label30 = new System.Windows.Forms.Label();
-            label29 = new System.Windows.Forms.Label();
-            SpeakerDeviceVolumeTrackBar = new System.Windows.Forms.TrackBar();
-            TTSAudioOutputComboBox = new System.Windows.Forms.ComboBox();
-            TTSAudioOutputLabel = new System.Windows.Forms.Label();
-            label6 = new System.Windows.Forms.Label();
             PersonasPanel = new System.Windows.Forms.Panel();
+            label32 = new System.Windows.Forms.Label();
+            TTSPitchLevel = new System.Windows.Forms.Label();
+            PitchTrackBar = new System.Windows.Forms.TrackBar();
             TTSSpeedLevel = new System.Windows.Forms.Label();
             TTSVoiceLevel = new System.Windows.Forms.Label();
             label28 = new System.Windows.Forms.Label();
@@ -77,6 +72,14 @@
             label12 = new System.Windows.Forms.Label();
             PersonaRoleTextBox = new System.Windows.Forms.TextBox();
             label10 = new System.Windows.Forms.Label();
+            SpeakerPanel = new System.Windows.Forms.Panel();
+            OutputVolumeLabel = new System.Windows.Forms.Label();
+            label30 = new System.Windows.Forms.Label();
+            label29 = new System.Windows.Forms.Label();
+            SpeakerDeviceVolumeTrackBar = new System.Windows.Forms.TrackBar();
+            TTSAudioOutputComboBox = new System.Windows.Forms.ComboBox();
+            TTSAudioOutputLabel = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
             TwitchPanel = new System.Windows.Forms.Panel();
             groupBox3 = new System.Windows.Forms.GroupBox();
             AuthorizeBotTwitch = new System.Windows.Forms.Button();
@@ -159,18 +162,16 @@
             MicrophoneHotkeySet = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             BBBToolTip = new System.Windows.Forms.ToolTip(components);
-            PitchTrackBar = new System.Windows.Forms.TrackBar();
-            TTSPitchLevel = new System.Windows.Forms.Label();
-            label32 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            SpeakerPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)SpeakerDeviceVolumeTrackBar).BeginInit();
             PersonasPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)PitchTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)RateTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)VolumeTrackBar).BeginInit();
+            SpeakerPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)SpeakerDeviceVolumeTrackBar).BeginInit();
             TwitchPanel.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -184,7 +185,6 @@
             OBSPanel.SuspendLayout();
             NativeSpeechPanel.SuspendLayout();
             MicrophonePanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)PitchTrackBar).BeginInit();
             SuspendLayout();
             // 
             // splitContainer1
@@ -209,7 +209,7 @@
             splitContainer1.Panel2.Controls.Add(OBSPanel);
             splitContainer1.Panel2.Controls.Add(NativeSpeechPanel);
             splitContainer1.Panel2.Controls.Add(MicrophonePanel);
-            splitContainer1.Size = new System.Drawing.Size(800, 450);
+            splitContainer1.Size = new System.Drawing.Size(800, 579);
             splitContainer1.SplitterDistance = 203;
             splitContainer1.TabIndex = 0;
             // 
@@ -218,118 +218,36 @@
             MenuTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             MenuTreeView.Location = new System.Drawing.Point(0, 0);
             MenuTreeView.Name = "MenuTreeView";
-            treeNode13.Name = "Azure";
-            treeNode13.Text = "Azure";
-            treeNode14.Name = "OpenAIChatGPT";
-            treeNode14.Text = "OpenAI";
-            treeNode15.Name = "ElevenLabs";
-            treeNode15.Text = "ElevenLabs";
-            treeNode16.Name = "OllamaLLM";
-            treeNode16.Text = "Ollama LLM";
-            treeNode17.Name = "APISettings";
-            treeNode17.Text = "API Settings";
-            treeNode18.Name = "NativeSpeech";
-            treeNode18.Text = "Native speech";
-            treeNode19.Name = "Personas";
-            treeNode19.Text = "Personas";
-            treeNode20.Name = "Microphone";
-            treeNode20.Text = "Microphone";
-            treeNode21.Name = "Speaker";
-            treeNode21.Text = "Speaker";
-            treeNode22.Name = "VoiceSettings";
-            treeNode22.Text = "Sound & Voice settings";
-            treeNode23.Name = "Twitch";
-            treeNode23.Text = "Twitch ";
-            treeNode24.Name = "StreamingSettings";
-            treeNode24.Text = "Streaming settings";
-            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode17, treeNode18, treeNode19, treeNode22, treeNode24 });
+            treeNode1.Name = "Azure";
+            treeNode1.Text = "Azure";
+            treeNode2.Name = "OpenAIChatGPT";
+            treeNode2.Text = "OpenAI";
+            treeNode3.Name = "ElevenLabs";
+            treeNode3.Text = "ElevenLabs";
+            treeNode4.Name = "OllamaLLM";
+            treeNode4.Text = "Ollama LLM";
+            treeNode5.Name = "APISettings";
+            treeNode5.Text = "API Settings";
+            treeNode6.Name = "NativeSpeech";
+            treeNode6.Text = "Native speech";
+            treeNode7.Name = "Personas";
+            treeNode7.Text = "Personas";
+            treeNode8.Name = "Microphone";
+            treeNode8.Text = "Microphone";
+            treeNode9.Name = "Speaker";
+            treeNode9.Text = "Speaker";
+            treeNode10.Name = "VoiceSettings";
+            treeNode10.Text = "Sound & Voice settings";
+            treeNode11.Name = "Twitch";
+            treeNode11.Text = "Twitch ";
+            treeNode12.Name = "StreamingSettings";
+            treeNode12.Text = "Streaming settings";
+            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode5, treeNode6, treeNode7, treeNode10, treeNode12 });
             MenuTreeView.PathSeparator = "";
-            MenuTreeView.Size = new System.Drawing.Size(203, 450);
+            MenuTreeView.Size = new System.Drawing.Size(203, 579);
             MenuTreeView.TabIndex = 0;
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += TreeView1_AfterSelect;
-            // 
-            // SpeakerPanel
-            // 
-            SpeakerPanel.Controls.Add(OutputVolumeLabel);
-            SpeakerPanel.Controls.Add(label30);
-            SpeakerPanel.Controls.Add(label29);
-            SpeakerPanel.Controls.Add(SpeakerDeviceVolumeTrackBar);
-            SpeakerPanel.Controls.Add(TTSAudioOutputComboBox);
-            SpeakerPanel.Controls.Add(TTSAudioOutputLabel);
-            SpeakerPanel.Controls.Add(label6);
-            SpeakerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            SpeakerPanel.Location = new System.Drawing.Point(0, 0);
-            SpeakerPanel.Name = "SpeakerPanel";
-            SpeakerPanel.Size = new System.Drawing.Size(593, 450);
-            SpeakerPanel.TabIndex = 2;
-            // 
-            // OutputVolumeLabel
-            // 
-            OutputVolumeLabel.AutoSize = true;
-            OutputVolumeLabel.Location = new System.Drawing.Point(306, 136);
-            OutputVolumeLabel.Name = "OutputVolumeLabel";
-            OutputVolumeLabel.Size = new System.Drawing.Size(23, 15);
-            OutputVolumeLabel.TabIndex = 23;
-            OutputVolumeLabel.Text = "0%";
-            // 
-            // label30
-            // 
-            label30.AutoSize = true;
-            label30.Location = new System.Drawing.Point(165, 158);
-            label30.Name = "label30";
-            label30.Size = new System.Drawing.Size(324, 15);
-            label30.TabIndex = 22;
-            label30.Text = "Warning: changes the global Windows volume of the device";
-            // 
-            // label29
-            // 
-            label29.AutoSize = true;
-            label29.Location = new System.Drawing.Point(52, 108);
-            label29.Name = "label29";
-            label29.Size = new System.Drawing.Size(121, 15);
-            label29.TabIndex = 21;
-            label29.Text = "Audio output volume";
-            // 
-            // SpeakerDeviceVolumeTrackBar
-            // 
-            SpeakerDeviceVolumeTrackBar.Location = new System.Drawing.Point(179, 104);
-            SpeakerDeviceVolumeTrackBar.Maximum = 100;
-            SpeakerDeviceVolumeTrackBar.Name = "SpeakerDeviceVolumeTrackBar";
-            SpeakerDeviceVolumeTrackBar.Size = new System.Drawing.Size(302, 45);
-            SpeakerDeviceVolumeTrackBar.TabIndex = 20;
-            SpeakerDeviceVolumeTrackBar.ValueChanged += SpeakerDeviceVolumeTrackBar_ValueChanged;
-            // 
-            // TTSAudioOutputComboBox
-            // 
-            TTSAudioOutputComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            TTSAudioOutputComboBox.FormattingEnabled = true;
-            TTSAudioOutputComboBox.Location = new System.Drawing.Point(180, 55);
-            TTSAudioOutputComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TTSAudioOutputComboBox.Name = "TTSAudioOutputComboBox";
-            TTSAudioOutputComboBox.Size = new System.Drawing.Size(299, 23);
-            TTSAudioOutputComboBox.TabIndex = 19;
-            TTSAudioOutputComboBox.SelectedIndexChanged += TTSAudioOutputComboBox_SelectedIndexChanged;
-            // 
-            // TTSAudioOutputLabel
-            // 
-            TTSAudioOutputLabel.AutoSize = true;
-            TTSAudioOutputLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TTSAudioOutputLabel.Location = new System.Drawing.Point(49, 58);
-            TTSAudioOutputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            TTSAudioOutputLabel.Name = "TTSAudioOutputLabel";
-            TTSAudioOutputLabel.Size = new System.Drawing.Size(80, 15);
-            TTSAudioOutputLabel.TabIndex = 18;
-            TTSAudioOutputLabel.Text = "Audio Output";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(224, 8);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(133, 15);
-            label6.TabIndex = 0;
-            label6.Text = "Speaker Output settings";
             // 
             // PersonasPanel
             // 
@@ -364,10 +282,41 @@
             PersonasPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             PersonasPanel.Location = new System.Drawing.Point(0, 0);
             PersonasPanel.Name = "PersonasPanel";
-            PersonasPanel.Size = new System.Drawing.Size(593, 450);
+            PersonasPanel.Size = new System.Drawing.Size(593, 579);
             PersonasPanel.TabIndex = 6;
             PersonasPanel.Visible = false;
             PersonasPanel.VisibleChanged += PersonasPanel_VisibleChanged;
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new System.Drawing.Point(402, 383);
+            label32.Name = "label32";
+            label32.Size = new System.Drawing.Size(99, 15);
+            label32.TabIndex = 45;
+            label32.Text = "TTS Pitch Change";
+            // 
+            // TTSPitchLevel
+            // 
+            TTSPitchLevel.AutoSize = true;
+            TTSPitchLevel.Location = new System.Drawing.Point(450, 432);
+            TTSPitchLevel.Name = "TTSPitchLevel";
+            TTSPitchLevel.Size = new System.Drawing.Size(13, 15);
+            TTSPitchLevel.TabIndex = 44;
+            TTSPitchLevel.Text = "0";
+            // 
+            // PitchTrackBar
+            // 
+            PitchTrackBar.LargeChange = 10;
+            PitchTrackBar.Location = new System.Drawing.Point(402, 401);
+            PitchTrackBar.Maximum = 100;
+            PitchTrackBar.Minimum = -100;
+            PitchTrackBar.Name = "PitchTrackBar";
+            PitchTrackBar.Size = new System.Drawing.Size(111, 45);
+            PitchTrackBar.SmallChange = 10;
+            PitchTrackBar.TabIndex = 43;
+            PitchTrackBar.TickFrequency = 10;
+            PitchTrackBar.ValueChanged += PitchTrackBar_ValueChanged;
             // 
             // TTSSpeedLevel
             // 
@@ -404,6 +353,7 @@
             RateTrackBar.Name = "RateTrackBar";
             RateTrackBar.Size = new System.Drawing.Size(111, 45);
             RateTrackBar.TabIndex = 39;
+            RateTrackBar.TickFrequency = 10;
             RateTrackBar.ValueChanged += RateTrackBar_ValueChanged;
             // 
             // label5
@@ -423,6 +373,7 @@
             VolumeTrackBar.Name = "VolumeTrackBar";
             VolumeTrackBar.Size = new System.Drawing.Size(109, 45);
             VolumeTrackBar.TabIndex = 37;
+            VolumeTrackBar.TickFrequency = 10;
             VolumeTrackBar.ValueChanged += VolumeTrackBar_ValueChanged;
             // 
             // TTSOutputVoiceOption3
@@ -631,6 +582,88 @@
             label10.TabIndex = 0;
             label10.Text = "Personas";
             // 
+            // SpeakerPanel
+            // 
+            SpeakerPanel.Controls.Add(OutputVolumeLabel);
+            SpeakerPanel.Controls.Add(label30);
+            SpeakerPanel.Controls.Add(label29);
+            SpeakerPanel.Controls.Add(SpeakerDeviceVolumeTrackBar);
+            SpeakerPanel.Controls.Add(TTSAudioOutputComboBox);
+            SpeakerPanel.Controls.Add(TTSAudioOutputLabel);
+            SpeakerPanel.Controls.Add(label6);
+            SpeakerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            SpeakerPanel.Location = new System.Drawing.Point(0, 0);
+            SpeakerPanel.Name = "SpeakerPanel";
+            SpeakerPanel.Size = new System.Drawing.Size(593, 579);
+            SpeakerPanel.TabIndex = 2;
+            // 
+            // OutputVolumeLabel
+            // 
+            OutputVolumeLabel.AutoSize = true;
+            OutputVolumeLabel.Location = new System.Drawing.Point(306, 136);
+            OutputVolumeLabel.Name = "OutputVolumeLabel";
+            OutputVolumeLabel.Size = new System.Drawing.Size(23, 15);
+            OutputVolumeLabel.TabIndex = 23;
+            OutputVolumeLabel.Text = "0%";
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new System.Drawing.Point(165, 158);
+            label30.Name = "label30";
+            label30.Size = new System.Drawing.Size(324, 15);
+            label30.TabIndex = 22;
+            label30.Text = "Warning: changes the global Windows volume of the device";
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new System.Drawing.Point(52, 108);
+            label29.Name = "label29";
+            label29.Size = new System.Drawing.Size(121, 15);
+            label29.TabIndex = 21;
+            label29.Text = "Audio output volume";
+            // 
+            // SpeakerDeviceVolumeTrackBar
+            // 
+            SpeakerDeviceVolumeTrackBar.Location = new System.Drawing.Point(179, 104);
+            SpeakerDeviceVolumeTrackBar.Maximum = 100;
+            SpeakerDeviceVolumeTrackBar.Name = "SpeakerDeviceVolumeTrackBar";
+            SpeakerDeviceVolumeTrackBar.Size = new System.Drawing.Size(302, 45);
+            SpeakerDeviceVolumeTrackBar.TabIndex = 20;
+            SpeakerDeviceVolumeTrackBar.ValueChanged += SpeakerDeviceVolumeTrackBar_ValueChanged;
+            // 
+            // TTSAudioOutputComboBox
+            // 
+            TTSAudioOutputComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            TTSAudioOutputComboBox.FormattingEnabled = true;
+            TTSAudioOutputComboBox.Location = new System.Drawing.Point(180, 55);
+            TTSAudioOutputComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTSAudioOutputComboBox.Name = "TTSAudioOutputComboBox";
+            TTSAudioOutputComboBox.Size = new System.Drawing.Size(299, 23);
+            TTSAudioOutputComboBox.TabIndex = 19;
+            TTSAudioOutputComboBox.SelectedIndexChanged += TTSAudioOutputComboBox_SelectedIndexChanged;
+            // 
+            // TTSAudioOutputLabel
+            // 
+            TTSAudioOutputLabel.AutoSize = true;
+            TTSAudioOutputLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TTSAudioOutputLabel.Location = new System.Drawing.Point(49, 58);
+            TTSAudioOutputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            TTSAudioOutputLabel.Name = "TTSAudioOutputLabel";
+            TTSAudioOutputLabel.Size = new System.Drawing.Size(80, 15);
+            TTSAudioOutputLabel.TabIndex = 18;
+            TTSAudioOutputLabel.Text = "Audio Output";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(224, 8);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(133, 15);
+            label6.TabIndex = 0;
+            label6.Text = "Speaker Output settings";
+            // 
             // TwitchPanel
             // 
             TwitchPanel.Controls.Add(groupBox3);
@@ -642,7 +675,7 @@
             TwitchPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             TwitchPanel.Location = new System.Drawing.Point(0, 0);
             TwitchPanel.Name = "TwitchPanel";
-            TwitchPanel.Size = new System.Drawing.Size(593, 450);
+            TwitchPanel.Size = new System.Drawing.Size(593, 579);
             TwitchPanel.TabIndex = 5;
             TwitchPanel.VisibleChanged += TwitchPanel_VisibleChanged;
             // 
@@ -916,7 +949,7 @@
             OpenAIChatGPTPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             OpenAIChatGPTPanel.Location = new System.Drawing.Point(0, 0);
             OpenAIChatGPTPanel.Name = "OpenAIChatGPTPanel";
-            OpenAIChatGPTPanel.Size = new System.Drawing.Size(593, 450);
+            OpenAIChatGPTPanel.Size = new System.Drawing.Size(593, 579);
             OpenAIChatGPTPanel.TabIndex = 3;
             OpenAIChatGPTPanel.Validating += OpenAIChatGPTPanel_Validating;
             // 
@@ -1081,7 +1114,7 @@
             AzurePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             AzurePanel.Location = new System.Drawing.Point(0, 0);
             AzurePanel.Name = "AzurePanel";
-            AzurePanel.Size = new System.Drawing.Size(593, 450);
+            AzurePanel.Size = new System.Drawing.Size(593, 579);
             AzurePanel.TabIndex = 1;
             AzurePanel.Validating += AzurePanel_Validating;
             // 
@@ -1176,7 +1209,7 @@
             OllamaPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             OllamaPanel.Location = new System.Drawing.Point(0, 0);
             OllamaPanel.Name = "OllamaPanel";
-            OllamaPanel.Size = new System.Drawing.Size(593, 450);
+            OllamaPanel.Size = new System.Drawing.Size(593, 579);
             OllamaPanel.TabIndex = 37;
             OllamaPanel.VisibleChanged += OllamaPanel_VisibleChanged;
             // 
@@ -1272,7 +1305,7 @@
             ElevenLabsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             ElevenLabsPanel.Location = new System.Drawing.Point(0, 0);
             ElevenLabsPanel.Name = "ElevenLabsPanel";
-            ElevenLabsPanel.Size = new System.Drawing.Size(593, 450);
+            ElevenLabsPanel.Size = new System.Drawing.Size(593, 579);
             ElevenLabsPanel.TabIndex = 40;
             ElevenLabsPanel.Validating += ElevenLabsPanel_Validating;
             // 
@@ -1323,7 +1356,7 @@
             OBSPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             OBSPanel.Location = new System.Drawing.Point(0, 0);
             OBSPanel.Name = "OBSPanel";
-            OBSPanel.Size = new System.Drawing.Size(593, 450);
+            OBSPanel.Size = new System.Drawing.Size(593, 579);
             OBSPanel.TabIndex = 36;
             OBSPanel.VisibleChanged += OBSPanel_VisibleChanged;
             // 
@@ -1393,7 +1426,7 @@
             NativeSpeechPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             NativeSpeechPanel.Location = new System.Drawing.Point(0, 0);
             NativeSpeechPanel.Name = "NativeSpeechPanel";
-            NativeSpeechPanel.Size = new System.Drawing.Size(593, 450);
+            NativeSpeechPanel.Size = new System.Drawing.Size(593, 579);
             NativeSpeechPanel.TabIndex = 10;
             // 
             // label22
@@ -1435,7 +1468,7 @@
             MicrophonePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             MicrophonePanel.Location = new System.Drawing.Point(0, 0);
             MicrophonePanel.Name = "MicrophonePanel";
-            MicrophonePanel.Size = new System.Drawing.Size(593, 450);
+            MicrophonePanel.Size = new System.Drawing.Size(593, 579);
             MicrophonePanel.TabIndex = 0;
             // 
             // PTTKeyLabel
@@ -1501,41 +1534,13 @@
             label1.TabIndex = 0;
             label1.Text = "Microphone Settings";
             // 
-            // PitchTrackBar
-            // 
-            PitchTrackBar.Location = new System.Drawing.Point(398, 402);
-            PitchTrackBar.Maximum = 100;
-            PitchTrackBar.Minimum = -100;
-            PitchTrackBar.Name = "PitchTrackBar";
-            PitchTrackBar.Size = new System.Drawing.Size(111, 45);
-            PitchTrackBar.TabIndex = 43;
-            PitchTrackBar.ValueChanged += PitchTrackBar_ValueChanged;
-            // 
-            // TTSPitchLevel
-            // 
-            TTSPitchLevel.AutoSize = true;
-            TTSPitchLevel.Location = new System.Drawing.Point(450, 432);
-            TTSPitchLevel.Name = "TTSPitchLevel";
-            TTSPitchLevel.Size = new System.Drawing.Size(13, 15);
-            TTSPitchLevel.TabIndex = 44;
-            TTSPitchLevel.Text = "0";
-            // 
-            // label32
-            // 
-            label32.AutoSize = true;
-            label32.Location = new System.Drawing.Point(402, 383);
-            label32.Name = "label32";
-            label32.Size = new System.Drawing.Size(99, 15);
-            label32.TabIndex = 45;
-            label32.Text = "TTS Pitch Change";
-            // 
             // SettingsForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(800, 450);
+            ClientSize = new System.Drawing.Size(800, 579);
             Controls.Add(splitContainer1);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Name = "SettingsForm";
             Text = "Settings";
             FormClosing += SettingsForm_FormClosing;
@@ -1543,13 +1548,14 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            PersonasPanel.ResumeLayout(false);
+            PersonasPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)PitchTrackBar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)RateTrackBar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)VolumeTrackBar).EndInit();
             SpeakerPanel.ResumeLayout(false);
             SpeakerPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)SpeakerDeviceVolumeTrackBar).EndInit();
-            PersonasPanel.ResumeLayout(false);
-            PersonasPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)RateTrackBar).EndInit();
-            ((System.ComponentModel.ISupportInitialize)VolumeTrackBar).EndInit();
             TwitchPanel.ResumeLayout(false);
             TwitchPanel.PerformLayout();
             groupBox3.ResumeLayout(false);
@@ -1576,7 +1582,6 @@
             NativeSpeechPanel.PerformLayout();
             MicrophonePanel.ResumeLayout(false);
             MicrophonePanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)PitchTrackBar).EndInit();
             ResumeLayout(false);
         }
 

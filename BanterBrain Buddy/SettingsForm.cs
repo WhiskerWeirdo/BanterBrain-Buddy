@@ -100,6 +100,7 @@ namespace BanterBrain_Buddy
             VolumeTrackBar.ValueChanged -= VolumeTrackBar_ValueChanged;
             RateTrackBar.ValueChanged -= RateTrackBar_ValueChanged;
             PitchTrackBar.ValueChanged -= PitchTrackBar_ValueChanged;
+            
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -411,6 +412,7 @@ namespace BanterBrain_Buddy
                 //clear and fill the option box with voices
                 await TTSGetNativeVoices();
                 TTSFillNativeVoicesList();
+                PitchTrackBar.Scroll += PitchTrackBar_ScrollSnapToTen;
                 return true;
             }
             else if (TTSProviderComboBox.Text == "ElevenLabs")
@@ -429,6 +431,7 @@ namespace BanterBrain_Buddy
                 TTSOutputVoiceOption3.DropDownStyle = ComboBoxStyle.Simple;
                 TTSOption3Label.Text = "Style (0-100)";
                 await TTSGetElevenLabsVoices();
+                PitchTrackBar.Scroll -= PitchTrackBar_ScrollSnapToTen;
                 return true;
             }
             else if (TTSProviderComboBox.Text == "Azure")
@@ -444,7 +447,7 @@ namespace BanterBrain_Buddy
                 TTSOutputVoiceOption3.Visible = false;
                 TTSOption3Label.Visible = false;
                 TTSOutputVoiceOption3.Text = "";
-
+                PitchTrackBar.Scroll -= PitchTrackBar_ScrollSnapToTen;
                 if (AzureAPIKeyTextBox.Text.Length > 0 && AzureRegionTextBox.Text.Length > 0)
                 {
                     if (await TTSGetAzureVoices())
@@ -481,6 +484,7 @@ namespace BanterBrain_Buddy
                 TTSOutputVoice.Items.Add("shimmer");
                 TTSOutputVoice.Sorted = true;
                 TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
+                PitchTrackBar.Scroll -= PitchTrackBar_ScrollSnapToTen;
                 return true;
             }
             return false;
@@ -982,7 +986,7 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Info("Saying text with Native TTS");
             NativeSpeech nativeSpeech = new();
-            await nativeSpeech.NativeTTSInit(TTSOutputVoice.Text, TTSAudioOutputComboBox.Text, int.Parse(TTSVoiceLevel.Text), int.Parse(TTSSpeedLevel.Text));
+            await nativeSpeech.NativeTTSInit(TTSOutputVoice.Text, TTSAudioOutputComboBox.Text, int.Parse(TTSVoiceLevel.Text), int.Parse(TTSSpeedLevel.Text), int.Parse(TTSPitchLevel.Text));
             await nativeSpeech.NativeSpeak(TTSText);
         }
 
@@ -2155,7 +2159,31 @@ namespace BanterBrain_Buddy
         {
             personaEdited = true;
             SavePersona.Enabled = true;
+            _bBBlog.Debug("Pitch trackbar value changed to " + PitchTrackBar.Value);
+            _bBBlog.Debug("Pitch smallchange: " + PitchTrackBar.SmallChange + " largechange: " + PitchTrackBar.LargeChange + " tickfrequency: " + PitchTrackBar.TickFrequency);
             TTSPitchLevel.Text = PitchTrackBar.Value.ToString();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void PitchTrackBar_ScrollSnapToTen(object sender, EventArgs e)
+        {
+            // Calculate the nearest multiple of 10
+            int value = PitchTrackBar.Value;
+            int remainder = value % 10;
+            if (remainder != 0)
+            {
+                // Adjust the value to the nearest multiple of 10
+                if (remainder < 5)
+                {
+                    // If the remainder is less than 5, subtract it from the value
+                    PitchTrackBar.Value -= remainder;
+                }
+                else
+                {
+                    // If the remainder is 5 or more, add the difference to reach the next multiple of 10
+                    PitchTrackBar.Value += (10 - remainder);
+                }
+            }
         }
     }
 }

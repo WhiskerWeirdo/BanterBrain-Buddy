@@ -1,4 +1,5 @@
 ﻿using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,6 +31,7 @@ namespace BanterBrain_Buddy
         private bool _sTTDone;
         private int _voiceVolume;
         private int _voiceRate;
+        private int _voicePitch;
         private string _voiceCulture;
 
 
@@ -53,6 +55,7 @@ namespace BanterBrain_Buddy
             //use promptbuilder for native SSML
             _voiceRate += 100;
             _voiceVolume += 100;
+            //_voicePitch += 100;
             var tmpSSML = $"<voice xml:lang=\"{_voiceCulture}\">" + 
                 $"<prosody rate=\"{_voiceRate}%\" volume=\"{_voiceVolume}%\">{TextToSay}</prosody>" + "</voice>";
             _bBBlog.Debug("Native SSML: " + tmpSSML);
@@ -65,14 +68,46 @@ namespace BanterBrain_Buddy
             {
                 DeviceNumber = SelectedOutputDevice
             };
+
+
             //it has to be 24000, 16, 1 for some reason?
             var waveStream = new RawSourceWaveStream(_nativeAudioStream, new WaveFormat(24000, 16, 1))
             {
                 //reset the stream to the beginning or you wont hear anything
                 Position = 0
             };
-            waveOut.Init(waveStream);
+            var semitone = Math.Pow(2, 1.0 / 12);
+            var upOneTone = semitone * semitone;
+            var downOneTone = 1.0 / upOneTone;
+            Double pitchTone = 1.0;
+            //alright lets set the pitch tone
+            if (_voicePitch == 0)
+            {
+                pitchTone = 1.0;
+            }
+            else if (_voicePitch > 0)
+            {
+                pitchTone = Math.Pow(upOneTone, _voicePitch/10);
+            }
+            else if (_voicePitch < 0)
+            {
+                pitchTone = Math.Pow(downOneTone, Math.Abs(_voicePitch)/10);
+            }
+            var pitch = new SmbPitchShiftingSampleProvider(waveStream.ToSampleProvider());
+            pitch.PitchFactor = (float)pitchTone;
 
+            _bBBlog.Debug("Native Pitch: " + pitch.PitchFactor);
+            if (pitch.PitchFactor == 1.0)
+            {
+                waveOut.Init(pitch);
+            } else
+            {
+                //ok we need to chop off the start, because this buggers the audio due to artifacts from pitching
+                waveOut.Init(pitch.Skip(TimeSpan.FromMilliseconds(300)));
+            }
+
+            //waveOut.Init(waveStream);
+            
             waveOut.Play();
             while (waveOut.PlaybackState != PlaybackState.Stopped)
             {
@@ -105,7 +140,7 @@ namespace BanterBrain_Buddy
         /// <param name="OutputDevice">The text of the selected output device. Limited to 32 characters (Windows limition)</param>
         /// <returns></returns>
         [SupportedOSPlatform("windows6.1")]
-        public Task NativeTTSInit(string VoiceUsed, string OutputDevice, int VoiceVolume, int VoiceRate)
+        public Task NativeTTSInit(string VoiceUsed, string OutputDevice, int VoiceVolume, int VoiceRate, int VoicePitch)
         {
             _bBBlog.Info("Starting Native Text To Speech, Initializing");
             _bBBlog.Debug("Init Native Output Device: " + OutputDevice + " using: " + VoiceUsed);
@@ -121,6 +156,7 @@ namespace BanterBrain_Buddy
             _nativeSynthesizer.SelectVoice(selectedVoice);
             _voiceVolume = VoiceVolume;
             _voiceRate = VoiceRate;
+            _voicePitch = VoicePitch;
             _nativeAudioStream = new();
             _nativeSynthesizer.SetOutputToWaveStream(_nativeAudioStream);
             return Task.CompletedTask;
