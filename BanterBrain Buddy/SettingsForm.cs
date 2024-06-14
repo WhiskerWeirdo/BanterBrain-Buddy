@@ -412,7 +412,9 @@ namespace BanterBrain_Buddy
                 //clear and fill the option box with voices
                 await TTSGetNativeVoices();
                 TTSFillNativeVoicesList();
+                PitchTrackBar.Enabled = true;
                 PitchTrackBar.Scroll += PitchTrackBar_ScrollSnapToTen;
+
                 return true;
             }
             else if (TTSProviderComboBox.Text == "ElevenLabs")
@@ -432,6 +434,7 @@ namespace BanterBrain_Buddy
                 TTSOption3Label.Text = "Style (0-100)";
                 await TTSGetElevenLabsVoices();
                 PitchTrackBar.Scroll -= PitchTrackBar_ScrollSnapToTen;
+                PitchTrackBar.Enabled = true;
                 return true;
             }
             else if (TTSProviderComboBox.Text == "Azure")
@@ -448,6 +451,7 @@ namespace BanterBrain_Buddy
                 TTSOption3Label.Visible = false;
                 TTSOutputVoiceOption3.Text = "";
                 PitchTrackBar.Scroll -= PitchTrackBar_ScrollSnapToTen;
+                PitchTrackBar.Enabled = true;
                 if (AzureAPIKeyTextBox.Text.Length > 0 && AzureRegionTextBox.Text.Length > 0)
                 {
                     if (await TTSGetAzureVoices())
@@ -483,6 +487,7 @@ namespace BanterBrain_Buddy
                 TTSOutputVoice.Items.Add("nova");
                 TTSOutputVoice.Items.Add("shimmer");
                 TTSOutputVoice.Sorted = true;
+                PitchTrackBar.Enabled = false;
                 TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
                 PitchTrackBar.Scroll -= PitchTrackBar_ScrollSnapToTen;
                 return true;
