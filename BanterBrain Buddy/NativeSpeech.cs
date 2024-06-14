@@ -29,7 +29,7 @@ namespace BanterBrain_Buddy
         private int SelectedOutputDevice;
         private string _sTTOutputText;
         private bool _sTTDone;
-        private int _voiceVolume;
+        private float _voiceVolume;
         private int _voiceRate;
         private int _voicePitch;
         private string _voiceCulture;
@@ -54,10 +54,10 @@ namespace BanterBrain_Buddy
         {
             //use promptbuilder for native SSML
             _voiceRate += 100;
-            _voiceVolume += 100;
+            int voiceVolume = 100;
             //_voicePitch += 100;
             var tmpSSML = $"<voice xml:lang=\"{_voiceCulture}\">" + 
-                $"<prosody rate=\"{_voiceRate}%\" volume=\"{_voiceVolume}%\">{TextToSay}</prosody>" + "</voice>";
+                $"<prosody rate=\"{_voiceRate}%\" volume=\"{voiceVolume}%\">{TextToSay}</prosody>" + "</voice>";
             _bBBlog.Debug("Native SSML: " + tmpSSML);
             PromptBuilder pb = new PromptBuilder();
             pb.AppendSsmlMarkup(tmpSSML);
@@ -76,6 +76,16 @@ namespace BanterBrain_Buddy
                 //reset the stream to the beginning or you wont hear anything
                 Position = 0
             };
+
+            // Create a SampleChannel for volume control
+            var sampleChannel = new SampleChannel(waveStream, false);
+
+            // Use a VolumeSampleProvider to apply the volume multiplier
+            var volumeProvider = new VolumeSampleProvider(sampleChannel)
+            {
+                Volume = _voiceVolume
+            };
+
             var semitone = Math.Pow(2, 1.0 / 12);
             var upOneTone = semitone * semitone;
             var downOneTone = 1.0 / upOneTone;
@@ -93,8 +103,9 @@ namespace BanterBrain_Buddy
             {
                 pitchTone = Math.Pow(downOneTone, Math.Abs(_voicePitch)/10);
             }
-            var pitch = new SmbPitchShiftingSampleProvider(waveStream.ToSampleProvider());
+            var pitch = new SmbPitchShiftingSampleProvider(volumeProvider);
             pitch.PitchFactor = (float)pitchTone;
+
 
             _bBBlog.Debug("Native Pitch: " + pitch.PitchFactor);
             if (pitch.PitchFactor == 1.0)
@@ -154,7 +165,15 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug("Init Native Voice: " + selectedVoice);
 
             _nativeSynthesizer.SelectVoice(selectedVoice);
-            _voiceVolume = VoiceVolume;
+
+            // Ensure volumeControl is within the expected range
+            VoiceVolume = Math.Clamp(VoiceVolume, -100, 100);
+
+            // Convert volumeControl to a volume multiplier
+            //float volumeMultiplier = (float)Math.Pow(10, volumeControl / 100.0); // Use logarithmic scale for volume control
+            // Convert volumeControl to a volume multiplier
+            _voiceVolume = 1.0f + (VoiceVolume / 100.0f);
+            
             _voiceRate = VoiceRate;
             _voicePitch = VoicePitch;
             _nativeAudioStream = new();
