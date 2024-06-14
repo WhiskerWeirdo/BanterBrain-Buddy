@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using NAudio.CoreAudioApi;
+using Newtonsoft.Json;
 using OpenAI_API;
 using System;
 using System.Collections.Generic;
@@ -2094,6 +2095,17 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void TTSAudioOutputComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //get the device volume
+            float? deviceVolume = GetDeviceVolume(TTSAudioOutputComboBox.Text);
+            if (deviceVolume != null)
+            {
+                int volumeValue = (int)(deviceVolume * 100);
+                SpeakerDeviceVolumeTrackBar.Value = volumeValue;
+            }
+            else
+            {
+                SpeakerDeviceVolumeTrackBar.Value = 0;
+            }
             Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
             Properties.Settings.Default.Save();
         }
@@ -2112,6 +2124,25 @@ namespace BanterBrain_Buddy
             personaEdited = true;
             SavePersona.Enabled = true;
             TTSSpeedLevel.Text = RateTrackBar.Value.ToString();
+        }
+
+        public static float? GetDeviceVolume(string deviceName)
+        {
+            var enumerator = new MMDeviceEnumerator();
+            foreach (var endpoint in enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active))
+            {
+                if (endpoint.FriendlyName.Contains(deviceName))
+                {
+                    return endpoint.AudioEndpointVolume.MasterVolumeLevelScalar;
+                }
+            }
+            return null; // Device not found or an error occurred
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void SpeakerDeviceVolumeTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            OutputVolumeLabel.Text = SpeakerDeviceVolumeTrackBar.Value.ToString() +"%";
         }
     }
 }

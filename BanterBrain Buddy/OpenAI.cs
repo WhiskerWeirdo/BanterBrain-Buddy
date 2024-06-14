@@ -140,7 +140,7 @@ namespace BanterBrain_Buddy
             }
                 //alloy, echo, fable, onyx, nova, and shimmer
             _OpenAPI.TextToSpeech.DefaultTTSRequestArgs.Voice = voice;
-            //we use WAV streams format
+              //we use WAV streams format
             _OpenAPI.TextToSpeech.DefaultTTSRequestArgs.ResponseFormat = "wav";
             var TTSResult = await _OpenAPI.TextToSpeech.GetSpeechAsStreamAsync(text);
             if (TTSResult == null)
@@ -158,6 +158,7 @@ namespace BanterBrain_Buddy
                 //reset the stream to the beginning or you wont hear anything
                 Position = 0
             };
+
             waveOut.Init(waveStream);
 
             waveOut.Play();
