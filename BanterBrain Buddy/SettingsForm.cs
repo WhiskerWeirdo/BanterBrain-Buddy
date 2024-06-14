@@ -947,7 +947,7 @@ namespace BanterBrain_Buddy
         private async Task TTSOpenAIWhisperSpeakToOutput(string TextToSay)
         {
             OpenAI openAI = new();
-            var result = await openAI.OpenAITTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text);
+            var result = await openAI.OpenAITTS(TextToSay, TTSAudioOutputComboBox.Text, TTSOutputVoice.Text, int.Parse(TTSSpeedLevel.Text));
             if (!result)
             {
                 _bBBlog.Error("OpenAI Whisper TTS error. Is there a problem with your API key or subscription?");

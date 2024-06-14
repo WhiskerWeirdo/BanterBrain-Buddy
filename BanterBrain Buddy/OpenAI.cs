@@ -130,7 +130,29 @@ namespace BanterBrain_Buddy
             return STTResult;
         }
 
-        public async Task<bool> OpenAITTS(string text, string outputDevice, string voice)
+        //convert the speed range from 0.25 to 4.0 using the -100 to 100 slider
+        double ConvertRange(int inputValue)
+        {
+            // Define the input range and corresponding speed range
+            int inputMin = -100, inputMax = 100;
+            float speedAtZero = 1.0f, speedMin = 0.25f, speedMax = 4.0f;
+
+            // Calculate the slope for the negative and positive ranges
+            float slopeForNegativeRange = (speedAtZero - speedMin) / -inputMin; // From -100 to 0
+            float slopeForPositiveRange = (speedMax - speedAtZero) / inputMax;  // From 0 to +100
+
+            // Apply the piecewise linear mapping
+            if (inputValue <= 0)
+            {
+                return speedAtZero + (inputValue * slopeForNegativeRange);
+            }
+            else // inputValue > 0
+            {
+                return speedAtZero + (inputValue * slopeForPositiveRange);
+            }
+        }
+
+        public async Task<bool> OpenAITTS(string text, string outputDevice, string voice, int speed)
         {
             SetSelectedOutputDevice(outputDevice);
             if (_OpenAPI == null)
@@ -140,6 +162,9 @@ namespace BanterBrain_Buddy
             }
                 //alloy, echo, fable, onyx, nova, and shimmer
             _OpenAPI.TextToSpeech.DefaultTTSRequestArgs.Voice = voice;
+            //speed 0.25 to 4.0
+
+            _OpenAPI.TextToSpeech.DefaultTTSRequestArgs.Speed = ConvertRange(speed);
               //we use WAV streams format
             _OpenAPI.TextToSpeech.DefaultTTSRequestArgs.ResponseFormat = "wav";
             var TTSResult = await _OpenAPI.TextToSpeech.GetSpeechAsStreamAsync(text);
