@@ -1,4 +1,5 @@
 ﻿using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using OpenAI_API;
 using OpenAI_API.Models;
 using System;
@@ -152,7 +153,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        public async Task<bool> OpenAITTS(string text, string outputDevice, string voice, int speed)
+        public async Task<bool> OpenAITTS(string text, string outputDevice, string voice, int speed, int volumeControl)
         {
             SetSelectedOutputDevice(outputDevice);
             if (_OpenAPI == null)
@@ -173,6 +174,15 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("OpenAI TTS failed");
                 return false;
             }
+            // Ensure volumeControl is within the expected range
+            volumeControl = Math.Clamp(volumeControl, -100, 100);
+
+            // Convert volumeControl to a volume multiplier
+            //float volumeMultiplier = (float)Math.Pow(10, volumeControl / 100.0); // Use logarithmic scale for volume control
+            // Convert volumeControl to a volume multiplier
+            float volumeMultiplier = 1.0f + (volumeControl / 100.0f);
+
+
             var waveOut = new WaveOut
             {
                 DeviceNumber = SelectedOutputDevice
@@ -183,8 +193,16 @@ namespace BanterBrain_Buddy
                 //reset the stream to the beginning or you wont hear anything
                 Position = 0
             };
+            // Create a SampleChannel for volume control
+            var sampleChannel = new SampleChannel(waveStream, false);
 
-            waveOut.Init(waveStream);
+            // Use a VolumeSampleProvider to apply the volume multiplier
+            var volumeProvider = new VolumeSampleProvider(sampleChannel)
+            {
+                Volume = volumeMultiplier
+            };
+
+            waveOut.Init(volumeProvider);
 
             waveOut.Play();
             while (waveOut.PlaybackState != PlaybackState.Stopped)

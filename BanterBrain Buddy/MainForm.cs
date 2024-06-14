@@ -1052,7 +1052,7 @@ namespace BanterBrain_Buddy
                 return;
             }
 
-            await _openAI.OpenAITTS(TextToSpeak, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName, tmpPersona.Rate);
+            await _openAI.OpenAITTS(TextToSpeak, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName, tmpPersona.Rate, tmpPersona.Volume);
             _bBBlog.Info("OpenAI TTS done");
             UpdateTextLog("OpenAI TTS done\r\n");
             MainRecordingStart.Enabled = true;
