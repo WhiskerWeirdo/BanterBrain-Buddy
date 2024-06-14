@@ -903,7 +903,7 @@ namespace BanterBrain_Buddy
 
             //set the output voice, gender and locale, and the style
             //this now depends on the selected persona
-            await _azureSpeech.AzureTTSInit(tmpPersona.VoiceName, tmpPersona.VoiceOptions[0], Properties.Settings.Default.TTSAudioOutput, tmpPersona.Volume, tmpPersona.Rate);
+            await _azureSpeech.AzureTTSInit(tmpPersona.VoiceName, tmpPersona.VoiceOptions[0], Properties.Settings.Default.TTSAudioOutput, tmpPersona.Volume, tmpPersona.Rate, tmpPersona.Pitch);
             if (!await _azureSpeech.AzureVerifyAPI())
             {
                 _bBBlog.Error("Azure TTS error. Is there a problem with your API key or subscription?");

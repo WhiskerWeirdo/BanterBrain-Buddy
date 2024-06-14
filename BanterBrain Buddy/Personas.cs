@@ -15,5 +15,6 @@ namespace BanterBrain_Buddy
         public List<string> VoiceOptions { get; set; }
         public int Volume { get; set; }
         public int Rate { get; set; }
+        public int Pitch { get; set; }
     }
 }

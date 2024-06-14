@@ -24,6 +24,7 @@ namespace BanterBrain_Buddy
         public string AzureLanguage { get; set; }
         private int AzureVoiceRate; 
         private int AzureVoiceVolume;
+        private int AzureVoicePitch;
 
         private SpeechConfig _azureSpeechConfig;
         private AudioConfig _azureAudioConfig;
@@ -149,11 +150,12 @@ namespace BanterBrain_Buddy
         /// <param name="AzureVoiceName">This holds the azure voice. This need to be parsed to be usable for Azure</param>
         /// <param name="TTSVoiceOptions">This holds the style of the voice (if available)</param>
         /// <param name="OutputDevice">This is the output device selected in the GUI</param>
-        public async Task AzureTTSInit(string AzureVoiceParseName, string TTSVoiceOptions, string OutputDevice, int VolumeLevel, int RateLevel)
+        public async Task AzureTTSInit(string AzureVoiceParseName, string TTSVoiceOptions, string OutputDevice, int VolumeLevel, int RateLevel, int PitchLevel)
         {
             _bBBlog.Info("Starting Azure Text To Speech, Initializing");
             AzureVoiceRate = RateLevel;
             AzureVoiceVolume = VolumeLevel;
+            AzureVoicePitch = PitchLevel;
             _bBBlog.Debug("Init Azure Region: " + AzureRegion);
             _bBBlog.Debug("Init Azure Output Device: " + OutputDevice);
             SetSelectedOutputDevice(OutputDevice);
@@ -197,7 +199,7 @@ namespace BanterBrain_Buddy
                
                 $"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xmlns:emo=\"http://www.w3.org/2009/10/emotionml\" xml:lang=\"{Properties.Settings.Default.AzureLanguageComboBox}\">\r\n   " +
                 $" <voice name=\"{AzureVoiceName}\">\r\n" +
-                $"<prosody rate=\"{AzureVoiceRate}%\" volume=\"{AzureVoiceVolume}%\"> \r\n" +
+                $"<prosody rate=\"{AzureVoiceRate}%\" pitch= \"{AzureVoicePitch}%\" volume=\"{AzureVoiceVolume}%\"> \r\n" +
                 $" <mstts:express-as style=\"{AzureVoiceOptions}\" styledegree=\"1\"> \r\n" + 
                 $"{TextToSay}\r\n        " +
                 "</mstts:express-as>\r\n    " +

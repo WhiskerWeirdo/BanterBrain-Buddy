@@ -99,6 +99,7 @@ namespace BanterBrain_Buddy
             TTSOutputVoiceOption3.TextChanged -= TTSOutputVoiceOption3_TextChanged;
             VolumeTrackBar.ValueChanged -= VolumeTrackBar_ValueChanged;
             RateTrackBar.ValueChanged -= RateTrackBar_ValueChanged;
+            PitchTrackBar.ValueChanged -= PitchTrackBar_ValueChanged;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -116,6 +117,7 @@ namespace BanterBrain_Buddy
             TTSOutputVoiceOption3.TextChanged += TTSOutputVoiceOption3_TextChanged;
             VolumeTrackBar.ValueChanged += VolumeTrackBar_ValueChanged;
             RateTrackBar.ValueChanged += RateTrackBar_ValueChanged;
+            PitchTrackBar.ValueChanged += PitchTrackBar_ValueChanged;
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -515,7 +517,7 @@ namespace BanterBrain_Buddy
                 }
                 var newPersonas = new List<Personas>
                 {
-                    new() { Name = "Default", RoleText = "You are a cheeky streamer assistant with a silly personality.", VoiceProvider = "Native", VoiceName = tmpNativeVoice, VoiceOptions = [], Volume = 0, Rate = 0 }
+                    new() { Name = "Default", RoleText = "You are a cheeky streamer assistant with a silly personality.", VoiceProvider = "Native", VoiceName = tmpNativeVoice, VoiceOptions = [], Volume = 0, Rate = 0, Pitch = 0 }
                 };
                 string tmpString = JsonConvert.SerializeObject(newPersonas);
                 using var sw = new StreamWriter(tmpFile, true);
@@ -602,6 +604,7 @@ namespace BanterBrain_Buddy
                     persona.VoiceProvider = TTSProviderComboBox.Text;
                     persona.Rate = int.Parse(TTSSpeedLevel.Text);
                     persona.Volume = int.Parse(TTSVoiceLevel.Text);
+                    persona.Pitch = int.Parse(TTSPitchLevel.Text);
 
                     //we need to add the voiceID for the ElevenLabs API
                     if (TTSProviderComboBox.Text == "ElevenLabs")
@@ -830,7 +833,7 @@ namespace BanterBrain_Buddy
 
             //set the output voice, gender and locale, and the style
             _bBBlog.Info("Setting up Azure TTS: " + int.Parse(TTSVoiceLevel.Text));
-            await azureSpeechAPI.AzureTTSInit(TTSOutputVoice.Text, TTSOutputVoiceOption1.Text, TTSOutputVoice.Text, int.Parse(TTSVoiceLevel.Text), int.Parse(TTSSpeedLevel.Text));
+            await azureSpeechAPI.AzureTTSInit(TTSOutputVoice.Text, TTSOutputVoiceOption1.Text, TTSOutputVoice.Text, int.Parse(TTSVoiceLevel.Text), int.Parse(TTSSpeedLevel.Text), int.Parse(TTSPitchLevel.Text));
 
             var result = await azureSpeechAPI.AzureSpeak(TextToSpeak);
             if (!result)
@@ -1352,6 +1355,8 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"Setting rate and volume to {selectedPersona.Rate} and {selectedPersona.Volume}");
             RateTrackBar.Value = selectedPersona.Rate;
             VolumeTrackBar.Value = selectedPersona.Volume;
+            PitchTrackBar.Value = selectedPersona.Pitch;
+            TTSPitchLevel.Text = selectedPersona.Pitch.ToString();
             TTSVoiceLevel.Text = selectedPersona.Volume.ToString();
             TTSSpeedLevel.Text = selectedPersona.Rate.ToString();
 
@@ -2142,7 +2147,15 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void SpeakerDeviceVolumeTrackBar_ValueChanged(object sender, EventArgs e)
         {
-            OutputVolumeLabel.Text = SpeakerDeviceVolumeTrackBar.Value.ToString() +"%";
+            OutputVolumeLabel.Text = SpeakerDeviceVolumeTrackBar.Value.ToString() + "%";
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void PitchTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            personaEdited = true;
+            SavePersona.Enabled = true;
+            TTSPitchLevel.Text = PitchTrackBar.Value.ToString();
         }
     }
 }
