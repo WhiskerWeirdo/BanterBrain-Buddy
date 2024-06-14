@@ -413,6 +413,7 @@ namespace BanterBrain_Buddy
                 await TTSGetNativeVoices();
                 TTSFillNativeVoicesList();
                 PitchTrackBar.Enabled = true;
+                RateTrackBar.Enabled = true;
                 PitchTrackBar.Scroll += PitchTrackBar_ScrollSnapToTen;
 
                 return true;
@@ -434,7 +435,10 @@ namespace BanterBrain_Buddy
                 TTSOption3Label.Text = "Style (0-100)";
                 await TTSGetElevenLabsVoices();
                 PitchTrackBar.Scroll -= PitchTrackBar_ScrollSnapToTen;
-                PitchTrackBar.Enabled = true;
+                PitchTrackBar.Enabled = false;
+                PitchTrackBar.Value = 0;
+                RateTrackBar.Enabled = false;
+                RateTrackBar.Value = 0;
                 return true;
             }
             else if (TTSProviderComboBox.Text == "Azure")
@@ -452,6 +456,7 @@ namespace BanterBrain_Buddy
                 TTSOutputVoiceOption3.Text = "";
                 PitchTrackBar.Scroll -= PitchTrackBar_ScrollSnapToTen;
                 PitchTrackBar.Enabled = true;
+                RateTrackBar.Enabled = true;
                 if (AzureAPIKeyTextBox.Text.Length > 0 && AzureRegionTextBox.Text.Length > 0)
                 {
                     if (await TTSGetAzureVoices())
@@ -488,6 +493,8 @@ namespace BanterBrain_Buddy
                 TTSOutputVoice.Items.Add("shimmer");
                 TTSOutputVoice.Sorted = true;
                 PitchTrackBar.Enabled = false;
+                RateTrackBar.Value = 0;
+                RateTrackBar.Enabled = true;
                 TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
                 PitchTrackBar.Scroll -= PitchTrackBar_ScrollSnapToTen;
                 return true;
@@ -748,7 +755,7 @@ namespace BanterBrain_Buddy
             }
             TTSOutputVoice.Sorted = true;
 
-            //TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
+            TTSOutputVoice.Text = TTSOutputVoice.Items[0].ToString();
             if (TTSOutputVoiceOption2.Text.Length < 1)
             {
                 TTSOutputVoiceOption1.Text = "100";
