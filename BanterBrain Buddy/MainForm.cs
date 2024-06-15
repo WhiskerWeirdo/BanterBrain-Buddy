@@ -21,7 +21,8 @@ using System.Security.Cryptography;
 using BanterBrain_Buddy.Properties;
 using System.Globalization;
 using Microsoft.VisualBasic.Logging;
-
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
 
 /// <summary>
 /// CODING RULES:
@@ -33,6 +34,8 @@ namespace BanterBrain_Buddy
 {
     public partial class BBB : Form
     {
+        private static string Version = "1.0.1";
+        
         //set logger
         private static log4net.ILog _bBBlog;
 
@@ -83,13 +86,16 @@ namespace BanterBrain_Buddy
         private OpenAI _openAI;
         private readonly List<Personas> _personas = [];
 
+
         [SupportedOSPlatform("windows6.1")]
         public BBB()
         {
             _twitchValidateBroadcasterCheckStarted = false;
             _twitchValidateBotCheckStarted = false;
             InitializeComponent();
+            CheckForNewVersionAsync();
             SetLogger();
+            _bBBlog.Info("BanterBrain Buddy version: " + Version);
             LoadLanguageStuff();
             SetupConfigFiles();
             LoadPersonas();
@@ -100,8 +106,62 @@ namespace BanterBrain_Buddy
             //TODO: verify API token first
             Startup();
 
-
         }
+
+
+        private const string GitHubApiUrl = "https://api.github.com/repos/{owner}/{repo}/releases/latest";
+        [SupportedOSPlatform("windows6.1")]
+
+        private async Task CheckForNewVersionAsync()
+        {
+            TextLog.AppendText("Checking version...\r\n");
+
+            using (var client = new HttpClient())
+            {
+                // GitHub API requires a user-agent
+                client.DefaultRequestHeaders.Add("User-Agent", "request");
+
+                try
+                {
+                    string url = GitHubApiUrl.Replace("{owner}", "WhiskerWeirdo").Replace("{repo}", "BanterBrain-Buddy");
+                    var response = await client.GetStringAsync(url);
+                    var tmpLatestVersion = JObject.Parse(response)["tag_name"].ToString();
+
+                    //convert latest version minus the _release tag
+                    string latestVersion = tmpLatestVersion.Split('_')[0];
+
+
+
+                    // Assuming your current version is stored in a similar tag format
+                    string currentVersion = Version; // This should be dynamically obtained from your application
+                    // Parse the numeric parts into Version objects
+                    Version version1 = new Version(currentVersion);
+                    Version version2 = new Version(latestVersion);
+
+                    if (version1 < version2)
+                    {
+                       _bBBlog.Info($"NOTE: A new version is available: {latestVersion}. You are currently on {currentVersion}.");
+                        TextLog.AppendText($"*NOTE:* A new version is available: {latestVersion}. You are currently on {currentVersion}.\r\n");
+                        // Here you can add logic to prompt the user to download the new version
+                    }
+                    else if (version2 < version1)
+                    {
+                        _bBBlog.Info($"You run a newer version than the newest published version! Remote: {latestVersion}. You are currently on {currentVersion}.");
+                        TextLog.AppendText($"You run a newer version than the newest published version! Remote: {latestVersion}. You are currently on {currentVersion}.\r\n");
+                    } else if (version1 == version2)
+                    {
+                        _bBBlog.Debug("You are on the latest version.");
+                        TextLog.AppendText("You are on the latest version.\r\n");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _bBBlog.Error($"Error checking for application update: {ex.Message}");
+                    TextLog.AppendText($"Error checking for application update: {ex.Message}\r\n");
+                }
+            }
+        }
+
 
         [SupportedOSPlatform("windows6.1")]
         private void SetLogger()
