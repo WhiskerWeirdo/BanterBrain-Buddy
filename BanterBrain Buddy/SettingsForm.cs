@@ -985,7 +985,7 @@ namespace BanterBrain_Buddy
 
             elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
-            var result = await elevenLabsApi.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, outputVoice, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text));
+            var result = await elevenLabsApi.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, outputVoice, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text), int.Parse(TTSVoiceLevel.Text) );
             if (!result)
             {
                 _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");

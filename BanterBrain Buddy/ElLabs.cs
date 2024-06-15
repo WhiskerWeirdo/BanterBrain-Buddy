@@ -2,6 +2,7 @@
 using ElevenLabs.User;
 using ElevenLabs.Voices;
 using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using OpenAI_API.Moderation;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-        public async Task<bool> ElevenLabsTTS(string text, string outputDevice, string tmpVoice, int similarity, int stability, int style)
+        public async Task<bool> ElevenLabsTTS(string text, string outputDevice, string tmpVoice, int similarity, int stability, int style, int volumeBoost)
         {
             var api = new ElevenLabsClient(ElevelLabsAPIKey);
             _bBBlog.Info($"ElevenLabsTTS called with voice: {tmpVoice}");
@@ -74,7 +75,19 @@ namespace BanterBrain_Buddy
                 //reset the stream to the beginning or you wont hear anything
                 Position = 0
             };
-            waveOut.Init(waveStream);
+
+            float volumeMultiplier = 1.0f + (volumeBoost / 100.0f);
+            // Create a SampleChannel for volume control
+            var sampleChannel = new SampleChannel(waveStream, false);
+
+            _bBBlog.Info($"Volume boost: {volumeMultiplier}");
+            // Use a VolumeSampleProvider to apply the volume multiplier
+            var volumeProvider = new VolumeSampleProvider(sampleChannel)
+            {
+                Volume = volumeMultiplier
+            };
+
+            waveOut.Init(volumeProvider);
 
             waveOut.Play();
             while (waveOut.PlaybackState != PlaybackState.Stopped)

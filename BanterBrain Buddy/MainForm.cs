@@ -1016,7 +1016,7 @@ namespace BanterBrain_Buddy
                 MainRecordingStart.Enabled = true;
                 return;
             }
-            var result = await _elevenLabsApi.ElevenLabsTTS(TextToSay, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName, int.Parse(tmpPersona.VoiceOptions[0]), int.Parse(tmpPersona.VoiceOptions[1]), int.Parse(tmpPersona.VoiceOptions[2]));
+            var result = await _elevenLabsApi.ElevenLabsTTS(TextToSay, Properties.Settings.Default.TTSAudioOutput, tmpPersona.VoiceName, int.Parse(tmpPersona.VoiceOptions[0]), int.Parse(tmpPersona.VoiceOptions[1]), int.Parse(tmpPersona.VoiceOptions[2]), tmpPersona.Volume);
 
             if (!result)
             {

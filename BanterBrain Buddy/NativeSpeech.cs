@@ -80,6 +80,8 @@ namespace BanterBrain_Buddy
             // Create a SampleChannel for volume control
             var sampleChannel = new SampleChannel(waveStream, false);
 
+
+            _bBBlog.Debug("Native Volume: " + _voiceVolume);
             // Use a VolumeSampleProvider to apply the volume multiplier
             var volumeProvider = new VolumeSampleProvider(sampleChannel)
             {
