@@ -107,6 +107,9 @@ namespace BanterBrain_Buddy
                 case "Polish":
                     ISOLanguage = "pl";
                     break;
+                case "Spanish":
+                    ISOLanguage = "es";
+                    break;
                 case "Swedish":
                     ISOLanguage = "sv";
                     break;

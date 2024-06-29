@@ -29,21 +29,22 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Azure");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("OpenAI");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("ElevenLabs");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Ollama LLM");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode13, treeNode14, treeNode15, treeNode16 });
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Native speech");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Personas");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Microphone");
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Speaker");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode20, treeNode21 });
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Twitch ");
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode23 });
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Azure");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("OpenAI");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("ElevenLabs");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Ollama LLM");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4 });
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Native speech");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Personas");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Microphone");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Speaker");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode8, treeNode9 });
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Twitch ");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
             PersonasPanel = new System.Windows.Forms.Panel();
+            label31 = new System.Windows.Forms.Label();
             label32 = new System.Windows.Forms.Label();
             TTSPitchLevel = new System.Windows.Forms.Label();
             PitchTrackBar = new System.Windows.Forms.TrackBar();
@@ -162,7 +163,6 @@
             MicrophoneHotkeySet = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             BBBToolTip = new System.Windows.Forms.ToolTip(components);
-            label31 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -203,10 +203,8 @@
             splitContainer1.Panel2.Controls.Add(PersonasPanel);
             splitContainer1.Panel2.Controls.Add(SpeakerPanel);
             splitContainer1.Panel2.Controls.Add(TwitchPanel);
-            splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(AzurePanel);
             splitContainer1.Panel2.Controls.Add(OllamaPanel);
-            splitContainer1.Panel2.Controls.Add(ElevenLabsPanel);
             splitContainer1.Panel2.Controls.Add(OBSPanel);
             splitContainer1.Panel2.Controls.Add(NativeSpeechPanel);
             splitContainer1.Panel2.Controls.Add(MicrophonePanel);
@@ -219,31 +217,31 @@
             MenuTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             MenuTreeView.Location = new System.Drawing.Point(0, 0);
             MenuTreeView.Name = "MenuTreeView";
-            treeNode13.Name = "Azure";
-            treeNode13.Text = "Azure";
-            treeNode14.Name = "OpenAIChatGPT";
-            treeNode14.Text = "OpenAI";
-            treeNode15.Name = "ElevenLabs";
-            treeNode15.Text = "ElevenLabs";
-            treeNode16.Name = "OllamaLLM";
-            treeNode16.Text = "Ollama LLM";
-            treeNode17.Name = "APISettings";
-            treeNode17.Text = "API Settings";
-            treeNode18.Name = "NativeSpeech";
-            treeNode18.Text = "Native speech";
-            treeNode19.Name = "Personas";
-            treeNode19.Text = "Personas";
-            treeNode20.Name = "Microphone";
-            treeNode20.Text = "Microphone";
-            treeNode21.Name = "Speaker";
-            treeNode21.Text = "Speaker";
-            treeNode22.Name = "VoiceSettings";
-            treeNode22.Text = "Sound & Voice settings";
-            treeNode23.Name = "Twitch";
-            treeNode23.Text = "Twitch ";
-            treeNode24.Name = "StreamingSettings";
-            treeNode24.Text = "Streaming settings";
-            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode17, treeNode18, treeNode19, treeNode22, treeNode24 });
+            treeNode1.Name = "Azure";
+            treeNode1.Text = "Azure";
+            treeNode2.Name = "OpenAIChatGPT";
+            treeNode2.Text = "OpenAI";
+            treeNode3.Name = "ElevenLabs";
+            treeNode3.Text = "ElevenLabs";
+            treeNode4.Name = "OllamaLLM";
+            treeNode4.Text = "Ollama LLM";
+            treeNode5.Name = "APISettings";
+            treeNode5.Text = "API Settings";
+            treeNode6.Name = "NativeSpeech";
+            treeNode6.Text = "Native speech";
+            treeNode7.Name = "Personas";
+            treeNode7.Text = "Personas";
+            treeNode8.Name = "Microphone";
+            treeNode8.Text = "Microphone";
+            treeNode9.Name = "Speaker";
+            treeNode9.Text = "Speaker";
+            treeNode10.Name = "VoiceSettings";
+            treeNode10.Text = "Sound & Voice settings";
+            treeNode11.Name = "Twitch";
+            treeNode11.Text = "Twitch ";
+            treeNode12.Name = "StreamingSettings";
+            treeNode12.Text = "Streaming settings";
+            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode5, treeNode6, treeNode7, treeNode10, treeNode12 });
             MenuTreeView.PathSeparator = "";
             MenuTreeView.Size = new System.Drawing.Size(203, 579);
             MenuTreeView.TabIndex = 0;
@@ -252,6 +250,8 @@
             // 
             // PersonasPanel
             // 
+            PersonasPanel.Controls.Add(OpenAIChatGPTPanel);
+            PersonasPanel.Controls.Add(ElevenLabsPanel);
             PersonasPanel.Controls.Add(label31);
             PersonasPanel.Controls.Add(label32);
             PersonasPanel.Controls.Add(TTSPitchLevel);
@@ -288,6 +288,15 @@
             PersonasPanel.TabIndex = 6;
             PersonasPanel.Visible = false;
             PersonasPanel.VisibleChanged += PersonasPanel_VisibleChanged;
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new System.Drawing.Point(162, 461);
+            label31.Name = "label31";
+            label31.Size = new System.Drawing.Size(317, 15);
+            label31.TabIndex = 46;
+            label31.Text = "Note: changing the slider values can create sound artifacts ";
             // 
             // label32
             // 
@@ -959,7 +968,7 @@
             // 
             WhisperSpeechRecognitionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             WhisperSpeechRecognitionComboBox.FormattingEnabled = true;
-            WhisperSpeechRecognitionComboBox.Items.AddRange(new object[] { "Dutch", "Danish", "English", "French", "German", "Italian", "Japanese", "Norwegian", "Polish", "Swedish" });
+            WhisperSpeechRecognitionComboBox.Items.AddRange(new object[] { "Dutch", "Danish", "English", "French", "German", "Italian", "Japanese", "Norwegian", "Polish", "Spanish", "Swedish" });
             WhisperSpeechRecognitionComboBox.Location = new System.Drawing.Point(224, 180);
             WhisperSpeechRecognitionComboBox.Name = "WhisperSpeechRecognitionComboBox";
             WhisperSpeechRecognitionComboBox.Size = new System.Drawing.Size(183, 23);
@@ -1535,15 +1544,6 @@
             label1.Size = new System.Drawing.Size(117, 15);
             label1.TabIndex = 0;
             label1.Text = "Microphone Settings";
-            // 
-            // label31
-            // 
-            label31.AutoSize = true;
-            label31.Location = new System.Drawing.Point(162, 461);
-            label31.Name = "label31";
-            label31.Size = new System.Drawing.Size(317, 15);
-            label31.TabIndex = 46;
-            label31.Text = "Note: changing the slider values can create sound artifacts ";
             // 
             // SettingsForm
             // 
