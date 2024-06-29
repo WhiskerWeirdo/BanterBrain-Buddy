@@ -43,7 +43,17 @@ namespace BanterBrain_Buddy
             var api = new ElevenLabsClient(ElevelLabsAPIKey);
             _bBBlog.Info($"ElevenLabsTTS called with voice: {tmpVoice}");
             SetSelectedOutputDevice(outputDevice);
-            var voiceId = tmpVoice.Split(';')[0]; 
+            var voiceId = tmpVoice.Split(';')[0];
+
+            //get the available models
+            //eleven_monolingual_v1 is the default model
+            var elevenLabModels = await api.ModelsEndpoint.GetModelsAsync();
+            _bBBlog.Info($"Models found: {elevenLabModels.Count}");
+            for (int i = 0; i < elevenLabModels.Count; i++)
+            {
+                _bBBlog.Info($"Model: {elevenLabModels[i].Id} - {elevenLabModels[i].Name} - {elevenLabModels[i].CanDoTextToSpeech}");
+            }
+
             var voice = await api.VoicesEndpoint.GetVoiceAsync(voiceId);
             VoiceSettings voiceSettings = new(similarity / 100f, stability / 100f, false, style / 100f);
             // var voiceSettings = await api.VoicesEndpoint.GetDefaultVoiceSettingsAsync();
@@ -58,7 +68,8 @@ namespace BanterBrain_Buddy
                 return false;
             }
             //this returns in mp3 format...pfft
-            var convertedText = await api.TextToSpeechEndpoint.TextToSpeechAsync(text, voice, voiceSettings);
+            //here we should set the model to the one we want to use
+            var convertedText = await api.TextToSpeechEndpoint.TextToSpeechAsync(text, voice, voiceSettings, ElevenLabs.Models.Model.MultiLingualV2);
             var mp3Data = convertedText.ClipData.ToArray();
             MemoryStream ms = new(mp3Data)
             {
