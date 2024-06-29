@@ -34,7 +34,7 @@ namespace BanterBrain_Buddy
 {
     public partial class BBB : Form
     {
-        private static string Version = "1.0.1";
+        private static string Version = "1.0.2";
         
         //set logger
         private static log4net.ILog _bBBlog;
