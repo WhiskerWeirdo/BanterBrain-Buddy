@@ -202,9 +202,10 @@ namespace BanterBrain_Buddy
             // 
             // MainRecordingStart
             // 
+            MainRecordingStart.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(MainRecordingStart, "MainRecordingStart");
             MainRecordingStart.Name = "MainRecordingStart";
-            MainRecordingStart.UseVisualStyleBackColor = true;
+            MainRecordingStart.UseVisualStyleBackColor = false;
             MainRecordingStart.Click += MainRecordingStart_Click;
             // 
             // TwitchEventSubStatusTextBox

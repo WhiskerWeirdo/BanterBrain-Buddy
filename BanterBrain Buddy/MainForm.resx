@@ -119,10 +119,14 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="StreamerNameTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 22</value>
+    <value>10, 37</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="StreamerNameTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="StreamerNameTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 23</value>
+    <value>188, 31</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="StreamerNameTextBox.TabIndex" type="System.Int32, mscorlib">
@@ -144,10 +148,16 @@
     <value>0</value>
   </data>
   <data name="StreamerTTSNameGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 261</value>
+    <value>13, 435</value>
+  </data>
+  <data name="StreamerTTSNameGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="StreamerTTSNameGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="StreamerTTSNameGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 64</value>
+    <value>216, 107</value>
   </data>
   <data name="StreamerTTSNameGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -174,10 +184,13 @@
     <value>0</value>
   </data>
   <data name="BroadcasterSelectedPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 31</value>
+    <value>6, 52</value>
+  </data>
+  <data name="BroadcasterSelectedPersonaComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="BroadcasterSelectedPersonaComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 23</value>
+    <value>203, 33</value>
   </data>
   <data name="BroadcasterSelectedPersonaComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -195,10 +208,16 @@
     <value>0</value>
   </data>
   <data name="StreamerPersonaGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 173</value>
+    <value>10, 288</value>
+  </data>
+  <data name="StreamerPersonaGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="StreamerPersonaGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="StreamerPersonaGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 77</value>
+    <value>219, 128</value>
   </data>
   <data name="StreamerPersonaGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -219,10 +238,13 @@
     <value>1</value>
   </data>
   <data name="STTSelectedComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 31</value>
+    <value>6, 52</value>
+  </data>
+  <data name="STTSelectedComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="STTSelectedComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 23</value>
+    <value>203, 33</value>
   </data>
   <data name="STTSelectedComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -240,10 +262,16 @@
     <value>0</value>
   </data>
   <data name="StreamerSTTGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 92</value>
+    <value>10, 153</value>
+  </data>
+  <data name="StreamerSTTGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="StreamerSTTGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="StreamerSTTGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 75</value>
+    <value>219, 125</value>
   </data>
   <data name="StreamerSTTGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -268,14 +296,13 @@
     <value>NoControl</value>
   </data>
   <data name="MainRecordingStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 31</value>
+    <value>41, 52</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="MainRecordingStart.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="MainRecordingStart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 27</value>
+    <value>126, 45</value>
   </data>
   <data name="MainRecordingStart.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -296,10 +323,16 @@
     <value>0</value>
   </data>
   <data name="MicrophoneRecordGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 7</value>
+    <value>7, 12</value>
+  </data>
+  <data name="MicrophoneRecordGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="MicrophoneRecordGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="MicrophoneRecordGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 79</value>
+    <value>221, 132</value>
   </data>
   <data name="MicrophoneRecordGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -320,10 +353,13 @@
     <value>3</value>
   </data>
   <data name="TwitchEventSubStatusTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 431</value>
+    <value>23, 718</value>
+  </data>
+  <data name="TwitchEventSubStatusTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchEventSubStatusTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 23</value>
+    <value>164, 31</value>
   </data>
   <data name="TwitchEventSubStatusTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -350,10 +386,13 @@
     <value>True</value>
   </data>
   <data name="TwitchEventSubStatusLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 413</value>
+    <value>14, 688</value>
+  </data>
+  <data name="TwitchEventSubStatusLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="TwitchEventSubStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 15</value>
+    <value>193, 25</value>
   </data>
   <data name="TwitchEventSubStatusLabel.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -374,13 +413,13 @@
     <value>5</value>
   </data>
   <data name="TwitchAPIStatusTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 373</value>
+    <value>23, 622</value>
   </data>
   <data name="TwitchAPIStatusTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchAPIStatusTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 23</value>
+    <value>164, 31</value>
   </data>
   <data name="TwitchAPIStatusTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -407,13 +446,13 @@
     <value>True</value>
   </data>
   <data name="TwitchStatusLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 355</value>
+    <value>36, 592</value>
   </data>
   <data name="TwitchStatusLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
+    <value>6, 0, 6, 0</value>
   </data>
   <data name="TwitchStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 15</value>
+    <value>146, 25</value>
   </data>
   <data name="TwitchStatusLabel.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -434,10 +473,10 @@
     <value>7</value>
   </data>
   <data name="TextLog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>167, 7</value>
+    <value>239, 12</value>
   </data>
   <data name="TextLog.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TextLog.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -446,7 +485,7 @@
     <value>Vertical</value>
   </data>
   <data name="TextLog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>511, 465</value>
+    <value>730, 775</value>
   </data>
   <data name="TextLog.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -464,16 +503,16 @@
     <value>8</value>
   </data>
   <data name="MainTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
+    <value>4, 34</value>
   </data>
   <data name="MainTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="MainTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="MainTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>688, 528</value>
+    <value>986, 889</value>
   </data>
   <data name="MainTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -497,10 +536,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="LLMResponseSelecter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 28</value>
+    <value>196, 47</value>
+  </data>
+  <data name="LLMResponseSelecter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="LLMResponseSelecter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 23</value>
+    <value>205, 33</value>
   </data>
   <data name="LLMResponseSelecter.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -521,10 +563,13 @@
     <value>True</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 32</value>
+    <value>17, 53</value>
+  </data>
+  <data name="label7.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 15</value>
+    <value>44, 25</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -545,10 +590,16 @@
     <value>1</value>
   </data>
   <data name="LLMGroupSettingsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 454</value>
+    <value>13, 757</value>
+  </data>
+  <data name="LLMGroupSettingsGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="LLMGroupSettingsGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="LLMGroupSettingsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>295, 65</value>
+    <value>421, 108</value>
   </data>
   <data name="LLMGroupSettingsGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -569,13 +620,13 @@
     <value>0</value>
   </data>
   <data name="TwitchResponseToChatDelayTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>195, 14</value>
+    <value>279, 23</value>
   </data>
   <data name="TwitchResponseToChatDelayTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchResponseToChatDelayTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 23</value>
+    <value>101, 31</value>
   </data>
   <data name="TwitchResponseToChatDelayTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -605,13 +656,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchPostResponseToChatDelayLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 19</value>
+    <value>139, 32</value>
   </data>
   <data name="TwitchPostResponseToChatDelayLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
+    <value>6, 0, 6, 0</value>
   </data>
   <data name="TwitchPostResponseToChatDelayLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 15</value>
+    <value>136, 25</value>
   </data>
   <data name="TwitchPostResponseToChatDelayLabel.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -635,10 +686,13 @@
     <value>True</value>
   </data>
   <data name="TwitchResponseToChatCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 18</value>
+    <value>10, 30</value>
+  </data>
+  <data name="TwitchResponseToChatCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchResponseToChatCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 19</value>
+    <value>90, 29</value>
   </data>
   <data name="TwitchResponseToChatCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -659,10 +713,16 @@
     <value>2</value>
   </data>
   <data name="TwitchResponseSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 394</value>
+    <value>17, 657</value>
+  </data>
+  <data name="TwitchResponseSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="TwitchResponseSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchResponseSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 45</value>
+    <value>401, 75</value>
   </data>
   <data name="TwitchResponseSettings.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -683,10 +743,13 @@
     <value>0</value>
   </data>
   <data name="TwitchChatSoundSelectButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>300, 13</value>
+    <value>429, 22</value>
+  </data>
+  <data name="TwitchChatSoundSelectButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChatSoundSelectButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 23</value>
+    <value>41, 38</value>
   </data>
   <data name="TwitchChatSoundSelectButton.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -707,10 +770,13 @@
     <value>0</value>
   </data>
   <data name="TwitchSubscriptionSoundTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 122</value>
+    <value>193, 203</value>
+  </data>
+  <data name="TwitchSubscriptionSoundTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchSubscriptionSoundTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 23</value>
+    <value>275, 33</value>
   </data>
   <data name="TwitchSubscriptionSoundTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -728,10 +794,13 @@
     <value>1</value>
   </data>
   <data name="TwitchCheeringSoundTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 93</value>
+    <value>193, 155</value>
+  </data>
+  <data name="TwitchCheeringSoundTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchCheeringSoundTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 23</value>
+    <value>275, 33</value>
   </data>
   <data name="TwitchCheeringSoundTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -749,10 +818,13 @@
     <value>2</value>
   </data>
   <data name="TwitchChannelSoundTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 67</value>
+    <value>193, 112</value>
+  </data>
+  <data name="TwitchChannelSoundTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChannelSoundTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 23</value>
+    <value>275, 33</value>
   </data>
   <data name="TwitchChannelSoundTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -770,10 +842,13 @@
     <value>3</value>
   </data>
   <data name="TwitchChatSoundTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 42</value>
+    <value>193, 70</value>
+  </data>
+  <data name="TwitchChatSoundTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChatSoundTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 23</value>
+    <value>275, 33</value>
   </data>
   <data name="TwitchChatSoundTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -794,10 +869,13 @@
     <value>True</value>
   </data>
   <data name="TwitchSubscriptionSoundCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 126</value>
+    <value>16, 210</value>
+  </data>
+  <data name="TwitchSubscriptionSoundCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchSubscriptionSoundCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 19</value>
+    <value>141, 29</value>
   </data>
   <data name="TwitchSubscriptionSoundCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -821,10 +899,13 @@
     <value>True</value>
   </data>
   <data name="TwitchCheeringSoundCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 100</value>
+    <value>16, 167</value>
+  </data>
+  <data name="TwitchCheeringSoundCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchCheeringSoundCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 19</value>
+    <value>108, 29</value>
   </data>
   <data name="TwitchCheeringSoundCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -848,10 +929,13 @@
     <value>True</value>
   </data>
   <data name="TwitchChannelSoundCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 71</value>
+    <value>16, 118</value>
+  </data>
+  <data name="TwitchChannelSoundCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChannelSoundCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 19</value>
+    <value>154, 29</value>
   </data>
   <data name="TwitchChannelSoundCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -875,10 +959,13 @@
     <value>True</value>
   </data>
   <data name="TwitchChatSoundCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 46</value>
+    <value>16, 77</value>
+  </data>
+  <data name="TwitchChatSoundCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChatSoundCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 19</value>
+    <value>74, 29</value>
   </data>
   <data name="TwitchChatSoundCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -899,10 +986,16 @@
     <value>8</value>
   </data>
   <data name="TwitchSoundsSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>307, 275</value>
+    <value>439, 458</value>
+  </data>
+  <data name="TwitchSoundsSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="TwitchSoundsSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchSoundsSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>335, 151</value>
+    <value>479, 252</value>
   </data>
   <data name="TwitchSoundsSettings.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
@@ -929,10 +1022,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchAutoStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 16</value>
+    <value>309, 27</value>
+  </data>
+  <data name="TwitchAutoStart.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchAutoStart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 19</value>
+    <value>118, 29</value>
   </data>
   <data name="TwitchAutoStart.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
@@ -956,13 +1052,10 @@
     <value>False</value>
   </data>
   <data name="TwitchStartButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>118, 14</value>
-  </data>
-  <data name="TwitchStartButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>169, 23</value>
   </data>
   <data name="TwitchStartButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 27</value>
+    <value>126, 45</value>
   </data>
   <data name="TwitchStartButton.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
@@ -989,10 +1082,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchChannelPointTTSResponseOnlyRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>149, 99</value>
+    <value>213, 165</value>
+  </data>
+  <data name="TwitchChannelPointTTSResponseOnlyRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChannelPointTTSResponseOnlyRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 19</value>
+    <value>181, 29</value>
   </data>
   <data name="TwitchChannelPointTTSResponseOnlyRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -1022,10 +1118,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchChannelPointTTSEverythingRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 100</value>
+    <value>13, 167</value>
+  </data>
+  <data name="TwitchChannelPointTTSEverythingRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChannelPointTTSEverythingRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 19</value>
+    <value>153, 29</value>
   </data>
   <data name="TwitchChannelPointTTSEverythingRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
@@ -1055,10 +1154,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchChannelPointPersonaLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 70</value>
+    <value>9, 117</value>
+  </data>
+  <data name="TwitchChannelPointPersonaLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="TwitchChannelPointPersonaLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 15</value>
+    <value>74, 25</value>
   </data>
   <data name="TwitchChannelPointPersonaLabel.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1079,10 +1181,13 @@
     <value>2</value>
   </data>
   <data name="TwitchChannelPointPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>125, 67</value>
+    <value>179, 112</value>
+  </data>
+  <data name="TwitchChannelPointPersonaComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChannelPointPersonaComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 23</value>
+    <value>205, 33</value>
   </data>
   <data name="TwitchChannelPointPersonaComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -1103,10 +1208,13 @@
     <value>True</value>
   </data>
   <data name="TwitchCustomChannelPointNameLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 45</value>
+    <value>9, 75</value>
+  </data>
+  <data name="TwitchCustomChannelPointNameLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="TwitchCustomChannelPointNameLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 15</value>
+    <value>182, 25</value>
   </data>
   <data name="TwitchCustomChannelPointNameLabel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1127,10 +1235,13 @@
     <value>4</value>
   </data>
   <data name="TwitchCustomRewardName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>157, 42</value>
+    <value>224, 70</value>
+  </data>
+  <data name="TwitchCustomRewardName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchCustomRewardName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 23</value>
+    <value>160, 31</value>
   </data>
   <data name="TwitchCustomRewardName.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1151,10 +1262,13 @@
     <value>True</value>
   </data>
   <data name="TwitchChannelPointCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 17</value>
+    <value>11, 28</value>
+  </data>
+  <data name="TwitchChannelPointCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChannelPointCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 19</value>
+    <value>210, 29</value>
   </data>
   <data name="TwitchChannelPointCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1175,10 +1289,16 @@
     <value>6</value>
   </data>
   <data name="TwitchChannelPointsSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 263</value>
+    <value>17, 438</value>
+  </data>
+  <data name="TwitchChannelPointsSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="TwitchChannelPointsSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChannelPointsSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 125</value>
+    <value>401, 208</value>
   </data>
   <data name="TwitchChannelPointsSettings.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1202,10 +1322,13 @@
     <value>True</value>
   </data>
   <data name="TwitchEnableCheckbox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 17</value>
+    <value>17, 28</value>
+  </data>
+  <data name="TwitchEnableCheckbox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchEnableCheckbox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 19</value>
+    <value>144, 29</value>
   </data>
   <data name="TwitchEnableCheckbox.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -1229,10 +1352,13 @@
     <value>True</value>
   </data>
   <data name="TwitchSubscriptionTTSResponseOnlyRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 75</value>
+    <value>214, 125</value>
+  </data>
+  <data name="TwitchSubscriptionTTSResponseOnlyRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchSubscriptionTTSResponseOnlyRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 19</value>
+    <value>181, 29</value>
   </data>
   <data name="TwitchSubscriptionTTSResponseOnlyRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -1259,10 +1385,13 @@
     <value>True</value>
   </data>
   <data name="TwitchSubscriptionTTSEverythingRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 76</value>
+    <value>14, 127</value>
+  </data>
+  <data name="TwitchSubscriptionTTSEverythingRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchSubscriptionTTSEverythingRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 19</value>
+    <value>153, 29</value>
   </data>
   <data name="TwitchSubscriptionTTSEverythingRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
@@ -1292,10 +1421,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchSubscriptionPersonaLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 49</value>
+    <value>11, 82</value>
+  </data>
+  <data name="TwitchSubscriptionPersonaLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="TwitchSubscriptionPersonaLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 15</value>
+    <value>74, 25</value>
   </data>
   <data name="TwitchSubscriptionPersonaLabel.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1322,13 +1454,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchGiftedSub.Location" type="System.Drawing.Point, System.Drawing">
-    <value>176, 23</value>
+    <value>251, 38</value>
   </data>
   <data name="TwitchGiftedSub.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchGiftedSub.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 19</value>
+    <value>138, 29</value>
   </data>
   <data name="TwitchGiftedSub.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1352,10 +1484,13 @@
     <value>3</value>
   </data>
   <data name="TwitchSubscriptionPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 46</value>
+    <value>177, 77</value>
+  </data>
+  <data name="TwitchSubscriptionPersonaComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchSubscriptionPersonaComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 23</value>
+    <value>205, 33</value>
   </data>
   <data name="TwitchSubscriptionPersonaComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -1376,13 +1511,13 @@
     <value>True</value>
   </data>
   <data name="TwitchSubscribed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 23</value>
+    <value>11, 38</value>
   </data>
   <data name="TwitchSubscribed.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchSubscribed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 19</value>
+    <value>155, 29</value>
   </data>
   <data name="TwitchSubscribed.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1406,16 +1541,16 @@
     <value>5</value>
   </data>
   <data name="TwitchSubscriberSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>307, 159</value>
+    <value>439, 265</value>
   </data>
   <data name="TwitchSubscriberSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchSubscriberSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchSubscriberSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>279, 105</value>
+    <value>399, 175</value>
   </data>
   <data name="TwitchSubscriberSettings.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -1442,10 +1577,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchCheeringTTSResponseOnlyRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>153, 99</value>
+    <value>219, 165</value>
+  </data>
+  <data name="TwitchCheeringTTSResponseOnlyRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchCheeringTTSResponseOnlyRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 19</value>
+    <value>181, 29</value>
   </data>
   <data name="TwitchCheeringTTSResponseOnlyRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
@@ -1475,10 +1613,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchCheeringTTSEverythingRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 100</value>
+    <value>19, 167</value>
+  </data>
+  <data name="TwitchCheeringTTSEverythingRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchCheeringTTSEverythingRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 19</value>
+    <value>153, 29</value>
   </data>
   <data name="TwitchCheeringTTSEverythingRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -1508,10 +1649,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchBitsPersonaLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 65</value>
+    <value>13, 108</value>
+  </data>
+  <data name="TwitchBitsPersonaLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="TwitchBitsPersonaLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 15</value>
+    <value>74, 25</value>
   </data>
   <data name="TwitchBitsPersonaLabel.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1532,10 +1676,13 @@
     <value>2</value>
   </data>
   <data name="TwitchCheeringPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>129, 62</value>
+    <value>184, 103</value>
+  </data>
+  <data name="TwitchCheeringPersonaComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchCheeringPersonaComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 23</value>
+    <value>205, 33</value>
   </data>
   <data name="TwitchCheeringPersonaComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -1556,10 +1703,13 @@
     <value>True</value>
   </data>
   <data name="TwitchCheerCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 20</value>
+    <value>13, 33</value>
+  </data>
+  <data name="TwitchCheerCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchCheerCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 19</value>
+    <value>127, 29</value>
   </data>
   <data name="TwitchCheerCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1586,13 +1736,13 @@
     <value>True</value>
   </data>
   <data name="TwitchMinimumBitsLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 40</value>
+    <value>11, 67</value>
   </data>
   <data name="TwitchMinimumBitsLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
+    <value>6, 0, 6, 0</value>
   </data>
   <data name="TwitchMinimumBitsLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 15</value>
+    <value>122, 25</value>
   </data>
   <data name="TwitchMinimumBitsLabel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1613,13 +1763,13 @@
     <value>5</value>
   </data>
   <data name="TwitchMinBits.Location" type="System.Drawing.Point, System.Drawing">
-    <value>156, 37</value>
+    <value>223, 62</value>
   </data>
   <data name="TwitchMinBits.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchMinBits.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 23</value>
+    <value>164, 31</value>
   </data>
   <data name="TwitchMinBits.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1637,16 +1787,16 @@
     <value>6</value>
   </data>
   <data name="TwitchCheerSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>307, 16</value>
+    <value>439, 27</value>
   </data>
   <data name="TwitchCheerSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchCheerSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchCheerSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>279, 125</value>
+    <value>399, 208</value>
   </data>
   <data name="TwitchCheerSettings.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -1670,10 +1820,13 @@
     <value>True</value>
   </data>
   <data name="TwitchMessageToChatLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 117</value>
+    <value>7, 195</value>
+  </data>
+  <data name="TwitchMessageToChatLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="TwitchMessageToChatLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 15</value>
+    <value>142, 25</value>
   </data>
   <data name="TwitchMessageToChatLabel.TabIndex" type="System.Int32, mscorlib">
     <value>33</value>
@@ -1694,10 +1847,13 @@
     <value>0</value>
   </data>
   <data name="TwitchDelayMessageTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>123, 113</value>
+    <value>176, 188</value>
+  </data>
+  <data name="TwitchDelayMessageTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchDelayMessageTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 23</value>
+    <value>208, 31</value>
   </data>
   <data name="TwitchDelayMessageTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>32</value>
@@ -1721,10 +1877,13 @@
     <value>True</value>
   </data>
   <data name="TwitchDelayFinishToChatcCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 91</value>
+    <value>14, 152</value>
+  </data>
+  <data name="TwitchDelayFinishToChatcCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchDelayFinishToChatcCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 19</value>
+    <value>211, 29</value>
   </data>
   <data name="TwitchDelayFinishToChatcCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
@@ -1751,10 +1910,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchChatTTSResponseOnlyRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 173</value>
+    <value>211, 288</value>
+  </data>
+  <data name="TwitchChatTTSResponseOnlyRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChatTTSResponseOnlyRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 19</value>
+    <value>181, 29</value>
   </data>
   <data name="TwitchChatTTSResponseOnlyRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
@@ -1784,10 +1946,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchChatTTSEverythingRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 173</value>
+    <value>13, 288</value>
+  </data>
+  <data name="TwitchChatTTSEverythingRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChatTTSEverythingRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 19</value>
+    <value>153, 29</value>
   </data>
   <data name="TwitchChatTTSEverythingRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>29</value>
@@ -1814,10 +1979,13 @@
     <value>True</value>
   </data>
   <data name="TwitchChatPersonaLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 150</value>
+    <value>11, 250</value>
+  </data>
+  <data name="TwitchChatPersonaLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="TwitchChatPersonaLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 15</value>
+    <value>74, 25</value>
   </data>
   <data name="TwitchChatPersonaLabel.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -1838,10 +2006,13 @@
     <value>5</value>
   </data>
   <data name="TwitchChatPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>125, 147</value>
+    <value>179, 245</value>
+  </data>
+  <data name="TwitchChatPersonaComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchChatPersonaComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 23</value>
+    <value>205, 33</value>
   </data>
   <data name="TwitchChatPersonaComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -1865,10 +2036,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchReadChatCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 18</value>
+    <value>13, 30</value>
+  </data>
+  <data name="TwitchReadChatCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TwitchReadChatCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 19</value>
+    <value>172, 29</value>
   </data>
   <data name="TwitchReadChatCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -1895,13 +2069,13 @@
     <value>True</value>
   </data>
   <data name="TwitchCommandDelayLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 73</value>
+    <value>11, 122</value>
   </data>
   <data name="TwitchCommandDelayLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
+    <value>6, 0, 6, 0</value>
   </data>
   <data name="TwitchCommandDelayLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 15</value>
+    <value>136, 25</value>
   </data>
   <data name="TwitchCommandDelayLabel.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -1922,13 +2096,13 @@
     <value>8</value>
   </data>
   <data name="TwitchChatCommandDelay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>159, 70</value>
+    <value>227, 117</value>
   </data>
   <data name="TwitchChatCommandDelay.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchChatCommandDelay.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 23</value>
+    <value>157, 31</value>
   </data>
   <data name="TwitchChatCommandDelay.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -1955,13 +2129,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchNeedsSubscriber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>159, 18</value>
+    <value>227, 30</value>
   </data>
   <data name="TwitchNeedsSubscriber.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchNeedsSubscriber.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 19</value>
+    <value>121, 29</value>
   </data>
   <data name="TwitchNeedsSubscriber.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -1985,13 +2159,13 @@
     <value>10</value>
   </data>
   <data name="TwitchCommandTrigger.Location" type="System.Drawing.Point, System.Drawing">
-    <value>159, 41</value>
+    <value>227, 68</value>
   </data>
   <data name="TwitchCommandTrigger.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchCommandTrigger.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 23</value>
+    <value>160, 31</value>
   </data>
   <data name="TwitchCommandTrigger.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -2018,13 +2192,13 @@
     <value>NoControl</value>
   </data>
   <data name="TwitchCommandTriggerLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 49</value>
+    <value>11, 82</value>
   </data>
   <data name="TwitchCommandTriggerLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
+    <value>6, 0, 6, 0</value>
   </data>
   <data name="TwitchCommandTriggerLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 15</value>
+    <value>155, 25</value>
   </data>
   <data name="TwitchCommandTriggerLabel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -2045,16 +2219,16 @@
     <value>12</value>
   </data>
   <data name="TwitchChatTriggerSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 53</value>
+    <value>17, 88</value>
   </data>
   <data name="TwitchChatTriggerSettings.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchChatTriggerSettings.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchChatTriggerSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 204</value>
+    <value>401, 340</value>
   </data>
   <data name="TwitchChatTriggerSettings.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -2075,16 +2249,16 @@
     <value>8</value>
   </data>
   <data name="TwitchSettingsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 3</value>
+    <value>13, 5</value>
   </data>
   <data name="TwitchSettingsGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchSettingsGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="TwitchSettingsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>672, 445</value>
+    <value>960, 742</value>
   </data>
   <data name="TwitchSettingsGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2105,13 +2279,13 @@
     <value>1</value>
   </data>
   <data name="StreamingSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
+    <value>4, 34</value>
   </data>
   <data name="StreamingSettingsTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="StreamingSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>688, 528</value>
+    <value>986, 889</value>
   </data>
   <data name="StreamingSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2132,13 +2306,13 @@
     <value>1</value>
   </data>
   <data name="BBBTabs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 27</value>
+    <value>0, 45</value>
   </data>
   <data name="BBBTabs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="BBBTabs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>696, 556</value>
+    <value>994, 927</value>
   </data>
   <data name="BBBTabs.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2156,40 +2330,40 @@
     <value>0</value>
   </data>
   <data name="ExitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 22</value>
+    <value>141, 34</value>
   </data>
   <data name="ExitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
   <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+    <value>54, 29</value>
   </data>
   <data name="fileToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;File</value>
   </data>
   <data name="logfileDirectoryToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
+    <value>244, 34</value>
   </data>
   <data name="logfileDirectoryToolStripMenuItem.Text" xml:space="preserve">
     <value>Logfile Directory</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 6</value>
+    <value>241, 6</value>
   </data>
   <data name="DiscordToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
+    <value>244, 34</value>
   </data>
   <data name="DiscordToolStripMenuItem.Text" xml:space="preserve">
     <value>Discord</value>
   </data>
   <data name="GithubToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
+    <value>244, 34</value>
   </data>
   <data name="GithubToolStripMenuItem.Text" xml:space="preserve">
     <value>Github Wiki</value>
   </data>
   <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
+    <value>65, 29</value>
   </data>
   <data name="helpToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Help</value>
@@ -2198,7 +2372,7 @@
     <value>132, 17</value>
   </metadata>
   <data name="seToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 20</value>
+    <value>92, 29</value>
   </data>
   <data name="seToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Settings</value>
@@ -2207,10 +2381,10 @@
     <value>0, 0</value>
   </data>
   <data name="menuStrip1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>7, 2, 0, 2</value>
+    <value>10, 3, 0, 3</value>
   </data>
   <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>696, 24</value>
+    <value>994, 35</value>
   </data>
   <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2237,10 +2411,10 @@
     <value>65</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
+    <value>10, 25</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>696, 589</value>
+    <value>994, 982</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -3375,7 +3549,7 @@
 </value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>BanterBrain Buddy 1.0.3</value>

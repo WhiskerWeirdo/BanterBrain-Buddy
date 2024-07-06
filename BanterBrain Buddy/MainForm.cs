@@ -1170,6 +1170,7 @@ namespace BanterBrain_Buddy
             {
                 _sTTOutputText = "";
                 MainRecordingStart.Text = "Recording";
+                MainRecordingStart.BackColor = Color.Red;
                 if (selectedProvider == "Native")
                 {
                     UpdateTextLog("Main button Native STT calling\r\n");
@@ -1258,6 +1259,7 @@ namespace BanterBrain_Buddy
 
                 MainRecordingStart.Text = "Start";
                 UpdateTextLog("STT microphone stopped. -- STOPPED RECORDING -- \r\n");
+                MainRecordingStart.BackColor = Color.Transparent;
             }
         }
 
