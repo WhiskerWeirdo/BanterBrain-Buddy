@@ -1318,14 +1318,37 @@ namespace BanterBrain_Buddy
                 STTSelectedComboBox.SelectedIndex = 0;
             }
 
+            //loading the persona's
             BroadcasterSelectedPersonaComboBox.SelectedIndex = BroadcasterSelectedPersonaComboBox.FindStringExact(Properties.Settings.Default.MainSelectedPersona);
+            if (BroadcasterSelectedPersonaComboBox.SelectedIndex == -1)
+            {
+                BroadcasterSelectedPersonaComboBox.SelectedIndex = 0;
+            }
+
             TwitchCheeringPersonaComboBox.SelectedIndex = TwitchCheeringPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchCheeringPersona);
+            if (TwitchCheeringPersonaComboBox.SelectedIndex == -1)
+            {
+                TwitchCheeringPersonaComboBox.SelectedIndex = 0;
+            }
             TwitchChannelPointPersonaComboBox.SelectedIndex = TwitchChannelPointPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChannelPointPersona);
+            if (TwitchChannelPointPersonaComboBox.SelectedIndex == -1)
+            {
+                TwitchChannelPointPersonaComboBox.SelectedIndex = 0;
+            }
             TwitchSubscriptionPersonaComboBox.SelectedIndex = TwitchSubscriptionPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchSubscriptionPersona);
-            TwitchResponseToChatCheckBox.Checked = Properties.Settings.Default.TwitchResponseToChatCheckBox;
+            if (TwitchSubscriptionPersonaComboBox.SelectedIndex == -1)
+            {
+                TwitchSubscriptionPersonaComboBox.SelectedIndex = 0;
+            }
+
             TwitchResponseToChatDelayTextBox.Text = Properties.Settings.Default.TwitchResponseToChatDelayTextBox;
             TwitchChatPersonaComboBox.SelectedIndex = TwitchChatPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchChatPersona);
+            if (TwitchChatPersonaComboBox.SelectedIndex == -1)
+            {
+                TwitchChatPersonaComboBox.SelectedIndex = 0;
+            }
 
+            TwitchResponseToChatCheckBox.Checked = Properties.Settings.Default.TwitchResponseToChatCheckBox;
 
             //load settings but also have safe defaults
             TwitchSubscriptionTTSResponseOnlyRadioButton.Checked = Properties.Settings.Default.TwitchSubscriptionTTSResponseOnlyRadioButton;
