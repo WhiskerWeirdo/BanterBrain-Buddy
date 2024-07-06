@@ -1257,7 +1257,7 @@ namespace BanterBrain_Buddy
             {
 
                 MainRecordingStart.Text = "Start";
-
+                UpdateTextLog("STT microphone stopped. -- STOPPED RECORDING -- \r\n");
             }
         }
 
