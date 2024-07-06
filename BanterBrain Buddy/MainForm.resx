@@ -117,7 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="TextLog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 7</value>
+  </data>
+  <data name="TextLog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>499, 500</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TextLog.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="TextLog.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;TextLog.Name" xml:space="preserve">
+    <value>TextLog</value>
+  </data>
+  <data name="&gt;&gt;TextLog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextLog.Parent" xml:space="preserve">
+    <value>MainTab</value>
+  </data>
+  <data name="&gt;&gt;TextLog.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="VersionUpdateLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -125,7 +150,6 @@
   <data name="VersionUpdateLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="VersionUpdateLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 19</value>
   </data>
@@ -172,7 +196,7 @@
     <value>MainTab</value>
   </data>
   <data name="&gt;&gt;UpdateGroupBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="StreamerNameTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 22</value>
@@ -226,7 +250,7 @@
     <value>MainTab</value>
   </data>
   <data name="&gt;&gt;StreamerTTSNameGroupBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="BroadcasterSelectedPersonaComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 31</value>
@@ -271,7 +295,7 @@
     <value>MainTab</value>
   </data>
   <data name="&gt;&gt;StreamerPersonaGroupBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="STTSelectedComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 31</value>
@@ -316,7 +340,7 @@
     <value>MainTab</value>
   </data>
   <data name="&gt;&gt;StreamerSTTGroupBox.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="MainRecordingStart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -371,7 +395,7 @@
     <value>MainTab</value>
   </data>
   <data name="&gt;&gt;MicrophoneRecordGroupBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="TwitchEventSubStatusTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 419</value>
@@ -398,7 +422,7 @@
     <value>MainTab</value>
   </data>
   <data name="&gt;&gt;TwitchEventSubStatusTextBox.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="TwitchEventSubStatusLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -425,7 +449,7 @@
     <value>MainTab</value>
   </data>
   <data name="&gt;&gt;TwitchEventSubStatusLabel.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="TwitchAPIStatusTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 361</value>
@@ -455,7 +479,7 @@
     <value>MainTab</value>
   </data>
   <data name="&gt;&gt;TwitchAPIStatusTextBox.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="TwitchStatusLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -485,36 +509,6 @@
     <value>MainTab</value>
   </data>
   <data name="&gt;&gt;TwitchStatusLabel.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="TextLog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>167, 7</value>
-  </data>
-  <data name="TextLog.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="TextLog.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="TextLog.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
-  </data>
-  <data name="TextLog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>511, 500</value>
-  </data>
-  <data name="TextLog.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Name" xml:space="preserve">
-    <value>TextLog</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextLog.Parent" xml:space="preserve">
-    <value>MainTab</value>
-  </data>
-  <data name="&gt;&gt;TextLog.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
   <data name="MainTab.Location" type="System.Drawing.Point, System.Drawing">

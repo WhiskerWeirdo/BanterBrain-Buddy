@@ -47,7 +47,6 @@ namespace BanterBrain_Buddy
             TwitchEventSubStatusLabel = new Label();
             TwitchAPIStatusTextBox = new TextBox();
             TwitchStatusLabel = new Label();
-            TextLog = new TextBox();
             BBBTabs = new TabControl();
             StreamingSettingsTab = new TabPage();
             LLMGroupSettingsGroupBox = new GroupBox();
@@ -118,6 +117,7 @@ namespace BanterBrain_Buddy
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
+            TextLog = new RichTextBox();
             MainTab.SuspendLayout();
             UpdateGroupBox.SuspendLayout();
             StreamerTTSNameGroupBox.SuspendLayout();
@@ -139,6 +139,7 @@ namespace BanterBrain_Buddy
             // 
             // MainTab
             // 
+            MainTab.Controls.Add(TextLog);
             MainTab.Controls.Add(UpdateGroupBox);
             MainTab.Controls.Add(StreamerTTSNameGroupBox);
             MainTab.Controls.Add(StreamerPersonaGroupBox);
@@ -148,7 +149,6 @@ namespace BanterBrain_Buddy
             MainTab.Controls.Add(TwitchEventSubStatusLabel);
             MainTab.Controls.Add(TwitchAPIStatusTextBox);
             MainTab.Controls.Add(TwitchStatusLabel);
-            MainTab.Controls.Add(TextLog);
             resources.ApplyResources(MainTab, "MainTab");
             MainTab.Name = "MainTab";
             MainTab.UseVisualStyleBackColor = true;
@@ -249,13 +249,6 @@ namespace BanterBrain_Buddy
             // 
             resources.ApplyResources(TwitchStatusLabel, "TwitchStatusLabel");
             TwitchStatusLabel.Name = "TwitchStatusLabel";
-            // 
-            // TextLog
-            // 
-            TextLog.BorderStyle = BorderStyle.None;
-            resources.ApplyResources(TextLog, "TextLog");
-            TextLog.Name = "TextLog";
-            TextLog.ReadOnly = true;
             // 
             // BBBTabs
             // 
@@ -777,6 +770,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += SeToolStripMenuItem_Click;
             // 
+            // TextLog
+            // 
+            TextLog.BackColor = System.Drawing.SystemColors.Menu;
+            resources.ApplyResources(TextLog, "TextLog");
+            TextLog.Name = "TextLog";
+            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -827,7 +826,6 @@ namespace BanterBrain_Buddy
         private TabPage MainTab;
         private Button MainRecordingStart;
         private TabControl BBBTabs;
-        private TextBox TextLog;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem ExitToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
@@ -910,6 +908,7 @@ namespace BanterBrain_Buddy
         private TextBox StreamerNameTextBox;
         private GroupBox UpdateGroupBox;
         private Label VersionUpdateLabel;
+        private RichTextBox TextLog;
     }
 }
 
