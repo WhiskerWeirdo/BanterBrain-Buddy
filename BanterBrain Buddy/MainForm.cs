@@ -85,6 +85,7 @@ namespace BanterBrain_Buddy
         private OllamaLLM _ollamaLLM;
         private OpenAI _openAI;
         private readonly List<Personas> _personas = [];
+        private TwitchLLMResponseLanguage TwitchLLMLanguage;
 
 
         [SupportedOSPlatform("windows6.1")]
@@ -99,7 +100,7 @@ namespace BanterBrain_Buddy
             LoadLanguageStuff();
             SetupConfigFiles();
             LoadPersonas();
-
+            LoadTwitchLLMLanguageFile();
             _bBBlog.Info("Program Starting...");
 
             UpdateTextLog("Program Starting...\r\n");
@@ -547,14 +548,39 @@ namespace BanterBrain_Buddy
 
                 }
             }
-            //alright now lets load up the selected persona if there is one
-
         }
 
-        /// <summary>
-        /// We check the available STT providers and add them to the list for the broadcater selection list
-        /// </summary>
+        //here we load the language file for the Twitch LLM responses that are intermediary
         [SupportedOSPlatform("windows6.1")]
+        private async void LoadTwitchLLMLanguageFile()
+        {
+            string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var tmpFile = sourcefolder + "\\TwitchLLMLanguageFiles\\English.json";
+            if (!File.Exists(tmpFile))
+            {
+                _bBBlog.Error("Twitch LLM language file not found, Error!");
+                UpdateTextLog("Twitch LLM language file not found, Error!\r\n");
+                return;
+            }
+            else
+            {
+                _bBBlog.Debug("Twitch LLM language file found, loading it.");
+                using var sr = new StreamReader(tmpFile);
+                var tmpString = sr.ReadToEnd();
+                //if this is the first time make the new class
+                if (TwitchLLMLanguage == null)
+                {
+                    TwitchLLMLanguage = new();
+                }
+                TwitchLLMLanguage = JsonConvert.DeserializeObject<TwitchLLMResponseLanguage>(tmpString);
+                _bBBlog.Info($"Twitch LLM language file loaded with language: {TwitchLLMLanguage.Language}");
+            }
+        }
+
+            /// <summary>
+            /// We check the available STT providers and add them to the list for the broadcater selection list
+            /// </summary>
+            [SupportedOSPlatform("windows6.1")]
         private async Task CheckConfiguredSTTProviders()
         {
 
@@ -1932,11 +1958,11 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 if (message.Length >= 1)
-                    await TalkToLLM($"Respond to the message of {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona).RoleText);
+                    await TalkToLLM(TwitchLLMLanguage.CheerTalkToLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona).RoleText);
                 else
                 {
                     message = "no message";
-                    _gPTOutputText = "Thank you for the cheer, next time submit a message!";
+                    _gPTOutputText = TwitchLLMLanguage.CheerDefaultNoMessage;
                 }
 
                 //we have to await the GPT response, due to running this from another thread await alone is not enough.
@@ -1959,7 +1985,7 @@ namespace BanterBrain_Buddy
                 if (TwitchCheeringTTSEverythingRadioButton.Checked)
                 {
                     UpdateTextLog($"Valid Twitch Cheer message received from {user}\r\n");
-                    await SayText($"{user} cheered with message {message}", 1000, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
+                    await SayText(TwitchLLMLanguage.CheerWithMessage.Replace("{user}", user).Replace("{message}", message), 1000, GetSelectedPersona(Properties.Settings.Default.TwitchCheeringPersona));
                 }
 
                 _bBBlog.Info("LLM response received, saying it");
@@ -1987,11 +2013,11 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 if (message.Length >= 1)
-                    await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona).RoleText);
+                    await TalkToLLM(TwitchLLMLanguage.ChannelPointTalkToLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona).RoleText);
                 else
                 {
                     message = "no message";
-                    _gPTOutputText = "Thank you for the redeem, next time submit a message!";
+                    _gPTOutputText = TwitchLLMLanguage.ChannelPointDefaultNoMessage;
                 }
 
                 while (!_gPTDone)
@@ -2011,7 +2037,7 @@ namespace BanterBrain_Buddy
                 if (TwitchChannelPointTTSEverythingRadioButton.Checked)
                 {
                     _bBBlog.Info("Lets say a short \"thank you\" for the channel point redemption, and pass the text to the LLM");
-                    await SayText($"{user} redeemed with message {message}", 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
+                    await SayText(TwitchLLMLanguage.ChannelPointWithMessage.Replace("{user}", user).Replace("{message}", message), 3000, GetSelectedPersona(Properties.Settings.Default.TwitchChannelPointPersona));
                 }
 
                 //ok we waited, lets say the response, but we need a small delay to not sound unnatural
@@ -2051,9 +2077,9 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Info("Lets say a short \"thank you\" for the gifted sub(s)");
                     if (int.Parse(amount) > 1)
-                        await SayText($"Thanks {user} for gifting {amount} tier {tier} subs!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                        await SayText(TwitchLLMLanguage.GiftedMultipleSubs.Replace("{user}", user).Replace("{amount}", amount).Replace("{tier}", tier), 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                     else
-                        await SayText($"Thanks {user} for gifting {amount} tier {tier} sub!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                        await SayText(TwitchLLMLanguage.GiftedSingleSub.Replace("{user}", user).Replace("{amount}", amount).Replace("{tier}", tier), 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                 }
             });
 
@@ -2081,7 +2107,7 @@ namespace BanterBrain_Buddy
                 if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
                 {
                     _bBBlog.Info("Lets say a short \"thank you\" for the subscriber");
-                    await SayText($"Thanks {user} for subscribing!", 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                    await SayText(TwitchLLMLanguage.SubscribeFirstTimeThanks.Replace("{user}", user), 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                 }
             });
         }
@@ -2100,7 +2126,7 @@ namespace BanterBrain_Buddy
                 _gPTDone = false;
                 await InvokeUI(async () =>
                 {
-                    await TalkToLLM($"Respond to the message of {user} saying: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona).RoleText);
+                    await TalkToLLM(TwitchLLMLanguage.SubscribeResubThanksWithMessageLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona).RoleText);
 
                     //we have to await the GPT response, due to running this from another thread await alone is not enough.
                     while (!_gPTDone)
@@ -2122,10 +2148,10 @@ namespace BanterBrain_Buddy
                     if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
                     {
                         if (message.Length <= 1)
-                            await SayText($"{user} has resubscribed for a total of months {months}!", 1000, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                            await SayText(TwitchLLMLanguage.SubscribeMonthsNoMessage.Replace("{user}", user), 1000, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                         else
                         {
-                            await SayText($"{user} has resubscribed for a total of {months} months saying {message}.", 1000, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                            await SayText(TwitchLLMLanguage.SubscribeMonthsMessage.Replace("{user}", user).Replace("{message}", message), 1000, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
                         }
                     }
 
@@ -2161,7 +2187,7 @@ namespace BanterBrain_Buddy
             await InvokeUI(async () =>
             {
                 UpdateTextLog("Valid Twitch Chat message received from user: " + user + " message: " + message + ". Using trigger persona: " + Properties.Settings.Default.TwitchChatPersona + "\r\n");
-                await TalkToLLM($"respond to {user} who said: {message}", GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona).RoleText);
+                await TalkToLLM(TwitchLLMLanguage.ChatMessageResponseLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona).RoleText);
 
                 //we have to await the GPT response, due to running this from another thread await alone is not enough.
                 while (!_gPTDone)
@@ -2183,7 +2209,7 @@ namespace BanterBrain_Buddy
                 //do we need to TTS everything?
                 if (TwitchChatTTSEverythingRadioButton.Checked)
                 {
-                    await SayText($"{user} said {message}", 0, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
+                    await SayText(TwitchLLMLanguage.ChatMessageUserSaid.Replace("{user}", user).Replace("{message}", message), 0, GetSelectedPersona(Properties.Settings.Default.TwitchChatPersona));
                 }
 
                 //ok we waited, lets say the response, but we need a small delay to not sound unnatural      
@@ -2447,6 +2473,7 @@ namespace BanterBrain_Buddy
                 _openAI.OpenAIAPIKey = Properties.Settings.Default.GPTAPIKey;
             STTSelectedComboBox.Items.Clear();
             LoadPersonas();
+            LoadTwitchLLMLanguageFile();
             await CheckConfiguredSTTProviders();
             await CheckConfiguredLLMProviders();
             await LoadSettings();

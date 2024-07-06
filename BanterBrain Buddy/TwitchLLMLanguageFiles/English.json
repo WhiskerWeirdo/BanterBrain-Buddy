@@ -1,0 +1,22 @@
+{
+  "Language": "English",
+  "CheerTalkToLLM": "respond to the message of {user} who said: {message}",
+  "CheerDefaultNoMessage": "thank you for the cheer, next time submit a message!",
+  "CheerWithMessage": "{user} cheered with message {message}",
+
+  "ChannelPointTalkToLLM": "Respond to the message of {user} saying: {message}",
+  "ChannelPointDefaultNoMessage": "Thank you for the redeem, next time submit a message!",
+  "ChannelPointWithMessage": "{user} redeemed with message {message}",
+
+  "GiftedSingleSub": "Thanks {user} for gifting {amount} tier {tier} sub!",
+  "GiftedMultipleSubs": "Thanks {user} for gifting {amount} tier {tier} subs!",
+
+  "SubscribeFirstTimeThanks": "Thanks {user} for subscribing!",
+  "SubscribeResubThanksWithMessageLLM": "Respond to the message of {user} saying: {message}",
+
+  "SubscribeMonthsNoMessage": "{user} has resubscribed for a total of months {months}!",
+  "SubscribeMonthsMessage": "{user} has resubscribed for a total of {months} months saying {message}.",
+
+  "ChatMessageResponseLLM": "respond to {user} who said: {message}",
+  "ChatMessageUserSaid": "{user} said {message}"
+}
