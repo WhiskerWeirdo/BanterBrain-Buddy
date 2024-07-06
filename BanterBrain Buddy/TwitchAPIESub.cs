@@ -741,6 +741,7 @@ namespace BanterBrain_Buddy
                     if (!eventData.IsSubscriber && !eventData.IsBroadcaster)
                     {
                         _bBBlog.Info($"{eventData.ChatterUserName} is not a subscriber, but the command requires it. Not going to execute.");
+                        IsCommandTriggered = false;
                         return;
                     }
                     else if (eventData.IsSubscriber)

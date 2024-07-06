@@ -2460,8 +2460,6 @@ namespace BanterBrain_Buddy
         }
 
 
-
-
         [SupportedOSPlatform("windows6.1")]
         private async void TwitchStartButton_Click(object sender, EventArgs e)
         {
