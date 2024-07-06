@@ -1892,6 +1892,8 @@ namespace BanterBrain_Buddy
                 try
                 {
                     TextLog.AppendText(TextToAppend);
+                    TextLog.SelectionStart = TextLog.Text.Length;
+                    TextLog.ScrollToCaret();
                 }
                 catch (Exception ex)
                 {
