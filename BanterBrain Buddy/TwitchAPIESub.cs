@@ -735,7 +735,7 @@ namespace BanterBrain_Buddy
                // _bBBlog.Info($"Followerscheck length: {result.Data.Length} channel: {TwitchChannelID} chatter: {eventData.ChatterUserId}");
 
                 //user needs to be a subscriber but is not
-                _bBBlog.Info($"{eventData.ChatterUserName} issubscriber: {eventData.IsSubscriber}");
+                _bBBlog.Debug($"{eventData.ChatterUserName} issubscriber: {eventData.IsSubscriber}");
                 if (subscriber)
                 {
                     if (!eventData.IsSubscriber && !eventData.IsBroadcaster)
