@@ -142,16 +142,22 @@ namespace BanterBrain_Buddy
                     {
                        _bBBlog.Info($"NOTE: A new version is available: {latestVersion}. You are currently on {currentVersion}.");
                         TextLog.AppendText($"*NOTE:* A new version is available: {latestVersion}. You are currently on {currentVersion}.\r\n");
+                        VersionUpdateLabel.Text = $"Update available!";
+                        VersionUpdateLabel.BackColor = Color.Orange;
                         // Here you can add logic to prompt the user to download the new version
                     }
                     else if (version2 < version1)
                     {
                         _bBBlog.Info($"You run a newer version than the newest published version! Remote: {latestVersion}. You are currently on {currentVersion}.");
                         TextLog.AppendText($"You run a newer version than the newest published version! Remote: {latestVersion}. You are currently on {currentVersion}.\r\n");
+                        VersionUpdateLabel.Text = $"Hi Dev!";
+                        VersionUpdateLabel.BackColor = Color.Yellow;
                     } else if (version1 == version2)
                     {
                         _bBBlog.Debug("You are on the latest version.");
                         TextLog.AppendText("You are on the latest version.\r\n");
+                        VersionUpdateLabel.Text = "No update";
+                        VersionUpdateLabel.BackColor = Color.Green;
                     }
                 }
                 catch (Exception ex)

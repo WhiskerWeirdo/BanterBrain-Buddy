@@ -33,6 +33,8 @@ namespace BanterBrain_Buddy
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BBB));
             MainTab = new TabPage();
+            UpdateGroupBox = new GroupBox();
+            VersionUpdateLabel = new Label();
             StreamerTTSNameGroupBox = new GroupBox();
             StreamerNameTextBox = new TextBox();
             StreamerPersonaGroupBox = new GroupBox();
@@ -117,6 +119,7 @@ namespace BanterBrain_Buddy
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
             MainTab.SuspendLayout();
+            UpdateGroupBox.SuspendLayout();
             StreamerTTSNameGroupBox.SuspendLayout();
             StreamerPersonaGroupBox.SuspendLayout();
             StreamerSTTGroupBox.SuspendLayout();
@@ -136,6 +139,7 @@ namespace BanterBrain_Buddy
             // 
             // MainTab
             // 
+            MainTab.Controls.Add(UpdateGroupBox);
             MainTab.Controls.Add(StreamerTTSNameGroupBox);
             MainTab.Controls.Add(StreamerPersonaGroupBox);
             MainTab.Controls.Add(StreamerSTTGroupBox);
@@ -148,6 +152,18 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(MainTab, "MainTab");
             MainTab.Name = "MainTab";
             MainTab.UseVisualStyleBackColor = true;
+            // 
+            // UpdateGroupBox
+            // 
+            UpdateGroupBox.Controls.Add(VersionUpdateLabel);
+            resources.ApplyResources(UpdateGroupBox, "UpdateGroupBox");
+            UpdateGroupBox.Name = "UpdateGroupBox";
+            UpdateGroupBox.TabStop = false;
+            // 
+            // VersionUpdateLabel
+            // 
+            resources.ApplyResources(VersionUpdateLabel, "VersionUpdateLabel");
+            VersionUpdateLabel.Name = "VersionUpdateLabel";
             // 
             // StreamerTTSNameGroupBox
             // 
@@ -776,6 +792,8 @@ namespace BanterBrain_Buddy
             VisibleChanged += BBB_VisibleChanged;
             MainTab.ResumeLayout(false);
             MainTab.PerformLayout();
+            UpdateGroupBox.ResumeLayout(false);
+            UpdateGroupBox.PerformLayout();
             StreamerTTSNameGroupBox.ResumeLayout(false);
             StreamerTTSNameGroupBox.PerformLayout();
             StreamerPersonaGroupBox.ResumeLayout(false);
@@ -890,6 +908,8 @@ namespace BanterBrain_Buddy
         private TextBox TwitchDelayMessageTextBox;
         private GroupBox StreamerTTSNameGroupBox;
         private TextBox StreamerNameTextBox;
+        private GroupBox UpdateGroupBox;
+        private Label VersionUpdateLabel;
     }
 }
 
