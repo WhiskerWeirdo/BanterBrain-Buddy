@@ -34,8 +34,8 @@ namespace BanterBrain_Buddy
 {
     public partial class BBB : Form
     {
-        private static string Version = "1.0.3";
-        
+        private static string Version = "1.0.1";
+
         //set logger
         private static log4net.ILog _bBBlog;
 
@@ -140,7 +140,7 @@ namespace BanterBrain_Buddy
 
                     if (version1 < version2)
                     {
-                       _bBBlog.Info($"NOTE: A new version is available: {latestVersion}. You are currently on {currentVersion}.");
+                        _bBBlog.Info($"NOTE: A new version is available: {latestVersion}. You are currently on {currentVersion}.");
                         TextLog.AppendText($"*NOTE:* A new version is available: {latestVersion}. You are currently on {currentVersion}.\r\n");
                         VersionUpdateLabel.Text = $"Update available!";
                         VersionUpdateLabel.BackColor = Color.Orange;
@@ -152,7 +152,8 @@ namespace BanterBrain_Buddy
                         TextLog.AppendText($"You run a newer version than the newest published version! Remote: {latestVersion}. You are currently on {currentVersion}.\r\n");
                         VersionUpdateLabel.Text = $"Hi Dev!";
                         VersionUpdateLabel.BackColor = Color.Yellow;
-                    } else if (version1 == version2)
+                    }
+                    else if (version1 == version2)
                     {
                         _bBBlog.Debug("You are on the latest version.");
                         TextLog.AppendText("You are on the latest version.\r\n");
@@ -185,8 +186,8 @@ namespace BanterBrain_Buddy
             TextLog.AppendText("Checking logs file" + "\r\n");
             //can we write to the logfile folder?
             string logdir = Properties.Settings.Default.LogDir;
-            string logFile = "BanterBrainBuddy.log";   
-         
+            string logFile = "BanterBrainBuddy.log";
+
             if (!Directory.Exists(logdir))
             {
                 TextLog.AppendText("Creating log directory: " + logdir + "\r\n");
@@ -200,7 +201,8 @@ namespace BanterBrain_Buddy
                     TextLog.AppendText("Error creating log directory in " + logdir + ". This should not happen.\r\n");
                 }
 
-            } else
+            }
+            else
             {
                 TextLog.AppendText("Log directory found: " + logdir + "\r\n");
             }
@@ -273,7 +275,7 @@ namespace BanterBrain_Buddy
             CultureInfo currentUICulture = CultureInfo.CurrentUICulture;
             _bBBlog.Debug("Current UI Culture: " + currentUICulture);
             UpdateTextLog("Current UI Language: " + currentUICulture + "\r\n");
-        //  MicrophoneRecordGroupBox.Text = Resources.ResourceManager.GetString("MicrophoneRecordGroupBox" , CultureInfo.CurrentUICulture);
+            //  MicrophoneRecordGroupBox.Text = Resources.ResourceManager.GetString("MicrophoneRecordGroupBox" , CultureInfo.CurrentUICulture);
         }
 
 
@@ -704,7 +706,7 @@ namespace BanterBrain_Buddy
                 }
                 else
                 {
-                    _bBBlog.Info("Twitch access broadcaster token is valid. Starting automated /validate call" );
+                    _bBBlog.Info("Twitch access broadcaster token is valid. Starting automated /validate call");
                     UpdateTextLog("Twitch access broadcaster token is valid. Starting automated /validate call\r\n");
                     _twitchValidateBroadcasterCheckStarted = true;
                     TwitchAPIStatusTextBox.Text = "ENABLED";
@@ -1496,14 +1498,14 @@ namespace BanterBrain_Buddy
                 {
                     _bBBlog.Info("Twitch Bot API key is valid");
                     UpdateTextLog("Twitch Bot API key is valid.\r\n");
-                  //  _twitchAPIVerified = true;
-                //    TwitchStartButton.Enabled = true;
+                    //  _twitchAPIVerified = true;
+                    //    TwitchStartButton.Enabled = true;
                 }
                 else
                 {
                     _bBBlog.Error("Twitch Bot API key is invalid");
                     UpdateTextLog("Twitch Bot API key is invalid.\r\n");
-                //    TwitchStartButton.Enabled = false;
+                    //    TwitchStartButton.Enabled = false;
                 }
             }
             else if (Properties.Settings.Default.TwitchBotAuthKey.Length < 1)
@@ -2952,11 +2954,20 @@ namespace BanterBrain_Buddy
             {
                 MessageBox.Show("This field cannot be empty");
                 e.Cancel = true;  // Cancel the event and keep the focus on the TextBox
-            } else
+            }
+            else
             {
                 Properties.Settings.Default.StreamerNameTextBox = StreamerNameTextBox.Text;
                 Properties.Settings.Default.Save();
             }
+        }
+
+        private void downloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //spawn browser for github link
+            var t = new Thread(() => Process.Start(new ProcessStartInfo("https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/latest") { UseShellExecute = true }));
+            t.Start();
+            Thread.Sleep(100);
         }
     }
 }

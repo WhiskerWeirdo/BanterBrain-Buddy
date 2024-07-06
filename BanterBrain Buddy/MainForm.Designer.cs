@@ -33,6 +33,7 @@ namespace BanterBrain_Buddy
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BBB));
             MainTab = new TabPage();
+            TextLog = new RichTextBox();
             UpdateGroupBox = new GroupBox();
             VersionUpdateLabel = new Label();
             StreamerTTSNameGroupBox = new GroupBox();
@@ -114,10 +115,10 @@ namespace BanterBrain_Buddy
             toolStripMenuItem1 = new ToolStripSeparator();
             DiscordToolStripMenuItem = new ToolStripMenuItem();
             GithubToolStripMenuItem = new ToolStripMenuItem();
+            downloadToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
-            TextLog = new RichTextBox();
             MainTab.SuspendLayout();
             UpdateGroupBox.SuspendLayout();
             StreamerTTSNameGroupBox.SuspendLayout();
@@ -152,6 +153,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(MainTab, "MainTab");
             MainTab.Name = "MainTab";
             MainTab.UseVisualStyleBackColor = true;
+            // 
+            // TextLog
+            // 
+            TextLog.BackColor = System.Drawing.SystemColors.Menu;
+            resources.ApplyResources(TextLog, "TextLog");
+            TextLog.Name = "TextLog";
             // 
             // UpdateGroupBox
             // 
@@ -730,7 +737,7 @@ namespace BanterBrain_Buddy
             // 
             // helpToolStripMenuItem
             // 
-            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { logfileDirectoryToolStripMenuItem, toolStripMenuItem1, DiscordToolStripMenuItem, GithubToolStripMenuItem });
+            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { logfileDirectoryToolStripMenuItem, toolStripMenuItem1, downloadToolStripMenuItem, DiscordToolStripMenuItem, GithubToolStripMenuItem });
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             resources.ApplyResources(helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
@@ -757,6 +764,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(GithubToolStripMenuItem, "GithubToolStripMenuItem");
             GithubToolStripMenuItem.Click += GithubToolStripMenuItem_Click;
             // 
+            // downloadToolStripMenuItem
+            // 
+            downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
+            resources.ApplyResources(downloadToolStripMenuItem, "downloadToolStripMenuItem");
+            downloadToolStripMenuItem.Click += downloadToolStripMenuItem_Click;
+            // 
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
@@ -769,12 +782,6 @@ namespace BanterBrain_Buddy
             seToolStripMenuItem.Name = "seToolStripMenuItem";
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += SeToolStripMenuItem_Click;
-            // 
-            // TextLog
-            // 
-            TextLog.BackColor = System.Drawing.SystemColors.Menu;
-            resources.ApplyResources(TextLog, "TextLog");
-            TextLog.Name = "TextLog";
             // 
             // BBB
             // 
@@ -909,6 +916,7 @@ namespace BanterBrain_Buddy
         private GroupBox UpdateGroupBox;
         private Label VersionUpdateLabel;
         private RichTextBox TextLog;
+        private ToolStripMenuItem downloadToolStripMenuItem;
     }
 }
 
