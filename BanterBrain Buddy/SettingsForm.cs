@@ -217,6 +217,8 @@ namespace BanterBrain_Buddy
             GPTModelComboBox.SelectedIndex = GPTModelComboBox.FindStringExact(Properties.Settings.Default.GPTModel);
             GPTAPIKeyTextBox.Text = Properties.Settings.Default.GPTAPIKey;
             GPTMaxTokensTextBox.Text = Properties.Settings.Default.GPTMaxTokens.ToString();
+            if (GPTMaxTokensTextBox.Text.Length < 1)
+                GPTMaxTokensTextBox.Text = "100";
             GPTTemperatureTextBox.Text = Properties.Settings.Default.GPTTemperature.ToString();
             ElevenlabsAPIKeyTextBox.Text = Properties.Settings.Default.ElevenLabsAPIkey;
             OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
