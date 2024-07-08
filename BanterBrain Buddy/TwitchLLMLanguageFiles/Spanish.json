@@ -1,0 +1,22 @@
+{
+  "Language": "Spanish",
+  "CheerTalkToLLM": "responder al mensaje de {user} que dijo: {message}",
+  "CheerDefaultNoMessage": "gracias por los bits, la próxima vez envía un mensaje!",
+  "CheerWithMessage": "{user} usó bits con mensaje {message}",
+
+  "ChannelPointTalkToLLM": "Responder al mensaje de {user} diciendo: {message}",
+  "ChannelPointDefaultNoMessage": "Gracias por el canjeo, la próxima vez envía un mensaje!",
+  "ChannelPointWithMessage": "{user} ha canjeado con un mensaje {message}",
+
+  "GiftedSingleSub": "Gracias {user} por regalar {amount} sub de tier {tier}!",
+  "GiftedMultipleSubs": "Gracias {user} por regalar {amount} subs de tier {tier}!",
+
+  "SubscribeFirstTimeThanks": "Gracias {user} por suscribirte!",
+  "SubscribeResubThanksWithMessageLLM": "Responde al mensaje de {user} diciendo: {message}",
+
+  "SubscribeMonthsNoMessage": "{user} se ha vuelto a suscribir por un total de {months} meses!",
+  "SubscribeMonthsMessage": "{user} se ha vuelto a suscribir por un total de {months} diciendo {message}.",
+
+  "ChatMessageResponseLLM": "responder al {user} que dijo: {message}",
+  "ChatMessageUserSaid": "{user} dijo {message}"
+}
