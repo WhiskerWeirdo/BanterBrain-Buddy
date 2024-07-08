@@ -17,6 +17,6 @@
   "SubscribeMonthsNoMessage": "{user} se ha vuelto a suscribir por un total de {months} meses!",
   "SubscribeMonthsMessage": "{user} se ha vuelto a suscribir por un total de {months} diciendo {message}.",
 
-  "ChatMessageResponseLLM": "responder al {user} que dijo: {message}",
+  "ChatMessageResponseLLM": "responder a {user} que dijo: {message}",
   "ChatMessageUserSaid": "{user} dijo {message}"
 }
