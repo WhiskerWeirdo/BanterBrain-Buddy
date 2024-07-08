@@ -1,0 +1,22 @@
+{
+  "Language": "German",
+  "CheerTalkToLLM": "Antwort auf die Nachricht von {user}, die lautet: {message}",
+  "CheerDefaultNoMessage": "Vielen Dank für deine Bits! Nächstes Mal kannst du gerne eine Nachricht hinterlassen!",
+  "CheerWithMessage": "{user} hat mit der Nachricht {message} Bits gespendet",
+
+  "ChannelPointTalkToLLM": "Antwort auf die Nachricht von {user}, die lautet: {message}",
+  "ChannelPointDefaultNoMessage": "Vielen Dank für die Einlösung der Kanalpunkte! Nächstes Mal kannst du gerne eine Nachricht hinterlassen!",
+  "ChannelPointWithMessage": "{user} hat Kanalpunkte eingelöst mit folgender Nachricht: {message}",
+
+  "GiftedSingleSub": "Vielen Dank, {user}, dass du {amount} Stufe {tier}-Abonnements verschenkt hast!",
+  "GiftedMultipleSubs": "Vielen Dank, {user}, dass du {amount} Stufe {tier}-Abonnements verschenkt hast!",
+
+  "SubscribeFirstTimeThanks": "Vielen Dank, {user}, dass du abonniert hast!",
+  "SubscribeResubThanksWithMessageLLM": "Antwort auf die Nachricht von {user}, die lautete: {message}",
+
+  "SubscribeMonthsNoMessage": "{user} hat insgesamt {months} Monate lang wieder abonniert!",
+  "SubscribeMonthsMessage": "{user} hat insgesamt {months} Monate lang wieder abonniert und folgende Nachricht hinterlassen: {message}.",
+
+  "ChatMessageResponseLLM": "Antwort auf die Nachricht von {user}, die lautete: {message}",
+  "ChatMessageUserSaid": "{user} sagt {message}"
+} 
