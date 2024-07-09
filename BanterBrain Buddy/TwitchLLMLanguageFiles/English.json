@@ -1,8 +1,8 @@
 {
   "Language": "English",
   "CheerTalkToLLM": "respond to the message of {user} who said: {message}",
-  "CheerDefaultNoMessage": "thank you for the cheer, next time submit a message!",
-  "CheerWithMessage": "{user} cheered with message {message}",
+  "CheerDefaultNoMessage": "thank you for the Bits, next time submit a message!",
+  "CheerWithMessage": "{user} used Bits with message {message}",
 
   "ChannelPointTalkToLLM": "Respond to the message of {user} saying: {message}",
   "ChannelPointDefaultNoMessage": "Thank you for the redeem, next time submit a message!",
