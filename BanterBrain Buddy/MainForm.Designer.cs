@@ -113,9 +113,9 @@ namespace BanterBrain_Buddy
             helpToolStripMenuItem = new ToolStripMenuItem();
             logfileDirectoryToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripSeparator();
+            downloadToolStripMenuItem = new ToolStripMenuItem();
             DiscordToolStripMenuItem = new ToolStripMenuItem();
             GithubToolStripMenuItem = new ToolStripMenuItem();
-            downloadToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
@@ -752,6 +752,12 @@ namespace BanterBrain_Buddy
             toolStripMenuItem1.Name = "toolStripMenuItem1";
             resources.ApplyResources(toolStripMenuItem1, "toolStripMenuItem1");
             // 
+            // downloadToolStripMenuItem
+            // 
+            downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
+            resources.ApplyResources(downloadToolStripMenuItem, "downloadToolStripMenuItem");
+            downloadToolStripMenuItem.Click += downloadToolStripMenuItem_Click;
+            // 
             // DiscordToolStripMenuItem
             // 
             DiscordToolStripMenuItem.Name = "DiscordToolStripMenuItem";
@@ -763,12 +769,6 @@ namespace BanterBrain_Buddy
             GithubToolStripMenuItem.Name = "GithubToolStripMenuItem";
             resources.ApplyResources(GithubToolStripMenuItem, "GithubToolStripMenuItem");
             GithubToolStripMenuItem.Click += GithubToolStripMenuItem_Click;
-            // 
-            // downloadToolStripMenuItem
-            // 
-            downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
-            resources.ApplyResources(downloadToolStripMenuItem, "downloadToolStripMenuItem");
-            downloadToolStripMenuItem.Click += downloadToolStripMenuItem_Click;
             // 
             // menuStrip1
             // 
