@@ -18,7 +18,8 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 Fixed:
 - Check for Windows Native STT recognizer installed or not. Feedback when not https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/73
 - Subscriber and Founder badge both recognized as issubscriber in new library. https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/71
-
+- Crash on first install fix
+  
 New:
 - You can now also select German and Spanish Twitch and LLM intermediary messages
 
