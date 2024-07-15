@@ -1,4 +1,4 @@
-### v1.0.0 release of BanterBrain Buddy.
+### BanterBrain Buddy v1.0.4 bugfix
 
 **This program requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
 
@@ -9,13 +9,54 @@ This release depends on .NET Runtime Desktop 8. After installation and trying to
 
 You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.4-windows-x64-installer)
 
-### See it work!
-[![BanterBrain Introduction](https://img.youtube.com/vi/3U-PzTrTVyo/0.jpg)](https://www.youtube.com/watch?v=3U-PzTrTVyo)
-
 ### KNOWN ISSUES
 - Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
+
+### RELEASE V1.0.4 RELEASE
+Fixed:
+- Check for Windows Native STT recognizer installed or not. Feedback when not https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/73
+- Subscriber and Founder badge both recognized as issubscriber in new library. https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/71
+
+New:
+- You can now also select German and Spanish Twitch and LLM intermediary messages
+
+### RELEASE V1.0.3 RELEASE
+New:
+- shows if there is a version update in the bottom left
+- Started working on multilingual Twitch messages (not yet finished)
+- Recording button turns red when recording. Main textfield also shows when stopoing recording.
+- Small text in hotkey setting to mention the difference between the hotkey (hold to record) and the button (toggle)
+
+Fixed:
+- Twitch channel command should not hang on subscriber chat commands
+
+Not yet fixed:
+- Native STT non English
+
+Known issue:
+- Viewers using their "First" badge while being subsribers are not correctly identified as subscribers
+
+### RELEASE V1.0.2 RELEASE
+New:
+- Spanish added to OpenAI/Whisper TTS voices
+- ElevenLabs now defaults to the higher quality and multilingual v2 API speech model
+
+Note: this does not fix the English used in some prompts that are embedded in BBB, which can generate some response oddities from the used LLM. This will be fixed in a later release.
+
+### RELEASE V1.0.1 RELEASE
+New:
+- Talking rate for TTS Voices that support it  https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/62
+- Talking volume for TTS Voices https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/53
+- Talking pitch for TTS Voices that support it
+- Version control check at startup
+
+#### Supported TTS Voices features:
+**Azure Cognitive Services:** pitch, volume, rate
+**Windows native:** pitch, rate, volume
+**OpenAI Whisper:** volume, rate
+**ElevenLabs:** volume
 
 ### RELEASE V1.0.0 RELEASE
 Fixed:
@@ -70,7 +111,7 @@ Improvement:
 - Switching windows now saves settings more often to prevent setting-data loss
 - Main window now calls "Persona"  "Streamer Persona" to make it more obvious that's only used for the Speech-To-Text/streamer.
 
-### RELEASE V0.1.3 BETA
+### RELEASE V0.1.4 BETA
 - Enabling Ollama in the settings screen while its not running now handled gracefully instead of crashing. Testing Ollama now also handles issues more gracefully instead of crashing.
 - 
 ### RELEASE V0.1.2 BETA
@@ -116,5 +157,3 @@ tldr: use Visual studio 2022 with .net 8.
 ## Resources for local and API
 - for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
 - local based LLM's like Ollama take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
-
-
