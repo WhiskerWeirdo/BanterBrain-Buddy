@@ -544,6 +544,33 @@
   <data name="BBBTabs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="CustomResponseButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CustomResponseButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>245, 22</value>
+  </data>
+  <data name="CustomResponseButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="CustomResponseButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CustomResponseButton.Text" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="&gt;&gt;CustomResponseButton.Name" xml:space="preserve">
+    <value>CustomResponseButton</value>
+  </data>
+  <data name="&gt;&gt;CustomResponseButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CustomResponseButton.Parent" xml:space="preserve">
+    <value>TwitchLLMLanguageGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CustomResponseButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="TwitchLLMLanguageComboBox.Items" xml:space="preserve">
     <value>English</value>
   </data>
@@ -554,7 +581,7 @@
     <value>Spanish</value>
   </data>
   <data name="TwitchLLMLanguageComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 21</value>
+    <value>11, 22</value>
   </data>
   <data name="TwitchLLMLanguageComboBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>176, 23</value>
@@ -572,7 +599,7 @@
     <value>TwitchLLMLanguageGroupBox</value>
   </data>
   <data name="&gt;&gt;TwitchLLMLanguageComboBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="TwitchLLMLanguageGroupBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>316, 461</value>

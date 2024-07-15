@@ -67,6 +67,13 @@ namespace BanterBrain_Buddy
             foreach (RecognizerInfo config in SpeechRecognitionEngine.InstalledRecognizers())
             {
                 NativeSpeechRecognitionLanguageComboBox.Items.Add(config.Culture);
+                _bBBlog.Debug("Found native speech recognition language: " + config.Culture);
+            }
+
+            if (NativeSpeechRecognitionLanguageComboBox.Items.Count < 1)
+            {
+                _bBBlog.Error("No native speech recognition languages found");
+                MessageBox.Show("No native speech recognition languages found. Be sure to install one!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

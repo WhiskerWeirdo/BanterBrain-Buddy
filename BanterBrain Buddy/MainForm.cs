@@ -577,6 +577,8 @@ namespace BanterBrain_Buddy
             }
         }
 
+
+
         /// <summary>
         /// We check the available STT providers and add them to the list for the broadcater selection list
         /// </summary>
@@ -593,14 +595,17 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                //if there's at least one native voice installed, enable the native STT
-                _ = new            //if there's at least one native voice installed, enable the native STT
-                NativeSpeech();
-                var result = await NativeSpeech.TTSNativeGetVoices();
-                _bBBlog.DebugFormat("Found {0} native voices", result.Count);
-                if (result.Count > 0)
+                //Check if theres a Windows Native voice recognizer installed
+                if (SpeechRecognitionEngine.InstalledRecognizers().Count > 0)
                 {
                     STTSelectedComboBox.Items.Add("Native");
+                    _bBBlog.Debug("Found at least one Windows Native speech recognizer.");
+                    UpdateTextLog("Found at least one Windows Native speech recognizer.\r\n");
+                }
+                else
+                {
+                    _bBBlog.Debug("No Windows Native speech recognizer found");
+                    UpdateTextLog("No Windows Native speech recognizer found. Please install one. Check here: https://github.com/WhiskerWeirdo/BanterBrain-Buddy/wiki/How-do-I#install-windows-native-speech-recognition\r\n");
                 }
             }
             //if the Azure API key is set, we verify if the key can be used to synthesize voice
