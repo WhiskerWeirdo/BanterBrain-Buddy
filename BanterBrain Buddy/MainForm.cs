@@ -487,7 +487,7 @@ namespace BanterBrain_Buddy
         //this loads the personas from the personas.json file
         //if one doesn't exist, it creates a default one
         [SupportedOSPlatform("windows6.1")]
-        private async void LoadPersonas()
+        private async Task LoadPersonas()
         {
 
             var tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\personas.json";
@@ -1363,7 +1363,15 @@ namespace BanterBrain_Buddy
             BroadcasterSelectedPersonaComboBox.SelectedIndex = BroadcasterSelectedPersonaComboBox.FindStringExact(Properties.Settings.Default.MainSelectedPersona);
             if (BroadcasterSelectedPersonaComboBox.SelectedIndex == -1)
             {
-                BroadcasterSelectedPersonaComboBox.SelectedIndex = 0;
+                if (BroadcasterSelectedPersonaComboBox.Items.Count > 0)
+                    BroadcasterSelectedPersonaComboBox.SelectedIndex = 0;
+                else
+                {
+                    _bBBlog.Error("No selected persona found and not populated yet");
+                    await LoadPersonas();
+                    BroadcasterSelectedPersonaComboBox.SelectedIndex = 0;
+                }
+
             }
 
             TwitchCheeringPersonaComboBox.SelectedIndex = TwitchCheeringPersonaComboBox.FindStringExact(Properties.Settings.Default.TwitchCheeringPersona);
