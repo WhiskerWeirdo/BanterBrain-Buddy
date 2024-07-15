@@ -50,6 +50,8 @@ namespace BanterBrain_Buddy
             TwitchStatusLabel = new Label();
             BBBTabs = new TabControl();
             StreamingSettingsTab = new TabPage();
+            TwitchLLMLanguageGroupBox = new GroupBox();
+            TwitchLLMLanguageComboBox = new ComboBox();
             LLMGroupSettingsGroupBox = new GroupBox();
             LLMResponseSelecter = new ComboBox();
             label7 = new Label();
@@ -127,6 +129,7 @@ namespace BanterBrain_Buddy
             MicrophoneRecordGroupBox.SuspendLayout();
             BBBTabs.SuspendLayout();
             StreamingSettingsTab.SuspendLayout();
+            TwitchLLMLanguageGroupBox.SuspendLayout();
             LLMGroupSettingsGroupBox.SuspendLayout();
             TwitchSettingsGroupBox.SuspendLayout();
             TwitchResponseSettings.SuspendLayout();
@@ -268,11 +271,28 @@ namespace BanterBrain_Buddy
             // 
             // StreamingSettingsTab
             // 
+            StreamingSettingsTab.Controls.Add(TwitchLLMLanguageGroupBox);
             StreamingSettingsTab.Controls.Add(LLMGroupSettingsGroupBox);
             StreamingSettingsTab.Controls.Add(TwitchSettingsGroupBox);
             resources.ApplyResources(StreamingSettingsTab, "StreamingSettingsTab");
             StreamingSettingsTab.Name = "StreamingSettingsTab";
             StreamingSettingsTab.UseVisualStyleBackColor = true;
+            // 
+            // TwitchLLMLanguageGroupBox
+            // 
+            TwitchLLMLanguageGroupBox.Controls.Add(TwitchLLMLanguageComboBox);
+            resources.ApplyResources(TwitchLLMLanguageGroupBox, "TwitchLLMLanguageGroupBox");
+            TwitchLLMLanguageGroupBox.Name = "TwitchLLMLanguageGroupBox";
+            TwitchLLMLanguageGroupBox.TabStop = false;
+            // 
+            // TwitchLLMLanguageComboBox
+            // 
+            TwitchLLMLanguageComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TwitchLLMLanguageComboBox.FormattingEnabled = true;
+            TwitchLLMLanguageComboBox.Items.AddRange(new object[] { resources.GetString("TwitchLLMLanguageComboBox.Items"), resources.GetString("TwitchLLMLanguageComboBox.Items1"), resources.GetString("TwitchLLMLanguageComboBox.Items2") });
+            resources.ApplyResources(TwitchLLMLanguageComboBox, "TwitchLLMLanguageComboBox");
+            TwitchLLMLanguageComboBox.Name = "TwitchLLMLanguageComboBox";
+            TwitchLLMLanguageComboBox.SelectedIndexChanged += TwitchLLMLanguageComboBox_SelectedIndexChanged;
             // 
             // LLMGroupSettingsGroupBox
             // 
@@ -807,6 +827,7 @@ namespace BanterBrain_Buddy
             MicrophoneRecordGroupBox.ResumeLayout(false);
             BBBTabs.ResumeLayout(false);
             StreamingSettingsTab.ResumeLayout(false);
+            TwitchLLMLanguageGroupBox.ResumeLayout(false);
             LLMGroupSettingsGroupBox.ResumeLayout(false);
             LLMGroupSettingsGroupBox.PerformLayout();
             TwitchSettingsGroupBox.ResumeLayout(false);
@@ -917,6 +938,8 @@ namespace BanterBrain_Buddy
         private Label VersionUpdateLabel;
         private RichTextBox TextLog;
         private ToolStripMenuItem downloadToolStripMenuItem;
+        private GroupBox TwitchLLMLanguageGroupBox;
+        private ComboBox TwitchLLMLanguageComboBox;
     }
 }
 

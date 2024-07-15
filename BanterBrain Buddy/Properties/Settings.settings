@@ -209,5 +209,8 @@
     <Setting Name="TwitchBotAuthKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="TwitchLLMLanguageComboBox" Type="System.String" Scope="User">
+      <Value Profile="(Default)">English</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

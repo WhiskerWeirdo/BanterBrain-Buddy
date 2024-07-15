@@ -75,6 +75,12 @@
     <None Update="TwitchLLMLanguageFiles\English.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="TwitchLLMLanguageFiles\German.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TwitchLLMLanguageFiles\Spanish.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="frog_119582.ico" />

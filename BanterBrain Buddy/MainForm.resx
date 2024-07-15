@@ -544,6 +544,60 @@
   <data name="BBBTabs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="TwitchLLMLanguageComboBox.Items" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="TwitchLLMLanguageComboBox.Items1" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="TwitchLLMLanguageComboBox.Items2" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="TwitchLLMLanguageComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>150, 21</value>
+  </data>
+  <data name="TwitchLLMLanguageComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 23</value>
+  </data>
+  <data name="TwitchLLMLanguageComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TwitchLLMLanguageComboBox.Name" xml:space="preserve">
+    <value>TwitchLLMLanguageComboBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchLLMLanguageComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchLLMLanguageComboBox.Parent" xml:space="preserve">
+    <value>TwitchLLMLanguageGroupBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchLLMLanguageComboBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TwitchLLMLanguageGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>316, 461</value>
+  </data>
+  <data name="TwitchLLMLanguageGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>335, 58</value>
+  </data>
+  <data name="TwitchLLMLanguageGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="TwitchLLMLanguageGroupBox.Text" xml:space="preserve">
+    <value>Twitch LLM Language</value>
+  </data>
+  <data name="&gt;&gt;TwitchLLMLanguageGroupBox.Name" xml:space="preserve">
+    <value>TwitchLLMLanguageGroupBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchLLMLanguageGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchLLMLanguageGroupBox.Parent" xml:space="preserve">
+    <value>StreamingSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;TwitchLLMLanguageGroupBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="LLMResponseSelecter.Location" type="System.Drawing.Point, System.Drawing">
     <value>137, 28</value>
   </data>
@@ -614,7 +668,7 @@
     <value>StreamingSettingsTab</value>
   </data>
   <data name="&gt;&gt;LLMGroupSettingsGroupBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="TwitchResponseToChatDelayTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>195, 14</value>
@@ -2150,7 +2204,7 @@
     <value>StreamingSettingsTab</value>
   </data>
   <data name="&gt;&gt;TwitchSettingsGroupBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="StreamingSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 24</value>

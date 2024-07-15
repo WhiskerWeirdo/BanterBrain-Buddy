@@ -555,16 +555,16 @@ namespace BanterBrain_Buddy
         private async void LoadTwitchLLMLanguageFile()
         {
             string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var tmpFile = sourcefolder + "\\TwitchLLMLanguageFiles\\English.json";
+            var tmpFile = sourcefolder + $"\\TwitchLLMLanguageFiles\\{Properties.Settings.Default.TwitchLLMLanguageComboBox}.json";
             if (!File.Exists(tmpFile))
             {
-                _bBBlog.Error("Twitch LLM language file not found, Error!");
-                UpdateTextLog("Twitch LLM language file not found, Error!\r\n");
+                _bBBlog.Error($"Twitch LLM language {Properties.Settings.Default.TwitchLLMLanguageComboBox} file not found, Error!");
+                UpdateTextLog($"Twitch LLM language {Properties.Settings.Default.TwitchLLMLanguageComboBox} file not found, Error!\r\n");
                 return;
             }
             else
             {
-                _bBBlog.Debug("Twitch LLM language file found, loading it.");
+                _bBBlog.Debug($"Twitch LLM language {Properties.Settings.Default.TwitchLLMLanguageComboBox} file found, loading it.");
                 using var sr = new StreamReader(tmpFile);
                 var tmpString = sr.ReadToEnd();
                 //if this is the first time make the new class
@@ -577,10 +577,10 @@ namespace BanterBrain_Buddy
             }
         }
 
-            /// <summary>
-            /// We check the available STT providers and add them to the list for the broadcater selection list
-            /// </summary>
-            [SupportedOSPlatform("windows6.1")]
+        /// <summary>
+        /// We check the available STT providers and add them to the list for the broadcater selection list
+        /// </summary>
+        [SupportedOSPlatform("windows6.1")]
         private async Task CheckConfiguredSTTProviders()
         {
 
@@ -1594,6 +1594,17 @@ namespace BanterBrain_Buddy
             else
                 StreamerNameTextBox.Text = "Streamer";
 
+            if (Properties.Settings.Default.TwitchLLMLanguageComboBox.Length > 1)
+            {
+                TwitchLLMLanguageComboBox.SelectedIndex = TwitchLLMLanguageComboBox.FindStringExact(Properties.Settings.Default.TwitchLLMLanguageComboBox);
+            }
+            else
+            {
+                TwitchLLMLanguageComboBox.SelectedIndex = 0;
+            }
+
+
+
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -1652,6 +1663,7 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchChannelPointTTSResponseOnlyRadioButton = TwitchChannelPointTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChatTTSResponseOnlyRadioButton = TwitchChatTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.StreamerNameTextBox = StreamerNameTextBox.Text;
+            Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
             Properties.Settings.Default.Save();
         }
 
@@ -2997,6 +3009,15 @@ namespace BanterBrain_Buddy
             var t = new Thread(() => Process.Start(new ProcessStartInfo("https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/latest") { UseShellExecute = true }));
             t.Start();
             Thread.Sleep(100);
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchLLMLanguageComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
+            Properties.Settings.Default.Save();
+            UpdateTextLog("Twitch LLM language changed to: " + TwitchLLMLanguageComboBox.Text + "\r\n");
+            _bBBlog.Info("Twitch LLM language changed to: " + TwitchLLMLanguageComboBox.Text);
         }
     }
 }
