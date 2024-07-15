@@ -1,6 +1,138 @@
-# BanterBrain Buddy
-v0.0.6-ALPHA
-https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/tag/0.0.5-alpha
+### BanterBrain Buddy v1.0.4 bugfix
+
+**This program requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
+
+Please report all bugs to the [Discord](https://discord.banterbrain.tv/) or here on [Github](https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues). 
+
+### Requisites to run
+This release depends on .NET Runtime Desktop 8. After installation and trying to run BBB you will be asked to download and install this from the Microsoft website if you do not have it installed yet.
+
+You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.4-windows-x64-installer)
+
+### KNOWN ISSUES
+- Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
+- No ability to check for Twitch followers
+- ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
+
+### RELEASE V1.0.4 RELEASE
+Fixed:
+- Check for Windows Native STT recognizer installed or not. Feedback when not https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/73
+- Subscriber and Founder badge both recognized as issubscriber in new library. https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/71
+
+New:
+- You can now also select German and Spanish Twitch and LLM intermediary messages
+
+### RELEASE V1.0.3 RELEASE
+New:
+- shows if there is a version update in the bottom left
+- Started working on multilingual Twitch messages (not yet finished)
+- Recording button turns red when recording. Main textfield also shows when stopoing recording.
+- Small text in hotkey setting to mention the difference between the hotkey (hold to record) and the button (toggle)
+
+Fixed:
+- Twitch channel command should not hang on subscriber chat commands
+
+Not yet fixed:
+- Native STT non English
+
+Known issue:
+- Viewers using their "First" badge while being subsribers are not correctly identified as subscribers
+
+### RELEASE V1.0.2 RELEASE
+New:
+- Spanish added to OpenAI/Whisper TTS voices
+- ElevenLabs now defaults to the higher quality and multilingual v2 API speech model
+
+Note: this does not fix the English used in some prompts that are embedded in BBB, which can generate some response oddities from the used LLM. This will be fixed in a later release.
+
+### RELEASE V1.0.1 RELEASE
+New:
+- Talking rate for TTS Voices that support it  https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/62
+- Talking volume for TTS Voices https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/53
+- Talking pitch for TTS Voices that support it
+- Version control check at startup
+
+#### Supported TTS Voices features:
+**Azure Cognitive Services:** pitch, volume, rate
+**Windows native:** pitch, rate, volume
+**OpenAI Whisper:** volume, rate
+**ElevenLabs:** volume
+
+### RELEASE V1.0.0 RELEASE
+Fixed:
+- Some small logic errors for Elevenlabs fixed when loading twice in personas
+- Some small logic errors fixed when switching personas and saving from dialog window
+
+### RELEASE V0.1.8 BETA
+Fixed: 
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/57 now uses a broadcaster account to verify channel issues while a bot account can be used for talking in chat. The bot account is optional.
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/55 now throws an error when there is an audio device selected that's active but unusable with Azure Speech
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/58 logfile is now being created in appdata, The same directory where some application settings files are being written to. Also some more error handling incase there's issues writing.
+
+### RELEASE V0.1.7 BETA
+
+Fixed:
+- Streamer listbox STT was not cleared when coming back from settings https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/59
+- Chat command cooldown timer for Twitch started at the beginning, not at the end of TTS https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/54
+
+Need feedback:
+ - Lower delay between notification sound and saying response in TTS https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/61
+ - Log file not being created, added extra notification and testing https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/58
+
+### RELEASE V0.1.6 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed:
+- Save dialog when you edit the default persona should not popup now all the time
+
+not fixed:
+- Added additional logging to eventsub subscription errors.
+
+### RELEASE V0.1.5 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed: 
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/50 by adding a small delay and a check for ratelimits
+- (hopefully) Azure voice quality should be improved
+
+Added:
+- Ability to post the chat command cooldown being over in Twitch chat.
+
+### RELEASE V0.1.4 BETA
+Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+
+fixed:
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/45 fixed; due to logic error whenn the authorized API key and monitoring channel were different people
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/46 fixed; in combination with autostart checked, after the settings window Twitch would disconnect
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/49 fixed; username of broadcaster was not used in streamer/local STT recordings
+- https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/47 fixed; setting was not saved when opening Settings panel.
+
+Improvement:
+- Switching windows now saves settings more often to prevent setting-data loss
+- Main window now calls "Persona"  "Streamer Persona" to make it more obvious that's only used for the Speech-To-Text/streamer.
+
+### RELEASE V0.1.4 BETA
+- Enabling Ollama in the settings screen while its not running now handled gracefully instead of crashing. Testing Ollama now also handles issues more gracefully instead of crashing.
+- 
+### RELEASE V0.1.2 BETA
+- Elevenlabs speed optimization. It only needs to load the voices when you are busy editing persona's that use Elevenlabs and not in other events.
+
+### RELEASE V0.1.1 BETA
+- Fixes and validations for invalid or empty API keys so that the program does not crash. It fails gracefully and tells you the key is invalid.
+ 
+### RELEASE V0.1.0 BETA
+- many fixes for text input issues, like saving on the correct time or not allowing empty fields
+- Twitch OAUTH fix to allow configurable redirect if default port is occupied
+- Elevenlabs optimizations
+- Fixes to PTT button
+- Fixes to Hotkeys
+- Added timestamps to Main text window 
+- many code hygiene fixes
+- Ollama roletext fix & now Ollama supports and remembers previous content
+- Optimization of API verifications 
+- added more logging to help debugging
+- Added a HELP setting that opens the logfile directory
+- New Elevenlabs library
 
 ## License
 This project uses the GNU General Public License v3.0 as you can read [here](./LICENSE.txt). The TLDR is:
@@ -24,18 +156,4 @@ tldr: use Visual studio 2022 with .net 8.
 
 ## Resources for local and API
 - for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
-- local based LLM's like GPT4All take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
-
-## Roadmap
-### 0.1.0
-Beta testing, bugfixing and stability improvements
-
-### KNOWN ISSUES
-Known issues:
-- [ ] Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
-- [ ] No ability to check for Twitch followers
-
-### Short term roadmap
-- [ ] 0.1.0 BETA Installable Beta build release
-
-
+- local based LLM's like Ollama take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
