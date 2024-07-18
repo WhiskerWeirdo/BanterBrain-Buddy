@@ -29,20 +29,24 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Azure");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("OpenAI");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("ElevenLabs");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Ollama LLM");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4 });
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Native speech");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Personas");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Microphone");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Speaker");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode8, treeNode9 });
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Twitch ");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Azure");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("OpenAI");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("ElevenLabs");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Ollama LLM");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("API Settings", new System.Windows.Forms.TreeNode[] { treeNode13, treeNode14, treeNode15, treeNode16 });
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Native speech");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Personas");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Microphone");
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Speaker");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Sound & Voice settings", new System.Windows.Forms.TreeNode[] { treeNode20, treeNode21 });
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Twitch ");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode23 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
+            NativeSpeechPanel = new System.Windows.Forms.Panel();
+            label22 = new System.Windows.Forms.Label();
+            NativeSpeechRecognitionLanguageComboBox = new System.Windows.Forms.ComboBox();
+            label21 = new System.Windows.Forms.Label();
             OpenAIChatGPTPanel = new System.Windows.Forms.Panel();
             WhisperSpeechRecognitionComboBox = new System.Windows.Forms.ComboBox();
             label23 = new System.Windows.Forms.Label();
@@ -159,15 +163,12 @@
             label26 = new System.Windows.Forms.Label();
             label25 = new System.Windows.Forms.Label();
             WebsourceServer = new System.Windows.Forms.TextBox();
-            NativeSpeechPanel = new System.Windows.Forms.Panel();
-            label22 = new System.Windows.Forms.Label();
-            NativeSpeechRecognitionLanguageComboBox = new System.Windows.Forms.ComboBox();
-            label21 = new System.Windows.Forms.Label();
             BBBToolTip = new System.Windows.Forms.ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            NativeSpeechPanel.SuspendLayout();
             OpenAIChatGPTPanel.SuspendLayout();
             MicrophonePanel.SuspendLayout();
             TwitchPanel.SuspendLayout();
@@ -186,7 +187,6 @@
             AzurePanel.SuspendLayout();
             OllamaPanel.SuspendLayout();
             OBSPanel.SuspendLayout();
-            NativeSpeechPanel.SuspendLayout();
             SuspendLayout();
             // 
             // splitContainer1
@@ -201,8 +201,8 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(NativeSpeechPanel);
             splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
+            splitContainer1.Panel2.Controls.Add(NativeSpeechPanel);
             splitContainer1.Panel2.Controls.Add(MicrophonePanel);
             splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(ElevenLabsPanel);
@@ -220,36 +220,75 @@
             MenuTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             MenuTreeView.Location = new System.Drawing.Point(0, 0);
             MenuTreeView.Name = "MenuTreeView";
-            treeNode1.Name = "Azure";
-            treeNode1.Text = "Azure";
-            treeNode2.Name = "OpenAIChatGPT";
-            treeNode2.Text = "OpenAI";
-            treeNode3.Name = "ElevenLabs";
-            treeNode3.Text = "ElevenLabs";
-            treeNode4.Name = "OllamaLLM";
-            treeNode4.Text = "Ollama LLM";
-            treeNode5.Name = "APISettings";
-            treeNode5.Text = "API Settings";
-            treeNode6.Name = "NativeSpeech";
-            treeNode6.Text = "Native speech";
-            treeNode7.Name = "Personas";
-            treeNode7.Text = "Personas";
-            treeNode8.Name = "Microphone";
-            treeNode8.Text = "Microphone";
-            treeNode9.Name = "Speaker";
-            treeNode9.Text = "Speaker";
-            treeNode10.Name = "VoiceSettings";
-            treeNode10.Text = "Sound & Voice settings";
-            treeNode11.Name = "Twitch";
-            treeNode11.Text = "Twitch ";
-            treeNode12.Name = "StreamingSettings";
-            treeNode12.Text = "Streaming settings";
-            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode5, treeNode6, treeNode7, treeNode10, treeNode12 });
+            treeNode13.Name = "Azure";
+            treeNode13.Text = "Azure";
+            treeNode14.Name = "OpenAIChatGPT";
+            treeNode14.Text = "OpenAI";
+            treeNode15.Name = "ElevenLabs";
+            treeNode15.Text = "ElevenLabs";
+            treeNode16.Name = "OllamaLLM";
+            treeNode16.Text = "Ollama LLM";
+            treeNode17.Name = "APISettings";
+            treeNode17.Text = "API Settings";
+            treeNode18.Name = "NativeSpeech";
+            treeNode18.Text = "Native speech";
+            treeNode19.Name = "Personas";
+            treeNode19.Text = "Personas";
+            treeNode20.Name = "Microphone";
+            treeNode20.Text = "Microphone";
+            treeNode21.Name = "Speaker";
+            treeNode21.Text = "Speaker";
+            treeNode22.Name = "VoiceSettings";
+            treeNode22.Text = "Sound & Voice settings";
+            treeNode23.Name = "Twitch";
+            treeNode23.Text = "Twitch ";
+            treeNode24.Name = "StreamingSettings";
+            treeNode24.Text = "Streaming settings";
+            MenuTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode17, treeNode18, treeNode19, treeNode22, treeNode24 });
             MenuTreeView.PathSeparator = "";
             MenuTreeView.Size = new System.Drawing.Size(202, 579);
             MenuTreeView.TabIndex = 0;
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += TreeView1_AfterSelect;
+            // 
+            // NativeSpeechPanel
+            // 
+            NativeSpeechPanel.Controls.Add(label22);
+            NativeSpeechPanel.Controls.Add(NativeSpeechRecognitionLanguageComboBox);
+            NativeSpeechPanel.Controls.Add(label21);
+            NativeSpeechPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            NativeSpeechPanel.Location = new System.Drawing.Point(0, 0);
+            NativeSpeechPanel.Name = "NativeSpeechPanel";
+            NativeSpeechPanel.Size = new System.Drawing.Size(594, 579);
+            NativeSpeechPanel.TabIndex = 10;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new System.Drawing.Point(30, 51);
+            label22.Name = "label22";
+            label22.Size = new System.Drawing.Size(161, 15);
+            label22.TabIndex = 2;
+            label22.Text = "Speech recognition language";
+            BBBToolTip.SetToolTip(label22, "This list is influenced by the installed languages");
+            // 
+            // NativeSpeechRecognitionLanguageComboBox
+            // 
+            NativeSpeechRecognitionLanguageComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            NativeSpeechRecognitionLanguageComboBox.FormattingEnabled = true;
+            NativeSpeechRecognitionLanguageComboBox.Location = new System.Drawing.Point(206, 50);
+            NativeSpeechRecognitionLanguageComboBox.Name = "NativeSpeechRecognitionLanguageComboBox";
+            NativeSpeechRecognitionLanguageComboBox.Size = new System.Drawing.Size(121, 23);
+            NativeSpeechRecognitionLanguageComboBox.TabIndex = 1;
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new System.Drawing.Point(245, 11);
+            label21.Name = "label21";
+            label21.Size = new System.Drawing.Size(82, 15);
+            label21.TabIndex = 0;
+            label21.Text = "Native Speech";
             // 
             // OpenAIChatGPTPanel
             // 
@@ -362,7 +401,7 @@
             // 
             GPTModelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             GPTModelComboBox.FormattingEnabled = true;
-            GPTModelComboBox.Items.AddRange(new object[] { "gpt-3.5-turbo", "gpt-4-omni" });
+            GPTModelComboBox.Items.AddRange(new object[] { "gpt-3.5-turbo", "gpt-4-omni", "gpt-4-omni-mini" });
             GPTModelComboBox.Location = new System.Drawing.Point(183, 82);
             GPTModelComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GPTModelComboBox.Name = "GPTModelComboBox";
@@ -1518,45 +1557,6 @@
             WebsourceServer.TabIndex = 4;
             WebsourceServer.Validating += WebsourceServer_Validating;
             // 
-            // NativeSpeechPanel
-            // 
-            NativeSpeechPanel.Controls.Add(label22);
-            NativeSpeechPanel.Controls.Add(NativeSpeechRecognitionLanguageComboBox);
-            NativeSpeechPanel.Controls.Add(label21);
-            NativeSpeechPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            NativeSpeechPanel.Location = new System.Drawing.Point(0, 0);
-            NativeSpeechPanel.Name = "NativeSpeechPanel";
-            NativeSpeechPanel.Size = new System.Drawing.Size(594, 579);
-            NativeSpeechPanel.TabIndex = 10;
-            // 
-            // label22
-            // 
-            label22.AutoSize = true;
-            label22.Location = new System.Drawing.Point(30, 51);
-            label22.Name = "label22";
-            label22.Size = new System.Drawing.Size(161, 15);
-            label22.TabIndex = 2;
-            label22.Text = "Speech recognition language";
-            BBBToolTip.SetToolTip(label22, "This list is influenced by the installed languages");
-            // 
-            // NativeSpeechRecognitionLanguageComboBox
-            // 
-            NativeSpeechRecognitionLanguageComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            NativeSpeechRecognitionLanguageComboBox.FormattingEnabled = true;
-            NativeSpeechRecognitionLanguageComboBox.Location = new System.Drawing.Point(206, 50);
-            NativeSpeechRecognitionLanguageComboBox.Name = "NativeSpeechRecognitionLanguageComboBox";
-            NativeSpeechRecognitionLanguageComboBox.Size = new System.Drawing.Size(121, 23);
-            NativeSpeechRecognitionLanguageComboBox.TabIndex = 1;
-            // 
-            // label21
-            // 
-            label21.AutoSize = true;
-            label21.Location = new System.Drawing.Point(245, 11);
-            label21.Name = "label21";
-            label21.Size = new System.Drawing.Size(82, 15);
-            label21.TabIndex = 0;
-            label21.Text = "Native Speech";
-            // 
             // SettingsForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1571,6 +1571,8 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            NativeSpeechPanel.ResumeLayout(false);
+            NativeSpeechPanel.PerformLayout();
             OpenAIChatGPTPanel.ResumeLayout(false);
             OpenAIChatGPTPanel.PerformLayout();
             MicrophonePanel.ResumeLayout(false);
@@ -1603,8 +1605,6 @@
             OllamaPanel.PerformLayout();
             OBSPanel.ResumeLayout(false);
             OBSPanel.PerformLayout();
-            NativeSpeechPanel.ResumeLayout(false);
-            NativeSpeechPanel.PerformLayout();
             ResumeLayout(false);
         }
 
