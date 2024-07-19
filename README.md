@@ -2,6 +2,8 @@
 
 Virusscanners results: https://www.virustotal.com/gui/file/64a183a284ed188a3e40f7f161d3cfa24d3adc8b0d0da60f95cdd556e0f68293
 
+I created an alternative downloadable file using other installer settings which do not trigger Microsoft Defender: https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/download/1.0.5_release/BanterBrainInstaller-1.0.5-alternative.msi
+
 ### BanterBrain Buddy v1.0.5 feature release
 
 **This program requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
