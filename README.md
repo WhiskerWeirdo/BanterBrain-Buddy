@@ -1,3 +1,7 @@
+**NOTE:** Microsoft Defender seems to think this contains a virus. This for all appearances seems to be a false positive set off by updating a library. I have submitted this as a false positive to Microsoft, but can do nothing about this myself :(
+
+Virusscanners results: https://www.virustotal.com/gui/file/64a183a284ed188a3e40f7f161d3cfa24d3adc8b0d0da60f95cdd556e0f68293
+
 ### BanterBrain Buddy v1.0.5 feature release
 
 **This program requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
