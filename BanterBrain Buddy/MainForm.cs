@@ -1675,8 +1675,10 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchCheeringTTSResponseOnlyRadioButton = TwitchCheeringTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChannelPointTTSResponseOnlyRadioButton = TwitchChannelPointTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChatTTSResponseOnlyRadioButton = TwitchChatTTSResponseOnlyRadioButton.Checked;
-            Properties.Settings.Default.StreamerNameTextBox = StreamerNameTextBox.Text;
-            Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
+            if (StreamerNameTextBox.Text.Length > 0)
+                Properties.Settings.Default.StreamerNameTextBox = StreamerNameTextBox.Text;
+            if (TwitchLLMLanguageComboBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
             Properties.Settings.Default.Save();
         }
 
