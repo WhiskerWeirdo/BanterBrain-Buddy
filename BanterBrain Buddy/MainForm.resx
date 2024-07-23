@@ -580,6 +580,9 @@
   <data name="TwitchLLMLanguageComboBox.Items2" xml:space="preserve">
     <value>Spanish</value>
   </data>
+  <data name="TwitchLLMLanguageComboBox.Items3" xml:space="preserve">
+    <value>Custom</value>
+  </data>
   <data name="TwitchLLMLanguageComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 22</value>
   </data>

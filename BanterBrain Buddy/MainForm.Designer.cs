@@ -297,7 +297,7 @@ namespace BanterBrain_Buddy
             // 
             TwitchLLMLanguageComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             TwitchLLMLanguageComboBox.FormattingEnabled = true;
-            TwitchLLMLanguageComboBox.Items.AddRange(new object[] { resources.GetString("TwitchLLMLanguageComboBox.Items"), resources.GetString("TwitchLLMLanguageComboBox.Items1"), resources.GetString("TwitchLLMLanguageComboBox.Items2") });
+            TwitchLLMLanguageComboBox.Items.AddRange(new object[] { resources.GetString("TwitchLLMLanguageComboBox.Items"), resources.GetString("TwitchLLMLanguageComboBox.Items1"), resources.GetString("TwitchLLMLanguageComboBox.Items2"), resources.GetString("TwitchLLMLanguageComboBox.Items3") });
             resources.ApplyResources(TwitchLLMLanguageComboBox, "TwitchLLMLanguageComboBox");
             TwitchLLMLanguageComboBox.Name = "TwitchLLMLanguageComboBox";
             TwitchLLMLanguageComboBox.SelectedIndexChanged += TwitchLLMLanguageComboBox_SelectedIndexChanged;

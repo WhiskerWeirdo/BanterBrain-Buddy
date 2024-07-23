@@ -555,7 +555,19 @@ namespace BanterBrain_Buddy
         private async void LoadTwitchLLMLanguageFile()
         {
             string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var tmpFile = sourcefolder + $"\\TwitchLLMLanguageFiles\\{Properties.Settings.Default.TwitchLLMLanguageComboBox}.json";
+            string tmpFile = "";
+            if (Properties.Settings.Default.TwitchLLMLanguageComboBox != "Custom")
+                tmpFile = sourcefolder + $"\\TwitchLLMLanguageFiles\\{Properties.Settings.Default.TwitchLLMLanguageComboBox}.json";
+            else
+            {
+                //we load from appdata, create it if it does not exist from English
+                tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\CustomTwitchLLMLanguage.json";
+                if (!File.Exists(tmpFile))
+                {
+                    _bBBlog.Debug("Twitch LLM language file not found, creating it from English");
+                    File.Copy(sourcefolder + $"\\TwitchLLMLanguageFiles\\English.json", tmpFile);
+                }
+            }
             if (!File.Exists(tmpFile))
             {
                 _bBBlog.Error($"Twitch LLM language {Properties.Settings.Default.TwitchLLMLanguageComboBox} file not found, Error!");
@@ -575,6 +587,7 @@ namespace BanterBrain_Buddy
                 TwitchLLMLanguage = JsonConvert.DeserializeObject<TwitchLLMResponseLanguage>(tmpString);
                 _bBBlog.Info($"Twitch LLM language file loaded with language: {TwitchLLMLanguage.Language}");
             }
+            
         }
 
 
@@ -3029,10 +3042,22 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void TwitchLLMLanguageComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
-            Properties.Settings.Default.Save();
-            UpdateTextLog("Twitch LLM language changed to: " + TwitchLLMLanguageComboBox.Text + "\r\n");
-            _bBBlog.Info("Twitch LLM language changed to: " + TwitchLLMLanguageComboBox.Text);
+            if (TwitchLLMLanguageComboBox.Text.Length > 1)
+            {
+                Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
+                Properties.Settings.Default.Save();
+                UpdateTextLog("Twitch LLM language changed to: " + TwitchLLMLanguageComboBox.Text + "\r\n");
+                _bBBlog.Info("Twitch LLM language changed to: " + TwitchLLMLanguageComboBox.Text);
+            }
+
+            if (TwitchLLMLanguageComboBox.Text == "Custom")
+            {
+                CustomResponseButton.Enabled = true;
+            }
+            else
+            {
+                CustomResponseButton.Enabled = false;
+            }
         }
     }
 }
