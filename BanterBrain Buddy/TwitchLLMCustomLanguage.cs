@@ -113,7 +113,7 @@ namespace BanterBrain_Buddy
                 TwitchLLMLanguage = new();
             }
             TwitchLLMLanguage = JsonConvert.DeserializeObject<TwitchLLMResponseLanguage>(tmpString);
-            
+
             LoadClassIntoText();
 
             //loading done, enable the event handlers   
@@ -123,37 +123,31 @@ namespace BanterBrain_Buddy
 
         private void MinBitsNoMessageTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Minimum bits no message text changed");
             TwitchLLMTextChanged = true;
         }
 
         private void MinBitsWithMessageTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Minimum bits with message text changed");
             TwitchLLMTextChanged = true;
         }
 
         private void ChanPointsNoMessageTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Channel points no message text changed");
             TwitchLLMTextChanged = true;
         }
 
         private void ChanPointsWithMessageTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Channel points with message text changed");
             TwitchLLMTextChanged = true;
         }
 
         private void GiftedOneSubTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Gifted one sub text changed");
             TwitchLLMTextChanged = true;
         }
 
         private void GiftedMultipleSubsTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Gifted multiple subs text changed");
             TwitchLLMTextChanged = true;
         }
 
@@ -165,37 +159,88 @@ namespace BanterBrain_Buddy
 
         private void ResubNoMessageTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Resub no message text changed");
             TwitchLLMTextChanged = true;
         }
 
         private void ResubMessageTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Resub message text changed");
             TwitchLLMTextChanged = true;
         }
 
         private void BitsCheeredIntermediaryTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Bits cheered intermediary text changed");
             TwitchLLMTextChanged = true;
         }
 
         private void ChannelPointsRedeemedIntermediaryTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Channel points redeemed intermediary text changed");
             TwitchLLMTextChanged = true;
         }
 
         private void ResubscribedIntermediaryTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Resubscribed intermediary text changed");
             TwitchLLMTextChanged = true;
         }
 
         private void ChatMessageIntermediaryTextBox_TextChanged(object sender, EventArgs e)
         {
-            _bBBlog.Debug("Chat message intermediary text changed");
+            TwitchLLMTextChanged = true;
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void SaveCurrentLanguage()
+        {
+            var result = MessageBox.Show(" Do you want to save the custom language?", "Save Custom Language Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                //we save the current language back into the class and then file
+                _bBBlog.Info("Saving current language settings");
+                TwitchLLMLanguage.CheerDefaultNoMessage = MinBitsNoMessageTextBox.Text;
+                TwitchLLMLanguage.CheerWithMessage = MinBitsWithMessageTextBox.Text;
+                TwitchLLMLanguage.ChannelPointDefaultNoMessage = ChanPointsNoMessageTextBox.Text;
+                TwitchLLMLanguage.ChannelPointWithMessage = ChanPointsWithMessageTextBox.Text;
+                TwitchLLMLanguage.GiftedSingleSub = GiftedOneSubTextBox.Text;
+                TwitchLLMLanguage.GiftedMultipleSubs = GiftedMultipleSubsTextBox.Text;
+                TwitchLLMLanguage.SubscribeFirstTimeThanks = FirstMonthSubTextBox.Text;
+                TwitchLLMLanguage.SubscribeMonthsNoMessage = ResubNoMessageTextBox.Text;
+                TwitchLLMLanguage.SubscribeMonthsMessage = ResubMessageTextBox.Text;
+
+                TwitchLLMLanguage.ChannelPointTalkToLLM = BitsCheeredIntermediaryTextBox.Text;
+                TwitchLLMLanguage.CheerTalkToLLM = ChannelPointsRedeemedIntermediaryTextBox.Text;
+                TwitchLLMLanguage.SubscribeResubThanksWithMessageLLM = ResubscribedIntermediaryTextBox.Text;
+                TwitchLLMLanguage.ChatMessageResponseLLM = ChatMessageIntermediaryTextBox.Text;
+
+                //save the class back to the custom language file
+                var tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\CustomTwitchLLMLanguage.json";
+                _bBBlog.Debug($"Twitch LLM language {Properties.Settings.Default.TwitchLLMLanguageComboBox} file found, saving it.");
+                using var sw = new StreamWriter(tmpFile);
+                sw.Write(JsonConvert.SerializeObject(TwitchLLMLanguage));
+            }
+            TwitchLLMTextChanged = false;
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchLLMLoadLanguage()
+        {
+            _bBBlog.Info("Current language has not been changed, loading new language");
+            string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string tmpFile = "";
+
+            tmpFile = sourcefolder + $"\\TwitchLLMLanguageFiles\\{TwitchLLMLanguageComboBox.Text}.json";
+            _bBBlog.Debug($"Twitch LLM language {TwitchLLMLanguageComboBox.Text} file found, loading it.");
+            using var sr = new StreamReader(tmpFile);
+            var tmpString = sr.ReadToEnd();
+            //if this is the first time make the new class
+            if (TwitchLLMLanguage == null)
+            {
+                TwitchLLMLanguage = new();
+            }
+
+            TwitchLLMLanguage = JsonConvert.DeserializeObject<TwitchLLMResponseLanguage>(tmpString);
+            _bBBlog.Info($"Twitch LLM language file loaded with language: {TwitchLLMLanguage.Language}");
+            DisableEventHandlers();
+            LoadClassIntoText();
+            EnableEventHandlers();
             TwitchLLMTextChanged = true;
         }
 
@@ -215,29 +260,18 @@ namespace BanterBrain_Buddy
             if (TwitchLLMTextChanged)
             {
                 _bBBlog.Info("Current language has been changed, saving it before loading new language");
-                //SaveCurrentLanguage();
-            } else
+                SaveCurrentLanguage();
+            }
+            TwitchLLMLoadLanguage();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchLLMCustomLanguage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (TwitchLLMTextChanged)
             {
-                _bBBlog.Info("Current language has not been changed, loading new language");
-                string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string tmpFile = "";
-
-                tmpFile = sourcefolder + $"\\TwitchLLMLanguageFiles\\{TwitchLLMLanguageComboBox.Text}.json";
-                _bBBlog.Debug($"Twitch LLM language {TwitchLLMLanguageComboBox.Text} file found, loading it.");
-                using var sr = new StreamReader(tmpFile);
-                var tmpString = sr.ReadToEnd();
-                //if this is the first time make the new class
-                if (TwitchLLMLanguage == null)
-                {
-                    TwitchLLMLanguage = new();
-                }
-
-                TwitchLLMLanguage = JsonConvert.DeserializeObject<TwitchLLMResponseLanguage>(tmpString);
-                _bBBlog.Info($"Twitch LLM language file loaded with language: {TwitchLLMLanguage.Language}");
-                DisableEventHandlers();
-                LoadClassIntoText();
-                EnableEventHandlers();
-                TwitchLLMTextChanged = true;
+                _bBBlog.Info("Current language has been changed, saving it before loading new language");
+                SaveCurrentLanguage();
             }
         }
     }

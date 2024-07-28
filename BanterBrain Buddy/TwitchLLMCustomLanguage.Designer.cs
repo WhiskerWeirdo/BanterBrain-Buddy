@@ -359,6 +359,7 @@
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Name = "TwitchLLMCustomLanguage";
             Text = "Twitch & LLM Custom Language settings";
+            FormClosing += TwitchLLMCustomLanguage_FormClosing;
             Shown += TwitchLLMCustomLanguage_Shown;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
