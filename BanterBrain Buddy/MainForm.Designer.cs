@@ -292,6 +292,7 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(CustomResponseButton, "CustomResponseButton");
             CustomResponseButton.Name = "CustomResponseButton";
             CustomResponseButton.UseVisualStyleBackColor = true;
+            CustomResponseButton.Click += CustomResponseButton_Click;
             // 
             // TwitchLLMLanguageComboBox
             // 

@@ -587,7 +587,7 @@ namespace BanterBrain_Buddy
                 TwitchLLMLanguage = JsonConvert.DeserializeObject<TwitchLLMResponseLanguage>(tmpString);
                 _bBBlog.Info($"Twitch LLM language file loaded with language: {TwitchLLMLanguage.Language}");
             }
-            
+
         }
 
 
@@ -3058,6 +3058,25 @@ namespace BanterBrain_Buddy
             {
                 CustomResponseButton.Enabled = false;
             }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void CustomResponseButton_Click(object sender, EventArgs e)
+        {
+            _bBBlog.Debug("BanterBrain Buddy leaving main form, saving settings (just in case)");
+            SaveALLSettings();
+            Unsubscribe();
+            if (_twitchEventSub != null)
+            {
+                //twitch is running so....lets make sure the settings form knows this
+                isTwitchRunning = true;
+            }
+            else
+                isTwitchRunning = false;
+
+            TwitchLLMCustomLanguage ShowTwitchLLMCustomLanguageForm = new();
+            ShowTwitchLLMCustomLanguageForm.FormClosing += BBB_Test_FormClosing;
+            ShowTwitchLLMCustomLanguageForm.ShowDialog();
         }
     }
 }
