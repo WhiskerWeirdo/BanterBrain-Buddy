@@ -422,13 +422,11 @@ namespace BanterBrain_Buddy
             //copy from install folder to %APPDATA%\BanterBrain
             string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            //check if the settings file exists, if not, copy it
+            //we always copy the settings.json file to appdata because if the Client ID changes we need to be able to overwrite it.
             string tmpFile = appdataFolder + "\\settings.json";
-            if (!File.Exists(tmpFile))
-            {
-                _bBBlog.Debug("Copying settings.json file to appdata");
-                File.Copy(sourcefolder + "\\settings.json", tmpFile);
-            }
+            _bBBlog.Debug("Copying settings.json file to appdata");
+            File.Copy(sourcefolder + "\\settings.json", tmpFile);
+ 
             //check if the personas file exists, if not, create it
             tmpFile = appdataFolder + "\\personas.json";
             if (!File.Exists(tmpFile) && File.Exists(sourcefolder + "\\personas.json"))
