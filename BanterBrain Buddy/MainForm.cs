@@ -34,7 +34,7 @@ namespace BanterBrain_Buddy
 {
     public partial class BBB : Form
     {
-        private static string Version = "1.0.4";
+        private static string Version = "1.0.6";
 
         //set logger
         private static log4net.ILog _bBBlog;
@@ -422,13 +422,11 @@ namespace BanterBrain_Buddy
             //copy from install folder to %APPDATA%\BanterBrain
             string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            //check if the settings file exists, if not, copy it
+            //we always copy the settings.json file to appdata because if the Client ID changes we need to be able to overwrite it.
             string tmpFile = appdataFolder + "\\settings.json";
-            if (!File.Exists(tmpFile))
-            {
-                _bBBlog.Debug("Copying settings.json file to appdata");
-                File.Copy(sourcefolder + "\\settings.json", tmpFile);
-            }
+            _bBBlog.Debug("Copying settings.json file to appdata");
+            File.Copy(sourcefolder + "\\settings.json", tmpFile, true);
+ 
             //check if the personas file exists, if not, create it
             tmpFile = appdataFolder + "\\personas.json";
             if (!File.Exists(tmpFile) && File.Exists(sourcefolder + "\\personas.json"))
@@ -555,7 +553,19 @@ namespace BanterBrain_Buddy
         private async void LoadTwitchLLMLanguageFile()
         {
             string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var tmpFile = sourcefolder + $"\\TwitchLLMLanguageFiles\\{Properties.Settings.Default.TwitchLLMLanguageComboBox}.json";
+            string tmpFile = "";
+            if (Properties.Settings.Default.TwitchLLMLanguageComboBox != "Custom")
+                tmpFile = sourcefolder + $"\\TwitchLLMLanguageFiles\\{Properties.Settings.Default.TwitchLLMLanguageComboBox}.json";
+            else
+            {
+                //we load from appdata, create it if it does not exist from English
+                tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\CustomTwitchLLMLanguage.json";
+                if (!File.Exists(tmpFile))
+                {
+                    _bBBlog.Debug("Twitch LLM language file not found, creating it from English");
+                    File.Copy(sourcefolder + $"\\TwitchLLMLanguageFiles\\English.json", tmpFile);
+                }
+            }
             if (!File.Exists(tmpFile))
             {
                 _bBBlog.Error($"Twitch LLM language {Properties.Settings.Default.TwitchLLMLanguageComboBox} file not found, Error!");
@@ -575,6 +585,7 @@ namespace BanterBrain_Buddy
                 TwitchLLMLanguage = JsonConvert.DeserializeObject<TwitchLLMResponseLanguage>(tmpString);
                 _bBBlog.Info($"Twitch LLM language file loaded with language: {TwitchLLMLanguage.Language}");
             }
+
         }
 
 
@@ -1675,8 +1686,10 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.TwitchCheeringTTSResponseOnlyRadioButton = TwitchCheeringTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChannelPointTTSResponseOnlyRadioButton = TwitchChannelPointTTSResponseOnlyRadioButton.Checked;
             Properties.Settings.Default.TwitchChatTTSResponseOnlyRadioButton = TwitchChatTTSResponseOnlyRadioButton.Checked;
-            Properties.Settings.Default.StreamerNameTextBox = StreamerNameTextBox.Text;
-            Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
+            if (StreamerNameTextBox.Text.Length > 0)
+                Properties.Settings.Default.StreamerNameTextBox = StreamerNameTextBox.Text;
+            if (TwitchLLMLanguageComboBox.Text.Length > 0)
+                Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
             Properties.Settings.Default.Save();
         }
 
@@ -3027,10 +3040,41 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private void TwitchLLMLanguageComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
-            Properties.Settings.Default.Save();
-            UpdateTextLog("Twitch LLM language changed to: " + TwitchLLMLanguageComboBox.Text + "\r\n");
-            _bBBlog.Info("Twitch LLM language changed to: " + TwitchLLMLanguageComboBox.Text);
+            if (TwitchLLMLanguageComboBox.Text.Length > 1)
+            {
+                Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
+                Properties.Settings.Default.Save();
+                UpdateTextLog("Twitch LLM language changed to: " + TwitchLLMLanguageComboBox.Text + "\r\n");
+                _bBBlog.Info("Twitch LLM language changed to: " + TwitchLLMLanguageComboBox.Text);
+            }
+
+            if (TwitchLLMLanguageComboBox.Text == "Custom")
+            {
+                CustomResponseButton.Enabled = true;
+            }
+            else
+            {
+                CustomResponseButton.Enabled = false;
+            }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void CustomResponseButton_Click(object sender, EventArgs e)
+        {
+            _bBBlog.Debug("BanterBrain Buddy leaving main form, saving settings (just in case)");
+            SaveALLSettings();
+            Unsubscribe();
+            if (_twitchEventSub != null)
+            {
+                //twitch is running so....lets make sure the settings form knows this
+                isTwitchRunning = true;
+            }
+            else
+                isTwitchRunning = false;
+
+            TwitchLLMCustomLanguage ShowTwitchLLMCustomLanguageForm = new();
+            ShowTwitchLLMCustomLanguageForm.FormClosing += BBB_Test_FormClosing;
+            ShowTwitchLLMCustomLanguageForm.ShowDialog();
         }
     }
 }

@@ -580,6 +580,9 @@
   <data name="TwitchLLMLanguageComboBox.Items2" xml:space="preserve">
     <value>Spanish</value>
   </data>
+  <data name="TwitchLLMLanguageComboBox.Items3" xml:space="preserve">
+    <value>Custom</value>
+  </data>
   <data name="TwitchLLMLanguageComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 22</value>
   </data>
@@ -2369,7 +2372,7 @@
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>65</value>
+    <value>42</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 15</value>
@@ -3513,7 +3516,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>BanterBrain Buddy 1.0.4</value>
+    <value>BanterBrain Buddy 1.0.6</value>
   </data>
   <data name="&gt;&gt;fileToolStripMenuItem.Name" xml:space="preserve">
     <value>fileToolStripMenuItem</value>

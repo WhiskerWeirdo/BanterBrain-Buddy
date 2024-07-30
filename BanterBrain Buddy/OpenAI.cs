@@ -19,7 +19,10 @@ namespace BanterBrain_Buddy
     /// </summary>
     /// 
 
-    public class AIModelExtended : Model { public static Model GPT4_Omni => new Model("gpt-4o") { OwnedBy = "openai" }; }
+    public class AIModelExtended : Model { 
+        public static Model GPT4_Omni => new Model("gpt-4o") { OwnedBy = "openai" }; 
+        public static Model GPT4_O_Mini => new Model("gpt-4o-mini") { OwnedBy = "openai" }; 
+    }
 
     internal class OpenAI
     {
@@ -239,6 +242,9 @@ namespace BanterBrain_Buddy
                     break;
                 case "gpt-4-omni":
                     _Chat.Model = AIModelExtended.GPT4_Omni;
+                    break;
+                case "gpt-4-omni-mini":
+                    _Chat.Model = AIModelExtended.GPT4_O_Mini;
                     break;
                 default:
                     _Chat.Model = Model.ChatGPTTurbo;

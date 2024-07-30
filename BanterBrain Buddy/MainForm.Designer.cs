@@ -51,6 +51,7 @@ namespace BanterBrain_Buddy
             BBBTabs = new TabControl();
             StreamingSettingsTab = new TabPage();
             TwitchLLMLanguageGroupBox = new GroupBox();
+            CustomResponseButton = new Button();
             TwitchLLMLanguageComboBox = new ComboBox();
             LLMGroupSettingsGroupBox = new GroupBox();
             LLMResponseSelecter = new ComboBox();
@@ -121,7 +122,6 @@ namespace BanterBrain_Buddy
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
-            CustomResponseButton = new Button();
             MainTab.SuspendLayout();
             UpdateGroupBox.SuspendLayout();
             StreamerTTSNameGroupBox.SuspendLayout();
@@ -287,11 +287,18 @@ namespace BanterBrain_Buddy
             TwitchLLMLanguageGroupBox.Name = "TwitchLLMLanguageGroupBox";
             TwitchLLMLanguageGroupBox.TabStop = false;
             // 
+            // CustomResponseButton
+            // 
+            resources.ApplyResources(CustomResponseButton, "CustomResponseButton");
+            CustomResponseButton.Name = "CustomResponseButton";
+            CustomResponseButton.UseVisualStyleBackColor = true;
+            CustomResponseButton.Click += CustomResponseButton_Click;
+            // 
             // TwitchLLMLanguageComboBox
             // 
             TwitchLLMLanguageComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             TwitchLLMLanguageComboBox.FormattingEnabled = true;
-            TwitchLLMLanguageComboBox.Items.AddRange(new object[] { resources.GetString("TwitchLLMLanguageComboBox.Items"), resources.GetString("TwitchLLMLanguageComboBox.Items1"), resources.GetString("TwitchLLMLanguageComboBox.Items2") });
+            TwitchLLMLanguageComboBox.Items.AddRange(new object[] { resources.GetString("TwitchLLMLanguageComboBox.Items"), resources.GetString("TwitchLLMLanguageComboBox.Items1"), resources.GetString("TwitchLLMLanguageComboBox.Items2"), resources.GetString("TwitchLLMLanguageComboBox.Items3") });
             resources.ApplyResources(TwitchLLMLanguageComboBox, "TwitchLLMLanguageComboBox");
             TwitchLLMLanguageComboBox.Name = "TwitchLLMLanguageComboBox";
             TwitchLLMLanguageComboBox.SelectedIndexChanged += TwitchLLMLanguageComboBox_SelectedIndexChanged;
@@ -804,12 +811,6 @@ namespace BanterBrain_Buddy
             seToolStripMenuItem.Name = "seToolStripMenuItem";
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += SeToolStripMenuItem_Click;
-            // 
-            // CustomResponseButton
-            // 
-            resources.ApplyResources(CustomResponseButton, "CustomResponseButton");
-            CustomResponseButton.Name = "CustomResponseButton";
-            CustomResponseButton.UseVisualStyleBackColor = true;
             // 
             // BBB
             // 
