@@ -1,10 +1,6 @@
-**NOTE:** Microsoft Defender seems to think this contains a virus. This for all appearances seems to be a false positive set off by updating a library. I have submitted this as a false positive to Microsoft, but can do nothing about this myself :(
+Note: Get a notification that this might be a virus? Try the .zip version!
 
-Virusscanners results: https://www.virustotal.com/gui/file/64a183a284ed188a3e40f7f161d3cfa24d3adc8b0d0da60f95cdd556e0f68293
-
-I created an alternative downloadable file using other installer settings which do not trigger Microsoft Defender: https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/download/1.0.5_release/BanterBrainInstaller-1.0.5-alternative.msi
-
-### BanterBrain Buddy v1.0.5 feature release
+### BanterBrain Buddy v1.0.6 bugfix/feature release
 
 **This program requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
 
@@ -19,6 +15,16 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 - Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
+
+### RELEASE V1.0.6 RELEASE
+Fixed:
+- Not saving Streamer name on exit https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/74
+- Not saving LLM Language setting on exit https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/75
+- Authorization to twitch failing due to ClientID not being correct in settings file  https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/78
+
+New:
+- Allowing fully custom Twitch and intermediary LLM messages.
+ **Note:** There is no protection to what you enter or remove there! Be careful!
 
 ### RELEASE V1.0.5 RELEASE
 - Now supports OpenAI's ChatGPT 4 Omni Mini model. 
