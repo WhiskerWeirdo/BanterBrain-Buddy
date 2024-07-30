@@ -425,7 +425,7 @@ namespace BanterBrain_Buddy
             //we always copy the settings.json file to appdata because if the Client ID changes we need to be able to overwrite it.
             string tmpFile = appdataFolder + "\\settings.json";
             _bBBlog.Debug("Copying settings.json file to appdata");
-            File.Copy(sourcefolder + "\\settings.json", tmpFile);
+            File.Copy(sourcefolder + "\\settings.json", tmpFile, true);
  
             //check if the personas file exists, if not, create it
             tmpFile = appdataFolder + "\\personas.json";
