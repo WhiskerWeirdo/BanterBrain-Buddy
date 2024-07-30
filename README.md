@@ -1,4 +1,6 @@
-### BanterBrain Buddy v1.0.4 bugfix
+Note: Get a notification that this might be a virus? Try the .zip version!
+
+### BanterBrain Buddy v1.0.6 bugfix/feature release
 
 **This program requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
 
@@ -14,12 +16,28 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
 
+### RELEASE V1.0.6 RELEASE
+Fixed:
+- Not saving Streamer name on exit https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/74
+- Not saving LLM Language setting on exit https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/75
+- Authorization to twitch failing due to ClientID not being correct in settings file  https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/78
+
+New:
+- Allowing fully custom Twitch and intermediary LLM messages.
+ **Note:** There is no protection to what you enter or remove there! Be careful!
+
+### RELEASE V1.0.5 RELEASE
+- Now supports OpenAI's ChatGPT 4 Omni Mini model. 
+
+<img width="496" alt="image" src="https://github.com/user-attachments/assets/11b0facd-24dc-4d89-bfb0-b5e768803eb5">
+
+
 ### RELEASE V1.0.4 RELEASE
 Fixed:
 - Check for Windows Native STT recognizer installed or not. Feedback when not https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/73
 - Subscriber and Founder badge both recognized as issubscriber in new library. https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/71
 - Crash on first install fix
-  
+
 New:
 - You can now also select German and Spanish Twitch and LLM intermediary messages
 
@@ -158,3 +176,5 @@ tldr: use Visual studio 2022 with .net 8.
 ## Resources for local and API
 - for most API-services you need a paid account using a creditcard! (OpenAI, Azure, Google, Deepgram, etc.)
 - local based LLM's like Ollama take significant resources; expect to need at least 8 GB memory for a basic model and a solid GPU if you want fast responses
+
+
