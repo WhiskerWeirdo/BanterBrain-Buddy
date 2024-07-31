@@ -1614,9 +1614,15 @@ namespace BanterBrain_Buddy
             }
 
             if (Properties.Settings.Default.StreamerNameTextBox.Length > 1)
+            {
                 StreamerNameTextBox.Text = Properties.Settings.Default.StreamerNameTextBox;
+                _bBBlog.Debug("Streamer name set to: " + Properties.Settings.Default.StreamerNameTextBox);
+            }
             else
+            {
                 StreamerNameTextBox.Text = "Streamer";
+                _bBBlog.Debug("Streamer name not found in BBB settings. Set to default: Streamer");
+            }
 
             if (Properties.Settings.Default.TwitchLLMLanguageComboBox.Length > 1)
             {
