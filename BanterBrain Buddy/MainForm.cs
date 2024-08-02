@@ -111,6 +111,7 @@ namespace BanterBrain_Buddy
 
 
         private const string GitHubApiUrl = "https://api.github.com/repos/{owner}/{repo}/releases/latest";
+        
         [SupportedOSPlatform("windows6.1")]
 
         private async Task CheckForNewVersionAsync()
@@ -121,7 +122,7 @@ namespace BanterBrain_Buddy
             {
                 // GitHub API requires a user-agent
                 client.DefaultRequestHeaders.Add("User-Agent", "request");
-
+                client.Timeout = TimeSpan.FromSeconds(5);
                 try
                 {
                     string url = GitHubApiUrl.Replace("{owner}", "WhiskerWeirdo").Replace("{repo}", "BanterBrain-Buddy");
@@ -161,6 +162,11 @@ namespace BanterBrain_Buddy
                         VersionUpdateLabel.Text = "No update";
                         VersionUpdateLabel.BackColor = Color.Green;
                     }
+                }
+                catch (TaskCanceledException ex)
+                {
+                    _bBBlog.Error($"Timeout checking for application update: {ex.Message}");
+                    TextLog.AppendText($"Timeout checking for application update: {ex.Message}\r\n");
                 }
                 catch (Exception ex)
                 {
