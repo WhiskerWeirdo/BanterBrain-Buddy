@@ -207,9 +207,6 @@
   <data name="StreamerNameTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="StreamerNameTextBox.Text" xml:space="preserve">
-    <value>Streamer</value>
-  </data>
   <data name="&gt;&gt;StreamerNameTextBox.Name" xml:space="preserve">
     <value>StreamerNameTextBox</value>
   </data>
