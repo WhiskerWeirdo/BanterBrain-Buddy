@@ -428,13 +428,11 @@ namespace BanterBrain_Buddy
             //copy from install folder to %APPDATA%\BanterBrain
             string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            //check if the settings file exists, if not, copy it
+            //we always copy the settings.json file to appdata because if the Client ID changes we need to be able to overwrite it.
             string tmpFile = appdataFolder + "\\settings.json";
-            if (!File.Exists(tmpFile))
-            {
-                _bBBlog.Debug("Copying settings.json file to appdata");
-                File.Copy(sourcefolder + "\\settings.json", tmpFile);
-            }
+            _bBBlog.Debug("Copying settings.json file to appdata");
+            File.Copy(sourcefolder + "\\settings.json", tmpFile, true);
+ 
             //check if the personas file exists, if not, create it
             tmpFile = appdataFolder + "\\personas.json";
             if (!File.Exists(tmpFile) && File.Exists(sourcefolder + "\\personas.json"))
@@ -1622,9 +1620,15 @@ namespace BanterBrain_Buddy
             }
 
             if (Properties.Settings.Default.StreamerNameTextBox.Length > 1)
+            {
                 StreamerNameTextBox.Text = Properties.Settings.Default.StreamerNameTextBox;
+                _bBBlog.Debug("Streamer name set to: " + Properties.Settings.Default.StreamerNameTextBox);
+            }
             else
+            {
                 StreamerNameTextBox.Text = "Streamer";
+                _bBBlog.Debug("Streamer name not found in BBB settings. Set to default: Streamer");
+            }
 
             if (Properties.Settings.Default.TwitchLLMLanguageComboBox.Length > 1)
             {
