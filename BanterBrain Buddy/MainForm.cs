@@ -2575,10 +2575,19 @@ namespace BanterBrain_Buddy
                 {
                     await Task.Delay(500);
                 }
-                while (!_twitchValidateBotCheckStarted)
+
+                // we need to call this when the bot account API is entered
+                if (Properties.Settings.Default.TwitchBotAuthKey.Length > 1)
                 {
-                    await Task.Delay(500);
+                    _bBBlog.Info("Twitch bot API key entered, starting bot validation");
+                    while (!_twitchValidateBotCheckStarted)
+                    {
+                        await Task.Delay(500);
+                    }
                 }
+
+
+                _bBBlog.Debug("Twitch eventsub started, setting button text");
                 TwitchStartButton.Text = "Stop";
                 TwitchEnableDisableFields();
             }
