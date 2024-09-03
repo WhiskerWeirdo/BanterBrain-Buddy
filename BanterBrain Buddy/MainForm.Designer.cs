@@ -122,6 +122,7 @@ namespace BanterBrain_Buddy
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
+            WordFilterButton = new Button();
             MainTab.SuspendLayout();
             UpdateGroupBox.SuspendLayout();
             StreamerTTSNameGroupBox.SuspendLayout();
@@ -326,6 +327,7 @@ namespace BanterBrain_Buddy
             // 
             // TwitchSettingsGroupBox
             // 
+            TwitchSettingsGroupBox.Controls.Add(WordFilterButton);
             TwitchSettingsGroupBox.Controls.Add(TwitchResponseSettings);
             TwitchSettingsGroupBox.Controls.Add(TwitchSoundsSettings);
             TwitchSettingsGroupBox.Controls.Add(TwitchAutoStart);
@@ -812,6 +814,12 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += SeToolStripMenuItem_Click;
             // 
+            // WordFilterButton
+            // 
+            resources.ApplyResources(WordFilterButton, "WordFilterButton");
+            WordFilterButton.Name = "WordFilterButton";
+            WordFilterButton.UseVisualStyleBackColor = true;
+            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -950,6 +958,7 @@ namespace BanterBrain_Buddy
         private GroupBox TwitchLLMLanguageGroupBox;
         private ComboBox TwitchLLMLanguageComboBox;
         private Button CustomResponseButton;
+        private Button WordFilterButton;
     }
 }
 
