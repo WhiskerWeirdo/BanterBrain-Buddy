@@ -48,12 +48,18 @@ namespace BanterBrain_Buddy
             }
             foreach (var model in localModels)
             {
+                _bBBlog.Debug("Model found: " + model.Name);
                 models.Add(model.Name);
             }
             return models;
         }
 
-        public async Task<string> OllamaGetResponse(string Text, string tmpRoleText)
+        public Task<string> OllamaGetResponse(string Text, string tmpRoleText)
+        {
+            return OllamaGetResponse(Text, tmpRoleText, chat);
+        }
+
+        public async Task<string> OllamaGetResponse(string Text, string tmpRoleText, Chat chat)
         {
             if (_ollama == null)
             {
@@ -88,12 +94,21 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Sending to OpenAI GPT LLM: " + Text);
             _bBBlog.Info("SystemRole: " + tmpRoleText + " \r\nModel: " + _ollama.SelectedModel);
             
-            chat ??= _ollama.Chat(stream => response += stream.Message?.Content);
+            //chat ??= _ollama.Chat(stream => response += stream.Message?.Content);
+            //chat ??= _ollama.Chat();
+            chat ??= new Chat(_ollama);
+            _bBBlog.Info("Chat initialized");
             //if we have an existing conversation
             try
             {
-                history = await chat.Send(tmpSetupString);
-                response = history.LastOrDefault().Content.ToString();
+                //history = chat.Send(tmpSetupString);
+                await foreach (var message in chat.Send(tmpSetupString))
+                {
+                    response += message;
+
+                }
+                //response = history.LastOrDefault().Content.ToString();
+                _bBBlog.Info("Ollama response: " + response);
             }
             catch (Exception e)
             {
