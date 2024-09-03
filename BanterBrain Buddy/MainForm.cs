@@ -431,7 +431,7 @@ namespace BanterBrain_Buddy
             string tmpFile = appdataFolder + "\\settings.json";
             _bBBlog.Debug("Copying settings.json file to appdata");
             File.Copy(sourcefolder + "\\settings.json", tmpFile, true);
- 
+
             //check if the personas file exists, if not, create it
             tmpFile = appdataFolder + "\\personas.json";
             if (!File.Exists(tmpFile) && File.Exists(sourcefolder + "\\personas.json"))
@@ -3089,6 +3089,19 @@ namespace BanterBrain_Buddy
             TwitchLLMCustomLanguage ShowTwitchLLMCustomLanguageForm = new();
             ShowTwitchLLMCustomLanguageForm.FormClosing += BBB_Test_FormClosing;
             ShowTwitchLLMCustomLanguageForm.ShowDialog();
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void WordFilterButton_Click(object sender, EventArgs e)
+        {
+            _bBBlog.Debug("BanterBrain Buddy leaving main form, saving settings (just in case)");
+            SaveALLSettings();
+            Unsubscribe();
+
+            WordFilterForm wordFilterForm = new();
+            wordFilterForm.FormClosing += BBB_Test_FormClosing;
+            wordFilterForm.ShowDialog();
+
         }
     }
 }

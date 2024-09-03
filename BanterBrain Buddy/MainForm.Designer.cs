@@ -57,6 +57,7 @@ namespace BanterBrain_Buddy
             LLMResponseSelecter = new ComboBox();
             label7 = new Label();
             TwitchSettingsGroupBox = new GroupBox();
+            WordFilterButton = new Button();
             TwitchResponseSettings = new GroupBox();
             TwitchResponseToChatDelayTextBox = new TextBox();
             TwitchPostResponseToChatDelayLabel = new Label();
@@ -122,7 +123,6 @@ namespace BanterBrain_Buddy
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
-            WordFilterButton = new Button();
             MainTab.SuspendLayout();
             UpdateGroupBox.SuspendLayout();
             StreamerTTSNameGroupBox.SuspendLayout();
@@ -340,6 +340,13 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchSettingsGroupBox, "TwitchSettingsGroupBox");
             TwitchSettingsGroupBox.Name = "TwitchSettingsGroupBox";
             TwitchSettingsGroupBox.TabStop = false;
+            // 
+            // WordFilterButton
+            // 
+            resources.ApplyResources(WordFilterButton, "WordFilterButton");
+            WordFilterButton.Name = "WordFilterButton";
+            WordFilterButton.UseVisualStyleBackColor = true;
+            WordFilterButton.Click += WordFilterButton_Click;
             // 
             // TwitchResponseSettings
             // 
@@ -813,12 +820,6 @@ namespace BanterBrain_Buddy
             seToolStripMenuItem.Name = "seToolStripMenuItem";
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += SeToolStripMenuItem_Click;
-            // 
-            // WordFilterButton
-            // 
-            resources.ApplyResources(WordFilterButton, "WordFilterButton");
-            WordFilterButton.Name = "WordFilterButton";
-            WordFilterButton.UseVisualStyleBackColor = true;
             // 
             // BBB
             // 
