@@ -107,7 +107,7 @@ namespace BanterBrain_Buddy
             VolumeTrackBar.ValueChanged -= VolumeTrackBar_ValueChanged;
             RateTrackBar.ValueChanged -= RateTrackBar_ValueChanged;
             PitchTrackBar.ValueChanged -= PitchTrackBar_ValueChanged;
-            
+
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -228,6 +228,9 @@ namespace BanterBrain_Buddy
                 GPTMaxTokensTextBox.Text = "100";
             GPTTemperatureTextBox.Text = Properties.Settings.Default.GPTTemperature.ToString();
             ElevenlabsAPIKeyTextBox.Text = Properties.Settings.Default.ElevenLabsAPIkey;
+            ElevenLabsModelComboBox.SelectedIndex = ElevenLabsModelComboBox.FindStringExact(Properties.Settings.Default.ElevenLabsModel);
+            if (ElevenLabsModelComboBox.SelectedIndex == -1)
+                ElevenLabsModelComboBox.SelectedIndex = 0;
             OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
             OllamaResponseLengthComboBox.SelectedIndex = OllamaResponseLengthComboBox.FindStringExact(Properties.Settings.Default.OllamaResponseLengthComboBox);
             OllamaURITextBox.Text = Properties.Settings.Default.OllamaURI;
@@ -333,6 +336,7 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.WebsourceServer = WebsourceServer.Text;
             Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
             Properties.Settings.Default.WebsourceServerEnable = WebsourceServerEnable.Checked;
+            Properties.Settings.Default.ElevenLabsModel = ElevenLabsModelComboBox.Text;
             Properties.Settings.Default.Save();
 
             //we should also close the EventSub client if it is running
@@ -994,7 +998,7 @@ namespace BanterBrain_Buddy
 
             elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
 
-            var result = await elevenLabsApi.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, outputVoice, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text), int.Parse(TTSVoiceLevel.Text) );
+            var result = await elevenLabsApi.ElevenLabsTTS(TextToSay, TTSAudioOutputComboBox.Text, outputVoice, int.Parse(TTSOutputVoiceOption1.Text), int.Parse(TTSOutputVoiceOption2.Text), int.Parse(TTSOutputVoiceOption3.Text), int.Parse(TTSVoiceLevel.Text));
             if (!result)
             {
                 _bBBlog.Error("ElevenLabs TTS error. Is there a problem with your API key or subscription?");
@@ -2073,6 +2077,7 @@ namespace BanterBrain_Buddy
                     {
                         //might as well save since its a valid key
                         Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
+                        Properties.Settings.Default.ElevenLabsModel = ElevenLabsModelComboBox.Text;
                         Properties.Settings.Default.Save();
                     }
                 }
@@ -2205,6 +2210,12 @@ namespace BanterBrain_Buddy
                     PitchTrackBar.Value += (10 - remainder);
                 }
             }
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void ElevenLabsModelComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _bBBlog.Info("ElevenLabs model changed to " + ElevenLabsModelComboBox.Text);
         }
     }
 }

@@ -69,7 +69,29 @@ namespace BanterBrain_Buddy
             }
             //this returns in mp3 format...pfft
             //here we should set the model to the one we want to use
-            var convertedText = await api.TextToSpeechEndpoint.TextToSpeechAsync(text, voice, voiceSettings, ElevenLabs.Models.Model.MultiLingualV2);
+            ElevenLabs.Models.Model modelToUse = null;
+            if (Properties.Settings.Default.ElevenLabsModel.StartsWith("Multilingual V2"))
+            {
+                _bBBlog.Info("Using Multilingual V2 model");
+                modelToUse = ElevenLabs.Models.Model.MultiLingualV2;
+            } else if (Properties.Settings.Default.ElevenLabsModel.StartsWith("Turbo V2.5"))
+            {
+                _bBBlog.Info("Using Turbo V2.5 model");
+                modelToUse = ElevenLabs.Models.Model.TurboV2_5;
+            }
+            else if (Properties.Settings.Default.ElevenLabsModel.StartsWith("Turbo V2"))
+            {
+                _bBBlog.Info("Using Turbo V2 model");
+                modelToUse = ElevenLabs.Models.Model.EnglishTurboV2;
+            }
+            else
+            {
+                _bBBlog.Info("Defaulting to Multilingual V2 model");
+                modelToUse = ElevenLabs.Models.Model.MultiLingualV2;
+            }
+
+
+            var convertedText = await api.TextToSpeechEndpoint.TextToSpeechAsync(text, voice, voiceSettings, modelToUse);
             var mp3Data = convertedText.ClipData.ToArray();
             MemoryStream ms = new(mp3Data)
             {
