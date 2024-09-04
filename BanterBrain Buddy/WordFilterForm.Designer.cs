@@ -42,6 +42,7 @@
             BadWordFilterBox.Size = new System.Drawing.Size(398, 187);
             BadWordFilterBox.TabIndex = 0;
             BadWordFilterBox.TextChanged += BadWordFilterBox_TextChanged_1;
+            BadWordFilterBox.KeyPress += BadWordFilterBox_KeyPress;
             // 
             // label1
             // 
@@ -71,7 +72,7 @@
             Controls.Add(BadWordFilterBox);
             Name = "WordFilterForm";
             Text = "Bad word filter";
-            FormClosing += this.WordFilterForm_FormClosing;
+            FormClosing += WordFilterForm_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

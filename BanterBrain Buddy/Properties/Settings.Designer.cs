@@ -874,5 +874,17 @@ namespace BanterBrain_Buddy.Properties {
                 this["ElevenLabsModel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BadWordFilter {
+            get {
+                return ((bool)(this["BadWordFilter"]));
+            }
+            set {
+                this["BadWordFilter"] = value;
+            }
+        }
     }
 }

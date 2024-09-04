@@ -57,6 +57,8 @@ namespace BanterBrain_Buddy
             LLMResponseSelecter = new ComboBox();
             label7 = new Label();
             TwitchSettingsGroupBox = new GroupBox();
+            groupBox1 = new GroupBox();
+            TwitchBadWordFilterCheckBox = new CheckBox();
             WordFilterButton = new Button();
             TwitchResponseSettings = new GroupBox();
             TwitchResponseToChatDelayTextBox = new TextBox();
@@ -134,6 +136,7 @@ namespace BanterBrain_Buddy
             TwitchLLMLanguageGroupBox.SuspendLayout();
             LLMGroupSettingsGroupBox.SuspendLayout();
             TwitchSettingsGroupBox.SuspendLayout();
+            groupBox1.SuspendLayout();
             TwitchResponseSettings.SuspendLayout();
             TwitchSoundsSettings.SuspendLayout();
             TwitchChannelPointsSettings.SuspendLayout();
@@ -327,7 +330,7 @@ namespace BanterBrain_Buddy
             // 
             // TwitchSettingsGroupBox
             // 
-            TwitchSettingsGroupBox.Controls.Add(WordFilterButton);
+            TwitchSettingsGroupBox.Controls.Add(groupBox1);
             TwitchSettingsGroupBox.Controls.Add(TwitchResponseSettings);
             TwitchSettingsGroupBox.Controls.Add(TwitchSoundsSettings);
             TwitchSettingsGroupBox.Controls.Add(TwitchAutoStart);
@@ -340,6 +343,21 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchSettingsGroupBox, "TwitchSettingsGroupBox");
             TwitchSettingsGroupBox.Name = "TwitchSettingsGroupBox";
             TwitchSettingsGroupBox.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(TwitchBadWordFilterCheckBox);
+            groupBox1.Controls.Add(WordFilterButton);
+            resources.ApplyResources(groupBox1, "groupBox1");
+            groupBox1.Name = "groupBox1";
+            groupBox1.TabStop = false;
+            // 
+            // TwitchBadWordFilterCheckBox
+            // 
+            resources.ApplyResources(TwitchBadWordFilterCheckBox, "TwitchBadWordFilterCheckBox");
+            TwitchBadWordFilterCheckBox.Name = "TwitchBadWordFilterCheckBox";
+            TwitchBadWordFilterCheckBox.UseVisualStyleBackColor = true;
+            TwitchBadWordFilterCheckBox.CheckedChanged += BadWordFilterCheckBox_CheckedChanged;
             // 
             // WordFilterButton
             // 
@@ -850,6 +868,8 @@ namespace BanterBrain_Buddy
             LLMGroupSettingsGroupBox.PerformLayout();
             TwitchSettingsGroupBox.ResumeLayout(false);
             TwitchSettingsGroupBox.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             TwitchResponseSettings.ResumeLayout(false);
             TwitchResponseSettings.PerformLayout();
             TwitchSoundsSettings.ResumeLayout(false);
@@ -959,6 +979,8 @@ namespace BanterBrain_Buddy
         private GroupBox TwitchLLMLanguageGroupBox;
         private ComboBox TwitchLLMLanguageComboBox;
         private Button CustomResponseButton;
+        private GroupBox groupBox1;
+        private CheckBox TwitchBadWordFilterCheckBox;
         private Button WordFilterButton;
     }
 }

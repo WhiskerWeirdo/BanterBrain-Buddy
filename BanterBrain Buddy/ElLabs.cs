@@ -90,7 +90,6 @@ namespace BanterBrain_Buddy
                 modelToUse = ElevenLabs.Models.Model.MultiLingualV2;
             }
 
-
             var convertedText = await api.TextToSpeechEndpoint.TextToSpeechAsync(text, voice, voiceSettings, modelToUse);
             var mp3Data = convertedText.ClipData.ToArray();
             MemoryStream ms = new(mp3Data)

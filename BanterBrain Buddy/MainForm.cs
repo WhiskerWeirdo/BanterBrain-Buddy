@@ -1492,6 +1492,8 @@ namespace BanterBrain_Buddy
             AddFilesToDropdown(TwitchSubscriptionSoundTextBox);
             TwitchSubscriptionSoundTextBox.SelectedIndex = TwitchSubscriptionSoundTextBox.FindStringExact(Properties.Settings.Default.TwitchSubscriptionSoundTextBox);
 
+            TwitchBadWordFilterCheckBox.Checked = Properties.Settings.Default.BadWordFilter;
+
             //check if theres a speaker selected if not select the default onne
             if (Properties.Settings.Default.TTSAudioOutput.Length < 1)
             {
@@ -3102,6 +3104,23 @@ namespace BanterBrain_Buddy
             wordFilterForm.FormClosing += BBB_Test_FormClosing;
             wordFilterForm.ShowDialog();
 
+        }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void BadWordFilterCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (TwitchBadWordFilterCheckBox.Checked)
+            {
+                _bBBlog.Info("Bad word filter enabled");
+                Properties.Settings.Default.BadWordFilter = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                _bBBlog.Info("Bad word filter disabled");
+                Properties.Settings.Default.BadWordFilter = false;
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }

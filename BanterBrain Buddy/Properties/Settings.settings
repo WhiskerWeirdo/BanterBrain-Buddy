@@ -215,5 +215,8 @@
     <Setting Name="ElevenLabsModel" Type="System.String" Scope="User">
       <Value Profile="(Default)">Multilingual V2 (Best Quality)</Value>
     </Setting>
+    <Setting Name="BadWordFilter" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
