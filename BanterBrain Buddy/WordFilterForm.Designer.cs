@@ -47,7 +47,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(12, 17);
+            label1.Location = new System.Drawing.Point(12, 49);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(250, 15);
             label1.TabIndex = 1;
@@ -56,11 +56,13 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(12, 49);
+            label2.BackColor = System.Drawing.SystemColors.Control;
+            label2.ForeColor = System.Drawing.Color.Red;
+            label2.Location = new System.Drawing.Point(35, 9);
             label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(329, 15);
+            label2.Size = new System.Drawing.Size(346, 15);
             label2.TabIndex = 2;
-            label2.Text = "Messages that include a bad word will be ignored completely";
+            label2.Text = "Messages that include a filtered word will be ignored completely";
             // 
             // WordFilterForm
             // 
