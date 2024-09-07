@@ -702,8 +702,31 @@ namespace BanterBrain_Buddy
                 return false;
             }
 
+            //load the bad word filter into a list for checking
+            //bad words are stored in a file in the appdata folder and are comma delimited
+            var tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\WordFilter.txt";
+            var badWords = new List<string>();
+            if (File.Exists(tmpFile))
+            {
+                using StreamReader r = new(tmpFile);
+                string line;
+                while ((line = r.ReadLine()) != null)
+                {
+                    badWords.AddRange(line.Split(','));
+                }
+            }
+            _bBBlog.Debug($"Bad words: {badWords.Count}");
+            //now to see if the message contains any words or sentences found in the badWords list
+            foreach (string word in badWords)
+            {
+                if (message.Contains(word))
+                {
+                    _bBBlog.Info($"Message contains a bad word: {word}, ignoring");
+                    return true;
+                }
+            }
 
-            //when in doubt assume to not filter!
+            //when in doubt dont filter!
             return false;
         }
 
@@ -722,11 +745,13 @@ namespace BanterBrain_Buddy
 
             var eventData = e.Notification.Payload.Event;
 
-            //------------
-            //TODO: if eventdata.message.text contains a blacklisted word and filtering is enabled, ignore everything 
-            //-------------
-
             _bBBlog.Debug($"{eventData.ChatterUserName} said {eventData.Message.Text} in {eventData.BroadcasterUserName}'s chat.");
+            if (CheckMessageForFilteredWords(eventData.Message.Text))
+            {
+                _bBBlog.Info($"{eventData.ChatterUserName} said a bad word, ignoring");
+                return;
+            }
+
             //TODO: check for the command and then trigger the bot if its the right command and delay has been passed since bot was triggered last
             //we need to also check if the user is a follower or subscriber if that is set
             //also we should check when last time bot was triggered
@@ -796,11 +821,14 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"Cheer websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
 
-            //------------
-            //TODO: if eventdata.message.text contains a blacklisted word and filtering is enabled, ignore everything 
-            //-------------
-
             _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat with message: {eventData.Message}");
+
+            //check for bad words
+            if (CheckMessageForFilteredWords(eventData.Message))
+            {
+                _bBBlog.Info($"{eventData.UserName} said a bad word, ignoring");
+                return;
+            }
 
             if (eventData.Bits >= minbits)
             {
@@ -827,16 +855,19 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
 
-            //------------
-            //TODO: if eventdata.message.text contains a blacklisted word and filtering is enabled, ignore everything 
-            //-------------
-
             //eventdata can be null, so we need to check for that
             var message = "";
             if (eventData.Message != null)
                 message = eventData.Message.Text;
 
             _bBBlog.Info($"{eventData.UserName} re-subscribed to {eventData.BroadcasterUserName} for {eventData.CumulativeMonths} months with message {eventData.Message}");
+
+            //check for bad words   
+            if (CheckMessageForFilteredWords(message))
+            {
+                _bBBlog.Info($"{eventData.UserName} said a bad word, ignoring");
+                return;
+            }
 
             if (OnESubReSubscribe == null)
             {
@@ -890,11 +921,15 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
 
-            //------------
-            //TODO: if eventdata.userinput contains a blacklisted word and filtering is enabled, ignore everything 
-            //-------------
-
             _bBBlog.Info($"{eventData.UserName} used {redemptionName} redeemed {eventData.Reward.Title} with message {eventData.UserInput}");
+
+            //check for bad words
+            if (CheckMessageForFilteredWords(eventData.UserInput))
+            {
+                _bBBlog.Info($"{eventData.UserName} said a bad word, ignoring");
+                return;
+            }
+
             if (OnESubChannelPointRedemption == null)
             {
                 _bBBlog.Debug("Redemption trigger is null, no eventhandler set. Cannot continue");
