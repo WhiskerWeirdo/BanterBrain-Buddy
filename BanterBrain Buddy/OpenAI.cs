@@ -20,8 +20,8 @@ namespace BanterBrain_Buddy
     /// 
 
     public class AIModelExtended : Model { 
-        public static Model GPT4_Omni => new Model("gpt-4o") { OwnedBy = "openai" }; 
-        public static Model GPT4_O_Mini => new Model("gpt-4o-mini") { OwnedBy = "openai" }; 
+        public static Model GPT4_Omni => new ("gpt-4o") { OwnedBy = "openai" }; 
+        public static Model GPT4_O_Mini => new ("gpt-4o-mini") { OwnedBy = "openai" }; 
     }
 
     internal class OpenAI
@@ -47,9 +47,8 @@ namespace BanterBrain_Buddy
                 }
             }
         }
-#pragma warning disable CA1822 // Mark members as static
+
         public async Task<bool> OpenAICheckAPIKey()
-#pragma warning restore CA1822 // Mark members as static
         {
             
             if (string.IsNullOrEmpty(Properties.Settings.Default.GPTAPIKey))
@@ -59,8 +58,7 @@ namespace BanterBrain_Buddy
             } else
             {
                 OpenAIAPIKey = Properties.Settings.Default.GPTAPIKey;
-                if (_OpenAPI == null)
-                    _OpenAPI = new(OpenAIAPIKey);
+                _OpenAPI ??= new(OpenAIAPIKey);
                 //do actual api key check here
                 if (await _OpenAPI.Auth.ValidateAPIKey())
                 {
@@ -75,9 +73,8 @@ namespace BanterBrain_Buddy
                 }
             }
         }
-#pragma warning disable CA1822 // Mark members as static
+
         public async Task<string> OpenAISTT(string audioFile)
-#pragma warning restore CA1822 // Mark members as static
         {
             _bBBlog.Info("Sending to OpenAI STT with language: " + Properties.Settings.Default.WhisperSpeechRecognitionComboBox);
             string ISOLanguage;
@@ -219,21 +216,14 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows6.1")]
-#pragma warning disable CA1822 // Mark members as static
         public async Task<string> GetOpenAIIGPTResponse(String UserInput, string tmpPersonaRoletext)
-#pragma warning restore CA1822 // Mark members as static
         {
             string gPTOutputText = "";
             _bBBlog.Info("Sending to OpenAI GPT LLM: " + UserInput);
 
-            if (_OpenAPI == null)
-                _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
+            _OpenAPI ??= new(Properties.Settings.Default.GPTAPIKey);
 
-            if (_Chat == null)
-            {
-                _Chat = _OpenAPI.Chat.CreateConversation();
-
-            }
+            _Chat ??= _OpenAPI.Chat.CreateConversation();
            // _Chat.RequestParameters.Model = AIModelExtended.GPT4_Omni;
             switch (Properties.Settings.Default.GPTModel)
             {

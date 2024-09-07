@@ -188,15 +188,12 @@ namespace BanterBrain_Buddy
             //we can call this function multile times, so we need to check if we are already connected
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
-                if (_conditions == null)
-                {
-                    //set the global, we need this for the EventSub
-                    _conditions = new()
+                //set the global, we need this for the EventSub
+                _conditions ??= new()
                     {
                     { "broadcaster_user_id", TwitchChannelID },
                              { "user_id", TwitchUserID },
                     };
-                }
                 _bBBlog.Info("Subscribing to chat messages");
                 await EventSubSubscribe("channel.chat.message", _conditions);
             }
@@ -212,15 +209,12 @@ namespace BanterBrain_Buddy
             _eventSubWebsocketClient.ChannelSubscriptionMessage += EventSubOnChannelReSubscriber;
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
-                if (_conditions == null)
-                {
-                    //set the global, we need this for the EventSub
-                    _conditions = new()
+                //set the global, we need this for the EventSub
+                _conditions ??= new()
                     {
                     { "broadcaster_user_id", TwitchChannelID },
                              { "user_id", TwitchUserID },
                     };
-                }
                 _bBBlog.Info("Subscribing to new subscription events");
                 await EventSubSubscribe("channel.subscribe", _conditions);
                 _bBBlog.Info("Subscribing to resubscription events");
@@ -241,15 +235,12 @@ namespace BanterBrain_Buddy
             _eventSubWebsocketClient.ChannelSubscriptionGift += EventSubOnChannelSubscriptionGift;
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
-                if (_conditions == null)
-                {
-                    //set the global, we need this for the EventSub
-                    _conditions = new()
+                //set the global, we need this for the EventSub
+                _conditions ??= new()
                     {
                     { "broadcaster_user_id", TwitchChannelID },
                              { "user_id", TwitchUserID },
                     };
-                }
                 _bBBlog.Info("Subscribing to subscription gifts");
                 await EventSubSubscribe("channel.subscription.gift", _conditions);
             }
@@ -263,15 +254,12 @@ namespace BanterBrain_Buddy
             _eventSubWebsocketClient.ChannelCheer += (sender, e) => EventSubOnChannelCheer(e, minbits);
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
-                if (_conditions == null)
-                {
-                    //set the global, we need this for the EventSub
-                    _conditions = new()
+                //set the global, we need this for the EventSub
+                _conditions ??= new()
                     {
                     { "broadcaster_user_id", TwitchChannelID },
                              { "user_id", TwitchUserID },
                     };
-                }
                 _bBBlog.Info("Subscribing to cheers");
                 await EventSubSubscribe("channel.cheer", _conditions);
             }
@@ -285,15 +273,12 @@ namespace BanterBrain_Buddy
             _eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionAdd += (sender, e) => EventSubOnChannelPointRedemption(e, redemptionName);
             if (_eventSubWebsocketClient.SessionId != null && !TwitchMock)
             {
-                if (_conditions == null)
-                {
-                    //set the global, we need this for the EventSub
-                    _conditions = new()
+                //set the global, we need this for the EventSub
+                _conditions ??= new()
                     {
                     { "broadcaster_user_id", TwitchChannelID },
                              { "user_id", TwitchUserID },
                     };
-                }
                 _bBBlog.Info("Subscribing to channel point redemptions");
                 await EventSubSubscribe("channel.channel_points_custom_reward_redemption.add", _conditions);
             }
@@ -706,10 +691,25 @@ namespace BanterBrain_Buddy
             await Task.Delay(1);
         }
 
+        //check the message string of twitch messages for a filtered word
+        //if the message contains a filtered word, return true
+        //else return false
+        private bool CheckMessageForFilteredWords(string message)
+        {
+            //if the filter is not enabled, return false cos we dont need to check anything.
+            if (Properties.Settings.Default.BadWordFilter == false)
+            {
+                return false;
+            }
 
-        //eventhandler for reading chat messages.
-        //This receives: string command, int delay, bool follower, bool subscriber
-        private async Task EventSubOnChannelChatMessage(ChannelChatMessageArgs e, string command, bool follower, bool subscriber)
+
+            //when in doubt assume to not filter!
+            return false;
+        }
+
+            //eventhandler for reading chat messages.
+            //This receives: string command, int delay, bool follower, bool subscriber
+            private async Task EventSubOnChannelChatMessage(ChannelChatMessageArgs e, string command, bool follower, bool subscriber)
         {
             bool tmpFol = follower;
             _bBBlog.Debug($"Chat message websocket {_eventSubWebsocketClient.SessionId}");
@@ -721,6 +721,11 @@ namespace BanterBrain_Buddy
             }
 
             var eventData = e.Notification.Payload.Event;
+
+            //------------
+            //TODO: if eventdata.message.text contains a blacklisted word and filtering is enabled, ignore everything 
+            //-------------
+
             _bBBlog.Debug($"{eventData.ChatterUserName} said {eventData.Message.Text} in {eventData.BroadcasterUserName}'s chat.");
             //TODO: check for the command and then trigger the bot if its the right command and delay has been passed since bot was triggered last
             //we need to also check if the user is a follower or subscriber if that is set
@@ -790,6 +795,11 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Debug($"Cheer websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
+
+            //------------
+            //TODO: if eventdata.message.text contains a blacklisted word and filtering is enabled, ignore everything 
+            //-------------
+
             _bBBlog.Info($"{eventData.UserName} cheered {eventData.Bits} bits in {eventData.BroadcasterUserName}'s chat with message: {eventData.Message}");
 
             if (eventData.Bits >= minbits)
@@ -816,6 +826,11 @@ namespace BanterBrain_Buddy
 
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
+
+            //------------
+            //TODO: if eventdata.message.text contains a blacklisted word and filtering is enabled, ignore everything 
+            //-------------
+
             //eventdata can be null, so we need to check for that
             var message = "";
             if (eventData.Message != null)
@@ -874,6 +889,11 @@ namespace BanterBrain_Buddy
 
             _bBBlog.Debug($"Subscriber websocket {_eventSubWebsocketClient.SessionId}");
             var eventData = e.Notification.Payload.Event;
+
+            //------------
+            //TODO: if eventdata.userinput contains a blacklisted word and filtering is enabled, ignore everything 
+            //-------------
+
             _bBBlog.Info($"{eventData.UserName} used {redemptionName} redeemed {eventData.Reward.Title} with message {eventData.UserInput}");
             if (OnESubChannelPointRedemption == null)
             {

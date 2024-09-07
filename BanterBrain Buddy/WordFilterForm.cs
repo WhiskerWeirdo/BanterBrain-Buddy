@@ -29,21 +29,20 @@ namespace BanterBrain_Buddy
         private void LoadFilteredWords()
         {
             _bBBlog.Info("LoadFilteredWords");
-            //load the bad words from the file
-            //we should do the file creation in the main form!
+
 
             var tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\WordFilter.txt";
+
+            //this is just in case. the file should actually be created by MainForm, but you never know!
             if (!File.Exists(tmpFile))
             {
                 _bBBlog.Error($"Word Filter file not found, creating it");
-                //File.Create(tmpFile);
                 File.WriteAllText(tmpFile, "fucker,motherfucker,asshole,nigger,nigga,loser,retard,moron,cunt,slut,fag,whore");
             }
             //load the file into the textbox
             BadWordFilterBox.Text = File.ReadAllText(tmpFile);
             //to prevent anything from being automatically selected
             BadWordFilterBox.SelectionStart = BadWordFilterBox.Text.Length;
-
         }
 
         [SupportedOSPlatform("windows6.1")]
@@ -59,7 +58,7 @@ namespace BanterBrain_Buddy
             string badWords = BadWordFilterBox.Text;
 
             //now we need to make sure that spaces before or after a comma are removed, thanks copilot for the regex
-            Regex.Replace(badWords, @"\s*,\s*", ",");
+            badWords = Regex.Replace(badWords, @"\s*,\s*", ",");
 
             //remove any empty stuff at the end
             badWords = badWords.TrimEnd();

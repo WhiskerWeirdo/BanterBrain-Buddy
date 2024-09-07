@@ -108,10 +108,7 @@ namespace BanterBrain_Buddy
             using var sr = new StreamReader(tmpFile);
             var tmpString = sr.ReadToEnd();
 
-            if (TwitchLLMLanguage == null)
-            {
-                TwitchLLMLanguage = new();
-            }
+            TwitchLLMLanguage ??= new();
             TwitchLLMLanguage = JsonConvert.DeserializeObject<TwitchLLMResponseLanguage>(tmpString);
 
             LoadClassIntoText();
@@ -224,17 +221,14 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Info("Current language has not been changed, loading new language");
             string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string tmpFile = "";
+            string tmpFile;
 
             tmpFile = sourcefolder + $"\\TwitchLLMLanguageFiles\\{TwitchLLMLanguageComboBox.Text}.json";
             _bBBlog.Debug($"Twitch LLM language {TwitchLLMLanguageComboBox.Text} file found, loading it.");
             using var sr = new StreamReader(tmpFile);
             var tmpString = sr.ReadToEnd();
             //if this is the first time make the new class
-            if (TwitchLLMLanguage == null)
-            {
-                TwitchLLMLanguage = new();
-            }
+            TwitchLLMLanguage ??= new();
 
             TwitchLLMLanguage = JsonConvert.DeserializeObject<TwitchLLMResponseLanguage>(tmpString);
             _bBBlog.Info($"Twitch LLM language file loaded with language: {TwitchLLMLanguage.Language}");

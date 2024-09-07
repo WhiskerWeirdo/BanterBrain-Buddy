@@ -136,8 +136,8 @@ namespace BanterBrain_Buddy
                     // Assuming your current version is stored in a similar tag format
                     string currentVersion = Version; // This should be dynamically obtained from your application
                     // Parse the numeric parts into Version objects
-                    Version version1 = new Version(currentVersion);
-                    Version version2 = new Version(latestVersion);
+                    Version version1 = new (currentVersion);
+                    Version version2 = new (latestVersion);
 
                     if (version1 < version2)
                     {
@@ -202,7 +202,7 @@ namespace BanterBrain_Buddy
                 {
                     Directory.CreateDirectory(logdir);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     TextLog.AppendText("Error creating log directory in " + logdir + ". This should not happen.\r\n");
                 }
@@ -255,16 +255,20 @@ namespace BanterBrain_Buddy
             }
 
             //set logger file to where we have rights for writing
-            log4net.Appender.DebugAppender consoleAppender = new log4net.Appender.DebugAppender();
-            consoleAppender.Name = "ConsoleAppender";
-            consoleAppender.Layout = new log4net.Layout.PatternLayout("%date [%thread] %-5level %logger - %message%newline");
+            log4net.Appender.DebugAppender consoleAppender = new()
+            {
+                Name = "ConsoleAppender",
+                Layout = new log4net.Layout.PatternLayout("%date [%thread] %-5level %logger - %message%newline")
+            };
             consoleAppender.ActivateOptions();
 
-            log4net.Appender.FileAppender fileAppender = new log4net.Appender.FileAppender();
-            fileAppender.Name = "FileAppender";
-            fileAppender.File = System.IO.Path.Combine(Properties.Settings.Default.LogDir, logFile);
-            fileAppender.AppendToFile = true;
-            fileAppender.Layout = new log4net.Layout.PatternLayout("%date [%thread] %-5level %logger - %message%newline");
+            log4net.Appender.FileAppender fileAppender = new()
+            {
+                Name = "FileAppender",
+                File = System.IO.Path.Combine(Properties.Settings.Default.LogDir, logFile),
+                AppendToFile = true,
+                Layout = new log4net.Layout.PatternLayout("%date [%thread] %-5level %logger - %message%newline")
+            };
             fileAppender.ActivateOptions();
 
             log4net.Repository.Hierarchy.Hierarchy hierarchy =
@@ -366,8 +370,7 @@ namespace BanterBrain_Buddy
             {
                 try
                 {
-                    if (_openAI == null)
-                        _openAI = new();
+                    _openAI ??= new();
 
                     if (await _openAI.OpenAICheckAPIKey())
                     {
@@ -442,6 +445,18 @@ namespace BanterBrain_Buddy
             else
             {
                 _bBBlog.Debug("Personas file not found in install folder. It will be created later.");
+            }
+
+            //lets check the existence of the bad word filter file and create it if it doesn't exist.
+            tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\WordFilter.txt";
+            if (!File.Exists(tmpFile))
+            {
+                _bBBlog.Error($"Word Filter file not found, creating it");
+                File.WriteAllText(tmpFile, "fucker,motherfucker,asshole,nigger,nigga,loser,retard,moron,cunt,slut,fag,whore");
+            }
+            else
+            {
+                _bBBlog.Debug("Bad word filter file found.");
             }
         }
 
@@ -558,7 +573,7 @@ namespace BanterBrain_Buddy
         private async void LoadTwitchLLMLanguageFile()
         {
             string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string tmpFile = "";
+            string tmpFile;
             if (Properties.Settings.Default.TwitchLLMLanguageComboBox != "Custom")
                 tmpFile = sourcefolder + $"\\TwitchLLMLanguageFiles\\{Properties.Settings.Default.TwitchLLMLanguageComboBox}.json";
             else
@@ -583,10 +598,7 @@ namespace BanterBrain_Buddy
                 using var sr = new StreamReader(tmpFile);
                 var tmpString = sr.ReadToEnd();
                 //if this is the first time make the new class
-                if (TwitchLLMLanguage == null)
-                {
-                    TwitchLLMLanguage = new();
-                }
+                TwitchLLMLanguage ??= new();
                 TwitchLLMLanguage = JsonConvert.DeserializeObject<TwitchLLMResponseLanguage>(tmpString);
                 _bBBlog.Info($"Twitch LLM language file loaded with language: {TwitchLLMLanguage.Language}");
             }
@@ -680,8 +692,7 @@ namespace BanterBrain_Buddy
             if (Properties.Settings.Default.GPTAPIKey.Length > 1)
             {
                 // we need to check if the OpenAI API key is valid
-                if (_openAI == null)
-                    _openAI = new();
+                _openAI ??= new();
                 if (await _openAI.OpenAICheckAPIKey())
                 {
                     STTSelectedComboBox.Items.Add("OpenAI Whisper");
@@ -896,8 +907,7 @@ namespace BanterBrain_Buddy
         private async void WhisperSTTfromWAV(string tmpWavFile)
         {
             _sTTOutputText = "";
-            if (_openAI == null)
-                _openAI = new();
+            _openAI ??= new();
             _bBBlog.Info("Starting OpenAI STT from WAV");
             _sTTOutputText = await _openAI.OpenAISTT(tmpWavFile);
             if (_sTTOutputText == null)
@@ -978,8 +988,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Sending to GPT: " + UserInput);
             _gPTDone = false;
 
-            if (_openAI == null)
-                _openAI = new();
+            _openAI ??= new();
             var result = await _openAI.GetOpenAIIGPTResponse(UserInput, tmpPersonaRoletext);
             if (result == null)
             {
@@ -1156,8 +1165,7 @@ namespace BanterBrain_Buddy
             }
             UpdateTextLog("Saying text with OpenAI TTS\r\n");
             _bBBlog.Info("Saying text with OpenAI TTS");
-            if (_openAI == null)
-                _openAI = new();
+            _openAI ??= new();
             //ShowSettingsForm the available key
             if (!await _openAI.OpenAICheckAPIKey())
             {

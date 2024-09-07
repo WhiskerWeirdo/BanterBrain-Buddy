@@ -1416,7 +1416,7 @@ namespace BanterBrain_Buddy
                     _bBBlog.Debug($"Elevenlabs voice selected: {tmpVoice[1]}");
                     TTSOutputVoice.SelectedIndex = TTSOutputVoice.FindStringExact(tmpVoice[1]);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _bBBlog.Error("Error loading persona voice, no voiceID found in persona");
                     MessageBox.Show("Error loading persona voice, no voiceID found in persona", "Persona voice error", MessageBoxButtons.OK, MessageBoxIcon.Error);
