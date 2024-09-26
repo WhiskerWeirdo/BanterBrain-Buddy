@@ -2514,7 +2514,9 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows6.1")]
         private async void BBB_Test_FormClosing(object sender, FormClosingEventArgs e)
         {
-            UpdateTextLog("Settings closed. We loaded settings!\r\n");
+            BBBTabs.Enabled = false;
+            menuStrip1.Enabled = false;
+            UpdateTextLog("Settings closed. We loading settings..be patient!\r\n");
             _bBBlog.Info("Settings form closed. We should load the new settings!");
             //we should clear the global TTS/STT and reload the possible new API settings
             //we cant do this for twitch though. 
@@ -2532,6 +2534,8 @@ namespace BanterBrain_Buddy
             await LoadSettings();
             await SetSelectedSTTProvider();
             SetSelectedLLMProvider();
+            BBBTabs.Enabled = true;
+            menuStrip1.Enabled = true;
         }
 
         private void BBB_VisibleChanged(object sender, EventArgs e)
