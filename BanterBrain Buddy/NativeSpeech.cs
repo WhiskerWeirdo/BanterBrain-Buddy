@@ -4,12 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.Versioning;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Windows.Media.SpeechSynthesis;
+using static OpenAI_API.Audio.TextToSpeechRequest;
 
 /// <summary>
 /// CODING RULES:
@@ -23,7 +26,7 @@ namespace BanterBrain_Buddy
     {
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private SpeechSynthesizer _nativeSynthesizer;
+        private Windows.Media.SpeechSynthesis.SpeechSynthesizer _nativeSynthesizer;
         private MemoryStream _nativeAudioStream;
 
         private int SelectedOutputDevice;
@@ -49,86 +52,6 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
-        public async Task<bool> NativeSpeak(string TextToSay)
-        {
-            //use promptbuilder for native SSML
-            _voiceRate += 100;
-            int voiceVolume = 100;
-            //_voicePitch += 100;
-            var tmpSSML = $"<voice xml:lang=\"{_voiceCulture}\">" + 
-                $"<prosody rate=\"{_voiceRate}%\" volume=\"{voiceVolume}%\">{TextToSay}</prosody>" + "</voice>";
-            _bBBlog.Debug("Native SSML: " + tmpSSML);
-            PromptBuilder pb = new PromptBuilder();
-            pb.AppendSsmlMarkup(tmpSSML);
-            _nativeSynthesizer.Speak(pb);
-            //TODO: handle issues with device not being available or not responsive
-            //_bBBlog.Info("Device out: " + SelectedOutputDevice);
-            var waveOut = new WaveOut
-            {
-                DeviceNumber = SelectedOutputDevice
-            };
-
-
-            //it has to be 24000, 16, 1 for some reason?
-            var waveStream = new RawSourceWaveStream(_nativeAudioStream, new WaveFormat(24000, 16, 1))
-            {
-                //reset the stream to the beginning or you wont hear anything
-                Position = 0
-            };
-
-            // Create a SampleChannel for volume control
-            var sampleChannel = new SampleChannel(waveStream, false);
-
-
-            _bBBlog.Debug("Native Volume: " + _voiceVolume);
-            // Use a VolumeSampleProvider to apply the volume multiplier
-            var volumeProvider = new VolumeSampleProvider(sampleChannel)
-            {
-                Volume = _voiceVolume
-            };
-
-            var semitone = Math.Pow(2, 1.0 / 12);
-            var upOneTone = semitone * semitone;
-            var downOneTone = 1.0 / upOneTone;
-            Double pitchTone = 1.0;
-            //alright lets set the pitch tone
-            if (_voicePitch == 0)
-            {
-                pitchTone = 1.0;
-            }
-            else if (_voicePitch > 0)
-            {
-                pitchTone = Math.Pow(upOneTone, _voicePitch/10);
-            }
-            else if (_voicePitch < 0)
-            {
-                pitchTone = Math.Pow(downOneTone, Math.Abs(_voicePitch)/10);
-            }
-            var pitch = new SmbPitchShiftingSampleProvider(volumeProvider);
-            pitch.PitchFactor = (float)pitchTone;
-
-
-            _bBBlog.Debug("Native Pitch: " + pitch.PitchFactor);
-            if (pitch.PitchFactor == 1.0)
-            {
-                waveOut.Init(pitch);
-            } else
-            {
-                //ok we need to chop off the start, because this buggers the audio due to artifacts from pitching
-                waveOut.Init(pitch.Skip(TimeSpan.FromMilliseconds(300)));
-            }
-
-            //waveOut.Init(waveStream);
-            
-            waveOut.Play();
-            while (waveOut.PlaybackState != PlaybackState.Stopped)
-            {
-                await Task.Delay(500);
-            }
-            return true;
-        }
-
         public async Task<bool> NativePlayWaveFile(string _tmpWavFile)
         {
             SetSelectedOutputDevice(Properties.Settings.Default.TTSAudioOutput);
@@ -147,6 +70,100 @@ namespace BanterBrain_Buddy
             return true;
         }
 
+        [SupportedOSPlatform("windows10.0.10240")]
+        public async Task<bool> NativeSpeak(string TextToSay)
+        {
+            try
+            {
+                //_voiceRate += 100;
+                //_voiceRate = 0;
+                int voiceVolume = 0;
+                string voicePitch = $"{_voicePitch}%";
+                var tmpSSML = $"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='{_voiceCulture}'>" +
+                              $"<prosody rate='{_voiceRate}%' volume='{voiceVolume}%' >{TextToSay}</prosody></speak>";
+                _bBBlog.Debug("Native SSML: " + tmpSSML);
+
+                // Generate the audio stream from the SSML
+                SpeechSynthesisStream synthesisStream = await _nativeSynthesizer.SynthesizeSsmlToStreamAsync(tmpSSML);
+
+                // Read the stream into a memory stream
+                using (var memoryStream = new MemoryStream())
+                {
+                    await synthesisStream.AsStreamForRead().CopyToAsync(memoryStream);
+                    memoryStream.Position = 0;
+
+                    // Convert the memory stream to a wave stream
+                    var waveStream = new RawSourceWaveStream(memoryStream, new WaveFormat(16000, 16, 1))
+                    {
+                        // Reset the stream to the beginning or you won't hear anything
+                        Position = 0
+                    };
+
+                    // Create a SampleChannel for volume control
+                    var sampleChannel = new SampleChannel(waveStream, false);
+
+                    float volumeMultiplier = Math.Clamp(_voiceVolume, 0.0f, 2.0f);
+                    _bBBlog.Debug("Native Volume: " + _voiceVolume);
+                    // Use a VolumeSampleProvider to apply the volume multiplier
+                    var volumeProvider = new VolumeSampleProvider(sampleChannel)
+                    {
+                        Volume = volumeMultiplier
+                    };
+                 
+                    var waveOut = new WaveOut
+                    {
+                        DeviceNumber = SelectedOutputDevice
+                    };
+
+                    var semitone = Math.Pow(2, 1.0 / 12);
+                    var upOneTone = semitone * semitone;
+                    var downOneTone = 1.0 / upOneTone;
+                    Double pitchTone = 1.0;
+                    //alright lets set the pitch tone
+                    if (_voicePitch == 0)
+                    {
+                        pitchTone = 1.0;
+                    }
+                    else if (_voicePitch > 0)
+                    {
+                        pitchTone = Math.Pow(upOneTone, _voicePitch / 10);
+                    }
+                    else if (_voicePitch < 0)
+                    {
+                        pitchTone = Math.Pow(downOneTone, Math.Abs(_voicePitch) / 10);
+                    }
+                    var pitch = new SmbPitchShiftingSampleProvider(volumeProvider);
+                    pitch.PitchFactor = (float)pitchTone;
+
+
+                    _bBBlog.Debug("Native Pitch: " + pitch.PitchFactor);
+                    if (pitch.PitchFactor == 1.0)
+                    {
+                        waveOut.Init(pitch);
+                    }
+                    else
+                    {
+                        //ok we need to chop off the start, because this buggers the audio due to artifacts from pitching
+                        waveOut.Init(pitch.Skip(TimeSpan.FromMilliseconds(300)));
+                    }
+
+                    waveOut.Play();
+                    while (waveOut.PlaybackState != PlaybackState.Stopped)
+                    {
+                        await Task.Delay(500);
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _bBBlog.Error($"Error during speech synthesis: {ex.Message}");
+                return false;
+            }
+        }
+
+
         /// <summary>
         /// initialize the native Windows TTS engine
         /// </summary>
@@ -163,10 +180,13 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug("Init Native Culture: " + _voiceCulture);
             SetSelectedOutputDevice(OutputDevice);
             _nativeSynthesizer = new();
-            string selectedVoice = VoiceUsed[..VoiceUsed.IndexOf('-')];
+            string selectedVoiceName = VoiceUsed[..VoiceUsed.IndexOf('-')];
+            var selectedVoice = Windows.Media.SpeechSynthesis.SpeechSynthesizer.AllVoices.FirstOrDefault(v => v.DisplayName == selectedVoiceName);
+
             _bBBlog.Debug("Init Native Voice: " + selectedVoice);
 
-            _nativeSynthesizer.SelectVoice(selectedVoice);
+            _nativeSynthesizer.Voice = selectedVoice;
+
 
             // Ensure volumeControl is within the expected range
             VoiceVolume = Math.Clamp(VoiceVolume, -100, 100);
@@ -179,15 +199,15 @@ namespace BanterBrain_Buddy
             _voiceRate = VoiceRate;
             _voicePitch = VoicePitch;
             _nativeAudioStream = new();
-            _nativeSynthesizer.SetOutputToWaveStream(_nativeAudioStream);
+            //_nativeSynthesizer.SetOutputToWaveStream(_nativeAudioStream);
             return Task.CompletedTask;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         public static Task<List<NativeVoices>> TTSNativeGetVoices()
         {
             List<NativeVoices> nativeVoicesList = [];
-            var synthesizer = new SpeechSynthesizer();
+           /* var synthesizer = new SpeechSynthesizer();
             foreach (var voice in synthesizer.GetInstalledVoices())
             {
                 var info = voice.VoiceInfo;
@@ -198,6 +218,18 @@ namespace BanterBrain_Buddy
                     Name = info.Name,
                     Culture = info.Culture.ToString(),
                     Gender = info.Gender.ToString()
+                };
+                nativeVoicesList.Add(tmpVoice);
+            }*/
+
+            foreach (var voice in Windows.Media.SpeechSynthesis.SpeechSynthesizer.AllVoices)
+            {
+                _bBBlog.Info($"Native UWP TTS Name: {voice.DisplayName}");  
+                var tmpVoice = new NativeVoices()
+                {
+                    Name = voice.DisplayName.ToString(),
+                    Culture = voice.Language.ToString(),
+                    Gender = voice.Gender.ToString()
                 };
                 nativeVoicesList.Add(tmpVoice);
             }
