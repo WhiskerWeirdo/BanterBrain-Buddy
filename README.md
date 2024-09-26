@@ -1,6 +1,4 @@
-Note: Get a notification that this might be a virus? Try the .zip version!
-
-### BanterBrain Buddy v1.0.6 bugfix/feature release
+### BanterBrain Buddy v1.0.7 feature release
 
 **This program requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
 
@@ -15,6 +13,13 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 - Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
+
+### RELEASE V1.0.7 RELEASE
+New:
+- Allow the ElevenLabs 2.5 Turbo API at 50% the cost of the default one https://elevenlabs.io/blog/introducing-turbo-v2-5
+- You can now filter bad words in Twitch messages and triggers! If a bad word is found, the message is completely ignored by BBB
+
+<img width="424" alt="image" src="https://github.com/user-attachments/assets/2a66757c-a8d4-4b78-befc-cecad38add54">
 
 ### RELEASE V1.0.6 RELEASE
 Fixed:
