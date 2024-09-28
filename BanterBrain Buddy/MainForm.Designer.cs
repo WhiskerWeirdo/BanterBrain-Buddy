@@ -126,6 +126,8 @@ namespace BanterBrain_Buddy
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
+            groupBox2 = new GroupBox();
+            NotableViewersButton = new Button();
             MainTab.SuspendLayout();
             UpdateGroupBox.SuspendLayout();
             StreamerTTSNameGroupBox.SuspendLayout();
@@ -145,6 +147,7 @@ namespace BanterBrain_Buddy
             TwitchCheerSettings.SuspendLayout();
             TwitchChatTriggerSettings.SuspendLayout();
             menuStrip1.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // MainTab
@@ -340,6 +343,7 @@ namespace BanterBrain_Buddy
             // 
             // TwitchSettingsGroupBox
             // 
+            TwitchSettingsGroupBox.Controls.Add(groupBox2);
             TwitchSettingsGroupBox.Controls.Add(groupBox1);
             TwitchSettingsGroupBox.Controls.Add(TwitchResponseSettings);
             TwitchSettingsGroupBox.Controls.Add(TwitchSoundsSettings);
@@ -849,6 +853,19 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += SeToolStripMenuItem_Click;
             // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(NotableViewersButton);
+            resources.ApplyResources(groupBox2, "groupBox2");
+            groupBox2.Name = "groupBox2";
+            groupBox2.TabStop = false;
+            // 
+            // NotableViewersButton
+            // 
+            resources.ApplyResources(NotableViewersButton, "NotableViewersButton");
+            NotableViewersButton.Name = "NotableViewersButton";
+            NotableViewersButton.UseVisualStyleBackColor = true;
+            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -894,6 +911,7 @@ namespace BanterBrain_Buddy
             TwitchChatTriggerSettings.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            groupBox2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -993,6 +1011,8 @@ namespace BanterBrain_Buddy
         private CheckBox TwitchBadWordFilterCheckBox;
         private Button WordFilterButton;
         private Button LLMStartNewConvo;
+        private GroupBox groupBox2;
+        private Button NotableViewersButton;
     }
 }
 
