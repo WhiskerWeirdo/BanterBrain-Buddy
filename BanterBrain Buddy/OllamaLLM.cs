@@ -54,11 +54,6 @@ namespace BanterBrain_Buddy
             return models;
         }
 
-  /*      public Task<string> OllamaGetResponse(string Text, string tmpRoleText)
-        {
-            return OllamaGetResponse(Text, tmpRoleText);//, chat);
-        }
-  */
         public async Task<string> OllamaGetResponse(string Text, string tmpRoleText)//, Chat chat)
         {
             if (_ollama == null)
@@ -148,7 +143,7 @@ namespace BanterBrain_Buddy
         }
 
         //we reset the conversation
-        public void OllamChatReset()
+        public void OllamaChatReset()
         {
             if (chat != null)
             {

@@ -271,6 +271,17 @@ namespace BanterBrain_Buddy
 
         }
 
+        public void ChatGPTChatReset()
+        {
+            if (_Chat != null)
+            {
+                _bBBlog.Info("ChatGPTChatReset called, forcefully resetting the history");
+                _Chat = _OpenAPI.Chat.CreateConversation();
+            } else
+            {
+                _bBBlog.Debug("ChatGPTChatReset failed, chat was not initialized anyway");
+            }
+        }
         public OpenAI()
         {
         }

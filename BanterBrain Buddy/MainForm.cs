@@ -3139,8 +3139,9 @@ namespace BanterBrain_Buddy
         {
             //aight here we call a new conversation i.e. reset the class of the existing GPT or Ollama conversation
             if (_ollamaLLM != null)
-                _ollamaLLM.OllamChatReset();
-
+                _ollamaLLM.OllamaChatReset();
+            if (_openAI != null)
+                _openAI.ChatGPTChatReset();
         }
     }
 }
