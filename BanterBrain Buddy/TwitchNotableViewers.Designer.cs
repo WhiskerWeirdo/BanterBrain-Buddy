@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new System.Windows.Forms.TextBox();
+            TwitchFlavourTextBox = new System.Windows.Forms.TextBox();
             button1 = new System.Windows.Forms.Button();
             button2 = new System.Windows.Forms.Button();
             TwitchNotableViewersComboBox = new System.Windows.Forms.ComboBox();
@@ -37,13 +37,13 @@
             label2 = new System.Windows.Forms.Label();
             SuspendLayout();
             // 
-            // textBox1
+            // TwitchFlavourTextBox
             // 
-            textBox1.Location = new System.Drawing.Point(95, 59);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new System.Drawing.Size(451, 108);
-            textBox1.TabIndex = 1;
+            TwitchFlavourTextBox.Location = new System.Drawing.Point(95, 59);
+            TwitchFlavourTextBox.Multiline = true;
+            TwitchFlavourTextBox.Name = "TwitchFlavourTextBox";
+            TwitchFlavourTextBox.Size = new System.Drawing.Size(451, 108);
+            TwitchFlavourTextBox.TabIndex = 1;
             // 
             // button1
             // 
@@ -109,7 +109,7 @@
             Controls.Add(TwitchNotableViewersComboBox);
             Controls.Add(button2);
             Controls.Add(button1);
-            Controls.Add(textBox1);
+            Controls.Add(TwitchFlavourTextBox);
             Name = "TwitchNotableViewers";
             Text = "Notable Viewers";
             ResumeLayout(false);
@@ -117,7 +117,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox TwitchFlavourTextBox;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox TwitchNotableViewersComboBox;
