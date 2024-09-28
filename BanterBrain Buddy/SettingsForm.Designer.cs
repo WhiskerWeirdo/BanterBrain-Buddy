@@ -43,6 +43,13 @@
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Streaming settings", new System.Windows.Forms.TreeNode[] { treeNode11 });
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             MenuTreeView = new System.Windows.Forms.TreeView();
+            OBSPanel = new System.Windows.Forms.Panel();
+            WebsourceServerEnable = new System.Windows.Forms.CheckBox();
+            label27 = new System.Windows.Forms.Label();
+            TwitchChatSoundSelectButton = new System.Windows.Forms.Button();
+            label26 = new System.Windows.Forms.Label();
+            label25 = new System.Windows.Forms.Label();
+            WebsourceServer = new System.Windows.Forms.TextBox();
             ElevenLabsPanel = new System.Windows.Forms.Panel();
             ElevenLabsModelComboBox = new System.Windows.Forms.ComboBox();
             label34 = new System.Windows.Forms.Label();
@@ -158,18 +165,12 @@
             OllamaURITextBox = new System.Windows.Forms.TextBox();
             label19 = new System.Windows.Forms.Label();
             label15 = new System.Windows.Forms.Label();
-            OBSPanel = new System.Windows.Forms.Panel();
-            WebsourceServerEnable = new System.Windows.Forms.CheckBox();
-            label27 = new System.Windows.Forms.Label();
-            TwitchChatSoundSelectButton = new System.Windows.Forms.Button();
-            label26 = new System.Windows.Forms.Label();
-            label25 = new System.Windows.Forms.Label();
-            WebsourceServer = new System.Windows.Forms.TextBox();
             BBBToolTip = new System.Windows.Forms.ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            OBSPanel.SuspendLayout();
             ElevenLabsPanel.SuspendLayout();
             OpenAIChatGPTPanel.SuspendLayout();
             NativeSpeechPanel.SuspendLayout();
@@ -188,7 +189,6 @@
             ((System.ComponentModel.ISupportInitialize)SpeakerDeviceVolumeTrackBar).BeginInit();
             AzurePanel.SuspendLayout();
             OllamaPanel.SuspendLayout();
-            OBSPanel.SuspendLayout();
             SuspendLayout();
             // 
             // splitContainer1
@@ -203,16 +203,16 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(TwitchPanel);
+            splitContainer1.Panel2.Controls.Add(OBSPanel);
             splitContainer1.Panel2.Controls.Add(ElevenLabsPanel);
             splitContainer1.Panel2.Controls.Add(OpenAIChatGPTPanel);
             splitContainer1.Panel2.Controls.Add(NativeSpeechPanel);
             splitContainer1.Panel2.Controls.Add(MicrophonePanel);
-            splitContainer1.Panel2.Controls.Add(TwitchPanel);
             splitContainer1.Panel2.Controls.Add(PersonasPanel);
             splitContainer1.Panel2.Controls.Add(SpeakerPanel);
             splitContainer1.Panel2.Controls.Add(AzurePanel);
             splitContainer1.Panel2.Controls.Add(OllamaPanel);
-            splitContainer1.Panel2.Controls.Add(OBSPanel);
             splitContainer1.Size = new System.Drawing.Size(800, 579);
             splitContainer1.SplitterDistance = 202;
             splitContainer1.TabIndex = 0;
@@ -252,6 +252,79 @@
             MenuTreeView.TabIndex = 0;
             MenuTreeView.BeforeSelect += MenuTreeView_BeforeSelect;
             MenuTreeView.AfterSelect += TreeView1_AfterSelect;
+            // 
+            // OBSPanel
+            // 
+            OBSPanel.Controls.Add(WebsourceServerEnable);
+            OBSPanel.Controls.Add(label27);
+            OBSPanel.Controls.Add(TwitchChatSoundSelectButton);
+            OBSPanel.Controls.Add(label26);
+            OBSPanel.Controls.Add(label25);
+            OBSPanel.Controls.Add(WebsourceServer);
+            OBSPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            OBSPanel.Location = new System.Drawing.Point(0, 0);
+            OBSPanel.Name = "OBSPanel";
+            OBSPanel.Size = new System.Drawing.Size(594, 579);
+            OBSPanel.TabIndex = 36;
+            OBSPanel.VisibleChanged += OBSPanel_VisibleChanged;
+            // 
+            // WebsourceServerEnable
+            // 
+            WebsourceServerEnable.AutoSize = true;
+            WebsourceServerEnable.Location = new System.Drawing.Point(68, 39);
+            WebsourceServerEnable.Name = "WebsourceServerEnable";
+            WebsourceServerEnable.Size = new System.Drawing.Size(61, 19);
+            WebsourceServerEnable.TabIndex = 11;
+            WebsourceServerEnable.Text = "Enable";
+            WebsourceServerEnable.UseVisualStyleBackColor = true;
+            WebsourceServerEnable.Click += WebsourceServerEnable_Click;
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new System.Drawing.Point(66, 96);
+            label27.Name = "label27";
+            label27.Size = new System.Drawing.Size(88, 15);
+            label27.TabIndex = 10;
+            label27.Text = "Webserver Files";
+            // 
+            // TwitchChatSoundSelectButton
+            // 
+            TwitchChatSoundSelectButton.Image = Properties.Resources.fileopenicon;
+            TwitchChatSoundSelectButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            TwitchChatSoundSelectButton.Location = new System.Drawing.Point(224, 92);
+            TwitchChatSoundSelectButton.Name = "TwitchChatSoundSelectButton";
+            TwitchChatSoundSelectButton.Size = new System.Drawing.Size(29, 23);
+            TwitchChatSoundSelectButton.TabIndex = 9;
+            BBBToolTip.SetToolTip(TwitchChatSoundSelectButton, "Open sound directory");
+            TwitchChatSoundSelectButton.UseVisualStyleBackColor = true;
+            TwitchChatSoundSelectButton.Click += TwitchChatSoundSelectButton_Click;
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new System.Drawing.Point(226, 16);
+            label26.Name = "label26";
+            label26.Size = new System.Drawing.Size(29, 15);
+            label26.TabIndex = 6;
+            label26.Text = "OBS";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new System.Drawing.Point(66, 68);
+            label25.Name = "label25";
+            label25.Size = new System.Drawing.Size(100, 15);
+            label25.TabIndex = 5;
+            label25.Text = "Websource server";
+            // 
+            // WebsourceServer
+            // 
+            WebsourceServer.Location = new System.Drawing.Point(224, 63);
+            WebsourceServer.Name = "WebsourceServer";
+            WebsourceServer.Size = new System.Drawing.Size(168, 23);
+            WebsourceServer.TabIndex = 4;
+            WebsourceServer.Validating += WebsourceServer_Validating;
             // 
             // ElevenLabsPanel
             // 
@@ -644,9 +717,9 @@
             groupBox3.Controls.Add(TwitchBotAuthKey);
             groupBox3.Controls.Add(TwitchBotNameLabel);
             groupBox3.Controls.Add(TwitchBotAccessTokenLabel);
-            groupBox3.Location = new System.Drawing.Point(275, 39);
+            groupBox3.Location = new System.Drawing.Point(275, 33);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(306, 120);
+            groupBox3.Size = new System.Drawing.Size(306, 126);
             groupBox3.TabIndex = 37;
             groupBox3.TabStop = false;
             groupBox3.Text = "Bot Account";
@@ -1508,79 +1581,6 @@
             label15.TabIndex = 0;
             label15.Text = "Ollama";
             // 
-            // OBSPanel
-            // 
-            OBSPanel.Controls.Add(WebsourceServerEnable);
-            OBSPanel.Controls.Add(label27);
-            OBSPanel.Controls.Add(TwitchChatSoundSelectButton);
-            OBSPanel.Controls.Add(label26);
-            OBSPanel.Controls.Add(label25);
-            OBSPanel.Controls.Add(WebsourceServer);
-            OBSPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            OBSPanel.Location = new System.Drawing.Point(0, 0);
-            OBSPanel.Name = "OBSPanel";
-            OBSPanel.Size = new System.Drawing.Size(594, 579);
-            OBSPanel.TabIndex = 36;
-            OBSPanel.VisibleChanged += OBSPanel_VisibleChanged;
-            // 
-            // WebsourceServerEnable
-            // 
-            WebsourceServerEnable.AutoSize = true;
-            WebsourceServerEnable.Location = new System.Drawing.Point(68, 39);
-            WebsourceServerEnable.Name = "WebsourceServerEnable";
-            WebsourceServerEnable.Size = new System.Drawing.Size(61, 19);
-            WebsourceServerEnable.TabIndex = 11;
-            WebsourceServerEnable.Text = "Enable";
-            WebsourceServerEnable.UseVisualStyleBackColor = true;
-            WebsourceServerEnable.Click += WebsourceServerEnable_Click;
-            // 
-            // label27
-            // 
-            label27.AutoSize = true;
-            label27.Location = new System.Drawing.Point(66, 96);
-            label27.Name = "label27";
-            label27.Size = new System.Drawing.Size(88, 15);
-            label27.TabIndex = 10;
-            label27.Text = "Webserver Files";
-            // 
-            // TwitchChatSoundSelectButton
-            // 
-            TwitchChatSoundSelectButton.Image = Properties.Resources.fileopenicon;
-            TwitchChatSoundSelectButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            TwitchChatSoundSelectButton.Location = new System.Drawing.Point(224, 92);
-            TwitchChatSoundSelectButton.Name = "TwitchChatSoundSelectButton";
-            TwitchChatSoundSelectButton.Size = new System.Drawing.Size(29, 23);
-            TwitchChatSoundSelectButton.TabIndex = 9;
-            BBBToolTip.SetToolTip(TwitchChatSoundSelectButton, "Open sound directory");
-            TwitchChatSoundSelectButton.UseVisualStyleBackColor = true;
-            TwitchChatSoundSelectButton.Click += TwitchChatSoundSelectButton_Click;
-            // 
-            // label26
-            // 
-            label26.AutoSize = true;
-            label26.Location = new System.Drawing.Point(226, 16);
-            label26.Name = "label26";
-            label26.Size = new System.Drawing.Size(29, 15);
-            label26.TabIndex = 6;
-            label26.Text = "OBS";
-            // 
-            // label25
-            // 
-            label25.AutoSize = true;
-            label25.Location = new System.Drawing.Point(66, 68);
-            label25.Name = "label25";
-            label25.Size = new System.Drawing.Size(100, 15);
-            label25.TabIndex = 5;
-            label25.Text = "Websource server";
-            // 
-            // WebsourceServer
-            // 
-            WebsourceServer.Location = new System.Drawing.Point(224, 63);
-            WebsourceServer.Name = "WebsourceServer";
-            WebsourceServer.Size = new System.Drawing.Size(168, 23);
-            WebsourceServer.TabIndex = 4;
-            WebsourceServer.Validating += WebsourceServer_Validating;
-            // 
             // SettingsForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1595,6 +1595,8 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            OBSPanel.ResumeLayout(false);
+            OBSPanel.PerformLayout();
             ElevenLabsPanel.ResumeLayout(false);
             ElevenLabsPanel.PerformLayout();
             OpenAIChatGPTPanel.ResumeLayout(false);
@@ -1627,8 +1629,6 @@
             AzurePanel.PerformLayout();
             OllamaPanel.ResumeLayout(false);
             OllamaPanel.PerformLayout();
-            OBSPanel.ResumeLayout(false);
-            OBSPanel.PerformLayout();
             ResumeLayout(false);
         }
 

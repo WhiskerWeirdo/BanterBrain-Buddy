@@ -136,8 +136,8 @@ namespace BanterBrain_Buddy
                     // Assuming your current version is stored in a similar tag format
                     string currentVersion = Version; // This should be dynamically obtained from your application
                     // Parse the numeric parts into Version objects
-                    Version version1 = new (currentVersion);
-                    Version version2 = new (latestVersion);
+                    Version version1 = new(currentVersion);
+                    Version version2 = new(latestVersion);
 
                     if (version1 < version2)
                     {
@@ -3133,6 +3133,14 @@ namespace BanterBrain_Buddy
                 Properties.Settings.Default.BadWordFilter = false;
                 Properties.Settings.Default.Save();
             }
+        }
+
+        private void LLMStartNewConvo_Click(object sender, EventArgs e)
+        {
+            //aight here we call a new conversation i.e. reset the class of the existing GPT or Ollama conversation
+            if (_ollamaLLM != null)
+                _ollamaLLM.OllamChatReset();
+
         }
     }
 }

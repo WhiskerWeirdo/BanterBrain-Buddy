@@ -54,6 +54,7 @@ namespace BanterBrain_Buddy
             CustomResponseButton = new Button();
             TwitchLLMLanguageComboBox = new ComboBox();
             LLMGroupSettingsGroupBox = new GroupBox();
+            LLMStartNewConvo = new Button();
             LLMResponseSelecter = new ComboBox();
             label7 = new Label();
             TwitchSettingsGroupBox = new GroupBox();
@@ -309,11 +310,20 @@ namespace BanterBrain_Buddy
             // 
             // LLMGroupSettingsGroupBox
             // 
+            LLMGroupSettingsGroupBox.Controls.Add(LLMStartNewConvo);
             LLMGroupSettingsGroupBox.Controls.Add(LLMResponseSelecter);
             LLMGroupSettingsGroupBox.Controls.Add(label7);
             resources.ApplyResources(LLMGroupSettingsGroupBox, "LLMGroupSettingsGroupBox");
             LLMGroupSettingsGroupBox.Name = "LLMGroupSettingsGroupBox";
             LLMGroupSettingsGroupBox.TabStop = false;
+            // 
+            // LLMStartNewConvo
+            // 
+            resources.ApplyResources(LLMStartNewConvo, "LLMStartNewConvo");
+            LLMStartNewConvo.Name = "LLMStartNewConvo";
+            BBBToolTip.SetToolTip(LLMStartNewConvo, resources.GetString("LLMStartNewConvo.ToolTip"));
+            LLMStartNewConvo.UseVisualStyleBackColor = true;
+            LLMStartNewConvo.Click += LLMStartNewConvo_Click;
             // 
             // LLMResponseSelecter
             // 
@@ -982,6 +992,7 @@ namespace BanterBrain_Buddy
         private GroupBox groupBox1;
         private CheckBox TwitchBadWordFilterCheckBox;
         private Button WordFilterButton;
+        private Button LLMStartNewConvo;
     }
 }
 

@@ -54,12 +54,12 @@ namespace BanterBrain_Buddy
             return models;
         }
 
-        public Task<string> OllamaGetResponse(string Text, string tmpRoleText)
+  /*      public Task<string> OllamaGetResponse(string Text, string tmpRoleText)
         {
-            return OllamaGetResponse(Text, tmpRoleText, chat);
+            return OllamaGetResponse(Text, tmpRoleText);//, chat);
         }
-
-        public async Task<string> OllamaGetResponse(string Text, string tmpRoleText, Chat chat)
+  */
+        public async Task<string> OllamaGetResponse(string Text, string tmpRoleText)//, Chat chat)
         {
             if (_ollama == null)
             {
@@ -96,6 +96,14 @@ namespace BanterBrain_Buddy
             
             //chat ??= _ollama.Chat(stream => response += stream.Message?.Content);
             //chat ??= _ollama.Chat();
+            if (chat != null)
+            {
+                _bBBlog.Info("Chat already initialized");
+            }
+            else
+            {
+                _bBBlog.Info("Chat not initialized");
+            }
             chat ??= new Chat(_ollama);
             _bBBlog.Info("Chat initialized");
             //if we have an existing conversation
@@ -137,6 +145,21 @@ namespace BanterBrain_Buddy
                 return false;
             }
             return true;
+        }
+
+        //we reset the conversation
+        public void OllamChatReset()
+        {
+            if (chat != null)
+            {
+                _bBBlog.Info("OllamaChatReset called, forcefully resetting the history");
+                chat = new Chat(_ollama);
+
+            }
+            else
+            {
+                _bBBlog.Debug("OllamaChatReset failed, chat was not initialized anyway");
+            }
         }
 
         public OllamaLLM(string LocalUri)
