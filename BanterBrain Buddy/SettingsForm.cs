@@ -1218,7 +1218,7 @@ namespace BanterBrain_Buddy
                 }
                 else
                 { //we are in mock mode, so we just say we started
-                    _bBBlog.Info("Twitch EventSub client  starting successfully in mock mode");
+                    _bBBlog.Info("Twitch EventSub client starting successfully in mock mode");
                     eventSubStart = await twitchTestEventSub.EventSubStartAsyncMock();
 
                     twitchStartedTest = true;

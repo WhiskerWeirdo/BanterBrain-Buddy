@@ -541,6 +541,33 @@
   <data name="BBBTabs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="TwitchMockCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TwitchMockCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>662, 500</value>
+  </data>
+  <data name="TwitchMockCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 19</value>
+  </data>
+  <data name="TwitchMockCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="TwitchMockCheckBox.Text" xml:space="preserve">
+    <value>Twitch ESub Mock</value>
+  </data>
+  <data name="&gt;&gt;TwitchMockCheckBox.Name" xml:space="preserve">
+    <value>TwitchMockCheckBox</value>
+  </data>
+  <data name="&gt;&gt;TwitchMockCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitchMockCheckBox.Parent" xml:space="preserve">
+    <value>StreamingSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;TwitchMockCheckBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="CustomResponseButton.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -623,7 +650,7 @@
     <value>StreamingSettingsTab</value>
   </data>
   <data name="&gt;&gt;TwitchLLMLanguageGroupBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="LLMStartNewConvo.Location" type="System.Drawing.Point, System.Drawing">
     <value>194, 29</value>
@@ -722,7 +749,7 @@
     <value>StreamingSettingsTab</value>
   </data>
   <data name="&gt;&gt;LLMGroupSettingsGroupBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="NotableViewersButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 38</value>
@@ -2375,7 +2402,7 @@
     <value>StreamingSettingsTab</value>
   </data>
   <data name="&gt;&gt;TwitchSettingsGroupBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="StreamingSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 24</value>

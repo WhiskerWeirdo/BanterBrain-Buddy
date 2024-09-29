@@ -50,6 +50,7 @@ namespace BanterBrain_Buddy
             TwitchStatusLabel = new Label();
             BBBTabs = new TabControl();
             StreamingSettingsTab = new TabPage();
+            TwitchMockCheckBox = new CheckBox();
             TwitchLLMLanguageGroupBox = new GroupBox();
             CustomResponseButton = new Button();
             TwitchLLMLanguageComboBox = new ComboBox();
@@ -280,12 +281,19 @@ namespace BanterBrain_Buddy
             // 
             // StreamingSettingsTab
             // 
+            StreamingSettingsTab.Controls.Add(TwitchMockCheckBox);
             StreamingSettingsTab.Controls.Add(TwitchLLMLanguageGroupBox);
             StreamingSettingsTab.Controls.Add(LLMGroupSettingsGroupBox);
             StreamingSettingsTab.Controls.Add(TwitchSettingsGroupBox);
             resources.ApplyResources(StreamingSettingsTab, "StreamingSettingsTab");
             StreamingSettingsTab.Name = "StreamingSettingsTab";
             StreamingSettingsTab.UseVisualStyleBackColor = true;
+            // 
+            // TwitchMockCheckBox
+            // 
+            resources.ApplyResources(TwitchMockCheckBox, "TwitchMockCheckBox");
+            TwitchMockCheckBox.Name = "TwitchMockCheckBox";
+            TwitchMockCheckBox.UseVisualStyleBackColor = true;
             // 
             // TwitchLLMLanguageGroupBox
             // 
@@ -890,6 +898,7 @@ namespace BanterBrain_Buddy
             MicrophoneRecordGroupBox.ResumeLayout(false);
             BBBTabs.ResumeLayout(false);
             StreamingSettingsTab.ResumeLayout(false);
+            StreamingSettingsTab.PerformLayout();
             TwitchLLMLanguageGroupBox.ResumeLayout(false);
             LLMGroupSettingsGroupBox.ResumeLayout(false);
             LLMGroupSettingsGroupBox.PerformLayout();
@@ -1013,6 +1022,7 @@ namespace BanterBrain_Buddy
         private Button LLMStartNewConvo;
         private GroupBox groupBox2;
         private Button NotableViewersButton;
+        private CheckBox TwitchMockCheckBox;
     }
 }
 

@@ -115,6 +115,7 @@ namespace BanterBrain_Buddy
 
         private async Task CheckForNewVersionAsync()
         {
+
             TextLog.AppendText("Checking version...\r\n");
 
             using (var client = new HttpClient())
@@ -146,6 +147,7 @@ namespace BanterBrain_Buddy
                         VersionUpdateLabel.Text = $"Update available!";
                         VersionUpdateLabel.BackColor = Color.Orange;
                         // Here you can add logic to prompt the user to download the new version
+                        TwitchMockCheckBox.Visible = false;
                     }
                     else if (version2 < version1)
                     {
@@ -153,6 +155,9 @@ namespace BanterBrain_Buddy
                         TextLog.AppendText($"You run a newer version than the newest published version! Remote: {latestVersion}. You are currently on {currentVersion}.\r\n");
                         VersionUpdateLabel.Text = $"Hi Dev!";
                         VersionUpdateLabel.BackColor = Color.Yellow;
+                        // we need to hide this option from non devs
+                        TwitchMockCheckBox.Visible = true;
+
                     }
                     else if (version1 == version2)
                     {
@@ -160,6 +165,7 @@ namespace BanterBrain_Buddy
                         TextLog.AppendText("You are on the latest version.\r\n");
                         VersionUpdateLabel.Text = "No update";
                         VersionUpdateLabel.BackColor = Color.Green;
+                        TwitchMockCheckBox.Visible = false;
                     }
                 }
                 catch (TaskCanceledException ex)
@@ -1928,12 +1934,30 @@ namespace BanterBrain_Buddy
                     _twitchEventSub.OnESubChannelPointRedemption += TwitchEventSub_OnESubChannelPointRedemption;
                 }
 
-                eventSubStart = await _twitchEventSub.EventSubStartAsync();
+                // we need to enable MOCK here
+                if (TwitchMockCheckBox.Checked)
+                {
+                    _bBBlog.Info("Twitch Mock enabled, calling EventSubHandleMock");
+                    eventSubStart = await _twitchEventSub.EventSubStartAsyncMock();
+                }
+                else
+                {
+                    //this is prod
+                    eventSubStart = await _twitchEventSub.EventSubStartAsync();
+                }
 
                 if (eventSubStart)
                 {
-                    _bBBlog.Info("Twitch EventSub client  started successfully");
-                    UpdateTextLog("Twitch EventSub client started successfully\r\n");
+                    if (TwitchMockCheckBox.Checked)
+                    {
+                        _bBBlog.Info("Twitch EventSub client started in MOCK mode successfully");
+                        UpdateTextLog("Twitch EventSub client started in MOCK mode successfully\r\n");
+                    }
+                    else
+                    {
+                        _bBBlog.Info("Twitch EventSub client  started successfully");
+                        UpdateTextLog("Twitch EventSub client started successfully\r\n");
+                    }
                     TwitchEventSubStatusTextBox.Text = "ENABLED";
                     TwitchEventSubStatusTextBox.BackColor = Color.Green;
                     _twitchStarted = true;
