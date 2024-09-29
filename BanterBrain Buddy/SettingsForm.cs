@@ -2217,5 +2217,13 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Info("ElevenLabs model changed to " + ElevenLabsModelComboBox.Text);
         }
+
+        [SupportedOSPlatform("windows6.1")]
+        private void TwitchAuthServerConfig_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _bBBlog.Info("Twitch Auth server config changed to " + TwitchAuthServerConfig.Text);
+            Properties.Settings.Default.TwitchAuthServerConfig = TwitchAuthServerConfig.Text;
+            Properties.Settings.Default.Save();
+        }
     }
 }

@@ -58,6 +58,8 @@ namespace BanterBrain_Buddy
             LLMResponseSelecter = new ComboBox();
             label7 = new Label();
             TwitchSettingsGroupBox = new GroupBox();
+            groupBox2 = new GroupBox();
+            NotableViewersButton = new Button();
             groupBox1 = new GroupBox();
             TwitchBadWordFilterCheckBox = new CheckBox();
             WordFilterButton = new Button();
@@ -126,8 +128,6 @@ namespace BanterBrain_Buddy
             menuStrip1 = new MenuStrip();
             seToolStripMenuItem = new ToolStripMenuItem();
             BBBToolTip = new ToolTip(components);
-            groupBox2 = new GroupBox();
-            NotableViewersButton = new Button();
             MainTab.SuspendLayout();
             UpdateGroupBox.SuspendLayout();
             StreamerTTSNameGroupBox.SuspendLayout();
@@ -139,6 +139,7 @@ namespace BanterBrain_Buddy
             TwitchLLMLanguageGroupBox.SuspendLayout();
             LLMGroupSettingsGroupBox.SuspendLayout();
             TwitchSettingsGroupBox.SuspendLayout();
+            groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
             TwitchResponseSettings.SuspendLayout();
             TwitchSoundsSettings.SuspendLayout();
@@ -147,7 +148,6 @@ namespace BanterBrain_Buddy
             TwitchCheerSettings.SuspendLayout();
             TwitchChatTriggerSettings.SuspendLayout();
             menuStrip1.SuspendLayout();
-            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // MainTab
@@ -357,6 +357,19 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(TwitchSettingsGroupBox, "TwitchSettingsGroupBox");
             TwitchSettingsGroupBox.Name = "TwitchSettingsGroupBox";
             TwitchSettingsGroupBox.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(NotableViewersButton);
+            resources.ApplyResources(groupBox2, "groupBox2");
+            groupBox2.Name = "groupBox2";
+            groupBox2.TabStop = false;
+            // 
+            // NotableViewersButton
+            // 
+            resources.ApplyResources(NotableViewersButton, "NotableViewersButton");
+            NotableViewersButton.Name = "NotableViewersButton";
+            NotableViewersButton.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -853,19 +866,6 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(seToolStripMenuItem, "seToolStripMenuItem");
             seToolStripMenuItem.Click += SeToolStripMenuItem_Click;
             // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(NotableViewersButton);
-            resources.ApplyResources(groupBox2, "groupBox2");
-            groupBox2.Name = "groupBox2";
-            groupBox2.TabStop = false;
-            // 
-            // NotableViewersButton
-            // 
-            resources.ApplyResources(NotableViewersButton, "NotableViewersButton");
-            NotableViewersButton.Name = "NotableViewersButton";
-            NotableViewersButton.UseVisualStyleBackColor = true;
-            // 
             // BBB
             // 
             resources.ApplyResources(this, "$this");
@@ -895,6 +895,7 @@ namespace BanterBrain_Buddy
             LLMGroupSettingsGroupBox.PerformLayout();
             TwitchSettingsGroupBox.ResumeLayout(false);
             TwitchSettingsGroupBox.PerformLayout();
+            groupBox2.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             TwitchResponseSettings.ResumeLayout(false);
@@ -911,7 +912,6 @@ namespace BanterBrain_Buddy
             TwitchChatTriggerSettings.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            groupBox2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
