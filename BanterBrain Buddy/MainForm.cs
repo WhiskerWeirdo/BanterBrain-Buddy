@@ -2150,14 +2150,12 @@ namespace BanterBrain_Buddy
                         await PlayWaveFile(TwitchSubscriptionSoundTextBox.Text);
                     }
                 }
-                if (TwitchSubscriptionTTSEverythingRadioButton.Checked)
-                {
-                    _bBBlog.Info("Lets say a short \"thank you\" for the gifted sub(s)");
-                    if (int.Parse(amount) > 1)
-                        await SayText(TwitchLLMLanguage.GiftedMultipleSubs.Replace("{user}", user).Replace("{amount}", amount).Replace("{tier}", tier), 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
-                    else
-                        await SayText(TwitchLLMLanguage.GiftedSingleSub.Replace("{user}", user).Replace("{amount}", amount).Replace("{tier}", tier), 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
-                }
+                //we always want to thank a gifted sub, so we dont need to check if the TTS is enabled
+                _bBBlog.Info("Lets say a short \"thank you\" for the gifted sub(s)");
+                if (int.Parse(amount) > 1)
+                    await SayText(TwitchLLMLanguage.GiftedMultipleSubs.Replace("{user}", user).Replace("{amount}", amount).Replace("{tier}", tier), 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
+                else
+                    await SayText(TwitchLLMLanguage.GiftedSingleSub.Replace("{user}", user).Replace("{amount}", amount).Replace("{tier}", tier), 0, GetSelectedPersona(Properties.Settings.Default.TwitchSubscriptionPersona));
             });
 
         }
