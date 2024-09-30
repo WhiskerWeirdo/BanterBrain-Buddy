@@ -48,23 +48,51 @@ namespace BanterBrain_Buddy
             }
         }
 
+        // Function to validate the API key with a timeout
+        // if it times out, we will retry once
         public async Task<bool> OpenAICheckAPIKey()
         {
-            
+            _bBBlog.Debug("Verifying OpenAI API key");
             if (string.IsNullOrEmpty(Properties.Settings.Default.GPTAPIKey))
             {
                 _bBBlog.Error("OpenAI API Key is missing or bad");
                 return false;
-            } else
+            }
+            else
             {
                 OpenAIAPIKey = Properties.Settings.Default.GPTAPIKey;
                 _OpenAPI ??= new(OpenAIAPIKey);
-                //do actual api key check here
-                if (await _OpenAPI.Auth.ValidateAPIKey())
+
+                // Function to validate the API key with a timeout
+                async Task<bool> ValidateAPIKeyWithTimeout()
+                {
+                    var validateTask = _OpenAPI.Auth.ValidateAPIKey();
+                    var timeoutTask = Task.Delay(TimeSpan.FromSeconds(15)); // 10 seconds timeout
+
+                    var completedTask = await Task.WhenAny(validateTask, timeoutTask);
+                    if (completedTask == timeoutTask)
+                    {
+                        _bBBlog.Error("OpenAI API Key validation timed out");
+                        return false;
+                    }
+
+                    return await validateTask;
+                }
+
+                // First attempt
+                if (await ValidateAPIKeyWithTimeout())
                 {
                     _bBBlog.Info("OpenAI API Key is valid");
                     return true;
-                    }
+                }
+
+                // Retry once if the first attempt times out
+                _bBBlog.Info("Retrying OpenAI API Key validation");
+                if (await ValidateAPIKeyWithTimeout())
+                {
+                    _bBBlog.Info("OpenAI API Key is valid");
+                    return true;
+                }
                 else
                 {
                     _bBBlog.Error("OpenAI API Key is invalid");
