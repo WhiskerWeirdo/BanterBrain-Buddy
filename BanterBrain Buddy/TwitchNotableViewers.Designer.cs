@@ -44,6 +44,7 @@
             TwitchFlavourTextBox.Name = "TwitchFlavourTextBox";
             TwitchFlavourTextBox.Size = new System.Drawing.Size(451, 108);
             TwitchFlavourTextBox.TabIndex = 1;
+            TwitchFlavourTextBox.TextChanged += TwitchFlavourTextBox_TextChanged;
             // 
             // ViewerAddButton
             // 
@@ -51,8 +52,9 @@
             ViewerAddButton.Name = "ViewerAddButton";
             ViewerAddButton.Size = new System.Drawing.Size(75, 23);
             ViewerAddButton.TabIndex = 3;
-            ViewerAddButton.Text = "Add";
+            ViewerAddButton.Text = "New";
             ViewerAddButton.UseVisualStyleBackColor = true;
+            ViewerAddButton.Click += ViewerAddButton_Click;
             // 
             // ViewerDeleteButton
             // 
@@ -69,17 +71,19 @@
             TwitchNotableViewersComboBox.Location = new System.Drawing.Point(95, 26);
             TwitchNotableViewersComboBox.Name = "TwitchNotableViewersComboBox";
             TwitchNotableViewersComboBox.Size = new System.Drawing.Size(208, 23);
-            TwitchNotableViewersComboBox.TabIndex = 5;
+            TwitchNotableViewersComboBox.TabIndex = 0;
             TwitchNotableViewersComboBox.SelectedIndexChanged += TwitchNotableViewersComboBox_SelectedIndexChanged;
             // 
             // ViewerSaveButton
             // 
+            ViewerSaveButton.Enabled = false;
             ViewerSaveButton.Location = new System.Drawing.Point(390, 26);
             ViewerSaveButton.Name = "ViewerSaveButton";
             ViewerSaveButton.Size = new System.Drawing.Size(75, 23);
             ViewerSaveButton.TabIndex = 6;
             ViewerSaveButton.Text = "Save";
             ViewerSaveButton.UseVisualStyleBackColor = true;
+            ViewerSaveButton.Click += ViewerSaveButton_Click;
             // 
             // label1
             // 

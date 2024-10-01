@@ -3079,7 +3079,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        private void downloadToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //spawn browser for github link
             var t = new Thread(() => Process.Start(new ProcessStartInfo("https://github.com/WhiskerWeirdo/BanterBrain-Buddy/releases/latest") { UseShellExecute = true }));
@@ -3160,10 +3160,8 @@ namespace BanterBrain_Buddy
         private void LLMStartNewConvo_Click(object sender, EventArgs e)
         {
             //aight here we call a new conversation i.e. reset the class of the existing GPT or Ollama conversation
-            if (_ollamaLLM != null)
-                _ollamaLLM.OllamaChatReset();
-            if (_openAI != null)
-                _openAI.ChatGPTChatReset();
+            _ollamaLLM?.OllamaChatReset();
+            _openAI?.ChatGPTChatReset();
         }
 
         [SupportedOSPlatform("windows10.0.10240")]

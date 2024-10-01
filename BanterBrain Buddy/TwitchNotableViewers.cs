@@ -8,6 +8,7 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TwitchLib.Api.Helix.Models.Extensions.ReleasedExtensions;
 
 //alright here we add, edit and remove specific viewers. When added you can add a flavour text to be send to the LLM for a _viewer-customized response
 namespace BanterBrain_Buddy
@@ -19,6 +20,7 @@ namespace BanterBrain_Buddy
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private TwitchNotableViewerClass _viewer;
         private List<TwitchNotableViewerClass> viewers = [];
+        private bool FlavourTextEdited = false;
 
         public TwitchNotableViewers()
         {
@@ -38,12 +40,12 @@ namespace BanterBrain_Buddy
 
             if (System.IO.File.Exists(path))
             {
-                _bBBlog.Info("Viewers file found, loading viewers");
+                _bBBlog.Info("Viewers file found, loading viewers from json file");
                 string[] lines = System.IO.File.ReadAllLines(path);
                 foreach (string line in lines)
                 {
                     string[] parts = line.Split(':');
-                    _viewer ??= new TwitchNotableViewerClass();
+                    _viewer = new TwitchNotableViewerClass();
                     _viewer.ViewerName = parts[0];
                     _viewer.FlavourText = parts[1];
                     viewers.Add(_viewer);
@@ -55,6 +57,10 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info("Viewers file not found, creating new file");
                 System.IO.File.Create(path);
             }
+
+            //we just loaded it, so nothing is changed!
+            FlavourTextEdited = false;
+            ViewerSaveButton.Enabled = false;
         }
 
         [SupportedOSPlatform("windows10.0.10240")]
@@ -72,8 +78,9 @@ namespace BanterBrain_Buddy
             }
             else
             {
-                _bBBlog.Info("No viewers found, lets add some!");
+                _bBBlog.Info("No viewers found, so why not add some!");
             }
+
         }
 
         [SupportedOSPlatform("windows10.0.10240")]
@@ -90,11 +97,86 @@ namespace BanterBrain_Buddy
 
         }
 
+        //here we save the current class to the json file
+        [SupportedOSPlatform("windows10.0.10240")]
+        public void TwitchNotableViewers_SaveToFile()
+        {
+            if (viewers.Count < 1)
+            {
+                _bBBlog.Info("No viewers to save.");
+                return;
+            }
 
-        //Here we add a _viewer to the list, first we check if it exists, if it does we dont do anything else we create a new _viewer and add it to the list
-        //and add the flavour text. We also update the class with the new information.
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\viewers.json";
+            _bBBlog.Info("Saving viewers to file");
+            //lets open the, empty it and write the viewers to it
+            System.IO.File.WriteAllText(path, "");
+            foreach (TwitchNotableViewerClass viewer in viewers)
+            {
+                System.IO.File.AppendAllText(path, viewer.ViewerName + ":" + viewer.FlavourText + Environment.NewLine);
+            }
 
-        //here we remove a _viewer from the list, update the class and then save the class to the json file
+        }
+
+
+        private void ViewerAddButton_Click(object sender, EventArgs e)
+        {
+            if (FlavourTextEdited)
+            {
+                //first lets ask if they wanna save what they got since aparently its changed
+            } else
+            {
+                //lets empty all the text box and combobox
+            }
+
+        }
+
+        private void ViewerSaveButton_Click(object sender, EventArgs e)
+        {
+            if (!FlavourTextEdited)
+            {
+                _bBBlog.Info("No changes to save");
+                return;
+            }
+            //first we check if the viewer already exists, set focus to the flavour text box
+            if (viewers.Any(x => x.ViewerName == TwitchNotableViewersComboBox.Text))
+            {
+                _bBBlog.Info("Viewer already exists, please select it from the list to edit");
+                TwitchFlavourTextBox.Focus();
+                return;
+            }
+            else
+            {
+                _bBBlog.Info("Adding new viewer to the collection");
+                //disable the event for selected index changed
+                TwitchNotableViewersComboBox.SelectedIndexChanged -= TwitchNotableViewersComboBox_SelectedIndexChanged;
+                _viewer = new TwitchNotableViewerClass();
+                _viewer.ViewerName = TwitchNotableViewersComboBox.Text;
+                viewers.Add(_viewer);
+                TwitchNotableViewersComboBox.Items.Add(_viewer.ViewerName);
+                //set the selected index to the new viewer
+                TwitchNotableViewersComboBox.SelectedIndex = TwitchNotableViewersComboBox.Items.Count - 1;
+                TwitchFlavourTextBox.Focus();
+                TwitchNotableViewersComboBox.SelectedIndexChanged += TwitchNotableViewersComboBox_SelectedIndexChanged;
+                //aaand we save it to the file
+                TwitchNotableViewers_SaveToFile();
+                FlavourTextEdited = false;
+                ViewerSaveButton.Enabled = false;
+            }
+        }
+
+        private void TwitchFlavourTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (TwitchNotableViewersComboBox.Text.Length > 1)
+            {
+                //if the text is changed, we set the flag to true and enable the save button
+                FlavourTextEdited = true;
+                ViewerSaveButton.Enabled = true;
+            }
+        }
+
+        //if the delete button is clicked, we remove the viewer from the list and the combobox
+        //and then save that to the file
 
 
     }

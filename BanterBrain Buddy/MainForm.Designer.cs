@@ -848,7 +848,7 @@ namespace BanterBrain_Buddy
             // 
             downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
             resources.ApplyResources(downloadToolStripMenuItem, "downloadToolStripMenuItem");
-            downloadToolStripMenuItem.Click += downloadToolStripMenuItem_Click;
+            downloadToolStripMenuItem.Click += DownloadToolStripMenuItem_Click;
             // 
             // DiscordToolStripMenuItem
             // 

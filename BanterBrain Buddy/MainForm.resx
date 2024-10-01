@@ -2417,7 +2417,7 @@
     <value>3</value>
   </data>
   <data name="StreamingSettingsTab.Text" xml:space="preserve">
-    <value>Twitch</value>
+    <value>Streaming Settings</value>
   </data>
   <data name="&gt;&gt;StreamingSettingsTab.Name" xml:space="preserve">
     <value>StreamingSettingsTab</value>
