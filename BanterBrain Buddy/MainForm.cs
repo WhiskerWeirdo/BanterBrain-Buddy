@@ -1335,6 +1335,9 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows10.0.10240")]
         private async Task LoadSettings()
         {
+            //TODO if there are any Properties.Settings.Default around we need to read them and convert them to the new settings format
+            //this is the first time we are loading the settings, so we need to check if we need to convert any old settings
+
 
             TwitchCommandTrigger.Text = Properties.Settings.Default.TwitchCommandTrigger;
             TwitchChatCommandDelay.Text = Properties.Settings.Default.TwitchChatCommandDelay.ToString();
