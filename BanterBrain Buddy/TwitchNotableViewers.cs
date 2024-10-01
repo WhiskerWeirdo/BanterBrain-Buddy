@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -41,21 +42,14 @@ namespace BanterBrain_Buddy
             if (System.IO.File.Exists(path))
             {
                 _bBBlog.Info("Viewers file found, loading viewers from json file");
-                string[] lines = System.IO.File.ReadAllLines(path);
-                foreach (string line in lines)
-                {
-                    string[] parts = line.Split(':');
-                    _viewer = new TwitchNotableViewerClass();
-                    _viewer.ViewerName = parts[0];
-                    _viewer.FlavourText = parts[1];
-                    viewers.Add(_viewer);
-                }
+                string json = System.IO.File.ReadAllText(path);
+                viewers = JsonConvert.DeserializeObject<List<TwitchNotableViewerClass>>(json) ?? new List<TwitchNotableViewerClass>();
             }
             else
             {
                 //we create the file if it doesn't exist
                 _bBBlog.Info("Viewers file not found, creating new file");
-                System.IO.File.Create(path);
+                System.IO.File.Create(path).Dispose();
             }
 
             //we just loaded it, so nothing is changed!
@@ -109,12 +103,11 @@ namespace BanterBrain_Buddy
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\viewers.json";
             _bBBlog.Info("Saving viewers to file");
-            //lets open the, empty it and write the viewers to it
-            System.IO.File.WriteAllText(path, "");
-            foreach (TwitchNotableViewerClass viewer in viewers)
-            {
-                System.IO.File.AppendAllText(path, viewer.ViewerName + ":" + viewer.FlavourText + Environment.NewLine);
-            }
+            // Serialize the list of viewers to JSON format
+            string json = JsonConvert.SerializeObject(viewers, Formatting.Indented);
+
+            // Write the JSON string to the file
+            System.IO.File.WriteAllText(path, json);
 
         }
 
