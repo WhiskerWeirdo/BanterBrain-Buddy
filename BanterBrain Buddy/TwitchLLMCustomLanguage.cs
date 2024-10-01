@@ -21,7 +21,7 @@ namespace BanterBrain_Buddy
         private TwitchLLMResponseLanguage TwitchLLMLanguage;
         private bool TwitchLLMTextChanged = false;
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         public TwitchLLMCustomLanguage()
         {
 
@@ -30,7 +30,7 @@ namespace BanterBrain_Buddy
 
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void DisableEventHandlers()
         {
             _bBBlog.Debug("Disabling event handlers for text changes");
@@ -51,7 +51,7 @@ namespace BanterBrain_Buddy
             ChatMessageIntermediaryTextBox.TextChanged -= ChatMessageIntermediaryTextBox_TextChanged;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void EnableEventHandlers()
         {
             _bBBlog.Debug("Enabling event handlers for text changes");
@@ -71,7 +71,7 @@ namespace BanterBrain_Buddy
             ChatMessageIntermediaryTextBox.TextChanged += ChatMessageIntermediaryTextBox_TextChanged;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void LoadClassIntoText()
         {
             _bBBlog.Info($"Twitch LLM language file loaded with language: {TwitchLLMLanguage.Language}");
@@ -93,7 +93,7 @@ namespace BanterBrain_Buddy
             ChatMessageIntermediaryTextBox.Text = TwitchLLMLanguage.ChatMessageResponseLLM;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchLLMCustomLanguage_Shown(object sender, EventArgs e)
         {
             _bBBlog.Info("Showing custom TwitchLLM language file, loading current settings");
@@ -184,7 +184,7 @@ namespace BanterBrain_Buddy
             TwitchLLMTextChanged = true;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void SaveCurrentLanguage()
         {
             var result = MessageBox.Show(" Do you want to save the custom language?", "Save Custom Language Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -216,7 +216,7 @@ namespace BanterBrain_Buddy
             TwitchLLMTextChanged = false;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchLLMLoadLanguage()
         {
             _bBBlog.Info("Current language has not been changed, loading new language");
@@ -238,7 +238,7 @@ namespace BanterBrain_Buddy
             TwitchLLMTextChanged = true;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchLLMLanguageComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //be sure that the selected language isnt empty
@@ -259,7 +259,7 @@ namespace BanterBrain_Buddy
             TwitchLLMLoadLanguage();
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchLLMCustomLanguage_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (TwitchLLMTextChanged)

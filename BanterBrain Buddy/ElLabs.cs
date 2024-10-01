@@ -37,7 +37,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         public async Task<bool> ElevenLabsTTS(string text, string outputDevice, string tmpVoice, int similarity, int stability, int style, int volumeBoost)
         {
             var api = new ElevenLabsClient(ElevelLabsAPIKey);

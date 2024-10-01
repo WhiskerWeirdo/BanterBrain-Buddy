@@ -378,6 +378,7 @@ namespace BanterBrain_Buddy
             resources.ApplyResources(NotableViewersButton, "NotableViewersButton");
             NotableViewersButton.Name = "NotableViewersButton";
             NotableViewersButton.UseVisualStyleBackColor = true;
+            NotableViewersButton.Click += NotableViewersButton_Click;
             // 
             // groupBox1
             // 

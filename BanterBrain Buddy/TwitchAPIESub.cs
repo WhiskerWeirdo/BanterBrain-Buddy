@@ -572,7 +572,7 @@ namespace BanterBrain_Buddy
         /// This is the function that will request the auth token from Twitch
         /// </summary>
         /// <param name="scopes"></param>
-        [System.Runtime.Versioning.SupportedOSPlatform("windows6.1")]
+        [System.Runtime.Versioning.SupportedOSPlatform("windows10.0.10240")]
         private async Task ReqTwitchAuthToken(List<string> scopes)
         {
             // create twitch api instance

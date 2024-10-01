@@ -38,7 +38,7 @@ namespace BanterBrain_Buddy
         private List<string> _elevenLabsVoicesList;
         private int previousPersonaSelectedIndex;
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         public SettingsForm()
         {
             InitializeComponent();
@@ -61,7 +61,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void GetInstalledNativeSpeecRecognitionCultures()
         {
             foreach (RecognizerInfo config in SpeechRecognitionEngine.InstalledRecognizers())
@@ -77,7 +77,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         //fill the audio input and output list boxes
         public void GetAudioDevices()
         {
@@ -92,7 +92,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void DisablePersonaEventHandlers()
         {
             _bBBlog.Debug("Disabling Persona screen eventhandlers");
@@ -110,7 +110,7 @@ namespace BanterBrain_Buddy
 
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void EnablePersonaEventHandlers(
             )
         {
@@ -128,14 +128,14 @@ namespace BanterBrain_Buddy
             PitchTrackBar.ValueChanged += PitchTrackBar_ValueChanged;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             ShowPanels(e.Node.Name);
         }
 
         //show panels based on selected node and hide the others
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void PanelVisible(string panelName)
         {
             foreach (var panel in splitContainer1.Panel2.Controls.OfType<Panel>())
@@ -152,7 +152,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void ShowPanels(string selectedNode)
         {
 
@@ -205,7 +205,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void LoadSettings()
         {
             _bBBlog.Info("Loading settings");
@@ -273,7 +273,7 @@ namespace BanterBrain_Buddy
 
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (personaEdited)
@@ -347,13 +347,13 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void SoundInputDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
             _bBBlog.Info("Selected input device changed to " + SoundInputDevices.Text);
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void PersonasPanel_VisibleChanged(object sender, EventArgs e)
         {
             //we dont need the eventhandlers when its becoming visible
@@ -407,7 +407,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async Task<bool> FillVoiceBoxes()
         {
             _bBBlog.Info("Fill voice boxes: " + TTSProviderComboBox.Text);
@@ -515,7 +515,7 @@ namespace BanterBrain_Buddy
             return false;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async Task LoadPersonas()
         {
             PersonaComboBox.Items.Clear();
@@ -571,7 +571,7 @@ namespace BanterBrain_Buddy
         }
 
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void NewPersona_Click(object sender, EventArgs e)
         {
             _bBBlog.Debug("New persona button clicked");
@@ -593,7 +593,7 @@ namespace BanterBrain_Buddy
             DeletePersona.Enabled = false;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void SavePersona_Click(object sender, EventArgs e)
         {
             personaEdited = false;
@@ -695,7 +695,7 @@ namespace BanterBrain_Buddy
 
         //finds the voiceID for the selected voice and adds it to the string
         //so that we have both the ID and the voice name in a string that can be stored
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private string ElevenlabIDbyVoice(string voiceName)
         {
             foreach (var elevenLabsVoice in _elevenLabsVoicesList)
@@ -712,7 +712,7 @@ namespace BanterBrain_Buddy
             return null;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async Task TTSGetNativeVoices()
         {
             _ = new NativeSpeech();
@@ -727,7 +727,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async Task TTSGetElevenLabsVoices()
         {
             elevenLabsApi ??= new(ElevenlabsAPIKeyTextBox.Text);
@@ -777,7 +777,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TTSFillNativeVoicesList()
         {
             _bBBlog.Info("Fill Native voice list");
@@ -794,7 +794,7 @@ namespace BanterBrain_Buddy
         }
 
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         /// <summary>
         /// This function gets the list of voices available in the Azure TTS API
         /// </summary>
@@ -832,7 +832,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         /// <summary>
         /// This function fills the Azure voice list in the GUI TTSOutputVoice
         /// </summary>
@@ -853,7 +853,7 @@ namespace BanterBrain_Buddy
             TTSAzureFillOptions(TTSOutputVoice.Text);
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         //Azure Text-To-Speach
         private async Task TTSAzureSpeakToOutput(string TextToSpeak)
         {
@@ -878,7 +878,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         /// <summary>
         /// This function fills the Azure voice options in the GUI TTSOutputVoiceOptions, depends on the selected voice
         /// </summary>
@@ -906,7 +906,7 @@ namespace BanterBrain_Buddy
             TTSOutputVoiceOption1.Text = TTSOutputVoiceOption1.Items[0].ToString();
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void TestAzureAPISettings_Click(object sender, EventArgs e)
         {
             //test if the Azure API settings are correct
@@ -916,7 +916,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void TestVoiceButton_Click(object sender, EventArgs e)
         {
             TestVoiceButton.Enabled = false;
@@ -932,7 +932,7 @@ namespace BanterBrain_Buddy
             TestVoiceButton.Enabled = true;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         //this is the generic caller for TTS function that makes sure the TTS is done before continuing
         //we make this public so we can call it to test
         public async Task SayTextTest(string TextToSay)
@@ -968,7 +968,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async Task TTSOpenAIWhisperSpeakToOutput(string TextToSay)
         {
             OpenAI openAI = new();
@@ -980,7 +980,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async Task TTSElevenLabsSpeakToOutput(string TextToSay)
         {
             string outputVoice = TTSOutputVoice.Text;
@@ -1006,7 +1006,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async Task TTSNativeSpeakToOutput(String TTSText)
         {
             _bBBlog.Info("Saying text with Native TTS");
@@ -1015,7 +1015,7 @@ namespace BanterBrain_Buddy
             await nativeSpeech.NativeSpeak(TTSText);
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void GPTTestButton_Click(object sender, EventArgs e)
         {
             OpenAIAPI api = new(GPTAPIKeyTextBox.Text);
@@ -1031,7 +1031,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void TwitchAuthorizeButton_Click(object sender, EventArgs e)
         {
             //lets not block everything, but lets try get a Twitch Auth token.
@@ -1068,7 +1068,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void TwitchTestButton_Click(object sender, EventArgs e)
         {
             //first lets make sure people cant click too often
@@ -1136,7 +1136,7 @@ namespace BanterBrain_Buddy
             TwitchAPITestButton.Enabled = true;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void EventSubTest_Click(object sender, EventArgs e)
         {
             //This only works once API access-token is verified
@@ -1157,7 +1157,7 @@ namespace BanterBrain_Buddy
         }
 
         //here we star the main websocket client for Twitch EventSub
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async Task<bool> EventSubStartWebsocketClientTest()
         {
             twitchTestEventSub = new();
@@ -1246,7 +1246,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchEventSub_OnESubChannelPointRedemption(object sender, TwitchEventhandlers.OnChannelPointCustomRedemptionEventArgs e)
         {
             string user = e.GetChannelPointCustomRedemptionInfo()[0];
@@ -1254,7 +1254,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"TEST: Valid Twitch Channel Point Redemption message received: {user} redeemed with message: {message}");
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         //TwitchEventSub_OnESubGiftedSub
         private void TwitchEventSub_OnESubGiftedSub(object sender, TwitchEventhandlers.OnSubscriptionGiftEventArgs e)
         {
@@ -1264,7 +1264,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"TEST: Valid Twitch Gifted Subscription message received: {user} gifted {amount} subs tier {tier}");
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchEventSub_OnESubSubscribe(object sender, TwitchEventhandlers.OnSubscribeEventArgs e)
         {
             string user = e.GetSubscribeInfo()[0];
@@ -1272,7 +1272,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"TEST: Valid Twitch Subscription message received: {user} subscribed to {broadcaster}");
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchEventSub_OnESubReSubscribe(object sender, TwitchEventhandlers.OnReSubscribeEventArgs e)
         {
             string user = e.GetSubscribeInfo()[0];
@@ -1281,7 +1281,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info($"TEST: Valid Twitch Re-Subscription message received: {user} subscribed for {months} months with message: {message}");
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         //eventhandler for valid chat messages trigger
         private void TwitchEventSub_OnESubChatMessage(object sender, TwitchEventhandlers.OnChatEventArgs e)
         {
@@ -1292,7 +1292,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("TEST: Valid Twitch Chat message received from user: " + user + " message: " + message);
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
         {
             //string user = e.GetCheerInfo()[0];
@@ -1301,7 +1301,7 @@ namespace BanterBrain_Buddy
             _bBBlog.Debug("TEST: Valid Twitch Cheer message received");
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchPanel_VisibleChanged(object sender, EventArgs e)
         {
             if (twitchAPIVerified)
@@ -1314,7 +1314,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void PersonaRoleTextBox_TextChanged(object sender, EventArgs e)
         {
             if (PersonasPanel.Visible)
@@ -1325,7 +1325,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TTSOutputVoiceOption1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (PersonasPanel.Visible)
@@ -1336,7 +1336,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void PersonaComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
             PersonasPanel.Enabled = false;
@@ -1467,7 +1467,7 @@ namespace BanterBrain_Buddy
             previousPersonaSelectedIndex = PersonaComboBox.SelectedIndex;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void TTSProviderComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
             PersonasPanel.Enabled = false;
@@ -1488,7 +1488,7 @@ namespace BanterBrain_Buddy
             PersonasPanel.Enabled = true;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TTSOutputVoice_SelectedValueChanged(object sender, EventArgs e)
         {
             if (PersonasPanel.Visible)
@@ -1504,7 +1504,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void MenuTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             if (personaEdited)
@@ -1520,7 +1520,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         public void ShowHotkeyDialogBox()
         {
             HotkeyForm HotkeyDialog = new();
@@ -1549,13 +1549,13 @@ namespace BanterBrain_Buddy
             HotkeyDialog.Dispose();
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void MicrophoneHotkeySet_Click(object sender, EventArgs e)
         {
             ShowHotkeyDialogBox();
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void DeletePersona_Click(object sender, EventArgs e)
         {
             if (PersonasPanel.Visible)
@@ -1587,7 +1587,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void ElevenLabsTestButton_Click(object sender, EventArgs e)
         {
             //call test api key for elevenlabs
@@ -1607,7 +1607,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TTSOutputVoiceOption1_TextChanged(object sender, EventArgs e)
         {
             if (PersonasPanel.Visible && TTSOutputVoiceOption1.DropDownStyle == ComboBoxStyle.Simple)
@@ -1617,7 +1617,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TTSOutputVoiceOption2_TextChanged(object sender, EventArgs e)
         {
             if (PersonasPanel.Visible && TTSOutputVoiceOption2.DropDownStyle == ComboBoxStyle.Simple)
@@ -1627,7 +1627,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TTSOutputVoiceOption3_TextChanged(object sender, EventArgs e)
         {
             if (PersonasPanel.Visible && TTSOutputVoiceOption3.DropDownStyle == ComboBoxStyle.Simple)
@@ -1637,7 +1637,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void OllamaTestButton_Click(object sender, EventArgs e)
         {
             if (OllamaURITextBox.Text.Length > 1)
@@ -1704,7 +1704,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void OllamaPanel_VisibleChanged(object sender, EventArgs e)
         {
             //dont bother filling if we dont use the Ollama LLM
@@ -1776,7 +1776,7 @@ namespace BanterBrain_Buddy
             OllamaPanel.Enabled = true;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void UseOllamaLLMCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             /*    if (UseOllamaLLMCheckBox.Checked)
@@ -1790,7 +1790,7 @@ namespace BanterBrain_Buddy
             */
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void GPTMaxTokensTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Check if the input is not a digit or control (like backspace)
@@ -1800,7 +1800,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void GPTTemperatureTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             string decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
@@ -1826,7 +1826,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void GPTTemperatureTextBox_Validating(object sender, CancelEventArgs e)
         {
             System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
@@ -1837,7 +1837,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void GPTMaxTokensTextBox_Validating(object sender, CancelEventArgs e)
         {
             System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
@@ -1848,7 +1848,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void PersonaComboBox_Validating(object sender, CancelEventArgs e)
         {
             System.Windows.Forms.ComboBox currenttb = (System.Windows.Forms.ComboBox)sender;
@@ -1859,7 +1859,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void PersonaRoleTextBox_Validating(object sender, CancelEventArgs e)
         {
             System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
@@ -1870,7 +1870,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TTSOutputVoiceOption1_Validating(object sender, CancelEventArgs e)
         {
             if (TTSOutputVoiceOption1.Enabled)
@@ -1884,7 +1884,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TTSOutputVoiceOption2_Validating(object sender, CancelEventArgs e)
         {
             if (TTSOutputVoiceOption2.Enabled)
@@ -1898,7 +1898,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TTSOutputVoiceOption3_Validating(object sender, CancelEventArgs e)
         {
             if (TTSOutputVoiceOption3.Enabled)
@@ -1912,7 +1912,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void UseOllamaLLMCheckBox_Click(object sender, EventArgs e)
         {
             OllamaURITextBox.Enabled = true;
@@ -1926,7 +1926,7 @@ namespace BanterBrain_Buddy
 
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchAuthServerConfig_Validating(object sender, CancelEventArgs e)
         {
             System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
@@ -1938,7 +1938,7 @@ namespace BanterBrain_Buddy
 
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchAuthServerConfig_Leave(object sender, EventArgs e)
         {
             //if something new entered, save it.
@@ -1954,7 +1954,7 @@ namespace BanterBrain_Buddy
             Process.Start("explorer.exe", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\html");
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void OBSPanel_VisibleChanged(object sender, EventArgs e)
         {
             if (WebsourceServerEnable.Checked)
@@ -1967,7 +1967,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void WebsourceServerEnable_Click(object sender, EventArgs e)
         {
             if (WebsourceServerEnable.Checked)
@@ -1980,7 +1980,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void WebsourceServer_Validating(object sender, CancelEventArgs e)
         {
             System.Windows.Forms.TextBox currenttb = (System.Windows.Forms.TextBox)sender;
@@ -1991,7 +1991,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void OpenAIChatGPTPanel_Validating(object sender, CancelEventArgs e)
         {
             if (OpenAIChatGPTPanel.Visible)
@@ -2022,7 +2022,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void AzurePanel_Validating(object sender, CancelEventArgs e)
         {
             if (AzurePanel.Visible)
@@ -2052,7 +2052,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void ElevenLabsPanel_Validating(object sender, CancelEventArgs e)
         {
             if (ElevenLabsPanel.Visible)
@@ -2090,7 +2090,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private async void AuthorizeBotTwitch_Click(object sender, EventArgs e)
         {
             //lets not block everything, but lets try get a Twitch Auth token.
@@ -2127,7 +2127,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TTSAudioOutputComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //get the device volume
@@ -2145,7 +2145,7 @@ namespace BanterBrain_Buddy
             Properties.Settings.Default.Save();
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void VolumeTrackBar_ValueChanged(object sender, EventArgs e)
         {
             personaEdited = true;
@@ -2153,7 +2153,7 @@ namespace BanterBrain_Buddy
             TTSVoiceLevel.Text = VolumeTrackBar.Value.ToString();
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void RateTrackBar_ValueChanged(object sender, EventArgs e)
         {
             personaEdited = true;
@@ -2174,13 +2174,13 @@ namespace BanterBrain_Buddy
             return null; // Device not found or an error occurred
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void SpeakerDeviceVolumeTrackBar_ValueChanged(object sender, EventArgs e)
         {
             OutputVolumeLabel.Text = SpeakerDeviceVolumeTrackBar.Value.ToString() + "%";
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void PitchTrackBar_ValueChanged(object sender, EventArgs e)
         {
             personaEdited = true;
@@ -2190,7 +2190,7 @@ namespace BanterBrain_Buddy
             TTSPitchLevel.Text = PitchTrackBar.Value.ToString();
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void PitchTrackBar_ScrollSnapToTen(object sender, EventArgs e)
         {
             // Calculate the nearest multiple of 10
@@ -2212,13 +2212,13 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void ElevenLabsModelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             _bBBlog.Info("ElevenLabs model changed to " + ElevenLabsModelComboBox.Text);
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchAuthServerConfig_SelectedIndexChanged(object sender, EventArgs e)
         {
             _bBBlog.Info("Twitch Auth server config changed to " + TwitchAuthServerConfig.Text);

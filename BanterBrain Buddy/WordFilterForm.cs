@@ -17,7 +17,7 @@ namespace BanterBrain_Buddy
     {
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         public WordFilterForm()
         {
             InitializeComponent();
@@ -25,7 +25,7 @@ namespace BanterBrain_Buddy
             LoadFilteredWords();
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void LoadFilteredWords()
         {
             _bBBlog.Info("LoadFilteredWords");
@@ -45,12 +45,12 @@ namespace BanterBrain_Buddy
             BadWordFilterBox.SelectionStart = BadWordFilterBox.Text.Length;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void BadWordFilterBox_TextChanged_1(object sender, EventArgs e)
         {
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void WordFilterForm_FormClosing(object sender, EventArgs e)
         {
             _bBBlog.Info("WordFilterForm form closing we need to save!");
@@ -72,7 +72,7 @@ namespace BanterBrain_Buddy
             File.WriteAllText(tmpFile, badWords);
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void BadWordFilterBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)

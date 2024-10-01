@@ -169,7 +169,7 @@ namespace BanterBrain_Buddy
         /// </summary>
         /// <param name="OutputDevice">The text of the selected output device. Limited to 32 characters (Windows limition)</param>
         /// <returns></returns>
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         public Task NativeTTSInit(string VoiceUsed, string OutputDevice, int VoiceVolume, int VoiceRate, int VoicePitch)
         {
             _bBBlog.Info("Starting Native Text To Speech, Initializing");
@@ -237,7 +237,7 @@ namespace BanterBrain_Buddy
         }
 
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         private void NativeRecognizeCompletedHandler(object sender, RecognizeCompletedEventArgs e)
         {
             if (e.Error != null)
@@ -258,7 +258,7 @@ namespace BanterBrain_Buddy
             _sTTDone = true;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         // Handle the SpeechRecognized event.  
         private void NativeSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
@@ -273,7 +273,7 @@ namespace BanterBrain_Buddy
             }
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         public async Task<string> NativeSpeechRecognizeStart(string _tmpWavFile)
         {
 

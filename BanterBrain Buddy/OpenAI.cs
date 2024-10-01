@@ -243,7 +243,7 @@ namespace BanterBrain_Buddy
             return true;
         }
 
-        [SupportedOSPlatform("windows6.1")]
+        [SupportedOSPlatform("windows10.0.10240")]
         public async Task<string> GetOpenAIIGPTResponse(String UserInput, string tmpPersonaRoletext)
         {
             string gPTOutputText = "";
