@@ -23,6 +23,7 @@ using System.Globalization;
 using Microsoft.VisualBasic.Logging;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
+using System.Configuration;
 
 /// <summary>
 /// CODING RULES:
@@ -87,6 +88,7 @@ namespace BanterBrain_Buddy
         private readonly List<Personas> _personas = [];
         private TwitchLLMResponseLanguage TwitchLLMLanguage;
 
+        bool ConverToNewSettings = false;
 
         [SupportedOSPlatform("windows10.0.10240")]
         public BBB()
@@ -94,8 +96,20 @@ namespace BanterBrain_Buddy
             _twitchValidateBroadcasterCheckStarted = false;
             _twitchValidateBotCheckStarted = false;
             InitializeComponent();
+
             CheckForNewVersionAsync();
             SetLogger();
+
+            ///update settings to the new format
+            UpdateToNewSettingsFormat();
+            while (!ConverToNewSettings)
+            {
+                _bBBlog.Debug("Waiting for settings to be converted");
+                Thread.Sleep(100);
+            }
+
+
+
             _bBBlog.Info("BanterBrain Buddy version: " + Version);
             LoadLanguageStuff();
             SetupConfigFiles();
@@ -182,74 +196,66 @@ namespace BanterBrain_Buddy
         }
 
 
+
         [SupportedOSPlatform("windows10.0.10240")]
         private void SetLogger()
         {
-            //default log dir
-            if (Properties.Settings.Default.LogDir.Length < 1)
-            {
-                TextLog.AppendText("No log directory found, setting to default\r\n");
-                Properties.Settings.Default.LogDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
-                Properties.Settings.Default.Save();
-            }
 
-            //ok so we need to check if we have rights to create or use the log file
-            //if not, we need to set it to the appdata folder
             TextLog.AppendText("Checking logs file" + "\r\n");
-            //can we write to the logfile folder?
-            string logdir = Properties.Settings.Default.LogDir;
+            //can we write to the logfile folder? which in appdata
+            string logDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
             string logFile = "BanterBrainBuddy.log";
 
-            if (!Directory.Exists(logdir))
+            if (!Directory.Exists(logDir))
             {
-                TextLog.AppendText("Creating log directory: " + logdir + "\r\n");
-                //if this cannot be created, we need to move this to the app dir
+                TextLog.AppendText("Creating log directory: " + logDir + "\r\n");
+                //if this cannot be created, we need to throw an error!
                 try
                 {
-                    Directory.CreateDirectory(logdir);
+                    Directory.CreateDirectory(logDir);
                 }
                 catch (Exception)
                 {
-                    TextLog.AppendText("Error creating log directory in " + logdir + ". This should not happen.\r\n");
+                    TextLog.AppendText("Error creating log directory in " + logDir + ". This should not happen.\r\n");
                 }
 
             }
             else
             {
-                TextLog.AppendText("Log directory found: " + logdir + "\r\n");
+                TextLog.AppendText("Log directory found: " + logDir + "\r\n");
             }
 
             //if file doesnt exit, try create it, if that fails
-            //change the logdir to the appdata folder
-            if (!File.Exists(logdir + $"\\{logFile}"))
+            //change the logDir to the appdata folder
+            if (!File.Exists(logDir + $"\\{logFile}"))
             {
                 TextLog.AppendText($"Creating {logFile} in logs folder because it does not exist" + "\r\n");
                 try
                 {
-                    File.Create(logdir + $"\\{logFile}").Close();
+                    File.Create(logDir + $"\\{logFile}").Close();
                 }
                 catch (IOException ex)
                 {
                     TextLog.AppendText("IOException access Error creating log file: " + ex.Message + "\r\n");
-                    TextLog.AppendText("Error creating log directory in " + logdir + "\r\n");
+                    TextLog.AppendText("Error creating log directory in " + logDir + "\r\n");
 
                 }
                 catch (Exception ex)
                 {
                     TextLog.AppendText("Error creating log file: " + ex.Message + "\r\n");
-                    TextLog.AppendText("Error creating log directory in " + logdir + "\r\n");
+                    TextLog.AppendText("Error creating log directory in " + logDir + "\r\n");
                 }
             }
             else
             {
-                TextLog.AppendText("Log file exists and should be in: " + logdir + "\r\n");
+                TextLog.AppendText("Log file exists and should be in: " + logDir + "\r\n");
             }
 
             //can we write to the file?
             //again if not, we move to appdata
             try
             {
-                using (StreamWriter sw = File.AppendText(logdir + $"\\{logFile}"))
+                using (StreamWriter sw = File.AppendText(logDir + $"\\{logFile}"))
                 {
                     sw.WriteLine("Log file created at: " + DateTime.Now);
                 }
@@ -257,7 +263,7 @@ namespace BanterBrain_Buddy
             catch (Exception ex)
             {
                 TextLog.AppendText("Error writing to log file: " + ex.Message + "\r\n");
-                TextLog.AppendText("Error creating log directory in " + logdir + "\r\n");
+                TextLog.AppendText("Error creating log directory in " + logDir + "\r\n");
             }
 
             //set logger file to where we have rights for writing
@@ -271,7 +277,7 @@ namespace BanterBrain_Buddy
             log4net.Appender.FileAppender fileAppender = new()
             {
                 Name = "FileAppender",
-                File = System.IO.Path.Combine(Properties.Settings.Default.LogDir, logFile),
+                File = System.IO.Path.Combine(logDir, logFile),
                 AppendToFile = true,
                 Layout = new log4net.Layout.PatternLayout("%date [%thread] %-5level %logger - %message%newline")
             };
@@ -291,7 +297,6 @@ namespace BanterBrain_Buddy
             CultureInfo currentUICulture = CultureInfo.CurrentUICulture;
             _bBBlog.Debug("Current UI Culture: " + currentUICulture);
             UpdateTextLog("Current UI Language: " + currentUICulture + "\r\n");
-            //  MicrophoneRecordGroupBox.Text = Resources.ResourceManager.GetString("MicrophoneRecordGroupBox" , CultureInfo.CurrentUICulture);
         }
 
 
@@ -1333,11 +1338,74 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows10.0.10240")]
+        private void UpdateToNewSettingsFormat()
+        {
+            //init the new settings class
+            var settings = SettingsManager.Instance;
+
+            //First of all lets check of there are any userspace Properties.Default.Settings
+            //if so we need to convert them to the new settings format
+            // Get the type of the Settings class
+            Type settingsType = typeof(Properties.Settings);
+
+            // Get all properties of the Settings class
+            PropertyInfo[] properties = settingsType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            if (properties.Length > 1)
+            {
+                _bBBlog.Debug("Found user-scoped settings, converting to new format");
+                foreach (PropertyInfo property in properties)
+                {
+                    // Check if the property is user-scoped
+                    var userScopedAttribute = property.GetCustomAttribute<UserScopedSettingAttribute>();
+                    if (userScopedAttribute != null)
+                    {
+                        // Get the value of the property
+                        object value = property.GetValue(Properties.Settings.Default);
+                        _bBBlog.Debug($"Property: {property.Name}, Value: {value}");
+                        //and assign it to the new settings format
+                        settings.SetValue(property.Name, value);
+                    }
+                }
+                _bBBlog.Debug("New settings format has values");
+                settings.SaveSettings();
+                //alright now we can delete all the old Properties.Settings.Default
+                DeleteAllOldSettings();
+                ConverToNewSettings = true;
+            }
+        }
+
+        //here we actually delete the runtime version
+        //of the Properties.Settings.Default settings
+        [SupportedOSPlatform("windows10.0.10240")]
+        private void DeleteAllOldSettings()
+        {
+            // Get the settings collection
+            var settings = Properties.Settings.Default;
+
+            // Create a list to store the names of the settings to be removed
+            var settingsToRemove = new List<string>();
+
+            // Iterate through all settings and add their names to the list
+            foreach (SettingsProperty property in settings.Properties)
+            {
+                settingsToRemove.Add(property.Name);
+            }
+
+            // Remove each setting from the collection
+            foreach (var settingName in settingsToRemove)
+            {
+                settings.Properties.Remove(settingName);
+            }
+
+            // Save the changes to persist them
+            settings.Save();
+        }
+
+        [SupportedOSPlatform("windows10.0.10240")]
         private async Task LoadSettings()
         {
             //TODO if there are any Properties.Settings.Default around we need to read them and convert them to the new settings format
             //this is the first time we are loading the settings, so we need to check if we need to convert any old settings
-
 
             TwitchCommandTrigger.Text = Properties.Settings.Default.TwitchCommandTrigger;
             TwitchChatCommandDelay.Text = Properties.Settings.Default.TwitchChatCommandDelay.ToString();

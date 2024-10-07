@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Speech.Synthesis;
 using System.Text;
@@ -92,7 +94,7 @@ namespace BanterBrain_Buddy
     {
         private static readonly Lazy<SettingsManager> instance = new Lazy<SettingsManager>(() => new SettingsManager());
         private UserSettings settings; 
-        private readonly string settingsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\settings.json";
+        private readonly string settingsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\usersettings.json";
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private SettingsManager()
@@ -107,18 +109,17 @@ namespace BanterBrain_Buddy
 
         private void LoadSettings()
         {
-            _bBBlog.Info("Loading settings from file");
+            
             if (File.Exists(settingsFilePath))
             {
+                _bBBlog.Info("Appdata settings found. Loading settings from file");
                 var json = File.ReadAllText(settingsFilePath);
                 settings = JsonConvert.DeserializeObject<UserSettings>(json);
             }
             else
             {
-                _bBBlog.Info("Settings file not found, creating new settings object");
+                _bBBlog.Info("Appdata settings file not found, creating new settings object");
                 settings = new UserSettings();
-                //then we should also write it to the file even if it contains no information yet, just so we have the file.
-                SaveSettings();
             }
         }
 
@@ -128,5 +129,21 @@ namespace BanterBrain_Buddy
             var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
             File.WriteAllText(settingsFilePath, json);
         }
+
+        //we need this to be able to change the settings from the main thread
+        //because the UserSettings class does not have a setter for the properties by propertyName
+        public void SetValue(string propertyName, object value)
+        {
+            PropertyInfo property = settings.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+            if (property != null && property.CanWrite)
+            {
+                property.SetValue(settings, value);
+            }
+            else
+            {
+                throw new ArgumentException($"Property '{propertyName}' not found or is not writable.");
+            }
+        }
+
     }
 }
