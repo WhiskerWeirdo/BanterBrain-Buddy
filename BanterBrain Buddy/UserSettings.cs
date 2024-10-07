@@ -93,17 +93,21 @@ namespace BanterBrain_Buddy
         private static readonly Lazy<SettingsManager> instance = new Lazy<SettingsManager>(() => new SettingsManager());
         private UserSettings settings; 
         private readonly string settingsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\settings.json";
+        private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private SettingsManager()
         {
+            _bBBlog.Info("SettingsManager created");
             LoadSettings();
         }
 
+        //these are needed to be globally referenced so you dont have to keep creating the object
         public static SettingsManager Instance => instance.Value;
         public UserSettings Settings => settings;
 
         private void LoadSettings()
         {
+            _bBBlog.Info("Loading settings from file");
             if (File.Exists(settingsFilePath))
             {
                 var json = File.ReadAllText(settingsFilePath);
@@ -111,6 +115,7 @@ namespace BanterBrain_Buddy
             }
             else
             {
+                _bBBlog.Info("Settings file not found, creating new settings object");
                 settings = new UserSettings();
                 //then we should also write it to the file even if it contains no information yet, just so we have the file.
                 SaveSettings();
@@ -119,6 +124,7 @@ namespace BanterBrain_Buddy
 
         public void SaveSettings()
         {
+            _bBBlog.Info("Saving settings to file");
             var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
             File.WriteAllText(settingsFilePath, json);
         }
