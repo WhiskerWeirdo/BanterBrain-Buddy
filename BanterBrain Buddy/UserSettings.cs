@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Speech.Synthesis;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BanterBrain_Buddy
 {
-    internal class UserSettings
+    public class UserSettings
     {
         //alright since Settings.settings is being a bitch, we do it ourselves in a json file
         public string VoiceInput {get;set;}
@@ -84,7 +86,41 @@ namespace BanterBrain_Buddy
         public string ElevenLabsModel { get; set; }
         public bool BadWordFilter { get; set; }
 
+    }
 
+    public class SettingsManager
+    {
+        private static readonly Lazy<SettingsManager> instance = new Lazy<SettingsManager>(() => new SettingsManager());
+        private UserSettings settings; 
+        private readonly string settingsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\settings.json";
 
+        private SettingsManager()
+        {
+            LoadSettings();
+        }
+
+        public static SettingsManager Instance => instance.Value;
+        public UserSettings Settings => settings;
+
+        private void LoadSettings()
+        {
+            if (File.Exists(settingsFilePath))
+            {
+                var json = File.ReadAllText(settingsFilePath);
+                settings = JsonConvert.DeserializeObject<UserSettings>(json);
+            }
+            else
+            {
+                settings = new UserSettings();
+                //then we should also write it to the file even if it contains no information yet, just so we have the file.
+                SaveSettings();
+            }
+        }
+
+        public void SaveSettings()
+        {
+            var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
+            File.WriteAllText(settingsFilePath, json);
+        }
     }
 }
