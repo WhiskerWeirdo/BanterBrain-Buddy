@@ -1368,9 +1368,13 @@ namespace BanterBrain_Buddy
                 }
                 _bBBlog.Debug("New settings format has values");
                 settings.SaveSettings();
+
                 //alright now we can delete all the old Properties.Settings.Default
                 DeleteAllOldSettings();
                 ConverToNewSettings = true;
+            } else
+            {
+                _bBBlog.Debug("No user-scoped settings found, so we can start fresh with the json user settings");
             }
         }
 
