@@ -107,7 +107,7 @@ namespace BanterBrain_Buddy
         public static SettingsManager Instance => instance.Value;
         public UserSettings Settings => settings;
 
-        private void LoadSettings()
+        public void LoadSettings()
         {
             
             if (File.Exists(settingsFilePath))
@@ -128,6 +128,63 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Saving settings to file");
             var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
             File.WriteAllText(settingsFilePath, json);
+        }
+
+        //here we set the "sane" default settings incase we ever need to restore or start a new settings file
+        public void SetDefaultSettings()
+        {
+            if (!File.Exists(settingsFilePath))
+            {
+                _bBBlog.Info("Creating new settings file with default settings");
+                if (settings == null) 
+                    settings = new UserSettings();
+
+                //general
+                settings.PTTHotkey = "LControlKey + D";
+                settings.StreamerNameTextBox = "Streamer";
+
+                //twitch stuff
+                settings.TwitchCommandTrigger = "$BBB";
+                settings.TwitchTestSendText = "Hello! I am BanterBrain Buddy https://banterbrain.tv";
+                settings.TwitchChatCommandDelay = 300;
+                settings.TwitchMinBits = 100;
+                settings.TwitchResponseToChatDelayTextBox = "1";
+                settings.TwitchSubscriptionTTSResponseOnlyRadioButton = true;
+                settings.TwitchCheeringTTSResponseOnlyRadioButton = true;
+                settings.TwitchChannelPointTTSResponseOnlyRadioButton = true;
+                settings.TwitchChatTTSResponseOnlyRadioButton = true;
+                settings.TwitchAuthServerConfig = "http://localhost:8080";
+                settings.TwitchDelayMessageTextBox = "Cooldown ended. GO! GO! GO!";
+                settings.TwitchLLMLanguageComboBox = "English";
+
+                //Azure
+                settings.AzureLanguageComboBox = "en-US";
+
+                //OpenAI ChatGPT
+                settings.GPTModel = "gpt-3.5-turbo";
+                settings.GPTMaxTokens = 100;
+                settings.GPTTemperature = 0;
+
+                //OpenAI Whisper
+                settings.WhisperSpeechRecognitionComboBox = "English";
+
+                //Native 
+                settings.NativeSpeechRecognitionLanguageComboBox = "en-US";
+
+                //ollama
+                settings.OllamaURI = "https://localhost:11434";
+                settings.OllamaResponseLengthComboBox = "Normal";
+
+                //Webserversource
+                settings.WebsourceServer = "http://localhost:9138";
+                settings.WebsourceServerEnable = false;
+
+                //ElevenLabs
+                settings.ElevenLabsModel = "Multilingual V2 (Best Quality)";
+            } else
+            {
+                _bBBlog.Info("Settings file already exists, not creating new settings object");
+            }
         }
 
         //we need this to be able to change the settings from the main thread
