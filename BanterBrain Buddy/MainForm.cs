@@ -1345,6 +1345,14 @@ namespace BanterBrain_Buddy
         {
             //init the new settings class
             var settings = SettingsManager.Instance;
+            //if we already have a settings file in the new format, just ignore this.
+            _bBBlog.Debug("Check for new settings format file");
+            if (settings.NewSettingsFileExists())
+            {
+                _bBBlog.Debug("New settings format file exists. No update needed");
+                ConvertToNewSettings = true;
+                return;
+            }
 
             //First of all lets check of there are any userspace Properties.Default.Settings
             //if so we need to convert them to the new settings format
@@ -1746,6 +1754,9 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows10.0.10240")]
         private void SaveALLSettings()
         {
+            _bBBlog.Debug("Saving settings");
+            UserSettingsManager.SaveSettings();
+            /*
             if (TwitchCommandTrigger.Text.Length > 0)
                 Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
             if (TwitchChatCommandDelay.Text.Length > 0)
@@ -1803,6 +1814,7 @@ namespace BanterBrain_Buddy
             if (TwitchLLMLanguageComboBox.Text.Length > 0)
                 Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
             Properties.Settings.Default.Save();
+            */
         }
 
         [SupportedOSPlatform("windows10.0.10240")]

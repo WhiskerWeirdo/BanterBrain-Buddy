@@ -123,6 +123,18 @@ namespace BanterBrain_Buddy
             }
         }
 
+        public bool NewSettingsFileExists()
+        {
+            if (File.Exists(settingsFilePath))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void SaveSettings()
         {
             _bBBlog.Info("Saving settings to file");
