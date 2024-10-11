@@ -1756,65 +1756,6 @@ namespace BanterBrain_Buddy
         {
             _bBBlog.Debug("Saving settings");
             UserSettingsManager.SaveSettings();
-            /*
-            if (TwitchCommandTrigger.Text.Length > 0)
-                Properties.Settings.Default.TwitchCommandTrigger = TwitchCommandTrigger.Text;
-            if (TwitchChatCommandDelay.Text.Length > 0)
-                Properties.Settings.Default.TwitchChatCommandDelay = int.Parse(TwitchChatCommandDelay.Text);
-            Properties.Settings.Default.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
-            if (TwitchMinBits.Text.Length > 0)
-                Properties.Settings.Default.TwitchMinBits = int.Parse(TwitchMinBits.Text);
-            Properties.Settings.Default.TwitchSubscribed = TwitchSubscribed.Checked;
-            Properties.Settings.Default.TwitchGiftedSub = TwitchGiftedSub.Checked;
-            Properties.Settings.Default.TwitchEnable = TwitchEnableCheckbox.Checked;
-            Properties.Settings.Default.TwitchReadChatCheckBox = TwitchReadChatCheckBox.Checked;
-            Properties.Settings.Default.TwitchCheerCheckbox = TwitchCheerCheckBox.Checked;
-            if (TwitchCustomRewardName.Text.Length > 0)
-                Properties.Settings.Default.TwitchCustomRewardName = TwitchCustomRewardName.Text;
-            Properties.Settings.Default.TwitchChannelPointCheckBox = TwitchChannelPointCheckBox.Checked;
-            if (STTSelectedComboBox.Text.Length > 0)
-                Properties.Settings.Default.STTSelectedProvider = STTSelectedComboBox.Text;
-            if (BroadcasterSelectedPersonaComboBox.Text.Length > 0)
-                Properties.Settings.Default.MainSelectedPersona = BroadcasterSelectedPersonaComboBox.Text;
-            if (TwitchChannelPointPersonaComboBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchChannelPointPersona = TwitchChannelPointPersonaComboBox.Text;
-            if (TwitchCheeringPersonaComboBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchCheeringPersona = TwitchCheeringPersonaComboBox.Text;
-            if (TwitchSubscriptionPersonaComboBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchSubscriptionPersona = TwitchSubscriptionPersonaComboBox.Text;
-            if (TwitchChatPersonaComboBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchChatPersona = TwitchChatPersonaComboBox.Text;
-            Properties.Settings.Default.TwitchAutoStart = TwitchAutoStart.Checked;
-            if (LLMResponseSelecter.Text.Length > 0)
-                Properties.Settings.Default.SelectedLLM = LLMResponseSelecter.Text;
-            Properties.Settings.Default.TwitchChatSoundCheckBox = TwitchChatSoundCheckBox.Checked;
-            if (TwitchChatSoundTextBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchChatSound = TwitchChatSoundTextBox.Text;
-            Properties.Settings.Default.TwitchChannelSoundCheckBox = TwitchChannelSoundCheckBox.Checked;
-            if (TwitchChannelSoundTextBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchChannelSound = TwitchChannelSoundTextBox.Text;
-            if (TwitchCheeringSoundTextBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchCheeringSound = TwitchCheeringSoundTextBox.Text;
-            Properties.Settings.Default.TwitchCheeringSoundCheckBox = TwitchCheeringSoundCheckBox.Checked;
-            if (TwitchSubscriptionSoundTextBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchSubscriptionSoundTextBox = TwitchSubscriptionSoundTextBox.Text;
-            Properties.Settings.Default.TwitchSubscriptionSoundCheckBox = TwitchSubscriptionSoundCheckBox.Checked;
-            Properties.Settings.Default.TwitchResponseToChatCheckBox = TwitchResponseToChatCheckBox.Checked;
-            if (TwitchResponseToChatDelayTextBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchResponseToChatDelayTextBox = TwitchResponseToChatDelayTextBox.Text;
-            if (TwitchDelayMessageTextBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchDelayMessageTextBox = TwitchDelayMessageTextBox.Text;
-            Properties.Settings.Default.DelayFinishToChatcCheckBox = TwitchDelayFinishToChatcCheckBox.Checked;
-            Properties.Settings.Default.TwitchSubscriptionTTSResponseOnlyRadioButton = TwitchSubscriptionTTSResponseOnlyRadioButton.Checked;
-            Properties.Settings.Default.TwitchCheeringTTSResponseOnlyRadioButton = TwitchCheeringTTSResponseOnlyRadioButton.Checked;
-            Properties.Settings.Default.TwitchChannelPointTTSResponseOnlyRadioButton = TwitchChannelPointTTSResponseOnlyRadioButton.Checked;
-            Properties.Settings.Default.TwitchChatTTSResponseOnlyRadioButton = TwitchChatTTSResponseOnlyRadioButton.Checked;
-            if (StreamerNameTextBox.Text.Length > 0)
-                Properties.Settings.Default.StreamerNameTextBox = StreamerNameTextBox.Text;
-            if (TwitchLLMLanguageComboBox.Text.Length > 0)
-                Properties.Settings.Default.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
-            Properties.Settings.Default.Save();
-            */
         }
 
         [SupportedOSPlatform("windows10.0.10240")]
