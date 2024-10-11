@@ -39,6 +39,8 @@ namespace BanterBrain_Buddy
         //global list to speed stuff up
         List<AzureVoices> _azureRegionVoicesList = [];
 
+        private SettingsManager UserSettingsManager = SettingsManager.Instance;
+
         //this is a test to see if the API is working, it tries to say something to a null device but the result is what matters
         public async Task<bool> AzureVerifyAPI()
         {
@@ -197,7 +199,7 @@ namespace BanterBrain_Buddy
             {
                 string SSMLText =
                
-                $"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xmlns:emo=\"http://www.w3.org/2009/10/emotionml\" xml:lang=\"{Properties.Settings.Default.AzureLanguageComboBox}\">\r\n   " +
+                $"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xmlns:emo=\"http://www.w3.org/2009/10/emotionml\" xml:lang=\"{UserSettingsManager.Settings.AzureLanguageComboBox}\">\r\n   " +
                 $" <voice name=\"{AzureVoiceName}\">\r\n" +
                 $"<prosody rate=\"{AzureVoiceRate}%\" pitch= \"{AzureVoicePitch}%\" volume=\"{AzureVoiceVolume}%\"> \r\n" +
                 $" <mstts:express-as style=\"{AzureVoiceOptions}\" styledegree=\"1\"> \r\n" + 
@@ -213,8 +215,8 @@ namespace BanterBrain_Buddy
                 _azureSpeechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm);
                 if (outDevice == null)
                 {
-                    _bBBlog.Error("No output device selected for Azure TTS. It should be set to: " + Properties.Settings.Default.TTSAudioOutput);
-                    SetSelectedOutputDevice(Properties.Settings.Default.TTSAudioOutput);
+                    _bBBlog.Error("No output device selected for Azure TTS. It should be set to: " + UserSettingsManager.Settings.TTSAudioOutput);
+                    SetSelectedOutputDevice(UserSettingsManager.Settings.TTSAudioOutput);
                 }
                 _bBBlog.Debug($"SelectedOutputdevice: {outDevice.ID}");
                 var tmpAudioConfig = AudioConfig.FromSpeakerOutput(outDevice.ID);

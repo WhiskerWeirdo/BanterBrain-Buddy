@@ -34,6 +34,8 @@ namespace BanterBrain_Buddy
         private OpenAI_API.Chat.Conversation _Chat;
         public string OpenAIAPIKey { get; set; }
 
+        private SettingsManager UserSettingsManager = SettingsManager.Instance;
+
         private void SetSelectedOutputDevice(string OutputDevice)
         {
             _bBBlog.Info($"Setting selected output device for Native TTS to: {OutputDevice}");
@@ -53,14 +55,14 @@ namespace BanterBrain_Buddy
         public async Task<bool> OpenAICheckAPIKey()
         {
             _bBBlog.Debug("Verifying OpenAI API key");
-            if (string.IsNullOrEmpty(Properties.Settings.Default.GPTAPIKey))
+            if (string.IsNullOrEmpty(UserSettingsManager.Settings.GPTAPIKey))
             {
                 _bBBlog.Error("OpenAI API Key is missing or bad");
                 return false;
             }
             else
             {
-                OpenAIAPIKey = Properties.Settings.Default.GPTAPIKey;
+                OpenAIAPIKey = UserSettingsManager.Settings.GPTAPIKey;
                 _OpenAPI ??= new(OpenAIAPIKey);
 
                 // Function to validate the API key with a timeout
@@ -104,9 +106,9 @@ namespace BanterBrain_Buddy
 
         public async Task<string> OpenAISTT(string audioFile)
         {
-            _bBBlog.Info("Sending to OpenAI STT with language: " + Properties.Settings.Default.WhisperSpeechRecognitionComboBox);
+            _bBBlog.Info("Sending to OpenAI STT with language: " + UserSettingsManager.Settings.WhisperSpeechRecognitionComboBox);
             string ISOLanguage;
-            switch (Properties.Settings.Default.WhisperSpeechRecognitionComboBox)
+            switch (UserSettingsManager.Settings.WhisperSpeechRecognitionComboBox)
             {
                 case "Dutch":
                     ISOLanguage = "nl";
@@ -149,7 +151,7 @@ namespace BanterBrain_Buddy
 
             if (_OpenAPI == null)
             { 
-            _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
+            _OpenAPI = new(UserSettingsManager.Settings.GPTAPIKey);
             OpenAIAPIKey = _OpenAPI.Auth.ApiKey;
             }
             var STTResult = await _OpenAPI.Transcriptions.GetTextAsync(audioFile, ISOLanguage);
@@ -189,7 +191,7 @@ namespace BanterBrain_Buddy
             SetSelectedOutputDevice(outputDevice);
             if (_OpenAPI == null)
             {
-                _OpenAPI = new(Properties.Settings.Default.GPTAPIKey);
+                _OpenAPI = new(UserSettingsManager.Settings.GPTAPIKey);
                 OpenAIAPIKey = _OpenAPI.Auth.ApiKey;
             }
                 //alloy, echo, fable, onyx, nova, and shimmer
@@ -249,11 +251,11 @@ namespace BanterBrain_Buddy
             string gPTOutputText = "";
             _bBBlog.Info("Sending to OpenAI GPT LLM: " + UserInput);
 
-            _OpenAPI ??= new(Properties.Settings.Default.GPTAPIKey);
+            _OpenAPI ??= new(UserSettingsManager.Settings.GPTAPIKey);
 
             _Chat ??= _OpenAPI.Chat.CreateConversation();
            // _Chat.RequestParameters.Model = AIModelExtended.GPT4_Omni;
-            switch (Properties.Settings.Default.GPTModel)
+            switch (UserSettingsManager.Settings.GPTModel)
             {
                 case "gpt-3.5-turbo":
                     _Chat.Model = Model.ChatGPTTurbo;
@@ -271,8 +273,8 @@ namespace BanterBrain_Buddy
             }
             //_Chat.Model = Model.ChatGPTTurbo;
             _bBBlog.Info("GPT Model: " + _Chat.Model);
-            _Chat.RequestParameters.Temperature = Properties.Settings.Default.GPTTemperature;
-            _Chat.RequestParameters.MaxTokens = Properties.Settings.Default.GPTMaxTokens;
+            _Chat.RequestParameters.Temperature = UserSettingsManager.Settings.GPTTemperature;
+            _Chat.RequestParameters.MaxTokens = UserSettingsManager.Settings.GPTMaxTokens;
             //mood is setting the system text description
             //this is the persona role
             _bBBlog.Info("SystemRole: " + tmpPersonaRoletext);

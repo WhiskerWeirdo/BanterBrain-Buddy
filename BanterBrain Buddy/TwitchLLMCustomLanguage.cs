@@ -20,6 +20,7 @@ namespace BanterBrain_Buddy
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private TwitchLLMResponseLanguage TwitchLLMLanguage;
         private bool TwitchLLMTextChanged = false;
+        private SettingsManager UserSettingsManager = SettingsManager.Instance;
 
         [SupportedOSPlatform("windows10.0.10240")]
         public TwitchLLMCustomLanguage()
@@ -101,10 +102,10 @@ namespace BanterBrain_Buddy
             var tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\CustomTwitchLLMLanguage.json";
             if (!File.Exists(tmpFile))
             {
-                _bBBlog.Error($"Twitch LLM language {Properties.Settings.Default.TwitchLLMLanguageComboBox} file not found, Error!");
+                _bBBlog.Error($"Twitch LLM language {UserSettingsManager.Settings.TwitchLLMLanguageComboBox} file not found, Error!");
             }
 
-            _bBBlog.Debug($"Twitch LLM language {Properties.Settings.Default.TwitchLLMLanguageComboBox} file found, loading it.");
+            _bBBlog.Debug($"Twitch LLM language {UserSettingsManager.Settings.TwitchLLMLanguageComboBox} file found, loading it.");
             using var sr = new StreamReader(tmpFile);
             var tmpString = sr.ReadToEnd();
 
@@ -209,7 +210,7 @@ namespace BanterBrain_Buddy
 
                 //save the class back to the custom language file
                 var tmpFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\CustomTwitchLLMLanguage.json";
-                _bBBlog.Debug($"Twitch LLM language {Properties.Settings.Default.TwitchLLMLanguageComboBox} file found, saving it.");
+                _bBBlog.Debug($"Twitch LLM language {UserSettingsManager.Settings.TwitchLLMLanguageComboBox} file found, saving it.");
                 using var sw = new StreamWriter(tmpFile);
                 sw.Write(JsonConvert.SerializeObject(TwitchLLMLanguage));
             }

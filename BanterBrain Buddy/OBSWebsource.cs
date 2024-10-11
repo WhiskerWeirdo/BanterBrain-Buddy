@@ -22,6 +22,7 @@ namespace BanterBrain_Buddy
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private HttpListener listener;
         private Thread listenerThread;
+        private SettingsManager UserSettingsManager = SettingsManager.Instance;
 
         private void StartListener()
         {
@@ -42,7 +43,7 @@ namespace BanterBrain_Buddy
             }
 
             listener = new HttpListener();
-            listener.Prefixes.Add(Properties.Settings.Default.WebsourceServer);
+            listener.Prefixes.Add(UserSettingsManager.Settings.WebsourceServer);
             listener.Start();
 
             listenerThread = new Thread(StartListener);

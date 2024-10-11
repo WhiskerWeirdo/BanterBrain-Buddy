@@ -36,6 +36,7 @@ namespace BanterBrain_Buddy
         private int _voiceRate;
         private int _voicePitch;
         private string _voiceCulture;
+        private SettingsManager UserSettingsManager = SettingsManager.Instance;
 
 
         private void SetSelectedOutputDevice(string OutputDevice)
@@ -54,7 +55,7 @@ namespace BanterBrain_Buddy
 
         public async Task<bool> NativePlayWaveFile(string _tmpWavFile)
         {
-            SetSelectedOutputDevice(Properties.Settings.Default.TTSAudioOutput);
+            SetSelectedOutputDevice(UserSettingsManager.Settings.TTSAudioOutput);
             _bBBlog.Debug("Playing Native Wave File: " + _tmpWavFile);
             var waveOut = new WaveOut
             {
@@ -277,7 +278,7 @@ namespace BanterBrain_Buddy
         public async Task<string> NativeSpeechRecognizeStart(string _tmpWavFile)
         {
 
-            string culture = Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox;
+            string culture = UserSettingsManager.Settings.NativeSpeechRecognitionLanguageComboBox;
             if (culture.Length > 1)
             {
                 _bBBlog.Info("Setting Native Speech Recognition Language to: " + culture);

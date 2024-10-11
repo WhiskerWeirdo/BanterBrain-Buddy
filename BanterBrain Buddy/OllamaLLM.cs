@@ -19,6 +19,7 @@ namespace BanterBrain_Buddy
         private readonly OllamaApiClient _ollama;
         private Chat chat;
         private IEnumerable<Message> history;
+        private SettingsManager UserSettingsManager = SettingsManager.Instance;
 
         public async Task<List<string>> OllamaLLMGetModels()
         {
@@ -64,7 +65,7 @@ namespace BanterBrain_Buddy
 
             string response = "";
             int sentenceLength = 1;
-            switch (Properties.Settings.Default.OllamaResponseLengthComboBox)
+            switch (UserSettingsManager.Settings.OllamaResponseLengthComboBox)
             {
                 case "Short":
                     _bBBlog.Info("Ollama short response selected");
@@ -80,7 +81,7 @@ namespace BanterBrain_Buddy
                     break;
             }
             string tmpSetupString = tmpRoleText + ". Make your response a maximum of " + sentenceLength + " sentences! Absolutely not longer! How would you then respond to: " + Text;
-            _ollama.SelectedModel = Properties.Settings.Default.OllamaSelectedModel;
+            _ollama.SelectedModel = UserSettingsManager.Settings.OllamaSelectedModel;
             if (_ollama.SelectedModel == null)
             {
                 _bBBlog.Error("OllamaGetResponse failed, no model selected from saved settings.");
@@ -134,7 +135,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Error("OllamaVerify failed, no models found or not running on URI");
                 return false;
             }
-            if (!result.Contains(Properties.Settings.Default.OllamaSelectedModel))
+            if (!result.Contains(UserSettingsManager.Settings.OllamaSelectedModel))
             {
                 _bBBlog.Error("OllamaVerify failed, selected model not found");
                 return false;

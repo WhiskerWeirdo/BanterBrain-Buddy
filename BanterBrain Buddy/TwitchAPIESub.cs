@@ -39,6 +39,8 @@ namespace BanterBrain_Buddy
     //eventhandler for custom channel point redemptions
     public delegate void ESubChannelPointRedemptionEventHandler(object source, OnChannelPointCustomRedemptionEventArgs e);
 
+
+
     public class TwitchAPIESub
     {
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -90,6 +92,7 @@ namespace BanterBrain_Buddy
         //if this is set, we need to send a test message to a channel on join.
         public string TwitchSendTestMessageOnJoin { get; set; }
 
+        private SettingsManager UserSettingsManager = SettingsManager.Instance;
 
         public readonly EventSubWebsocketClient _eventSubWebsocketClient;
 
@@ -321,16 +324,16 @@ namespace BanterBrain_Buddy
         //read the config file into globals
         private static void TwitchReadSettings()
         {
-            if (Properties.Settings.Default.TwitchAuthServerConfig.Length < 1)
+            if (UserSettingsManager.Settings.TwitchAuthServerConfig.Length < 1)
             {
                 _bBBlog.Error("TwitchAuthRedirect not found in Settings this should nto happen so lets use default");
                 TwitchAuthRedirect = "http://localhost:8080";
-                Properties.Settings.Default.TwitchAuthServerConfig = TwitchAuthRedirect;
-                Properties.Settings.Default.Save();
+                UserSettingsManager.Settings.TwitchAuthServerConfig = TwitchAuthRedirect;
+                UserSettingsManager.SaveSettings();
             }
             else
             {
-                TwitchAuthRedirect = Properties.Settings.Default.TwitchAuthServerConfig;
+                TwitchAuthRedirect = UserSettingsManager.Settings.TwitchAuthServerConfig;
             }
 
             using StreamReader r = new(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\settings.json");
@@ -697,7 +700,7 @@ namespace BanterBrain_Buddy
         private bool CheckMessageForFilteredWords(string message)
         {
             //if the filter is not enabled, return false cos we dont need to check anything.
-            if (Properties.Settings.Default.BadWordFilter == false)
+            if (UserSettingsManager.Settings.BadWordFilter == false)
             {
                 return false;
             }
@@ -809,9 +812,9 @@ namespace BanterBrain_Buddy
             await Task.Delay(delay * 1000);
             IsCommandTriggered = false;
             _bBBlog.Debug($"Enabling eventhandler for chatmessage");
-            if (Properties.Settings.Default.DelayFinishToChatcCheckBox)
+            if (UserSettingsManager.Settings.DelayFinishToChatcCheckBox)
             {
-                await SendMessageWithDelay(Properties.Settings.Default.TwitchDelayMessageTextBox, 1000);
+                await SendMessageWithDelay(UserSettingsManager.Settings.TwitchDelayMessageTextBox, 1000);
             }
         }
 
