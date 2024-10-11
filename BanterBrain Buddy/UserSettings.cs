@@ -92,7 +92,7 @@ namespace BanterBrain_Buddy
 
     public class SettingsManager
     {
-        private static readonly Lazy<SettingsManager> instance = new Lazy<SettingsManager>(() => new SettingsManager());
+        private static readonly Lazy<SettingsManager> instance = new(() => new SettingsManager());
         private UserSettings settings; 
         private readonly string settingsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\usersettings.json";
         private static readonly log4net.ILog _bBBlog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -148,8 +148,7 @@ namespace BanterBrain_Buddy
             if (!File.Exists(settingsFilePath))
             {
                 _bBBlog.Info("Creating new settings file with default settings");
-                if (settings == null) 
-                    settings = new UserSettings();
+                settings ??= new UserSettings();
 
                 //general
                 settings.PTTHotkey = "LControlKey + D";

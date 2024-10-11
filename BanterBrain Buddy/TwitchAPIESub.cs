@@ -16,6 +16,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Windows.Forms;
 using BanterBrain_Buddy.TwitchEventhandlers;
 using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 
 
 /// <summary>
@@ -318,6 +319,7 @@ namespace BanterBrain_Buddy
             TwitchDoAutomatedCheck = false;
         }
 
+        [SupportedOSPlatform("windows10.0.10240")]
         public async Task<bool> GetTwitchAuthToken(List<string> scopes)
         {
             await ReqTwitchAuthToken(scopes);
@@ -504,7 +506,7 @@ namespace BanterBrain_Buddy
         }
 
         //this just splits a message in its seperate parts and puts it in a stringlist
-        private List<string> SplitMessage(string message, int partLength)
+        private static List<string> SplitMessage(string message, int partLength)
         {
             var parts = new List<string>();
             for (int i = 0; i < message.Length; i += partLength)

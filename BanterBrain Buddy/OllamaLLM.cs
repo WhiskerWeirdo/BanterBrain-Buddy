@@ -32,7 +32,7 @@ namespace BanterBrain_Buddy
             List<string> models = [];
             _bBBlog.Debug("OllamaLLMGetModels");
 
-            IEnumerable<OllamaSharp.Models.Model> localModels = null;
+            IEnumerable<OllamaSharp.Models.Model> localModels;
             try
             {
                 localModels = await _ollama.ListLocalModels();

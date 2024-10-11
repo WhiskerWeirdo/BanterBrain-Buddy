@@ -35,7 +35,7 @@ namespace BanterBrain_Buddy
 {
     public partial class BBB : Form
     {
-        private static string Version = "1.0.8";
+        private readonly static string Version = "1.0.8";
 
         //set logger
         private static log4net.ILog _bBBlog;
@@ -428,7 +428,7 @@ namespace BanterBrain_Buddy
 
         //this is to make sure config files are writable, in the correct %APPDATA%\BanterBrain folder and can be read and write
         [SupportedOSPlatform("windows10.0.10240")]
-        private void SetupConfigFiles()
+        private static void SetupConfigFiles()
         {
 
             //check if the folder exists, if not, create it
@@ -713,6 +713,7 @@ namespace BanterBrain_Buddy
                 {
                     STTSelectedComboBox.Items.Add("OpenAI Whisper");
                     _bBBlog.Info("OpenAI API setting valid, adding Whisper to list");
+                    UpdateTextLog("OpenAI API setting valid\r\n");
                 }
                 else
                 {
@@ -1401,7 +1402,7 @@ namespace BanterBrain_Buddy
         //here we actually delete the runtime version
         //of the Properties.Settings.Default settings
         [SupportedOSPlatform("windows10.0.10240")]
-        private void DeleteAllOldSettings()
+        private static void DeleteAllOldSettings()
         {
             // Get the settings collection
             var settings = Properties.Settings.Default;

@@ -45,6 +45,7 @@
             TwitchFlavourTextBox.Size = new System.Drawing.Size(451, 108);
             TwitchFlavourTextBox.TabIndex = 1;
             TwitchFlavourTextBox.TextChanged += TwitchFlavourTextBox_TextChanged;
+            TwitchFlavourTextBox.Validating += TwitchNotableViewersComboBox_Validating;
             // 
             // ViewerAddButton
             // 
@@ -64,9 +65,11 @@
             ViewerDeleteButton.TabIndex = 4;
             ViewerDeleteButton.Text = "Delete";
             ViewerDeleteButton.UseVisualStyleBackColor = true;
+            ViewerDeleteButton.Click += ViewerDeleteButton_Click;
             // 
             // TwitchNotableViewersComboBox
             // 
+            TwitchNotableViewersComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             TwitchNotableViewersComboBox.FormattingEnabled = true;
             TwitchNotableViewersComboBox.Location = new System.Drawing.Point(95, 26);
             TwitchNotableViewersComboBox.Name = "TwitchNotableViewersComboBox";

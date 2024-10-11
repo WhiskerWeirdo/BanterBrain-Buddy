@@ -27,6 +27,9 @@
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
+	<PropertyGroup>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>frog_119582.ico</ApplicationIcon>
   </PropertyGroup>
