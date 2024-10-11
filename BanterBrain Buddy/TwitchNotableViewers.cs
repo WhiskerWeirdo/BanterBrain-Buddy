@@ -22,6 +22,7 @@ namespace BanterBrain_Buddy
         private TwitchNotableViewerClass _viewer;
         private List<TwitchNotableViewerClass> viewers = [];
         private bool FlavourTextEdited = false;
+        private bool AddingNewViewer = false;
         private int CurrSelectedViewerIndex;
 
         public TwitchNotableViewers()
@@ -91,20 +92,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info("Selected viewer not changed, no need to load flavour text");
                 return;
             }
-            /*
-            if (FlavourTextEdited)
-            {
-                _bBBlog.Info("Flavour text edited, saving first");
-                //first lets ask if they wanna save what they got since aparently its changed
-                DialogResult dialogResult = MessageBox.Show($"Do you want to save viewer {TwitchNotableViewersComboBox.Text}?", "Delete viewer", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.No)
-                {
-                    _bBBlog.Info("We dont want to save the changes lets just keep going then");
-                }
-                else
-                    ViewerSaveButton_Click(sender, e);
-            }
-            */
+
             _bBBlog.Info("Selected viewer changed, loading flavour text");
             TwitchFlavourTextBox.TextChanged -= TwitchFlavourTextBox_TextChanged;
             TwitchFlavourTextBox.Text = "";
@@ -122,7 +110,6 @@ namespace BanterBrain_Buddy
             }
             CurrSelectedViewerIndex = TwitchNotableViewersComboBox.SelectedIndex;
             TwitchFlavourTextBox.TextChanged += TwitchFlavourTextBox_TextChanged;
-
         }
 
         //here we save the current class to the json file
@@ -150,20 +137,32 @@ namespace BanterBrain_Buddy
                 //first lets ask if they wanna save what they got since aparently its changed
                 ViewerSaveButton_Click(sender, e);
             }
-            else
-            {
-                _bBBlog.Info("No changes to save, adding new viewer");
-                //lets empty all the text box and combobox
-                TwitchFlavourTextBox.Text = "";
-                TwitchNotableViewersComboBox.DropDownStyle = ComboBoxStyle.DropDown;
-                TwitchNotableViewersComboBox.Focus();
-                TwitchNotableViewersComboBox.Text = "";
-            }
-
+            _bBBlog.Info("No changes to save, adding new viewer");
+            //lets empty all the text box and combobox
+            TwitchFlavourTextBox.Text = "";
+            TwitchNotableViewersComboBox.DropDownStyle = ComboBoxStyle.DropDown;
+            TwitchNotableViewersComboBox.Focus();
+            TwitchNotableViewersComboBox.Text = "";
+            ViewerAddButton.Enabled = false;
+            ViewerDeleteButton.Enabled = false;
+            AddingNewViewer = true;
         }
 
         private void ViewerSaveButton_Click(object sender, EventArgs e)
         {
+            if (TwitchNotableViewersComboBox.Text.Length < 1 || TwitchFlavourTextBox.Text.Length < 1)
+            {
+                _bBBlog.Info("That cant be empty buddy! Try again!");
+                MessageBox.Show("Viewer name or flavour text cannot be empty", "Error", MessageBoxButtons.OK);
+                //leets reload the original flavour text if there was any previously saved
+                if (viewers[TwitchNotableViewersComboBox.SelectedIndex] != null)
+                {
+                    TwitchFlavourTextBox.TextChanged -= TwitchFlavourTextBox_TextChanged;
+                    TwitchFlavourTextBox.Text = viewers[TwitchNotableViewersComboBox.SelectedIndex].FlavourText;
+                    TwitchFlavourTextBox.TextChanged += TwitchFlavourTextBox_TextChanged;
+                }
+                return;
+            }
             if (!FlavourTextEdited)
             {
                 _bBBlog.Info("No changes to save");
@@ -180,6 +179,8 @@ namespace BanterBrain_Buddy
                 TwitchNotableViewers_SaveToFile();
                 FlavourTextEdited = false;
                 ViewerSaveButton.Enabled = false;
+                ViewerAddButton.Enabled = true;
+                ViewerDeleteButton.Enabled = true;
                 return;
             }
             else
@@ -202,6 +203,8 @@ namespace BanterBrain_Buddy
                 TwitchNotableViewers_SaveToFile();
                 FlavourTextEdited = false;
                 ViewerSaveButton.Enabled = false;
+                ViewerAddButton.Enabled = true;
+                ViewerDeleteButton.Enabled = true;
                 //change it back to list so you cant just type there
                 TwitchNotableViewersComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             }
@@ -211,7 +214,7 @@ namespace BanterBrain_Buddy
         {
             if (TwitchNotableViewersComboBox.Text.Length > 1)
             {
-                //_bBBlog.Debug("Flavourtext text changed handler");
+                _bBBlog.Debug("Flavourtext text changed handler");
                 //if the text is changed, we set the flag to true and enable the save button
                 FlavourTextEdited = true;
                 ViewerSaveButton.Enabled = true;
@@ -258,11 +261,12 @@ namespace BanterBrain_Buddy
         private void TwitchNotableViewersComboBox_Validating(object sender, CancelEventArgs e)
         {
             //aight did they change the text in the combobox? if so we need to ask if it needs to be saved
-            //if not, we cancel!
+            //viewer needs to exist before call this
+            //if (viewers.Any(x => x.ViewerName == TwitchNotableViewersComboBox.Text) &  FlavourTextEdited)
             if (FlavourTextEdited)
             {
-                _bBBlog.Info("Viewer name changed, asking if they want to save");
-                DialogResult dialogResult = MessageBox.Show($"Flavour text changed! Do you want to save viewer {viewers[TwitchNotableViewersComboBox.SelectedIndex].ViewerName}?", "Save viewer", MessageBoxButtons.YesNo);
+                _bBBlog.Info("Viewer name of flavourtext changed, asking if they want to save");
+                DialogResult dialogResult = MessageBox.Show($"Do you want to save viewer {TwitchNotableViewersComboBox.Text}?", "Save viewer", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.No)
                 {
                     _bBBlog.Info("We dont want to save the changes lets just keep going then");
@@ -270,7 +274,12 @@ namespace BanterBrain_Buddy
                 }
                 else
                     ViewerSaveButton_Click(sender, e);
-            }
+            } /*if (AddingNewViewer && FlavourTextEdited)
+            {
+                _bBBlog.Info("new viewer so lets just save!");
+                ViewerSaveButton_Click(sender, e);
+                AddingNewViewer = false;
+            }*/
             else
             {
                 _bBBlog.Info("Viewer name not changed or flavourtext not changed, no need to save");
