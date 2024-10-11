@@ -87,6 +87,8 @@ namespace BanterBrain_Buddy
         private OpenAI _openAI;
         private readonly List<Personas> _personas = [];
         private TwitchLLMResponseLanguage TwitchLLMLanguage;
+
+
         private SettingsManager UserSettingsManager = SettingsManager.Instance;
 
         bool ConvertToNewSettings = false;
@@ -1364,6 +1366,7 @@ namespace BanterBrain_Buddy
             if (properties.Length > 1)
             {
                 _bBBlog.Debug("Found user-scoped settings, converting to new format");
+                UpdateTextLog("Found old settings file, converting to new format.");
                 foreach (PropertyInfo property in properties)
                 {
                     // Check if the property is user-scoped

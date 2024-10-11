@@ -38,6 +38,8 @@ namespace BanterBrain_Buddy
         private List<string> _elevenLabsVoicesList;
         private int previousPersonaSelectedIndex;
 
+        private SettingsManager UserSettingsManager = SettingsManager.Instance;
+
         [SupportedOSPlatform("windows10.0.10240")]
         public SettingsForm()
         {
@@ -209,49 +211,51 @@ namespace BanterBrain_Buddy
         private void LoadSettings()
         {
             _bBBlog.Info("Loading settings");
-            //TwitchUsername.Text = Properties.Settings.Default.TwitchUsername;
-            TwitchBroadcasterAccessToken.Text = Properties.Settings.Default.TwitchAccessToken;
-            TwitchBroadcasterChannel.Text = Properties.Settings.Default.TwitchChannel;
-            TwitchBotAuthKey.Text = Properties.Settings.Default.TwitchBotAuthKey;
-            TwitchBotName.Text = Properties.Settings.Default.TwitchBotName;
-            TwitchSendTextCheckBox.Checked = Properties.Settings.Default.TwitchSendTextCheckBox;
-            SoundInputDevices.SelectedIndex = SoundInputDevices.FindStringExact(Properties.Settings.Default.VoiceInput);
-            MicrophoneHotkeyEditbox.Text = Properties.Settings.Default.PTTHotkey;
-            TTSAudioOutputComboBox.SelectedIndex = TTSAudioOutputComboBox.FindStringExact(Properties.Settings.Default.TTSAudioOutput);
-            AzureAPIKeyTextBox.Text = Properties.Settings.Default.AzureAPIKeyTextBox;
-            AzureRegionTextBox.Text = Properties.Settings.Default.AzureRegionTextBox;
-            AzureLanguageComboBox.Text = Properties.Settings.Default.AzureLanguageComboBox;
-            GPTModelComboBox.SelectedIndex = GPTModelComboBox.FindStringExact(Properties.Settings.Default.GPTModel);
-            GPTAPIKeyTextBox.Text = Properties.Settings.Default.GPTAPIKey;
-            GPTMaxTokensTextBox.Text = Properties.Settings.Default.GPTMaxTokens.ToString();
+            
+            _bBBlog.Debug("Loading settings from new settings: " + UserSettingsManager.Settings.OllamaURI);
+            //TwitchUsername.Text = UserSettingsManager.Settings.TwitchUsername;
+            TwitchBroadcasterAccessToken.Text = UserSettingsManager.Settings.TwitchAccessToken;
+            TwitchBroadcasterChannel.Text = UserSettingsManager.Settings.TwitchChannel;
+            TwitchBotAuthKey.Text = UserSettingsManager.Settings.TwitchBotAuthKey;
+            TwitchBotName.Text = UserSettingsManager.Settings.TwitchBotName;
+            TwitchSendTextCheckBox.Checked = UserSettingsManager.Settings.TwitchSendTextCheckBox;
+            SoundInputDevices.SelectedIndex = SoundInputDevices.FindStringExact(UserSettingsManager.Settings.VoiceInput);
+            MicrophoneHotkeyEditbox.Text = UserSettingsManager.Settings.PTTHotkey;
+            TTSAudioOutputComboBox.SelectedIndex = TTSAudioOutputComboBox.FindStringExact(UserSettingsManager.Settings.TTSAudioOutput);
+            AzureAPIKeyTextBox.Text = UserSettingsManager.Settings.AzureAPIKeyTextBox;
+            AzureRegionTextBox.Text = UserSettingsManager.Settings.AzureRegionTextBox;
+            AzureLanguageComboBox.Text = UserSettingsManager.Settings.AzureLanguageComboBox;
+            GPTModelComboBox.SelectedIndex = GPTModelComboBox.FindStringExact(UserSettingsManager.Settings.GPTModel);
+            GPTAPIKeyTextBox.Text = UserSettingsManager.Settings.GPTAPIKey;
+            GPTMaxTokensTextBox.Text = UserSettingsManager.Settings.GPTMaxTokens.ToString();
             if (GPTMaxTokensTextBox.Text.Length < 1)
                 GPTMaxTokensTextBox.Text = "100";
-            GPTTemperatureTextBox.Text = Properties.Settings.Default.GPTTemperature.ToString();
-            ElevenlabsAPIKeyTextBox.Text = Properties.Settings.Default.ElevenLabsAPIkey;
-            ElevenLabsModelComboBox.SelectedIndex = ElevenLabsModelComboBox.FindStringExact(Properties.Settings.Default.ElevenLabsModel);
+            GPTTemperatureTextBox.Text = UserSettingsManager.Settings.GPTTemperature.ToString();
+            ElevenlabsAPIKeyTextBox.Text = UserSettingsManager.Settings.ElevenLabsAPIkey;
+            ElevenLabsModelComboBox.SelectedIndex = ElevenLabsModelComboBox.FindStringExact(UserSettingsManager.Settings.ElevenLabsModel);
             if (ElevenLabsModelComboBox.SelectedIndex == -1)
                 ElevenLabsModelComboBox.SelectedIndex = 0;
-            OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
-            OllamaResponseLengthComboBox.SelectedIndex = OllamaResponseLengthComboBox.FindStringExact(Properties.Settings.Default.OllamaResponseLengthComboBox);
-            OllamaURITextBox.Text = Properties.Settings.Default.OllamaURI;
-            UseOllamaLLMCheckBox.Checked = Properties.Settings.Default.UseOllamaLLMCheckBox;
-            TwitchAuthServerConfig.SelectedIndex = TwitchAuthServerConfig.FindStringExact(Properties.Settings.Default.TwitchAuthServerConfig);
+            OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(UserSettingsManager.Settings.OllamaSelectedModel);
+            OllamaResponseLengthComboBox.SelectedIndex = OllamaResponseLengthComboBox.FindStringExact(UserSettingsManager.Settings.OllamaResponseLengthComboBox);
+            OllamaURITextBox.Text = UserSettingsManager.Settings.OllamaURI;
+            UseOllamaLLMCheckBox.Checked = UserSettingsManager.Settings.UseOllamaLLMCheckBox;
+            TwitchAuthServerConfig.SelectedIndex = TwitchAuthServerConfig.FindStringExact(UserSettingsManager.Settings.TwitchAuthServerConfig);
 
-            WebsourceServerEnable.Checked = Properties.Settings.Default.WebsourceServerEnable;
+            WebsourceServerEnable.Checked = UserSettingsManager.Settings.WebsourceServerEnable;
             //if empty set default
-            if (Properties.Settings.Default.TwitchAuthServerConfig.Length < 1)
+            if (UserSettingsManager.Settings.TwitchAuthServerConfig.Length < 1)
             {
                 TwitchAuthServerConfig.Text = "http://localhost:8080";
             }
-            WebsourceServer.Text = Properties.Settings.Default.WebsourceServer;
+            WebsourceServer.Text = UserSettingsManager.Settings.WebsourceServer;
             //if empty set default
-            if (Properties.Settings.Default.WebsourceServer.Length < 1)
+            if (UserSettingsManager.Settings.WebsourceServer.Length < 1)
             {
                 WebsourceServer.Text = "http://localhost:9138";
             }
-            if (Properties.Settings.Default.WhisperSpeechRecognitionComboBox.Length > 1)
+            if (UserSettingsManager.Settings.WhisperSpeechRecognitionComboBox.Length > 1)
             {
-                WhisperSpeechRecognitionComboBox.SelectedIndex = WhisperSpeechRecognitionComboBox.FindStringExact(Properties.Settings.Default.WhisperSpeechRecognitionComboBox);
+                WhisperSpeechRecognitionComboBox.SelectedIndex = WhisperSpeechRecognitionComboBox.FindStringExact(UserSettingsManager.Settings.WhisperSpeechRecognitionComboBox);
             }
             else
             {
@@ -260,9 +264,9 @@ namespace BanterBrain_Buddy
                 WhisperSpeechRecognitionComboBox.SelectedIndex = WhisperSpeechRecognitionComboBox.FindStringExact("English");
             }
 
-            if (Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox.Length > 1)
+            if (UserSettingsManager.Settings.NativeSpeechRecognitionLanguageComboBox.Length > 1)
             {
-                NativeSpeechRecognitionLanguageComboBox.SelectedIndex = NativeSpeechRecognitionLanguageComboBox.FindStringExact(Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox);
+                NativeSpeechRecognitionLanguageComboBox.SelectedIndex = NativeSpeechRecognitionLanguageComboBox.FindStringExact(UserSettingsManager.Settings.NativeSpeechRecognitionLanguageComboBox);
             }
             else
             {
@@ -290,54 +294,54 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Settings form closing, saving settings");
             //only save if theres actual data to be saved
             //these can be empty
-            Properties.Settings.Default.TwitchBotName = TwitchBotName.Text;
-            Properties.Settings.Default.TwitchBotAuthKey = TwitchBotAuthKey.Text;
+            UserSettingsManager.Settings.TwitchBotName = TwitchBotName.Text;
+            UserSettingsManager.Settings.TwitchBotAuthKey = TwitchBotAuthKey.Text;
             //these cannot be empty
             if (TwitchBroadcasterAccessToken.Text.Length > 0)
-                Properties.Settings.Default.TwitchAccessToken = TwitchBroadcasterAccessToken.Text;
+                UserSettingsManager.Settings.TwitchAccessToken = TwitchBroadcasterAccessToken.Text;
             if (TwitchBroadcasterChannel.Text.Length > 0)
-                Properties.Settings.Default.TwitchChannel = TwitchBroadcasterChannel.Text;
-            Properties.Settings.Default.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
+                UserSettingsManager.Settings.TwitchChannel = TwitchBroadcasterChannel.Text;
+            UserSettingsManager.Settings.TwitchSendTextCheckBox = TwitchSendTextCheckBox.Checked;
             if (SoundInputDevices.Text.Length > 0)
-                Properties.Settings.Default.VoiceInput = SoundInputDevices.Text;
+                UserSettingsManager.Settings.VoiceInput = SoundInputDevices.Text;
             if (MicrophoneHotkeyEditbox.Text.Length > 0)
-                Properties.Settings.Default.PTTHotkey = MicrophoneHotkeyEditbox.Text;
+                UserSettingsManager.Settings.PTTHotkey = MicrophoneHotkeyEditbox.Text;
             if (TTSAudioOutputComboBox.Text.Length > 0)
-                Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
+                UserSettingsManager.Settings.TTSAudioOutput = TTSAudioOutputComboBox.Text;
             if (AzureAPIKeyTextBox.Text.Length > 0)
-                Properties.Settings.Default.AzureAPIKeyTextBox = AzureAPIKeyTextBox.Text;
+                UserSettingsManager.Settings.AzureAPIKeyTextBox = AzureAPIKeyTextBox.Text;
             if (AzureRegionTextBox.Text.Length > 0)
-                Properties.Settings.Default.AzureRegionTextBox = AzureRegionTextBox.Text;
+                UserSettingsManager.Settings.AzureRegionTextBox = AzureRegionTextBox.Text;
             if (AzureLanguageComboBox.Text.Length > 0)
-                Properties.Settings.Default.AzureLanguageComboBox = AzureLanguageComboBox.Text;
+                UserSettingsManager.Settings.AzureLanguageComboBox = AzureLanguageComboBox.Text;
             if (GPTModelComboBox.Text.Length > 0)
-                Properties.Settings.Default.GPTModel = GPTModelComboBox.Text;
+                UserSettingsManager.Settings.GPTModel = GPTModelComboBox.Text;
             if (GPTAPIKeyTextBox.Text.Length > 0)
-                Properties.Settings.Default.GPTAPIKey = GPTAPIKeyTextBox.Text;
+                UserSettingsManager.Settings.GPTAPIKey = GPTAPIKeyTextBox.Text;
             if (GPTMaxTokensTextBox.Text.Length > 0)
-                Properties.Settings.Default.GPTMaxTokens = int.Parse(GPTMaxTokensTextBox.Text);
+                UserSettingsManager.Settings.GPTMaxTokens = int.Parse(GPTMaxTokensTextBox.Text);
             if (GPTTemperatureTextBox.Text.Length > 0)
-                Properties.Settings.Default.GPTTemperature = float.Parse(GPTTemperatureTextBox.Text);
+                UserSettingsManager.Settings.GPTTemperature = float.Parse(GPTTemperatureTextBox.Text);
             if (ElevenlabsAPIKeyTextBox.Text.Length > 0)
-                Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
+                UserSettingsManager.Settings.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
             if (OllamaModelsComboBox.Text.Length > 0)
-                Properties.Settings.Default.OllamaSelectedModel = OllamaModelsComboBox.Text;
+                UserSettingsManager.Settings.OllamaSelectedModel = OllamaModelsComboBox.Text;
             if (OllamaResponseLengthComboBox.Text.Length > 0)
-                Properties.Settings.Default.OllamaResponseLengthComboBox = OllamaResponseLengthComboBox.Text;
+                UserSettingsManager.Settings.OllamaResponseLengthComboBox = OllamaResponseLengthComboBox.Text;
             if (OllamaURITextBox.Text.Length > 0)
-                Properties.Settings.Default.OllamaURI = OllamaURITextBox.Text;
+                UserSettingsManager.Settings.OllamaURI = OllamaURITextBox.Text;
             if (NativeSpeechRecognitionLanguageComboBox.Text.Length > 1)
-                Properties.Settings.Default.NativeSpeechRecognitionLanguageComboBox = NativeSpeechRecognitionLanguageComboBox.Text;
+                UserSettingsManager.Settings.NativeSpeechRecognitionLanguageComboBox = NativeSpeechRecognitionLanguageComboBox.Text;
             if (WhisperSpeechRecognitionComboBox.Text.Length > 1)
-                Properties.Settings.Default.WhisperSpeechRecognitionComboBox = WhisperSpeechRecognitionComboBox.Text;
+                UserSettingsManager.Settings.WhisperSpeechRecognitionComboBox = WhisperSpeechRecognitionComboBox.Text;
             if (TwitchAuthServerConfig.Text.Length > 1)
-                Properties.Settings.Default.TwitchAuthServerConfig = TwitchAuthServerConfig.Text;
+                UserSettingsManager.Settings.TwitchAuthServerConfig = TwitchAuthServerConfig.Text;
             if (WebsourceServer.Text.Length > 1)
-                Properties.Settings.Default.WebsourceServer = WebsourceServer.Text;
-            Properties.Settings.Default.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
-            Properties.Settings.Default.WebsourceServerEnable = WebsourceServerEnable.Checked;
-            Properties.Settings.Default.ElevenLabsModel = ElevenLabsModelComboBox.Text;
-            Properties.Settings.Default.Save();
+                UserSettingsManager.Settings.WebsourceServer = WebsourceServer.Text;
+            UserSettingsManager.Settings.UseOllamaLLMCheckBox = UseOllamaLLMCheckBox.Checked;
+            UserSettingsManager.Settings.WebsourceServerEnable = WebsourceServerEnable.Checked;
+            UserSettingsManager.Settings.ElevenLabsModel = ElevenLabsModelComboBox.Text;
+            UserSettingsManager.SaveSettings();
 
             //we should also close the EventSub client if it is running
             if (twitchStartedTest)
@@ -1719,19 +1723,19 @@ namespace BanterBrain_Buddy
             _bBBlog.Info("Ollama now we load the Uri");
 
             //if theres nothing we use the default for Ollama
-            if (OllamaPanel.Visible && Properties.Settings.Default.OllamaURI.Length < 1)
+            if (OllamaPanel.Visible && UserSettingsManager.Settings.OllamaURI.Length < 1)
             {
                 _bBBlog.Info("Ollama URI is empty, setting to default");
                 OllamaURITextBox.Text = "http://localhost:11434";
-                Properties.Settings.Default.OllamaURI = OllamaURITextBox.Text;
-                Properties.Settings.Default.Save();
+                UserSettingsManager.Settings.OllamaURI = OllamaURITextBox.Text;
+                UserSettingsManager.SaveSettings();
             }
             else
             {
-                OllamaURITextBox.Text = Properties.Settings.Default.OllamaURI;
+                OllamaURITextBox.Text = UserSettingsManager.Settings.OllamaURI;
             }
 
-            if (OllamaPanel.Visible && Properties.Settings.Default.OllamaURI.Length > 1)
+            if (OllamaPanel.Visible && UserSettingsManager.Settings.OllamaURI.Length > 1)
             {
 
                 OllamaLLM ollama = new(OllamaURITextBox.Text);
@@ -1753,7 +1757,7 @@ namespace BanterBrain_Buddy
                 }
                 _bBBlog.Info($"Found {installedModels.Count} models");
                 // lets set a default if there's none
-                if (Properties.Settings.Default.OllamaSelectedModel.Length < 1)
+                if (UserSettingsManager.Settings.OllamaSelectedModel.Length < 1)
                 {
                     _bBBlog.Info("Ollama no model selected, setting to default");
                     if (OllamaModelsComboBox.Items.Count > 0)
@@ -1764,8 +1768,8 @@ namespace BanterBrain_Buddy
                 } //else we pre-select the one thats in the settings
                 else
                 {
-                    _bBBlog.Info("Setting selected model to: " + Properties.Settings.Default.OllamaSelectedModel);
-                    OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(Properties.Settings.Default.OllamaSelectedModel);
+                    _bBBlog.Info("Setting selected model to: " + UserSettingsManager.Settings.OllamaSelectedModel);
+                    OllamaModelsComboBox.SelectedIndex = OllamaModelsComboBox.FindStringExact(UserSettingsManager.Settings.OllamaSelectedModel);
                 }
 
             }
@@ -1942,10 +1946,10 @@ namespace BanterBrain_Buddy
         private void TwitchAuthServerConfig_Leave(object sender, EventArgs e)
         {
             //if something new entered, save it.
-            if (TwitchAuthServerConfig.Text.Length > 1 && TwitchAuthServerConfig.Text != Properties.Settings.Default.TwitchAuthServerConfig)
+            if (TwitchAuthServerConfig.Text.Length > 1 && TwitchAuthServerConfig.Text != UserSettingsManager.Settings.TwitchAuthServerConfig)
             {
-                Properties.Settings.Default.TwitchAuthServerConfig = TwitchAuthServerConfig.Text;
-                Properties.Settings.Default.Save();
+                UserSettingsManager.Settings.TwitchAuthServerConfig = TwitchAuthServerConfig.Text;
+                UserSettingsManager.SaveSettings();
             }
         }
 
@@ -2009,15 +2013,15 @@ namespace BanterBrain_Buddy
                     else
                     {
                         //might as well save since its a valid key
-                        Properties.Settings.Default.GPTAPIKey = GPTAPIKeyTextBox.Text;
-                        Properties.Settings.Default.Save();
+                        UserSettingsManager.Settings.GPTAPIKey = GPTAPIKeyTextBox.Text;
+                        UserSettingsManager.SaveSettings();
                     }
                 }
                 else
                 {
                     //its empty so lets save it
-                    Properties.Settings.Default.GPTAPIKey = "";
-                    Properties.Settings.Default.Save();
+                    UserSettingsManager.Settings.GPTAPIKey = "";
+                    UserSettingsManager.SaveSettings();
                 }
             }
         }
@@ -2038,15 +2042,15 @@ namespace BanterBrain_Buddy
                     else
                     {
                         //might as well save since its a valid key
-                        Properties.Settings.Default.AzureAPIKeyTextBox = AzureAPIKeyTextBox.Text;
-                        Properties.Settings.Default.Save();
+                        UserSettingsManager.Settings.AzureAPIKeyTextBox = AzureAPIKeyTextBox.Text;
+                        UserSettingsManager.SaveSettings();
                     }
                 }
                 else
                 {
                     //its empty so lets save it
-                    Properties.Settings.Default.AzureAPIKeyTextBox = "";
-                    Properties.Settings.Default.Save();
+                    UserSettingsManager.Settings.AzureAPIKeyTextBox = "";
+                    UserSettingsManager.SaveSettings();
                 }
 
             }
@@ -2076,16 +2080,16 @@ namespace BanterBrain_Buddy
                     else
                     {
                         //might as well save since its a valid key
-                        Properties.Settings.Default.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
-                        Properties.Settings.Default.ElevenLabsModel = ElevenLabsModelComboBox.Text;
-                        Properties.Settings.Default.Save();
+                        UserSettingsManager.Settings.ElevenLabsAPIkey = ElevenlabsAPIKeyTextBox.Text;
+                        UserSettingsManager.Settings.ElevenLabsModel = ElevenLabsModelComboBox.Text;
+                        UserSettingsManager.SaveSettings();
                     }
                 }
                 else
                 {
                     //its empty so lets save it 
-                    Properties.Settings.Default.ElevenLabsAPIkey = "";
-                    Properties.Settings.Default.Save();
+                    UserSettingsManager.Settings.ElevenLabsAPIkey = "";
+                    UserSettingsManager.SaveSettings();
                 }
             }
         }
@@ -2141,8 +2145,8 @@ namespace BanterBrain_Buddy
             {
                 SpeakerDeviceVolumeTrackBar.Value = 0;
             }
-            Properties.Settings.Default.TTSAudioOutput = TTSAudioOutputComboBox.Text;
-            Properties.Settings.Default.Save();
+            UserSettingsManager.Settings.TTSAudioOutput = TTSAudioOutputComboBox.Text;
+            UserSettingsManager.SaveSettings();
         }
 
         [SupportedOSPlatform("windows10.0.10240")]
@@ -2222,8 +2226,8 @@ namespace BanterBrain_Buddy
         private void TwitchAuthServerConfig_SelectedIndexChanged(object sender, EventArgs e)
         {
             _bBBlog.Info("Twitch Auth server config changed to " + TwitchAuthServerConfig.Text);
-            Properties.Settings.Default.TwitchAuthServerConfig = TwitchAuthServerConfig.Text;
-            Properties.Settings.Default.Save();
+            UserSettingsManager.Settings.TwitchAuthServerConfig = TwitchAuthServerConfig.Text;
+            UserSettingsManager.SaveSettings();
         }
     }
 }
