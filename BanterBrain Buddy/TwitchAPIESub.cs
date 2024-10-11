@@ -105,6 +105,7 @@ namespace BanterBrain_Buddy
             _eventSubIllist = [];
             _gTwitchAPI = new TwitchLib.Api.TwitchAPI();
             _eventSubWebsocketClient = new EventSubWebsocketClient();
+            
         }
 
         /// <summary>
@@ -285,6 +286,7 @@ namespace BanterBrain_Buddy
                 _bBBlog.Info("Subscribing to channel point redemptions");
                 await EventSubSubscribe("channel.channel_points_custom_reward_redemption.add", _conditions);
             }
+            
         }
 
         //if test is validated and Twitch is enabled, we need to check if the access token is still valid every hour
@@ -307,6 +309,7 @@ namespace BanterBrain_Buddy
                     _bBBlog.Info($"Hourly check! Access Token {TwitchAccessToken} is validated and valid");
             }
             return true;
+;
         }
 
         public void StopHourlyAccessTokenCheck()
@@ -322,8 +325,9 @@ namespace BanterBrain_Buddy
         }
 
         //read the config file into globals
-        private static void TwitchReadSettings()
+        private void TwitchReadSettings()
         {
+               
             if (UserSettingsManager.Settings.TwitchAuthServerConfig.Length < 1)
             {
                 _bBBlog.Error("TwitchAuthRedirect not found in Settings this should nto happen so lets use default");
