@@ -24,6 +24,7 @@ using Microsoft.VisualBasic.Logging;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Configuration;
+using Windows.Web.UI;
 
 /// <summary>
 /// CODING RULES:
@@ -93,6 +94,8 @@ namespace BanterBrain_Buddy
 
         bool ConvertToNewSettings = false;
 
+        private List<TwitchNotableViewerClass> TwitchNotableViewers = [];
+
         [SupportedOSPlatform("windows10.0.10240")]
         public BBB()
         {
@@ -116,6 +119,7 @@ namespace BanterBrain_Buddy
             LoadLanguageStuff();
             SetupConfigFiles();
             LoadPersonas();
+            LoadTwitchNotableViewers();
             LoadTwitchLLMLanguageFile();
             _bBBlog.Info("Program Starting...");
 
@@ -125,10 +129,27 @@ namespace BanterBrain_Buddy
 
         }
 
+        //this will load the notable TwitchNotableViewers from the file and load it in the local variable
+        [SupportedOSPlatform("windows10.0.10240")]
+        private void LoadTwitchNotableViewers()
+        {
+            _bBBlog.Debug("Loading notable viewers");
+            TwitchNotableViewers TwitchViewers = new();
+            if (TwitchViewers.viewers.Count > 1)
+            {
+                _bBBlog.Debug("Notable viewers found, loading them to access");
+                TwitchNotableViewers = TwitchViewers.viewers;
+            }
+            else
+            {
+                _bBBlog.Debug("No notable viewers found, ignoring");
+                TwitchNotableViewers = null;
+            }
+        }
 
         private const string GitHubApiUrl = "https://api.github.com/repos/{owner}/{repo}/releases/latest";
-        [SupportedOSPlatform("windows10.0.10240")]
 
+        [SupportedOSPlatform("windows10.0.10240")]
         private async Task CheckForNewVersionAsync()
         {
 
@@ -2074,16 +2095,30 @@ namespace BanterBrain_Buddy
         [SupportedOSPlatform("windows10.0.10240")]
         private async void TwitchEventSub_OnESubCheerMessage(object sender, TwitchEventhandlers.OnCheerEventsArgs e)
         {
+            //we got a valid cheer message, lets see what we can do with it
+            _bBBlog.Info("Valid Twitch Cheer message received");
 
             string user = e.GetCheerInfo()[0];
             string message = e.GetCheerInfo()[1];
-            //we got a valid cheer message, lets see what we can do with it
-            _bBBlog.Info("Valid Twitch Cheer message received");
+
+            //now that we have the user, we check if this user is in the notable viewer list, if so we add the flavour text from that user to be passed to the LLM
+            string notableUserFlavourText = "";
+            if (TwitchNotableViewers != null)
+            {
+                foreach (var viewer in TwitchNotableViewers)
+                {
+                    if (viewer.ViewerName == user)
+                    {
+                        _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
+                        notableUserFlavourText = " " + viewer.FlavourText;
+                    }
+                }
+            }
 
             await InvokeUI(async () =>
             {
                 if (message.Length >= 1)
-                    await TalkToLLM(TwitchLLMLanguage.CheerTalkToLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(UserSettingsManager.Settings.TwitchCheeringPersona).RoleText);
+                    await TalkToLLM(TwitchLLMLanguage.CheerTalkToLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(UserSettingsManager.Settings.TwitchCheeringPersona).RoleText + notableUserFlavourText);
                 else
                 {
                     message = "no message";
@@ -2135,10 +2170,25 @@ namespace BanterBrain_Buddy
             _gPTDone = false;
             _bBBlog.Info($"Valid Twitch Channel Point Redemption message received: {user} redeemed with message: {message}");
 
+            string notableUserFlavourText = "";
+
+            //now that we have the user, we check if this user is in the notable viewer list, if so we add the flavour text from that user to be passed to the LLM
+            if (TwitchNotableViewers != null)
+            {
+                foreach (var viewer in TwitchNotableViewers)
+                {
+                    if (viewer.ViewerName == user)
+                    {
+                        _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
+                        notableUserFlavourText = " " + viewer.FlavourText;
+                    }
+                }
+            }
+
             await InvokeUI(async () =>
             {
                 if (message.Length >= 1)
-                    await TalkToLLM(TwitchLLMLanguage.ChannelPointTalkToLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(UserSettingsManager.Settings.TwitchChannelPointPersona).RoleText);
+                    await TalkToLLM(TwitchLLMLanguage.ChannelPointTalkToLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(UserSettingsManager.Settings.TwitchChannelPointPersona).RoleText + notableUserFlavourText);
                 else
                 {
                     message = "no message";
@@ -2244,12 +2294,27 @@ namespace BanterBrain_Buddy
             _gPTDone = false;
             _bBBlog.Info($"Valid Twitch Re-Subscription message received: {user} subscribed for {months} months with message: {message}");
 
+            string notableUserFlavourText = "";
+
+            //now that we have the user, we check if this user is in the notable viewer list, if so we add the flavour text from that user to be passed to the LLM
+            if (TwitchNotableViewers != null)
+            {
+                foreach (var viewer in TwitchNotableViewers)
+                {
+                    if (viewer.ViewerName == user)
+                    {
+                        _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
+                        notableUserFlavourText = " " + viewer.FlavourText;
+                    }
+                }
+            }
+
             if (message.Length >= 1)
             {
                 _gPTDone = false;
                 await InvokeUI(async () =>
                 {
-                    await TalkToLLM(TwitchLLMLanguage.SubscribeResubThanksWithMessageLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(UserSettingsManager.Settings.TwitchSubscriptionPersona).RoleText);
+                    await TalkToLLM(TwitchLLMLanguage.SubscribeResubThanksWithMessageLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(UserSettingsManager.Settings.TwitchSubscriptionPersona).RoleText + notableUserFlavourText);
 
                     //we have to await the GPT response, due to running this from another thread await alone is not enough.
                     while (!_gPTDone)
@@ -2307,10 +2372,25 @@ namespace BanterBrain_Buddy
             //we use InvokeUI to make sure we can write to the textlog from another thread that is not the Ui thread.
             //we only have to say this part if we have to say everything!
 
+            string notableUserFlavourText = "";
+
+            //now that we have the user, we check if this user is in the notable viewer list, if so we add the flavour text from that user to be passed to the LLM
+            if (TwitchNotableViewers != null)
+            {
+                foreach (var viewer in TwitchNotableViewers)
+                {
+                    if (viewer.ViewerName == user)
+                    {
+                        _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
+                        notableUserFlavourText = " " + viewer.FlavourText;
+                    }
+                }
+            }
+
             await InvokeUI(async () =>
             {
                 UpdateTextLog("Valid Twitch Chat message received from user: " + user + " message: " + message + ". Using trigger persona: " + UserSettingsManager.Settings.TwitchChatPersona + "\r\n");
-                await TalkToLLM(TwitchLLMLanguage.ChatMessageResponseLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(UserSettingsManager.Settings.TwitchChatPersona).RoleText);
+                await TalkToLLM(TwitchLLMLanguage.ChatMessageResponseLLM.Replace("{user}", user).Replace("{message}", message), GetSelectedPersona(UserSettingsManager.Settings.TwitchChatPersona).RoleText + notableUserFlavourText);
 
                 //we have to await the GPT response, due to running this from another thread await alone is not enough.
                 while (!_gPTDone)

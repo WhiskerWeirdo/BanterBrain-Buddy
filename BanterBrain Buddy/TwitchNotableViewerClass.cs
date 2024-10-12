@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BanterBrain_Buddy
 {
-    internal class TwitchNotableViewerClass
+    public class TwitchNotableViewerClass
     {
         public string ViewerName { get; set; }
         public string FlavourText { get; set; }
