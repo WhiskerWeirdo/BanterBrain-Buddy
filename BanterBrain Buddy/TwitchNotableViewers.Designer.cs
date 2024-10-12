@@ -32,7 +32,6 @@
             ViewerAddButton = new System.Windows.Forms.Button();
             ViewerDeleteButton = new System.Windows.Forms.Button();
             TwitchNotableViewersComboBox = new System.Windows.Forms.ComboBox();
-            ViewerSaveButton = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             SuspendLayout();
@@ -45,11 +44,12 @@
             TwitchFlavourTextBox.Size = new System.Drawing.Size(451, 108);
             TwitchFlavourTextBox.TabIndex = 1;
             TwitchFlavourTextBox.TextChanged += TwitchFlavourTextBox_TextChanged;
+            TwitchFlavourTextBox.Leave += TwitchFlavourTextBox_Leave;
             TwitchFlavourTextBox.Validating += TwitchNotableViewersComboBox_Validating;
             // 
             // ViewerAddButton
             // 
-            ViewerAddButton.Location = new System.Drawing.Point(309, 25);
+            ViewerAddButton.Location = new System.Drawing.Point(309, 26);
             ViewerAddButton.Name = "ViewerAddButton";
             ViewerAddButton.Size = new System.Drawing.Size(75, 23);
             ViewerAddButton.TabIndex = 3;
@@ -59,7 +59,7 @@
             // 
             // ViewerDeleteButton
             // 
-            ViewerDeleteButton.Location = new System.Drawing.Point(471, 26);
+            ViewerDeleteButton.Location = new System.Drawing.Point(390, 26);
             ViewerDeleteButton.Name = "ViewerDeleteButton";
             ViewerDeleteButton.Size = new System.Drawing.Size(75, 23);
             ViewerDeleteButton.TabIndex = 4;
@@ -76,17 +76,6 @@
             TwitchNotableViewersComboBox.Size = new System.Drawing.Size(208, 23);
             TwitchNotableViewersComboBox.TabIndex = 0;
             TwitchNotableViewersComboBox.SelectedIndexChanged += TwitchNotableViewersComboBox_SelectedIndexChanged;
-            // 
-            // ViewerSaveButton
-            // 
-            ViewerSaveButton.Enabled = false;
-            ViewerSaveButton.Location = new System.Drawing.Point(390, 26);
-            ViewerSaveButton.Name = "ViewerSaveButton";
-            ViewerSaveButton.Size = new System.Drawing.Size(75, 23);
-            ViewerSaveButton.TabIndex = 6;
-            ViewerSaveButton.Text = "Save";
-            ViewerSaveButton.UseVisualStyleBackColor = true;
-            ViewerSaveButton.Click += ViewerSaveButton_Click;
             // 
             // label1
             // 
@@ -113,7 +102,6 @@
             ClientSize = new System.Drawing.Size(558, 189);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(ViewerSaveButton);
             Controls.Add(TwitchNotableViewersComboBox);
             Controls.Add(ViewerDeleteButton);
             Controls.Add(ViewerAddButton);
@@ -129,7 +117,6 @@
         private System.Windows.Forms.Button ViewerAddButton;
         private System.Windows.Forms.Button ViewerDeleteButton;
         private System.Windows.Forms.ComboBox TwitchNotableViewersComboBox;
-        private System.Windows.Forms.Button ViewerSaveButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
     }
