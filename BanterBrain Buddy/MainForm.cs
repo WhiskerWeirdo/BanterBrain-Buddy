@@ -2726,6 +2726,12 @@ namespace BanterBrain_Buddy
             menuStrip1.Enabled = true;
         }
 
+        private void BBB_NotableViewersFormClosing(object sender, FormClosingEventArgs e)
+        {
+            _bBBlog.Info("Notable viewers form closed. We should load the new settings!");
+            LoadTwitchNotableViewers();
+        }
+
         private void BBB_VisibleChanged(object sender, EventArgs e)
         {
             _bBBlog.Info("BanterBrain Buddy visible changed. to test if closing form2 is done");
@@ -3336,7 +3342,7 @@ namespace BanterBrain_Buddy
         private void NotableViewersButton_Click(object sender, EventArgs e)
         {
             TwitchNotableViewers notableViewersForm = new();
-            //notableViewersForm.FormClosing += BBB_Test_FormClosing;
+            notableViewersForm.FormClosing += BBB_NotableViewersFormClosing;
             notableViewersForm.ShowDialog();
 
         }
