@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TwitchLib.Api.Helix.Models.Extensions.ReleasedExtensions;
 
-//alright here we add, edit and remove specific TwitchNotableViewers. When added you can add a flavour text to be send to the LLM for a _viewer-customized response
+//alright here we add, edit and remove specific MyTwitchNotableViewers. When added you can add a flavour text to be send to the LLM for a _viewer-customized response
 namespace BanterBrain_Buddy
 {
     [SupportedOSPlatform("windows10.0.10240")]
@@ -31,29 +31,33 @@ namespace BanterBrain_Buddy
             TwitchNotableViewers_LoadFromFile();
 
             //is the form visible?
-            if (this.Visible)
-            {
-                //if so, we load the viewers
-                if (viewers.Count > 0)
-                    DisplayViewers();
-            }
+            DisplayViewers();
+
 
         }
 
-        //aight so first we load any previously saved TwitchNotableViewers from the json file in format "Viewer name" : "Flavour text"
-        //location of the file containing the saved TwitchNotableViewers is %AppData%\BanterBrain Buddy\TwitchNotableViewers.json
+
+        public List<TwitchNotableViewerClass> GetViewers()
+        {
+            TwitchNotableViewers_LoadFromFile();
+            return viewers;
+        }
+
+        //aight so first we load any previously saved MyTwitchNotableViewers from the json file in format "Viewer name" : "Flavour text"
+        //location of the file containing the saved MyTwitchNotableViewers is %AppData%\BanterBrain Buddy\MyTwitchNotableViewers.json
         //we make this public because we need to access it from the main form at the start of the program anyway
         [SupportedOSPlatform("windows10.0.10240")]
         private void TwitchNotableViewers_LoadFromFile()
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\viewers.json";
-            //aight now load the TwitchNotableViewers from the file into TwitchNotableViewerClass
+            //aight now load the MyTwitchNotableViewers from the file into TwitchNotableViewerClass
 
             if (System.IO.File.Exists(path))
             {
                 _bBBlog.Info("Twitch notable viewers file found, loading viewers from json file");
                 string json = System.IO.File.ReadAllText(path);
                 viewers = JsonConvert.DeserializeObject<List<TwitchNotableViewerClass>>(json) ?? new List<TwitchNotableViewerClass>();
+                _bBBlog.Debug("Viewers loaded from file: " + viewers.Count);
             }
             else
             {
@@ -71,7 +75,7 @@ namespace BanterBrain_Buddy
         }
 
         [SupportedOSPlatform("windows10.0.10240")]
-        //So now we have the TwitchNotableViewers loaded into the TwitchNotableViewers list, we can display them in the listbox
+        //So now we have the MyTwitchNotableViewers loaded into the MyTwitchNotableViewers list, we can display them in the listbox
         public void DisplayViewers()
         {
             if (viewers.Count > 0)
@@ -133,7 +137,7 @@ namespace BanterBrain_Buddy
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\viewers.json";
             _bBBlog.Info("Saving viewers to file");
-            // Serialize the list of TwitchNotableViewers to JSON format
+            // Serialize the list of MyTwitchNotableViewers to JSON format
             string json = JsonConvert.SerializeObject(viewers, Formatting.Indented);
 
             // Write the JSON string to the file

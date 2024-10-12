@@ -25,6 +25,7 @@ using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Configuration;
 using Windows.Web.UI;
+using TwitchLib.Api.Helix.Models.Extensions.ReleasedExtensions;
 
 /// <summary>
 /// CODING RULES:
@@ -94,7 +95,7 @@ namespace BanterBrain_Buddy
 
         bool ConvertToNewSettings = false;
 
-        private List<TwitchNotableViewerClass> TwitchNotableViewers = [];
+        private List<TwitchNotableViewerClass> MyTwitchNotableViewers = [];
 
         [SupportedOSPlatform("windows10.0.10240")]
         public BBB()
@@ -129,21 +130,36 @@ namespace BanterBrain_Buddy
 
         }
 
-        //this will load the notable TwitchNotableViewers from the file and load it in the local variable
+        //this will load the notable MyTwitchNotableViewers from the file and load it in the local variable
         [SupportedOSPlatform("windows10.0.10240")]
         private void LoadTwitchNotableViewers()
         {
             _bBBlog.Debug("Loading notable viewers");
-            TwitchNotableViewers TwitchViewers = new();
-            if (TwitchViewers.viewers.Count > 1)
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\viewers.json";
+            //aight now load the MyTwitchNotableViewers from the file into TwitchNotableViewerClass
+            MyTwitchNotableViewers = new();
+
+            if (System.IO.File.Exists(path))
             {
-                _bBBlog.Debug("Notable viewers found, loading them to access");
-                TwitchNotableViewers = TwitchViewers.viewers;
+                _bBBlog.Info("Twitch notable viewers file found, loading viewers from json file");
+                string json = System.IO.File.ReadAllText(path);
+                MyTwitchNotableViewers = JsonConvert.DeserializeObject<List<TwitchNotableViewerClass>>(json) ?? new List<TwitchNotableViewerClass>();
+                _bBBlog.Debug("Viewers loaded from file: " + MyTwitchNotableViewers.Count);
+
+                
+                var tmpViewers = "";
+                foreach (var viewer in MyTwitchNotableViewers)
+                {
+                    tmpViewers += viewer.ViewerName + ", ";
+                }
+                tmpViewers = tmpViewers.TrimEnd(',', ' ');
+                UpdateTextLog($"Notable Twitch viewers loaded from file: {tmpViewers}\r\n");
             }
             else
             {
-                _bBBlog.Debug("No notable viewers found, ignoring");
-                TwitchNotableViewers = null;
+                //we create the file if it doesn't exist
+                _bBBlog.Info("Twitch notable viewers file not found, creating new file");
+                System.IO.File.Create(path).Dispose();
             }
         }
 
@@ -609,7 +625,6 @@ namespace BanterBrain_Buddy
             string sourcefolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string tmpFile;
 
-            var UserSettingsManager = SettingsManager.Instance;
 
             if (UserSettingsManager.Settings.TwitchLLMLanguageComboBox != "Custom")
                 tmpFile = sourcefolder + $"\\TwitchLLMLanguageFiles\\{UserSettingsManager.Settings.TwitchLLMLanguageComboBox}.json";
@@ -2141,9 +2156,9 @@ namespace BanterBrain_Buddy
 
             //now that we have the user, we check if this user is in the notable viewer list, if so we add the flavour text from that user to be passed to the LLM
             string notableUserFlavourText = "";
-            if (TwitchNotableViewers != null)
+            if (MyTwitchNotableViewers != null)
             {
-                foreach (var viewer in TwitchNotableViewers)
+                foreach (var viewer in MyTwitchNotableViewers)
                 {
                     if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
@@ -2211,9 +2226,9 @@ namespace BanterBrain_Buddy
             string notableUserFlavourText = "";
 
             //now that we have the user, we check if this user is in the notable viewer list, if so we add the flavour text from that user to be passed to the LLM
-            if (TwitchNotableViewers != null)
+            if (MyTwitchNotableViewers != null)
             {
-                foreach (var viewer in TwitchNotableViewers)
+                foreach (var viewer in MyTwitchNotableViewers)
                 {
                     if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
@@ -2335,9 +2350,9 @@ namespace BanterBrain_Buddy
             string notableUserFlavourText = "";
 
             //now that we have the user, we check if this user is in the notable viewer list, if so we add the flavour text from that user to be passed to the LLM
-            if (TwitchNotableViewers != null)
+            if (MyTwitchNotableViewers != null)
             {
-                foreach (var viewer in TwitchNotableViewers)
+                foreach (var viewer in MyTwitchNotableViewers)
                 {
                     if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
@@ -2413,9 +2428,9 @@ namespace BanterBrain_Buddy
             string notableUserFlavourText = "";
 
             //now that we have the user, we check if this user is in the notable viewer list, if so we add the flavour text from that user to be passed to the LLM
-            if (TwitchNotableViewers != null)
+            if (MyTwitchNotableViewers != null)
             {
-                foreach (var viewer in TwitchNotableViewers)
+                foreach (var viewer in MyTwitchNotableViewers)
                 {
                     if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
@@ -2726,6 +2741,7 @@ namespace BanterBrain_Buddy
             menuStrip1.Enabled = true;
         }
 
+        [SupportedOSPlatform("windows10.0.10240")]
         private void BBB_NotableViewersFormClosing(object sender, FormClosingEventArgs e)
         {
             _bBBlog.Info("Notable viewers form closed. We should load the new settings!");

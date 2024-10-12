@@ -193,6 +193,9 @@ namespace BanterBrain_Buddy
 
                 //ElevenLabs
                 settings.ElevenLabsModel = "Multilingual V2 (Best Quality)";
+
+                //log dir
+                settings.LogDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BanterBrain\\logs";
             } else
             {
                 _bBBlog.Info("Settings file already exists, not creating new settings object");

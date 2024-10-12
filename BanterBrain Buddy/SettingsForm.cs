@@ -1052,8 +1052,8 @@ namespace BanterBrain_Buddy
             //channel.subscription.message (channel:read:subscriptions) to get sub message events
             //channel.cheer (bits:read) to get information on cheered bits
             //channel.follow (moderator:read:followers) to get who followed a channel
-            //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by TwitchNotableViewers
-            //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by TwitchNotableViewers
+            //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by MyTwitchNotableViewers
+            //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by MyTwitchNotableViewers
 
             var twitchAPIResult = await twitchAPI.GetTwitchAuthToken([
                     //API scope to send text to chat
@@ -2111,8 +2111,8 @@ namespace BanterBrain_Buddy
             //channel.subscription.message (channel:read:subscriptions) to get sub message events
             //channel.cheer (bits:read) to get information on cheered bits
             //channel.follow (moderator:read:followers) to get who followed a channel
-            //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by TwitchNotableViewers
-            //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by TwitchNotableViewers
+            //channel.channel_points_automatic_reward_redemption.add (channel:read:redemptions) to get automatic reward redemptions by MyTwitchNotableViewers
+            //channel.channel_points_custom_reward_redemption.add (channel:read:redemptions) to get custom reward redemptions by MyTwitchNotableViewers
 
             var twitchAPIResult = await twitchAPI.GetTwitchAuthToken([
                     //API scope to send text to chat

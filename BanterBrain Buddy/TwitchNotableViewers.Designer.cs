@@ -95,7 +95,7 @@
             label2.TabIndex = 8;
             label2.Text = "Personal touch";
             // 
-            // TwitchNotableViewers
+            // MyTwitchNotableViewers
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
