@@ -56,6 +56,10 @@ namespace BanterBrain_Buddy
 
             //we just loaded it, so nothing is changed!
             FlavourTextEdited = false;
+
+            //if theres nothing, we dont need to enable the delete button
+            if (viewers.Count < 1)
+                ViewerDeleteButton.Enabled = false;
         }
 
         [SupportedOSPlatform("windows10.0.10240")]
@@ -197,6 +201,8 @@ namespace BanterBrain_Buddy
             //if the user decides to cancel, we load index 0 if available
             ViewerAddButton.Text = "Save";
             ViewerDeleteButton.Text = "Cancel";
+            //ok we have to enable this cos its a different button for now
+            ViewerDeleteButton.Enabled = true;
         }
 
 
@@ -221,7 +227,10 @@ namespace BanterBrain_Buddy
                 TwitchNotableViewersComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
                 //set the selected index to the first viewer if there is any
                 if (TwitchNotableViewersComboBox.Items.Count == 0)
+                {
                     _bBBlog.Debug("There is no viewer left, not setting index");
+                    TwitchFlavourTextBox.Text = "";
+                }
                 else
                 {
                     TwitchFlavourTextBox.Text = "";
@@ -237,6 +246,7 @@ namespace BanterBrain_Buddy
             if (viewers.Count < 1)
             {
                 _bBBlog.Info("No viewers to delete");
+                ViewerDeleteButton.Enabled = false;
                 return;
             }
 
@@ -261,12 +271,18 @@ namespace BanterBrain_Buddy
             TwitchFlavourTextBox.TextChanged += TwitchFlavourTextBox_TextChanged;
             //set the selected index to the first viewer
             if (TwitchNotableViewersComboBox.Items.Count == 0)
+            {
                 _bBBlog.Debug("There is no viewer left, not setting index");
+                TwitchFlavourTextBox.Text = "";
+            }
             else
                 TwitchNotableViewersComboBox.SelectedIndex = 0;
             //save the changes to the file
             TwitchNotableViewers_SaveToFile();
-
+            if (viewers.Count < 1)
+                ViewerDeleteButton.Enabled = false;
+            else
+                ViewerDeleteButton.Enabled = true;
         }
 
         private void TwitchNotableViewersComboBox_Validating(object sender, CancelEventArgs e)
