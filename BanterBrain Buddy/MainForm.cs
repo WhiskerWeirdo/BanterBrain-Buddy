@@ -2163,6 +2163,7 @@ namespace BanterBrain_Buddy
                     if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
                         _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
+                        UpdateTextLog($"Notable viewer {user} found in cheer message, adding flavour text\r\n");
                         notableUserFlavourText = " " + viewer.FlavourText;
                     }
                 }
@@ -2232,7 +2233,8 @@ namespace BanterBrain_Buddy
                 {
                     if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
-                        _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
+                        _bBBlog.Info("Notable viewer found in channel point redemption message, adding flavour text");
+                        UpdateTextLog($"Notable viewer {user} found in channel point redemption message, adding flavour text\r\n");
                         notableUserFlavourText = " " + viewer.FlavourText;
                     }
                 }
@@ -2356,7 +2358,8 @@ namespace BanterBrain_Buddy
                 {
                     if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
-                        _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
+                        _bBBlog.Info("Notable viewer found in resubscriber message, adding flavour text");
+                        UpdateTextLog($"Notable viewer {user} found in resubscriber message, adding flavour text\r\n");
                         notableUserFlavourText = " " + viewer.FlavourText;
                     }
                 }
@@ -2434,7 +2437,8 @@ namespace BanterBrain_Buddy
                 {
                     if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
-                        _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
+                        _bBBlog.Info("Notable viewer found in chat message, adding flavour text");
+                        UpdateTextLog($"Notable viewer {user} found in chat message, adding flavour text\r\n");
                         notableUserFlavourText = " " + viewer.FlavourText;
                     }
                 }
