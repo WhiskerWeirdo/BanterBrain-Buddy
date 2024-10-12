@@ -1424,7 +1424,8 @@ namespace BanterBrain_Buddy
                 //or just show a message box?
 
                 //alright now we can delete all the old Properties.Settings.Default
-                DeleteAllOldSettings();
+                //lets hold off on this until we know stuff works aight
+                //DeleteAllOldSettings();
                 ConvertToNewSettings = true;
             } else
             {
