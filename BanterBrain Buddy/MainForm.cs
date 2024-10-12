@@ -1479,9 +1479,9 @@ namespace BanterBrain_Buddy
             }
             TwitchDelayMessageTextBox.Text = UserSettingsManager.Settings.TwitchDelayMessageTextBox;
             //todo: change to button
-            TwitchEnableCheckbox.Checked = UserSettingsManager.Settings.TwitchEnable;
+            TwitchEnableCheckbox.Checked = UserSettingsManager.Settings.TwitchEnableCheckbox;
             //setting the Twitch items enabled/disabled based on the checkbox
-            if (UserSettingsManager.Settings.TwitchEnable)
+            if (UserSettingsManager.Settings.TwitchEnableCheckbox)
             {
                 TwitchStartButton.Enabled = true;
                 TwitchChatTriggerSettings.Enabled = true;
@@ -1780,6 +1780,44 @@ namespace BanterBrain_Buddy
         private void SaveALLSettings()
         {
             _bBBlog.Debug("Saving settings");
+            //alright lets make sure we assign all values to the settings class
+            UserSettingsManager.Settings.TwitchCommandTrigger = TwitchCommandTrigger.Text;
+            UserSettingsManager.Settings.TwitchChatCommandDelay = int.Parse(TwitchChatCommandDelay.Text);
+            UserSettingsManager.Settings.TwitchNeedsSubscriber = TwitchNeedsSubscriber.Checked;
+            UserSettingsManager.Settings.TwitchMinBits = int.Parse(TwitchMinBits.Text);
+            UserSettingsManager.Settings.TwitchSubscribed = TwitchSubscribed.Checked;
+            UserSettingsManager.Settings.TwitchGiftedSub = TwitchGiftedSub.Checked;
+            UserSettingsManager.Settings.TwitchEnable = TwitchEnableCheckbox.Checked;
+            UserSettingsManager.Settings.TwitchReadChatCheckBox = TwitchReadChatCheckBox.Checked;
+            UserSettingsManager.Settings.TwitchCheerCheckbox = TwitchCheerCheckBox.Checked;
+            UserSettingsManager.Settings.TwitchCustomRewardName = TwitchCustomRewardName.Text;
+            UserSettingsManager.Settings.TwitchChannelPointCheckBox = TwitchChannelPointCheckBox.Checked;
+            UserSettingsManager.Settings.STTSelectedProvider = STTSelectedComboBox.Text;
+            UserSettingsManager.Settings.MainSelectedPersona = BroadcasterSelectedPersonaComboBox.Text;
+            UserSettingsManager.Settings.TwitchChannelPointPersona = TwitchChannelPointPersonaComboBox.Text;
+            UserSettingsManager.Settings.TwitchCheeringPersona = TwitchCheeringPersonaComboBox.Text;
+            UserSettingsManager.Settings.TwitchSubscriptionPersona = TwitchSubscriptionPersonaComboBox.Text;
+            UserSettingsManager.Settings.TwitchChatPersona = TwitchChatPersonaComboBox.Text;
+            UserSettingsManager.Settings.TwitchAutoStart = TwitchAutoStart.Checked;
+            UserSettingsManager.Settings.SelectedLLM = LLMResponseSelecter.Text;
+            UserSettingsManager.Settings.TwitchChatSoundCheckBox = TwitchChatSoundCheckBox.Checked;
+            UserSettingsManager.Settings.TwitchChatSound = TwitchChatSoundTextBox.Text;
+            UserSettingsManager.Settings.TwitchChannelSoundCheckBox = TwitchChannelSoundCheckBox.Checked;
+            UserSettingsManager.Settings.TwitchChannelSound = TwitchChannelSoundTextBox.Text;
+            UserSettingsManager.Settings.TwitchCheeringSound = TwitchCheeringSoundTextBox.Text;
+            UserSettingsManager.Settings.TwitchCheeringSoundCheckBox = TwitchCheeringSoundCheckBox.Checked;
+            UserSettingsManager.Settings.TwitchSubscriptionSoundTextBox = TwitchSubscriptionSoundTextBox.Text;
+            UserSettingsManager.Settings.TwitchSubscriptionSoundCheckBox = TwitchSubscriptionSoundCheckBox.Checked;
+            UserSettingsManager.Settings.TwitchResponseToChatCheckBox = TwitchResponseToChatCheckBox.Checked;
+            UserSettingsManager.Settings.TwitchResponseToChatDelayTextBox = TwitchResponseToChatDelayTextBox.Text;
+            UserSettingsManager.Settings.TwitchDelayMessageTextBox = TwitchDelayMessageTextBox.Text;
+            UserSettingsManager.Settings.DelayFinishToChatcCheckBox = TwitchDelayFinishToChatcCheckBox.Checked;
+            UserSettingsManager.Settings.TwitchSubscriptionTTSResponseOnlyRadioButton = TwitchSubscriptionTTSResponseOnlyRadioButton.Checked;
+            UserSettingsManager.Settings.TwitchCheeringTTSResponseOnlyRadioButton = TwitchCheeringTTSResponseOnlyRadioButton.Checked;
+            UserSettingsManager.Settings.TwitchChannelPointTTSResponseOnlyRadioButton = TwitchChannelPointTTSResponseOnlyRadioButton.Checked;
+            UserSettingsManager.Settings.TwitchChatTTSResponseOnlyRadioButton = TwitchChatTTSResponseOnlyRadioButton.Checked;
+            UserSettingsManager.Settings.StreamerNameTextBox = StreamerNameTextBox.Text;
+            UserSettingsManager.Settings.TwitchLLMLanguageComboBox = TwitchLLMLanguageComboBox.Text;
             UserSettingsManager.SaveSettings();
         }
 
@@ -2890,6 +2928,7 @@ namespace BanterBrain_Buddy
             if (TwitchEnableCheckbox.Checked)
             {
                 _bBBlog.Info("Twitch enabled. Enabling all settings");
+                UserSettingsManager.Settings.TwitchEnableCheckbox = true;
                 TwitchStartButton.Enabled = true;
                 TwitchChatTriggerSettings.Enabled = true;
                 TwitchCheerSettings.Enabled = true;
@@ -2903,6 +2942,7 @@ namespace BanterBrain_Buddy
             {
                 _bBBlog.Info("Twitch disabled. Stopping API and EventSub");
                 //do same as stop also disable stuff
+                UserSettingsManager.Settings.TwitchEnableCheckbox = false;
                 TwitchStartButton.Enabled = false;
                 TwitchChatTriggerSettings.Enabled = false;
                 TwitchCheerSettings.Enabled = false;

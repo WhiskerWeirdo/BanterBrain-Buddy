@@ -87,6 +87,7 @@ namespace BanterBrain_Buddy
         public string TwitchLLMLanguageComboBox { get; set; }
         public string ElevenLabsModel { get; set; }
         public bool BadWordFilter { get; set; }
+        public bool TwitchEnableCheckbox { get; set; }
 
     }
 
