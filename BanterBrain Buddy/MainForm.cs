@@ -2107,7 +2107,7 @@ namespace BanterBrain_Buddy
             {
                 foreach (var viewer in TwitchNotableViewers)
                 {
-                    if (viewer.ViewerName == user)
+                    if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
                         _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
                         notableUserFlavourText = " " + viewer.FlavourText;
@@ -2177,7 +2177,7 @@ namespace BanterBrain_Buddy
             {
                 foreach (var viewer in TwitchNotableViewers)
                 {
-                    if (viewer.ViewerName == user)
+                    if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
                         _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
                         notableUserFlavourText = " " + viewer.FlavourText;
@@ -2301,7 +2301,7 @@ namespace BanterBrain_Buddy
             {
                 foreach (var viewer in TwitchNotableViewers)
                 {
-                    if (viewer.ViewerName == user)
+                    if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
                         _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
                         notableUserFlavourText = " " + viewer.FlavourText;
@@ -2379,7 +2379,7 @@ namespace BanterBrain_Buddy
             {
                 foreach (var viewer in TwitchNotableViewers)
                 {
-                    if (viewer.ViewerName == user)
+                    if (String.Equals(viewer.ViewerName, user, StringComparison.OrdinalIgnoreCase))
                     {
                         _bBBlog.Info("Notable viewer found in cheer message, adding flavour text");
                         notableUserFlavourText = " " + viewer.FlavourText;
