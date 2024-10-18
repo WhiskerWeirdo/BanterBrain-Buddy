@@ -3,7 +3,7 @@
 <img  width="796" src="https://private-user-images.githubusercontent.com/163717269/373158038-258a342f-17bb-4f62-be9a-d8a1dc5d82c0.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mjc5NDYxMTgsIm5iZiI6MTcyNzk0NTgxOCwicGF0aCI6Ii8xNjM3MTcyNjkvMzczMTU4MDM4LTI1OGEzNDJmLTE3YmItNGY2Mi1iZTlhLWQ4YTFkYzVkODJjMC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMDAzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTAwM1QwODU2NThaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03NjYwMTdkMmNjZGIwNTIxMzk1ZjMwOTg1NWZjZDI3MWJiN2JmNzQ3Nzc1ZjYyZTRmM2Y0ZWUzNWJlNDdlZGMxJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.rj6X4Ug_2889X42puH1n6Hn5-tmUnkg6ksduExrUjho"/>
 
 
-# BanterBrain Buddy v1.0.7 feature release
+### BanterBrain Buddy v1.0.8 feature & bugfix release
 
 **This program requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
 
@@ -18,6 +18,19 @@ You can also download Runtime Desktop here: [Windows Runtime Desktop 8.0.4](http
 - Plugging in/out audio devices while BBB runs can have an unforseen effect on your input/output and throw errors
 - No ability to check for Twitch followers
 - ElevenLabs API check (preloading voices) can sometimes timeout after 15 seconds. This makes the first time you use it, probably quite a bit slower when editing persona's, but that's only until it works. This cannot really be fixed on my side.
+
+### RELEASE V1.0.8 RELEASE
+New:
+- Completely new settings format so you can now blame me, not Windows if your settings disappear. _The old settings are not yet deleted so reverting to 1.0.7 if you have serious issues will be a fallback_
+- Ability to add notable viewers where you can personalize the LLM response for that viewer
+- Ability to use the newer local Windows TTS voices
+- Button to forcibly reset the current chat history with the LLM (chatgpt/ollama) without restarting BBB
+
+Fixed:
+- Ollama restarting a conversation every time you send a message. Now it has a conversation history
+- gifted subs fixed see https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/86
+- Authorization to Twitch issue fixed
+- Timeout on OpenAI API key check to prevent hanging at startup
 
 ### RELEASE V1.0.7 RELEASE
 New:
@@ -109,7 +122,7 @@ Need feedback:
  - Log file not being created, added extra notification and testing https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues/58
 
 ### RELEASE V0.1.6 BETA
-Thank you @max aka Dadflaps#1337 for your bug reports and feedback
+Thank you max aka Dadflaps#1337 for your bug reports and feedback
 
 fixed:
 - Save dialog when you edit the default persona should not popup now all the time
