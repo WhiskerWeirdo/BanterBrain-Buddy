@@ -7,7 +7,7 @@
 
 **This program requires a valid OpenAI ChatGPT API key to operate _or_ a local Ollama installation.** 
 
-Please report all bugs to the [Discord](https://discord.banterbrain.tv/) or here on [Github](https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues). 
+Please report all bugs to the [Discord](https://discord.gg/2EEhKpEMMT) or here on [Github](https://github.com/WhiskerWeirdo/BanterBrain-Buddy/issues). 
 
 ### Requisites to run
 This release depends on .NET Runtime Desktop 8. After installation and trying to run BBB you will be asked to download and install this from the Microsoft website if you do not have it installed yet.
