@@ -1,6 +1,6 @@
 # Current roadmap
 
-<img  width="796" src="https://private-user-images.githubusercontent.com/163717269/373158038-258a342f-17bb-4f62-be9a-d8a1dc5d82c0.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mjc5NDYxMTgsIm5iZiI6MTcyNzk0NTgxOCwicGF0aCI6Ii8xNjM3MTcyNjkvMzczMTU4MDM4LTI1OGEzNDJmLTE3YmItNGY2Mi1iZTlhLWQ4YTFkYzVkODJjMC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMDAzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTAwM1QwODU2NThaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03NjYwMTdkMmNjZGIwNTIxMzk1ZjMwOTg1NWZjZDI3MWJiN2JmNzQ3Nzc1ZjYyZTRmM2Y0ZWUzNWJlNDdlZGMxJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.rj6X4Ug_2889X42puH1n6Hn5-tmUnkg6ksduExrUjho"/>
+[![banterbrain buddy intro video](https://img.youtube.com/vi/3U-PzTrTVyo/0.jpg)](https://www.youtube.com/watch?v=3U-PzTrTVyo)
 
 
 ### BanterBrain Buddy v1.0.8 feature & bugfix release
